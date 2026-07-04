@@ -1,8 +1,8 @@
-"""The case registry — cases grouped by CATEGORY. The App shows ONE selected case; Experiments/Benchmark show
-cross-case summaries by category."""
+"""The case registry: cases grouped by CATEGORY. The App shows ONE selected case; Experiments/Benchmark
+show cross-case summaries by category."""
 from __future__ import annotations
 
-from .cases.example_case import CASES, Case
+from .cases.forecast_cases import CASES, Case, build_series
 
 _BY_ID: dict[str, Case] = {c.id: c for c in CASES}
 
@@ -22,3 +22,6 @@ def list_categories() -> dict[str, list[str]]:
     for c in CASES:
         out.setdefault(c.category, []).append(c.id)
     return out
+
+
+__all__ = ["CASES", "Case", "build_series", "list_cases", "get_case", "list_categories"]

@@ -1,39 +1,58 @@
-"""Typed objects passed between pipeline stages — the inter-stage contract. Plain dataclasses (Pyodide-safe)."""
+"""Typed objects passed between pipeline stages: the inter-stage contract. Plain dataclasses (Pyodide-safe)."""
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True)
-class SIRParams:
-    """One validated operating point (EXAMPLE domain: an SIR epidemic)."""
+class SeriesSpec:
+    """One validated univariate series to forecast (the unit of work).
+
+    ``y`` is the observed history; ``seasonality`` is the seasonal period m (1 = non-seasonal);
+    ``horizon`` is how many steps ahead to forecast; ``freq`` is a human label (e.g. "H", "D", "M").
+    """
+
     case_id: str
-    beta: float        # 1/day, effective contact rate
-    gamma: float       # 1/day, recovery rate
-    N: float           # population
-    I0: float          # initial infected
-    days: int = 160    # horizon
+    y: tuple[float, ...]
+    seasonality: int
+    horizon: int
+    freq: str = ""
+    source: str = "synthetic"
 
 
 @dataclass(frozen=True)
 class FeatureRow:
-    """Derived features for the surrogate (feature_extraction stage)."""
+    """A compact fingerprint of a series (feature_extraction stage), used to describe the case."""
+
     case_id: str
-    r0: float          # beta / gamma (basic reproduction number)
-    beta: float
-    gamma: float
-    n_scaled: float    # log10(N)
-    i0_frac: float     # I0 / N
+    n_obs: int
+    seasonality: int
+    mean: float
+    std: float
+    trend_slope: float        # OLS slope per step
+    seasonal_strength: float  # 0..1, share of variance explained by the seasonal means
+    acf1: float               # lag-1 autocorrelation
+    pct_zeros: float          # fraction of exact zeros (intermittency signal)
 
 
 @dataclass(frozen=True)
-class SIRResult:
-    """The engine output for one case (infer stage) — the raw, undecimated trajectory + scalars."""
+class MethodForecast:
+    """One method's forecast for a case: point path plus an outer prediction interval."""
+
+    name: str
+    family: str               # "classical" | "ml" | "deep" | "foundation"
+    point: tuple[float, ...]
+    lower: tuple[float, ...]
+    upper: tuple[float, ...]
+
+
+@dataclass(frozen=True)
+class ForecastResult:
+    """The infer-stage output for one case: history + every method's forecast."""
+
     case_id: str
-    t: list[float]
-    S: list[float]
-    I: list[float]
-    R: list[float]
-    peak_I: float
-    t_peak: float
-    attack_rate: float
+    horizon: int
+    seasonality: int
+    quantile_levels: tuple[float, ...]
+    history: tuple[float, ...]
+    methods: tuple[MethodForecast, ...] = field(default_factory=tuple)

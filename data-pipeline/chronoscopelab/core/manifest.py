@@ -1,7 +1,8 @@
-"""CONTRACT 2 — artifact (pipeline -> web). The manifest is the authoritative, versioned record of a baked case:
-its params, seed, engine+version, the compact artifact pointer + byte size, the lane/gate verdict, flags from
-CONTRACT 1, and the evaluation metrics. The web loads ONLY manifests + artifacts; frontend/src/lib/contract.types.ts
-mirrors this schema so a drift fails the build. A flat index.json inventories every case (ADR-0057 default)."""
+"""CONTRACT 2 - artifact (pipeline -> web). The manifest is the authoritative, versioned record of a baked
+case: its series descriptors, seed, engine + version, the artifact pointer + byte size, the lane/gate
+verdict, CONTRACT-1 flags, and the evaluation metrics. The web loads ONLY manifests + artifacts;
+frontend/src/lib/contract.types.ts mirrors this schema so a drift fails the build. A flat index.json
+inventories every case (ADR-0057 default)."""
 from __future__ import annotations
 
 from typing import Any
@@ -9,37 +10,55 @@ from typing import Any
 from .. import __version__
 from .trace import TRACE_SCHEMA
 
-MANIFEST_SCHEMA = "example.manifest/v2"
-INDEX_SCHEMA = "example.index/v1"
+MANIFEST_SCHEMA = "chronoscope.manifest/v1"
+INDEX_SCHEMA = "chronoscope.index/v1"
+
+ENGINE_MODEL = "classical forecasting ladder (5 methods): seasonal-naive, SES, Holt, Holt-Winters, Theta"
 
 
 def build_case_manifest(
     *,
     case: Any,
-    params: Any,
+    feature: Any,
     seed: int,
     artifact_rel: str,
     trace_bytes: int,
     gate: dict,
     flags: list[dict],
-    metrics: dict,
+    eval_metrics: dict,
 ) -> dict:
-    # Deterministic: a pure function of (params, seed). No wall-clock here (would dirty git on re-run) — the
-    # lane/gate verdict + budgets carry the lane decision; live timing is measured in the browser, not committed.
+    # Deterministic: a pure function of (case, seed). No wall-clock (would dirty git on re-run).
+    best = eval_metrics.get("best_method")
     return {
         "schema": MANIFEST_SCHEMA,
         "case_id": case.id,
         "category": case.category,
         "real_or_synthetic": case.real_or_synthetic,
         "expected_band": case.expected_band,
-        "engine": {"package": "chronoscopelab", "version": __version__, "model": "SIR (EXAMPLE — replace per product)"},
-        "params": {"beta": params.beta, "gamma": params.gamma, "N": params.N, "I0": params.I0, "days": params.days},
+        "engine": {"package": "chronoscopelab", "version": __version__, "model": ENGINE_MODEL},
+        "series": {
+            "n_obs": feature.n_obs,
+            "seasonality": feature.seasonality,
+            "horizon": case.horizon,
+            "source": case.real_or_synthetic,
+            "mean": round(feature.mean, 4),
+            "std": round(feature.std, 4),
+            "trend_slope": round(feature.trend_slope, 6),
+            "seasonal_strength": round(feature.seasonal_strength, 4),
+            "acf1": round(feature.acf1, 4),
+            "pct_zeros": round(feature.pct_zeros, 4),
+        },
         "seed": seed,
         "artifact": {"path": artifact_rel, "format": "json", "trace_schema": TRACE_SCHEMA, "bytes": trace_bytes},
         "lane": gate["lane"],
         "gate": gate,
         "flags": flags,
-        "metrics": metrics,
+        "best_method": best,
+        "metrics": {
+            "best_mase": eval_metrics.get("best_mase"),
+            "n_methods": len(eval_metrics.get("methods", {})),
+            "nominal_coverage": eval_metrics.get("nominal_coverage"),
+        },
     }
 
 

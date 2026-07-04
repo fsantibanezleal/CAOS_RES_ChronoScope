@@ -1,35 +1,42 @@
-"""Stage 3 — train (OFFLINE): fit a tiny surrogate (numpy least-squares) mapping R0 -> peak-infected fraction,
-using the SIR engine as ground truth on the TRAINING params. Saves coeffs to models/surrogate.json. Skippable for
-products with no learned tier. (EXAMPLE — a real product trains its research-chosen model here, exporting ONNX.)"""
+"""Stage 3 - train (OFFLINE): learn a global method selector from a backtest across the TRAINING cases.
+
+Ranks each method by its mean MASE over the training cases (each scored out-of-sample by the evaluate
+stage) and records a default recommendation. Leakage-safe: the ranking is computed on training cases
+only; each case's own manifest still reports that case's held-out metrics. Saved to models/selector.json.
+This is the small "learned" tier of this slice; heavier learned models (LightGBM, ONNX) arrive later.
+"""
 from __future__ import annotations
 
-import math
 from pathlib import Path
 
 import numpy as np
 
 from ..io.formats import write_json
-from ..io.schema import SIRParams
-from ..model.sir import simulate
+from ..io.schema import SeriesSpec
+from ..model.forecasters import METHOD_FNS
+from . import evaluate
 
 
-def _design(r0: float) -> list[float]:
-    r0 = max(1e-6, r0)
-    return [1.0, r0, math.log(r0), 1.0 / r0]
+def run(train_specs: list[SeriesSpec], models_dir: str, quantile_levels: tuple[float, ...]) -> dict:
+    per_method: dict[str, list[float]] = {name: [] for name in METHOD_FNS}
+    for spec in train_specs:
+        ev = evaluate.run(spec, quantile_levels)
+        for name, v in ev["methods"].items():
+            if v["mase"] == v["mase"]:  # skip NaN
+                per_method[name].append(v["mase"])
 
-
-def run(train_params: list[SIRParams], models_dir: str) -> dict:
-    X, y = [], []
-    for p in train_params:
-        r0 = (p.beta / p.gamma) if p.gamma > 0 else 1e-6
-        X.append(_design(r0))
-        y.append((simulate(p).peak_I / p.N) if p.N > 0 else 0.0)
-    coeffs, _res, _rank, _sv = np.linalg.lstsq(np.array(X), np.array(y), rcond=None)
-    model = {"kind": "linear-lstsq", "basis": ["1", "r0", "ln(r0)", "1/r0"], "coeffs": coeffs.tolist()}
+    ranking = sorted(
+        ((name, float(np.mean(vals)) if vals else float("inf")) for name, vals in per_method.items()),
+        key=lambda kv: kv[1],
+    )
+    default = ranking[0][0] if ranking else "SeasonalNaive"
+    model = {
+        "kind": "method-selector",
+        "metric": "mean_mase_over_training_cases",
+        "ranking": [[name, round(mase, 5)] for name, mase in ranking],
+        "default_method": default,
+        "n_train_cases": len(train_specs),
+    }
     Path(models_dir).mkdir(parents=True, exist_ok=True)
-    write_json(Path(models_dir) / "surrogate.json", model)
+    write_json(Path(models_dir) / "selector.json", model)
     return model
-
-
-def predict(model: dict, r0: float) -> float:
-    return float(np.dot(np.array(model["coeffs"]), np.array(_design(r0))))
