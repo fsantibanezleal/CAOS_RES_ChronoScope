@@ -8,6 +8,7 @@ passes the tests (graceful degradation): `heavy_forecasters()` returns only the 
 from __future__ import annotations
 
 from ..model.forecasters import Forecaster
+from .lightgbm_engine import lightgbm_forecasters
 from .statsforecast_engine import statsforecast_forecasters
 
 
@@ -15,4 +16,5 @@ def heavy_forecasters() -> list[Forecaster]:
     """Every heavy offline engine that is importable in this environment (may be empty)."""
     out: list[Forecaster] = []
     out.extend(statsforecast_forecasters())
+    out.extend(lightgbm_forecasters())
     return out

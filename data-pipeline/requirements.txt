@@ -15,3 +15,10 @@ preqts @ git+https://github.com/fsantibanezleal/CAOS_PreqTS.git@v0.01.000
 # data-pipeline/chronoscopelab/engines/statsforecast_engine.py. Offline-only (pulls numba, not Pyodide-safe);
 # the pipeline degrades gracefully to the classical numpy ladder if it is absent. Doc: docs/frameworks/01_statsforecast.md.
 statsforecast==2.0.3
+
+# mlforecast (Nixtla) + LightGBM: the ML tier (gradient boosting on lag features), used by
+# data-pipeline/chronoscopelab/engines/lightgbm_engine.py. Offline-only; graceful degradation if absent.
+# Doc: docs/frameworks/02_mlforecast_lightgbm.md.
+mlforecast==1.0.31
+lightgbm==4.6.0
+pandas==2.3.3
