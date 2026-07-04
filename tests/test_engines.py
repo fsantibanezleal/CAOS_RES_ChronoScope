@@ -10,6 +10,10 @@ from chronoscopelab.methods import all_forecasters
 from chronoscopelab.model.forecasters import classical_forecasters
 
 HAS_STATSFORECAST = importlib.util.find_spec("statsforecast") is not None
+HAS_LIGHTGBM = (
+    importlib.util.find_spec("lightgbm") is not None
+    and importlib.util.find_spec("mlforecast") is not None
+)
 
 
 def test_classical_ladder_always_present():
@@ -37,3 +41,17 @@ def test_statistical_engines_forecast_valid_quantiles():
         assert q.shape == (6, 3), fc.name
         assert np.all(np.isfinite(q)), fc.name
         assert np.all(np.diff(q, axis=1) >= -1e-6), fc.name  # monotone across levels
+
+
+@pytest.mark.skipif(not HAS_LIGHTGBM, reason="lightgbm/mlforecast not installed")
+def test_lightgbm_ml_engine_forecasts():
+    names = {fc.name for fc in all_forecasters()}
+    assert "LightGBM" in names
+    from chronoscopelab.engines.lightgbm_engine import LightGBMForecaster
+
+    rng = np.random.default_rng(1)
+    y = 50 + 10 * np.sin(np.arange(180) * 2 * np.pi / 12) + 0.2 * np.arange(180) + rng.normal(0, 2.0, 180)
+    q = LightGBMForecaster().quantiles(y, 12, 12, (0.1, 0.5, 0.9))
+    assert q.shape == (12, 3)
+    assert np.all(np.isfinite(q))
+    assert np.all(np.diff(q, axis=1) >= -1e-6)
