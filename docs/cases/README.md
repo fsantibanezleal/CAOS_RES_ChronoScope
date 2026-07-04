@@ -1,19 +1,22 @@
 # Cases + categories
 
-Each case (`data-pipeline/chronoscopelab/cases/`) declares a **CATEGORY** (the domain problem-type taxonomy), its
-params, an expected band (what a domain expert should see), and a real|synthetic flag. `registry.list_categories()`
-groups them. The **App shows ONE selected case**; **Experiments/Benchmark show cross-case summaries by category**
-(never mixed into the App).
+Each case (`data-pipeline/chronoscopelab/cases/forecast_cases.py`) declares a CATEGORY (the forecasting
+problem-type taxonomy), its seasonality and horizon, an expected band (what a domain expert should see), and a
+real/synthetic flag. `registry.list_categories()` groups them. The App shows ONE selected case; Experiments and
+Benchmark show cross-case summaries by category (never mixed into the App).
 
-## Coverage matrix (EXAMPLE — SIR; replace with your real, varied matrix)
+## Coverage matrix (this slice)
 
-| id | category | expected band | real/synthetic |
+| id | category | expected band | source |
 |---|---|---|---|
-| `EX01_subcritical` | sub-critical (R0<1) | no outbreak; attack rate ≈ 0 | synthetic |
-| `EX02_epidemic` | epidemic (R0>1) | clear single peak; attack rate ≈ 0.7–0.9 | synthetic |
-| `EX03_fast_burn` | fast-burn (high R0) | early sharp peak; attack rate → ~1 | synthetic |
-| `EX04_slow_spread` | slow-spread (R0~1.2) | broad low peak | synthetic |
-| `CTRL_degenerate` | control: degenerate | `I0=0` → no dynamics (must not crash) | synthetic |
+| `SEAS_hourly` | seasonal (m=24) | strong daily cycle; seasonal methods beat naive | synthetic |
+| `TRND_seasonal` | trend + seasonal (m=12) | upward trend with a yearly cycle | synthetic |
+| `INTM_demand` | intermittent demand | mostly zeros with sparse demand | synthetic |
+| `RWLK_noise` | near-random-walk (honesty) | random walk; beating the naive is essentially noise | synthetic |
+| `REAL_electricity` | real: electricity load (hourly) | real hourly load, daily seasonality + weekday effects | real |
+| `CTRL_white_noise` | control: white noise | iid noise; nothing should beat the naive by much | synthetic |
 
-A real product fills a matrix spanning its real axes (not "two of everything") + explicit negative/sanity
-controls, and adds one `docs/cases/<category>/<case-id>.md` per case (formalization + expected results + anchor).
+The near-random-walk and white-noise cases are deliberate honesty/negative controls: on them, a large MASE gap
+would be a red flag that the harness is leaking. The target is 12+ cases across more categories and more real
+datasets (M-competition, LTSF, additional UCI/Kaggle series from `E:\_Datos\chronoscope`) in later slices, each
+with a `docs/cases/<category>/<case-id>.md` write-up.

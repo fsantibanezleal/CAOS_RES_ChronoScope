@@ -13,13 +13,24 @@ const read = <T>(...p: string[]): T => JSON.parse(readFileSync(join(ROOT, 'data'
 describe('CONTRACT 2 mirror matches the committed artifacts', () => {
   it('index -> manifest -> trace parse into the mirror types and are consistent', () => {
     const idx = read<CaseIndex>('manifests', 'index.json');
+    expect(idx.schema).toContain('chronoscope.index/');
     expect(idx.cases.length).toBeGreaterThan(0);
+
     const m = read<CaseManifest>('manifests', `${idx.cases[0].case_id}.json`);
     expect(m.artifact.bytes).toBeGreaterThan(0);
     expect(['live', 'precompute']).toContain(m.lane);
+    expect(m.series.n_obs).toBeGreaterThan(0);
+
     const tr = read<Trace>(...m.artifact.path.split('/'));
-    expect(tr.t.length).toBe(tr.S.length);
-    expect(tr.t.length).toBe(tr.I.length);
-    expect(typeof tr.summary.peak_I).toBe('number');
+    expect(tr.schema).toContain('chronoscope.trace/');
+    expect(tr.actual.length).toBe(tr.horizon);
+    expect(tr.methods.length).toBeGreaterThan(0);
+    for (const meth of tr.methods) {
+      expect(meth.point.length).toBe(tr.horizon);
+      expect(meth.lower.length).toBe(tr.horizon);
+      expect(meth.upper.length).toBe(tr.horizon);
+    }
+    const names = tr.methods.map((x) => x.name);
+    expect(names).toContain(tr.summary.best_method);
   });
 });

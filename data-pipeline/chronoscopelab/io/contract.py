@@ -1,37 +1,43 @@
-"""CONTRACT 1 — ingestion (raw -> pipeline). The *bring-your-own-data* gate.
+"""CONTRACT 1 - ingestion (raw -> pipeline). The *bring-your-own-data* gate.
 
-Declares the required schema (columns, units, ranges) of an input parameter table and an EXPLICIT outlier policy.
-A dataset is ACCEPTED iff it passes; bad rows are REJECTED with a reason (never silently coerced); plausible-but-
-suspicious rows are FLAGGED (accepted, but the manifest records the flag). This is what lets the product be applied
-to NEW data instead of only replaying baked cases. Documented in data/README.md.
+Declares the required schema of a long-format time-series table and an EXPLICIT missing/outlier policy.
+A series is ACCEPTED iff it passes; bad series are REJECTED with a reason (never silently coerced);
+plausible-but-suspicious series are FLAGGED (accepted, but the manifest records the flag). This is what
+lets ChronoScope be pointed at NEW data instead of only replaying baked cases. Documented in
+data/README.md.
 
-EXAMPLE schema = an SIR parameterization. Replace the columns/ranges/policy with your product's real data contract
-(e.g. a vibration record: fs, channel, load, window length, dropouts; or a PSD CSV: sieve apertures, %-passing).
+Schema (long format, one row per (series, timestamp)):
+    unique_id : str   series identifier
+    ds        : str   timestamp (ISO-8601 or any sortable label); must be strictly increasing per series
+    y         : float target value (finite; NaN allowed up to MAX_NAN_FRAC, then flagged)
+Optional extra columns are treated as covariates and passed through.
 """
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
-from .schema import SIRParams
+REQUIRED_COLUMNS: tuple[str, ...] = ("unique_id", "ds", "y")
 
-REQUIRED_COLUMNS: tuple[str, ...] = ("case_id", "beta", "gamma", "N", "I0")
+MIN_OBS = 8                 # a series shorter than this cannot be backtested meaningfully -> REJECT
+MAX_NAN_FRAC = 0.30         # more than 30% missing target -> REJECT; any missing -> FLAG
+OUTLIER_Z = 8.0             # |z-score| above this on the target -> FLAG (not reject); robust MAD-based
 
-# name -> (min, max, unit). Physically/operationally plausible ranges; outside => REJECT.
-RANGES: dict[str, tuple[float, float, str]] = {
-    "beta": (1e-6, 5.0, "1/day (effective contact rate)"),
-    "gamma": (1e-6, 2.0, "1/day (recovery rate)"),
-    "N": (1.0, 1e9, "individuals (population)"),
-    "I0": (0.0, 1e9, "individuals (initial infected)"),
-}
-R0_FLAG_MAX = 20.0  # R0 above this is implausible for the example domain => FLAG (not reject)
-DEFAULT_DAYS = 160
+
+@dataclass
+class SeriesRecord:
+    """A validated series: identifier, timestamps, target, and any covariate columns."""
+
+    unique_id: str
+    ds: list[str]
+    y: list[float]
+    covariates: dict[str, list[float]] = field(default_factory=dict)
 
 
 @dataclass
 class ContractReport:
-    accepted: list[SIRParams]
+    accepted: list[SeriesRecord]
     rejected: list[dict[str, Any]]
     flagged: list[dict[str, Any]]
 
@@ -43,42 +49,86 @@ class ContractReport:
         return f"{len(self.accepted)} accepted, {len(self.rejected)} rejected, {len(self.flagged)} flagged"
 
 
+def _mad_zscores(y: list[float]) -> list[float]:
+    """Robust z-scores using the median and MAD (finite values only; NaN -> 0 contribution)."""
+    finite = [v for v in y if not (math.isnan(v) or math.isinf(v))]
+    if len(finite) < 3:
+        return [0.0] * len(y)
+    med = sorted(finite)[len(finite) // 2]
+    abs_dev = sorted(abs(v - med) for v in finite)
+    mad = abs_dev[len(abs_dev) // 2] or 1e-9
+    return [0.0 if (math.isnan(v) or math.isinf(v)) else abs(v - med) / (1.4826 * mad) for v in y]
+
+
+def validate_series(unique_id: str, ds: list[str], y_raw: list[Any],
+                    covariates: dict[str, list[float]] | None = None) -> tuple[SeriesRecord | None, dict | None, dict | None]:
+    """Validate a single series. Returns (record|None, rejection|None, flag|None)."""
+    try:
+        y = [float(v) for v in y_raw]
+    except (TypeError, ValueError):
+        return None, {"unique_id": unique_id, "reason": "non-numeric value in y"}, None
+    if len(y) < MIN_OBS:
+        return None, {"unique_id": unique_id, "reason": f"only {len(y)} obs (< MIN_OBS={MIN_OBS})"}, None
+    n_nan = sum(1 for v in y if math.isnan(v) or math.isinf(v))
+    if n_nan / len(y) > MAX_NAN_FRAC:
+        return None, {"unique_id": unique_id, "reason": f"{n_nan}/{len(y)} missing (> {MAX_NAN_FRAC:.0%})"}, None
+
+    flag: dict | None = None
+    reasons: list[str] = []
+    if n_nan > 0:
+        reasons.append(f"{n_nan} missing target value(s)")
+
+    ds = list(ds)
+    covariates = covariates or {}
+    if ds != sorted(ds):
+        reasons.append("timestamps not strictly increasing (sorted on ingest)")
+        order = sorted(range(len(ds)), key=lambda i: ds[i])
+        ds = [ds[i] for i in order]
+        y = [y[i] for i in order]
+        covariates = {c: [vals[i] for i in order] for c, vals in covariates.items()}
+
+    n_out = sum(1 for z in _mad_zscores(y) if z > OUTLIER_Z)
+    if n_out > 0:
+        reasons.append(f"{n_out} value(s) with robust |z| > {OUTLIER_Z:g}")
+    if reasons:
+        flag = {"unique_id": unique_id, "flag": "; ".join(reasons)}
+
+    record = SeriesRecord(unique_id=unique_id, ds=ds, y=y, covariates=covariates)
+    return record, None, flag
+
+
 def validate_rows(raw_rows: list[dict[str, Any]]) -> ContractReport:
-    """Apply CONTRACT 1 to raw rows (e.g. from a CSV). Pure; deterministic; no I/O."""
-    accepted: list[SIRParams] = []
+    """Apply CONTRACT 1 to long-format rows (e.g. from a CSV). Pure; deterministic; no I/O."""
+    accepted: list[SeriesRecord] = []
     rejected: list[dict[str, Any]] = []
     flagged: list[dict[str, Any]] = []
 
-    for i, row in enumerate(raw_rows):
-        cid = str(row.get("case_id", f"row{i}"))
-        missing = [c for c in REQUIRED_COLUMNS if c not in row or row[c] in (None, "")]
+    if raw_rows:
+        missing = [c for c in REQUIRED_COLUMNS if c not in raw_rows[0]]
         if missing:
-            rejected.append({"row": i, "case_id": cid, "reason": f"missing/empty columns: {missing}"})
-            continue
-        try:
-            vals = {k: float(row[k]) for k in ("beta", "gamma", "N", "I0")}
-        except (TypeError, ValueError):
-            rejected.append({"row": i, "case_id": cid, "reason": "non-numeric value in beta/gamma/N/I0"})
-            continue
-        if any(math.isnan(v) or math.isinf(v) for v in vals.values()):
-            rejected.append({"row": i, "case_id": cid, "reason": "NaN/Inf value"})
-            continue
-        bad: list[str] = []
-        for name, (lo, hi, _unit) in RANGES.items():
-            if not (lo <= vals[name] <= hi):
-                bad.append(f"{name}={vals[name]:g} out of [{lo:g},{hi:g}]")
-        if vals["I0"] > vals["N"]:
-            bad.append(f"I0={vals['I0']:g} > N={vals['N']:g}")
-        if bad:
-            rejected.append({"row": i, "case_id": cid, "reason": "; ".join(bad)})
-            continue
-        r0 = vals["beta"] / vals["gamma"] if vals["gamma"] > 0 else math.inf
-        if r0 > R0_FLAG_MAX:
-            flagged.append({"case_id": cid, "flag": f"R0={r0:.1f} > {R0_FLAG_MAX:g} (implausibly high)"})
-        try:
-            days = int(float(row.get("days") or DEFAULT_DAYS))
-        except (TypeError, ValueError):
-            days = DEFAULT_DAYS
-        accepted.append(SIRParams(case_id=cid, beta=vals["beta"], gamma=vals["gamma"],
-                                  N=vals["N"], I0=vals["I0"], days=max(1, days)))
+            return ContractReport([], [{"reason": f"missing required columns: {missing}"}], [])
+
+    grouped: dict[str, dict[str, list]] = {}
+    cov_cols = [c for c in (raw_rows[0].keys() if raw_rows else []) if c not in REQUIRED_COLUMNS]
+    for row in raw_rows:
+        uid = str(row.get("unique_id", "series"))
+        g = grouped.setdefault(uid, {"ds": [], "y": [], **{c: [] for c in cov_cols}})
+        g["ds"].append(str(row.get("ds", "")))
+        g["y"].append(row.get("y"))
+        for c in cov_cols:
+            try:
+                g[c].append(float(row.get(c)))
+            except (TypeError, ValueError):
+                g[c].append(math.nan)
+
+    for uid, g in grouped.items():
+        # Pass original order so validate_series can detect + flag unsorted timestamps (and sort them).
+        covs = {c: g[c] for c in cov_cols}
+        rec, rej, flag = validate_series(uid, g["ds"], g["y"], covs)
+        if rec is not None:
+            accepted.append(rec)
+        if rej is not None:
+            rejected.append(rej)
+        if flag is not None:
+            flagged.append(flag)
     return ContractReport(accepted=accepted, rejected=rejected, flagged=flagged)

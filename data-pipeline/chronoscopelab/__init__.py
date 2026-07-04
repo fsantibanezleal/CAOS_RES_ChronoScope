@@ -1,8 +1,10 @@
-"""chronoscopelab — the offline+live engine for the CAOS product-repo template (ADR-0057).
+"""chronoscopelab: the offline + live forecasting engine for ChronoScope (ADR-0057 product).
 
-Rename this package to `<slug>lab` per product and replace the EXAMPLE engine (model/ + the stage bodies) with the
-deep-research-chosen SOTA engine. Everything else (the two data contracts, the staged pipeline, the lane gate, the
-manifest/trace, the cases-by-category registry) is the FROZEN base — instantiate it, do not redesign it.
+The engine is the time-series forecasting method ladder: a real pure-numpy classical core (seasonal-naive,
+SES, Holt, Holt-Winters, Theta) that runs both the offline pipeline and the browser live lane, scored by the
+preqts prequential library. Heavier engines (Nixtla, LightGBM, zero-shot foundation models) plug in behind the
+same MethodForecast contract in later slices. The base (two data contracts, staged pipeline, lane gate,
+manifest/trace, cases-by-category registry) is the FROZEN template.
 """
 
-__version__ = "0.01.000"  # display X.XX.XXX; PEP 440 form in pyproject.toml (0.1.0)
+__version__ = "0.02.000"  # display X.XX.XXX; PEP 440 form in pyproject.toml (0.2.0)
