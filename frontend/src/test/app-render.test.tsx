@@ -9,8 +9,11 @@ import App from '../App';
 describe('App workbench renders (synthetic live mode)', () => {
   const html = renderToStaticMarkup(<App />);
 
-  it('shows the product heading and the source modes', () => {
+  it('shows the product heading, the six-page nav, and the source modes', () => {
     expect(html).toContain('ChronoScope');
+    for (const label of ['App', 'Introduction', 'Methodology', 'Implementation', 'Experiments', 'Benchmark']) {
+      expect(html).toContain(label);
+    }
     expect(html).toContain('Synthetic (live)');
     expect(html).toContain('Baked case');
   });

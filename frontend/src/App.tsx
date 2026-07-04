@@ -1,183 +1,71 @@
-// ChronoScope App: the interactive workbench. Two modes:
-//  - Synthetic (LIVE): adjust the knobs, the TS classical engine re-forecasts instantly in the browser.
-//  - Baked case (REPLAY): load a committed case and see the whole ladder (classical + statistical + ML +
-//    foundation) from the leakage-safe backtest baked offline.
-// Every method can be toggled; the chart reads out values at the cursor; a leaderboard ranks the methods.
-// (The five documentation pages + i18n + theming + the ONNX live deep tier land in later slices.)
-import { useEffect, useMemo, useState } from 'react';
-import { loadIndex, loadManifest, loadTrace } from './api/artifacts';
-import type { CaseIndex, Trace } from './lib/contract.types';
-import { forecastAllLive } from './lib/liveEngine';
-import { coverage, mase, seasonalNaiveMae } from './lib/liveMetrics';
-import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from './lib/synthetic';
-import { WorkbenchChart, type ChartData, type ChartSeries } from './render/WorkbenchChart';
+// ChronoScope shell: the six-page nav (hash-routed, so deep links work on GitHub Pages without 404 tricks),
+// a header with the product mark + external links, and the footer. The App page is the interactive workbench;
+// the other five are the documentation pages filled to depth.
+import { useEffect, useState } from 'react';
+import { AppPage } from './pages/AppPage';
+import { Benchmark } from './pages/Benchmark';
+import { Experiments } from './pages/Experiments';
+import { Implementation } from './pages/Implementation';
+import { Introduction } from './pages/Introduction';
+import { Methodology } from './pages/Methodology';
 
-const LEVELS = [0.1, 0.5, 0.9];
+const VERSION = '0.07.000';
+const REPO = 'https://github.com/fsantibanezleal/CAOS_RES_ChronoScope';
 
-const COLORS: Record<string, string> = {
-  SeasonalNaive: '#58a6ff', SES: '#bc8cff', Holt: '#f778ba', HoltWinters: '#ff9f1c', Theta: '#56d364',
-  AutoETS: '#79c0ff', AutoTheta: '#d2a8ff', AutoARIMA: '#ffa657', LightGBM: '#7ee787', 'Chronos-Bolt': '#ff7b72',
-};
-const colorFor = (n: string) => COLORS[n] ?? `hsl(${(n.split('').reduce((a, c) => a + c.charCodeAt(0), 0) * 47) % 360} 70% 65%)`;
+const PAGES = [
+  { id: 'app', label: 'App', Comp: AppPage },
+  { id: 'introduction', label: 'Introduction', Comp: Introduction },
+  { id: 'methodology', label: 'Methodology', Comp: Methodology },
+  { id: 'implementation', label: 'Implementation', Comp: Implementation },
+  { id: 'experiments', label: 'Experiments', Comp: Experiments },
+  { id: 'benchmark', label: 'Benchmark', Comp: Benchmark },
+] as const;
 
-const KINDS: SyntheticKind[] = ['seasonal', 'trend_seasonal', 'intermittent', 'random_walk', 'white_noise'];
-const fmt = (v: number, nd = 3) => (Number.isFinite(v) ? v.toFixed(nd) : '-');
-
-interface Row { name: string; family: string; mase: number; coverage: number; }
+function currentId(): string {
+  const h = (typeof window !== 'undefined' ? window.location.hash : '').replace(/^#\/?/, '');
+  return PAGES.some((p) => p.id === h) ? h : 'app';
+}
 
 export default function App() {
-  const [mode, setMode] = useState<'synthetic' | 'baked'>('synthetic');
-  const [knobs, setKnobs] = useState<SyntheticKnobs>(DEFAULT_KNOBS);
-  const [index, setIndex] = useState<CaseIndex | null>(null);
-  const [caseId, setCaseId] = useState('');
-  const [trace, setTrace] = useState<Trace | null>(null);
-  const [hidden, setHidden] = useState<Set<string>>(new Set());
-  const [err, setErr] = useState('');
-
+  const [id, setId] = useState<string>(currentId());
   useEffect(() => {
-    loadIndex().then((ix) => { setIndex(ix); setCaseId(ix.cases[0]?.case_id ?? ''); }).catch((e) => setErr(String(e)));
+    const on = () => setId(currentId());
+    window.addEventListener('hashchange', on);
+    return () => window.removeEventListener('hashchange', on);
   }, []);
-
-  useEffect(() => {
-    if (mode !== 'baked' || !caseId) return;
-    loadManifest(caseId).then((m) => loadTrace(m.artifact.path)).then(setTrace).catch((e) => setErr(String(e)));
-  }, [mode, caseId]);
-
-  // Synthetic (LIVE) computation.
-  const synthetic = useMemo(() => {
-    if (mode !== 'synthetic') return null;
-    const y = generateSeries(knobs);
-    const cut = Math.max(1, y.length - knobs.horizon);
-    const history = y.slice(0, cut);
-    const actual = y.slice(cut);
-    const forecasts = forecastAllLive(history, knobs.seasonality, knobs.horizon, LEVELS);
-    const scale = seasonalNaiveMae(history, knobs.seasonality);
-    const rows: Row[] = forecasts.map((f) => ({
-      name: f.name, family: 'classical',
-      mase: mase(actual, f.point, scale), coverage: coverage(actual, f.lower, f.upper),
-    }));
-    const methods: ChartSeries[] = forecasts.map((f) => ({ name: f.name, color: colorFor(f.name), point: f.point, lower: f.lower, upper: f.upper }));
-    return { history, actual, horizon: knobs.horizon, methods, rows };
-  }, [mode, knobs]);
-
-  // Baked (REPLAY) computation.
-  const baked = useMemo(() => {
-    if (mode !== 'baked' || !trace) return null;
-    const methods: ChartSeries[] = trace.methods.map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
-    const rows: Row[] = trace.methods.map((m) => ({ name: m.name, family: m.family, mase: m.backtest.mase ?? NaN, coverage: m.backtest.coverage ?? NaN }));
-    return { history: trace.history, actual: trace.actual, horizon: trace.horizon, methods, rows };
-  }, [mode, trace]);
-
-  const active = mode === 'synthetic' ? synthetic : baked;
-  const chartData: ChartData | null = active
-    ? { history: active.history, actual: active.actual, horizon: active.horizon, methods: active.methods.filter((m) => !hidden.has(m.name)) }
-    : null;
-  const rankedRows = active ? [...active.rows].sort((a, b) => (a.mase || Infinity) - (b.mase || Infinity)) : [];
-  const best = rankedRows.find((r) => Number.isFinite(r.mase))?.name;
-
-  const setK = (patch: Partial<SyntheticKnobs>) => setKnobs((k) => ({ ...k, ...patch }));
-  const toggle = (name: string) => setHidden((h) => { const n = new Set(h); n.has(name) ? n.delete(name) : n.add(name); return n; });
+  const page = PAGES.find((p) => p.id === id) ?? PAGES[0];
+  const Comp = page.Comp;
 
   return (
-    <main style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 1080, margin: '1.5rem auto', padding: '0 1rem' }}>
-      <h1 style={{ marginBottom: 2 }}>ChronoScope</h1>
-      <p style={{ marginTop: 0, color: '#8b949e' }}>
-        An interactive atlas of time-series forecasting. Play with the whole ladder live (classical methods
-        recompute in your browser) or replay the baked backtest across the SOTA tiers.
-      </p>
-      {err && <p style={{ color: '#f85149' }}>error: {err}</p>}
+    <main style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 1080, margin: '0 auto', padding: '0 1rem 3rem' }}>
+      <header style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap', padding: '1.1rem 0', borderBottom: '1px solid #30363d', marginBottom: 18 }}>
+        <a href="#/app" style={{ fontWeight: 800, fontSize: 20, textDecoration: 'none', color: 'inherit' }}>ChronoScope</a>
+        <nav style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }}>
+          {PAGES.map((p) => (
+            <a key={p.id} href={`#/${p.id}`} style={navLink(p.id === id)}>{p.label}</a>
+          ))}
+        </nav>
+        <a href={REPO} target="_blank" rel="noreferrer" style={{ color: '#58a6ff', fontSize: 14 }}>GitHub</a>
+      </header>
 
-      <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-        <section style={{ minWidth: 260, flex: '0 0 260px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <div>
-            <b>Source</b>
-            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
-              <button onClick={() => setMode('synthetic')} style={tab(mode === 'synthetic')}>Synthetic (live)</button>
-              <button onClick={() => setMode('baked')} style={tab(mode === 'baked')}>Baked case</button>
-            </div>
-          </div>
+      <Comp />
 
-          {mode === 'synthetic' ? (
-            <>
-              <label>Pattern{' '}
-                <select value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
-                  {KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
-                </select>
-              </label>
-              {slider('length', knobs.n, 40, 400, 10, (v) => setK({ n: v }))}
-              {slider('seasonality m', knobs.seasonality, 1, 48, 1, (v) => setK({ seasonality: v }))}
-              {slider('horizon', knobs.horizon, 1, 48, 1, (v) => setK({ horizon: v }))}
-              {slider('amplitude', knobs.amp, 0, 40, 1, (v) => setK({ amp: v }))}
-              {slider('slope', knobs.slope, -1, 1, 0.05, (v) => setK({ slope: v }))}
-              {slider('noise', knobs.noise, 0, 15, 0.5, (v) => setK({ noise: v }))}
-              {slider('seed', knobs.seed, 0, 50, 1, (v) => setK({ seed: v }))}
-            </>
-          ) : (
-            <label>Case{' '}
-              <select value={caseId} onChange={(e) => setCaseId(e.target.value)}>
-                {index?.cases.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id}</option>)}
-              </select>
-            </label>
-          )}
-
-          <div>
-            <b>Methods</b>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 4 }}>
-              {active?.methods.map((m) => (
-                <label key={m.name} style={{ color: m.color, fontSize: 14 }}>
-                  <input type="checkbox" checked={!hidden.has(m.name)} onChange={() => toggle(m.name)} /> {m.name}
-                </label>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section style={{ flex: 1, minWidth: 420 }}>
-          {chartData && <WorkbenchChart data={chartData} />}
-          <p style={{ fontSize: 13, color: '#8b949e' }}>
-            Grey = history, green dashed = held-out truth, coloured = each method's forecast with its prediction
-            interval. {mode === 'synthetic'
-              ? 'Classical methods computed live in your browser (parity-checked against the Python engine).'
-              : 'Forecasts + metrics replayed from the offline backtest (classical + statistical + ML + foundation).'}
-          </p>
-
-          <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 14 }}>
-            <thead>
-              <tr>{['method', 'family', 'MASE', 'coverage'].map((h) => (
-                <th key={h} style={{ textAlign: 'left', borderBottom: '1px solid #30363d', padding: '4px 8px' }}>{h}</th>
-              ))}</tr>
-            </thead>
-            <tbody>
-              {rankedRows.map((r) => (
-                <tr key={r.name} style={{ fontWeight: r.name === best ? 700 : 400 }}>
-                  <td style={{ padding: '4px 8px', color: colorFor(r.name) }}>{r.name}</td>
-                  <td style={{ padding: '4px 8px' }}>{r.family}</td>
-                  <td style={{ padding: '4px 8px' }}>{fmt(r.mase)}</td>
-                  <td style={{ padding: '4px 8px' }}>{fmt(r.coverage, 2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p style={{ fontSize: 13, color: '#8b949e' }}>
-            MASE below 1 beats the seasonal-naive baseline. Best on this series: <b>{best ?? '-'}</b>.
-            No method wins everywhere: seasonal cases favour the seasonal/foundation methods, a random walk or
-            white noise cannot be beaten by much.
-          </p>
-        </section>
-      </div>
+      <footer style={{ marginTop: 40, paddingTop: 12, borderTop: '1px solid #30363d', fontSize: 12.5, color: '#8b949e', lineHeight: 1.6 }}>
+        <div><b>ChronoScope</b>, a CAOS research project, v{VERSION}. Developed by Felipe Santibanez-Leal.</div>
+        <div>
+          Method ladder: classical (own numpy/TS), statistical (<a href="https://github.com/Nixtla/statsforecast" style={fl}>statsforecast</a>),
+          ML (<a href="https://github.com/microsoft/LightGBM" style={fl}>LightGBM</a>), foundation
+          (<a href="https://github.com/amazon-science/chronos-forecasting" style={fl}>Chronos</a>, Apache-2.0),
+          scored by <a href="https://github.com/fsantibanezleal/CAOS_PreqTS" style={fl}>preqts</a>. Real sample:
+          UCI ElectricityLoadDiagrams (CC BY 4.0). MIT license.
+        </div>
+        <div>Numbers come from committed backtest artifacts, never hand-typed. No method wins everywhere.</div>
+      </footer>
     </main>
   );
 }
 
-function tab(on: boolean): React.CSSProperties {
-  return { padding: '4px 10px', border: '1px solid #30363d', borderRadius: 6, background: on ? '#1f6feb' : 'transparent', color: on ? '#fff' : 'inherit', cursor: 'pointer' };
+function navLink(active: boolean): React.CSSProperties {
+  return { padding: '4px 9px', borderRadius: 6, textDecoration: 'none', fontSize: 14, color: active ? '#fff' : '#8b949e', background: active ? '#1f6feb' : 'transparent' };
 }
-
-function slider(label: string, value: number, min: number, max: number, step: number, on: (v: number) => void) {
-  return (
-    <label style={{ fontSize: 14, display: 'block' }}>
-      {label}: <b>{value}</b>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} style={{ width: '100%' }} />
-    </label>
-  );
-}
+const fl: React.CSSProperties = { color: '#58a6ff' };
