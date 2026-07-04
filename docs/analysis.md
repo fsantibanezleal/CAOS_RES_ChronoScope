@@ -19,6 +19,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   STL / MSTL (multi-seasonal) decomposition, and the seasonal subseries (month) plot.
 - [Filters and adaptive decompositions](analysis/filters.md) - Hodrick-Prescott, Baxter-King and
   Christiano-Fitzgerald band-pass, EMD/CEEMDAN intrinsic mode functions, and the CWT wavelet scalogram.
+- [Change points and regimes](analysis/changepoints.md) - PELT / Binary Segmentation, the OLS-CUSUM
+  stability test, and Hamilton Markov-switching regime probabilities.
 
-_(Change-points, volatility, distribution, entropy, and the
+_(Volatility, distribution, entropy, and the
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_

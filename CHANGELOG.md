@@ -3,6 +3,21 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.004] - 2026-07-04
+
+### Added
+- Analysis unit #5 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/changepoints.py`
+  - PELT (exact penalized segmentation, BIC-style default penalty recorded in the artifact) and Binary
+    Segmentation via `ruptures`; OLS-CUSUM parameter-stability test (Brownian-bridge bounds); Hamilton
+    Markov-switching regimes (per-point smoothed probabilities, per-regime means read from named params,
+    transition matrix; fit failures recorded honestly, never crashing the bake). JSON-ready
+    `changepoints_report`. NaN-safe.
+  - `tests/test_analysis_changepoints.py`: 7 ground-truth tests (known break locations within +/-5 samples,
+    stable-series null, CUSUM verdicts, two-regime mean recovery, honest report).
+  - `docs/analysis/changepoints.md` (theory, KaTeX, DOIs; why Chow is not wrapped; BOCPD deferred to the
+    streaming lane) + `docs/analysis/assets/changepoints-regimes.svg`.
+- Pin: `ruptures==1.1.10` in requirements-precompute.txt.
+
 ## [0.08.003] - 2026-07-04
 
 ### Added

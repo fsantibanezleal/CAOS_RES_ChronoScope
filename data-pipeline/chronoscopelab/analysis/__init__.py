@@ -10,13 +10,25 @@ Modules:
   * autocorrelation - ACF/PACF (Durbin-Levinson), Ljung-Box/Box-Pierce, Durbin-Watson, lag plot.
   * seasonality     - periodogram/Welch dominant period, seasonal strength, STL/MSTL, seasonal subseries.
   * filters         - HP/Baxter-King/Christiano-Fitzgerald band-pass, EMD/CEEMDAN IMFs, CWT scalogram.
+  * changepoints    - PELT/BinSeg segmentation, OLS-CUSUM stability, Markov-switching regimes.
 """
 from __future__ import annotations
 
 from . import autocorrelation
+from . import changepoints
 from . import filters
 from . import seasonality
 from . import stationarity
+from .changepoints import (
+    ChangePoints,
+    CusumResult,
+    RegimeFit,
+    binseg,
+    changepoints_report,
+    cusum_stability,
+    markov_regimes,
+    pelt,
+)
 from .filters import (
     EMDResult,
     FilterResult,
@@ -71,6 +83,7 @@ __all__ = [
     "autocorrelation",
     "seasonality",
     "filters",
+    "changepoints",
     # stationarity
     "TestResult",
     "adf",
@@ -115,4 +128,13 @@ __all__ = [
     "ceemdan",
     "cwt_scalogram",
     "filters_report",
+    # changepoints
+    "ChangePoints",
+    "CusumResult",
+    "RegimeFit",
+    "pelt",
+    "binseg",
+    "cusum_stability",
+    "markov_regimes",
+    "changepoints_report",
 ]

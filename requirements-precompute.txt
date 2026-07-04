@@ -10,6 +10,7 @@ statsmodels==0.14.6          # ADF/KPSS/Zivot-Andrews, STL/MSTL, ACF/PACF, Ljung
 EMD-signal==1.9.0            # EMD/EEMD/CEEMDAN intrinsic mode functions (import PyEMD)
 PyWavelets==1.8.0            # CWT scalogram (scipy.signal.cwt was removed in scipy 1.15)
 neuralforecast==3.1.9        # deep-ladder training spine (NBEATS/NHITS/TFT/PatchTST/iTransformer/TSMixer/...)
+ruptures==1.1.10             # PELT/BinSeg offline change-point detection
 arch==8.0.0                  # Phillips-Perron, DF-GLS, GARCH family (statsmodels has no PP/DF-GLS)
 # --- forecasting ladder (classical / statistical / ML / foundation) ---
 statsforecast==2.0.3         # AutoARIMA/AutoETS/AutoTheta, MSTL, TBATS, Croston, GARCH
