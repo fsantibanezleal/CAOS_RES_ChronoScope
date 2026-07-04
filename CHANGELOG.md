@@ -3,6 +3,25 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.000] - 2026-07-04
+
+### Added
+- Analysis toolkit (the "understand the series" half), built backend-first per the re-grounded plan.
+  - `chronoscopelab/analysis/stationarity.py`: ADF, KPSS, Phillips-Perron, DF-GLS, Zivot-Andrews (each
+    delegated to its authoritative library - statsmodels + `arch` - in one NaN-safe API that carries the
+    primary DOI), the four-quadrant `combined_verdict`, and the FPP3 differencing-order selection
+    (`ndiffs` KPSS-sequential, `nsdiffs` via seasonal strength `Fs >= 0.64`; no pmdarima). Full
+    `stationarity_report` for the baked artifact.
+  - `tests/test_analysis_stationarity.py`: 10 ground-truth tests (opposite-null polarity, white-noise vs
+    random-walk verdicts, differencing recovery, seasonal strength, NaN-safety).
+  - `docs/analysis.md` + `docs/analysis/stationarity.md`: deep page (theory, KaTeX equations, DOIs, what
+    it is/is NOT) with a theme-aware SVG decision diagram (`docs/analysis/assets/`).
+  - `requirements-precompute.txt`: pins the offline/GPU lane engines (adds `arch==8.0.0`).
+
+### Notes
+- Vertical build: code + tests + deep doc + SVG in one commit per method (Entry_point rule 7). Next analysis
+  units: autocorrelation (ACF/PACF/Ljung-Box), seasonality (periodogram/MSTL), decomposition, then the ladder.
+
 ## [0.07.000] - 2026-07-04
 
 ### Added

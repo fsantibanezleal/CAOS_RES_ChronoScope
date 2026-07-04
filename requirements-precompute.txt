@@ -1,0 +1,18 @@
+# PRECOMPUTE / OFFLINE lane — the heavy engines for the analysis toolkit + the forecasting ladder.
+# Installed in .venv-pipeline (Python 3.13); pinned to the verified install (2026-07-04). NOT Pyodide-safe;
+# this lane runs offline (GPU where available) and bakes committed artifacts. The live/web lane uses only
+# requirements.txt (numpy). See docs/analysis.md and plans/chronoscope (in _CAOS_MANAGE).
+numpy==2.4.6
+scipy==1.15.3
+pandas==2.3.3
+# --- analysis toolkit (understand the series) ---
+statsmodels==0.14.6          # ADF/KPSS/Zivot-Andrews, STL/MSTL, ACF/PACF, Ljung-Box, filters, VECM
+arch==8.0.0                  # Phillips-Perron, DF-GLS, GARCH family (statsmodels has no PP/DF-GLS)
+# --- forecasting ladder (classical / statistical / ML / foundation) ---
+statsforecast==2.0.3         # AutoARIMA/AutoETS/AutoTheta, MSTL, TBATS, Croston, GARCH
+mlforecast==1.0.31           # LightGBM on lag/date features
+utilsforecast==0.2.16        # Guerrero Box-Cox lambda, scalers
+coreforecast==0.0.17
+lightgbm==4.6.0
+chronos-forecasting==2.3.1   # Chronos / Chronos-Bolt / Chronos-2 (Apache-2.0 foundation tier)
+torch==2.12.1                # backbone for the foundation + deep engines (GPU offline lane)
