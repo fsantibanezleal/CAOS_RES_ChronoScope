@@ -1,0 +1,12 @@
+# FOUNDATION tier (opt-in, heavy): the zero-shot foundation-model engines, run OFFLINE on local checkpoints.
+# Not installed by scripts/setup by default (the core precompute stays light and CI has no GPU/checkpoints).
+# Install into .venv-pipeline to enable the tier, then bake with CHRONOSCOPE_ENABLE_FOUNDATION=1:
+#   .venv-pipeline/Scripts/python.exe -m pip install --index-url https://download.pytorch.org/whl/cpu torch
+#   .venv-pipeline/Scripts/python.exe -m pip install -r data-pipeline/requirements-foundation.txt
+# Checkpoints live in the model vault (CHRONOSCOPE_MODEL_ROOT, default E:\_Models\chronoscope), never in git.
+# The pipeline degrades gracefully to the classical + statistical + ML ladder when this tier is absent.
+# Doc: docs/frameworks/03_chronos.md.
+
+# torch is installed separately from the CPU index (see the command above); pinned here for the record.
+# torch==2.12.1+cpu
+chronos-forecasting>=1.5

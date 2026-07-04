@@ -9,7 +9,9 @@ engine the research prescribed.
   AutoTheta). Offline-only; the classical numpy ladder is the live-lane fallback.
 - [02 mlforecast + LightGBM](frameworks/02_mlforecast_lightgbm.md): the ML tier, gradient boosting on lag
   features (the M5-winning approach). Offline-only.
+- [03 Chronos (foundation tier)](frameworks/03_chronos.md): the zero-shot foundation-model tier, run offline
+  on local checkpoints (Chronos-Bolt wired; Chronos-2 / TimesFM / TiRex-2 follow). Opt-in, heavy, replay-only.
 
-Planned cards as their engines are wired (per `_CAOS_MANAGE/wip/chronoscope/plan.md`): the zero-shot foundation
-models `03_chronos`, `04_tirex`, `05_timesfm`. The reference research library (papers, model landscape) lives
-under [`docs/research/`](research/).
+Planned cards as their engines are wired (per `_CAOS_MANAGE/wip/chronoscope/plan.md`): `04_timesfm`, `05_tirex`
+(and Granite TTM / FlowState). The reference research library (papers, model landscape) lives under
+[`docs/research/`](research/).
