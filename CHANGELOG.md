@@ -3,6 +3,25 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.03.000] - 2026-07-04
+
+### Added
+- Statistical SOTA engines behind the `MethodForecast` contract: AutoARIMA, AutoETS, AutoTheta via Nixtla
+  statsforecast (`engines/statsforecast_engine.py`), included in infer/evaluate/trace next to the classical
+  ladder (8 methods per case now).
+- A `Forecaster` abstraction (`quantiles` + `forecast` + `max_windows`) unifying the classical numpy ladder and
+  the heavy engines; a `methods.all_forecasters()` combiner. The offline pipeline evaluates the combined set;
+  the live lane stays classical-only (Pyodide-safe), and the pipeline degrades gracefully to classical if
+  statsforecast is absent.
+- Bounded backtest cost: cheap methods get many windows, AutoARIMA gets few windows plus a context cap.
+- `docs/frameworks/01_statsforecast.md` (what/why/config/example); statsforecast pinned in requirements.
+
+### Notes
+- Honest results: seasonal AutoARIMA/AutoETS win on the seasonal and trend cases (MASE below 1); the
+  intermittent, real-electricity, and control cases still favour the simple baselines. Next slices: the ML tier
+  (mlforecast + LightGBM) and the zero-shot foundation models (TiRex-2 / Chronos-2 / TimesFM), plus a persisted
+  deep reference library under `docs/research/`.
+
 ## [0.02.000] - 2026-07-03
 
 ### Changed

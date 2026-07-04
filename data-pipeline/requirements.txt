@@ -10,3 +10,8 @@ numpy==2.4.6
 # (ADR-0061 package extraction). Private repo, PyPI-destined; until published it installs from the tagged GitHub
 # ref (needs the vault GitHub PAT). Switch to `preqts>=0.1` once it is on PyPI.
 preqts @ git+https://github.com/fsantibanezleal/CAOS_PreqTS.git@v0.01.000
+
+# statsforecast (Nixtla): the auto-tuned statistical SOTA methods (AutoARIMA, AutoETS, AutoTheta), used by
+# data-pipeline/chronoscopelab/engines/statsforecast_engine.py. Offline-only (pulls numba, not Pyodide-safe);
+# the pipeline degrades gracefully to the classical numpy ladder if it is absent. Doc: docs/frameworks/01_statsforecast.md.
+statsforecast==2.0.3

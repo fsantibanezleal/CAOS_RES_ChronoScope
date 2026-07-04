@@ -21,7 +21,7 @@ def test_trace_shape_and_methods():
     tr = _trace(m)
     assert tr["schema"].startswith("chronoscope.trace/")
     assert len(tr["actual"]) == tr["horizon"]
-    assert len(tr["methods"]) == 5
+    assert len(tr["methods"]) >= 5  # classical ladder (5) + any available heavy engines
     for meth in tr["methods"]:
         assert len(meth["point"]) == tr["horizon"]
         assert len(meth["lower"]) == tr["horizon"]
