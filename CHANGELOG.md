@@ -3,6 +3,25 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.05.000] - 2026-07-04
+
+### Added
+- Zero-shot foundation-model tier (SOTA), run OFFLINE on local checkpoints: `engines/chronos_engine.py`
+  wires Amazon Chronos-Bolt (Apache-2.0) behind the same `MethodForecast` contract, with a module-level
+  pipeline cache so a checkpoint loads once per process. On the seasonal case it reaches the lowest MASE of
+  the whole ladder (below AutoARIMA and the seasonal-naive baseline), baked into the committed artifacts.
+- The tier is OPT-IN and heavy: deps in `data-pipeline/requirements-foundation.txt` (torch CPU +
+  chronos-forecasting), checkpoints in the model vault (`CHRONOSCOPE_MODEL_ROOT`), enabled with
+  `CHRONOSCOPE_ENABLE_FOUNDATION=1` for canonical baking. It degrades gracefully to the classical +
+  statistical + ML ladder when absent, so CI and the test suite stay fast.
+- `docs/frameworks/03_chronos.md`.
+
+### Notes
+- The offline pipeline now does the hard processing (foundation-model inference) and bakes it into the
+  artifacts. Follow-ups: Chronos-2 / TimesFM 2.5 / Granite TTM r2 / FlowState r1 / TiRex-2 (own loaders),
+  ONNX export of a small deep model for the browser live lane, and the real interactive 6-page web app
+  (the core deliverable: play with the whole ladder live or via replay).
+
 ## [0.04.000] - 2026-07-04
 
 ### Added

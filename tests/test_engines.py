@@ -43,6 +43,32 @@ def test_statistical_engines_forecast_valid_quantiles():
         assert np.all(np.diff(q, axis=1) >= -1e-6), fc.name  # monotone across levels
 
 
+def test_foundation_tier_opt_in_by_default():
+    # Without CHRONOSCOPE_ENABLE_FOUNDATION set, the foundation tier is omitted (keeps tests fast).
+    from chronoscopelab.engines.chronos_engine import chronos_forecasters
+
+    assert chronos_forecasters() == []
+
+
+def _foundation_available():
+    from chronoscopelab.engines.chronos_engine import foundation_available
+
+    return foundation_available()
+
+
+@pytest.mark.skipif(not _foundation_available(), reason="foundation deps/checkpoints not available")
+def test_chronos_foundation_forecasts():
+    from chronoscopelab.engines.chronos_engine import _CHECKPOINTS, ChronosForecaster, _model_root
+
+    name, folder = _CHECKPOINTS[0]
+    fc = ChronosForecaster(name, str(_model_root() / folder))
+    y = 50 + 10 * np.sin(np.arange(120) * 2 * np.pi / 12)
+    q = fc.quantiles(y, 12, 6, (0.1, 0.5, 0.9))
+    assert q.shape == (6, 3)
+    assert np.all(np.isfinite(q))
+    assert np.all(np.diff(q, axis=1) >= -1e-6)
+
+
 @pytest.mark.skipif(not HAS_LIGHTGBM, reason="lightgbm/mlforecast not installed")
 def test_lightgbm_ml_engine_forecasts():
     names = {fc.name for fc in all_forecasters()}
