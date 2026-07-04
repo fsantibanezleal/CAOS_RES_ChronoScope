@@ -13,7 +13,10 @@ from .trace import TRACE_SCHEMA
 MANIFEST_SCHEMA = "chronoscope.manifest/v1"
 INDEX_SCHEMA = "chronoscope.index/v1"
 
-ENGINE_MODEL = "classical forecasting ladder (5 methods): seasonal-naive, SES, Holt, Holt-Winters, Theta"
+ENGINE_MODEL = (
+    "forecasting method ladder: classical numpy (seasonal-naive, SES, Holt, Holt-Winters, Theta; live-capable) "
+    "+ statistical (AutoARIMA, AutoETS, AutoTheta via statsforecast; offline, when installed)"
+)
 
 
 def build_case_manifest(

@@ -193,33 +193,71 @@ METHODS: list[tuple[str, str, Callable[[np.ndarray, int, int], tuple[np.ndarray,
 METHOD_FNS = {name: fn for name, _fam, fn in METHODS}
 
 
-def build_forecast(name: str, family: str, point: np.ndarray, sigma: float,
-                   levels: tuple[float, ...]) -> MethodForecast:
-    """Turn a point path + one-step sigma into a MethodForecast with an outer interval."""
+def gaussian_quantiles(point: np.ndarray, sigma: float, levels: tuple[float, ...]) -> np.ndarray:
+    """Quantile columns from a point path + one-step sigma, widened by sqrt(step). Shape (h, len(levels))."""
     steps = np.arange(1, point.shape[0] + 1)
-    z_lo = normal_ppf(min(levels))
-    z_hi = normal_ppf(max(levels))
     widen = np.sqrt(steps)
-    lower = point + z_lo * sigma * widen
-    upper = point + z_hi * sigma * widen
+    cols = [point + normal_ppf(lv) * sigma * widen for lv in levels]
+    return np.maximum.accumulate(np.column_stack(cols), axis=1)  # keep quantiles monotone across levels
+
+
+def mf_from_quantiles(name: str, family: str, cols: np.ndarray, levels: tuple[float, ...]) -> MethodForecast:
+    """Build a MethodForecast (point = level nearest 0.5, outer interval = min/max levels) from quantile columns."""
+    point_col = int(np.argmin([abs(lv - 0.5) for lv in levels]))
     return MethodForecast(
         name=name, family=family,
-        point=tuple(round(float(v), 6) for v in point),
-        lower=tuple(round(float(v), 6) for v in lower),
-        upper=tuple(round(float(v), 6) for v in upper),
+        point=tuple(round(float(v), 6) for v in cols[:, point_col]),
+        lower=tuple(round(float(v), 6) for v in cols[:, 0]),
+        upper=tuple(round(float(v), 6) for v in cols[:, -1]),
     )
 
 
+def build_forecast(name: str, family: str, point: np.ndarray, sigma: float,
+                   levels: tuple[float, ...]) -> MethodForecast:
+    """Turn a point path + one-step sigma into a MethodForecast with an outer interval."""
+    return mf_from_quantiles(name, family, gaussian_quantiles(point, sigma, levels), levels)
+
+
+class Forecaster:
+    """Unifies a forecasting method for the pipeline: `quantiles` feeds the preqts backtest, `forecast`
+    feeds the trace. `max_windows` caps the rolling-backtest window count (cheap methods get more)."""
+
+    name: str
+    family: str
+    max_windows: int = 24
+
+    def quantiles(self, y: np.ndarray, m: int, h: int, levels: tuple[float, ...]) -> np.ndarray:
+        raise NotImplementedError
+
+    def forecast(self, y: np.ndarray, m: int, h: int, levels: tuple[float, ...]) -> MethodForecast:
+        return mf_from_quantiles(self.name, self.family, self.quantiles(y, m, h, levels), levels)
+
+
+class ClassicalForecaster(Forecaster):
+    """A pure-numpy classical method (Pyodide-safe): the live lane uses only these."""
+
+    def __init__(self, name: str, family: str, fn, max_windows: int = 24) -> None:
+        self.name = name
+        self.family = family
+        self.fn = fn
+        self.max_windows = max_windows
+
+    def quantiles(self, y: np.ndarray, m: int, h: int, levels: tuple[float, ...]) -> np.ndarray:
+        point, sigma = self.fn(np.asarray(y, dtype=float), m, h)
+        return gaussian_quantiles(point, sigma, levels)
+
+
+def classical_forecasters() -> list[ClassicalForecaster]:
+    """The pure-numpy classical ladder (shared by the offline pipeline and the live lane)."""
+    return [ClassicalForecaster(name, family, fn) for name, family, fn in METHODS]
+
+
 def forecast_all(y: np.ndarray, m: int, h: int, levels: tuple[float, ...]) -> list[MethodForecast]:
-    """Fit and forecast every method; returns one MethodForecast each."""
-    out = []
-    for name, family, fn in METHODS:
-        point, sigma = fn(np.asarray(y, dtype=float), m, h)
-        out.append(build_forecast(name, family, point, sigma, levels))
-    return out
+    """Fit and forecast every CLASSICAL method (the live lane; no heavy engines). One MethodForecast each."""
+    return [fc.forecast(np.asarray(y, dtype=float), m, h, levels) for fc in classical_forecasters()]
 
 
 def forecast_point(name: str, y: np.ndarray, m: int, h: int) -> np.ndarray:
-    """Just the point path for one method (used by the backtest/evaluate stage)."""
+    """Just the point path for one classical method (used by tests/diagnostics)."""
     point, _sigma = METHOD_FNS[name](np.asarray(y, dtype=float), m, h)
     return point
