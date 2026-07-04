@@ -3,6 +3,22 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.07.000] - 2026-07-04
+
+### Added
+- Web app slice B: the six-page structure with hash-routed nav (works on Pages without 404 tricks), a header
+  with the product mark + GitHub link, and the ADR-0016 footer.
+  - App = the interactive workbench (refactored into `pages/AppPage.tsx`).
+  - `pages/Introduction.tsx`, `Methodology.tsx` (term-by-term math via KaTeX), `Implementation.tsx`,
+    `Experiments.tsx`, `Benchmark.tsx` (a cross-case MASE table built live from every committed manifest/trace,
+    winner-per-case highlighted, never hand-typed).
+  - `components/{Math,doc}.tsx` shared primitives; KaTeX dependency added.
+- Render smoke updated to assert the six-page nav; 8 frontend tests + tsc/vite green.
+
+### Notes
+- Next: i18n (EN/ES) + light/dark theming, the ADR-0058 architecture modal, the ONNX live deep tier
+  (onnxruntime-web), the preqts streaming tab, and full light/dark screenshot-verify.
+
 ## [0.06.000] - 2026-07-04
 
 ### Added
