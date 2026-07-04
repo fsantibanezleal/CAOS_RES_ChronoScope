@@ -14,6 +14,7 @@ from . import registry
 from .core.manifest import build_index
 from .io.contract import validate_series
 from .io.formats import write_json
+from .model.forecasters import forecast_all
 from .stages import evaluate, export, feature_extraction, infer, train
 
 # data-pipeline/chronoscopelab/pipeline.py -> parents[2] = repo root (works under `pip install -e .` too)
@@ -38,7 +39,6 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
     case = registry.get_case(case_id)
     if selector is None:
         selector = _train_selector(seed)
-    t0 = time.perf_counter()
     spec = registry.build_series(case, seed=seed)
 
     # CONTRACT 1 on the produced series (proves the gate + carries flags); BYO data enters the same way.
@@ -48,9 +48,14 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
 
     feature = feature_extraction.run(spec)
     result = infer.run(spec, QUANTILE_LEVELS)
-    _history, actual = infer.split(spec)
+    history, actual = infer.split(spec)
     eval_metrics = evaluate.run(spec, QUANTILE_LEVELS)
-    run_ms = (time.perf_counter() - t0) * 1000.0
+
+    # The gate's run_ms measures the LIVE-lane (classical, browser) path, not the offline heavy engines
+    # (statsforecast) that never run live. This keeps the live/precompute verdict honest.
+    t_live = time.perf_counter()
+    forecast_all(history, spec.seasonality, spec.horizon, QUANTILE_LEVELS)
+    run_ms = (time.perf_counter() - t_live) * 1000.0
 
     return export.run(
         case=case, feature=feature, result=result, actual=[float(v) for v in actual],
