@@ -9,12 +9,26 @@ Modules:
   * stationarity    - ADF/KPSS/PP/DF-GLS/Zivot-Andrews + FPP3 differencing-order selection.
   * autocorrelation - ACF/PACF (Durbin-Levinson), Ljung-Box/Box-Pierce, Durbin-Watson, lag plot.
   * seasonality     - periodogram/Welch dominant period, seasonal strength, STL/MSTL, seasonal subseries.
+  * filters         - HP/Baxter-King/Christiano-Fitzgerald band-pass, EMD/CEEMDAN IMFs, CWT scalogram.
 """
 from __future__ import annotations
 
 from . import autocorrelation
+from . import filters
 from . import seasonality
 from . import stationarity
+from .filters import (
+    EMDResult,
+    FilterResult,
+    Scalogram,
+    baxter_king,
+    ceemdan,
+    christiano_fitzgerald,
+    cwt_scalogram,
+    emd,
+    filters_report,
+    hodrick_prescott,
+)
 from .autocorrelation import (
     Correlogram,
     PortmanteauTest,
@@ -56,6 +70,7 @@ __all__ = [
     "stationarity",
     "autocorrelation",
     "seasonality",
+    "filters",
     # stationarity
     "TestResult",
     "adf",
@@ -89,4 +104,15 @@ __all__ = [
     "mstl_decompose",
     "seasonal_subseries",
     "seasonality_report",
+    # filters
+    "FilterResult",
+    "EMDResult",
+    "Scalogram",
+    "hodrick_prescott",
+    "baxter_king",
+    "christiano_fitzgerald",
+    "emd",
+    "ceemdan",
+    "cwt_scalogram",
+    "filters_report",
 ]

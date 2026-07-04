@@ -3,6 +3,32 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.003] - 2026-07-04
+
+### Added
+- Analysis unit #4 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/filters.py`
+  - Hodrick-Prescott (penalized trend + cycle, exact two-way split), Baxter-King (symmetric band-pass,
+    K-point end-loss) and Christiano-Fitzgerald (asymmetric full-length band-pass); EMD / CEEMDAN intrinsic
+    mode functions via `EMD-signal` (completeness IMFs+residue == series asserted); CWT wavelet scalogram
+    via PyWavelets (Morlet, linear detrend by default - the trend-swamps-long-scales caveat is documented;
+    `scipy.signal.cwt` is removed in scipy 1.15). JSON-ready `filters_report` bakes HP/CF/EMD + a compact
+    per-scale-energy scalogram summary. NaN-safe.
+  - `tests/test_analysis_filters.py`: 8 ground-truth tests (HP trend recovery + exact reconstruction, BK
+    end-loss, CF cycle correlation, EMD completeness + fastest-first ordering, scalogram dominant period).
+  - `docs/analysis/filters.md` (theory, KaTeX, DOIs, honest caveats incl. the Hamilton critique of HP) +
+    `docs/analysis/assets/filters-scales.svg`.
+- Pins: `EMD-signal==1.9.0`, `PyWavelets==1.8.0`, `neuralforecast==3.1.9` in requirements-precompute.txt.
+
+### Notes
+- 0.08.002 (seasonality unit) and 0.08.001 (autocorrelation unit) are recorded below; 37 analysis tests green.
+
+## [0.08.002] - 2026-07-04
+
+### Added
+- Analysis unit #3 (vertical): `chronoscopelab/analysis/seasonality.py` - periodogram/Welch dominant period,
+  seasonal strength Fs, STL/MSTL (multi-seasonal; 2D-seasonal columns summed), seasonal subseries; 10 tests;
+  `docs/analysis/seasonality.md` + `docs/analysis/assets/seasonality.svg`.
+
 ## [0.08.001] - 2026-07-04
 
 ### Added

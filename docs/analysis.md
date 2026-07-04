@@ -17,6 +17,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   Ljung-Box / Box-Pierce, Durbin-Watson, lag plots, and the Box-Jenkins AR/MA/ARMA identification.
 - [Seasonality](analysis/seasonality.md) - periodogram / Welch dominant period, seasonal strength Fs,
   STL / MSTL (multi-seasonal) decomposition, and the seasonal subseries (month) plot.
+- [Filters and adaptive decompositions](analysis/filters.md) - Hodrick-Prescott, Baxter-King and
+  Christiano-Fitzgerald band-pass, EMD/CEEMDAN intrinsic mode functions, and the CWT wavelet scalogram.
 
-_(Decomposition, change-points, volatility, distribution, entropy, and the
+_(Change-points, volatility, distribution, entropy, and the
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_
