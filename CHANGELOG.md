@@ -3,6 +3,18 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.001] - 2026-07-04
+
+### Added
+- Analysis unit #2 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/autocorrelation.py`
+  - ACF (FFT) + PACF (Durbin-Levinson `method='ld'`) with the Bartlett +/-1.96/sqrt(n) band and
+    significant-lag read-out; Ljung-Box + Box-Pierce portmanteau (with `model_df` for residual diagnostics);
+    Durbin-Watson; lag-plot pairs; a JSON-ready `autocorrelation_report` + a conservative Box-Jenkins
+    `_identify` hint (AR/MA/ARMA/white-noise). NaN-safe.
+  - `tests/test_analysis_autocorrelation.py`: 10 ground-truth tests (AR(1), MA(1), white-noise, DW).
+  - `docs/analysis/autocorrelation.md` (theory, KaTeX, DOIs) + `docs/analysis/assets/correlograms.svg`.
+- Infra: neuralforecast 3.1.9 installed in `.venv-pipeline` (deep-ladder training spine; pin follows).
+
 ## [0.08.000] - 2026-07-04
 
 ### Added

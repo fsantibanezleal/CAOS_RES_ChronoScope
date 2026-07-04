@@ -11,6 +11,7 @@ Modules:
 from __future__ import annotations
 
 from . import stationarity
+from . import autocorrelation
 from .stationarity import (
     TestResult,
     adf,
@@ -24,10 +25,25 @@ from .stationarity import (
     stationarity_report,
     zivot_andrews,
 )
+from .autocorrelation import (
+    Correlogram,
+    PortmanteauTest,
+    acf,
+    autocorrelation_report,
+    bartlett_band,
+    box_pierce,
+    durbin_watson,
+    lag_plot_pairs,
+    ljung_box,
+    pacf,
+)
 
 __all__ = [
     "stationarity",
+    "autocorrelation",
     "TestResult",
+    "Correlogram",
+    "PortmanteauTest",
     "adf",
     "kpss",
     "phillips_perron",
@@ -38,4 +54,12 @@ __all__ = [
     "seasonal_strength",
     "combined_verdict",
     "stationarity_report",
+    "acf",
+    "pacf",
+    "bartlett_band",
+    "ljung_box",
+    "box_pierce",
+    "durbin_watson",
+    "lag_plot_pairs",
+    "autocorrelation_report",
 ]

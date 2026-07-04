@@ -13,6 +13,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
 
 - [Stationarity and unit roots](analysis/stationarity.md) - ADF, KPSS, Phillips-Perron, DF-GLS,
   Zivot-Andrews, the opposite-null insight, the four-quadrant verdict, and the FPP3 differencing rule.
+- [Autocorrelation](analysis/autocorrelation.md) - ACF, PACF (Durbin-Levinson), the Bartlett band,
+  Ljung-Box / Box-Pierce, Durbin-Watson, lag plots, and the Box-Jenkins AR/MA/ARMA identification.
 
-_(Autocorrelation, seasonality, decomposition, change-points, volatility, distribution, entropy, and the
+_(Seasonality, decomposition, change-points, volatility, distribution, entropy, and the
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_
