@@ -3,6 +3,27 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.06.000] - 2026-07-04
+
+### Added
+- Web app slice A: the App is now a real interactive workbench (not the minimal replay page).
+  - `frontend/src/lib/liveEngine.ts`: a TypeScript port of the classical ladder (seasonal-naive, SES, Holt,
+    Holt-Winters, Theta) + normal quantile, so the classical tier is genuinely LIVE in the browser.
+  - Parity: `scripts/gen_parity_fixture.py` + `frontend/src/lib/__fixtures__/parity.json` +
+    `src/test/parity.test.ts` assert the TS engine matches the Python core within tolerance (honest "live").
+  - `frontend/src/lib/synthetic.ts`: seeded synthetic generators (seasonal, trend+seasonal, intermittent,
+    random-walk, white-noise) driven by live knobs.
+  - `render/WorkbenchChart.tsx`: interactive SVG chart with a hover cursor that reads out every visible
+    series' value; history + held-out actual + per-method point and prediction interval.
+  - `App.tsx`: source selector (Synthetic live / Baked case replay), method toggles across the whole ladder,
+    and a per-method leaderboard (classical live-computed; statistical/ML/foundation from the baked backtest).
+  - `src/test/app-render.test.tsx`: server-render smoke (the workbench mounts, the live engine runs).
+- 8 frontend tests (parity + contract + render) + tsc/vite green.
+
+### Notes
+- Next web-app slices (wip/chronoscope/webapp-plan.md): the six documentation pages + nav, i18n + theming,
+  the ADR-0058 architecture modal, the ONNX live deep tier (onnxruntime-web), and the preqts streaming tab.
+
 ## [0.05.001] - 2026-07-04
 
 ### Changed
