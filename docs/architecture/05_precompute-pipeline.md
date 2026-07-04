@@ -4,16 +4,17 @@
 
 | Stage | Module | Does |
 |---|---|---|
-| preprocess | `stages/preprocess.py` | read raw → apply **CONTRACT 1** (validate + outlier policy) |
-| feature_extraction | `stages/feature_extraction.py` | validated params → feature rows |
-| train | `stages/train.py` | fit the model → `models/` (OFFLINE; skippable; EXAMPLE = numpy lstsq surrogate) |
-| infer | `stages/infer.py` | run the engine → trace (EXAMPLE = SIR) |
-| evaluate | `stages/evaluate.py` | held-out, leakage-safe metrics (R²/RMSE) |
-| export | `stages/export.py` | **CONTRACT 2** — compact artifact + manifest |
+| preprocess | `stages/preprocess.py` | read raw and apply CONTRACT 1 (validate the series + missing/outlier policy) |
+| feature_extraction | `stages/feature_extraction.py` | a series to a compact fingerprint (trend/seasonal strength, acf1, intermittency) |
+| train | `stages/train.py` | learn a global method selector by backtesting across the synthetic training cases (OFFLINE) |
+| infer | `stages/infer.py` | fit every method on the case history and forecast the horizon |
+| evaluate | `stages/evaluate.py` | leakage-safe rolling-origin backtest via preqts (MASE / WQL / coverage) |
+| export | `stages/export.py` | CONTRACT 2: compact artifact + manifest |
 
 Run: `python -m chronoscopelab.pipeline [all|<case_id>] [--seed N]` (or `scripts/precompute.{sh,ps1}`). It writes
 `data/derived/<case>/trace.json` + `data/derived/manifests/<case>.json` + `index.json`.
 
-To instantiate a real product: keep the stage names, replace the bodies — `infer`/`train` call the
-research-chosen SOTA engine (pinned in `data-pipeline/requirements.txt`, documented in
-[../frameworks/](../frameworks/)). No hand-rolled toy substitute for an engine the research prescribed.
+The stage names and signatures are frozen; the bodies hold the real engine. This slice ships the pure-numpy
+classical ladder scored by preqts; later slices add the heavier engines (Nixtla, LightGBM, zero-shot foundation
+models) pinned in `data-pipeline/requirements.txt` and documented in [../frameworks/](../frameworks/), behind the
+same MethodForecast contract. No hand-rolled toy substitute for an engine the research prescribed.

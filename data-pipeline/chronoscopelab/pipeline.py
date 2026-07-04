@@ -1,8 +1,8 @@
-"""The offline pipeline orchestrator + CLI (ADR-0057). Runs the named stages per case, applies CONTRACT 1, writes
-the compact artifact + manifest (CONTRACT 2) and a flat index.json.
+"""The offline pipeline orchestrator + CLI (ADR-0057). Runs the named stages per case, applies CONTRACT 1,
+writes the compact artifact + manifest (CONTRACT 2) and a flat index.json.
 
-    python -m chronoscopelab.pipeline            # all cases
-    python -m chronoscopelab.pipeline EX02_epidemic --seed 7
+    python -m chronoscopelab.pipeline                 # all cases
+    python -m chronoscopelab.pipeline SEAS_hourly --seed 7
 """
 from __future__ import annotations
 
@@ -12,11 +12,9 @@ from pathlib import Path
 
 from . import registry
 from .core.manifest import build_index
-from .core.rng import make_rng
-from .io.contract import validate_rows
+from .io.contract import validate_series
 from .io.formats import write_json
-from .io.schema import SIRParams
-from .stages import evaluate, export, infer, train
+from .stages import evaluate, export, feature_extraction, infer, train
 
 # data-pipeline/chronoscopelab/pipeline.py -> parents[2] = repo root (works under `pip install -e .` too)
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -25,44 +23,47 @@ MANIFESTS = DERIVED / "manifests"
 MODELS = REPO_ROOT / "models"
 
 STAGES = ("preprocess", "feature_extraction", "train", "infer", "evaluate", "export")
+QUANTILE_LEVELS = (0.1, 0.5, 0.9)
 
 
-def _train_model() -> dict:
-    # didactic surrogate: train on the non-degenerate case params; held-out eval uses a disjoint synthetic draw
-    params = [c.params for c in registry.list_cases() if c.params.I0 > 0]
-    return train.run(params, str(MODELS))
+def _train_selector(seed: int) -> dict:
+    # Learn the global method ranking from the SYNTHETIC training cases only (leakage-safe: real cases
+    # are scored on their own held-out windows, never used to pick the global default).
+    specs = [registry.build_series(c, seed=seed) for c in registry.list_cases()
+             if c.real_or_synthetic == "synthetic"]
+    return train.run(specs, str(MODELS), QUANTILE_LEVELS)
 
 
-def _holdout_params(seed: int) -> list[SIRParams]:
-    rng = make_rng(seed + 999)  # disjoint from training => leakage-safe
-    out: list[SIRParams] = []
-    for i in range(20):
-        out.append(SIRParams(f"_holdout{i}", beta=float(rng.uniform(0.15, 1.2)),
-                             gamma=float(rng.uniform(0.15, 0.40)), N=100_000.0, I0=50.0))
-    return out
-
-
-def precompute(case_id: str, seed: int = 42, model: dict | None = None) -> dict:
+def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> dict:
     case = registry.get_case(case_id)
-    if model is None:
-        model = _train_model()
+    if selector is None:
+        selector = _train_selector(seed)
     t0 = time.perf_counter()
-    # run CONTRACT 1 on the case params (proves the gate + carries flags); a real product reads raw data here
-    rep = validate_rows([{"case_id": case.params.case_id, "beta": case.params.beta, "gamma": case.params.gamma,
-                          "N": case.params.N, "I0": case.params.I0, "days": case.params.days}])
-    params = rep.accepted[0] if rep.accepted else case.params
-    result = infer.run(params)
-    metrics = evaluate.run(model, _holdout_params(seed))
+    spec = registry.build_series(case, seed=seed)
+
+    # CONTRACT 1 on the produced series (proves the gate + carries flags); BYO data enters the same way.
+    ds = [str(i) for i in range(len(spec.y))]
+    _rec, _rej, flag = validate_series(spec.case_id, ds, list(spec.y))
+    flags = [flag] if flag else []
+
+    feature = feature_extraction.run(spec)
+    result = infer.run(spec, QUANTILE_LEVELS)
+    _history, actual = infer.split(spec)
+    eval_metrics = evaluate.run(spec, QUANTILE_LEVELS)
     run_ms = (time.perf_counter() - t0) * 1000.0
-    return export.run(case=case, params=params, result=result, seed=seed, run_ms=run_ms,
-                      flags=rep.flagged, metrics=metrics, derived_dir=str(DERIVED), manifests_dir=str(MANIFESTS))
+
+    return export.run(
+        case=case, feature=feature, result=result, actual=[float(v) for v in actual],
+        eval_metrics=eval_metrics, seed=seed, run_ms=run_ms, flags=flags,
+        derived_dir=str(DERIVED), manifests_dir=str(MANIFESTS),
+    )
 
 
 def run_all(seed: int = 42) -> list[dict]:
-    model = _train_model()
+    selector = _train_selector(seed)
     entries = []
     for c in registry.list_cases():
-        precompute(c.id, seed=seed, model=model)
+        precompute(c.id, seed=seed, selector=selector)
         entries.append({"case_id": c.id, "category": c.category, "manifest_path": f"manifests/{c.id}.json"})
     write_json(MANIFESTS / "index.json", build_index(entries))
     return entries
@@ -82,7 +83,8 @@ def main() -> None:
     else:
         m = precompute(args.case, args.seed)
         print(f"precomputed {args.case}: lane={m['lane']} bytes={m['artifact']['bytes']} "
-              f"metrics={m['metrics']} -> {DERIVED / m['artifact']['path']}")
+              f"best={m['best_method']} best_mase={m['metrics']['best_mase']} "
+              f"-> {DERIVED / m['artifact']['path']}")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
-"""Stage 1 — preprocess: read the raw parameter table and apply CONTRACT 1 (schema + outlier policy).
-Output = a ContractReport (accepted SIRParams + rejected rows + flags). The bring-your-own-data entry point."""
+"""Stage 1 - preprocess: read a raw long-format series table and apply CONTRACT 1 (schema + policy).
+Output = a ContractReport (accepted SeriesRecords + rejected + flags). The bring-your-own-data entry point."""
 from __future__ import annotations
 
 from ..io.contract import ContractReport, validate_rows

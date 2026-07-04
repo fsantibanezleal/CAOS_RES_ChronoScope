@@ -1,6 +1,12 @@
-# PRECOMPUTE lane — the heavy, research-chosen SOTA engines, in the .venv-pipeline (local-only, never deployed).
+# PRECOMPUTE lane: the research-chosen engines, in the .venv-pipeline (local-only, never deployed).
 # THIS is where the deep research becomes binding: every engine pinned here is documented in docs/frameworks/<tool>/
-# and actually used by data-pipeline/chronoscopelab/stages/. The EXAMPLE engine (SIR) is numpy-only on purpose so the
-# template installs instantly with no native build; a real product adds e.g. yade / pychrono / ortools / mintpy /
-# torch here, each PINNED to the version it installs+verifies.
+# and actually used by data-pipeline/chronoscopelab/stages/. This slice ships the pure-numpy classical ladder
+# scored by preqts; later slices pin the heavier engines (statsforecast / mlforecast / neuralforecast, lightgbm,
+# and the zero-shot foundation models: tirex-2, chronos-forecasting, timesfm, granite-tsfm), each documented in
+# docs/frameworks/ and actually called by the stages.
 numpy==2.4.6
+
+# preqts: the prequential streaming-evaluation library ChronoScope consumes in stages/evaluate.py
+# (ADR-0061 package extraction). Private repo, PyPI-destined; until published it installs from the tagged GitHub
+# ref (needs the vault GitHub PAT). Switch to `preqts>=0.1` once it is on PyPI.
+preqts @ git+https://github.com/fsantibanezleal/CAOS_PreqTS.git@v0.01.000
