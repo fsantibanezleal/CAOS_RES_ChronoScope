@@ -1,5 +1,12 @@
 name: Deploy Pages
 
+# Deploys the COMMITTED deterministic-replay artifacts (data/derived, baked locally, including the heavy
+# foundation tier that CI cannot run) by building the static SPA over them. CI does NOT regenerate the
+# artifacts: the offline pipeline (statsforecast / LightGBM / torch+Chronos on local checkpoints) is the
+# canonical bake, and regenerating in CI would drop the tiers CI has no deps/checkpoints for. Artifact/schema
+# drift is caught by the frontend contract test (vitest) and the TS mirror (tsc), not by re-running the engine.
+# The build's `prebuild` hook runs copy-data.mjs, overlaying data/derived into the SPA's public/.
+
 on:
   push:
     branches: [main]
@@ -19,19 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Regenerate artifacts (fresh deterministic replay outputs)
-        run: |
-          pip install -r data-pipeline/requirements.txt -e .
-          python -m chronoscopelab.pipeline all
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-      - name: Build the SPA (copy-data.mjs overlays data/derived -> public/)
+      - name: Build the SPA over the committed artifacts (prebuild runs copy-data.mjs)
         run: cd frontend && npm ci && npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

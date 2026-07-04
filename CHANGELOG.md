@@ -3,6 +3,14 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.05.001] - 2026-07-04
+
+### Changed
+- Public-readiness for the GitHub Pages deploy at `chronoscope.fasl-work.com` (the correct deploy class for a
+  static, no-backend showcase; VPS is only for a hard backend or private content): added the MIT `LICENSE`,
+  removed the stale SIR `data/examples/params.csv`, and changed `deploy-pages.yml` to build the SPA over the
+  COMMITTED foundation-baked artifacts (no CI regeneration, which would drop the foundation tier CI cannot run).
+
 ## [0.05.000] - 2026-07-04
 
 ### Added
