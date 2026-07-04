@@ -1,130 +1,183 @@
-// The replay SPA: list cases grouped by CATEGORY, select one, replay its committed trace (CONTRACT 2), and
-// compare forecasting methods (point + interval vs the held-out truth) with their backtest metrics. The
-// always-available static path (ADR-0054); the optional Pyodide live lane (src/pyodide) is the recompute upgrade.
+// ChronoScope App: the interactive workbench. Two modes:
+//  - Synthetic (LIVE): adjust the knobs, the TS classical engine re-forecasts instantly in the browser.
+//  - Baked case (REPLAY): load a committed case and see the whole ladder (classical + statistical + ML +
+//    foundation) from the leakage-safe backtest baked offline.
+// Every method can be toggled; the chart reads out values at the cursor; a leaderboard ranks the methods.
+// (The five documentation pages + i18n + theming + the ONNX live deep tier land in later slices.)
 import { useEffect, useMemo, useState } from 'react';
 import { loadIndex, loadManifest, loadTrace } from './api/artifacts';
-import type { CaseIndex, CaseManifest, Trace } from './lib/contract.types';
-import { ForecastChart } from './render/ForecastChart';
+import type { CaseIndex, Trace } from './lib/contract.types';
+import { forecastAllLive } from './lib/liveEngine';
+import { coverage, mase, seasonalNaiveMae } from './lib/liveMetrics';
+import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from './lib/synthetic';
+import { WorkbenchChart, type ChartData, type ChartSeries } from './render/WorkbenchChart';
 
-const fmt = (v: number | null, nd = 3) => (v == null || Number.isNaN(v) ? '-' : v.toFixed(nd));
+const LEVELS = [0.1, 0.5, 0.9];
+
+const COLORS: Record<string, string> = {
+  SeasonalNaive: '#58a6ff', SES: '#bc8cff', Holt: '#f778ba', HoltWinters: '#ff9f1c', Theta: '#56d364',
+  AutoETS: '#79c0ff', AutoTheta: '#d2a8ff', AutoARIMA: '#ffa657', LightGBM: '#7ee787', 'Chronos-Bolt': '#ff7b72',
+};
+const colorFor = (n: string) => COLORS[n] ?? `hsl(${(n.split('').reduce((a, c) => a + c.charCodeAt(0), 0) * 47) % 360} 70% 65%)`;
+
+const KINDS: SyntheticKind[] = ['seasonal', 'trend_seasonal', 'intermittent', 'random_walk', 'white_noise'];
+const fmt = (v: number, nd = 3) => (Number.isFinite(v) ? v.toFixed(nd) : '-');
+
+interface Row { name: string; family: string; mase: number; coverage: number; }
 
 export default function App() {
+  const [mode, setMode] = useState<'synthetic' | 'baked'>('synthetic');
+  const [knobs, setKnobs] = useState<SyntheticKnobs>(DEFAULT_KNOBS);
   const [index, setIndex] = useState<CaseIndex | null>(null);
-  const [sel, setSel] = useState('');
-  const [manifest, setManifest] = useState<CaseManifest | null>(null);
+  const [caseId, setCaseId] = useState('');
   const [trace, setTrace] = useState<Trace | null>(null);
-  const [method, setMethod] = useState('');
+  const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [err, setErr] = useState('');
 
   useEffect(() => {
-    loadIndex()
-      .then((ix) => {
-        setIndex(ix);
-        setSel(ix.cases[0]?.case_id ?? '');
-      })
-      .catch((e: unknown) => setErr(String(e)));
+    loadIndex().then((ix) => { setIndex(ix); setCaseId(ix.cases[0]?.case_id ?? ''); }).catch((e) => setErr(String(e)));
   }, []);
 
   useEffect(() => {
-    if (!sel) return;
-    loadManifest(sel)
-      .then((m) => {
-        setManifest(m);
-        return loadTrace(m.artifact.path);
-      })
-      .then((tr) => {
-        setTrace(tr);
-        setMethod(tr.summary.best_method ?? tr.methods[0]?.name ?? '');
-      })
-      .catch((e: unknown) => setErr(String(e)));
-  }, [sel]);
+    if (mode !== 'baked' || !caseId) return;
+    loadManifest(caseId).then((m) => loadTrace(m.artifact.path)).then(setTrace).catch((e) => setErr(String(e)));
+  }, [mode, caseId]);
 
-  const byCategory = useMemo(() => {
-    const out: Record<string, string[]> = {};
-    index?.cases.forEach((c) => (out[c.category] ??= []).push(c.case_id));
-    return out;
-  }, [index]);
+  // Synthetic (LIVE) computation.
+  const synthetic = useMemo(() => {
+    if (mode !== 'synthetic') return null;
+    const y = generateSeries(knobs);
+    const cut = Math.max(1, y.length - knobs.horizon);
+    const history = y.slice(0, cut);
+    const actual = y.slice(cut);
+    const forecasts = forecastAllLive(history, knobs.seasonality, knobs.horizon, LEVELS);
+    const scale = seasonalNaiveMae(history, knobs.seasonality);
+    const rows: Row[] = forecasts.map((f) => ({
+      name: f.name, family: 'classical',
+      mase: mase(actual, f.point, scale), coverage: coverage(actual, f.lower, f.upper),
+    }));
+    const methods: ChartSeries[] = forecasts.map((f) => ({ name: f.name, color: colorFor(f.name), point: f.point, lower: f.lower, upper: f.upper }));
+    return { history, actual, horizon: knobs.horizon, methods, rows };
+  }, [mode, knobs]);
 
-  const selectedMethod = trace?.methods.find((m) => m.name === method) ?? trace?.methods[0];
+  // Baked (REPLAY) computation.
+  const baked = useMemo(() => {
+    if (mode !== 'baked' || !trace) return null;
+    const methods: ChartSeries[] = trace.methods.map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
+    const rows: Row[] = trace.methods.map((m) => ({ name: m.name, family: m.family, mase: m.backtest.mase ?? NaN, coverage: m.backtest.coverage ?? NaN }));
+    return { history: trace.history, actual: trace.actual, horizon: trace.horizon, methods, rows };
+  }, [mode, trace]);
+
+  const active = mode === 'synthetic' ? synthetic : baked;
+  const chartData: ChartData | null = active
+    ? { history: active.history, actual: active.actual, horizon: active.horizon, methods: active.methods.filter((m) => !hidden.has(m.name)) }
+    : null;
+  const rankedRows = active ? [...active.rows].sort((a, b) => (a.mase || Infinity) - (b.mase || Infinity)) : [];
+  const best = rankedRows.find((r) => Number.isFinite(r.mase))?.name;
+
+  const setK = (patch: Partial<SyntheticKnobs>) => setKnobs((k) => ({ ...k, ...patch }));
+  const toggle = (name: string) => setHidden((h) => { const n = new Set(h); n.has(name) ? n.delete(name) : n.add(name); return n; });
 
   return (
-    <main style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 900, margin: '2rem auto', padding: '0 1rem' }}>
-      <h1>ChronoScope: forecasting method atlas</h1>
-      <p>
-        Replaying committed backtests (CONTRACT 2). {index?.n_cases ?? 0} cases across{' '}
-        {Object.keys(byCategory).length} categories. Grey = history, green dashed = held-out truth, blue = the
-        selected method with its prediction interval.
+    <main style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 1080, margin: '1.5rem auto', padding: '0 1rem' }}>
+      <h1 style={{ marginBottom: 2 }}>ChronoScope</h1>
+      <p style={{ marginTop: 0, color: '#8b949e' }}>
+        An interactive atlas of time-series forecasting. Play with the whole ladder live (classical methods
+        recompute in your browser) or replay the baked backtest across the SOTA tiers.
       </p>
       {err && <p style={{ color: '#f85149' }}>error: {err}</p>}
 
-      <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-        <label>
-          Case:{' '}
-          <select value={sel} onChange={(e) => setSel(e.target.value)}>
-            {Object.entries(byCategory).map(([cat, ids]) => (
-              <optgroup key={cat} label={cat}>
-                {ids.map((id) => (
-                  <option key={id} value={id}>
-                    {id}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
-        {trace && (
-          <label>
-            Method:{' '}
-            <select value={method} onChange={(e) => setMethod(e.target.value)}>
-              {trace.methods.map((m) => (
-                <option key={m.name} value={m.name}>
-                  {m.name}
-                </option>
+      <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+        <section style={{ minWidth: 260, flex: '0 0 260px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div>
+            <b>Source</b>
+            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+              <button onClick={() => setMode('synthetic')} style={tab(mode === 'synthetic')}>Synthetic (live)</button>
+              <button onClick={() => setMode('baked')} style={tab(mode === 'baked')}>Baked case</button>
+            </div>
+          </div>
+
+          {mode === 'synthetic' ? (
+            <>
+              <label>Pattern{' '}
+                <select value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
+                  {KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
+                </select>
+              </label>
+              {slider('length', knobs.n, 40, 400, 10, (v) => setK({ n: v }))}
+              {slider('seasonality m', knobs.seasonality, 1, 48, 1, (v) => setK({ seasonality: v }))}
+              {slider('horizon', knobs.horizon, 1, 48, 1, (v) => setK({ horizon: v }))}
+              {slider('amplitude', knobs.amp, 0, 40, 1, (v) => setK({ amp: v }))}
+              {slider('slope', knobs.slope, -1, 1, 0.05, (v) => setK({ slope: v }))}
+              {slider('noise', knobs.noise, 0, 15, 0.5, (v) => setK({ noise: v }))}
+              {slider('seed', knobs.seed, 0, 50, 1, (v) => setK({ seed: v }))}
+            </>
+          ) : (
+            <label>Case{' '}
+              <select value={caseId} onChange={(e) => setCaseId(e.target.value)}>
+                {index?.cases.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id}</option>)}
+              </select>
+            </label>
+          )}
+
+          <div>
+            <b>Methods</b>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, marginTop: 4 }}>
+              {active?.methods.map((m) => (
+                <label key={m.name} style={{ color: m.color, fontSize: 14 }}>
+                  <input type="checkbox" checked={!hidden.has(m.name)} onChange={() => toggle(m.name)} /> {m.name}
+                </label>
               ))}
-            </select>
-          </label>
-        )}
-      </div>
+            </div>
+          </div>
+        </section>
 
-      {manifest && (
-        <p>
-          lane: <b>{manifest.lane}</b>, source: <b>{manifest.real_or_synthetic}</b>. <i>{manifest.expected_band}</i>
-        </p>
-      )}
-
-      {trace && selectedMethod && <ForecastChart trace={trace} method={selectedMethod} />}
-
-      {trace && (
-        <>
-          <p>
-            best method: <b>{trace.summary.best_method}</b> (MASE {fmt(trace.summary.best_mase)}). Backtest over the
-            case history; MASE &lt; 1 beats the seasonal-naive baseline.
+        <section style={{ flex: 1, minWidth: 420 }}>
+          {chartData && <WorkbenchChart data={chartData} />}
+          <p style={{ fontSize: 13, color: '#8b949e' }}>
+            Grey = history, green dashed = held-out truth, coloured = each method's forecast with its prediction
+            interval. {mode === 'synthetic'
+              ? 'Classical methods computed live in your browser (parity-checked against the Python engine).'
+              : 'Forecasts + metrics replayed from the offline backtest (classical + statistical + ML + foundation).'}
           </p>
+
           <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 14 }}>
             <thead>
-              <tr>
-                {['method', 'family', 'MASE', 'WQL', 'coverage', 'windows'].map((h) => (
-                  <th key={h} style={{ textAlign: 'left', borderBottom: '1px solid #30363d', padding: '4px 8px' }}>
-                    {h}
-                  </th>
-                ))}
-              </tr>
+              <tr>{['method', 'family', 'MASE', 'coverage'].map((h) => (
+                <th key={h} style={{ textAlign: 'left', borderBottom: '1px solid #30363d', padding: '4px 8px' }}>{h}</th>
+              ))}</tr>
             </thead>
             <tbody>
-              {trace.methods.map((m) => (
-                <tr key={m.name} style={{ fontWeight: m.name === trace.summary.best_method ? 700 : 400 }}>
-                  <td style={{ padding: '4px 8px' }}>{m.name}</td>
-                  <td style={{ padding: '4px 8px' }}>{m.family}</td>
-                  <td style={{ padding: '4px 8px' }}>{fmt(m.backtest.mase)}</td>
-                  <td style={{ padding: '4px 8px' }}>{fmt(m.backtest.wql)}</td>
-                  <td style={{ padding: '4px 8px' }}>{fmt(m.backtest.coverage, 2)}</td>
-                  <td style={{ padding: '4px 8px' }}>{m.backtest.n_windows ?? '-'}</td>
+              {rankedRows.map((r) => (
+                <tr key={r.name} style={{ fontWeight: r.name === best ? 700 : 400 }}>
+                  <td style={{ padding: '4px 8px', color: colorFor(r.name) }}>{r.name}</td>
+                  <td style={{ padding: '4px 8px' }}>{r.family}</td>
+                  <td style={{ padding: '4px 8px' }}>{fmt(r.mase)}</td>
+                  <td style={{ padding: '4px 8px' }}>{fmt(r.coverage, 2)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </>
-      )}
+          <p style={{ fontSize: 13, color: '#8b949e' }}>
+            MASE below 1 beats the seasonal-naive baseline. Best on this series: <b>{best ?? '-'}</b>.
+            No method wins everywhere: seasonal cases favour the seasonal/foundation methods, a random walk or
+            white noise cannot be beaten by much.
+          </p>
+        </section>
+      </div>
     </main>
+  );
+}
+
+function tab(on: boolean): React.CSSProperties {
+  return { padding: '4px 10px', border: '1px solid #30363d', borderRadius: 6, background: on ? '#1f6feb' : 'transparent', color: on ? '#fff' : 'inherit', cursor: 'pointer' };
+}
+
+function slider(label: string, value: number, min: number, max: number, step: number, on: (v: number) => void) {
+  return (
+    <label style={{ fontSize: 14, display: 'block' }}>
+      {label}: <b>{value}</b>
+      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} style={{ width: '100%' }} />
+    </label>
   );
 }
