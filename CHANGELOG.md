@@ -3,6 +3,20 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.04.000] - 2026-07-04
+
+### Added
+- ML tier: `engines/lightgbm_engine.py`, gradient boosting on lag features (LightGBM via Nixtla mlforecast),
+  the M5-winning approach, behind the same `MethodForecast` contract (9 methods per case now). One point model
+  on recursive lag features (lags derived from the seasonality), intervals from the in-sample residual sigma
+  via the shared `gaussian_quantiles` helper. Offline-only, lazy import, graceful degradation if absent;
+  bounded backtest (few windows + context cap).
+- `docs/frameworks/02_mlforecast_lightgbm.md`; mlforecast/lightgbm/pandas pinned in requirements.
+
+### Notes
+- Next: the zero-shot foundation-model engines (TiRex-2, Chronos-2, TimesFM 2.5, Granite TTM r2, FlowState r1),
+  the fev benchmark spine, and the streaming lane.
+
 ## [0.03.000] - 2026-07-04
 
 ### Added
