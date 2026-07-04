@@ -12,10 +12,15 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@fasl-work/caos-app-shell": "^0.2.0",
     "@types/katex": "^0.16.8",
-    "katex": "^0.17.0",
+    "katex": "^0.16.11",
+    "lucide-react": "^0.469.0",
+    "onnxruntime-web": "^1.27.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.1",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@types/node": "^22.20.0",

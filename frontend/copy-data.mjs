@@ -37,3 +37,19 @@ if (existsSync(pkg)) {
   writeFileSync(join(PUB, 'pyodide', 'sources.json'), JSON.stringify(sources));
   console.log(`[copy-data] inlined ${Object.keys(sources).length} chronoscopelab sources -> public/pyodide/sources.json`);
 }
+
+// 3) copy the onnxruntime-web WASM/loader assets -> public/ort so the ONNX live deep tier is self-hosted
+//    (ort.env.wasm.wasmPaths points here; single-threaded so no COOP/COEP headers are needed on Pages).
+const ortDist = join(HERE, 'node_modules', 'onnxruntime-web', 'dist');
+if (existsSync(ortDist)) {
+  const outDir = join(PUB, 'ort');
+  mkdirSync(outDir, { recursive: true });
+  let n = 0;
+  for (const f of readdirSync(ortDist)) {
+    if (f.endsWith('.wasm') || f.endsWith('.mjs')) {
+      cpSync(join(ortDist, f), join(outDir, f));
+      n++;
+    }
+  }
+  console.log(`[copy-data] copied ${n} onnxruntime-web assets -> public/ort`);
+}
