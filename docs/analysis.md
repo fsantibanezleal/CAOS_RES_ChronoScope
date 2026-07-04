@@ -15,6 +15,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   Zivot-Andrews, the opposite-null insight, the four-quadrant verdict, and the FPP3 differencing rule.
 - [Autocorrelation](analysis/autocorrelation.md) - ACF, PACF (Durbin-Levinson), the Bartlett band,
   Ljung-Box / Box-Pierce, Durbin-Watson, lag plots, and the Box-Jenkins AR/MA/ARMA identification.
+- [Seasonality](analysis/seasonality.md) - periodogram / Welch dominant period, seasonal strength Fs,
+  STL / MSTL (multi-seasonal) decomposition, and the seasonal subseries (month) plot.
 
-_(Seasonality, decomposition, change-points, volatility, distribution, entropy, and the
+_(Decomposition, change-points, volatility, distribution, entropy, and the
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_

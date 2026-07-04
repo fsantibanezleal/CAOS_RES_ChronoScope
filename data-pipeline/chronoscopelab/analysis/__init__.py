@@ -6,25 +6,15 @@ same numbers the pipeline computed. Built unit by unit; each module ships with i
 docs page (theory + equations + DOIs + SVG) authored in the same commit.
 
 Modules:
-  * stationarity - ADF/KPSS/PP/DF-GLS/Zivot-Andrews + FPP3 differencing-order selection.
+  * stationarity    - ADF/KPSS/PP/DF-GLS/Zivot-Andrews + FPP3 differencing-order selection.
+  * autocorrelation - ACF/PACF (Durbin-Levinson), Ljung-Box/Box-Pierce, Durbin-Watson, lag plot.
+  * seasonality     - periodogram/Welch dominant period, seasonal strength, STL/MSTL, seasonal subseries.
 """
 from __future__ import annotations
 
-from . import stationarity
 from . import autocorrelation
-from .stationarity import (
-    TestResult,
-    adf,
-    combined_verdict,
-    dfgls,
-    kpss,
-    ndiffs,
-    nsdiffs,
-    phillips_perron,
-    seasonal_strength,
-    stationarity_report,
-    zivot_andrews,
-)
+from . import seasonality
+from . import stationarity
 from .autocorrelation import (
     Correlogram,
     PortmanteauTest,
@@ -37,13 +27,37 @@ from .autocorrelation import (
     ljung_box,
     pacf,
 )
+from .seasonality import (
+    Decomp,
+    SeasonalSubseries,
+    Spectrum,
+    mstl_decompose,
+    periodogram,
+    seasonal_strength,
+    seasonal_subseries,
+    seasonality_report,
+    stl_decompose,
+    welch,
+)
+from .stationarity import (
+    TestResult,
+    adf,
+    combined_verdict,
+    dfgls,
+    kpss,
+    ndiffs,
+    nsdiffs,
+    phillips_perron,
+    stationarity_report,
+    zivot_andrews,
+)
 
 __all__ = [
     "stationarity",
     "autocorrelation",
+    "seasonality",
+    # stationarity
     "TestResult",
-    "Correlogram",
-    "PortmanteauTest",
     "adf",
     "kpss",
     "phillips_perron",
@@ -51,9 +65,11 @@ __all__ = [
     "zivot_andrews",
     "ndiffs",
     "nsdiffs",
-    "seasonal_strength",
     "combined_verdict",
     "stationarity_report",
+    # autocorrelation
+    "Correlogram",
+    "PortmanteauTest",
     "acf",
     "pacf",
     "bartlett_band",
@@ -62,4 +78,15 @@ __all__ = [
     "durbin_watson",
     "lag_plot_pairs",
     "autocorrelation_report",
+    # seasonality (seasonal_strength lives here as the canonical home)
+    "Spectrum",
+    "Decomp",
+    "SeasonalSubseries",
+    "periodogram",
+    "welch",
+    "seasonal_strength",
+    "stl_decompose",
+    "mstl_decompose",
+    "seasonal_subseries",
+    "seasonality_report",
 ]
