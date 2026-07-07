@@ -8,6 +8,7 @@ from __future__ import annotations
 from typing import Any
 
 from .. import __version__
+from ..data.provenance import SOURCES
 from .trace import TRACE_SCHEMA
 
 MANIFEST_SCHEMA = "chronoscope.manifest/v1"
@@ -44,8 +45,6 @@ def build_case_manifest(
         if analysis_rel is not None else None
     )
     # Provenance block: the source's license + the public-redistribution verdict (the export guard uses it).
-    from ..data.provenance import SOURCES
-
     source_id = getattr(case, "source", "synthetic")
     src = SOURCES.get(source_id)
     provenance_block = {

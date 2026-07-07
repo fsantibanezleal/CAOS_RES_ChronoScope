@@ -8,6 +8,7 @@ from typing import Any
 from ..core.gate import classify_lane
 from ..core.manifest import build_case_manifest
 from ..core.trace import build_trace
+from ..data.provenance import public_artifact_ok
 from ..io.formats import write_json
 from ..io.schema import ForecastResult
 
@@ -51,8 +52,6 @@ def run(
 ) -> dict:
     # License guard: for a source whose license forbids public redistribution, the raw series excerpt and the
     # per-step forecast/analysis paths are omitted from the committed artifacts - only aggregate metrics ship.
-    from ..data.provenance import public_artifact_ok
-
     source_id = getattr(case, "source", "synthetic")
     redact_raw = not public_artifact_ok(source_id)
 

@@ -3,6 +3,33 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.12.001] - 2026-07-04
+
+### Added
+- Deep forecasting tier (`engines/neural_engine.py`): NLinear, DLinear, NHITS implemented DIRECTLY in PyTorch
+  (the real architectures from Zeng 2023 / Challu 2023), trained per case on the GPU with a multi-quantile
+  (pinball) loss, behind the same `Forecaster.quantiles` contract; monotone quantiles, seeded/deterministic,
+  CPU fallback via `chronoscopelab.gpu`. Opt-in via `CHRONOSCOPE_ENABLE_NEURAL=1`; graceful skip when torch
+  is absent. Verified on the RTX 4070 (median MAE 2.1-3.0 on a seasonal series, noise sigma 3).
+- `tests/test_engine_neural.py` (8, GPU-gated via importorskip): monotone quantiles, beats a flat baseline,
+  determinism, short-series guard, env gating.
+- `docs/frameworks/deep-torch.md` (the models + why direct-torch, referenced) + `docs/architecture/09_known-issues.md`.
+
+### Changed
+- neuralforecast REMOVED from the pins: it hard-requires `ray>=2.2.0`, which has NO Python-3.13 wheel
+  (verified). The deep ladder is implemented directly in torch instead (decision:
+  wip/chronoscope/deep-engine-decision-2026-07-04.md). This is faithful (the real published architectures),
+  not a toy substitute.
+- Hardened `manifest.py`/`export.py` to import provenance at module top-level; `write_json` retries the
+  transient Windows WinError 6714.
+
+### Known issue
+- Baking the deep tier as part of the FULL pipeline on the Windows build box hits an OS-level
+  numba(statsforecast)+CUDA(torch) interaction that taints the D: drive (WinError 6714); the deep engine
+  itself is verified working (standalone bakes + 8 tests). Documented in `docs/architecture/09_known-issues.md`
+  with the subprocess-isolation groundwork in place; the deep-tier committed bake is deferred to a dedicated
+  torch-only pass (or a WSL2/Linux runner). The classical+statistical+ML+foundation bake is unaffected.
+
 ## [0.12.000] - 2026-07-04
 
 ### Added
