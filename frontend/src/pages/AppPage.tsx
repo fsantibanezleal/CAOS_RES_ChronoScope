@@ -63,7 +63,11 @@ export function AppPage() {
 
   const baked = useMemo(() => {
     if (mode !== 'baked' || !trace) return null;
-    const methods: ChartSeries[] = trace.methods.map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
+    // A license-redacted (local-only source) trace omits the per-step forecast paths: only the aggregate
+    // backtest ships, so it can appear in the leaderboard/rows but not the forecast chart.
+    const methods: ChartSeries[] = trace.methods
+      .filter((m): m is typeof m & { point: number[]; lower: number[]; upper: number[] } => m.point != null)
+      .map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
     const rows: Row[] = trace.methods.map((m) => ({ name: m.name, family: m.family, mase: m.backtest.mase ?? NaN, coverage: m.backtest.coverage ?? NaN }));
     return { history: trace.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
   }, [mode, trace]);

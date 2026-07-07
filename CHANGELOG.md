@@ -3,6 +3,43 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.11.001] - 2026-07-04
+
+### Added
+- Real-dataset loaders (`chronoscopelab/data/loaders.py`): `load_uci_electricity` (15-min -> hourly, one
+  meter) and `load_uci_beijing_pm25` (hourly pm2.5, NA forward-fill) read the private vault and emit
+  license-cleared Contract-1 samples; `refresh_samples` regenerates the committed public-safe excerpts.
+- New PUBLIC-safe real case `REAL_pm25` (Beijing PM2.5, CC-BY-4.0): daily cycle + heavy-tailed pollution
+  spikes (excess kurtosis ~5, strongly non-normal) - the "real data is messy" counterweight to the synthetic
+  seasonal case. Committed `data/examples/beijing_pm25_sample.csv` (480 hourly points).
+- `data/examples/electricity_sample.csv` regenerated reproducibly from the vault (480 hourly points via the
+  documented loader, replacing the prior opaque sample).
+- `tests/test_data_loaders.py` (4): committed samples validate against Contract 1; the real cases reference
+  public-safe sources; PM2.5 is heavy-tailed. `docs/cases/REAL_pm25.md`.
+- 7 cases baked (was 6).
+
+### Changed
+- REAL_electricity re-baked from the regenerated (now reproducible) sample.
+
+## [0.11.000] - 2026-07-04
+
+### Added
+- Data provenance + license registry (`chronoscopelab/data/provenance.py`): a `DataSource` record per source
+  (id/name/url/license/citation + `public_artifact_ok` verdict) transcribed from the verified license dossier;
+  `get_source`/`public_artifact_ok`/`public_safe_ids`/`local_only_ids`. Public-safe core: synthetic + UCI
+  Electricity + UCI Beijing PM2.5 + OPSD + Monash (CC-BY). Local-only: M5/Favorita (Kaggle rules), ETT/LTSF
+  (CC-BY-NC-ND), Kaggle mining-flotation + Stooq (unverified -> safe default local-only).
+- License enforcement in the pipeline: the `Case` gains a `source` field; the manifest carries a `provenance`
+  block; the export stage REDACTS the raw series excerpt for a local-only source (trace omits history/actual
+  and per-step forecast paths, keeps only aggregate backtest metrics + sets `redacted:true`; the analysis
+  artifact drops series-derived arrays, keeps scalar verdicts). So a redistribution-restricted dataset still
+  contributes to the public Benchmark without leaking its values.
+- Frontend contract mirror updated: `Trace.redacted`, optional `point/lower/upper`, manifest `provenance`;
+  `AppPage` filters redacted methods out of the forecast chart; the contract test handles both cases. tsc clean.
+- `tests/test_data_provenance.py` (8) + `tests/test_data_export_guard.py` (3): the public-safe/local-only sets
+  match the dossier, and a local-only case ships metrics only (verified end to end).
+- `docs/data.md` + `docs/data/provenance.md`: the per-source table + the enforcement policy.
+
 ## [0.10.000] - 2026-07-04
 
 ### Added

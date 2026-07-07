@@ -12,9 +12,11 @@ export interface MethodBacktest {
 export interface MethodForecast {
   name: string;
   family: string; // "classical" | "ml" | "deep" | "foundation"
-  point: number[];
-  lower: number[];
-  upper: number[];
+  // point/lower/upper are OMITTED for a license-redacted (local-only) source: only the aggregate backtest
+  // ships, so the method still appears in the public Benchmark without leaking the source's values.
+  point?: number[];
+  lower?: number[];
+  upper?: number[];
   backtest: MethodBacktest;
 }
 
@@ -30,10 +32,11 @@ export interface Trace {
   seasonality: number;
   horizon: number;
   quantile_levels: number[];
+  redacted: boolean; // true = source license forbids redistribution; history/actual/paths omitted (metrics only)
   history_len: number; // forecast x-positions start at history_len .. history_len + horizon - 1
-  history_index: number[]; // x positions of the (decimated) history points
-  history: number[];
-  actual: number[]; // held-out truth over the horizon
+  history_index: number[]; // x positions of the (decimated) history points ([] when redacted)
+  history: number[]; // [] when redacted
+  actual: number[]; // held-out truth over the horizon ([] when redacted)
   methods: MethodForecast[];
   summary: TraceSummary;
 }
@@ -84,6 +87,7 @@ export interface CaseManifest {
   real_or_synthetic: string;
   expected_band: string;
   engine: { package: string; version: string; model: string };
+  provenance: { source: string; license: string; citation: string; public_artifact_ok: boolean };
   analysis_artifact: AnalysisArtifactRef | null;
   series: SeriesDescriptors;
   seed: number;
