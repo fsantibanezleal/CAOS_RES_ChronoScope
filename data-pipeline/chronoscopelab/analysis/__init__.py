@@ -15,10 +15,12 @@ Modules:
   * distribution    - moments/KDE/Q-Q + Jarque-Bera/Shapiro normality; sample/perm/spectral entropy, BDS, catch22.
   * fractal         - Hurst (R/S + DFA), MF-DFA singularity spectrum, Higuchi/Katz/Petrosian dimension, DCCA.
   * nonlinear       - Takens embedding, correlation dimension, Lyapunov, RQA, 0-1 test, surrogate gate.
+  * causality       - cross-correlation lead/lag, Granger causality, Engle-Granger + Johansen cointegration.
 """
 from __future__ import annotations
 
 from . import autocorrelation
+from . import causality
 from . import changepoints
 from . import distribution
 from . import filters
@@ -27,6 +29,15 @@ from . import nonlinear
 from . import seasonality
 from . import stationarity
 from . import volatility
+from .causality import (
+    CointegrationResult,
+    CrossCorrelation,
+    GrangerResult,
+    causality_report,
+    cointegration,
+    cross_correlation,
+    granger_causality,
+)
 from .nonlinear import (
     ChaosMeasures,
     RQA,
@@ -136,6 +147,7 @@ __all__ = [
     "distribution",
     "fractal",
     "nonlinear",
+    "causality",
     # stationarity
     "TestResult",
     "adf",
@@ -225,4 +237,12 @@ __all__ = [
     "iaaft_surrogate",
     "zero_one_test",
     "nonlinear_report",
+    # causality
+    "CrossCorrelation",
+    "GrangerResult",
+    "CointegrationResult",
+    "cross_correlation",
+    "granger_causality",
+    "cointegration",
+    "causality_report",
 ]

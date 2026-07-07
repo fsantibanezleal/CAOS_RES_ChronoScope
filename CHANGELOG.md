@@ -3,6 +3,26 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.09.000] - 2026-07-04
+
+### Added
+- Analysis unit #10 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/causality.py`
+  - Cross-correlation function with an explicit lead/lag sign convention + significance band; bidirectional
+    Granger causality (`grangercausalitytests`, SSR F-test, best lag per direction); Engle-Granger
+    (`coint`) + Johansen (`coint_johansen`, trace rank) cointegration WITH the enforced I(1) precondition
+    (ADF on levels vs differences) marking each verdict valid/invalid. JSON-ready `causality_report`. NaN-safe.
+  - `tests/test_analysis_causality.py`: 7 ground-truth tests (CCF finds the lead, Granger directionality,
+    cointegrated vs independent walks, I(1)-precondition invalidation on stationary series).
+  - `docs/analysis/causality.md` (theory, KaTeX, DOIs; Granger=predictability-not-mechanism + the I(1) gate) +
+    `docs/analysis/assets/causality-cointegration.svg`.
+
+### Milestone
+- **The analysis toolkit ("understand the series") is COMPLETE**: all 10 diagnostic families implemented,
+  tested (86 ground-truth tests green), and documented with deep pages + theme-aware SVGs -
+  stationarity, autocorrelation, seasonality, filters, change-points, volatility, distribution/complexity,
+  fractal/multifractal, nonlinear-dynamics/chaos, and causality/cointegration. Every method delegates to its
+  authoritative library and carries the primary DOI. Next: the `analyze` pipeline stage baking these per case.
+
 ## [0.08.008] - 2026-07-04
 
 ### Added

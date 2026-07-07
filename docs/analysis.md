@@ -29,6 +29,7 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   spectrum, Higuchi/Katz/Petrosian fractal dimension, the ARFIMA long-memory link, and DCCA.
 - [Nonlinear dynamics and chaos](analysis/nonlinear.md) - Takens embedding, correlation dimension, the
   largest Lyapunov exponent, recurrence quantification (RQA), the 0-1 test, and the surrogate honesty gate.
+- [Cross-series: correlation, causality, cointegration](analysis/causality.md) - the cross-correlation
+  lead/lag, Granger causality (both directions), and Engle-Granger + Johansen cointegration.
 
-_(The
-fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_
+The analysis toolkit is complete: all ten diagnostic families are implemented, tested, and documented.
