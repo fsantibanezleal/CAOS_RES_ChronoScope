@@ -13,6 +13,7 @@ Modules:
   * changepoints    - PELT/BinSeg segmentation, OLS-CUSUM stability, Markov-switching regimes.
   * volatility      - ARCH-LM, GARCH conditional volatility, Box-Cox/Guerrero variance-stabilizing transform.
   * distribution    - moments/KDE/Q-Q + Jarque-Bera/Shapiro normality; sample/perm/spectral entropy, BDS, catch22.
+  * fractal         - Hurst (R/S + DFA), MF-DFA singularity spectrum, Higuchi/Katz/Petrosian dimension, DCCA.
 """
 from __future__ import annotations
 
@@ -20,9 +21,20 @@ from . import autocorrelation
 from . import changepoints
 from . import distribution
 from . import filters
+from . import fractal
 from . import seasonality
 from . import stationarity
 from . import volatility
+from .fractal import (
+    FractalDimension,
+    HurstResult,
+    MultifractalSpectrum,
+    dcca_coefficient,
+    fractal_dimension,
+    fractal_report,
+    hurst,
+    mfdfa,
+)
 from .distribution import (
     ComplexitySummary,
     DistributionSummary,
@@ -110,6 +122,7 @@ __all__ = [
     "changepoints",
     "volatility",
     "distribution",
+    "fractal",
     # stationarity
     "TestResult",
     "adf",
@@ -181,4 +194,13 @@ __all__ = [
     "complexity",
     "catch22_features",
     "distribution_report",
+    # fractal
+    "HurstResult",
+    "MultifractalSpectrum",
+    "FractalDimension",
+    "hurst",
+    "mfdfa",
+    "fractal_dimension",
+    "dcca_coefficient",
+    "fractal_report",
 ]

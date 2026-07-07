@@ -25,6 +25,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   the Box-Cox / Guerrero variance-stabilizing transform.
 - [Distribution, normality, and complexity](analysis/distribution.md) - moments, KDE, Q-Q, Jarque-Bera and
   Shapiro-Wilk normality; sample/permutation/spectral entropy, the BDS nonlinearity test, and catch22.
+- [Fractal and multifractal](analysis/fractal.md) - the Hurst exponent (R/S + DFA), the MF-DFA singularity
+  spectrum, Higuchi/Katz/Petrosian fractal dimension, the ARFIMA long-memory link, and DCCA.
 
 _(The
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_

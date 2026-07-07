@@ -3,6 +3,22 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.007] - 2026-07-04
+
+### Added
+- Analysis unit #8 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/fractal.py`
+  - Hurst exponent by R/S (`hurst.compute_Hc`, Anis-Lloyd) and DFA (`nolds.dfa`) with the fGn/fBm alpha->H
+    mapping and an interpretation; MF-DFA generalized Hurst h(q), mass exponent tau(q), and the Legendre
+    singularity spectrum f(alpha) with its width = degree of multifractality (`MFDFA`); Higuchi/Katz/Petrosian
+    fractal dimension (`antropy`); the ARFIMA long-memory link d = H - 0.5; a direct DCCA cross-correlation
+    coefficient. Reliability flag for short series; MF-DFA failure recorded honestly. JSON-ready `fractal_report`.
+  - `tests/test_analysis_fractal.py`: 9 ground-truth tests (Hurst orders noise<random-walk, DFA alpha ~1.5
+    for a walk, roughness ordering, MF-DFA narrow spectrum for a monofractal, DCCA sign for coupled vs
+    independent series, short-series guards).
+  - `docs/analysis/fractal.md` (theory, KaTeX, DOIs; the DFA-always-returns-alpha + H-not-equal-predictability
+    honesty gate) + `docs/analysis/assets/multifractal-spectrum.svg`.
+- Pins: `nolds==0.6.3`, `hurst==0.0.5`, `MFDFA==0.4.3` in requirements-precompute.txt.
+
 ## [0.08.006] - 2026-07-04
 
 ### Added

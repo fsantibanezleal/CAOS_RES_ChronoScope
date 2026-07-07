@@ -12,7 +12,10 @@ PyWavelets==1.8.0            # CWT scalogram (scipy.signal.cwt was removed in sc
 neuralforecast==3.1.9        # deep-ladder training spine (NBEATS/NHITS/TFT/PatchTST/iTransformer/TSMixer/...)
 ruptures==1.1.10             # PELT/BinSeg offline change-point detection
 arch==8.0.0                  # Phillips-Perron, DF-GLS, GARCH family (statsmodels has no PP/DF-GLS)
-antropy==0.2.2               # sample/permutation/spectral entropy (complexity diagnostics)
+antropy==0.2.2               # sample/permutation/spectral entropy + Higuchi/Katz/Petrosian fractal dimension
+nolds==0.6.3                 # Hurst (R/S), DFA (+ corr-dim/Lyapunov for the nonlinear-dynamics unit)
+hurst==0.0.5                 # Hurst R/S (Anis-Lloyd corrected)
+MFDFA==0.4.3                 # multifractal DFA singularity spectrum
 # pycatch22 (Lubba 2019, 22 canonical features): OPTIONAL, needs a C toolchain; recorded honestly if absent
 # --- forecasting ladder (classical / statistical / ML / foundation) ---
 statsforecast==2.0.3         # AutoARIMA/AutoETS/AutoTheta, MSTL, TBATS, Croston, GARCH
