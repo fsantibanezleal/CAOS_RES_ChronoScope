@@ -3,6 +3,21 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.006] - 2026-07-04
+
+### Added
+- Analysis unit #7 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/distribution.py`
+  - Distribution: moments (skew, excess kurtosis), Gaussian KDE, normal Q-Q points, Jarque-Bera + Shapiro-Wilk
+    normality with a combined verdict. Complexity: sample / permutation / spectral entropy (`antropy`,
+    normalized), the BDS i.i.d.-vs-nonlinear test (`statsmodels`). catch22 (Lubba 2019) is OPTIONAL and
+    recorded HONESTLY as unavailable when `pycatch22`'s C extension is not built (never fabricated). JSON-ready
+    `distribution_report`. NaN-safe.
+  - `tests/test_analysis_distribution.py`: 9 ground-truth tests (normal vs heavy-tailed vs skewed verdicts,
+    Q-Q linearity, entropy orders regular<random, BDS i.i.d. vs sine, honest catch22 marker).
+  - `docs/analysis/distribution.md` (theory, KaTeX, DOIs; distribution-constrains-intervals-not-the-mean
+    caveat) + `docs/analysis/assets/distribution-complexity.svg`.
+- Pin: `antropy==0.2.2`; pycatch22 noted optional (C-toolchain) in requirements-precompute.txt.
+
 ## [0.08.005] - 2026-07-04
 
 ### Added

@@ -23,6 +23,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   stability test, and Hamilton Markov-switching regime probabilities.
 - [Volatility and transforms](analysis/volatility.md) - Engle ARCH-LM, GARCH conditional volatility, and
   the Box-Cox / Guerrero variance-stabilizing transform.
+- [Distribution, normality, and complexity](analysis/distribution.md) - moments, KDE, Q-Q, Jarque-Bera and
+  Shapiro-Wilk normality; sample/permutation/spectral entropy, the BDS nonlinearity test, and catch22.
 
-_(Distribution, entropy, and the
+_(The
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_

@@ -12,15 +12,27 @@ Modules:
   * filters         - HP/Baxter-King/Christiano-Fitzgerald band-pass, EMD/CEEMDAN IMFs, CWT scalogram.
   * changepoints    - PELT/BinSeg segmentation, OLS-CUSUM stability, Markov-switching regimes.
   * volatility      - ARCH-LM, GARCH conditional volatility, Box-Cox/Guerrero variance-stabilizing transform.
+  * distribution    - moments/KDE/Q-Q + Jarque-Bera/Shapiro normality; sample/perm/spectral entropy, BDS, catch22.
 """
 from __future__ import annotations
 
 from . import autocorrelation
 from . import changepoints
+from . import distribution
 from . import filters
 from . import seasonality
 from . import stationarity
 from . import volatility
+from .distribution import (
+    ComplexitySummary,
+    DistributionSummary,
+    catch22_features,
+    complexity,
+    distribution_report,
+    kde_curve,
+    qq_points,
+    summary,
+)
 from .changepoints import (
     ChangePoints,
     CusumResult,
@@ -97,6 +109,7 @@ __all__ = [
     "filters",
     "changepoints",
     "volatility",
+    "distribution",
     # stationarity
     "TestResult",
     "adf",
@@ -159,4 +172,13 @@ __all__ = [
     "box_cox",
     "rolling_volatility",
     "volatility_report",
+    # distribution
+    "DistributionSummary",
+    "ComplexitySummary",
+    "summary",
+    "kde_curve",
+    "qq_points",
+    "complexity",
+    "catch22_features",
+    "distribution_report",
 ]
