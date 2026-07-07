@@ -3,6 +3,25 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.11.000] - 2026-07-04
+
+### Added
+- Data provenance + license registry (`chronoscopelab/data/provenance.py`): a `DataSource` record per source
+  (id/name/url/license/citation + `public_artifact_ok` verdict) transcribed from the verified license dossier;
+  `get_source`/`public_artifact_ok`/`public_safe_ids`/`local_only_ids`. Public-safe core: synthetic + UCI
+  Electricity + UCI Beijing PM2.5 + OPSD + Monash (CC-BY). Local-only: M5/Favorita (Kaggle rules), ETT/LTSF
+  (CC-BY-NC-ND), Kaggle mining-flotation + Stooq (unverified -> safe default local-only).
+- License enforcement in the pipeline: the `Case` gains a `source` field; the manifest carries a `provenance`
+  block; the export stage REDACTS the raw series excerpt for a local-only source (trace omits history/actual
+  and per-step forecast paths, keeps only aggregate backtest metrics + sets `redacted:true`; the analysis
+  artifact drops series-derived arrays, keeps scalar verdicts). So a redistribution-restricted dataset still
+  contributes to the public Benchmark without leaking its values.
+- Frontend contract mirror updated: `Trace.redacted`, optional `point/lower/upper`, manifest `provenance`;
+  `AppPage` filters redacted methods out of the forecast chart; the contract test handles both cases. tsc clean.
+- `tests/test_data_provenance.py` (8) + `tests/test_data_export_guard.py` (3): the public-safe/local-only sets
+  match the dossier, and a local-only case ships metrics only (verified end to end).
+- `docs/data.md` + `docs/data/provenance.md`: the per-source table + the enforcement policy.
+
 ## [0.10.000] - 2026-07-04
 
 ### Added

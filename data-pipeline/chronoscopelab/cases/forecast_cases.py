@@ -31,6 +31,7 @@ class Case:
     expected_band: str
     real_or_synthetic: str
     spec: dict  # {"kind": ...} for synthetic, or {"file": "<name>.csv"} for real
+    source: str = "synthetic"  # a provenance.SOURCES id; drives the public_artifact_ok export guard
 
 
 CASES: list[Case] = [
@@ -48,7 +49,7 @@ CASES: list[Case] = [
          {"kind": "random_walk", "n": 200, "step": 1.0}),
     Case("REAL_electricity", "real: electricity load (hourly)", 24, 24,
          "real hourly load; strong daily seasonality with weekday effects", "real",
-         {"file": "electricity_sample.csv"}),
+         {"file": "electricity_sample.csv"}, source="uci_electricity"),
     Case("CTRL_white_noise", "control: white noise", 1, 12,
          "iid noise: nothing should beat the naive/mean by much", "synthetic",
          {"kind": "white_noise", "n": 160, "noise": 5.0}),
