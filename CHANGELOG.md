@@ -3,6 +3,24 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.11.001] - 2026-07-04
+
+### Added
+- Real-dataset loaders (`chronoscopelab/data/loaders.py`): `load_uci_electricity` (15-min -> hourly, one
+  meter) and `load_uci_beijing_pm25` (hourly pm2.5, NA forward-fill) read the private vault and emit
+  license-cleared Contract-1 samples; `refresh_samples` regenerates the committed public-safe excerpts.
+- New PUBLIC-safe real case `REAL_pm25` (Beijing PM2.5, CC-BY-4.0): daily cycle + heavy-tailed pollution
+  spikes (excess kurtosis ~5, strongly non-normal) - the "real data is messy" counterweight to the synthetic
+  seasonal case. Committed `data/examples/beijing_pm25_sample.csv` (480 hourly points).
+- `data/examples/electricity_sample.csv` regenerated reproducibly from the vault (480 hourly points via the
+  documented loader, replacing the prior opaque sample).
+- `tests/test_data_loaders.py` (4): committed samples validate against Contract 1; the real cases reference
+  public-safe sources; PM2.5 is heavy-tailed. `docs/cases/REAL_pm25.md`.
+- 7 cases baked (was 6).
+
+### Changed
+- REAL_electricity re-baked from the regenerated (now reproducible) sample.
+
 ## [0.11.000] - 2026-07-04
 
 ### Added
