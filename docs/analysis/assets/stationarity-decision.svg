@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" width="720" role="img" aria-label="Stationarity decision flow: ADF and KPSS have opposite nulls; their four combinations map to stationary, non-stationary, trend-stationary, or difference-stationary; FPP3 differences while KPSS rejects." style="color:currentColor;max-width:100%;height:auto;font-family:system-ui,sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3b82f6"/></marker>
+  </defs>
+  <text x="360" y="22" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Stationarity: ADF and KPSS have OPPOSITE nulls</text>
+
+  <rect x="40" y="48" width="150" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="115" y="69" text-anchor="middle" font-size="12" fill="currentColor">ADF</text>
+  <text x="115" y="85" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.75">H0: unit root</text>
+
+  <rect x="40" y="206" width="150" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="115" y="227" text-anchor="middle" font-size="12" fill="currentColor">KPSS</text>
+  <text x="115" y="243" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.75">H0: stationary</text>
+
+  <line x1="190" y1="71" x2="250" y2="110" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="190" y1="229" x2="250" y2="190" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <rect x="252" y="96" width="196" height="108" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <line x1="350" y1="96" x2="350" y2="204" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+  <line x1="252" y1="150" x2="448" y2="150" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+  <text x="301" y="126" text-anchor="middle" font-size="9.5" fill="currentColor">stationary</text>
+  <text x="399" y="120" text-anchor="middle" font-size="9.5" fill="currentColor">diff-</text>
+  <text x="399" y="132" text-anchor="middle" font-size="9.5" fill="currentColor">stationary</text>
+  <text x="301" y="174" text-anchor="middle" font-size="9.5" fill="currentColor">trend-</text>
+  <text x="301" y="186" text-anchor="middle" font-size="9.5" fill="currentColor">stationary</text>
+  <text x="399" y="180" text-anchor="middle" font-size="9.5" fill="currentColor">non-</text>
+  <text x="399" y="192" text-anchor="middle" font-size="9.5" fill="currentColor">stationary</text>
+  <text x="350" y="224" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">four-quadrant verdict (general econometrics)</text>
+
+  <line x1="448" y1="150" x2="512" y2="150" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ar)"/>
+  <rect x="514" y="112" width="166" height="76" rx="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="597" y="136" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor">FPP3 differencing</text>
+  <text x="597" y="154" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.8">d: while KPSS rejects</text>
+  <text x="597" y="170" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.8">D: while Fs &#8805; 0.64</text>
+  <path d="M597 188 q -70 40 -140 8" fill="none" stroke="#3b82f6" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+  <text x="470" y="250" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">difference, then re-test</text>
+</svg>

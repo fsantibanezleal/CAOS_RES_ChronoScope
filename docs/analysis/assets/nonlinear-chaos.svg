@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="760" role="img" aria-label="Nonlinear dynamics: Takens embedding reconstructs the attractor, the recurrence plot reveals its structure, and a surrogate test guards every chaos claim." style="color:currentColor;max-width:100%;height:auto;font-family:system-ui,sans-serif">
+  <text x="380" y="20" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Deterministic chaos or stochastic noise? Reconstruct, quantify, then GATE the claim</text>
+
+  <!-- Panel 1: Takens embedding -->
+  <rect x="20" y="40" width="220" height="150" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="130" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Takens embedding</text>
+  <text x="130" y="70" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.7">v_t = [x_t, x_{t+tau}, x_{t+2tau}]</text>
+  <path d="M60 150 C 90 90 110 90 130 130 C 150 170 175 165 195 120 C 205 96 200 150 175 155 C 130 165 95 160 70 145 Z" fill="none" stroke="#a855f7" stroke-width="1.4"/>
+  <path d="M75 140 C 100 100 118 102 132 132 C 146 162 168 158 184 124" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+  <text x="130" y="182" text-anchor="middle" font-size="7.5" fill="currentColor" opacity="0.65">a folded attractor => low-dimensional determinism</text>
+
+  <!-- Panel 2: recurrence plot -->
+  <rect x="252" y="40" width="150" height="150" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="327" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Recurrence plot</text>
+  <g stroke="#10b981" stroke-width="1.4" opacity="0.8">
+    <line x1="270" y1="170" x2="384" y2="72"/>
+    <line x1="278" y1="170" x2="384" y2="80"/>
+    <line x1="270" y1="162" x2="376" y2="72"/>
+    <line x1="300" y1="170" x2="384" y2="102"/>
+    <line x1="270" y1="140" x2="356" y2="72"/>
+  </g>
+  <text x="327" y="182" text-anchor="middle" font-size="7.5" fill="currentColor" opacity="0.65">diagonals = determinism (DET, L_max)</text>
+
+  <!-- Panel 3: surrogate gate -->
+  <rect x="414" y="40" width="326" height="150" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="577" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Surrogate gate (the honesty check)</text>
+  <line x1="430" y1="150" x2="720" y2="150" stroke="currentColor" stroke-width="0.7" opacity="0.4"/>
+  <!-- surrogate distribution -->
+  <path d="M560 150 Q 600 84 640 150" fill="#9ca3af" opacity="0.2" stroke="#9ca3af" stroke-width="1.2"/>
+  <text x="600" y="78" text-anchor="middle" font-size="8" fill="#9ca3af">IAAFT surrogates' D2</text>
+  <!-- data statistic far to the left -->
+  <line x1="470" y1="150" x2="470" y2="96" stroke="#ef4444" stroke-width="2"/>
+  <circle cx="470" cy="96" r="3" fill="#ef4444"/>
+  <text x="470" y="88" text-anchor="middle" font-size="8" fill="#ef4444">data D2</text>
+  <path d="M485 118 L548 118" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arn)"/>
+  <defs><marker id="arn" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#ef4444"/></marker></defs>
+  <text x="577" y="176" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.8">data statistic OUTSIDE the surrogate band => genuine nonlinearity</text>
+
+  <text x="380" y="216" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Why the gate is mandatory</text>
+  <text x="380" y="234" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">Osborne &amp; Provenzale (1989): COLORED NOISE yields a finite, saturating correlation dimension - so a low D2</text>
+  <text x="380" y="247" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">alone does NOT prove chaos. IAAFT surrogates share the data's spectrum AND histogram but have linearized</text>
+  <text x="380" y="260" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">dynamics; only if the data's statistic differs from theirs is the structure genuinely nonlinear.</text>
+  <text x="380" y="282" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.7">ChronoScope flags "chaotic" only when Lyapunov &gt; 0 AND 0-1 test K &gt; 0.5 AND the surrogate test rejects linearity.</text>
+</svg>

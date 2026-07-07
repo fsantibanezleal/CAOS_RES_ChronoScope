@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 290" width="760" role="img" aria-label="Cross-series relationships: the cross-correlation function finds the lead/lag, Granger causality tests predictive precedence, and cointegration finds a stationary long-run spread between nonstationary series." style="color:currentColor;max-width:100%;height:auto;font-family:system-ui,sans-serif">
+  <text x="380" y="20" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">How do two series relate? Lead/lag, predictive precedence, shared equilibrium</text>
+
+  <!-- Panel 1: CCF -->
+  <rect x="20" y="40" width="230" height="130" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="135" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Cross-correlation (CCF)</text>
+  <line x1="35" y1="120" x2="235" y2="120" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <line x1="135" y1="66" x2="135" y2="150" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+  <g stroke="#3b82f6" stroke-width="1.6">
+    <line x1="50" y1="120" x2="50" y2="114"/><line x1="66" y1="120" x2="66" y2="112"/>
+    <line x1="82" y1="120" x2="82" y2="116"/><line x1="98" y1="120" x2="98" y2="110"/>
+    <line x1="114" y1="120" x2="114" y2="106"/><line x1="135" y1="120" x2="135" y2="118"/>
+    <line x1="156" y1="120" x2="156" y2="88"/><line x1="172" y1="120" x2="172" y2="78"/>
+    <line x1="188" y1="120" x2="188" y2="100"/><line x1="204" y1="120" x2="204" y2="112"/>
+    <line x1="220" y1="120" x2="220" y2="116"/>
+  </g>
+  <circle cx="172" cy="78" r="3" fill="#ef4444"/>
+  <text x="185" y="76" font-size="8" fill="#ef4444">peak at k&gt;0</text>
+  <text x="135" y="162" text-anchor="middle" font-size="7.5" fill="currentColor" opacity="0.7">peak lag &gt; 0 => x leads y</text>
+
+  <!-- Panel 2: Granger -->
+  <rect x="262" y="40" width="230" height="130" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="377" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Granger causality</text>
+  <text x="300" y="92" font-size="11" fill="currentColor">x past</text>
+  <text x="440" y="92" font-size="11" fill="currentColor">y</text>
+  <defs><marker id="arc" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#10b981"/></marker></defs>
+  <line x1="340" y1="88" x2="430" y2="88" stroke="#10b981" stroke-width="2" marker-end="url(#arc)"/>
+  <text x="385" y="80" text-anchor="middle" font-size="8" fill="#10b981">improves forecast? (F-test)</text>
+  <line x1="430" y1="108" x2="340" y2="108" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arc)"/>
+  <text x="385" y="124" text-anchor="middle" font-size="8" fill="#9ca3af">reverse: weaker / absent</text>
+  <text x="377" y="150" text-anchor="middle" font-size="7.5" fill="currentColor" opacity="0.7">predictive precedence, tested BOTH directions</text>
+
+  <!-- Panel 3: cointegration -->
+  <rect x="504" y="40" width="236" height="130" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="622" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Cointegration</text>
+  <path d="M516 130 C 545 90 560 140 585 100 C 610 60 630 110 655 80 C 680 55 700 95 725 74" fill="none" stroke="#3b82f6" stroke-width="1.3"/>
+  <path d="M516 138 C 545 100 560 148 585 110 C 610 72 630 120 655 92 C 680 68 700 106 725 86" fill="none" stroke="#a855f7" stroke-width="1.3"/>
+  <text x="540" y="80" font-size="8" fill="currentColor" opacity="0.8">two I(1) series wander...</text>
+  <line x1="516" y1="158" x2="725" y2="158" stroke="currentColor" stroke-width="0.6" opacity="0.4"/>
+  <path d="M516 158 q 12 -5 24 2 t 24 -3 t 24 3 t 24 -2 t 24 2 t 24 -3 t 24 3 t 21 -1" fill="none" stroke="#10b981" stroke-width="1.4"/>
+  <text x="622" y="152" text-anchor="middle" font-size="8" fill="#10b981">...but their spread is stationary</text>
+
+  <text x="380" y="196" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Why cointegration matters</text>
+  <text x="380" y="214" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">Two nonstationary series can share a long-run equilibrium: individually unforecastable (unit roots), yet</text>
+  <text x="380" y="227" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">their SPREAD is stationary and mean-reverting - so a joint (VECM) model forecasts what neither level can.</text>
+  <text x="380" y="250" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.7">HONESTY: Granger causality is PREDICTABILITY, not mechanism (a common driver mimics it). Cointegration is</text>
+  <text x="380" y="263" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.7">meaningless unless both series are I(1) - the report checks the precondition and marks the verdict valid/invalid.</text>
+</svg>

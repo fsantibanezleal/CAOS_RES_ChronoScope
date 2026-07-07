@@ -5,16 +5,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { loadIndex, loadManifest, loadTrace } from '../api/artifacts';
 import type { CaseIndex, Trace } from '../lib/contract.types';
-import { forecastAllLive } from '../lib/liveEngine';
+import { forecastAllLive, normalPpf } from '../lib/liveEngine';
 import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
+import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
 import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
 import { WorkbenchChart, type ChartData, type ChartSeries } from '../render/WorkbenchChart';
 
 const LEVELS = [0.1, 0.5, 0.9];
 
+const ONNX_NAME = 'NLinear (ONNX)';
 const COLORS: Record<string, string> = {
   SeasonalNaive: '#58a6ff', SES: '#bc8cff', Holt: '#f778ba', HoltWinters: '#ff9f1c', Theta: '#56d364',
   AutoETS: '#79c0ff', AutoTheta: '#d2a8ff', AutoARIMA: '#ffa657', LightGBM: '#7ee787', 'Chronos-Bolt': '#ff7b72',
+  [ONNX_NAME]: '#e3b341',
 };
 const colorFor = (n: string) => COLORS[n] ?? `hsl(${(n.split('').reduce((a, c) => a + c.charCodeAt(0), 0) * 47) % 360} 70% 65%)`;
 
@@ -31,6 +34,7 @@ export function AppPage() {
   const [trace, setTrace] = useState<Trace | null>(null);
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [err, setErr] = useState('');
+  const [onnx, setOnnx] = useState<(ChartSeries & { mase: number; coverage: number }) | null>(null);
 
   useEffect(() => {
     loadIndex().then((ix) => { setIndex(ix); setCaseId(ix.cases[0]?.case_id ?? ''); }).catch((e) => setErr(String(e)));
@@ -54,21 +58,50 @@ export function AppPage() {
       mase: mase(actual, f.point, scale), coverage: coverage(actual, f.lower, f.upper),
     }));
     const methods: ChartSeries[] = forecasts.map((f) => ({ name: f.name, color: colorFor(f.name), point: f.point, lower: f.lower, upper: f.upper }));
-    return { history, actual, horizon: knobs.horizon, methods, rows };
+    return { history, actual, horizon: knobs.horizon, m: knobs.seasonality, methods, rows };
   }, [mode, knobs]);
 
   const baked = useMemo(() => {
     if (mode !== 'baked' || !trace) return null;
     const methods: ChartSeries[] = trace.methods.map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
     const rows: Row[] = trace.methods.map((m) => ({ name: m.name, family: m.family, mase: m.backtest.mase ?? NaN, coverage: m.backtest.coverage ?? NaN }));
-    return { history: trace.history, actual: trace.actual, horizon: trace.horizon, methods, rows };
+    return { history: trace.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
   }, [mode, trace]);
 
   const activeData = mode === 'synthetic' ? synthetic : baked;
+
+  // ONNX live deep tier: run the NLinear model on the active history (async), add it as a live method.
+  const sig = activeData ? `${mode}:${activeData.horizon}:${activeData.m}:${activeData.history.length}:${activeData.history.reduce((a, v) => a + v, 0).toFixed(1)}` : '';
+  useEffect(() => {
+    let cancelled = false;
+    setOnnx(null);
+    if (!activeData) return;
+    const { history, actual, horizon, m } = activeData;
+    (async () => {
+      try {
+        const meta = await loadNLinearMeta();
+        if (horizon !== meta.horizon || history.length < meta.lookback) return;
+        const { point, scale } = await runNLinear(history);
+        const sigma = meta.sigma_norm * scale;
+        const lower = point.map((p, i) => p + normalPpf(0.1) * sigma * Math.sqrt(i + 1));
+        const upper = point.map((p, i) => p + normalPpf(0.9) * sigma * Math.sqrt(i + 1));
+        const sc = seasonalNaiveMae(history, m);
+        if (!cancelled) setOnnx({ name: ONNX_NAME, color: colorFor(ONNX_NAME), point, lower, upper, mase: mase(actual, point, sc), coverage: coverage(actual, lower, upper) });
+      } catch {
+        /* graceful: the ONNX method simply does not appear if the runtime/model fails to load */
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [sig]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const allMethods = activeData ? (onnx ? [...activeData.methods, onnx] : activeData.methods) : [];
+  const allRows: Row[] = activeData
+    ? (onnx ? [...activeData.rows, { name: onnx.name, family: 'deep', mase: onnx.mase, coverage: onnx.coverage }] : activeData.rows)
+    : [];
   const chartData: ChartData | null = activeData
-    ? { history: activeData.history, actual: activeData.actual, horizon: activeData.horizon, methods: activeData.methods.filter((m) => !hidden.has(m.name)) }
+    ? { history: activeData.history, actual: activeData.actual, horizon: activeData.horizon, methods: allMethods.filter((mm) => !hidden.has(mm.name)) }
     : null;
-  const rankedRows = activeData ? [...activeData.rows].sort((a, b) => (a.mase || Infinity) - (b.mase || Infinity)) : [];
+  const rankedRows = [...allRows].sort((a, b) => (a.mase || Infinity) - (b.mase || Infinity));
   const best = rankedRows.find((r) => Number.isFinite(r.mase))?.name;
 
   const setK = (patch: Partial<SyntheticKnobs>) => setKnobs((k) => ({ ...k, ...patch }));
