@@ -3,6 +3,23 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.10.000] - 2026-07-04
+
+### Added
+- `analyze` pipeline stage (`stages/analyze.py`): runs the 10-family analysis toolkit per case and bakes a
+  compact `data/derived/<case>/analysis.json` (CONTRACT 2, schema `chronoscope.analysis/v1`) - the "understand
+  the series" half the web workbench reads. Wired into the pipeline orchestrator (new stage between preprocess
+  and feature_extraction); the manifest now carries `analysis_artifact` {path, bytes}; the frontend contract
+  mirror (`contract.types.ts`) gains `AnalysisArtifactRef` so a drift fails the build.
+- Honest guardrails in the bake: heavy panels length-gated (nonlinear n>=400, MF-DFA n>=200) with explicit
+  `skipped` markers; per-panel error capture (a degenerate case records `{"error": ...}`, never crashes the
+  bake); change-point detection on the STL-deseasonalized series when seasonality is strong (Fs>=0.64) so a
+  clean seasonal series does not report spurious regime shifts; causality skipped honestly for univariate cases.
+- `tests/test_stage_analyze.py`: 10 tests (all panels present, seasonal period recovered, deseasonalized
+  change-points, short-series/univariate skips, degenerate-input safety, no-crash across case regimes).
+- `docs/architecture/05_precompute-pipeline.md`: the analyze stage documented in the staged-pipeline table.
+- Re-baked all 6 cases at seed 42 (deterministic; traces unchanged, manifests gain the analysis reference).
+
 ## [0.09.000] - 2026-07-04
 
 ### Added
