@@ -21,6 +21,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   Christiano-Fitzgerald band-pass, EMD/CEEMDAN intrinsic mode functions, and the CWT wavelet scalogram.
 - [Change points and regimes](analysis/changepoints.md) - PELT / Binary Segmentation, the OLS-CUSUM
   stability test, and Hamilton Markov-switching regime probabilities.
+- [Volatility and transforms](analysis/volatility.md) - Engle ARCH-LM, GARCH conditional volatility, and
+  the Box-Cox / Guerrero variance-stabilizing transform.
 
-_(Volatility, distribution, entropy, and the
+_(Distribution, entropy, and the
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_

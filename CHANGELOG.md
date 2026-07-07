@@ -3,6 +3,19 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.005] - 2026-07-04
+
+### Added
+- Analysis unit #6 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/volatility.py`
+  - Engle ARCH-LM test for conditional heteroscedasticity (`het_arch`); GARCH/EGARCH/FIGARCH conditional
+    volatility via `arch` (persistence read-out, fitted only when ARCH is significant); Box-Cox transform
+    with MLE (scipy) or Guerrero seasonal lambda (`coreforecast.scalers.boxcox_lambda`), with a recorded
+    positivity shift; rolling mean/std band. JSON-ready `volatility_report`. NaN-safe; fit failures recorded.
+  - `tests/test_analysis_volatility.py`: 8 ground-truth tests (simulated GARCH(1,1) ARCH detection + ~0.95
+    persistence recovery, homoscedastic null, MLE variance stabilization, Guerrero seasonal lambda, shift).
+  - `docs/analysis/volatility.md` (theory, KaTeX, DOIs; the "GARCH informs intervals not the point" caveat) +
+    `docs/analysis/assets/volatility.svg`. Research grounding: wip/chronoscope/research-volatility-transforms-2026-07-04.md.
+
 ## [0.08.004] - 2026-07-04
 
 ### Added

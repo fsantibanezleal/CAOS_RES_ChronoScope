@@ -11,6 +11,7 @@ Modules:
   * seasonality     - periodogram/Welch dominant period, seasonal strength, STL/MSTL, seasonal subseries.
   * filters         - HP/Baxter-King/Christiano-Fitzgerald band-pass, EMD/CEEMDAN IMFs, CWT scalogram.
   * changepoints    - PELT/BinSeg segmentation, OLS-CUSUM stability, Markov-switching regimes.
+  * volatility      - ARCH-LM, GARCH conditional volatility, Box-Cox/Guerrero variance-stabilizing transform.
 """
 from __future__ import annotations
 
@@ -19,6 +20,7 @@ from . import changepoints
 from . import filters
 from . import seasonality
 from . import stationarity
+from . import volatility
 from .changepoints import (
     ChangePoints,
     CusumResult,
@@ -65,6 +67,16 @@ from .seasonality import (
     stl_decompose,
     welch,
 )
+from .volatility import (
+    ArchTest,
+    BoxCoxResult,
+    GarchFit,
+    arch_lm,
+    box_cox,
+    garch,
+    rolling_volatility,
+    volatility_report,
+)
 from .stationarity import (
     TestResult,
     adf,
@@ -84,6 +96,7 @@ __all__ = [
     "seasonality",
     "filters",
     "changepoints",
+    "volatility",
     # stationarity
     "TestResult",
     "adf",
@@ -137,4 +150,13 @@ __all__ = [
     "cusum_stability",
     "markov_regimes",
     "changepoints_report",
+    # volatility
+    "ArchTest",
+    "GarchFit",
+    "BoxCoxResult",
+    "arch_lm",
+    "garch",
+    "box_cox",
+    "rolling_volatility",
+    "volatility_report",
 ]
