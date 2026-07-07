@@ -14,6 +14,7 @@ Modules:
   * volatility      - ARCH-LM, GARCH conditional volatility, Box-Cox/Guerrero variance-stabilizing transform.
   * distribution    - moments/KDE/Q-Q + Jarque-Bera/Shapiro normality; sample/perm/spectral entropy, BDS, catch22.
   * fractal         - Hurst (R/S + DFA), MF-DFA singularity spectrum, Higuchi/Katz/Petrosian dimension, DCCA.
+  * nonlinear       - Takens embedding, correlation dimension, Lyapunov, RQA, 0-1 test, surrogate gate.
 """
 from __future__ import annotations
 
@@ -22,9 +23,20 @@ from . import changepoints
 from . import distribution
 from . import filters
 from . import fractal
+from . import nonlinear
 from . import seasonality
 from . import stationarity
 from . import volatility
+from .nonlinear import (
+    ChaosMeasures,
+    RQA,
+    chaos_measures,
+    iaaft_surrogate,
+    nonlinear_report,
+    recurrence_quantification,
+    time_delay_embed,
+    zero_one_test,
+)
 from .fractal import (
     FractalDimension,
     HurstResult,
@@ -123,6 +135,7 @@ __all__ = [
     "volatility",
     "distribution",
     "fractal",
+    "nonlinear",
     # stationarity
     "TestResult",
     "adf",
@@ -203,4 +216,13 @@ __all__ = [
     "fractal_dimension",
     "dcca_coefficient",
     "fractal_report",
+    # nonlinear
+    "ChaosMeasures",
+    "RQA",
+    "time_delay_embed",
+    "chaos_measures",
+    "recurrence_quantification",
+    "iaaft_surrogate",
+    "zero_one_test",
+    "nonlinear_report",
 ]

@@ -3,6 +3,21 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.08.008] - 2026-07-04
+
+### Added
+- Analysis unit #9 (vertical: code + tests + doc + SVG): `chronoscopelab/analysis/nonlinear.py`
+  - Takens time-delay embedding; Grassberger-Procaccia correlation dimension + Rosenstein largest Lyapunov
+    (`nolds`); recurrence quantification (RQA: RR/DET/LAM/L_max) implemented directly (recurrence matrix +
+    diagonal/vertical line statistics, truncated not subsampled to preserve diagonals); Gottwald-Melbourne
+    0-1 test; IAAFT surrogates (spectrum + distribution preserving). THE SURROGATE HONESTY GATE: `likely_chaotic`
+    is True only when Lyapunov>0 AND 0-1 K>0.5 AND the surrogate test rejects linearity (Osborne-Provenzale:
+    colored noise fakes a low D2). JSON-ready `nonlinear_report`. NaN-safe.
+  - `tests/test_analysis_nonlinear.py`: 9 ground-truth tests (logistic map flagged chaotic, white noise NOT;
+    Lyapunov chaos>regular, 0-1 test separation, RQA determinism regular>noise, IAAFT invariants).
+  - `docs/analysis/nonlinear.md` (theory, KaTeX, DOIs; the full surrogate-gate rationale) +
+    `docs/analysis/assets/nonlinear-chaos.svg`.
+
 ## [0.08.007] - 2026-07-04
 
 ### Added

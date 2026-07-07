@@ -27,6 +27,8 @@ and a theme-aware SVG) are authored together, in the same commit, while the cont
   Shapiro-Wilk normality; sample/permutation/spectral entropy, the BDS nonlinearity test, and catch22.
 - [Fractal and multifractal](analysis/fractal.md) - the Hurst exponent (R/S + DFA), the MF-DFA singularity
   spectrum, Higuchi/Katz/Petrosian fractal dimension, the ARFIMA long-memory link, and DCCA.
+- [Nonlinear dynamics and chaos](analysis/nonlinear.md) - Takens embedding, correlation dimension, the
+  largest Lyapunov exponent, recurrence quantification (RQA), the 0-1 test, and the surrogate honesty gate.
 
 _(The
 fractal/multifractal + nonlinear-dynamics pages follow as each unit is built.)_
