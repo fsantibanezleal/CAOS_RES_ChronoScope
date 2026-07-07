@@ -19,6 +19,9 @@ ENGINE_MODEL = (
 )
 
 
+ANALYSIS_SCHEMA = "chronoscope.analysis/v1"
+
+
 def build_case_manifest(
     *,
     case: Any,
@@ -29,9 +32,17 @@ def build_case_manifest(
     gate: dict,
     flags: list[dict],
     eval_metrics: dict,
+    analysis_rel: str | None = None,
+    analysis_bytes: int | None = None,
 ) -> dict:
     # Deterministic: a pure function of (case, seed). No wall-clock (would dirty git on re-run).
     best = eval_metrics.get("best_method")
+    # The analysis artifact (the "understand the series" half of CONTRACT 2) is optional so older cases
+    # without a baked analysis still validate; when present the web Understand workbench reads it.
+    analysis_block = (
+        {"path": analysis_rel, "format": "json", "analysis_schema": ANALYSIS_SCHEMA, "bytes": analysis_bytes}
+        if analysis_rel is not None else None
+    )
     return {
         "schema": MANIFEST_SCHEMA,
         "case_id": case.id,
@@ -39,6 +50,7 @@ def build_case_manifest(
         "real_or_synthetic": case.real_or_synthetic,
         "expected_band": case.expected_band,
         "engine": {"package": "chronoscopelab", "version": __version__, "model": ENGINE_MODEL},
+        "analysis_artifact": analysis_block,
         "series": {
             "n_obs": feature.n_obs,
             "seasonality": feature.seasonality,

@@ -68,6 +68,15 @@ export interface SeriesDescriptors {
   pct_zeros: number;
 }
 
+// The "understand the series" half of CONTRACT 2 (chronoscope.analysis/v1): a pointer to the baked analysis
+// panel the App's Understand workbench reads. Optional so cases without a baked analysis still validate.
+export interface AnalysisArtifactRef {
+  path: string;
+  format: string;
+  analysis_schema: string; // "chronoscope.analysis/v1"
+  bytes: number;
+}
+
 export interface CaseManifest {
   schema: string; // "chronoscope.manifest/v1"
   case_id: string;
@@ -75,6 +84,7 @@ export interface CaseManifest {
   real_or_synthetic: string;
   expected_band: string;
   engine: { package: string; version: string; model: string };
+  analysis_artifact: AnalysisArtifactRef | null;
   series: SeriesDescriptors;
   seed: number;
   artifact: ArtifactRef;
