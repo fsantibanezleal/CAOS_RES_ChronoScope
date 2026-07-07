@@ -3,6 +3,19 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.12.000] - 2026-07-04
+
+### Added
+- GPU lane enabled (BL-113): CUDA torch `2.12.1+cu126` on the build box (RTX 4070 Laptop, ~8.5 GB, driver
+  560.94 = CUDA 12.6; wheel verified to exist for the exact version, cu128 has no 2.12.1). `chronoscopelab/gpu.py`
+  (`device()`/`cuda_available()`/`gpu_info()`/`summary()`) selects CUDA when present with a transparent CPU
+  fallback (nothing imports torch at module load; CI/CPU clones just fall back). The pipeline logs the device
+  per bake.
+- `tests/test_gpu.py` (5): the device selector works with OR without a GPU (never raises), consistent info.
+- `docs/guides/gpu-lane.md`: the verified install command, the 8 GB budget, and the honesty note (full
+  foundation-ladder bake runs offline on this box, committed as artifacts; CI skips gracefully).
+- `requirements-precompute.txt`: the cu126 install note for the GPU build box vs plain torch for CPU clones.
+
 ## [0.11.001] - 2026-07-04
 
 ### Added

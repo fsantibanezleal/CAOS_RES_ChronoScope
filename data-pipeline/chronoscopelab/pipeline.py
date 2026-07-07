@@ -82,6 +82,8 @@ def main() -> None:
     ap.add_argument("case", nargs="?", default="all", help="a case id, or 'all'")
     ap.add_argument("--seed", type=int, default=42)
     args = ap.parse_args()
+    from . import gpu
+    print(gpu.summary())  # record the compute device used for this bake
     if args.case == "all":
         entries = run_all(args.seed)
         print(f"precomputed {len(entries)} cases -> {DERIVED}")
