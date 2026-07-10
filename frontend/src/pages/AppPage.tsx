@@ -13,7 +13,7 @@ import { forecastAllLive, normalPpf } from '../lib/liveEngine';
 import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
 import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
 import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
-import { acf, bartlettBand, dfaAlpha, histogram, pacf, periodogram, rolling, summaryStats } from '../lib/tsAnalysis';
+import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 import { PanelBoundary } from '../render/PanelBoundary';
 import { WorkbenchChart, type ChartData, type ChartSeries } from '../render/WorkbenchChart';
 
@@ -243,6 +243,129 @@ export default function AppPage() {
             : `excess kurtosis ${fmt(stats?.kurtosisExcess, 2)}: > 0 = heavier tails than normal (Gaussian intervals under-cover).`}</div>
         </div>
       )}
+    </div>
+  );
+
+  // ---------- Decompose (Understand): classical additive decomposition + strengths + remainder QQ ----------
+  const m_ = activeData?.m ?? 1;
+  const decomp = fullSeries.length && m_ >= 2 ? safe(() => decompose(fullSeries, m_), null) : null;
+  const remQQ = decomp ? safe(() => qqPairs(decomp.remainder.filter((v): v is number => v != null)), { theoretical: [], sample: [] }) : { theoretical: [] as number[], sample: [] as number[] };
+  const understandDecompose = (
+    <div className="cs-main">
+      {!decomp && <p className="cs-panel-sub">{es
+        ? `Sin estacionalidad declarada (m = ${m_}) o serie demasiado corta: la descomposición clásica necesita m >= 2 y n >= 2m + 1. Mira la tendencia en la pestaña Serie (media móvil).`
+        : `No declared seasonality (m = ${m_}) or the series is too short: the classical decomposition needs m >= 2 and n >= 2m + 1. Read the trend on the Series tab (rolling mean) instead.`}</p>}
+      {decomp && (
+        <>
+          <LinePlot
+            xs={fullSeries.map((_, i) => i)}
+            series={[
+              { label: es ? 'serie' : 'series', values: fullSeries, color: 'var(--color-fg-faint)' },
+              { label: es ? 'tendencia (MA centrada)' : 'trend (centered MA)', values: decomp.trend, color: 'var(--color-accent)' },
+            ]}
+            title={es ? 'Tendencia (media móvil centrada de orden m)' : 'Trend (centered order-m moving average)'}
+            subtitle={es ? 'el método clásico (FPP3 cap. 3): exacto para tendencia lineal; NaN honesto en los bordes (m/2 puntos).' : 'the classical method (FPP3 ch. 3): exact for a linear trend; honestly NaN at the edges (m/2 points).'}
+          />
+          <LinePlot
+            xs={Array.from({ length: Math.min(3 * m_, fullSeries.length) }, (_, i) => i)}
+            series={[{ label: es ? 'componente estacional' : 'seasonal component', values: decomp.seasonal.slice(0, 3 * m_), color: '#56d364' }]}
+            refLine={0}
+            title={es ? `Componente estacional (indices por fase, m = ${m_})` : `Seasonal component (per-phase indices, m = ${m_})`}
+            subtitle={es ? 'medias por fase de la serie sin tendencia, centradas a suma 0; se muestran 3 temporadas.' : 'per-phase means of the detrended series, centered to sum 0; three seasons shown.'}
+          />
+          <LinePlot
+            xs={fullSeries.map((_, i) => i)}
+            series={[{ label: es ? 'residuo' : 'remainder', values: decomp.remainder, color: '#d29922' }]}
+            refLine={0}
+            title={es ? 'Residuo (serie - tendencia - estacional)' : 'Remainder (series - trend - seasonal)'}
+            subtitle={es ? 'estructura visible aqui = algo que el modelo estacional-mas-tendencia NO captura (ver Estructura y Veredictos).' : 'visible structure here = something the trend-plus-seasonal model does NOT capture (see Structure and Verdicts).'}
+          />
+          <div className="cs-kpis">
+            <div className="cs-kpi"><div className="cs-kpi-v">{fmt(decomp.seasonalStrength, 2)}</div><div className="cs-kpi-l">{es ? 'fuerza estacional' : 'seasonal strength'}</div></div>
+            <div className="cs-kpi"><div className="cs-kpi-v">{fmt(decomp.trendStrength, 2)}</div><div className="cs-kpi-l">{es ? 'fuerza de tendencia' : 'trend strength'}</div></div>
+          </div>
+          {remQQ.theoretical.length > 0 && (
+            <div className="cs-panel">
+              <div className="cs-panel-t">{es ? 'QQ normal del residuo' : 'Normal QQ of the remainder'}</div>
+              <svg viewBox="0 0 300 220" width="100%" style={{ maxWidth: 320 }} role="img" aria-label="QQ plot">
+                {(() => {
+                  const all = [...remQQ.theoretical, ...remQQ.sample].filter(Number.isFinite);
+                  const lo = Math.min(...all), hi = Math.max(...all);
+                  const sx = (v: number) => 20 + ((v - lo) / Math.max(1e-9, hi - lo)) * 260;
+                  const sy = (v: number) => 200 - ((v - lo) / Math.max(1e-9, hi - lo)) * 180;
+                  return (
+                    <>
+                      <line x1={sx(lo)} y1={sy(lo)} x2={sx(hi)} y2={sy(hi)} stroke="var(--color-fg-subtle)" strokeDasharray="4 3" />
+                      {remQQ.theoretical.map((t, i) => (
+                        <circle key={i} cx={sx(t)} cy={sy(remQQ.sample[i])} r={1.6} fill="var(--color-accent)" opacity={0.7} />
+                      ))}
+                    </>
+                  );
+                })()}
+              </svg>
+              <div className="cs-panel-sub">{es
+                ? 'puntos sobre la diagonal = residuo gaussiano (los intervalos gaussianos son honestos); forma de S = colas pesadas (sub-cobertura, ver la curtosis en Serie).'
+                : 'points on the diagonal = Gaussian remainder (Gaussian intervals are honest); an S-shape = heavy tails (under-coverage; see the kurtosis on Series).'}</div>
+            </div>
+          )}
+          <p className="cs-panel-sub">{es
+            ? 'Fuerzas segun FPP3 12.2: 1 - Var(residuo)/Var(componente + residuo). Los paneles horneados (Veredictos) traen STL/MSTL robustos; esta descomposicion clasica es el espejo LIVE que reacciona a los controles.'
+            : 'Strengths per FPP3 12.2: 1 - Var(remainder)/Var(component + remainder). The baked panels (Verdicts) carry robust STL/MSTL; this classical decomposition is the LIVE mirror that reacts to the controls.'}</p>
+        </>
+      )}
+    </div>
+  );
+
+  // ---------- Residuals (Forecast): per-method holdout residuals + bias table ----------
+  const residualSeries = activeData
+    ? allMethods
+        .filter((mm) => !hidden.has(mm.name))
+        .map((mm) => ({
+          label: mm.name,
+          values: activeData.actual.map((a, i) => (Number.isFinite(a) && Number.isFinite(mm.point[i]) ? a - mm.point[i] : null)),
+          color: mm.color,
+        }))
+    : [];
+  const residualRows = residualSeries
+    .map((s) => {
+      const e = s.values.filter((v): v is number => v != null);
+      if (!e.length) return null;
+      const bias = e.reduce((a, b) => a + b, 0) / e.length;
+      const mae_ = e.reduce((a, b) => a + Math.abs(b), 0) / e.length;
+      const worst = Math.max(...e.map(Math.abs));
+      return { name: s.label, bias, mae: mae_, worst };
+    })
+    .filter((r): r is { name: string; bias: number; mae: number; worst: number } => r != null)
+    .sort((a, b) => Math.abs(a.bias) - Math.abs(b.bias));
+  const forecastResiduals = (
+    <div className="cs-main">
+      {residualSeries.length > 0 && (
+        <LinePlot
+          xs={Array.from({ length: activeData?.horizon ?? 0 }, (_, i) => i + 1)}
+          series={residualSeries}
+          refLine={0}
+          title={es ? 'Residuos del pronostico (verdad - punto) por paso' : 'Forecast residuals (truth - point) by lead'}
+          subtitle={es ? 'signo sistematico = sesgo; dispersion creciente = la incertidumbre crece con el paso (compara con Horizonte).' : 'a systematic sign = bias; growing spread = uncertainty growing with lead (compare with Horizon).'}
+        />
+      )}
+      <div className="cs-panel cs-chart">
+        <table className="cs-table">
+          <thead><tr><th>{es ? 'metodo' : 'method'}</th><th>{es ? 'sesgo' : 'bias'}</th><th>MAE</th><th>{es ? 'peor |e|' : 'worst |e|'}</th></tr></thead>
+          <tbody>
+            {residualRows.map((r) => (
+              <tr key={r.name}>
+                <td style={{ color: colorFor(r.name) }}>{r.name}</td>
+                <td>{fmt(r.bias, 2)}</td>
+                <td>{fmt(r.mae, 2)}</td>
+                <td>{fmt(r.worst, 2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="cs-panel-sub">{es
+        ? 'Sobre el holdout mostrado (una realizacion): el sesgo aqui es un READ-OUT del caso, no un veredicto; el veredicto agregado (todos los cortes del backtest) vive en la Tabla y en Horizonte. Desmarca metodos en la leyenda para aislar familias.'
+        : 'Over the displayed holdout (one realization): bias here is a per-case READ-OUT, not a verdict; the aggregate verdict (all backtest cutoffs) lives in the Leaderboard and Horizon. Untick methods in the legend to isolate families.'}</p>
     </div>
   );
 
@@ -536,10 +659,12 @@ export default function AppPage() {
             tabs={[
               { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label="Series" es={es}>{understandSeries}</PanelBoundary> },
               { id: 'structure', label: es ? 'Estructura (ACF·espectro)' : 'Structure (ACF·spectrum)', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
+              { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label="Decompose" es={es}>{understandDecompose}</PanelBoundary> },
               { id: 'verdicts', label: es ? 'Veredictos (tests)' : 'Verdicts (tests)', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
               { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastFull}</PanelBoundary> },
               { id: 'zoom', label: 'Zoom', content: <PanelBoundary label="Zoom" es={es}>{forecastZoom}</PanelBoundary> },
               { id: 'horizon', label: es ? 'Horizonte' : 'Horizon', content: <PanelBoundary label="Horizon" es={es}>{horizonPanel}</PanelBoundary> },
+              { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label="Residuals" es={es}>{forecastResiduals}</PanelBoundary> },
               { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
               { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
             ]}
