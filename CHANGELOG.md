@@ -3,6 +3,24 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.15.001] - 2026-07-10
+
+### Fixed
+- **The deployed traces carried only the 9-method CPU lane, not the 18-method GPU bake** (affected the
+  v0.14.000 through v0.15.000 deploys). Root cause: `tests/test_pipeline_smoke.py::test_run_all_writes_index`
+  ran `pipeline.run_all()` against the repo's real `data/derived`, so the full test suite, executed between
+  the GPU bake and the release commit, silently regenerated every artifact on the test environment's lighter
+  engine set; the local screenshots showed 18 methods because the dist was built before pytest ran. Fixes,
+  each closing the class rather than the instance:
+  - `pipeline.DERIVED` honors `CHRONOSCOPE_DERIVED_DIR`, and the smoke tests write to a pytest tmp tree via
+    an autouse fixture (the suite can no longer touch the canonical artifacts);
+  - the CI pipeline smoke is redirected to a temp tree for the same reason;
+  - `scripts/check_artifacts.py` now enforces **ladder completeness** (every trace >= 15 methods): the
+    committed bake is the canonical GPU run, and a CPU-lane clobber fails CI instead of shipping;
+  - the canonical 18-method v2 artifacts were restored from the build overlay (byte-identical bake output)
+    and verified: 12/12 cases x 18 methods, per-horizon blocks complete, drift gate green, and the trace
+    still holds 18 methods after a full smoke-test run.
+
 ## [0.15.000] - 2026-07-10
 
 ### Added

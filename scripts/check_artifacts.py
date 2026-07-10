@@ -1,6 +1,9 @@
 """Validate CONTRACT 2 on disk (the pipeline -> web artifact contract): the index references every case; each
 manifest exists; each artifact exists, is non-empty, and its byte size matches the manifest; the lane matches the
-gate verdict. Stdlib only (runs in CI WITHOUT installing the package). Exit non-zero on any drift.
+gate verdict; and the LADDER IS COMPLETE (the committed bake is the canonical GPU run, all 18 methods - a trace
+carrying only the CPU-lane subset means something regenerated it on a lighter engine set and clobbered the
+canonical artifact, which once shipped 9-method traces to prod). Stdlib only (runs in CI WITHOUT installing the
+package). Exit non-zero on any drift.
 
 Used by scripts/smoke.* and by .github/workflows/ci.yml — the mechanical guard that a product can't regress to
 serving artifacts that don't match their manifests."""
@@ -13,6 +16,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DERIVED = ROOT / "data" / "derived"
 MANIFESTS = DERIVED / "manifests"
+# The canonical GPU bake carries 18 methods (5 classical + 3 statistical + LightGBM + 3 deep direct +
+# 3 deep nf + 3 foundation). The floor is set BELOW 18 so a deliberate roster change needs one edit,
+# but WELL ABOVE the 9-method CPU lane so a clobber can never pass.
+MIN_LADDER = 15
 
 
 def main() -> int:
@@ -37,14 +44,25 @@ def main() -> int:
             errs.append(f"byte drift {art}: manifest={m['artifact']['bytes']} disk={size}")
         if size == 0:
             errs.append(f"empty artifact: {art}")
+            continue
         if m.get("gate", {}).get("lane") != m.get("lane"):
             errs.append(f"lane/gate mismatch: {entry['case_id']}")
+        trace = json.loads(art.read_text(encoding="utf-8"))
+        n_methods = len(trace.get("methods", []))
+        if n_methods < MIN_LADDER:
+            errs.append(
+                f"ladder incomplete: {entry['case_id']} has {n_methods} methods "
+                f"(the canonical GPU bake has >= {MIN_LADDER}; a lighter-lane regeneration clobbered it?)"
+            )
     if errs:
         print("CONTRACT 2 DRIFT:")
         for e in errs:
             print("  -", e)
         return 1
-    print(f"CONTRACT 2 OK: {len(index.get('cases', []))} cases, manifests <-> artifacts consistent.")
+    print(
+        f"CONTRACT 2 OK: {len(index.get('cases', []))} cases, manifests <-> artifacts consistent, "
+        f"ladder complete (>= {MIN_LADDER} methods/case)."
+    )
     return 0
 
 
