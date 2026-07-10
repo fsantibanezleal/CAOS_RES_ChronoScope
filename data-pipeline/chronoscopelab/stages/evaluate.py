@@ -46,14 +46,24 @@ def run(spec: SeriesSpec, quantile_levels: tuple[float, ...], forecasters: list[
             res = run_prequential(adapter, stream, horizon=h, quantile_levels=quantile_levels,
                                   step=step, warmup=warmup)
             s = res.summary()
+            ph = res.per_horizon()
             methods[fc.name] = {
                 "mase": _num(s["mase"]),
                 "wql": _num(s["wql"]),
                 "coverage": _num(s["coverage"]),
+                "mae": _num(s["mae"]),
+                "rmse": _num(s["rmse"]),
+                "smape": _num(s["smape"]),
+                "msis": _num(s["msis"]),
+                # error growth by lead time: mean |error| / seasonal-naive scale at each lead
+                # (a per-lead MASE; preqts 0.3). The workbench Horizon panel renders this curve.
+                "per_horizon_scaled": [_num(v) for v in ph["scaled"]],
                 "n_windows": res.n_windows,
             }
         except Exception:  # noqa: BLE001 - a heavy engine that cannot backtest this case gets NaN metrics
-            methods[fc.name] = {"mase": float("nan"), "wql": float("nan"), "coverage": float("nan"), "n_windows": 0}
+            methods[fc.name] = {"mase": float("nan"), "wql": float("nan"), "coverage": float("nan"),
+                                "mae": float("nan"), "rmse": float("nan"), "smape": float("nan"),
+                                "msis": float("nan"), "per_horizon_scaled": [], "n_windows": 0}
 
     scored = [(n, v["mase"]) for n, v in methods.items() if v["mase"] == v["mase"]]  # drop NaN
     best_method, best_mase = min(scored, key=lambda kv: kv[1]) if scored else ("SeasonalNaive", float("nan"))

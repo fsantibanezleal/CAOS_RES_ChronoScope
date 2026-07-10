@@ -3,6 +3,29 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.15.000] - 2026-07-10
+
+### Added
+- **Extended metric suite via preqts 0.3.0 (OUR package, released to PyPI this cycle)**: every method's
+  backtest now carries MAE / RMSE / sMAPE (point family, M-competition conventions) and **MSIS**
+  (Gneiting & Raftery 2007, the M4 interval metric: width + 2/alpha per unit of miss, seasonal-naive
+  scaled), alongside the existing MASE / WQL / coverage.
+- **Per-horizon error curves** (`per_horizon_scaled`): mean |error| at each lead over all backtest
+  cutoffs, scaled by the seasonal naive (a per-lead MASE). Baked per method into the trace; aggregate,
+  therefore redaction-safe for local-only sources.
+- **Workbench "Horizon" tab** (8th): the error-growth-by-lead chart with the naive parity refline; the
+  SHAPE is the diagnosis (plateau = mean reversion, square-root growth = random walk, exponential
+  growth that saturates = deterministic chaos, the Lyapunov horizon). Reacts to the method legend.
+- **Leaderboard columns**: WQL and MSIS join MASE + coverage in the workbench table; the footnote
+  explains what each prices. **Benchmark "Interval (MSIS)" sub-tab**: MSIS per method x case with the
+  per-case best highlighted, complementing the coverage view (perfect coverage with bloated intervals
+  pays here).
+- **Trace schema v2** (`chronoscope.trace/v2`): the extended backtest block; TS mirror updated;
+  architecture docs (02, 08) updated; `tests/test_stage_evaluate.py` (3, incl. the redaction guard and
+  the flat-ish naive per-lead curve on a seasonal case); Experiments page gains the MSIS equation +
+  the per-horizon read; Gneiting & Raftery citation (real DOI).
+- Full 18-method x 12-case re-bake with the extended metrics (deterministic, seed 42).
+
 ## [0.14.001] - 2026-07-10
 
 ### Added

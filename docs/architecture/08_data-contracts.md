@@ -13,7 +13,7 @@ Policy: fewer than 8 observations or more than 30% missing target or non-numeric
 robust MAD z-score above 8, or unsorted timestamps, flag (and sort). Full table: [`data/README.md`](../../data/README.md).
 
 ## CONTRACT 2: artifact (`pipeline` to `web`)
-`data-pipeline/chronoscopelab/core/{trace.py, manifest.py}`. Every run writes a compact trace (`chronoscope.trace/v1`)
+`data-pipeline/chronoscopelab/core/{trace.py, manifest.py}`. Every run writes a compact trace (`chronoscope.trace/v2`; v2 added the extended metric block: MAE/RMSE/sMAPE/MSIS + `per_horizon_scaled` per method, all aggregates and therefore redaction-safe)
 plus a manifest (`chronoscope.manifest/v1`) recording the series descriptors, seed, engine + version, the artifact
 byte size, the measured [lane/gate](03_the-gate.md) verdict, the Contract-1 flags, the best method, and the
 evaluation metrics. A flat `data/derived/manifests/index.json` inventories every case.
