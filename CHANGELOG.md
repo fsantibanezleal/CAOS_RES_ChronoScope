@@ -3,6 +3,25 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.16.000] - 2026-07-10
+
+### Added
+- **Two live analysis panels close BL-103** (the themed interactive viz set), each a genuine domain view
+  reacting to the source selector, boundary-wrapped, bilingual:
+  - **Decompose tab** (Understand half): the classical additive decomposition (centered order-m moving
+    average trend, per-phase seasonal indices centered to sum 0, remainder = series - trend - seasonal;
+    Hyndman & Athanasopoulos FPP3 ch. 3), with the FPP3 12.2 seasonal/trend strength KPIs and a **normal
+    QQ plot of the remainder** (Blom plotting positions + Acklam's inverse-normal): on the diagonal = a
+    Gaussian remainder (Gaussian intervals are honest), an S-shape = heavy tails (under-coverage). This is
+    the LIVE mirror of the baked STL/MSTL panels, honest about the NaN trend edges.
+  - **Residuals tab** (Forecast half): per-method holdout residuals (truth - point) by lead as lines, plus
+    a bias / MAE / worst-|e| table sorted by |bias|; framed as a per-case read-out, with the aggregate
+    verdict deferred to the Leaderboard and Horizon.
+- `lib/tsAnalysis.ts` gains `decompose()`, `qqPairs()`, and `normalInv()` (Acklam, |error| < 1.15e-9),
+  each with ground-truth tests (exact trend + centered seasonal recovery on a synthetic ramp+sine, weak
+  seasonal strength on white noise, known normal quantiles, Gaussian-on-the-line vs heavy-tail-bends-off).
+  Frontend suite: 30 tests. The workbench is now **10 tabs**; screenshot-verified light + dark.
+
 ## [0.15.001] - 2026-07-10
 
 ### Fixed

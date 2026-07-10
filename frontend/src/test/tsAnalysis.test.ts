@@ -3,7 +3,7 @@
 // phi^k, PACF cuts off after lag 1, a pure sine's dominant period is its true period, DFA alpha is
 // ~0.5 on white noise and ~1.5 on a random walk).
 import { describe, expect, it } from 'vitest';
-import { acf, bartlettBand, dfaAlpha, histogram, pacf, periodogram, rolling, summaryStats } from '../lib/tsAnalysis';
+import { acf, bartlettBand, decompose, dfaAlpha, histogram, normalInv, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 
 // Deterministic LCG so the tests never flake (no Math.random).
 function lcg(seed: number): () => number {
@@ -142,5 +142,58 @@ describe('histogram', () => {
     expect(h.counts.reduce((a, b) => a + b, 0)).toBe(500);
     expect(h.edges[0]).toBeCloseTo(Math.min(...y), 10);
     expect(h.edges[24]).toBeCloseTo(Math.max(...y), 10);
+  });
+});
+
+describe('decompose (classical additive, FPP3 ch. 3)', () => {
+  it('recovers an exact seasonal pattern and a linear trend', () => {
+    const m = 12;
+    const seas = Array.from({ length: m }, (_, i) => Math.sin((2 * Math.PI * i) / m) * 5);
+    const meanSeas = seas.reduce((a, b) => a + b, 0) / m;
+    const y = Array.from({ length: 240 }, (_, t) => 0.5 * t + seas[t % m]);
+    const d = decompose(y, m)!;
+    // interior trend equals the ramp (centered MA of a linear function is exact)
+    expect(d.trend[120]!).toBeCloseTo(0.5 * 120, 6);
+    // seasonal indices match the generator (centered)
+    for (let i = 0; i < m; i++) expect(d.seasonal[i]).toBeCloseTo(seas[i] - meanSeas, 6);
+    // remainder ~ 0 everywhere it is defined
+    for (const r of d.remainder) if (r != null) expect(Math.abs(r)).toBeLessThan(1e-6);
+    expect(d.seasonalStrength).toBeGreaterThan(0.99);
+    expect(d.trendStrength).toBeGreaterThan(0.99);
+  });
+
+  it('reports weak seasonal strength on white noise', () => {
+    const d = decompose(normals(600, 21), 12)!;
+    expect(d.seasonalStrength).toBeLessThan(0.35);
+  });
+
+  it('returns null when the series is too short', () => {
+    expect(decompose(normals(20, 1), 12)).toBeNull();
+  });
+});
+
+describe('qqPairs + normalInv', () => {
+  it('normalInv matches known quantiles', () => {
+    expect(normalInv(0.5)).toBeCloseTo(0, 9);
+    expect(normalInv(0.975)).toBeCloseTo(1.959964, 5);
+    expect(normalInv(0.025)).toBeCloseTo(-1.959964, 5);
+  });
+
+  it('gaussian data sits on the identity line', () => {
+    const { theoretical, sample } = qqPairs(normals(4000, 13));
+    // compare the central quantiles (tails are noisy by nature)
+    for (let i = Math.floor(theoretical.length * 0.1); i < theoretical.length * 0.9; i++) {
+      expect(Math.abs(sample[i] - theoretical[i])).toBeLessThan(0.12);
+    }
+  });
+
+  it('heavy-tailed data bends off the line in the tails', () => {
+    // t-like: mix of narrow + wide normals
+    const base = normals(3000, 17);
+    const wide = normals(3000, 19).map((v) => v * 4);
+    const y = base.map((v, i) => (i % 10 === 0 ? wide[i] : v));
+    const { theoretical, sample } = qqPairs(y);
+    const last = theoretical.length - 1;
+    expect(sample[last]).toBeGreaterThan(theoretical[last] * 1.3); // upper tail above the line
   });
 });
