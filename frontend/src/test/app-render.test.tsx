@@ -13,7 +13,7 @@ describe('App workbench renders (baked-first with synthetic live mode available)
   it('shows the source modes and the workbench tabs', () => {
     expect(html).toContain('Baked case');
     expect(html).toContain('Synthetic (live)');
-    for (const label of ['Series', 'Structure', 'Verdicts', 'Forecast', 'Zoom', 'Leaderboard', 'Streaming']) {
+    for (const label of ['Series', 'Structure', 'Verdicts', 'Forecast', 'Zoom', 'Horizon', 'Leaderboard', 'Streaming']) {
       expect(html).toContain(label);
     }
   });

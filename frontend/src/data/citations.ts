@@ -6,6 +6,7 @@ import type { Citation } from '@fasl-work/caos-app-shell';
 export const CITATIONS: Citation[] = [
   // --- scoring / classical ---
   { id: 'mase', label: 'Hyndman & Koehler 2006', citation: 'Hyndman, R. J., & Koehler, A. B. (2006). Another look at measures of forecast accuracy. International Journal of Forecasting, 22(4), 679-688.', doi: '10.1016/j.ijforecast.2006.03.001' },
+  { id: 'msis', label: 'Gneiting & Raftery 2007', citation: 'Gneiting, T., & Raftery, A. E. (2007). Strictly Proper Scoring Rules, Prediction, and Estimation. Journal of the American Statistical Association, 102(477), 359-378.', doi: '10.1198/016214506000001437' },
   { id: 'theta', label: 'Assimakopoulos & Nikolopoulos 2000', citation: 'Assimakopoulos, V., & Nikolopoulos, K. (2000). The theta model: a decomposition approach to forecasting. International Journal of Forecasting, 16(4), 521-530.', doi: '10.1016/S0169-2070(00)00066-2' },
   { id: 'theta-ses', label: 'Hyndman & Billah 2003', citation: 'Hyndman, R. J., & Billah, B. (2003). Unmasking the Theta method. International Journal of Forecasting, 19(2), 287-290.', doi: '10.1016/S0169-2070(01)00143-1' },
   { id: 'hyndman-fpp', label: 'Hyndman & Athanasopoulos 2021', citation: 'Hyndman, R. J., & Athanasopoulos, G. (2021). Forecasting: Principles and Practice (3rd ed.). OTexts.', url: 'https://otexts.com/fpp3/' },

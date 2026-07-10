@@ -31,7 +31,7 @@ const colorFor = (n: string) => COLORS[n] ?? `hsl(${(n.split('').reduce((a, c) =
 const KINDS: SyntheticKind[] = ['seasonal', 'trend_seasonal', 'intermittent', 'random_walk', 'white_noise'];
 const fmt = (v: number | null | undefined, nd = 3) => (v == null || !Number.isFinite(v) ? '-' : v.toFixed(nd));
 
-interface Row { name: string; family: string; mase: number; coverage: number; }
+interface Row { name: string; family: string; mase: number; coverage: number; wql?: number; msis?: number; }
 
 // ---------- small inline SVG plots (theme-aware via currentColor / tokens; static, no animation) ----------
 
@@ -145,7 +145,11 @@ export default function AppPage() {
     const methods: ChartSeries[] = trace.methods
       .filter((m) => m.point && m.lower && m.upper)
       .map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point!, lower: m.lower!, upper: m.upper! }));
-    const rows: Row[] = trace.methods.map((m) => ({ name: m.name, family: m.family, mase: m.backtest.mase ?? NaN, coverage: m.backtest.coverage ?? NaN }));
+    const rows: Row[] = trace.methods.map((m) => ({
+      name: m.name, family: m.family,
+      mase: m.backtest.mase ?? NaN, coverage: m.backtest.coverage ?? NaN,
+      wql: m.backtest.wql ?? NaN, msis: m.backtest.msis ?? NaN,
+    }));
     return { history: trace.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
   }, [mode, trace]);
 
@@ -375,13 +379,15 @@ export default function AppPage() {
     <div className="cs-main">
       <div className="cs-panel cs-chart">
         <table className="cs-table">
-          <thead><tr><th>{es ? 'método' : 'method'}</th><th>{es ? 'familia' : 'family'}</th><th>MASE</th><th>{es ? 'cobertura' : 'coverage'}</th></tr></thead>
+          <thead><tr><th>{es ? 'método' : 'method'}</th><th>{es ? 'familia' : 'family'}</th><th>MASE</th><th>WQL</th><th>MSIS</th><th>{es ? 'cobertura' : 'coverage'}</th></tr></thead>
           <tbody>
             {rankedRows.map((r) => (
               <tr key={r.name} className={r.name === best ? 'best' : undefined}>
                 <td style={{ color: colorFor(r.name) }}>{r.name}</td>
                 <td>{r.family}</td>
                 <td>{fmt(r.mase)}</td>
+                <td>{fmt(r.wql)}</td>
+                <td>{fmt(r.msis, 2)}</td>
                 <td>{fmt(r.coverage, 2)}</td>
               </tr>
             ))}
@@ -389,8 +395,42 @@ export default function AppPage() {
         </table>
       </div>
       <p className="cs-panel-sub">{es
-        ? `MASE < 1 le gana al naive estacional. Mejor en esta serie: ${best ?? '-'}. Ningún método gana en todas partes; en los controles, ganar por mucho es una bandera roja.`
-        : `MASE < 1 beats the seasonal naive. Best on this series: ${best ?? '-'}. No method wins everywhere; on the controls, winning big is a red flag.`}</p>
+        ? `MASE < 1 le gana al naive estacional; WQL puntúa los cuantiles; MSIS puntúa el intervalo (ancho + 2/α por cada falla, escalado como MASE): un intervalo angosto que falla no puede verse bien. Mejor en esta serie: ${best ?? '-'}. Ningún método gana en todas partes; en los controles, ganar por mucho es una bandera roja.`
+        : `MASE < 1 beats the seasonal naive; WQL scores the quantiles; MSIS prices the interval (width + 2/α per miss, scaled like MASE): a narrow interval that misses cannot look good. Best on this series: ${best ?? '-'}. No method wins everywhere; on the controls, winning big is a red flag.`}</p>
+    </div>
+  );
+
+  const horizonRows = mode === 'baked' && trace
+    ? trace.methods
+        .filter((m) => !hidden.has(m.name) && (m.backtest.per_horizon_scaled ?? []).some((v) => v != null && Number.isFinite(v)))
+        .map((m) => ({ label: m.name, values: (m.backtest.per_horizon_scaled ?? []) as (number | null)[], color: colorFor(m.name) }))
+    : [];
+  const horizonPanel = (
+    <div className="cs-main">
+      {mode !== 'baked' && <p className="cs-panel-sub">{es
+        ? 'La curva por horizonte se hornea offline por caso (media sobre todos los cortes del backtest): elige un caso horneado.'
+        : 'The per-horizon curve is baked offline per case (mean over all backtest cutoffs): pick a baked case.'}</p>}
+      {mode === 'baked' && trace && horizonRows.length > 0 && (
+        <>
+          <LinePlot
+            xs={Array.from({ length: trace.horizon }, (_, i) => i + 1)}
+            series={horizonRows}
+            refLine={1}
+            title={es ? 'Crecimiento del error por horizonte (MASE por paso)' : 'Error growth by lead time (per-lead MASE)'}
+            subtitle={es
+              ? 'media de |error| en el paso h sobre todos los cortes, escalada por el naive estacional; 1.0 = tan malo como el naive en ese paso.'
+              : 'mean |error| at lead h over all backtest cutoffs, scaled by the seasonal naive; 1.0 = as wrong as the naive at that lead.'}
+          />
+          <p className="cs-panel-sub">{es
+            ? 'La FORMA es el diagnóstico: meseta = reversión a la media (el error satura), crecimiento tipo raíz = caminata aleatoria (incertidumbre difusiva), crecimiento exponencial que satura = caos determinista (horizonte de Lyapunov). Desmarca métodos en la leyenda para aislar familias.'
+            : 'The SHAPE is the diagnosis: a plateau = mean reversion (error saturates), square-root growth = a random walk (diffusive uncertainty), exponential growth that saturates = deterministic chaos (the Lyapunov horizon). Untick methods in the legend to isolate families.'}</p>
+        </>
+      )}
+      {mode === 'baked' && trace && horizonRows.length === 0 && (
+        <p className="cs-panel-sub">{es
+          ? 'Este trace no trae curvas por horizonte (artefacto anterior a v2): re-hornea el caso.'
+          : 'This trace carries no per-horizon curves (a pre-v2 artifact): re-bake the case.'}</p>
+      )}
     </div>
   );
 
@@ -499,6 +539,7 @@ export default function AppPage() {
               { id: 'verdicts', label: es ? 'Veredictos (tests)' : 'Verdicts (tests)', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
               { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastFull}</PanelBoundary> },
               { id: 'zoom', label: 'Zoom', content: <PanelBoundary label="Zoom" es={es}>{forecastZoom}</PanelBoundary> },
+              { id: 'horizon', label: es ? 'Horizonte' : 'Horizon', content: <PanelBoundary label="Horizon" es={es}>{horizonPanel}</PanelBoundary> },
               { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
               { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
             ]}

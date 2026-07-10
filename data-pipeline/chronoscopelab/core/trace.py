@@ -5,7 +5,8 @@ from __future__ import annotations
 
 from ..io.schema import ForecastResult
 
-TRACE_SCHEMA = "chronoscope.trace/v1"
+# v2 (0.15.000): backtest gains mae/rmse/smape/msis + per_horizon_scaled (preqts 0.3); additive.
+TRACE_SCHEMA = "chronoscope.trace/v2"
 MAX_HISTORY = 300  # decimate long histories so the committed artifact stays small (replay, not raw data)
 
 
@@ -36,6 +37,13 @@ def build_trace(result: ForecastResult, actual: list[float], eval_metrics: dict,
                 "mase": bt.get("mase"),
                 "wql": bt.get("wql"),
                 "coverage": bt.get("coverage"),
+                "mae": bt.get("mae"),
+                "rmse": bt.get("rmse"),
+                "smape": bt.get("smape"),
+                "msis": bt.get("msis"),
+                # per-lead MASE-like curve (preqts 0.3), aggregate over cutoffs; ships even for
+                # license-redacted sources (an aggregate like the other backtest metrics, no raw values)
+                "per_horizon_scaled": bt.get("per_horizon_scaled", []),
                 "n_windows": bt.get("n_windows"),
             },
         }
