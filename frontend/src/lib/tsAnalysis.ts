@@ -123,6 +123,110 @@ export function dfaAlpha(y: number[]): number | null {
   return den > 0 ? num / den : null;
 }
 
+// Classical additive decomposition (the moving-average method, Hyndman & Athanasopoulos FPP3 ch. 3):
+// trend = centered MA(m) (an even m uses the standard 2x(m) average), seasonal = per-phase means of the
+// detrended series (normalized to sum 0), remainder = y - trend - seasonal. This is the LIGHT live mirror
+// of the baked STL/MSTL panels: exact for stable seasonality, honest about edges (trend is NaN in the
+// first/last m/2 points, as in every classical implementation).
+export interface Decomposition {
+  trend: (number | null)[];
+  seasonal: number[];
+  remainder: (number | null)[];
+  seasonalStrength: number; // max(0, 1 - Var(remainder)/Var(seasonal + remainder)) (FPP3 12.2)
+  trendStrength: number; // max(0, 1 - Var(remainder)/Var(trend + remainder))
+}
+
+export function decompose(y: number[], m: number): Decomposition | null {
+  const n = y.length;
+  if (m < 2 || n < 2 * m + 1) return null;
+  const half = Math.floor(m / 2);
+  const trend: (number | null)[] = new Array(n).fill(null);
+  for (let t = half; t < n - half; t++) {
+    let s = 0;
+    if (m % 2 === 0) {
+      // 2 x m-MA: half-weights on the two outermost points
+      s = (y[t - half] + y[t + half]) / 2;
+      for (let j = -half + 1; j <= half - 1; j++) s += y[t + j];
+      s /= m;
+    } else {
+      for (let j = -half; j <= half; j++) s += y[t + j];
+      s /= m;
+    }
+    trend[t] = Number.isFinite(s) ? s : null;
+  }
+  // seasonal indices from the detrended series
+  const sums = new Array(m).fill(0);
+  const counts = new Array(m).fill(0);
+  for (let t = 0; t < n; t++) {
+    const tr = trend[t];
+    if (tr == null || !Number.isFinite(y[t])) continue;
+    sums[t % m] += y[t] - tr;
+    counts[t % m]++;
+  }
+  const seasonalIdx = sums.map((s, i) => (counts[i] > 0 ? s / counts[i] : 0));
+  const meanIdx = seasonalIdx.reduce((a, b) => a + b, 0) / m;
+  const centered = seasonalIdx.map((v) => v - meanIdx); // sums to 0 by construction
+  const seasonal = Array.from({ length: n }, (_, t) => centered[t % m]);
+  const remainder: (number | null)[] = Array.from({ length: n }, (_, t) =>
+    trend[t] == null || !Number.isFinite(y[t]) ? null : y[t] - (trend[t] as number) - seasonal[t],
+  );
+  const varOf = (v: number[]) => {
+    if (v.length < 2) return NaN;
+    const mu = v.reduce((a, b) => a + b, 0) / v.length;
+    return v.reduce((a, b) => a + (b - mu) ** 2, 0) / v.length;
+  };
+  const rem = remainder.filter((v): v is number => v != null && Number.isFinite(v));
+  const pairsSeas: number[] = [];
+  const pairsTrend: number[] = [];
+  for (let t = 0; t < n; t++) {
+    if (remainder[t] == null) continue;
+    pairsSeas.push(seasonal[t] + (remainder[t] as number));
+    pairsTrend.push((trend[t] as number) + (remainder[t] as number));
+  }
+  const vr = varOf(rem);
+  const seasonalStrength = Math.max(0, 1 - vr / Math.max(1e-12, varOf(pairsSeas)));
+  const trendStrength = Math.max(0, 1 - vr / Math.max(1e-12, varOf(pairsTrend)));
+  return { trend, seasonal, remainder, seasonalStrength, trendStrength };
+}
+
+// Normal QQ pairs: sorted sample quantiles vs standard-normal quantiles at the Blom plotting
+// positions (i - 3/8)/(n + 1/4). A straight line = Gaussian; S-shape = heavy tails.
+export function qqPairs(values: number[]): { theoretical: number[]; sample: number[] } {
+  const v = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
+  const n = v.length;
+  if (n < 8) return { theoretical: [], sample: [] };
+  const mean = v.reduce((a, b) => a + b, 0) / n;
+  const sd = Math.sqrt(v.reduce((a, b) => a + (b - mean) ** 2, 0) / n) || 1;
+  const theoretical: number[] = [];
+  const sample: number[] = [];
+  for (let i = 1; i <= n; i++) {
+    theoretical.push(normalInv((i - 0.375) / (n + 0.25)));
+    sample.push((v[i - 1] - mean) / sd);
+  }
+  return { theoretical, sample };
+}
+
+// Acklam's rational approximation of the standard normal inverse CDF (|error| < 1.15e-9).
+export function normalInv(p: number): number {
+  if (!(p > 0 && p < 1)) return NaN;
+  const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239];
+  const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
+  const c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+  const d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416];
+  const pl = 0.02425;
+  let q: number, r: number;
+  if (p < pl) {
+    q = Math.sqrt(-2 * Math.log(p));
+    return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+  }
+  if (p <= 1 - pl) {
+    q = p - 0.5; r = q * q;
+    return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+  }
+  q = Math.sqrt(-2 * Math.log(1 - p));
+  return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+}
+
 export function histogram(y: number[], bins = 24): { edges: number[]; counts: number[] } {
   const v = y.filter(Number.isFinite);
   const lo = Math.min(...v), hi = Math.max(...v);
