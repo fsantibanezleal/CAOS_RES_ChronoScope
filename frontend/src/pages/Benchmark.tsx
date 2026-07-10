@@ -1,19 +1,34 @@
 import { useEffect, useState } from 'react';
-import { Callout, Refs, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
-import { loadIndex, loadManifest, loadTrace } from '../api/artifacts';
+import { Callout, Cite, Refs, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
+import { loadAnalysis, loadIndex, loadManifest, loadTrace } from '../api/artifacts';
 import type { Trace } from '../lib/contract.types';
 
 // Benchmark: the cross-case results built LIVE from the committed artifacts (never hand-typed).
-// Tabbed: leaderboard (MASE per method x case) · per-family view · coverage · honesty notes.
-interface CaseTrace { caseId: string; category: string; trace: Trace; }
+// Tabbed: leaderboard (MASE per method x case) · per-family view · coverage · interval (MSIS) ·
+// forecastability atlas (diagnosis -> winner) · honesty notes.
+interface CaseTrace { caseId: string; category: string; trace: Trace; analysis: Record<string, unknown> | null; }
 const fmt = (v: number | null | undefined, nd = 3) => (v == null || Number.isNaN(v) ? '-' : v.toFixed(nd));
 
 const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'foundation'];
+const FAMILY_COLOR: Record<string, string> = {
+  classical: '#58a6ff', statistical: '#d2a8ff', ml: '#7ee787', deep: '#f0883e', foundation: '#ff7b72',
+};
+
+// Safe deep-getter for the baked analysis.json (chronoscope.analysis/v1); returns null on any missing link.
+function dig(o: unknown, ...path: string[]): number | null {
+  let cur: unknown = o;
+  for (const k of path) {
+    if (cur == null || typeof cur !== 'object') return null;
+    cur = (cur as Record<string, unknown>)[k];
+  }
+  return typeof cur === 'number' && Number.isFinite(cur) ? cur : null;
+}
 
 export default function Benchmark() {
   const es = useShellLang() === 'es';
   const [rows, setRows] = useState<CaseTrace[]>([]);
   const [err, setErr] = useState('');
+  const [atlasAxis, setAtlasAxis] = useState('dfa');
 
   useEffect(() => {
     loadIndex()
@@ -22,7 +37,8 @@ export default function Benchmark() {
         for (const c of ix.cases) {
           const m = await loadManifest(c.case_id);
           const t = await loadTrace(m.artifact.path);
-          out.push({ caseId: c.case_id, category: c.category, trace: t });
+          const a = m.analysis_artifact ? await loadAnalysis(m.analysis_artifact.path).catch(() => null) : null;
+          out.push({ caseId: c.case_id, category: c.category, trace: t, analysis: a });
         }
         setRows(out);
       })
@@ -149,6 +165,113 @@ export default function Benchmark() {
     </div>
   );
 
+  // ---- Forecastability atlas: each case's DIAGNOSTIC FINGERPRINT (baked analysis) -> its OUTCOME
+  // (winning family + how forecastable it is at all = best MASE). Built live; the honest cross-case
+  // synthesis of the no-free-lunch story.
+  const AXES: { key: string; label: string; labelEs: string; get: (a: Record<string, unknown> | null) => number | null }[] = [
+    { key: 'dfa', label: 'DFA alpha (memory)', labelEs: 'alfa DFA (memoria)', get: (a) => dig(a, 'fractal', 'hurst', 'dfa_alpha') },
+    { key: 'seas', label: 'seasonal strength', labelEs: 'fuerza estacional', get: (a) => dig(a, 'seasonality', 'stl_at_dominant', 'strength_seasonal') },
+    { key: 'garch', label: 'GARCH persistence', labelEs: 'persistencia GARCH', get: (a) => dig(a, 'volatility', 'garch', 'persistence') },
+    { key: 'chaos', label: '0-1 chaos K', labelEs: 'K caos 0-1', get: (a) => dig(a, 'nonlinear', 'zero_one_K') },
+  ];
+  const atlasRows = rows.map((r) => {
+    const win = winnerOf(r);
+    const fam = win ? familyOf(win) : '';
+    return {
+      caseId: r.caseId,
+      winner: win,
+      family: fam,
+      bestMase: r.trace.summary.best_mase,
+      seas: dig(r.analysis, 'seasonality', 'stl_at_dominant', 'strength_seasonal'),
+      dfa: dig(r.analysis, 'fractal', 'hurst', 'dfa_alpha'),
+      garch: dig(r.analysis, 'volatility', 'garch', 'persistence'),
+      chaos: dig(r.analysis, 'nonlinear', 'zero_one_K'),
+      d: dig(r.analysis, 'stationarity', 'recommended_d'),
+    };
+  }).sort((a, b) => (a.bestMase ?? Infinity) - (b.bestMase ?? Infinity));
+
+  const atlas = (
+    <div className="cs-chart">
+      <table className="cs-table">
+        <thead>
+          <tr>
+            <th>{es ? 'caso' : 'case'}</th>
+            <th>{es ? 'fuerza estac.' : 'seasonal str.'}</th>
+            <th>{es ? 'alfa DFA' : 'DFA alpha'}</th>
+            <th>{es ? 'pers. GARCH' : 'GARCH pers.'}</th>
+            <th>{es ? 'K caos' : 'chaos K'}</th>
+            <th>d</th>
+            <th>{es ? 'familia ganadora' : 'winning family'}</th>
+            <th>{es ? 'mejor MASE' : 'best MASE'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {atlasRows.map((r) => (
+            <tr key={r.caseId}>
+              <td>{r.caseId.replace(/_/g, ' ')}</td>
+              <td>{fmt(r.seas, 2)}</td>
+              <td>{fmt(r.dfa, 2)}</td>
+              <td>{fmt(r.garch, 2)}</td>
+              <td>{fmt(r.chaos, 2)}</td>
+              <td>{r.d ?? '-'}</td>
+              <td><span className="cs-badge" style={{ color: FAMILY_COLOR[r.family] ?? 'var(--color-fg)' }}>{r.family || '-'}</span></td>
+              <td style={{ fontWeight: 700, color: r.bestMase != null && r.bestMase < 1 ? '#3fb950' : 'var(--color-fg)' }}>{fmt(r.bestMase, 2)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="cs-panel" style={{ marginTop: '1rem' }}>
+        <div className="cs-panel-t">{es ? 'Mapa: pronosticabilidad vs diagnóstico' : 'Map: forecastability vs diagnostic'}</div>
+        <div className="cs-chips" style={{ margin: '0.4rem 0' }}>
+          {AXES.map((ax) => (
+            <button key={ax.key} className={`chip${atlasAxis === ax.key ? ' on' : ''}`} onClick={() => setAtlasAxis(ax.key)}>
+              {es ? ax.labelEs : ax.label}
+            </button>
+          ))}
+        </div>
+        {(() => {
+          const ax = AXES.find((a) => a.key === atlasAxis)!;
+          const pts = atlasRows
+            .map((r) => ({ x: ax.get(rows.find((rr) => rr.caseId === r.caseId)?.analysis ?? null), y: r.bestMase, fam: r.family, id: r.caseId }))
+            .filter((p): p is { x: number; y: number; fam: string; id: string } => p.x != null && p.y != null);
+          if (pts.length < 2) return <p className="cs-panel-sub">{es ? 'Sin datos suficientes para este eje.' : 'Not enough data for this axis.'}</p>;
+          const W = 520, H = 300, PAD = 46;
+          const xs = pts.map((p) => p.x), ys = pts.map((p) => p.y);
+          const xlo = Math.min(...xs), xhi = Math.max(...xs), ylo = Math.min(...ys, 1), yhi = Math.max(...ys, 1);
+          const sx = (v: number) => PAD + ((v - xlo) / Math.max(1e-9, xhi - xlo)) * (W - 2 * PAD);
+          const sy = (v: number) => H - PAD - ((v - ylo) / Math.max(1e-9, yhi - ylo)) * (H - 2 * PAD);
+          return (
+            <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W }} role="img" aria-label="forecastability atlas scatter">
+              {/* naive wall at MASE = 1 */}
+              <line x1={PAD} y1={sy(1)} x2={W - PAD} y2={sy(1)} stroke="var(--color-fg-subtle)" strokeDasharray="4 3" />
+              <text x={W - PAD} y={sy(1) - 4} textAnchor="end" fontSize="9" fill="var(--color-fg-subtle)">{es ? 'muro del naive (MASE=1)' : 'naive wall (MASE=1)'}</text>
+              {/* axes labels */}
+              <text x={W / 2} y={H - 8} textAnchor="middle" fontSize="10" fill="var(--color-fg-subtle)">{es ? ax.labelEs : ax.label}</text>
+              <text x={12} y={H / 2} textAnchor="middle" fontSize="10" fill="var(--color-fg-subtle)" transform={`rotate(-90 12 ${H / 2})`}>{es ? 'mejor MASE (menor = más pronosticable)' : 'best MASE (lower = more forecastable)'}</text>
+              {pts.map((p) => (
+                <g key={p.id}>
+                  <circle cx={sx(p.x)} cy={sy(p.y)} r={5} fill={FAMILY_COLOR[p.fam] ?? '#888'} opacity={0.85} />
+                  <text x={sx(p.x) + 7} y={sy(p.y) + 3} fontSize="8" fill="var(--color-fg-subtle)">{p.id.replace(/_.*/, '')}</text>
+                </g>
+              ))}
+            </svg>
+          );
+        })()}
+        <div className="cs-legend" style={{ marginTop: '0.4rem' }}>
+          {FAMILY_ORDER.map((f) => (
+            <span key={f}><span className="swatch" style={{ background: FAMILY_COLOR[f] }} /> {f}</span>
+          ))}
+        </div>
+      </div>
+
+      <p className="cs-panel-sub">{es
+        ? 'El atlas conecta el DIAGNÓSTICO de cada serie (huella del toolkit horneado) con su RESULTADO (qué familia gana y qué tan pronosticable es). Lectura: estacionalidad fuerte y d bajo -> clásicos/estadísticos ganan con MASE bajo; memoria larga o caos -> profundos/fundacionales; ruido y caminata aleatoria -> nadie le gana al naive (MASE ~ 1, el muro). Es UNA realización (el backtest de origen móvil de este atlas), no una ley; los controles DEBEN quedar en el muro, si no, el pipeline tiene fuga.'
+        : 'The atlas connects each series\' DIAGNOSIS (the baked toolkit fingerprint) to its OUTCOME (which family wins and how forecastable it is). Read: strong seasonality and low d -> classical/statistical win at low MASE; long memory or chaos -> deep/foundation; noise and random walk -> nobody beats the naive (MASE ~ 1, the wall). It is ONE realization (this atlas\'s rolling-origin backtest), not a law; the controls MUST sit at the wall, else the pipeline is leaking.'}
+        {' '}<Cite id="mase" /></p>
+    </div>
+  );
+
   const honesty = (
     <div className="prose">
       <Callout variant="honest" title={es ? 'Cómo leer esta tabla sin engañarse' : 'How to read this table without fooling yourself'}>
@@ -186,6 +309,7 @@ export default function Benchmark() {
             { id: 'families', label: es ? 'Por familia' : 'By family', content: families },
             { id: 'coverage', label: es ? 'Cobertura' : 'Coverage', content: coverage },
             { id: 'interval', label: es ? 'Intervalo (MSIS)' : 'Interval (MSIS)', content: interval },
+            { id: 'atlas', label: es ? 'Pronosticabilidad' : 'Forecastability', content: atlas },
             { id: 'honesty', label: es ? 'Notas de honestidad' : 'Honesty notes', content: honesty },
           ]}
         />

@@ -3,6 +3,24 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.17.000] - 2026-07-10
+
+### Added
+- **Forecastability atlas** (Benchmark "Forecastability" sub-tab, BL-132, the plan's novel visualization
+  axis 2): the cross-case map connecting each series' DIAGNOSTIC FINGERPRINT (from the baked analysis
+  toolkit: seasonal strength, DFA alpha / memory, GARCH persistence, 0-1 chaos K, integration order d) to
+  its OUTCOME (winning family + best MASE = how forecastable it is at all). Two views, built LIVE from the
+  committed artifacts (never hand-typed):
+  - a **fingerprint -> outcome table** sorted by best MASE (most forecastable first), best MASE colored
+    green when it beats the naive;
+  - a **forecastability scatter** of best MASE (y, lower = more forecastable) vs a selectable diagnostic
+    axis (x: DFA alpha / seasonal strength / GARCH persistence / chaos K), points colored by winning
+    family, with the **naive wall** (MASE = 1) drawn as the reference. The honest read lands: the
+    structured and real cases cluster below the wall (foundation/statistical/ml win), while the negative
+    controls (random-walk noise, the GARCH point forecast) sit ABOVE it, because nobody beats the naive
+    there. If a control ever dropped below the wall, the pipeline would be leaking.
+- Benchmark now loads each case's `analysis.json` alongside its trace (graceful null on any missing link).
+
 ## [0.16.000] - 2026-07-10
 
 ### Added
