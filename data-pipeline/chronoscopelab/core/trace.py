@@ -13,7 +13,11 @@ def _round(v: float, nd: int = 4) -> float:
     return round(float(v), nd)
 
 
-def build_trace(result: ForecastResult, actual: list[float], eval_metrics: dict) -> dict:
+def build_trace(result: ForecastResult, actual: list[float], eval_metrics: dict,
+                redact_raw: bool = False) -> dict:
+    """Build the replay trace. When ``redact_raw`` (a local-only-licensed source), the raw series excerpt and
+    the per-step forecast paths are omitted and ONLY aggregate backtest metrics ship - so a dataset whose
+    license forbids redistribution still contributes to the public Benchmark without leaking its values."""
     hist = list(result.history)
     n = len(hist)
     if n > MAX_HISTORY:
@@ -25,19 +29,22 @@ def build_trace(result: ForecastResult, actual: list[float], eval_metrics: dict)
     methods = []
     for mf in result.methods:
         bt = method_metrics.get(mf.name, {})
-        methods.append({
+        entry = {
             "name": mf.name,
             "family": mf.family,
-            "point": [_round(v) for v in mf.point],
-            "lower": [_round(v) for v in mf.lower],
-            "upper": [_round(v) for v in mf.upper],
             "backtest": {
                 "mase": bt.get("mase"),
                 "wql": bt.get("wql"),
                 "coverage": bt.get("coverage"),
                 "n_windows": bt.get("n_windows"),
             },
-        })
+        }
+        if not redact_raw:
+            # the per-step forecast paths reveal the source's values; ship them only for public-safe sources
+            entry["point"] = [_round(v) for v in mf.point]
+            entry["lower"] = [_round(v) for v in mf.lower]
+            entry["upper"] = [_round(v) for v in mf.upper]
+        methods.append(entry)
 
     return {
         "schema": TRACE_SCHEMA,
@@ -45,10 +52,11 @@ def build_trace(result: ForecastResult, actual: list[float], eval_metrics: dict)
         "seasonality": result.seasonality,
         "horizon": result.horizon,
         "quantile_levels": list(result.quantile_levels),
+        "redacted": redact_raw,                 # true = license forbids shipping the raw series; metrics only
         "history_len": n,                       # forecast x-positions start here: n .. n+horizon-1
-        "history_index": idx,                   # x positions of the (decimated) history points
-        "history": [_round(hist[i]) for i in idx],
-        "actual": [_round(v) for v in actual],  # the held-out truth for the horizon
+        "history_index": [] if redact_raw else idx,
+        "history": [] if redact_raw else [_round(hist[i]) for i in idx],
+        "actual": [] if redact_raw else [_round(v) for v in actual],  # held-out truth (omitted if redacted)
         "methods": methods,
         "summary": {
             "best_method": eval_metrics.get("best_method"),

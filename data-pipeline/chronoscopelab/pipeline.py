@@ -15,7 +15,7 @@ from .core.manifest import build_index
 from .io.contract import validate_series
 from .io.formats import write_json
 from .model.forecasters import forecast_all
-from .stages import evaluate, export, feature_extraction, infer, train
+from .stages import analyze, evaluate, export, feature_extraction, infer, streaming, train
 
 # data-pipeline/chronoscopelab/pipeline.py -> parents[2] = repo root (works under `pip install -e .` too)
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -23,7 +23,7 @@ DERIVED = REPO_ROOT / "data" / "derived"
 MANIFESTS = DERIVED / "manifests"
 MODELS = REPO_ROOT / "models"
 
-STAGES = ("preprocess", "feature_extraction", "train", "infer", "evaluate", "export")
+STAGES = ("preprocess", "analyze", "feature_extraction", "train", "infer", "evaluate", "export")
 QUANTILE_LEVELS = (0.1, 0.5, 0.9)
 
 
@@ -46,6 +46,13 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
     _rec, _rej, flag = validate_series(spec.case_id, ds, list(spec.y))
     flags = [flag] if flag else []
 
+    # The "understand the series" panel (10 diagnostic families) baked alongside the forecast trace.
+    analysis = analyze.run(spec)
+
+    # The streaming bench (preqts, the flagship novel piece): prequential skill/coverage/cost trajectories
+    # for the raw vs ACI- vs PID-calibrated methods; the web streaming bench renders these.
+    streaming_bench = streaming.run(spec)
+
     feature = feature_extraction.run(spec)
     result = infer.run(spec, QUANTILE_LEVELS)
     history, actual = infer.split(spec)
@@ -60,7 +67,8 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
     return export.run(
         case=case, feature=feature, result=result, actual=[float(v) for v in actual],
         eval_metrics=eval_metrics, seed=seed, run_ms=run_ms, flags=flags,
-        derived_dir=str(DERIVED), manifests_dir=str(MANIFESTS),
+        derived_dir=str(DERIVED), manifests_dir=str(MANIFESTS), analysis=analysis,
+        streaming_bench=streaming_bench,
     )
 
 
@@ -79,6 +87,8 @@ def main() -> None:
     ap.add_argument("case", nargs="?", default="all", help="a case id, or 'all'")
     ap.add_argument("--seed", type=int, default=42)
     args = ap.parse_args()
+    from . import gpu
+    print(gpu.summary())  # record the compute device used for this bake
     if args.case == "all":
         entries = run_all(args.seed)
         print(f"precomputed {len(entries)} cases -> {DERIVED}")

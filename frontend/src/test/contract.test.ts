@@ -23,12 +23,18 @@ describe('CONTRACT 2 mirror matches the committed artifacts', () => {
 
     const tr = read<Trace>(...m.artifact.path.split('/'));
     expect(tr.schema).toContain('chronoscope.trace/');
-    expect(tr.actual.length).toBe(tr.horizon);
     expect(tr.methods.length).toBeGreaterThan(0);
-    for (const meth of tr.methods) {
-      expect(meth.point.length).toBe(tr.horizon);
-      expect(meth.lower.length).toBe(tr.horizon);
-      expect(meth.upper.length).toBe(tr.horizon);
+    // A license-redacted trace ships aggregate metrics only (no raw excerpt / forecast paths).
+    if (tr.redacted) {
+      expect(tr.actual.length).toBe(0);
+      for (const meth of tr.methods) expect(meth.point).toBeUndefined();
+    } else {
+      expect(tr.actual.length).toBe(tr.horizon);
+      for (const meth of tr.methods) {
+        expect(meth.point?.length).toBe(tr.horizon);
+        expect(meth.lower?.length).toBe(tr.horizon);
+        expect(meth.upper?.length).toBe(tr.horizon);
+      }
     }
     const names = tr.methods.map((x) => x.name);
     expect(names).toContain(tr.summary.best_method);

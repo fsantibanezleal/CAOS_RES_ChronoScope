@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" width="760" role="img" aria-label="Volatility analysis: ARCH-LM detects variance clustering, GARCH models the conditional volatility, and a Box-Cox transform stabilizes a growing variance." style="color:currentColor;max-width:100%;height:auto;font-family:system-ui,sans-serif">
+  <text x="380" y="20" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Is the variance constant? Clustering, conditional volatility, transforms</text>
+
+  <!-- Panel 1: variance clustering + ARCH-LM -->
+  <rect x="20" y="38" width="360" height="104" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="200" y="54" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Variance clustering (ARCH-LM test)</text>
+  <line x1="32" y1="98" x2="368" y2="98" stroke="currentColor" stroke-width="0.7" opacity="0.4"/>
+  <path d="M32 98 l4 -4 4 5 4 -3 4 3 4 -4 4 4 4 -3 4 3 4 -4 4 4 M92 98 l3 -14 3 16 3 -18 3 20 3 -22 3 24 3 -20 3 18 3 -16 3 14 M152 98 l4 -3 4 4 4 -2 4 3 4 -4 4 3 4 -2 M212 98 l3 -16 3 20 3 -24 3 22 3 -18 3 24 3 -20 3 16 M272 98 l4 -3 4 4 4 -2 4 3 4 -3 4 2 4 -3 4 3 4 -2 4 3 4 -3 4 2 4 -3 4 3 4 -2" fill="none" stroke="currentColor" stroke-width="0.9"/>
+  <rect x="88" y="70" width="46" height="56" fill="#ef4444" opacity="0.1"/>
+  <rect x="208" y="70" width="46" height="56" fill="#ef4444" opacity="0.1"/>
+  <text x="200" y="138" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.8">bursts of high variance (red) -> small p -> ARCH effects present</text>
+
+  <!-- Panel 2: GARCH conditional vol -->
+  <rect x="395" y="38" width="345" height="104" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="567" y="54" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">GARCH conditional volatility sigma_t</text>
+  <line x1="408" y1="120" x2="728" y2="120" stroke="currentColor" stroke-width="0.7" opacity="0.4"/>
+  <path d="M408 110 Q 470 108 500 84 Q 520 66 540 88 Q 560 108 600 110 Q 640 112 660 78 Q 675 60 690 92 Q 705 112 728 108" fill="none" stroke="#a855f7" stroke-width="1.6"/>
+  <text x="567" y="80" font-size="8" fill="#a855f7">sigma_t rises where shocks cluster</text>
+  <text x="567" y="138" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.8">sigma&#178;_t = omega + alpha&#183;eps&#178;_{t-1} + beta&#183;sigma&#178;_{t-1}; persistence = alpha+beta</text>
+
+  <!-- Panel 3: Box-Cox transform -->
+  <rect x="20" y="156" width="720" height="108" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="380" y="172" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Box-Cox variance stabilization (lambda by MLE or Guerrero)</text>
+  <text x="150" y="188" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.8">raw: amplitude grows with level</text>
+  <line x1="40" y1="240" x2="270" y2="240" stroke="currentColor" stroke-width="0.6" opacity="0.4"/>
+  <path d="M40 236 q 12 -6 24 0 t 24 0 M40 236 L88 236 q 14 -12 28 0 t 28 0 M116 232 q 16 -18 32 0 t 32 0 M164 228 q 18 -24 36 0 t 36 0 M212 222 q 20 -30 40 0 t 18 0" fill="none" stroke="#3b82f6" stroke-width="1"/>
+  <defs><marker id="arv" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#10b981"/></marker></defs>
+  <line x1="300" y1="222" x2="360" y2="222" stroke="#10b981" stroke-width="1.4" marker-end="url(#arv)"/>
+  <text x="330" y="214" text-anchor="middle" font-size="8" fill="#10b981">y^lambda</text>
+  <text x="560" y="188" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.8">transformed: constant amplitude (additive-model-ready)</text>
+  <line x1="400" y1="230" x2="720" y2="230" stroke="currentColor" stroke-width="0.6" opacity="0.4"/>
+  <path d="M400 226 q 16 -12 32 0 t 32 0 t 32 0 t 32 0 t 32 0 t 32 0 t 32 0 t 32 0 t 32 0 t 16 0" fill="none" stroke="#10b981" stroke-width="1.1"/>
+  <text x="380" y="258" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.7">Guerrero picks lambda to equalise variance across seasons; MLE maximises the profile likelihood. Requires y &gt; 0 (else a recorded shift).</text>
+</svg>

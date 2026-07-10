@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" width="760" role="img" aria-label="Seasonality pipeline: periodogram finds the dominant period, Fs scores its strength, MSTL splits multiple periods, the subseries plot profiles each phase." style="color:currentColor;max-width:100%;height:auto;font-family:system-ui,sans-serif">
+  <text x="380" y="22" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Finding seasonality: spectrum, strength, decomposition, profile</text>
+
+  <!-- Panel 1: periodogram -->
+  <rect x="20" y="40" width="170" height="100" fill="none" stroke="currentColor" stroke-width="1.2" rx="4"/>
+  <text x="105" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">1. Periodogram</text>
+  <line x1="30" y1="120" x2="180" y2="120" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+  <path d="M30 120 L45 118 L60 119 L75 110 L90 70 L105 119 L120 117 L135 119 L150 118 L165 120 L180 120" fill="none" stroke="#3b82f6" stroke-width="1.4"/>
+  <line x1="90" y1="70" x2="90" y2="130" stroke="#ef4444" stroke-width="0.8" stroke-dasharray="3 2"/>
+  <text x="90" y="145" text-anchor="middle" font-size="9" fill="#ef4444">peak -> period = 1/f</text>
+
+  <!-- Panel 2: seasonal strength gauge -->
+  <rect x="210" y="40" width="170" height="100" fill="none" stroke="currentColor" stroke-width="1.2" rx="4"/>
+  <text x="295" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">2. Strength Fs</text>
+  <path d="M295 110 A 35 35 0 0 1 330 75" fill="none" stroke="#9ca3af" stroke-width="6" stroke-linecap="round"/>
+  <path d="M295 110 A 35 35 0 0 1 318 78" fill="none" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+  <text x="295" y="115" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">0.9</text>
+  <text x="295" y="135" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.8">Fs &gt;= 0.64 -> seasonally</text>
+  <text x="295" y="145" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.8">difference (FPP3 nsdiffs)</text>
+
+  <!-- Panel 3: MSTL decomposition stack -->
+  <rect x="400" y="40" width="170" height="100" fill="none" stroke="currentColor" stroke-width="1.2" rx="4"/>
+  <text x="485" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">3. MSTL split</text>
+  <text x="410" y="72" font-size="8" fill="currentColor" opacity="0.8">observed</text>
+  <path d="M445 74 Q 470 66 485 72 T 525 70 T 560 73" fill="none" stroke="#9ca3af" stroke-width="1"/>
+  <text x="410" y="92" font-size="8" fill="currentColor" opacity="0.8">trend</text>
+  <path d="M445 94 Q 485 88 560 90" fill="none" stroke="#3b82f6" stroke-width="1"/>
+  <text x="410" y="110" font-size="8" fill="currentColor" opacity="0.8">seasonal (m1+m2)</text>
+  <path d="M445 108 q 8 -4 16 0 t 16 0 t 16 0 t 16 0 t 16 0 t 16 0 t 16 0 t 16 0" fill="none" stroke="#10b981" stroke-width="1"/>
+  <text x="410" y="130" font-size="8" fill="currentColor" opacity="0.8">remainder</text>
+  <path d="M445 130 L453 127 L461 132 L469 128 L477 131 L485 127 L493 132 L501 129 L509 130 L517 128 L525 131 L533 129 L541 130 L549 128 L557 131" fill="none" stroke="#f59e0b" stroke-width="1"/>
+
+  <!-- Panel 4: seasonal subseries / month plot -->
+  <rect x="590" y="40" width="150" height="100" fill="none" stroke="currentColor" stroke-width="1.2" rx="4"/>
+  <text x="665" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">4. Subseries profile</text>
+  <line x1="600" y1="120" x2="730" y2="120" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+  <g fill="#3b82f6">
+    <circle cx="606" cy="100" r="1.4"/><circle cx="606" cy="104" r="1.4"/><circle cx="606" cy="96" r="1.4"/>
+    <circle cx="618" cy="92" r="1.4"/><circle cx="618" cy="88" r="1.4"/>
+    <circle cx="630" cy="84" r="1.4"/><circle cx="630" cy="80" r="1.4"/>
+    <circle cx="642" cy="78" r="1.4"/>
+    <circle cx="654" cy="76" r="1.4"/>
+    <circle cx="666" cy="80" r="1.4"/><circle cx="666" cy="84" r="1.4"/>
+    <circle cx="678" cy="90" r="1.4"/><circle cx="678" cy="94" r="1.4"/>
+    <circle cx="690" cy="100" r="1.4"/><circle cx="690" cy="104" r="1.4"/>
+    <circle cx="702" cy="108" r="1.4"/><circle cx="702" cy="112" r="1.4"/>
+    <circle cx="714" cy="112" r="1.4"/><circle cx="714" cy="116" r="1.4"/>
+    <circle cx="726" cy="104" r="1.4"/><circle cx="726" cy="100" r="1.4"/>
+  </g>
+  <path d="M606 100 L618 90 L630 82 L642 78 L654 76 L666 82 L678 92 L690 102 L702 110 L714 114 L726 102" fill="none" stroke="#ef4444" stroke-width="1.2"/>
+  <text x="665" y="145" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.8">per-phase mean (red) + values</text>
+
+  <!-- arrows -->
+  <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#3b82f6"/></marker></defs>
+  <line x1="190" y1="90" x2="210" y2="90" stroke="#3b82f6" stroke-width="1.2" marker-end="url(#ar3)"/>
+  <line x1="380" y1="90" x2="400" y2="90" stroke="#3b82f6" stroke-width="1.2" marker-end="url(#ar3)"/>
+  <line x1="570" y1="90" x2="590" y2="90" stroke="#3b82f6" stroke-width="1.2" marker-end="url(#ar3)"/>
+
+  <text x="380" y="175" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Multi-seasonality</text>
+  <text x="380" y="192" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">A series can carry several periods (e.g. daily m1 + weekly m2). The periodogram shows</text>
+  <text x="380" y="205" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">multiple peaks; MSTL splits them into separate additive seasonal components.</text>
+
+  <text x="380" y="230" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">When seasonality is weak (Fs near 0)</text>
+  <text x="380" y="247" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">a flat spectrum with no dominant peak and a low Fs: do NOT force a seasonal model -</text>
+  <text x="380" y="260" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">the noise you would attribute to a "season" is just the variance of the series.</text>
+</svg>

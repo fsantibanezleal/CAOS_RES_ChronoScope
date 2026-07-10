@@ -8,6 +8,7 @@ from __future__ import annotations
 from typing import Any
 
 from .. import __version__
+from ..data.provenance import SOURCES
 from .trace import TRACE_SCHEMA
 
 MANIFEST_SCHEMA = "chronoscope.manifest/v1"
@@ -17,6 +18,10 @@ ENGINE_MODEL = (
     "forecasting method ladder: classical numpy (seasonal-naive, SES, Holt, Holt-Winters, Theta; live-capable) "
     "+ statistical (AutoARIMA, AutoETS, AutoTheta via statsforecast; offline, when installed)"
 )
+
+
+STREAMING_SCHEMA = "chronoscope-streaming-v1"
+ANALYSIS_SCHEMA = "chronoscope.analysis/v1"
 
 
 def build_case_manifest(
@@ -29,9 +34,33 @@ def build_case_manifest(
     gate: dict,
     flags: list[dict],
     eval_metrics: dict,
+    analysis_rel: str | None = None,
+    analysis_bytes: int | None = None,
+    streaming_rel: str | None = None,
+    streaming_bytes: int | None = None,
 ) -> dict:
     # Deterministic: a pure function of (case, seed). No wall-clock (would dirty git on re-run).
     best = eval_metrics.get("best_method")
+    # The analysis artifact (the "understand the series" half of CONTRACT 2) is optional so older cases
+    # without a baked analysis still validate; when present the web Understand workbench reads it.
+    analysis_block = (
+        {"path": analysis_rel, "format": "json", "analysis_schema": ANALYSIS_SCHEMA, "bytes": analysis_bytes}
+        if analysis_rel is not None else None
+    )
+    # The streaming bench artifact (preqts prequential trajectories): aggregate metrics only (license-safe).
+    streaming_block = (
+        {"path": streaming_rel, "format": "json", "streaming_schema": STREAMING_SCHEMA, "bytes": streaming_bytes}
+        if streaming_rel is not None else None
+    )
+    # Provenance block: the source's license + the public-redistribution verdict (the export guard uses it).
+    source_id = getattr(case, "source", "synthetic")
+    src = SOURCES.get(source_id)
+    provenance_block = {
+        "source": source_id,
+        "license": src.license if src else "unknown",
+        "citation": src.citation if src else "",
+        "public_artifact_ok": bool(src.public_artifact_ok) if src else False,
+    }
     return {
         "schema": MANIFEST_SCHEMA,
         "case_id": case.id,
@@ -39,6 +68,9 @@ def build_case_manifest(
         "real_or_synthetic": case.real_or_synthetic,
         "expected_band": case.expected_band,
         "engine": {"package": "chronoscopelab", "version": __version__, "model": ENGINE_MODEL},
+        "provenance": provenance_block,
+        "analysis_artifact": analysis_block,
+        "streaming_artifact": streaming_block,
         "series": {
             "n_obs": feature.n_obs,
             "seasonality": feature.seasonality,

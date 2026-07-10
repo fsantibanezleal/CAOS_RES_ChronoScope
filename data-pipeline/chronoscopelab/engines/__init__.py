@@ -10,14 +10,20 @@ from __future__ import annotations
 from ..model.forecasters import Forecaster
 from .chronos_engine import chronos_forecasters
 from .lightgbm_engine import lightgbm_forecasters
+from .neural_engine import neural_forecasters
+from .neuralforecast_engine import neuralforecast_forecasters
 from .statsforecast_engine import statsforecast_forecasters
+from .timesfm_engine import timesfm_forecasters
 
 
 def heavy_forecasters() -> list[Forecaster]:
-    """Every heavy offline engine available in this environment (may be empty): statistical, ML, and the
+    """Every heavy offline engine available in this environment (may be empty): statistical, ML, deep, and the
     zero-shot foundation tier. Each degrades gracefully when its deps or checkpoints are absent."""
     out: list[Forecaster] = []
     out.extend(statsforecast_forecasters())
     out.extend(lightgbm_forecasters())
+    out.extend(neuralforecast_forecasters())   # canonical deep tier (py3.12 base)
+    out.extend(neural_forecasters())            # direct-torch parity reference
     out.extend(chronos_forecasters())
+    out.extend(timesfm_forecasters())
     return out

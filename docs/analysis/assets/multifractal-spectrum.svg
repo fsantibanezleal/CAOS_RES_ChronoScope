@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="760" role="img" aria-label="Fractal analysis: the Hurst exponent measures long-range dependence via DFA, and the MF-DFA singularity spectrum f(alpha) reveals multifractality by its width." style="color:currentColor;max-width:100%;height:auto;font-family:system-ui,sans-serif">
+  <text x="380" y="20" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">Scaling structure: Hurst (memory) and the multifractal spectrum (burstiness)</text>
+
+  <!-- Panel 1: DFA log-log -->
+  <rect x="20" y="40" width="230" height="150" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="135" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">DFA fluctuation plot</text>
+  <line x1="45" y1="170" x2="235" y2="170" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <line x1="45" y1="170" x2="45" y2="66" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <text x="140" y="185" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.7">log scale s</text>
+  <text x="36" y="120" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.7" transform="rotate(-90 36 120)">log F(s)</text>
+  <line x1="55" y1="160" x2="225" y2="80" stroke="#a855f7" stroke-width="1.8"/>
+  <g fill="#a855f7"><circle cx="55" cy="160" r="2"/><circle cx="90" cy="143" r="2"/><circle cx="125" cy="126" r="2"/><circle cx="160" cy="112" r="2"/><circle cx="195" cy="94" r="2"/><circle cx="225" cy="80" r="2"/></g>
+  <text x="150" y="108" font-size="8.5" fill="#a855f7">slope = alpha (~H)</text>
+  <text x="135" y="152" text-anchor="middle" font-size="7.5" fill="currentColor" opacity="0.65">H&lt;0.5 anti-persistent | 0.5 random | &gt;0.5 persistent</text>
+
+  <!-- Panel 2: h(q) decreasing -->
+  <rect x="262" y="40" width="220" height="150" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="372" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Generalized Hurst h(q)</text>
+  <line x1="285" y1="165" x2="470" y2="165" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <line x1="377" y1="70" x2="377" y2="172" stroke="currentColor" stroke-width="0.6" opacity="0.3"/>
+  <text x="470" y="178" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.7">q</text>
+  <path d="M290 90 Q 340 100 377 118 Q 420 140 465 152" fill="none" stroke="#3b82f6" stroke-width="1.8"/>
+  <path d="M290 128 L465 128" fill="none" stroke="#10b981" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="300" y="84" font-size="8" fill="#3b82f6">multifractal: h(q) decreasing</text>
+  <text x="360" y="122" font-size="8" fill="#10b981">monofractal: flat</text>
+  <text x="372" y="185" text-anchor="middle" font-size="7.5" fill="currentColor" opacity="0.65">h(q) varies with q -> multiple scaling exponents</text>
+
+  <!-- Panel 3: f(alpha) singularity spectrum -->
+  <rect x="494" y="40" width="246" height="150" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <text x="617" y="56" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Singularity spectrum f(alpha)</text>
+  <line x1="515" y1="170" x2="730" y2="170" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <text x="725" y="182" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.7">alpha</text>
+  <path d="M540 165 Q 590 70 620 66 Q 655 70 710 160" fill="none" stroke="#ef4444" stroke-width="1.8"/>
+  <line x1="540" y1="165" x2="540" y2="178" stroke="#f59e0b" stroke-width="1.4"/>
+  <line x1="710" y1="160" x2="710" y2="178" stroke="#f59e0b" stroke-width="1.4"/>
+  <line x1="540" y1="182" x2="710" y2="182" stroke="#f59e0b" stroke-width="1" marker-start="url(#w)" marker-end="url(#w)"/>
+  <defs><marker id="w" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,3 L6,0 L6,6 z" fill="#f59e0b"/></marker></defs>
+  <text x="625" y="196" text-anchor="middle" font-size="8" fill="#f59e0b">width = degree of multifractality</text>
+  <text x="617" y="80" font-size="8" fill="currentColor" opacity="0.7">apex at q=0</text>
+
+  <text x="380" y="220" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor">Why it matters for forecastability</text>
+  <text x="380" y="238" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">H far from 0.5 = exploitable long memory (fractional differencing d = H - 0.5 removes it). A WIDE f(alpha)</text>
+  <text x="380" y="251" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.85">means scale-dependent bursts (common in finance/turbulence): a single model cannot capture all scales.</text>
+  <text x="380" y="270" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.7">HONESTY: DFA returns a positive alpha even for non-self-similar data, and R/S is biased for n &lt; ~100 -</text>
+  <text x="380" y="283" text-anchor="middle" font-size="8.5" fill="currentColor" opacity="0.7">the value is reported with a reliability flag; forecastability claims are gated by surrogate tests, not one exponent.</text>
+</svg>
