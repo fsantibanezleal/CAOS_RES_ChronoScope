@@ -1,6 +1,9 @@
 """Pipeline smoke + determinism: a case regenerates deterministically (same seed -> identical artifact), the
 control case runs, the real case ingests, and run_all writes the flat index. Also checks that the trace shape
-matches CONTRACT 2 and that ChronoScope's evaluate stage produced backtest metrics via preqts."""
+matches CONTRACT 2 and that ChronoScope's evaluate stage produced backtest metrics via preqts.
+
+Pipeline writes are sandboxed suite-wide by the conftest autouse fixture (the committed data/derived is
+the canonical GPU bake; see conftest for the incident record)."""
 import json
 
 from chronoscopelab import pipeline, registry
