@@ -1,5 +1,7 @@
 # PRECOMPUTE / OFFLINE lane — the heavy engines for the analysis toolkit + the forecasting ladder.
-# Installed in .venv-pipeline (Python 3.13); pinned to the verified install (2026-07-04). NOT Pyodide-safe;
+# Installed in .venv-pipeline312 (Python 3.12; the canonical offline venv since 2026-07-10 - ray ships
+# cp312 win_amd64 wheels, so the REAL neuralforecast framework installs; py3.13-on-Windows cannot install ray).
+# Pinned to the verified install. NOT Pyodide-safe;
 # this lane runs offline (GPU where available) and bakes committed artifacts. The live/web lane uses only
 # requirements.txt (numpy). See docs/analysis.md and plans/chronoscope (in _CAOS_MANAGE).
 numpy==2.4.6
@@ -9,9 +11,10 @@ pandas==2.3.3
 statsmodels==0.14.6          # ADF/KPSS/Zivot-Andrews, STL/MSTL, ACF/PACF, Ljung-Box, filters, VECM
 EMD-signal==1.9.0            # EMD/EEMD/CEEMDAN intrinsic mode functions (import PyEMD)
 PyWavelets==1.8.0            # CWT scalogram (scipy.signal.cwt was removed in scipy 1.15)
-# neuralforecast: NOT installable here (hard-requires ray, which has no py3.13 wheel). The deep ladder
-# (NLinear/DLinear/NHITS) is implemented directly in torch instead - see engines/neural_engine.py +
-# wip/chronoscope/deep-engine-decision-2026-07-04.md. torch (above) is the only deep dep.
+# Deep tier: neuralforecast is the CANONICAL engine on the py3.12 base (engines/neuralforecast_engine.py);
+# the direct-torch implementations (engines/neural_engine.py) remain the parity reference + CI fallback.
+# Decision + revision: wip/chronoscope/deep-engine-decision-2026-07-04.md.
+neuralforecast==3.1.9        # canonical deep tier (NHITS/DLinear/NLinear w/ MQLoss); pulls ray[train,tune]
 ruptures==1.1.10             # PELT/BinSeg offline change-point detection
 arch==8.0.0                  # Phillips-Perron, DF-GLS, GARCH family (statsmodels has no PP/DF-GLS)
 antropy==0.2.2               # sample/permutation/spectral entropy + Higuchi/Katz/Petrosian fractal dimension

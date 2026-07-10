@@ -1,11 +1,14 @@
-"""Deep forecasting tier: NLinear, DLinear, NHITS implemented directly in PyTorch, trained per case on the GPU.
+"""Deep forecasting tier (direct-torch reference): NLinear, DLinear, NHITS trained per case on the GPU.
 
-These are the REAL published architectures, not toy substitutes. neuralforecast (the usual wrapper) is not
-installable on this environment: it hard-requires ``ray>=2.2.0``, which has no Python-3.13 wheel (verified
-2026-07-04; see wip/chronoscope/deep-engine-decision-2026-07-04.md). So the models are implemented directly
-against their papers - which is genuinely faithful (DLinear/NLinear are single linear layers on a
-decomposition; NHITS is a documented multi-rate MLP stack) and runs on the torch cu126 GPU build with a CPU
-fallback via ``chronoscopelab.gpu``.
+These are the REAL published architectures implemented directly against their papers - genuinely faithful
+(DLinear/NLinear are single linear layers on a decomposition; NHITS is a documented multi-rate MLP stack),
+running on the torch cu126 GPU build with a CPU fallback via ``chronoscopelab.gpu``.
+
+ROLE (revised 2026-07-10): with the pipeline's Python base on 3.12, neuralforecast IS installable (ray ships
+cp312 win_amd64 wheels; the earlier "uninstallable" verdict was py3.13-on-Windows-specific) and becomes the
+canonical deep tier. THIS module is kept as the independent PARITY REFERENCE and CI-friendly fallback: same
+architectures, no framework, so the two implementations cross-check each other. Decision + revision:
+wip/chronoscope/deep-engine-decision-2026-07-04.md.
 
 Each model is trained per case, with a windowed (input -> horizon) dataset drawn from the history and a
 multi-quantile (pinball) loss so the forecast carries a calibrated interval, not just a point. Training is
@@ -134,9 +137,10 @@ class NeuralForecaster(Forecaster):
 
     def quantiles(self, y: np.ndarray, m: int, h: int, levels: tuple[float, ...]) -> np.ndarray:
         yy = _clean(np.asarray(y, dtype=float))
+        # adaptive lookback: prefer 2h / 3m, but shrink to fit the available context (>= 8 training windows)
         lookback = max(2 * h, self.lookback_mult * max(m, 1))
-        lookback = min(lookback, len(yy) - h)
-        if lookback < 4 or len(yy) < lookback + h + 8:
+        lookback = min(lookback, len(yy) - h - 8)
+        if lookback < 4:
             raise ValueError("series too short for the deep tier")
         if _run_in_subprocess():
             return _train_in_subprocess(self.name, yy, m, h, levels, lookback,

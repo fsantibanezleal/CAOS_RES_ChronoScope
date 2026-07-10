@@ -13,6 +13,7 @@ present it uses it; everywhere else (CI, a CPU-only clone) it falls back to CPU 
 | VRAM | ~8.5 GB |
 | Driver | 560.94 (supports CUDA 12.6) |
 | torch | `2.12.1+cu126` |
+| Python | 3.12 (`.venv-pipeline312`, canonical since 2026-07-10; ray/neuralforecast need <=3.12 on Windows) |
 
 The 8 GB VRAM budget shapes the ladder: the small deep models (NHITS, DLinear, NLinear, TSMixer, PatchTST)
 train comfortably; the foundation models run **zero-shot** (no training); full fine-tuning of a 200M-parameter

@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ChronoScope</title>
+    <script>
+      // GitHub Pages SPA deep-link shim: remember the requested path, bounce to the SPA root; main.tsx
+      // restores the route from sessionStorage on boot (BrowserRouter needs a real server rewrite, which
+      // Pages does not provide - this is the standard workaround).
+      sessionStorage.setItem('cs-redirect', location.pathname + location.search);
+      location.replace('/');
+    </script>
+  </head>
+  <body></body>
+</html>

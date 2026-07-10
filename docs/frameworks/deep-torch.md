@@ -1,4 +1,4 @@
-# The deep tier: NLinear, DLinear, NHITS (direct PyTorch)
+# The deep tier: neuralforecast (canonical) + direct PyTorch (parity reference)
 
 Code: [`chronoscopelab/engines/neural_engine.py`](../../data-pipeline/chronoscopelab/engines/neural_engine.py)
 · Tests: [`tests/test_engine_neural.py`](../../tests/test_engine_neural.py) · GPU lane:
@@ -8,14 +8,22 @@ The deep tier of the ladder is three real forecasting architectures, trained per
 multi-quantile (pinball) loss so each forecast carries a calibrated interval. They plug into the same
 `Forecaster.quantiles(y, m, h, levels)` contract as every other engine and are baked (replay) in the web app.
 
-## Why implemented directly (not via neuralforecast)
+## The two-tier design (revised 2026-07-10)
 
-The usual wrapper, **neuralforecast, is not installable in this environment**: it hard-requires `ray>=2.2.0`,
-which has **no Python-3.13 wheel** (verified 2026-07-04; `pip index versions ray` returns no distribution,
-including `--pre`). Rather than downgrade the whole repo's interpreter or patch a third-party package, the
-models are implemented **directly against their papers**. This is faithful, not a toy substitute: DLinear and
-NLinear are literally single linear layers on a decomposition, and NHITS is a documented multi-rate MLP stack.
-Decision record: `wip/chronoscope/deep-engine-decision-2026-07-04.md` (in the CAOS_MANAGE vault).
+The pipeline's Python base is **3.12**, where the REAL Nixtla framework installs (ray ships cp312 win_amd64
+wheels; the earlier "uninstallable" verdict was specific to Python 3.13 on Windows - re-verified against PyPI
+metadata after Felipe challenged it). The deep tier is therefore TWO implementations of the same
+architectures that cross-check each other:
+
+- **Canonical: `engines/neuralforecast_engine.py`** - `neuralforecast==3.1.9` trains NHITS / DLinear /
+  NLinear per case with `MQLoss` (multi-quantile pinball), GPU via Lightning, seeded. Methods appear in the
+  ladder as "NHITS (nf)", "DLinear (nf)", "NLinear (nf)". Opt-in: `CHRONOSCOPE_ENABLE_NEURALFORECAST=1`.
+- **Parity reference: `engines/neural_engine.py`** - the same architectures implemented directly against
+  their papers (no framework), CI-friendly (torch-only), subprocess-isolated on Windows. Opt-in:
+  `CHRONOSCOPE_ENABLE_NEURAL=1`. Having both in the baked ladder makes the framework's output auditable
+  against an independent implementation - a disagreement is a red flag the Benchmark surfaces.
+
+Decision + revision record: `wip/chronoscope/deep-engine-decision-2026-07-04.md` (in the CAOS_MANAGE vault).
 
 ## The models
 

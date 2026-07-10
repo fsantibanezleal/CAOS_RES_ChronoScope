@@ -5,11 +5,15 @@
 // Single-threaded WASM (numThreads=1) so no COOP/COEP cross-origin-isolation headers are needed on GitHub
 // Pages; assets are self-hosted under <base>/ort (copied by copy-data.mjs). Everything degrades gracefully:
 // if the model or runtime fails to load, the method simply does not appear.
-import * as ort from 'onnxruntime-web';
+// The /wasm subpath pins the plain wasm backend (the default bundle asks for the JSEP/webgpu loader,
+// which copy-data.mjs deliberately does not ship).
+import * as ort from 'onnxruntime-web/wasm';
 
 const BASE = import.meta.env.BASE_URL;
 
-ort.env.wasm.wasmPaths = `${BASE}ort/`;
+// Must be a fully qualified URL: ort resolves bare/relative prefixes against its own bundled chunk
+// (/assets/...), not the site root.
+ort.env.wasm.wasmPaths = new URL(`${BASE}ort/`, globalThis.location?.href ?? 'http://localhost/').href;
 ort.env.wasm.numThreads = 1;
 
 export interface NLinearMeta {

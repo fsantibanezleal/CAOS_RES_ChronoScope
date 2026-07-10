@@ -18,6 +18,7 @@ export const CITATIONS: Citation[] = [
   { id: 'patchtst', label: 'Nie et al. 2023 (PatchTST)', citation: 'Nie, Y., et al. (2023). A Time Series is Worth 64 Words: Long-term Forecasting with Transformers. ICLR-23.', url: 'https://arxiv.org/abs/2211.14730' },
   { id: 'itransformer', label: 'Liu et al. 2024 (iTransformer)', citation: 'Liu, Y., et al. (2024). iTransformer: Inverted Transformers Are Effective for Time Series Forecasting. ICLR-24.', url: 'https://arxiv.org/abs/2310.06625' },
   { id: 'dlinear', label: 'Zeng et al. 2023 (DLinear/NLinear)', citation: 'Zeng, A., et al. (2023). Are Transformers Effective for Time Series Forecasting? AAAI-23.', url: 'https://arxiv.org/abs/2205.13504' },
+  { id: 'nhits', label: 'Challu et al. 2023 (NHITS)', citation: 'Challu, C., Olivares, K.G., Oreshkin, B.N., et al. (2023). NHITS: Neural Hierarchical Interpolation for Time Series Forecasting. AAAI-23.', url: 'https://arxiv.org/abs/2201.12886' },
   { id: 'tft', label: 'Lim et al. 2021 (TFT)', citation: 'Lim, B., et al. (2021). Temporal Fusion Transformers for interpretable multi-horizon time series forecasting. International Journal of Forecasting, 37(4), 1748-1764.', doi: '10.1016/j.ijforecast.2021.03.012' },
 
   // --- foundation models ---

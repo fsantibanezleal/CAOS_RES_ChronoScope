@@ -36,3 +36,20 @@ artifact write to D: fails.
 
 Set `CHRONOSCOPE_NEURAL_INPROC=1` to force in-process training (useful on non-Windows / CI, where the
 interaction does not happen and the subprocess overhead is unnecessary).
+
+
+## RESOLUTION (2026-07-10): Python 3.12 base + neuralforecast
+
+Two updates resolved the deep-tier situation:
+
+1. **The Python base moved to 3.12** (`.venv-pipeline312`, the canonical offline venv). The precise blocker
+   was re-verified against PyPI metadata: ray ships cp310-cp314 wheels but its **Windows** wheels stop at
+   cp312 - so "no py3.13 wheel" was really "no py3.13 wheel on Windows". On 3.12/win, ray 2.56.0 installs,
+   `neuralforecast==3.1.9` installs, and the REAL framework is now the canonical deep tier
+   (`engines/neuralforecast_engine.py`); the direct-torch implementations remain the parity reference.
+2. **The WinError 6714 interaction did not reproduce on the 3.12 interpreter** for the full-ladder bake
+   invoked via direct `precompute()` calls (the `-m` runpy path remains deprecated in favour of
+   `scripts/bake.py`). The full 15-method ladder (classical + statistical + ML + both deep tiers) baked all
+   cases successfully on the GPU.
+
+The py3.13 venv (`.venv-pipeline`) is kept for compatibility testing; the deep tier skips gracefully there.
