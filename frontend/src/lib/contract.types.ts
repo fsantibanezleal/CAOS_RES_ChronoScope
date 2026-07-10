@@ -6,6 +6,11 @@ export interface MethodBacktest {
   mase: number | null;
   wql: number | null;
   coverage: number | null;
+  mae: number | null;
+  rmse: number | null;
+  smape: number | null; // fraction in [0, 2]; x100 for the M4 percentage convention
+  msis: number | null; // Mean Scaled Interval Score (seasonal-naive scaled; lower is better)
+  per_horizon_scaled: (number | null)[]; // per-lead MASE-like curve, length = horizon (preqts 0.3)
   n_windows: number | null;
 }
 
@@ -27,7 +32,7 @@ export interface TraceSummary {
 }
 
 export interface Trace {
-  schema: string; // "chronoscope.trace/v1"
+  schema: string; // "chronoscope.trace/v2"
   case_id: string;
   seasonality: number;
   horizon: number;

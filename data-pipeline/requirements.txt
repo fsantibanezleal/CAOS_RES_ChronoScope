@@ -7,7 +7,7 @@ numpy==2.4.6
 
 # preqts: the prequential streaming-evaluation library ChronoScope consumes in stages/evaluate.py and
 # stages/streaming.py (ADR-0061 package extraction). LIVE on PyPI since 0.2.0 (trusted-publisher OIDC).
-preqts==0.2.0
+preqts==0.3.0
 
 # statsforecast (Nixtla): the auto-tuned statistical SOTA methods (AutoARIMA, AutoETS, AutoTheta), used by
 # data-pipeline/chronoscopelab/engines/statsforecast_engine.py. Offline-only (pulls numba, not Pyodide-safe);

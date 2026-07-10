@@ -6,7 +6,7 @@ import type { Trace } from '../lib/contract.types';
 // Benchmark: the cross-case results built LIVE from the committed artifacts (never hand-typed).
 // Tabbed: leaderboard (MASE per method x case) · per-family view · coverage · honesty notes.
 interface CaseTrace { caseId: string; category: string; trace: Trace; }
-const fmt = (v: number | null | undefined) => (v == null || Number.isNaN(v) ? '-' : v.toFixed(3));
+const fmt = (v: number | null | undefined, nd = 3) => (v == null || Number.isNaN(v) ? '-' : v.toFixed(nd));
 
 const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'foundation'];
 
@@ -34,6 +34,7 @@ export default function Benchmark() {
   methods.sort((a, b) => FAMILY_ORDER.indexOf(familyOf(a)) - FAMILY_ORDER.indexOf(familyOf(b)) || a.localeCompare(b));
   const maseOf = (ct: CaseTrace, name: string) => ct.trace.methods.find((m) => m.name === name)?.backtest.mase ?? null;
   const covOf = (ct: CaseTrace, name: string) => ct.trace.methods.find((m) => m.name === name)?.backtest.coverage ?? null;
+  const msisOf = (ct: CaseTrace, name: string) => ct.trace.methods.find((m) => m.name === name)?.backtest.msis ?? null;
   const winnerOf = (ct: CaseTrace) => ct.trace.summary.best_method;
 
   const leaderboard = (
@@ -115,6 +116,39 @@ export default function Benchmark() {
     </div>
   );
 
+  const interval = (
+    <div className="cs-chart">
+      <table className="cs-table">
+        <thead>
+          <tr>
+            <th>{es ? 'método' : 'method'}</th>
+            {rows.map((r) => <th key={r.caseId}>{r.caseId.replace(/_/g, ' ')}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {methods.map((name) => {
+            const cells = rows.map((r) => msisOf(r, name));
+            if (cells.every((v) => v == null)) return null; // pre-v2 traces carry no MSIS
+            return (
+              <tr key={name}>
+                <td>{name}</td>
+                {rows.map((r, i) => {
+                  const v = cells[i];
+                  const bestHere = Math.min(...methods.map((n) => msisOf(r, n) ?? Infinity));
+                  const isBest = v != null && Number.isFinite(bestHere) && v <= bestHere + 1e-9;
+                  return <td key={r.caseId} style={isBest ? { fontWeight: 700, color: 'var(--color-accent)' } : undefined}>{fmt(v, 2)}</td>;
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p className="cs-panel-sub">{es
+        ? 'MSIS por método x caso (Gneiting y Raftery 2007; la métrica de intervalo de M4): ancho del intervalo 10/90 más 2/α por unidad de falla, escalado por el naive estacional. Menor es mejor; el mejor por caso en color. Complementa la vista de cobertura: cobertura perfecta con intervalos inflados paga aquí.'
+        : 'MSIS per method x case (Gneiting & Raftery 2007; the M4 interval metric): the 10/90 interval width plus 2/α per unit of miss, scaled by the seasonal naive. Lower is better; the per-case best is highlighted. It complements the coverage view: perfect coverage with bloated intervals pays here.'}</p>
+    </div>
+  );
+
   const honesty = (
     <div className="prose">
       <Callout variant="honest" title={es ? 'Cómo leer esta tabla sin engañarse' : 'How to read this table without fooling yourself'}>
@@ -151,6 +185,7 @@ export default function Benchmark() {
             { id: 'leaderboard', label: es ? 'Tabla (MASE)' : 'Leaderboard (MASE)', content: leaderboard },
             { id: 'families', label: es ? 'Por familia' : 'By family', content: families },
             { id: 'coverage', label: es ? 'Cobertura' : 'Coverage', content: coverage },
+            { id: 'interval', label: es ? 'Intervalo (MSIS)' : 'Interval (MSIS)', content: interval },
             { id: 'honesty', label: es ? 'Notas de honestidad' : 'Honesty notes', content: honesty },
           ]}
         />
