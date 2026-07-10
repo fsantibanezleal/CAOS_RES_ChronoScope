@@ -1,9 +1,21 @@
 """Pipeline smoke + determinism: a case regenerates deterministically (same seed -> identical artifact), the
 control case runs, the real case ingests, and run_all writes the flat index. Also checks that the trace shape
-matches CONTRACT 2 and that ChronoScope's evaluate stage produced backtest metrics via preqts."""
+matches CONTRACT 2 and that ChronoScope's evaluate stage produced backtest metrics via preqts.
+
+Every test here writes to a TEMP tree, never to the repo's data/derived: the committed artifacts are the
+canonical GPU bake (all 18 methods) and a test regenerating them on the lighter engine set of the test
+environment silently downgrades what the site deploys (this shipped once; the redirect is the guard)."""
 import json
 
+import pytest
+
 from chronoscopelab import pipeline, registry
+
+
+@pytest.fixture(autouse=True)
+def _sandbox_derived(tmp_path, monkeypatch):
+    monkeypatch.setattr(pipeline, "DERIVED", tmp_path / "derived")
+    monkeypatch.setattr(pipeline, "MANIFESTS", tmp_path / "derived" / "manifests")
 
 
 def _trace(manifest):

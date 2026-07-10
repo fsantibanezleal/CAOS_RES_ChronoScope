@@ -7,6 +7,7 @@ writes the compact artifact + manifest (CONTRACT 2) and a flat index.json.
 from __future__ import annotations
 
 import argparse
+import os
 import time
 from pathlib import Path
 
@@ -19,7 +20,11 @@ from .stages import analyze, evaluate, export, feature_extraction, infer, stream
 
 # data-pipeline/chronoscopelab/pipeline.py -> parents[2] = repo root (works under `pip install -e .` too)
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DERIVED = REPO_ROOT / "data" / "derived"
+# CHRONOSCOPE_DERIVED_DIR redirects the output tree (tests, CI smoke). The committed data/derived is the
+# CANONICAL GPU bake (all 18 methods); anything that regenerates on a lighter engine set must write
+# elsewhere, or it silently downgrades the artifacts the site deploys (this happened: a pytest run_all
+# clobbered the 18-method bake to the 9-method CPU lane and the clobber shipped).
+DERIVED = Path(os.environ.get("CHRONOSCOPE_DERIVED_DIR", REPO_ROOT / "data" / "derived"))
 MANIFESTS = DERIVED / "manifests"
 MODELS = REPO_ROOT / "models"
 

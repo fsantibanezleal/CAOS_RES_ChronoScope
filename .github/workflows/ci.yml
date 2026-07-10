@@ -21,9 +21,11 @@ jobs:
         run: ruff check data-pipeline tests
       - name: Tests
         run: pytest
-      - name: Pipeline smoke (regenerate one case, CPU lane)
-        run: python -m chronoscopelab.pipeline RWLK_noise
-      - name: CONTRACT 2 — manifests <-> artifacts consistent (no drift)
+      - name: Pipeline smoke (regenerate one case, CPU lane, in a TEMP tree)
+        # Redirected so the smoke can NEVER overwrite the committed canonical GPU bake with the
+        # CPU-lane subset (the committed artifacts are what Pages deploys).
+        run: CHRONOSCOPE_DERIVED_DIR=/tmp/smoke-derived python -m chronoscopelab.pipeline RWLK_noise
+      - name: CONTRACT 2 — manifests <-> artifacts consistent + ladder complete (no drift)
         run: python scripts/check_artifacts.py
 
   guards:
