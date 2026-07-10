@@ -1,15 +1,13 @@
-# PRECOMPUTE lane: the research-chosen engines, in the .venv-pipeline (local-only, never deployed).
-# THIS is where the deep research becomes binding: every engine pinned here is documented in docs/frameworks/<tool>/
-# and actually used by data-pipeline/chronoscopelab/stages/. This slice ships the pure-numpy classical ladder
-# scored by preqts; later slices pin the heavier engines (statsforecast / mlforecast / neuralforecast, lightgbm,
-# and the zero-shot foundation models: tirex-2, chronos-forecasting, timesfm, granite-tsfm), each documented in
-# docs/frameworks/ and actually called by the stages.
+# PIPELINE lane (CPU): everything the offline pipeline + test suite need WITHOUT a GPU — the classical
+# ladder, the statistical/ML engines, preqts scoring, and the 10-family analysis toolkit. This is what CI
+# installs. The GPU/heavy tier (torch cu126, neuralforecast/ray, chronos, timesfm) is ADDED on top by
+# requirements-precompute.txt on the build box; those engines are env-gated and skip gracefully here.
+# Every pin is documented in docs/frameworks/ or docs/analysis/ and actually used by the stages.
 numpy==2.4.6
 
-# preqts: the prequential streaming-evaluation library ChronoScope consumes in stages/evaluate.py
-# (ADR-0061 package extraction). Private repo, PyPI-destined; until published it installs from the tagged GitHub
-# ref (needs the vault GitHub PAT). Switch to `preqts>=0.1` once it is on PyPI.
-preqts @ git+https://github.com/fsantibanezleal/CAOS_PreqTS.git@v0.01.000
+# preqts: the prequential streaming-evaluation library ChronoScope consumes in stages/evaluate.py and
+# stages/streaming.py (ADR-0061 package extraction). LIVE on PyPI since 0.2.0 (trusted-publisher OIDC).
+preqts==0.2.0
 
 # statsforecast (Nixtla): the auto-tuned statistical SOTA methods (AutoARIMA, AutoETS, AutoTheta), used by
 # data-pipeline/chronoscopelab/engines/statsforecast_engine.py. Offline-only (pulls numba, not Pyodide-safe);
@@ -22,3 +20,19 @@ statsforecast==2.0.3
 mlforecast==1.0.31
 lightgbm==4.6.0
 pandas==2.3.3
+
+# ---- analysis toolkit (the 10 diagnostic families baked per case by stages/analyze.py; all CPU-light).
+# Same pins as requirements-precompute.txt (which ADDS the GPU/heavy tier on top: torch cu126,
+# neuralforecast/ray, chronos, timesfm). Each documented in docs/analysis/<family>.md.
+scipy==1.15.3
+statsmodels==0.14.6          # ADF/KPSS/Zivot-Andrews, STL/MSTL, ACF/PACF, Ljung-Box, filters, VECM
+EMD-signal==1.9.0            # EMD/EEMD/CEEMDAN intrinsic mode functions (import PyEMD)
+PyWavelets==1.8.0            # CWT scalogram (scipy.signal.cwt was removed in scipy 1.15)
+ruptures==1.1.10             # PELT/BinSeg offline change-point detection
+arch==8.0.0                  # Phillips-Perron, DF-GLS, GARCH family (statsmodels has no PP/DF-GLS)
+antropy==0.2.2               # sample/permutation/spectral entropy + Higuchi/Katz/Petrosian fractal dimension
+nolds==0.6.3                 # Hurst (R/S), DFA (+ corr-dim/Lyapunov for the nonlinear-dynamics unit)
+hurst==0.0.5                 # Hurst R/S (Anis-Lloyd corrected)
+MFDFA==0.4.3                 # multifractal DFA singularity spectrum
+utilsforecast==0.2.16        # Guerrero Box-Cox lambda, scalers
+coreforecast==0.0.17
