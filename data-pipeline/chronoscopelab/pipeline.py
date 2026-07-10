@@ -15,7 +15,7 @@ from .core.manifest import build_index
 from .io.contract import validate_series
 from .io.formats import write_json
 from .model.forecasters import forecast_all
-from .stages import analyze, evaluate, export, feature_extraction, infer, train
+from .stages import analyze, evaluate, export, feature_extraction, infer, streaming, train
 
 # data-pipeline/chronoscopelab/pipeline.py -> parents[2] = repo root (works under `pip install -e .` too)
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -49,6 +49,10 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
     # The "understand the series" panel (10 diagnostic families) baked alongside the forecast trace.
     analysis = analyze.run(spec)
 
+    # The streaming bench (preqts, the flagship novel piece): prequential skill/coverage/cost trajectories
+    # for the raw vs ACI- vs PID-calibrated methods; the web streaming bench renders these.
+    streaming_bench = streaming.run(spec)
+
     feature = feature_extraction.run(spec)
     result = infer.run(spec, QUANTILE_LEVELS)
     history, actual = infer.split(spec)
@@ -64,6 +68,7 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
         case=case, feature=feature, result=result, actual=[float(v) for v in actual],
         eval_metrics=eval_metrics, seed=seed, run_ms=run_ms, flags=flags,
         derived_dir=str(DERIVED), manifests_dir=str(MANIFESTS), analysis=analysis,
+        streaming_bench=streaming_bench,
     )
 
 

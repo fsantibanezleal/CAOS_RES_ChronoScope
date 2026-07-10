@@ -80,6 +80,16 @@ export interface AnalysisArtifactRef {
   bytes: number;
 }
 
+// The streaming bench artifact (chronoscope-streaming-v1): preqts prequential trajectories (rolling MASE,
+// rolling coverage vs nominal, cumulative compute cost) for the raw vs ACI- vs PID-calibrated methods.
+// Aggregate metrics only, so it ships for every source regardless of license.
+export interface StreamingArtifactRef {
+  path: string;
+  format: string;
+  streaming_schema: string; // "chronoscope-streaming-v1"
+  bytes: number;
+}
+
 export interface CaseManifest {
   schema: string; // "chronoscope.manifest/v1"
   case_id: string;
@@ -89,6 +99,7 @@ export interface CaseManifest {
   engine: { package: string; version: string; model: string };
   provenance: { source: string; license: string; citation: string; public_artifact_ok: boolean };
   analysis_artifact: AnalysisArtifactRef | null;
+  streaming_artifact: StreamingArtifactRef | null;
   series: SeriesDescriptors;
   seed: number;
   artifact: ArtifactRef;

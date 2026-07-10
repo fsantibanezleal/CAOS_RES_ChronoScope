@@ -19,6 +19,7 @@ nolds==0.6.3                 # Hurst (R/S), DFA (+ corr-dim/Lyapunov for the non
 hurst==0.0.5                 # Hurst R/S (Anis-Lloyd corrected)
 MFDFA==0.4.3                 # multifractal DFA singularity spectrum
 # pycatch22 (Lubba 2019, 22 canonical features): OPTIONAL, needs a C toolchain; recorded honestly if absent
+preqts==0.2.0                # OUR published package (PyPI): prequential streaming eval + ACI/Conformal-PID
 # --- forecasting ladder (classical / statistical / ML / foundation) ---
 statsforecast==2.0.3         # AutoARIMA/AutoETS/AutoTheta, MSTL, TBATS, Croston, GARCH
 mlforecast==1.0.31           # LightGBM on lag/date features

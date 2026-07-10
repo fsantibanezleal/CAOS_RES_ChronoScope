@@ -3,6 +3,22 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.13.000] - 2026-07-10
+
+### Added
+- **The streaming bench** (`stages/streaming.py`) - the flagship novel piece, consuming OUR published
+  `preqts==0.2.0` (PyPI, trusted-publisher OIDC release): per case, a prequential test-then-update pass
+  bakes rolling-MASE / rolling-coverage / cumulative-cost trajectories for SeasonalNaive, Theta (raw), and
+  Theta calibrated by ACI (Gibbs & Candes 2021) and Conformal-PID (Angelopoulos et al. 2023). The calibrated
+  variants are the beyond-SOTA-in-practice demonstration: same point forecaster, self-correcting intervals.
+- `streaming.json` per case (aggregate trajectories only -> license-safe for every source) + the manifest
+  `streaming_artifact` block (`chronoscope-streaming-v1`) + the TS `StreamingArtifactRef` mirror (tsc clean).
+- `tests/test_stage_streaming.py` (4): roster completeness, coverage-error improvement under a mid-stream
+  noise-tripling regime shift, monotone cost trajectories, JSON-serializable + referenced artifact.
+- `docs/architecture/10_streaming-bench.md`: the prequential principle (Dawid 1984), the verified gap, the
+  roster, the license note.
+- All 7 cases re-baked with the streaming artifact (seed 42, deterministic).
+
 ## [0.12.001] - 2026-07-04
 
 ### Added

@@ -49,6 +49,7 @@ def run(
     derived_dir: str,
     manifests_dir: str,
     analysis: dict | None = None,
+    streaming_bench: dict | None = None,
 ) -> dict:
     # License guard: for a source whose license forbids public redistribution, the raw series excerpt and the
     # per-step forecast/analysis paths are omitted from the committed artifacts - only aggregate metrics ship.
@@ -69,10 +70,18 @@ def run(
         analysis_rel = f"{case.id}/analysis.json"
         analysis_bytes = write_json(Path(derived_dir) / analysis_rel, payload)
 
+    # The streaming bench (skill/coverage/cost trajectories, raw vs calibrated): aggregate metric
+    # trajectories only, so it is license-safe for every source (no raw series values are recoverable).
+    streaming_rel = streaming_bytes = None
+    if streaming_bench is not None:
+        streaming_rel = f"{case.id}/streaming.json"
+        streaming_bytes = write_json(Path(derived_dir) / streaming_rel, streaming_bench)
+
     manifest = build_case_manifest(
         case=case, feature=feature, seed=seed,
         artifact_rel=artifact_rel, trace_bytes=trace_bytes, gate=gate, flags=flags, eval_metrics=eval_metrics,
         analysis_rel=analysis_rel, analysis_bytes=analysis_bytes,
+        streaming_rel=streaming_rel, streaming_bytes=streaming_bytes,
     )
     write_json(Path(manifests_dir) / f"{case.id}.json", manifest)
     return manifest
