@@ -3,6 +3,20 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.14.001] - 2026-07-10
+
+### Added
+- **Per-panel error boundary** (`render/PanelBoundary.tsx`): every workbench tab is wrapped so a panel
+  that throws renders an identifiable bilingual fallback while the rest of the app keeps working; a
+  case/tab switch retries instead of sticking to the fallback. Second layer: the live diagnostics
+  (ACF/PACF/periodogram/rolling/DFA/histogram/stats) each degrade to their empty value on a pathological
+  series via a `safe()` wrapper at the compute site. 3 boundary tests (jsdom).
+- **Ground-truth tests for the live analysis module** (`test/tsAnalysis.test.ts`, 13): AR(1) ACF is
+  phi^k and PACF cuts off after lag 1 (inside the Bartlett band), white-noise ACF stays inside the band,
+  a pure sine's dominant period is exact and a 24+168 mix yields exactly those two peaks, DFA alpha is
+  ~0.5 on white noise and ~1.5 on a random walk, rolling/histogram/moment identities. Deterministic LCG
+  + Box-Muller (no Math.random). Frontend suite: 24 tests.
+
 ## [0.14.000] - 2026-07-10
 
 ### Added (web showroom, rebuilt to the bar)

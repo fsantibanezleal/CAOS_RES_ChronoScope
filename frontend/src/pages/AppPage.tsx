@@ -14,6 +14,7 @@ import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
 import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
 import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
 import { acf, bartlettBand, dfaAlpha, histogram, pacf, periodogram, rolling, summaryStats } from '../lib/tsAnalysis';
+import { PanelBoundary } from '../render/PanelBoundary';
 import { WorkbenchChart, type ChartData, type ChartSeries } from '../render/WorkbenchChart';
 
 const LEVELS = [0.1, 0.5, 0.9];
@@ -185,15 +186,18 @@ export default function AppPage() {
 
   // ---------------- UNDERSTAND half (live analysis on the active series + baked verdicts) ----------------
 
+  // Each live diagnostic degrades to its empty value instead of crashing the page on a pathological
+  // series (the per-tab PanelBoundary is the second layer; this is the first).
+  const safe = <T,>(f: () => T, fb: T): T => { try { return f(); } catch { return fb; } };
   const fullSeries = activeData ? [...activeData.history, ...activeData.actual] : [];
-  const stats = fullSeries.length ? summaryStats(fullSeries) : null;
+  const stats = fullSeries.length ? safe(() => summaryStats(fullSeries), null) : null;
   const nlags = Math.min(48, Math.max(10, Math.floor(fullSeries.length / 4)));
-  const acfVals = fullSeries.length > 8 ? acf(fullSeries, nlags) : [];
-  const pacfVals = fullSeries.length > 8 ? pacf(fullSeries, Math.min(nlags, 24)) : [];
-  const pgram = fullSeries.length > 16 ? periodogram(fullSeries) : null;
-  const roll = fullSeries.length > 8 ? rolling(fullSeries, Math.max(5, Math.floor(fullSeries.length / 12))) : null;
-  const alpha = fullSeries.length >= 64 ? dfaAlpha(fullSeries) : null;
-  const hist = fullSeries.length ? histogram(fullSeries) : null;
+  const acfVals = fullSeries.length > 8 ? safe(() => acf(fullSeries, nlags), []) : [];
+  const pacfVals = fullSeries.length > 8 ? safe(() => pacf(fullSeries, Math.min(nlags, 24)), []) : [];
+  const pgram = fullSeries.length > 16 ? safe(() => periodogram(fullSeries), null) : null;
+  const roll = fullSeries.length > 8 ? safe(() => rolling(fullSeries, Math.max(5, Math.floor(fullSeries.length / 12))), null) : null;
+  const alpha = fullSeries.length >= 64 ? safe(() => dfaAlpha(fullSeries), null) : null;
+  const hist = fullSeries.length ? safe(() => histogram(fullSeries), null) : null;
   const band = bartlettBand(fullSeries.length);
   const bakedStationarity = analysis && (analysis as any).stationarity;
   const bakedVolatility = analysis && (analysis as any).volatility;
@@ -490,13 +494,13 @@ export default function AppPage() {
           <SubTabs
             ariaLabel="workbench views"
             tabs={[
-              { id: 'series', label: es ? 'Serie' : 'Series', content: understandSeries },
-              { id: 'structure', label: es ? 'Estructura (ACF·espectro)' : 'Structure (ACF·spectrum)', content: understandStructure },
-              { id: 'verdicts', label: es ? 'Veredictos (tests)' : 'Verdicts (tests)', content: understandVerdicts },
-              { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: forecastFull },
-              { id: 'zoom', label: 'Zoom', content: forecastZoom },
-              { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: leaderboard },
-              { id: 'streaming', label: 'Streaming', content: streamingBench },
+              { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label="Series" es={es}>{understandSeries}</PanelBoundary> },
+              { id: 'structure', label: es ? 'Estructura (ACF·espectro)' : 'Structure (ACF·spectrum)', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
+              { id: 'verdicts', label: es ? 'Veredictos (tests)' : 'Verdicts (tests)', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
+              { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastFull}</PanelBoundary> },
+              { id: 'zoom', label: 'Zoom', content: <PanelBoundary label="Zoom" es={es}>{forecastZoom}</PanelBoundary> },
+              { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
+              { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
             ]}
           />
         </main>
