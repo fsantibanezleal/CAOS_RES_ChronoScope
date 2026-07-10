@@ -3,6 +3,62 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.13.000] - 2026-07-10
+
+### Added
+- **The streaming bench** (`stages/streaming.py`) - the flagship novel piece, consuming OUR published
+  `preqts==0.2.0` (PyPI, trusted-publisher OIDC release): per case, a prequential test-then-update pass
+  bakes rolling-MASE / rolling-coverage / cumulative-cost trajectories for SeasonalNaive, Theta (raw), and
+  Theta calibrated by ACI (Gibbs & Candes 2021) and Conformal-PID (Angelopoulos et al. 2023). The calibrated
+  variants are the beyond-SOTA-in-practice demonstration: same point forecaster, self-correcting intervals.
+- `streaming.json` per case (aggregate trajectories only -> license-safe for every source) + the manifest
+  `streaming_artifact` block (`chronoscope-streaming-v1`) + the TS `StreamingArtifactRef` mirror (tsc clean).
+- `tests/test_stage_streaming.py` (4): roster completeness, coverage-error improvement under a mid-stream
+  noise-tripling regime shift, monotone cost trajectories, JSON-serializable + referenced artifact.
+- `docs/architecture/10_streaming-bench.md`: the prequential principle (Dawid 1984), the verified gap, the
+  roster, the license note.
+- All 7 cases re-baked with the streaming artifact (seed 42, deterministic).
+
+## [0.12.001] - 2026-07-04
+
+### Added
+- Deep forecasting tier (`engines/neural_engine.py`): NLinear, DLinear, NHITS implemented DIRECTLY in PyTorch
+  (the real architectures from Zeng 2023 / Challu 2023), trained per case on the GPU with a multi-quantile
+  (pinball) loss, behind the same `Forecaster.quantiles` contract; monotone quantiles, seeded/deterministic,
+  CPU fallback via `chronoscopelab.gpu`. Opt-in via `CHRONOSCOPE_ENABLE_NEURAL=1`; graceful skip when torch
+  is absent. Verified on the RTX 4070 (median MAE 2.1-3.0 on a seasonal series, noise sigma 3).
+- `tests/test_engine_neural.py` (8, GPU-gated via importorskip): monotone quantiles, beats a flat baseline,
+  determinism, short-series guard, env gating.
+- `docs/frameworks/deep-torch.md` (the models + why direct-torch, referenced) + `docs/architecture/09_known-issues.md`.
+
+### Changed
+- neuralforecast REMOVED from the pins: it hard-requires `ray>=2.2.0`, which has NO Python-3.13 wheel
+  (verified). The deep ladder is implemented directly in torch instead (decision:
+  wip/chronoscope/deep-engine-decision-2026-07-04.md). This is faithful (the real published architectures),
+  not a toy substitute.
+- Hardened `manifest.py`/`export.py` to import provenance at module top-level; `write_json` retries the
+  transient Windows WinError 6714.
+
+### Known issue
+- Baking the deep tier as part of the FULL pipeline on the Windows build box hits an OS-level
+  numba(statsforecast)+CUDA(torch) interaction that taints the D: drive (WinError 6714); the deep engine
+  itself is verified working (standalone bakes + 8 tests). Documented in `docs/architecture/09_known-issues.md`
+  with the subprocess-isolation groundwork in place; the deep-tier committed bake is deferred to a dedicated
+  torch-only pass (or a WSL2/Linux runner). The classical+statistical+ML+foundation bake is unaffected.
+
+## [0.12.000] - 2026-07-04
+
+### Added
+- GPU lane enabled (BL-113): CUDA torch `2.12.1+cu126` on the build box (RTX 4070 Laptop, ~8.5 GB, driver
+  560.94 = CUDA 12.6; wheel verified to exist for the exact version, cu128 has no 2.12.1). `chronoscopelab/gpu.py`
+  (`device()`/`cuda_available()`/`gpu_info()`/`summary()`) selects CUDA when present with a transparent CPU
+  fallback (nothing imports torch at module load; CI/CPU clones just fall back). The pipeline logs the device
+  per bake.
+- `tests/test_gpu.py` (5): the device selector works with OR without a GPU (never raises), consistent info.
+- `docs/guides/gpu-lane.md`: the verified install command, the 8 GB budget, and the honesty note (full
+  foundation-ladder bake runs offline on this box, committed as artifacts; CI skips gracefully).
+- `requirements-precompute.txt`: the cu126 install note for the GPU build box vs plain torch for CPU clones.
+
 ## [0.11.001] - 2026-07-04
 
 ### Added

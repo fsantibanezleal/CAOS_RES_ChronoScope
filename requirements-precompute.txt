@@ -9,7 +9,9 @@ pandas==2.3.3
 statsmodels==0.14.6          # ADF/KPSS/Zivot-Andrews, STL/MSTL, ACF/PACF, Ljung-Box, filters, VECM
 EMD-signal==1.9.0            # EMD/EEMD/CEEMDAN intrinsic mode functions (import PyEMD)
 PyWavelets==1.8.0            # CWT scalogram (scipy.signal.cwt was removed in scipy 1.15)
-neuralforecast==3.1.9        # deep-ladder training spine (NBEATS/NHITS/TFT/PatchTST/iTransformer/TSMixer/...)
+# neuralforecast: NOT installable here (hard-requires ray, which has no py3.13 wheel). The deep ladder
+# (NLinear/DLinear/NHITS) is implemented directly in torch instead - see engines/neural_engine.py +
+# wip/chronoscope/deep-engine-decision-2026-07-04.md. torch (above) is the only deep dep.
 ruptures==1.1.10             # PELT/BinSeg offline change-point detection
 arch==8.0.0                  # Phillips-Perron, DF-GLS, GARCH family (statsmodels has no PP/DF-GLS)
 antropy==0.2.2               # sample/permutation/spectral entropy + Higuchi/Katz/Petrosian fractal dimension
@@ -17,6 +19,7 @@ nolds==0.6.3                 # Hurst (R/S), DFA (+ corr-dim/Lyapunov for the non
 hurst==0.0.5                 # Hurst R/S (Anis-Lloyd corrected)
 MFDFA==0.4.3                 # multifractal DFA singularity spectrum
 # pycatch22 (Lubba 2019, 22 canonical features): OPTIONAL, needs a C toolchain; recorded honestly if absent
+preqts==0.2.0                # OUR published package (PyPI): prequential streaming eval + ACI/Conformal-PID
 # --- forecasting ladder (classical / statistical / ML / foundation) ---
 statsforecast==2.0.3         # AutoARIMA/AutoETS/AutoTheta, MSTL, TBATS, Croston, GARCH
 mlforecast==1.0.31           # LightGBM on lag/date features
@@ -24,4 +27,7 @@ utilsforecast==0.2.16        # Guerrero Box-Cox lambda, scalers
 coreforecast==0.0.17
 lightgbm==4.6.0
 chronos-forecasting==2.3.1   # Chronos / Chronos-Bolt / Chronos-2 (Apache-2.0 foundation tier)
-torch==2.12.1                # backbone for the foundation + deep engines (GPU offline lane)
+# torch: install the CUDA build from the cu126 index (driver 560.94 = CUDA 12.6, verified 2026-07-04):
+#   pip install torch==2.12.1+cu126 --index-url https://download.pytorch.org/whl/cu126
+# CPU-only clones/CI: plain `pip install torch==2.12.1` works (the engines fall back to CPU via chronoscopelab.gpu).
+torch==2.12.1                # backbone for the foundation + deep engines (GPU offline lane; cu126 wheel on the build box)

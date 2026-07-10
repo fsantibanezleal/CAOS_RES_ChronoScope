@@ -26,9 +26,27 @@ def _sanitize(obj: Any) -> Any:
 
 
 def write_json(path: str | Path, obj: Any) -> int:
-    """Write compact, strict JSON (no NaN/Inf); return the byte size (used by the gate + manifest)."""
+    """Write compact, strict JSON (no NaN/Inf); return the byte size (used by the gate + manifest).
+
+    The ``mkdir`` is retried against a transient Windows transactional-NTFS glitch (WinError 6714) that can
+    appear when numba (statsforecast) and CUDA (torch) run in the same process; see
+    docs/architecture/09_known-issues.md for the deep-tier baking caveat and its subprocess workaround.
+    """
+    import os
+    import time
+
     p = Path(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
+    for attempt in range(5):
+        try:
+            os.makedirs(p.parent, exist_ok=True)
+            break
+        except OSError as exc:
+            if getattr(exc, "winerror", None) == 6714 and attempt < 4:
+                time.sleep(0.1)
+                continue
+            if p.parent.is_dir():
+                break
+            raise
     data = json.dumps(_sanitize(obj), separators=(",", ":"), ensure_ascii=False, allow_nan=False)
     encoded = data.encode("utf-8")
     p.write_bytes(encoded)
