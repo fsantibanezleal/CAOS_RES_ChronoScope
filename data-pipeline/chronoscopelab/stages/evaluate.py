@@ -32,7 +32,10 @@ def run(spec: SeriesSpec, quantile_levels: tuple[float, ...], forecasters: list[
     hist = y[:train_end]
     stream = Stream(hist, seasonality=m, name=spec.case_id)
 
-    warmup = min(max(2 * m, 10), max(1, len(hist) - h - 1))
+    # Warmup floor: at least two seasons AND enough context for the deep tier's minimum lookback
+    # (2h + a small training margin). Without this, non-seasonal (m=1) cases gave the first backtest
+    # window ~10 points, the deep engines raised, and the whole method was NaN on those cases.
+    warmup = min(max(2 * m, 2 * h + 20, 10), max(1, len(hist) - h - 1))
     usable = len(hist) - warmup - h
 
     methods: dict[str, dict] = {}

@@ -3,6 +3,93 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.14.000] - 2026-07-10
+
+### Added (web showroom, rebuilt to the bar)
+- **Shared shell adopted** (`@fasl-work/caos-app-shell`, mirroring the ChancaDEM pattern): `main.tsx` with
+  ShellConfig (Activity mark, 6 EN/ES routes, GitHub/personal/portfolio links, footer provenance +
+  disclaimer, ADR-0058 architecture modal), `applyTheme(readTheme())`, BrowserRouter + CitationsProvider;
+  `chronoscope.css` app tokens (validated chip/panel/KPI/badge/table language); Pages `404.html` deep-link
+  shim + sessionStorage restore; favicon. The hand-rolled shell (`App.tsx`, `components/doc|Math`) is REMOVED.
+- **App = a per-case workbench in two halves** (7 sub-tabs): UNDERSTAND - Series (+ rolling stats, KPI strip,
+  histogram/kurtosis), Structure (live ACF/PACF stems with the Bartlett band + Box-Jenkins read, periodogram
+  with the dominant period), Verdicts (live DFA alpha + the BAKED offline panels: ADF/KPSS/PP table, ARCH-LM +
+  GARCH persistence, Hurst/0-1/Lyapunov with the surrogate-gate verdict). FORECAST - Forecast (full chart),
+  **Zoom on the predicted zone**, Leaderboard (18 methods ranked, MASE + coverage), **Streaming** (the preqts
+  prequential trajectories: rolling coverage vs nominal for raw vs ACI vs PID, rolling MASE, cumulative cost).
+  Live tier: the TS classical engine + NLinear ONNX + a new `lib/tsAnalysis.ts` (ACF/PACF Durbin-Levinson,
+  periodogram, rolling, DFA, histogram - mirrors of the Python toolkit). Sources: Baked case (default,
+  license badge shown) / Synthetic (live knobs).
+- **Five doc pages rewritten to graduate depth, bilingual EN/ES** (useShellLang), with KaTeX equations,
+  Callouts, theme-aware inline SVGs, and inline Cite/Refs against the real-DOI citation library:
+  Introduction (the two-pillar thesis + the streaming story + honest scope), Methodology (the 18-method
+  ladder family-by-family with the actual math, incl. the transformers-debate resolution and the honest
+  TiRex-2/Moirai roster limits), Implementation (three lanes, contracts, determinism, license guard, the
+  py3.12/ray decision), Experiments (protocols + metric math + the 12-scenario matrix), Benchmark (live
+  leaderboard + by-family + coverage heat + honesty notes, all from committed artifacts).
+- Screenshot-verified: every page and every workbench tab in light AND dark (34 shots), zero page errors.
+
+### Changed
+- **Python base migrated to 3.12** (`.venv-pipeline312`, the canonical offline venv). Felipe challenged the
+  "ray has no py3.13 wheel" verdict; re-verification against PyPI JSON metadata showed ray ships cp310-cp314
+  tags but its WINDOWS wheels stop at cp312 - the true blocker was py3.13-on-Windows. On 3.12/win the full
+  stack installs: ray 2.56.0, neuralforecast 3.1.9, torch 2.12.1+cu126 (CUDA verified), statsforecast,
+  chronos, preqts 0.2.0, fev. Full test suite green on 3.12. The py3.13 venv is kept for compat testing.
+
+### Added
+- **5 deep-context scenarios (12 cases total)**, each exercising ONE analysis family so the analysis pillar
+  and the forecasting ladder tell one story per case, each with a deep `docs/cases/` write-up:
+  - `BRKV_level_shift` (structural break: two clean level shifts -> the change-point panel localizes them,
+    the error trajectory around the breaks is the read-out);
+  - `MSEA_daily_weekly` (24+168 multi-seasonality -> two periodogram peaks, MSTL splits them; single-m
+    methods vs context-rich tiers);
+  - `HETV_garch` (GARCH(1,1) persistence 0.95 -> ARCH-LM fires; the point leaderboard is deliberately
+    boring, the streaming bench's calibrated-interval story carries the value);
+  - `LMEM_fractional` (ARFIMA d=0.35 via the Gamma-ratio MA expansion -> DFA alpha 0.83 VERIFIED at
+    generation; hyperbolic ACF decay; the fractal panel's H-0.5=d link recovers the parameter);
+  - `CHAO_mackey` (Mackey-Glass tau=17, sampling stride VERIFIED by sweep: 0-1 test K=0.87 + positive
+    Lyapunov 0.039 - oversampled chaos fools the 0-1 test, documented; the per-horizon error curve is the
+    star read-out).
+- **Foundation roster expanded on the GPU (BL-128)**: `Chronos-2` (120M, the strongest all-rounder) wired
+  into the chronos engine (its 3-d multivariate API handled alongside Bolt's 1-d one), and **TimesFM 2.5**
+  (Google 200M decoder-only, continuous quantile head) as a new `timesfm_engine.py` from the vault
+  checkpoint - decile quantile mapping, context cap, module cache, same gating. The native-Windows foundation
+  roster is Chronos-Bolt + Chronos-2 + TimesFM-2.5. Verified roster limits (honest): TiRex-2 is
+  NOT installable on native Windows (flashrnn -> triton has no win wheels; WSL2 lane); granite-tsfm 0.3.6
+  pins torch<2.11 (conflicts with cu126 2.12.1; deferred to a dedicated venv).
+- `tests/test_engine_foundation.py` (4, checkpoint-gated): env gating always tested; zero-shot monotone
+  quantiles + beats-flat-baseline when the checkpoints are present.
+- **Canonical deep tier: `engines/neuralforecast_engine.py`** - the REAL Nixtla framework (NHITS/DLinear/
+  NLinear with MQLoss, GPU via Lightning, seeded; quantile-column resolver across nf naming schemes). Ladder
+  names "NHITS (nf)" etc. Opt-in CHRONOSCOPE_ENABLE_NEURALFORECAST=1; graceful skip when absent (py3.13/CI).
+  The direct-torch engine remains the PARITY REFERENCE (same architectures, no framework) - both tiers bake,
+  so the framework's output is auditable against an independent implementation.
+- `tests/test_engine_neuralforecast.py` (5, framework-gated): column-matcher schemes, monotone quantiles,
+  beats-flat-baseline, env gating.
+- Adaptive lookback in BOTH deep engines (shrink-to-fit the available context instead of refusing short
+  backtest windows) - this is what let the deep tier enter the rolling backtest.
+- **Full 18-method ladder baked on the GPU across all 12 cases**: classical (5) + statistical (3) + LightGBM
+  + deep direct (3) + deep neuralforecast (3) + foundation (3: Chronos-Bolt, Chronos-2, TimesFM-2.5),
+  deterministic seed 42 (BL-127 + BL-128 resolved on the 3.12 base). The leaderboard tells the no-free-lunch
+  story honestly: Chronos-2 takes the structured/real cases, SES the random walk, AutoARIMA the GARCH case,
+  LightGBM PM2.5 and the chaos case, TimesFM-2.5 intermittent demand.
+- requirements-precompute re-pinned for the 3.12 base; docs updated (gpu-lane, deep-torch two-tier design,
+  known-issues RESOLUTION section).
+
+### Fixed
+- **Backtest warmup floor** (`stages/evaluate.py`): the first rolling-origin window on m=1 cases was ~10
+  points, below every deep method's minimum context, so the deep tier was silently all-NaN there. The warmup
+  is now `min(max(2m, 2h + 20, 10), n - h - 1)`; the deep tier posts real MASE on all 12 cases (NHITS 0.51
+  on the Mackey-Glass case, the best deep entry).
+- **ONNX live tier on the trimmed runtime**: `onnxruntime-web`'s default bundle requests the JSEP (webgpu)
+  loader and resolves relative `wasmPaths` against its own chunk URL (`/assets/`), which 404'd once the
+  runtime assets were trimmed. The runner now imports the `onnxruntime-web/wasm` subpath (plain wasm EP) and
+  pins `wasmPaths` to an absolute URL; `copy-data.mjs` ships only the two files the runtime actually fetches
+  (13 MB instead of 93 MB) and `public/ort/` is gitignored as the build artifact it is.
+- Content-standards sweep of the new frontend prose (ADR-0067): arrows and em-dashes replaced with plain
+  punctuation in the Box-Jenkins read, the prequential footnote, the Introduction ladder SVG label, and an
+  API comment.
+
 ## [0.13.000] - 2026-07-10
 
 ### Added

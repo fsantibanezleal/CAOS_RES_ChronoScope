@@ -25,10 +25,12 @@ from ..model.forecasters import Forecaster, _clean
 
 DEFAULT_MODEL_ROOT = r"E:\_Models\chronoscope"
 
-# (display name, checkpoint folder under the model root). Apache-2.0. Chronos-2, TimesFM 2.5 and TiRex-2
-# need their own loaders and land in a follow-up slice; Chronos-Bolt is the first wired foundation engine.
+# (display name, checkpoint folder under the model root). Apache-2.0. TimesFM 2.5 and TiRex-2 need their
+# own loaders (different packages) and are tracked separately; the chronos-forecasting package serves both
+# Chronos-Bolt (CPU-fast T5 patching) and Chronos-2 (120M, the strongest all-rounder; GPU).
 _CHECKPOINTS = [
     ("Chronos-Bolt", "chronos-bolt-small"),
+    ("Chronos-2", "chronos-2"),
 ]
 
 # The foundation tier is heavy (loads a transformer + CPU inference per backtest window), so it is OPT-IN:
@@ -62,7 +64,7 @@ def _load_pipeline(path: str):
 
 
 class ChronosForecaster(Forecaster):
-    def __init__(self, name: str, path: str, max_windows: int = 3, ctx_cap: int | None = 512) -> None:
+    def __init__(self, name: str, path: str, max_windows: int = 2, ctx_cap: int | None = 512) -> None:
         self.name = name
         self.family = "foundation"
         self.path = path
@@ -76,12 +78,16 @@ class ChronosForecaster(Forecaster):
         if self.ctx_cap and yy.shape[0] > self.ctx_cap:
             yy = yy[-self.ctx_cap:]
         pipe = _load_pipeline(self.path)
-        q, _mean = pipe.predict_quantiles(
-            torch.tensor(yy, dtype=torch.float32),
-            prediction_length=h,
-            quantile_levels=list(levels),
-        )
-        out = np.asarray(q, dtype=float)[0]  # (h, len(levels))
+        x = torch.tensor(yy, dtype=torch.float32)
+        try:
+            # Chronos / Chronos-Bolt API: 1-D context -> (1, h, Q) tensor
+            q, _mean = pipe.predict_quantiles(x, prediction_length=h, quantile_levels=list(levels))
+            out = np.asarray(q, dtype=float)[0]
+        except (ValueError, TypeError):
+            # Chronos-2 API: (n_series, n_variates, T) -> list of (n_variates, h, Q) tensors
+            q, _mean = pipe.predict_quantiles(x.reshape(1, 1, -1), prediction_length=h,
+                                              quantile_levels=list(levels))
+            out = np.asarray(q[0], dtype=float)[0]
         return np.maximum.accumulate(out, axis=1)  # keep quantiles monotone across levels
 
 

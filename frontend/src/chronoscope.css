@@ -1,0 +1,58 @@
+/* ChronoScope, app styles on top of the shared design-system tokens. The shell does NOT ship `.chip`;
+   the pill chip and the workbench layout are ported from the validated RotorVitals/ChancaDEM visual
+   language (filled-accent active state, sticky control sidebar, KPI strip). Light AND dark via tokens. */
+
+/* ---- validated pill chip ---- */
+.chip { background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-fg-subtle); border-radius: 999px; padding: 0.3rem 0.72rem; font-size: 0.8rem; cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
+.chip:hover { color: var(--color-fg); border-color: var(--color-fg-faint); }
+.chip.on { background: var(--color-accent); color: var(--color-accent-fg); border-color: transparent; font-weight: 600; }
+.chip:disabled { opacity: .45; cursor: not-allowed; }
+
+/* ---- workbench layout: 320px control sidebar + reactive main ---- */
+.cs-layout { display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; align-items: start; }
+@media (max-width: 920px) { .cs-layout { grid-template-columns: 1fr; } }
+.cs-controls { display: flex; flex-direction: column; gap: 0.8rem; position: sticky; top: 0.5rem; }
+.cs-ctl { display: flex; flex-direction: column; gap: 0.28rem; font-size: 0.82rem; color: var(--color-fg-subtle); }
+.cs-ctl .range { width: 100%; }
+.cs-ctl-row { display: flex; justify-content: space-between; align-items: baseline; }
+.cs-ctl-row b { font-family: var(--font-mono); color: var(--color-fg); font-weight: 700; }
+.cs-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.cs-chips .chip { padding: 0.18rem 0.6rem; font-size: 0.76rem; }
+.cs-sel { background: var(--color-surface); color: var(--color-fg); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.25rem 0.4rem; font-size: 0.82rem; width: 100%; }
+.cs-main { display: flex; flex-direction: column; gap: 0.8rem; min-width: 0; }
+
+/* ---- KPI strip ---- */
+.cs-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
+@media (max-width: 560px) { .cs-kpis { grid-template-columns: repeat(2, 1fr); } }
+.cs-kpi { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.5rem 0.6rem; text-align: center; }
+.cs-kpi-v { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: var(--color-fg); line-height: 1.1; }
+.cs-kpi-l { font-size: 0.68rem; color: var(--color-fg-subtle); margin-top: 0.15rem; }
+
+/* ---- panels ---- */
+.cs-panel { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.7rem 0.85rem; }
+.cs-panel-t { font-size: 0.84rem; color: var(--color-fg-subtle); margin-bottom: 0.45rem; font-weight: 600; }
+.cs-panel-sub { font-size: 0.74rem; color: var(--color-fg-faint); margin-bottom: 0.5rem; }
+
+/* ---- verdict badges (analysis panel read-outs) ---- */
+.cs-badge { display: inline-block; padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; border: 1px solid transparent; }
+.cs-badge.ok { background: color-mix(in oklab, #3fb950 22%, transparent); color: #3fb950; border-color: #3fb95066; }
+.cs-badge.warn { background: color-mix(in oklab, #d29922 22%, transparent); color: #d29922; border-color: #d2992266; }
+.cs-badge.bad { background: color-mix(in oklab, #f85149 22%, transparent); color: #f85149; border-color: #f8514966; }
+/* provenance lanes: LIVE (browser-computed), REPLAY (baked offline), REAL (measured data) */
+.cs-badge.live { background: color-mix(in oklab, #58a6ff 20%, transparent); color: #58a6ff; border-color: #58a6ff66; letter-spacing: 0.03em; }
+.cs-badge.replay { background: color-mix(in oklab, #8b949e 22%, transparent); color: var(--color-fg-subtle); border-color: var(--color-border); letter-spacing: 0.03em; }
+.cs-badge.real { background: color-mix(in oklab, #3fb950 20%, transparent); color: #3fb950; border-color: #3fb95066; letter-spacing: 0.03em; }
+
+/* ---- method legend rows ---- */
+.cs-legend { display: flex; flex-direction: column; gap: 0.15rem; }
+.cs-legend label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; cursor: pointer; color: var(--color-fg-subtle); }
+.cs-legend .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+/* ---- data tables ---- */
+.cs-table { border-collapse: collapse; width: 100%; font-size: 0.82rem; }
+.cs-table th { text-align: left; border-bottom: 1px solid var(--color-border); padding: 0.3rem 0.5rem; color: var(--color-fg-subtle); font-weight: 600; }
+.cs-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid color-mix(in oklab, var(--color-border) 45%, transparent); font-family: var(--font-mono); }
+.cs-table tr.best td { font-weight: 700; color: var(--color-fg); }
+
+/* charts must never overflow the page */
+.cs-chart { width: 100%; overflow-x: auto; }
