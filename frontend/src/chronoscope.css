@@ -2,6 +2,11 @@
    the pill chip and the workbench layout are ported from the validated RotorVitals/ChancaDEM visual
    language (filled-accent active state, sticky control sidebar, KPI strip). Light AND dark via tokens. */
 
+/* semantic diagram tokens for the ADR-0058 architecture SVGs (type-coding: web / compute / store / pkg).
+   Mid-tones that read on both light and dark, matching the workbench lane badges. */
+:root { --cs-web: #2f81f7; --cs-compute: #bb8009; --cs-store: #2da44e; --cs-pkg: #8250df; }
+:root[data-theme="dark"], .dark { --cs-web: #58a6ff; --cs-compute: #d29922; --cs-store: #3fb950; --cs-pkg: #bc8cff; }
+
 /* ---- validated pill chip ---- */
 .chip { background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-fg-subtle); border-radius: 999px; padding: 0.3rem 0.72rem; font-size: 0.8rem; cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
 .chip:hover { color: var(--color-fg); border-color: var(--color-fg-faint); }
@@ -56,3 +61,68 @@
 
 /* charts must never overflow the page */
 .cs-chart { width: 100%; overflow-x: auto; }
+
+/* ============================================================================
+   Redesigned App workbench (uPlot interactive charts + on-chart method legend).
+   Full-width: a top control bar spanning the page, then a chart area that fills
+   the width with the interactive legend beside it. Replaces the narrow sidebar +
+   fixed-width static SVG charts (below-bar, per the interactive-visualization rubric).
+   ============================================================================ */
+
+/* top control bar: source mode + case picker + fingerprint chips + view toggles, full width */
+.cs-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; padding: 0.6rem 0.8rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; }
+.cs-bar-group { display: flex; align-items: center; gap: 0.4rem; }
+.cs-bar-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-fg-faint); }
+.cs-bar .cs-sel { width: auto; min-width: 190px; }
+.cs-bar .spacer { flex: 1 1 auto; }
+
+/* the case fingerprint strip: the picked case's baked diagnostics as chips */
+.cs-fingerprint { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+.cs-fp { display: inline-flex; align-items: baseline; gap: 0.3rem; padding: 0.16rem 0.5rem; border-radius: 6px; background: color-mix(in oklab, var(--color-fg-subtle) 10%, transparent); border: 1px solid var(--color-border); font-size: 0.72rem; }
+.cs-fp b { font-family: var(--font-mono); color: var(--color-fg); font-weight: 700; }
+.cs-fp span { color: var(--color-fg-subtle); }
+
+/* the chart + legend row: chart fills, legend is a fixed narrow rail (not a far sidebar) */
+.cs-plotwrap { display: grid; grid-template-columns: 1fr 224px; gap: 1rem; align-items: start; }
+@media (max-width: 860px) { .cs-plotwrap { grid-template-columns: 1fr; } }
+.cs-plot { min-width: 0; }
+
+/* uPlot theming: legend + axes read the shell tokens so light/dark both read cleanly */
+.cs-uplot { width: 100%; }
+.cs-uplot .u-title { color: var(--color-fg); font: 600 0.82rem/1.2 var(--font-sans, system-ui); }
+.cs-uplot .u-legend { font-size: 0.74rem; color: var(--color-fg-subtle); margin-top: 0.3rem; }
+.cs-uplot .u-legend .u-marker { width: 10px; height: 10px; border-radius: 2px; }
+.cs-uplot .u-legend .u-value { font-family: var(--font-mono); color: var(--color-fg); }
+.cs-uplot .u-legend .u-series th { font-weight: 500; }
+.cs-uplot .u-legend .u-series.u-off { opacity: 0.35; }
+.cs-uplot .u-cursor-x, .cs-uplot .u-cursor-y { border-color: var(--color-fg-faint); }
+
+/* interactive method legend (grouped, toggle, solo, MASE) */
+.cs-legend-panel { display: flex; flex-direction: column; gap: 0.35rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.55rem 0.6rem; position: sticky; top: 0.5rem; max-height: 78vh; overflow-y: auto; }
+.cs-legend-head { display: flex; justify-content: space-between; align-items: center; }
+.cs-legend-title { font-size: 0.8rem; font-weight: 600; color: var(--color-fg); }
+.cs-legend-actions { display: flex; gap: 0.25rem; }
+.cs-mini { font-size: 0.68rem; padding: 0.1rem 0.4rem; border-radius: 5px; border: 1px solid var(--color-border); background: transparent; color: var(--color-fg-subtle); cursor: pointer; }
+.cs-mini:hover:not(:disabled) { color: var(--color-fg); border-color: var(--color-fg-faint); }
+.cs-mini:disabled { opacity: 0.4; cursor: default; }
+.cs-legend-group { display: flex; flex-direction: column; gap: 0.1rem; }
+.cs-legend-fam { text-align: left; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-fg-faint); background: none; border: none; cursor: pointer; padding: 0.25rem 0 0.05rem; }
+.cs-legend-fam:hover { color: var(--color-fg-subtle); }
+.cs-legend-row { display: flex; align-items: center; gap: 0.2rem; }
+.cs-legend-item { flex: 1 1 auto; display: flex; align-items: center; gap: 0.4rem; background: none; border: none; cursor: pointer; padding: 0.14rem 0.2rem; border-radius: 5px; color: var(--color-fg-subtle); min-width: 0; }
+.cs-legend-item:hover { background: color-mix(in oklab, var(--color-fg-subtle) 10%, transparent); color: var(--color-fg); }
+.cs-legend-row.off .cs-legend-name { text-decoration: line-through; opacity: 0.55; }
+.cs-legend .swatch, .cs-legend-item .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex: none; }
+.cs-legend-name { flex: 1 1 auto; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.76rem; }
+.cs-legend-mase { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-fg-faint); }
+.cs-solo { font-size: 0.62rem; padding: 0.05rem 0.32rem; border-radius: 4px; border: 1px solid var(--color-border); background: transparent; color: var(--color-fg-faint); cursor: pointer; flex: none; }
+.cs-solo:hover { color: var(--color-accent); border-color: var(--color-accent); }
+
+/* segmented view toggle (Forecast | Errors, surface selector) */
+.cs-seg { display: inline-flex; border: 1px solid var(--color-border); border-radius: 7px; overflow: hidden; }
+.cs-seg button { background: transparent; border: none; padding: 0.28rem 0.7rem; font-size: 0.78rem; color: var(--color-fg-subtle); cursor: pointer; }
+.cs-seg button.on { background: var(--color-accent); color: var(--color-accent-fg); font-weight: 600; }
+.cs-seg button:not(.on):hover { color: var(--color-fg); background: color-mix(in oklab, var(--color-fg-subtle) 10%, transparent); }
+
+/* screen-reader-only data-table fallback for each chart */
+.cs-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

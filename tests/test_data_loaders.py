@@ -32,9 +32,32 @@ def test_beijing_pm25_sample_is_a_valid_contract1_series():
     assert rec is not None and rej is None
 
 
+def test_m4_hourly_sample_is_a_valid_seasonal_contract1_series():
+    ds, y = _read_long("m4_hourly_sample.csv")
+    assert len(y) >= 200
+    rec, rej, _flag = validate_series("M4_HOURLY", ds, y)
+    assert rec is not None and rej is None
+    # the loader only commits a series with real daily structure: lag-24 autocorrelation must be strong
+    import numpy as np
+    a = np.asarray(y, dtype=float) - np.mean(y)
+    acf24 = float(np.dot(a[24:], a[:-24]) / np.dot(a, a))
+    assert acf24 > 0.3
+
+
+def test_m4_daily_sample_is_a_valid_seasonal_contract1_series():
+    ds, y = _read_long("m4_daily_sample.csv")
+    assert len(y) >= 200
+    rec, rej, _flag = validate_series("M4_DAILY", ds, y)
+    assert rec is not None and rej is None
+    import numpy as np
+    a = np.asarray(y, dtype=float) - np.mean(y)
+    acf7 = float(np.dot(a[7:], a[:-7]) / np.dot(a, a))
+    assert acf7 > 0.3
+
+
 def test_real_cases_reference_public_safe_sources():
     from chronoscopelab.data import provenance as pv
-    for case_id in ("REAL_electricity", "REAL_pm25"):
+    for case_id in ("REAL_electricity", "REAL_pm25", "REAL_m4_hourly", "REAL_m4_daily"):
         case = registry.get_case(case_id)
         assert pv.public_artifact_ok(case.source) is True    # CC-BY -> derived artifacts may ship
 
