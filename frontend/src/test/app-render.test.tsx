@@ -10,16 +10,13 @@ import AppPage from '../pages/AppPage';
 describe('App workbench renders (baked-first with synthetic live mode available)', () => {
   const html = renderToStaticMarkup(<MemoryRouter><AppPage /></MemoryRouter>);
 
-  it('shows the source modes and the workbench tabs', () => {
+  it('shows the source control bar and the workbench tabs', () => {
     expect(html).toContain('Baked case');
     expect(html).toContain('Synthetic (live)');
+    expect(html).toContain('Source'); // the full-width control bar label
     for (const label of ['Series', 'Structure', 'Decompose', 'Verdicts', 'Forecast', 'Zoom', 'Horizon', 'Residuals', 'Leaderboard', 'Streaming']) {
       expect(html).toContain(label);
     }
-  });
-
-  it('renders the methods legend panel', () => {
-    expect(html).toContain('Methods');
   });
 });
 

@@ -1,7 +1,7 @@
 import { Callout, Cite, Equation, Refs, useShellLang } from '@fasl-work/caos-app-shell';
 
 // Experiments: the evaluation design (rolling-origin + prequential protocols, the metric suite with its
-// math, the 12-case scenario matrix and what each teaches). Transcribed from the metrics/protocols dossiers.
+// math, the 14-case scenario matrix and what each teaches). Transcribed from the metrics/protocols dossiers.
 export default function Experiments() {
   const es = useShellLang() === 'es';
   return (
@@ -26,7 +26,7 @@ export default function Experiments() {
         : 'Each method also reports its empirical coverage of the 10/90 interval (nominal 80%): an interval that does not cover what it promises is a defect even when the point is good. In the streaming bench, coverage is a rolling TRAJECTORY, which is where the ACI/PID calibrators show their value. MAE/RMSE (in series units) and sMAPE (the M-competition convention) are reported too, and since preqts 0.3 the PER-HORIZON error curve: mean |error| at lead h over all backtest cutoffs, scaled by the naive (a per-lead MASE; the workbench Horizon tab). The SHAPE of that curve is a diagnosis in itself: a plateau = mean reversion, square-root growth = a random walk, exponential growth that saturates = deterministic chaos.'}
         {' '}<Cite id="mase" /> <Cite id="msis" /></p>
 
-      <h3>{es ? 'La matriz de escenarios (12 casos)' : 'The scenario matrix (12 cases)'}</h3>
+      <h3>{es ? 'La matriz de escenarios (14 casos)' : 'The scenario matrix (14 cases)'}</h3>
       <p>{es
         ? 'Cada caso ejercita una familia del análisis, de modo que el diagnóstico EXPLICA la tabla de posiciones:'
         : 'Each case exercises one analysis family, so the diagnosis EXPLAINS the leaderboard:'}</p>
@@ -39,6 +39,7 @@ export default function Experiments() {
         <li><b>LMEM_fractional</b>: {es ? 'ARFIMA d=0.35 (H~0.85, verificado con DFA al generar): decaimiento hiperbólico de la ACF; el borde de los modelos de contexto largo.' : 'ARFIMA d=0.35 (H~0.85, DFA-verified at generation): hyperbolic ACF decay; the long-context models\' edge.'}</li>
         <li><b>CHAO_mackey</b>: {es ? 'caos Mackey-Glass (test 0-1 K=0.87, Lyapunov positivo, verificados): pronosticable a corto plazo, el error crece a la tasa de Lyapunov; la curva por horizonte es la lectura estrella.' : 'Mackey-Glass chaos (0-1 test K=0.87, positive Lyapunov, verified): short-horizon forecastable, error grows at the Lyapunov rate; the per-horizon curve is the star read-out.'}</li>
         <li><b>REAL_electricity / REAL_pm25</b>: {es ? 'datos reales CC-BY (carga eléctrica UCI; PM2.5 de Beijing con colas pesadas, curtosis ~5).' : 'CC-BY real data (UCI electricity load; heavy-tailed Beijing PM2.5, kurtosis ~5).'}</li>
+        <li><b>REAL_m4_hourly / REAL_m4_daily</b>: {es ? 'series reales de la competencia M4 (Monash CC-BY) a dos frecuencias (horaria m=24, diaria m=7): estacionalidad real, medida y no diseñada; la prueba zero-shot de los modelos fundacionales sobre datos de benchmark genuinos.' : 'real M4-competition series (Monash CC-BY) at two frequencies (hourly m=24, daily m=7): real seasonality, measured not designed; the zero-shot test of the foundation models on genuine benchmark data.'}</li>
         <li><b>RWLK_noise / CTRL_white_noise</b>: {es ? 'los controles de honestidad: nadie debería ganar por mucho; una brecha grande delata fuga en el harness.' : 'the honesty controls: nobody should win by much; a big gap betrays harness leakage.'}</li>
       </ul>
 

@@ -3,6 +3,47 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.18.000] - 2026-07-10
+
+### Changed (App-section redesign, BL-134: the workbench rebuilt to the interactive-visualization rubric)
+- **All workbench charts are now interactive uPlot** (the rubric's prescribed library), replacing the
+  static inline-SVG charts Felipe flagged as below bar. Every chart gets Tier A: drag + wheel zoom with
+  double-click reset, a crosshair with a per-series value readout, hover-to-focus (dims the other curves),
+  interval bands, ref lines, theme-aware axes (resolves the CSS tokens to concrete canvas colours and
+  re-inits on a theme flip), responsive full-width sizing, and a screen-reader data-table fallback.
+  `render/UPlotChart.tsx` + `render/SeriesLegend.tsx`; the old `WorkbenchChart.tsx` is removed.
+- **On-chart method selection** (`SeriesLegend`): a legend rail grouped by family with click-to-toggle,
+  a **solo** button to isolate a single curve, all/none, and each method's MASE shown inline. This
+  replaces the under-bar checkbox list ("not possible to select a specific curve").
+- **Forecast <-> Errors toggle** on the Forecast tab: the predictions view flips to per-lead residuals
+  (truth - point) with a zero baseline (the "graph of errors" that was missing).
+- **Full-width layout**: a top control bar (source segmented toggle + grouped case picker + a baked
+  **fingerprint strip** of the case's diagnostics: m, seasonal strength, DFA alpha, GARCH persistence,
+  chaos K, best MASE) spanning the page, then a chart area that fills the width + the legend rail. No more
+  fixed 480px charts wasting the wide workbench.
+
+### Changed (architecture modal to the ADR-0058 FLOOR, BL-135)
+- The in-app Architecture/How-it-works diagrams were boxes-and-arrows filler with stale content; rewritten
+  to the FLOOR: a `<style>` class vocabulary, type-coded boxes, real code/module paths in monospace,
+  labeled flows, bands/lanes, ~880 wide, CSS-var-token colours (both themes). Content updated to the
+  current system (10-tab workbench, 18-method ladder, preqts streaming, the real pipeline + two contracts).
+
+### Added
+- **Two real M4-competition cases (BL-131 slice): `REAL_m4_hourly` (m=24) and `REAL_m4_daily` (m=7)**,
+  from the Monash Time Series Forecasting Archive / M4 (CC-BY-4.0, public-safe), loaded offline from the
+  `autogluon/chronos_datasets` snapshot cached in the private vault. The matrix is now **14 cases**,
+  grounding the seasonal story in real competition data at two frequencies (the real counterparts to the
+  synthetic seasonals) and putting the zero-shot foundation models on genuine benchmark series.
+  - `data/loaders.py` gains `load_m4_hourly` / `load_m4_daily` (+ `_load_m4_config`): they read the cached
+    Arrow directly and pick the first series with length, variance, and a strong seasonal-lag autocorrelation,
+    so the committed excerpt is genuinely seasonal (hourly lag-24 ACF ~0.86, daily lag-7 ACF ~0.92).
+  - Public-safe (Monash CC-BY): the full trace ships, unlike the local-only sources; the committed samples
+    `data/examples/m4_{hourly,daily}_sample.csv` are the derived excerpts (the bulk snapshot stays in the vault).
+  - Deep write-ups `docs/cases/REAL_m4_{hourly,daily}.md`; the coverage matrix + growth-path note updated;
+    2 new loader tests (valid Contract-1 + strong seasonal-lag ACF); the public-safe-source test extended.
+- Full **18-method x 14-case** GPU re-bake (deterministic, seed 42); the frontend case-count prose and the
+  Experiments scenario list updated to 14; the forecastability atlas and the whole Benchmark now span 14.
+
 ## [0.17.000] - 2026-07-10
 
 ### Added

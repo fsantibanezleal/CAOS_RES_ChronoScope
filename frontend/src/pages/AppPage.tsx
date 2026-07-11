@@ -15,7 +15,11 @@ import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
 import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
 import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 import { PanelBoundary } from '../render/PanelBoundary';
-import { WorkbenchChart, type ChartData, type ChartSeries } from '../render/WorkbenchChart';
+import { SeriesLegend, type LegendItem } from '../render/SeriesLegend';
+import { UPlotChart, type RefLine, type USeries } from '../render/UPlotChart';
+
+// a method's forecast (point + interval), shared by synthetic (live) + baked (replay)
+interface ChartSeries { name: string; color: string; point: number[]; lower: number[]; upper: number[]; }
 
 const LEVELS = [0.1, 0.5, 0.9];
 const ONNX_NAME = 'NLinear (ONNX)';
@@ -31,64 +35,54 @@ const colorFor = (n: string) => COLORS[n] ?? `hsl(${(n.split('').reduce((a, c) =
 const KINDS: SyntheticKind[] = ['seasonal', 'trend_seasonal', 'intermittent', 'random_walk', 'white_noise'];
 const fmt = (v: number | null | undefined, nd = 3) => (v == null || !Number.isFinite(v) ? '-' : v.toFixed(nd));
 
+// Safe deep-getter for the baked analysis.json (chronoscope.analysis/v1); null on any missing link.
+function dig(o: unknown, ...path: (string | number)[]): number | null {
+  let cur: unknown = o;
+  for (const k of path) { if (cur == null || typeof cur !== 'object') return null; cur = (cur as Record<string, unknown>)[k]; }
+  return typeof cur === 'number' && Number.isFinite(cur) ? cur : null;
+}
+
+// group the 14 cases for the picker (Synthetic / Real / Control) from the case-id prefix.
+function caseGroup(id: string): 'Real' | 'Control' | 'Synthetic' {
+  if (id.startsWith('REAL_')) return 'Real';
+  if (id.startsWith('CTRL_')) return 'Control';
+  return 'Synthetic';
+}
+
 interface Row { name: string; family: string; mase: number; coverage: number; wql?: number; msis?: number; }
 
-// ---------- small inline SVG plots (theme-aware via currentColor / tokens; static, no animation) ----------
+// ---------- interactive chart panels (uPlot: zoom/pan/crosshair/brush/reset, per-series readout) ----------
 
+// ACF / PACF as interactive stems (uPlot bars) with the Bartlett significance band as two ref lines.
 function StemPlot({ values, band, title }: { values: number[]; band: number; title: string }) {
-  const W = 380, H = 150, PAD = 24;
-  const n = values.length;
-  const sx = (i: number) => PAD + (i / Math.max(1, n - 1)) * (W - 2 * PAD);
-  const sy = (v: number) => H / 2 - v * (H / 2 - PAD);
+  const xs = values.map((_, i) => i);
+  const series: USeries[] = [{ label: 'r_k', values, color: 'var(--color-accent)', bars: true }];
+  const refs: RefLine[] = [
+    { y: band, color: 'var(--color-accent)', dash: [4, 3] },
+    { y: -band, color: 'var(--color-accent)', dash: [4, 3] },
+    { y: 0 },
+  ];
   return (
     <div className="cs-panel">
       <div className="cs-panel-t">{title}</div>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W }} role="img" aria-label={title}>
-        <line x1={PAD} y1={H / 2} x2={W - PAD} y2={H / 2} stroke="var(--color-border)" />
-        <rect x={PAD} y={sy(band)} width={W - 2 * PAD} height={sy(-band) - sy(band)} fill="var(--color-accent)" opacity={0.08} />
-        <line x1={PAD} y1={sy(band)} x2={W - PAD} y2={sy(band)} stroke="var(--color-accent)" strokeDasharray="4 3" opacity={0.5} />
-        <line x1={PAD} y1={sy(-band)} x2={W - PAD} y2={sy(-band)} stroke="var(--color-accent)" strokeDasharray="4 3" opacity={0.5} />
-        {values.map((v, i) => (
-          <g key={i}>
-            <line x1={sx(i)} y1={H / 2} x2={sx(i)} y2={sy(Math.max(-1, Math.min(1, v)))}
-              stroke={Math.abs(v) > band && i > 0 ? 'var(--color-accent)' : 'var(--color-fg-faint)'} strokeWidth={2} />
-          </g>
-        ))}
-      </svg>
+      <UPlotChart xs={xs} series={series} refLines={refs} height={200} xLabel="lag" ariaSummary={title} precision={3} />
     </div>
   );
 }
 
-function LinePlot({ xs, series, title, subtitle, refLine }: {
-  xs: number[]; series: { label: string; values: (number | null)[]; color: string }[];
-  title: string; subtitle?: string; refLine?: number;
+function LinePlot({ xs, series, title, subtitle, refLine, refLabel, height }: {
+  xs: number[]; series: { label: string; values: (number | null)[]; color: string; dash?: number[] }[];
+  title: string; subtitle?: string; refLine?: number; refLabel?: string; height?: number;
 }) {
-  const W = 480, H = 170, PAD = 30;
-  const finite = series.flatMap((s) => s.values.filter((v): v is number => v != null && Number.isFinite(v)));
-  if (!finite.length) return null;
-  const lo = Math.min(...finite, refLine ?? Infinity);
-  const hi = Math.max(...finite, refLine ?? -Infinity);
-  const sx = (i: number) => PAD + (i / Math.max(1, xs.length - 1)) * (W - 2 * PAD);
-  const sy = (v: number) => H - PAD - ((v - lo) / Math.max(1e-9, hi - lo)) * (H - 2 * PAD);
-  const path = (vals: (number | null)[]) => {
-    let d = ''; let pen = false;
-    vals.forEach((v, i) => {
-      if (v == null || !Number.isFinite(v)) { pen = false; return; }
-      d += `${pen ? 'L' : 'M'}${sx(i).toFixed(1)},${sy(v).toFixed(1)}`; pen = true;
-    });
-    return d;
-  };
+  const any = series.some((s) => s.values.some((v) => v != null && Number.isFinite(v)));
+  if (!any) return null;
+  const uSeries: USeries[] = series.map((s) => ({ label: s.label, values: s.values, color: s.color, dash: s.dash, width: 1.7 }));
+  const refs: RefLine[] = refLine != null ? [{ y: refLine, label: refLabel, dash: [5, 4] }] : [];
   return (
     <div className="cs-panel">
       <div className="cs-panel-t">{title}</div>
       {subtitle && <div className="cs-panel-sub">{subtitle}</div>}
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W }} role="img" aria-label={title}>
-        {refLine != null && <line x1={PAD} y1={sy(refLine)} x2={W - PAD} y2={sy(refLine)} stroke="var(--color-fg-faint)" strokeDasharray="5 4" />}
-        {series.map((s) => <path key={s.label} d={path(s.values)} fill="none" stroke={s.color} strokeWidth={1.6} />)}
-      </svg>
-      <div className="cs-legend" style={{ flexDirection: 'row', gap: '0.8rem', flexWrap: 'wrap' }}>
-        {series.map((s) => <label key={s.label}><span className="swatch" style={{ background: s.color }} /> {s.label}</label>)}
-      </div>
+      <UPlotChart xs={xs} series={uSeries} refLines={refs} height={height ?? 260} ariaSummary={title} />
     </div>
   );
 }
@@ -108,6 +102,7 @@ export default function AppPage() {
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [err, setErr] = useState('');
   const [onnx, setOnnx] = useState<(ChartSeries & { mase: number; coverage: number }) | null>(null);
+  const [fcView, setFcView] = useState<'forecast' | 'errors'>('forecast');
 
   useEffect(() => {
     loadIndex().then((ix) => { setIndex(ix); setCaseId(ix.cases[0]?.case_id ?? ''); }).catch((e) => setErr(String(e)));
@@ -187,6 +182,14 @@ export default function AppPage() {
 
   const setK = (patch: Partial<SyntheticKnobs>) => setKnobs((k) => ({ ...k, ...patch }));
   const toggle = (name: string) => setHidden((h) => { const n = new Set(h); if (n.has(name)) n.delete(name); else n.add(name); return n; });
+  // isolate a single curve: hide every other method (click again on it via "all" to restore)
+  const solo = (name: string) => setHidden(new Set(allMethods.map((m) => m.name).filter((n) => n !== name)));
+  const setGroup = (names: string[], show: boolean) => setHidden((h) => {
+    const n = new Set(h);
+    for (const name of names) { if (show) n.delete(name); else n.add(name); }
+    return n;
+  });
+  const legendItems: LegendItem[] = allRows.map((r) => ({ name: r.name, family: r.family, color: colorFor(r.name), mase: r.mase }));
 
   // ---------------- UNDERSTAND half (live analysis on the active series + baked verdicts) ----------------
 
@@ -457,44 +460,88 @@ export default function AppPage() {
     </div>
   );
 
-  // ---------------- FORECAST half ----------------
+  // ---------------- FORECAST half (interactive uPlot; Forecast <-> Errors toggle) ----------------
 
-  const chartData: ChartData | null = activeData
-    ? { history: activeData.history, actual: activeData.actual, horizon: activeData.horizon, methods: visibleMethods }
-    : null;
+  // Build the forecast chart series over a shared index axis: history (grey), held-out truth (green dashed),
+  // each visible method's point line over the forecast region, plus the focused method's interval band.
+  const buildForecast = (histTail: number): { xs: number[]; series: USeries[]; refs: RefLine[] } | null => {
+    if (!activeData || !activeData.history.length) return null;
+    const histAll = activeData.history;
+    const keep = histTail > 0 ? Math.min(histAll.length, histTail) : histAll.length;
+    const hist = histAll.slice(-keep);
+    const nHist = hist.length;
+    const h = activeData.horizon;
+    const total = nHist + h;
+    const xs = Array.from({ length: total }, (_, i) => i);
+    const pad = (fwd: (number | null)[]) => [...Array(nHist).fill(null), ...fwd];
+    const series: USeries[] = [
+      { label: es ? 'historia' : 'history', values: [...hist, ...Array(h).fill(null)], color: 'var(--color-fg-subtle)', width: 1.4 },
+    ];
+    if (activeData.actual.length) series.push({ label: es ? 'verdad' : 'truth', values: pad(activeData.actual.slice(0, h)), color: '#3fb950', width: 2.2, dash: [5, 3] });
+    // the single focused method (only one visible) gets its interval band drawn
+    const focus = visibleMethods.length === 1 ? visibleMethods[0] : null;
+    if (focus) {
+      series.push({ label: `${focus.name} ↑`, values: pad(focus.upper), color: focus.color, width: 0.6, fillToLabel: `${focus.name} ↓`, fillAlpha: 0.14 });
+      series.push({ label: `${focus.name} ↓`, values: pad(focus.lower), color: focus.color, width: 0.6 });
+    }
+    for (const m of visibleMethods) series.push({ label: m.name, values: pad(m.point), color: m.color, width: 2 });
+    const refs: RefLine[] = [{ x: nHist - 0.5, color: 'var(--color-fg-subtle)', label: es ? 'pronóstico ->' : 'forecast ->' }];
+    return { xs, series, refs };
+  };
 
-  // ZOOM view: the last 2 seasons of history + the horizon only.
-  const zoomData: ChartData | null = useMemo(() => {
-    if (!activeData) return null;
-    const keep = Math.min(activeData.history.length, Math.max(2 * activeData.m, 24));
-    return {
-      history: activeData.history.slice(-keep),
-      actual: activeData.actual,
-      horizon: activeData.horizon,
-      methods: visibleMethods,
-    };
-  }, [activeData, visibleMethods]);
+  // Errors view: each visible method's residual (truth - point) by lead, with a zero baseline.
+  const buildErrors = (): { xs: number[]; series: USeries[]; refs: RefLine[] } | null => {
+    if (!activeData || !activeData.actual.length) return null;
+    const h = activeData.horizon;
+    const xs = Array.from({ length: h }, (_, i) => i + 1);
+    const series: USeries[] = visibleMethods.map((m) => ({
+      label: m.name,
+      values: activeData.actual.slice(0, h).map((a, i) => (Number.isFinite(a) && Number.isFinite(m.point[i]) ? a - m.point[i] : null)),
+      color: m.color, width: 2,
+    }));
+    return { xs, series, refs: [{ y: 0, dash: [5, 4] }] };
+  };
+
+  // Forecast view: show a recent context window (last ~5 seasons) + the horizon so the forecast region is a
+  // meaningful fraction of the width (not a sliver behind hundreds of history points); the user can wheel/drag
+  // to see more, and the Zoom tab tightens to ~2 seasons. Errors view is per-lead.
+  const fcHistTail = Math.max(5 * (activeData?.m ?? 12), 60);
+  const fcData = fcView === 'errors' ? buildErrors() : buildForecast(fcHistTail);
+  const zoomFc = buildForecast(Math.max(2 * (activeData?.m ?? 12), 24));
 
   const forecastFull = (
     <div className="cs-main">
-      {chartData && chartData.history.length > 0
-        ? <div className="cs-panel"><WorkbenchChart data={chartData} /></div>
-        : <p className="cs-panel-sub">{es ? 'fuente con licencia solo-local: la serie no se publica; ver la tabla de métricas y el banco de streaming.' : 'local-only-licensed source: the series is not published; see the metrics table and the streaming bench.'}</p>}
-      <p className="cs-panel-sub">{es
-        ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico + intervalo por método. '
-        : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast + interval. '}
-        {mode === 'synthetic'
-          ? (es ? 'Clásicos + ONNX computados EN VIVO en tu navegador (paridad verificada con el pipeline).' : 'Classical + ONNX computed LIVE in your browser (parity-checked against the pipeline).')
-          : (es ? 'Escalera completa (18 métodos) del backtest horneado offline.' : 'The full 18-method ladder from the offline-baked backtest.')}</p>
+      <div className="cs-panel">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', gap: '0.6rem', flexWrap: 'wrap' }}>
+          <div className="cs-panel-t" style={{ marginBottom: 0 }}>{fcView === 'errors' ? (es ? 'Errores por paso (verdad - punto)' : 'Errors by lead (truth - point)') : (es ? 'Pronóstico + intervalo' : 'Forecast + interval')}</div>
+          <div className="cs-seg" role="tablist" aria-label={es ? 'vista' : 'view'}>
+            <button className={fcView === 'forecast' ? 'on' : ''} onClick={() => setFcView('forecast')} role="tab" aria-selected={fcView === 'forecast'}>{es ? 'Pronóstico' : 'Forecast'}</button>
+            <button className={fcView === 'errors' ? 'on' : ''} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
+          </div>
+        </div>
+        {fcData
+          ? <UPlotChart xs={fcData.xs} series={fcData.series} refLines={fcData.refs} height={380} ariaSummary={fcView === 'errors' ? 'forecast errors by lead' : 'forecast and interval'} />
+          : <p className="cs-panel-sub">{fcView === 'errors'
+              ? (es ? 'la vista de errores necesita la verdad reservada (fuente con licencia solo-local: no se publica).' : 'the errors view needs the held-out truth (local-only-licensed source: not published).')
+              : (es ? 'fuente con licencia solo-local: la serie no se publica; ver la tabla y el banco de streaming.' : 'local-only-licensed source: the series is not published; see the table and the streaming bench.')}</p>}
+      </div>
+      <p className="cs-panel-sub">{fcView === 'errors'
+        ? (es ? 'El residuo por paso: signo sistemático = sesgo; dispersión que crece con el paso = incertidumbre que crece. Aísla una curva con "solo" en la leyenda; arrastra para hacer zoom, doble clic para reiniciar.' : 'The per-lead residual: a systematic sign = bias; spread growing with lead = growing uncertainty. Isolate a curve with "solo" in the legend; drag to zoom, double-click to reset.')
+        : (es ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico por método; con UNA curva visible se dibuja su intervalo. ' : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with ONE curve visible its interval is drawn. ')}
+        {fcView === 'forecast' && (mode === 'synthetic'
+          ? (es ? 'Clásicos + ONNX EN VIVO en tu navegador.' : 'Classical + ONNX computed LIVE in your browser.')
+          : (es ? 'Escalera completa (18 métodos), backtest horneado.' : 'The full 18-method ladder, offline-baked.'))}</p>
     </div>
   );
 
   const forecastZoom = (
     <div className="cs-main">
-      {zoomData && zoomData.history.length > 0 && <div className="cs-panel"><WorkbenchChart data={zoomData} /></div>}
+      {zoomFc
+        ? <div className="cs-panel"><div className="cs-panel-t">{es ? 'Zoom en la zona predicha' : 'Zoom on the predicted zone'}</div><UPlotChart xs={zoomFc.xs} series={zoomFc.series} refLines={zoomFc.refs} height={360} ariaSummary="zoomed forecast" /></div>
+        : <p className="cs-panel-sub">{es ? 'sin serie publicable para esta fuente.' : 'no publishable series for this source.'}</p>}
       <p className="cs-panel-sub">{es
-        ? 'ZOOM en la zona predicha: solo las últimas ~2 temporadas + el horizonte, para leer los intervalos y el error paso a paso (el cursor lee cada serie).'
-        : 'ZOOM on the predicted zone: only the last ~2 seasons + the horizon, to read the intervals and per-step error (the cursor reads out every series).'}</p>
+        ? 'ZOOM en la zona predicha: las últimas ~2 temporadas + el horizonte. El cursor lee cada serie; arrastra para acercar más, doble clic reinicia.'
+        : 'ZOOM on the predicted zone: the last ~2 seasons + the horizon. The cursor reads out every series; drag to zoom further, double-click resets.'}</p>
     </div>
   );
 
@@ -594,66 +641,92 @@ export default function AppPage() {
     </div>
   );
 
-  // ---------------- layout ----------------
+  // ---------------- layout: full-width top control bar + (chart area | method legend rail) ----------------
+
+  // the baked case fingerprint: the diagnostics that say WHAT this series is, as chips
+  const fp: { label: string; value: string }[] = [];
+  if (mode === 'baked' && trace) {
+    fp.push({ label: 'm', value: String(trace.seasonality) });
+    const ss = dig(analysis, 'seasonality', 'stl_at_dominant', 'strength_seasonal');
+    if (ss != null) fp.push({ label: es ? 'estac.' : 'seasonal', value: ss.toFixed(2) });
+    const a = dig(analysis, 'fractal', 'hurst', 'dfa_alpha');
+    if (a != null) fp.push({ label: 'DFA α', value: a.toFixed(2) });
+    const gp = dig(analysis, 'volatility', 'garch', 'persistence');
+    if (gp != null) fp.push({ label: 'GARCH', value: gp.toFixed(2) });
+    const k = dig(analysis, 'nonlinear', 'zero_one_K');
+    if (k != null) fp.push({ label: es ? 'caos K' : 'chaos K', value: k.toFixed(2) });
+    if (trace.summary.best_mase != null) fp.push({ label: es ? 'mejor MASE' : 'best MASE', value: trace.summary.best_mase.toFixed(2) });
+  }
+
+  const groups: ('Synthetic' | 'Real' | 'Control')[] = ['Synthetic', 'Real', 'Control'];
+  const knobDefs: [string, number, number, number, number, (v: number) => void][] = [
+    ['n', knobs.n, 40, 400, 10, (v) => setK({ n: v })],
+    ['m', knobs.seasonality, 1, 48, 1, (v) => setK({ seasonality: v })],
+    ['horizon', knobs.horizon, 1, 48, 1, (v) => setK({ horizon: v })],
+    ['amp', knobs.amp, 0, 40, 1, (v) => setK({ amp: v })],
+    ['slope', knobs.slope, -1, 1, 0.05, (v) => setK({ slope: v })],
+    ['noise', knobs.noise, 0, 15, 0.5, (v) => setK({ noise: v })],
+    ['seed', knobs.seed, 0, 50, 1, (v) => setK({ seed: v })],
+  ];
 
   return (
-    <section className="page-body">
+    <section className="page-body cs-app">
       {err && <p style={{ color: 'var(--color-danger, #f85149)' }}>error: {err}</p>}
-      <div className="cs-layout">
-        <aside className="cs-controls">
-          <div className="cs-panel">
-            <div className="cs-panel-t">{es ? 'Fuente' : 'Source'}</div>
-            <div className="cs-chips">
-              <button className={`chip ${mode === 'baked' ? 'on' : ''}`} onClick={() => setMode('baked')}>{es ? 'Caso horneado' : 'Baked case'} </button>
-              <button className={`chip ${mode === 'synthetic' ? 'on' : ''}`} onClick={() => setMode('synthetic')}>{es ? 'Sintética (en vivo)' : 'Synthetic (live)'}</button>
-            </div>
-            {mode === 'baked' ? (
-              <div className="cs-ctl" style={{ marginTop: 8 }}>
-                <span>{es ? 'caso' : 'case'}</span>
-                <select className="cs-sel" value={caseId} onChange={(e) => setCaseId(e.target.value)}>
-                  {index?.cases.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id}</option>)}
-                </select>
-                {manifest && <span className="cs-panel-sub">{manifest.category} · seed {manifest.seed} · <span className={`cs-badge ${manifest.provenance.public_artifact_ok ? 'real' : 'warn'}`}>{manifest.provenance.license}</span></span>}
-              </div>
-            ) : (
-              <>
-                <div className="cs-ctl" style={{ marginTop: 8 }}>
-                  <span>{es ? 'patrón' : 'pattern'}</span>
-                  <select className="cs-sel" value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
-                    {KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
-                  </select>
-                </div>
-                {([
-                  ['n', knobs.n, 40, 400, 10, (v: number) => setK({ n: v })],
-                  ['m', knobs.seasonality, 1, 48, 1, (v: number) => setK({ seasonality: v })],
-                  ['horizon', knobs.horizon, 1, 48, 1, (v: number) => setK({ horizon: v })],
-                  ['amplitude', knobs.amp, 0, 40, 1, (v: number) => setK({ amp: v })],
-                  ['slope', knobs.slope, -1, 1, 0.05, (v: number) => setK({ slope: v })],
-                  ['noise', knobs.noise, 0, 15, 0.5, (v: number) => setK({ noise: v })],
-                  ['seed', knobs.seed, 0, 50, 1, (v: number) => setK({ seed: v })],
-                ] as [string, number, number, number, number, (v: number) => void][]).map(([label, value, min, max, step, on]) => (
-                  <label key={label} className="cs-ctl">
-                    <span className="cs-ctl-row"><span>{label}</span><b>{value}</b></span>
-                    <input className="range" type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} />
-                  </label>
-                ))}
-              </>
-            )}
-          </div>
-          <div className="cs-panel">
-            <div className="cs-panel-t">{es ? 'Métodos' : 'Methods'}</div>
-            <div className="cs-legend">
-              {allMethods.map((m) => (
-                <label key={m.name}>
-                  <input type="checkbox" checked={!hidden.has(m.name)} onChange={() => toggle(m.name)} />
-                  <span className="swatch" style={{ background: m.color }} /> {m.name}
-                </label>
-              ))}
-            </div>
-          </div>
-        </aside>
 
-        <main className="cs-main">
+      {/* full-width control bar: source, case/pattern picker, fingerprint */}
+      <div className="cs-bar">
+        <div className="cs-bar-group">
+          <span className="cs-bar-label">{es ? 'Fuente' : 'Source'}</span>
+          <div className="cs-seg" role="tablist" aria-label={es ? 'fuente' : 'source'}>
+            <button className={mode === 'baked' ? 'on' : ''} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso horneado' : 'Baked case'}</button>
+            <button className={mode === 'synthetic' ? 'on' : ''} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
+          </div>
+        </div>
+        {mode === 'baked' ? (
+          <>
+            <div className="cs-bar-group">
+              <span className="cs-bar-label">{es ? 'Caso' : 'Case'}</span>
+              <select className="cs-sel" value={caseId} onChange={(e) => setCaseId(e.target.value)}>
+                {groups.map((g) => {
+                  const opts = (index?.cases ?? []).filter((c) => caseGroup(c.case_id) === g);
+                  return opts.length ? <optgroup key={g} label={g}>{opts.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id.replace(/_/g, ' ')}</option>)}</optgroup> : null;
+                })}
+              </select>
+            </div>
+            {fp.length > 0 && (
+              <div className="cs-fingerprint" aria-label={es ? 'huella del caso' : 'case fingerprint'}>
+                {fp.map((f) => <span key={f.label} className="cs-fp"><span>{f.label}</span><b>{f.value}</b></span>)}
+                {manifest && <span className={`cs-badge ${manifest.provenance.public_artifact_ok ? 'real' : 'warn'}`}>{manifest.provenance.license}</span>}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="cs-bar-group">
+            <span className="cs-bar-label">{es ? 'Patrón' : 'Pattern'}</span>
+            <select className="cs-sel" value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
+              {KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
+            </select>
+            <span className="cs-badge live">LIVE</span>
+          </div>
+        )}
+        <span className="spacer" />
+      </div>
+
+      {/* synthetic knobs, second bar row (compact, only in live mode) */}
+      {mode === 'synthetic' && (
+        <div className="cs-bar" style={{ gap: '0.5rem 1.2rem' }}>
+          {knobDefs.map(([label, value, min, max, step, on]) => (
+            <label key={label} className="cs-ctl" style={{ minWidth: 128 }}>
+              <span className="cs-ctl-row"><span>{label}</span><b>{value}</b></span>
+              <input className="range" type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} />
+            </label>
+          ))}
+        </div>
+      )}
+
+      {/* chart area (fills the width) + the interactive method-legend rail */}
+      <div className="cs-plotwrap" style={{ marginTop: '0.8rem' }}>
+        <div className="cs-plot">
           <SubTabs
             ariaLabel="workbench views"
             tabs={[
@@ -669,7 +742,10 @@ export default function AppPage() {
               { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
             ]}
           />
-        </main>
+        </div>
+        {legendItems.length > 0 && (
+          <SeriesLegend items={legendItems} hidden={hidden} onToggle={toggle} onSolo={solo} onSetGroup={setGroup} es={es} />
+        )}
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 {
   "name": "product-frontend",
   "private": true,
-  "version": "0.17.0",
+  "version": "0.18.0",
   "type": "module",
   "scripts": {
     "predev": "node copy-data.mjs",
@@ -20,6 +20,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.1",
+    "uplot": "^1.6.32",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
