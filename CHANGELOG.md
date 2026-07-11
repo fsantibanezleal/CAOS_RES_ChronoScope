@@ -5,6 +5,29 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 
 ## [0.18.000] - 2026-07-10
 
+### Changed (App-section redesign, BL-134: the workbench rebuilt to the interactive-visualization rubric)
+- **All workbench charts are now interactive uPlot** (the rubric's prescribed library), replacing the
+  static inline-SVG charts Felipe flagged as below bar. Every chart gets Tier A: drag + wheel zoom with
+  double-click reset, a crosshair with a per-series value readout, hover-to-focus (dims the other curves),
+  interval bands, ref lines, theme-aware axes (resolves the CSS tokens to concrete canvas colours and
+  re-inits on a theme flip), responsive full-width sizing, and a screen-reader data-table fallback.
+  `render/UPlotChart.tsx` + `render/SeriesLegend.tsx`; the old `WorkbenchChart.tsx` is removed.
+- **On-chart method selection** (`SeriesLegend`): a legend rail grouped by family with click-to-toggle,
+  a **solo** button to isolate a single curve, all/none, and each method's MASE shown inline. This
+  replaces the under-bar checkbox list ("not possible to select a specific curve").
+- **Forecast <-> Errors toggle** on the Forecast tab: the predictions view flips to per-lead residuals
+  (truth - point) with a zero baseline (the "graph of errors" that was missing).
+- **Full-width layout**: a top control bar (source segmented toggle + grouped case picker + a baked
+  **fingerprint strip** of the case's diagnostics: m, seasonal strength, DFA alpha, GARCH persistence,
+  chaos K, best MASE) spanning the page, then a chart area that fills the width + the legend rail. No more
+  fixed 480px charts wasting the wide workbench.
+
+### Changed (architecture modal to the ADR-0058 FLOOR, BL-135)
+- The in-app Architecture/How-it-works diagrams were boxes-and-arrows filler with stale content; rewritten
+  to the FLOOR: a `<style>` class vocabulary, type-coded boxes, real code/module paths in monospace,
+  labeled flows, bands/lanes, ~880 wide, CSS-var-token colours (both themes). Content updated to the
+  current system (10-tab workbench, 18-method ladder, preqts streaming, the real pipeline + two contracts).
+
 ### Added
 - **Two real M4-competition cases (BL-131 slice): `REAL_m4_hourly` (m=24) and `REAL_m4_daily` (m=7)**,
   from the Monash Time Series Forecasting Archive / M4 (CC-BY-4.0, public-safe), loaded offline from the
