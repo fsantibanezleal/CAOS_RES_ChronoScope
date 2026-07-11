@@ -6,7 +6,7 @@ real/synthetic flag, and a provenance `source` (drives the license export guard)
 groups them. The App shows ONE selected case; Experiments and Benchmark show cross-case summaries by category
 (never mixed into the App).
 
-## Coverage matrix (14 cases)
+## Coverage matrix (15 cases)
 
 | id | category | expected band | source | deep write-up |
 |---|---|---|---|---|
@@ -18,6 +18,7 @@ groups them. The App shows ONE selected case; Experiments and Benchmark show cro
 | `REAL_pm25` | real: Beijing PM2.5 (hourly) | daily cycle + heavy-tailed pollution spikes | UCI (CC-BY) | [REAL_pm25](REAL_pm25.md) |
 | `REAL_m4_hourly` | real: M4 hourly (m=24) | real competition daily cycle; the real counterpart to SEAS_hourly | Monash/M4 (CC-BY) | [REAL_m4_hourly](REAL_m4_hourly.md) |
 | `REAL_m4_daily` | real: M4 daily (m=7) | real competition weekly cycle; frequency diversity | Monash/M4 (CC-BY) | [REAL_m4_daily](REAL_m4_daily.md) |
+| `EXOG_promo` | exogenous driver (known-future covariate) | weekly cycle + scheduled promos; the covariate-policy demo (aware vs blind in the streaming bench) | synthetic | [EXOG_promo](EXOG_promo.md) |
 | `CTRL_white_noise` | control: white noise | iid noise; nothing should beat the naive by much | synthetic | - |
 | `BRKV_level_shift` | structural break | two clean level shifts; regime-averaging models lag at each break | synthetic | [BRKV_level_shift](BRKV_level_shift.md) |
 | `MSEA_daily_weekly` | multi-seasonal (24+168) | daily AND weekly cycles; single-m methods miss the weekly | synthetic | [MSEA_daily_weekly](MSEA_daily_weekly.md) |

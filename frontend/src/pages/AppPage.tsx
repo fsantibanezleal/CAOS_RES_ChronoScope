@@ -211,6 +211,7 @@ export default function AppPage() {
   const bakedNonlinear = analysis && (analysis as any).nonlinear;
   const bakedFractal = analysis && (analysis as any).fractal;
 
+  const covariate = (streaming as { covariate?: { name: string; kind: string; values: number[] } } | null)?.covariate ?? null;
   const understandSeries = (
     <div className="cs-main">
       {roll && (
@@ -223,6 +224,16 @@ export default function AppPage() {
           ]}
           title={es ? 'Serie + estadísticos móviles' : 'Series + rolling statistics'}
           subtitle={es ? 'Una media móvil que deriva = tendencia/quiebre; una desviación móvil que respira = heterocedasticidad.' : 'A drifting rolling mean = trend/break; a breathing rolling std = heteroscedasticity.'}
+        />
+      )}
+      {covariate && (
+        <LinePlot
+          xs={covariate.values.map((_, i) => i)}
+          series={[{ label: covariate.name, values: covariate.values, color: '#bc8cff' }]}
+          title={es ? `Covariable exógena: ${covariate.name} (${covariate.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'})` : `Exogenous covariate: ${covariate.name} (${covariate.kind === 'known_future' ? 'known-future' : 'past'})`}
+          subtitle={es
+            ? 'un regresor programado (p. ej. promociones) alineado a la serie. Conocido-a-futuro: sus valores del horizonte se saben de antemano, así un método CON la covariable anticipa los saltos que uno univariado debe rezagar. La ganancia se ve en la pestaña Streaming (aware vs blind).'
+            : 'a scheduled regressor (e.g. promotions) aligned to the series. Known-future: its horizon values are known ahead, so a method WITH the covariate anticipates the jumps a univariate method must lag. The gain is visible in the Streaming tab (aware vs blind).'}
         />
       )}
       <div className="cs-kpis">
@@ -610,9 +621,10 @@ export default function AppPage() {
       {mode === 'baked' && streaming && (() => {
         const meths = (streaming as any).methods ?? {};
         const names = Object.keys(meths).filter((k) => !meths[k].error);
-        const colors: Record<string, string> = { SeasonalNaive: '#58a6ff', Theta: '#56d364', 'Theta+ACI': '#d29922', 'Theta+PID': '#ff7b72' };
+        const colors: Record<string, string> = { SeasonalNaive: '#58a6ff', Theta: '#56d364', 'Theta+ACI': '#d29922', 'Theta+PID': '#ff7b72', 'Ridge (blind)': '#8b949e', 'Ridge+exog (aware)': '#3fb950' };
         const n = Math.max(...names.map((k) => meths[k].n_steps ?? 0), 0);
         const xs = Array.from({ length: n }, (_, i) => i);
+        const cov = (streaming as any).covariate;
         return (
           <>
             <LinePlot xs={xs}
@@ -632,6 +644,20 @@ export default function AppPage() {
               title={es ? 'Costo de cómputo acumulado (ms)' : 'Cumulative compute cost (ms)'}
               subtitle={es ? 'la historia del costo-por-paso: la calibración añade casi nada sobre el pronosticador base.' : 'the cost-per-step story: calibration adds almost nothing over the base forecaster.'}
             />
+            {cov && (
+              <div className="cs-panel" style={{ borderColor: '#3fb95066' }}>
+                <div className="cs-panel-t" style={{ color: '#3fb950' }}>{es ? 'La política de covariables (la pieza nueva)' : 'The covariate policy (the novel piece)'}</div>
+                <div className="cs-panel-sub">{es
+                  ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (aware, verde) la usa: conoce el driver del horizonte y anticipa los saltos; Ridge (blind, gris) es el MISMO modelo sin la covariable. La brecha entre ambos ES lo que compra la covariable. Ningún harness público evalúa esto con política de arribo; preqts sí.`
+                  : `This case carries a ${cov.kind === 'known_future' ? 'known-future' : 'past'} covariate (${cov.name}). Ridge+exog (aware, green) uses it: it knows the horizon's driver and anticipates the jumps; Ridge (blind, grey) is the SAME model without the covariate. The gap between them IS what the covariate buys. No public harness evaluates this with an arrival policy; preqts does.`}</div>
+                <div className="cs-panel-sub" style={{ marginTop: '0.3rem' }}>
+                  {es ? 'MASE final: ' : 'Final MASE: '}
+                  <b style={{ color: '#3fb950' }}>aware {fmt(meths['Ridge+exog (aware)']?.final?.mase, 2)}</b>
+                  {' vs '}
+                  <b style={{ color: '#8b949e' }}>blind {fmt(meths['Ridge (blind)']?.final?.mase, 2)}</b>
+                </div>
+              </div>
+            )}
             <p className="cs-panel-sub">{es
               ? 'Evaluación prequential (Dawid 1984) con preqts, NUESTRO paquete PyPI: predecir, luego observar, luego actualizar, con estado acarreado. Ningún harness público hace esto con política de covariables; es la pieza nueva del atlas.'
               : 'Prequential evaluation (Dawid 1984) with preqts, OUR PyPI package: predict, then observe, then update, state carried. No public harness does this with a covariate policy; it is the atlas\'s novel piece.'}</p>

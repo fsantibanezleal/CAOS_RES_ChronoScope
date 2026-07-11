@@ -298,7 +298,7 @@ export default function Benchmark() {
       <h2>Benchmark</h2>
       <p className="cs-lead">{es
         ? 'Los resultados cruzados sobre los 14 casos, construidos EN VIVO desde los artefactos comprometidos (nunca tipeados a mano): 18 métodos, backtest de origen móvil, punto + cobertura.'
-        : 'The cross-case results over the 14 cases, built LIVE from the committed artifacts (never hand-typed): 18 methods, rolling-origin backtest, point + coverage.'}</p>
+        : 'The cross-case results over the 15 cases, built LIVE from the committed artifacts (never hand-typed): 18 methods, rolling-origin backtest, point + coverage.'}</p>
       {err && <p style={{ color: 'var(--color-danger, #f85149)' }}>error: {err}</p>}
       {rows.length === 0 && !err && <p className="cs-panel-sub">{es ? 'cargando artefactos...' : 'loading artifacts...'}</p>}
       {rows.length > 0 && (

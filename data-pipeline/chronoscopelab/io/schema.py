@@ -5,11 +5,28 @@ from dataclasses import dataclass, field
 
 
 @dataclass(frozen=True)
+class Covariate:
+    """An exogenous regressor accompanying a series, with its ARRIVAL POLICY (the preqts distinction).
+
+    ``kind='known_future'`` (calendar, scheduled promotions, planned interventions): the value is known for
+    every time, including the forecast horizon, so a covariate-aware forecaster may use it ahead. ``kind=
+    'past'`` with ``lag>=0``: the value for time s is only available at time s+lag. The univariate ladder
+    ignores covariates; the streaming bench uses them to show what the covariate BUYS.
+    """
+
+    name: str
+    values: tuple[float, ...]
+    kind: str = "known_future"   # "known_future" | "past"
+    lag: int = 0
+
+
+@dataclass(frozen=True)
 class SeriesSpec:
-    """One validated univariate series to forecast (the unit of work).
+    """One validated series to forecast (the unit of work); univariate target + optional covariates.
 
     ``y`` is the observed history; ``seasonality`` is the seasonal period m (1 = non-seasonal);
     ``horizon`` is how many steps ahead to forecast; ``freq`` is a human label (e.g. "H", "D", "M").
+    ``covariates`` are optional exogenous regressors (empty for the univariate cases).
     """
 
     case_id: str
@@ -18,6 +35,7 @@ class SeriesSpec:
     horizon: int
     freq: str = ""
     source: str = "synthetic"
+    covariates: tuple[Covariate, ...] = field(default_factory=tuple)
 
 
 @dataclass(frozen=True)
@@ -56,3 +74,4 @@ class ForecastResult:
     quantile_levels: tuple[float, ...]
     history: tuple[float, ...]
     methods: tuple[MethodForecast, ...] = field(default_factory=tuple)
+    covariates: tuple[Covariate, ...] = field(default_factory=tuple)
