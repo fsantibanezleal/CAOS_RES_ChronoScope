@@ -3,6 +3,27 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.20.000] - 2026-07-11
+
+### Added
+- **TiRex-2 via the WSL2 lane (BL-133 closed): the 19th method, a cross-OS foundation model.** TiRex-2
+  (NX-AI, streaming-native xLSTM) cannot run on native Windows - its `flashrnn` dependency needs `triton` +
+  fused sLSTM CUDA kernels compiled by `nvcc`, none of which ship Windows wheels. It now runs in a **WSL2
+  (Linux) venv with CUDA-in-WSL** and is merged as a foundation method, closing what was a documented
+  native-Windows limit.
+  - `tools/tirex2_wsl/tirex2_bake.py` (runs in WSL): loads TiRex-2 once and runs one case's rolling-origin
+    backtest via `preqts.run_prequential` - the SAME machinery as `stages/evaluate.py`, so MASE / WQL /
+    coverage / MSIS / per-horizon are computed identically to the rest of the ladder - plus the display
+    forecast. One WSL call per case.
+  - `engines/tirex2_wsl_engine.py` (the Windows bridge): opt-in via `CHRONOSCOPE_ENABLE_TIREX_WSL=1` and a
+    reachable WSL distro/venv; a **graceful no-op** otherwise, so CI and the default bake are unaffected and
+    the committed artifact stays valid. `pipeline.precompute` merges TiRex-2 after `evaluate` and re-picks
+    `best_method` honestly. 3 CI-safe engine tests.
+  - The matrix is baked at **19 methods x 15 cases**; on several cases TiRex-2 is competitive or best (e.g.
+    it wins SEAS_hourly at MASE 0.80). UI: the TiRex-2 legend colour + the 18->19 method-count updates;
+    Methodology gains a TiRex-2 subsection (the honest-limits note reframed: only Moirai's CC-BY-NC license
+    remains). `docs/guides/tirex2-wsl-lane.md` documents the full reproducible setup.
+
 ## [0.19.000] - 2026-07-11
 
 ### Added
