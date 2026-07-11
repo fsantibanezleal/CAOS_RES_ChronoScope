@@ -2,6 +2,11 @@
    the pill chip and the workbench layout are ported from the validated RotorVitals/ChancaDEM visual
    language (filled-accent active state, sticky control sidebar, KPI strip). Light AND dark via tokens. */
 
+/* semantic diagram tokens for the ADR-0058 architecture SVGs (type-coding: web / compute / store / pkg).
+   Mid-tones that read on both light and dark, matching the workbench lane badges. */
+:root { --cs-web: #2f81f7; --cs-compute: #bb8009; --cs-store: #2da44e; --cs-pkg: #8250df; }
+:root[data-theme="dark"], .dark { --cs-web: #58a6ff; --cs-compute: #d29922; --cs-store: #3fb950; --cs-pkg: #bc8cff; }
+
 /* ---- validated pill chip ---- */
 .chip { background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-fg-subtle); border-radius: 999px; padding: 0.3rem 0.72rem; font-size: 0.8rem; cursor: pointer; transition: background .12s, color .12s, border-color .12s; }
 .chip:hover { color: var(--color-fg); border-color: var(--color-fg-faint); }
