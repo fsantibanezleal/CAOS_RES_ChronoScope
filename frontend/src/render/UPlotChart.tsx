@@ -204,16 +204,20 @@ export function UPlotChart({ xs, series, height = 340, yLabel, xLabel, refLines 
   return (
     <div>
       <div ref={hostRef} className="cs-uplot" style={{ width: '100%' }} />
-      {/* screen-reader fallback: the series as a reachable table; the canvas is aria-hidden */}
-      <table className="cs-sr-only">
-        <caption>{ariaSummary || 'chart data'}</caption>
-        <thead><tr><th>x</th>{series.map((s) => <th key={s.label}>{s.label}</th>)}</tr></thead>
-        <tbody>
-          {xs.slice(0, 200).map((x, i) => (
-            <tr key={i}><td>{x}</td>{series.map((s) => <td key={s.label}>{s.values[i] == null || !Number.isFinite(s.values[i] as number) ? '-' : (s.values[i] as number).toFixed(precision)}</td>)}</tr>
-          ))}
-        </tbody>
-      </table>
+      {/* screen-reader fallback: the series as a reachable table; the canvas is aria-hidden. Wrapped in a
+          block div so the visually-hidden clip actually collapses it (a bare <table> ignores height:1px and
+          would inflate the page height). Capped rows keep the DOM light. */}
+      <div className="cs-sr-only">
+        <table>
+          <caption>{ariaSummary || 'chart data'}</caption>
+          <thead><tr><th>x</th>{series.map((s) => <th key={s.label}>{s.label}</th>)}</tr></thead>
+          <tbody>
+            {xs.slice(0, 120).map((x, i) => (
+              <tr key={i}><td>{x}</td>{series.map((s) => <td key={s.label}>{s.values[i] == null || !Number.isFinite(s.values[i] as number) ? '-' : (s.values[i] as number).toFixed(precision)}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

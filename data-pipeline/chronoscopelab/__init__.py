@@ -7,4 +7,4 @@ same MethodForecast contract in later slices. The base (two data contracts, stag
 manifest/trace, cases-by-category registry) is the FROZEN template.
 """
 
-__version__ = "0.18.000"  # display X.XX.XXX; PEP 440 form in pyproject.toml (0.18.0)
+__version__ = "0.18.001"  # display X.XX.XXX; PEP 440 form in pyproject.toml (0.18.1)
