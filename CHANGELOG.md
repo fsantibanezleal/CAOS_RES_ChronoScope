@@ -3,6 +3,25 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.19.000] - 2026-07-11
+
+### Added
+- **Known-future-covariate case `EXOG_promo` (BL-131 closed): the covariate-policy demonstration.** This is
+  the one capability `preqts` was built for (covariates with an explicit ARRIVAL POLICY) that nothing in the
+  atlas exercised until now. A weekly-seasonal target plus a scheduled-promotion driver, attached as a
+  `known_future` `Covariate`; the driver is known ahead but not predictable from the target's own history.
+  - `io/schema.py`: a `Covariate` dataclass (name, values, kind ∈ {known_future, past}, lag) + optional
+    `SeriesSpec.covariates` / `ForecastResult.covariates`; univariate cases are unchanged (empty tuple).
+  - `stages/streaming.py`: builds a `preqts.Stream` carrying the covariate with its arrival policy, and for
+    a known-future covariate adds **Ridge (blind)** vs **Ridge+exog (aware)** to the roster: the same online
+    ridge with/without the covariate column, so the gap isolates exactly what the covariate buys. The aware
+    model reaches MASE ~0.49 vs the blind ~0.76 on the bake (a ~35% gain from knowing the driver ahead).
+  - The 18-method ladder stays **honestly univariate** on this case (most methods genuinely cannot use exog);
+    the covariate value is shown only where it is real (the online model in the streaming bench).
+  - UI: the Series tab overlays the covariate; the Streaming tab frames the aware-vs-blind comparison with
+    the final-MASE gap. `docs/cases/EXOG_promo.md` (the arrival-policy theory + the honest scope). The matrix
+    is now **15 cases**; 2 streaming tests (aware < blind + the covariate block; univariate has neither).
+
 ## [0.18.001] - 2026-07-10
 
 ### Fixed

@@ -15,7 +15,7 @@ from pathlib import Path
 
 import numpy as np
 
-from ..io.schema import SeriesSpec
+from ..io.schema import Covariate, SeriesSpec
 
 # data-pipeline/chronoscopelab/cases/forecast_cases.py -> parents[3] = repo root
 _REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -78,6 +78,10 @@ CASES: list[Case] = [
     Case("CHAO_mackey", "deterministic chaos (Mackey-Glass)", 1, 12,
          "chaotic but deterministic; short-horizon forecastable, error grows with the Lyapunov horizon",
          "synthetic", {"kind": "mackey_glass", "n": 500, "tau": 17}),
+    Case("EXOG_promo", "exogenous driver (known-future covariate)", 7, 14,
+         "a weekly cycle plus scheduled promotions known ahead; univariate methods lag every promo, a "
+         "covariate-aware forecaster anticipates them (the streaming bench's covariate-policy demonstration)",
+         "synthetic", {"kind": "exog_promo", "n": 240, "level": 40.0, "amp": 6.0, "gain": 14.0, "noise": 1.6}),
 ]
 
 
@@ -166,13 +170,42 @@ def _load_real(spec: dict) -> list[float]:
     return [float(r["y"]) for r in rows]
 
 
+def _synth_exog(spec: dict, seed: int, case_id: str) -> tuple[list[float], list[float]]:
+    """Target driven by a KNOWN-FUTURE exogenous regressor (scheduled promotions) + a weekly cycle.
+
+    The driver is a pulse train of scheduled promotions at seeded-irregular positions: planned ahead, so
+    its future values are known, but NOT predictable from the target's own history (the jumps land at
+    irregular times). A univariate method must lag every promo; a covariate-aware method that sees the
+    driver ahead can anticipate them. That gap is exactly what the streaming bench's covariate policy shows.
+    """
+    rng = _rng(seed, case_id)
+    n = int(spec["n"])
+    m = 7
+    t = np.arange(n, dtype=float)
+    driver = np.zeros(n)
+    pos = int(rng.integers(6, 12))
+    while pos < n:
+        dur = int(rng.integers(2, 5))
+        mag = float(rng.uniform(0.6, 1.4))
+        driver[pos:min(n, pos + dur)] = mag
+        pos += int(rng.integers(10, 22))
+    base = spec["level"] + spec["amp"] * np.sin(2 * math.pi * t / m)
+    y = base + spec["gain"] * driver + rng.normal(0, spec["noise"], n)
+    return [float(v) for v in y], [float(v) for v in driver]
+
+
 def build_series(case: Case, seed: int = 42) -> SeriesSpec:
-    """Produce the (deterministic) SeriesSpec for a case."""
+    """Produce the (deterministic) SeriesSpec for a case (with optional exogenous covariates)."""
+    covariates: tuple[Covariate, ...] = ()
     if case.real_or_synthetic == "real":
         y = _load_real(case.spec)
+    elif case.spec.get("kind") == "exog_promo":
+        ylist, driver = _synth_exog(case.spec, seed, case.id)
+        y = ylist
+        covariates = (Covariate(name="promo", values=tuple(driver), kind="known_future", lag=0),)
     else:
         y = _synth(case.spec, seed, case.id)
     return SeriesSpec(
         case_id=case.id, y=tuple(y), seasonality=case.seasonality,
-        horizon=case.horizon, freq="", source=case.real_or_synthetic,
+        horizon=case.horizon, freq="", source=case.real_or_synthetic, covariates=covariates,
     )

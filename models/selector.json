@@ -1,1 +1,1 @@
-{"kind":"method-selector","metric":"mean_mase_over_training_cases","scope":"classical","ranking":[["SeasonalNaive",1.40245],["SES",2.07582],["Theta",2.08058],["HoltWinters",2.42828],["Holt",4.55547]],"default_method":"SeasonalNaive","n_train_cases":10}
+{"kind":"method-selector","metric":"mean_mase_over_training_cases","scope":"classical","ranking":[["SeasonalNaive",1.36929],["SES",1.99946],["Theta",2.00368],["HoltWinters",2.32947],["Holt",4.28989]],"default_method":"SeasonalNaive","n_train_cases":11}
