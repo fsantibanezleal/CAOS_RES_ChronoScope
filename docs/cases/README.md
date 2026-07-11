@@ -6,7 +6,7 @@ real/synthetic flag, and a provenance `source` (drives the license export guard)
 groups them. The App shows ONE selected case; Experiments and Benchmark show cross-case summaries by category
 (never mixed into the App).
 
-## Coverage matrix (12 cases)
+## Coverage matrix (14 cases)
 
 | id | category | expected band | source | deep write-up |
 |---|---|---|---|---|
@@ -16,6 +16,8 @@ groups them. The App shows ONE selected case; Experiments and Benchmark show cro
 | `RWLK_noise` | near-random-walk (honesty) | random walk; beating the naive is essentially noise | synthetic | - |
 | `REAL_electricity` | real: electricity load (hourly) | real hourly load, daily seasonality + weekday effects | UCI (CC-BY) | - |
 | `REAL_pm25` | real: Beijing PM2.5 (hourly) | daily cycle + heavy-tailed pollution spikes | UCI (CC-BY) | [REAL_pm25](REAL_pm25.md) |
+| `REAL_m4_hourly` | real: M4 hourly (m=24) | real competition daily cycle; the real counterpart to SEAS_hourly | Monash/M4 (CC-BY) | [REAL_m4_hourly](REAL_m4_hourly.md) |
+| `REAL_m4_daily` | real: M4 daily (m=7) | real competition weekly cycle; frequency diversity | Monash/M4 (CC-BY) | [REAL_m4_daily](REAL_m4_daily.md) |
 | `CTRL_white_noise` | control: white noise | iid noise; nothing should beat the naive by much | synthetic | - |
 | `BRKV_level_shift` | structural break | two clean level shifts; regime-averaging models lag at each break | synthetic | [BRKV_level_shift](BRKV_level_shift.md) |
 | `MSEA_daily_weekly` | multi-seasonal (24+168) | daily AND weekly cycles; single-m methods miss the weekly | synthetic | [MSEA_daily_weekly](MSEA_daily_weekly.md) |
@@ -35,6 +37,8 @@ groups them. The App shows ONE selected case; Experiments and Benchmark show cro
 - **Real data is license-guarded**: real cases carry their provenance source; a local-only-licensed source
   ships aggregate metrics only (see `docs/data/provenance.md`).
 
-The remaining growth path to ~20 cases: more real datasets (M-competition via the Monash CC-BY mirror, OPSD
-load, additional UCI series from `E:\_Datos\chronoscope`), a known-future-covariates case, and a
-frequency-invariance pair - each landing with its own deep write-up here.
+The remaining growth path to ~20 cases: the M-competition pair (`REAL_m4_hourly` m=24, `REAL_m4_daily` m=7)
+landed as real Monash/M4 CC-BY data; still open are a known-future-covariates case (the one that would exercise
+the preqts streaming bench's covariate-arrival policy, which needs covariate-aware forecasters), more real
+datasets (OPSD load, additional UCI/GIFT-Eval series from `E:\_Datos\chronoscope`), and further frequency
+coverage - each landing with its own deep write-up here.

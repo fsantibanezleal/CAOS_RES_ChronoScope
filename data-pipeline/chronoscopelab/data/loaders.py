@@ -6,16 +6,20 @@ ready for Contract 1. The pipeline commits only the small derived SAMPLE (a few 
 PUBLIC-safe source; the raw bulk stays in the vault. Loaders are used offline to refresh
 ``data/examples/<name>.csv``; they are not called at bake time (the committed sample is).
 
-Public-safe sources only (per provenance.py): UCI Electricity (CC-BY-4.0), UCI Beijing PM2.5 (CC-BY-4.0).
-OPSD and Monash loaders follow the same pattern when their vault files are staged.
+Public-safe sources only (per provenance.py): UCI Electricity (CC-BY-4.0), UCI Beijing PM2.5 (CC-BY-4.0),
+Monash M4 competition series (CC-BY-4.0, via the autogluon/chronos_datasets HF snapshot in the vault cache).
 """
 from __future__ import annotations
 
 import csv
+import glob
+import os
 from pathlib import Path
 
 # The private vault root (never committed; see data/README.md and the provenance policy).
 VAULT = Path(r"E:\_Datos\chronoscope")
+# The HF datasets cache holding the autogluon/chronos_datasets M4 snapshot (offline; never committed).
+_HF_M4 = VAULT / "hf_cache" / "autogluon___chronos_datasets"
 
 
 def _write_long_csv(out_path: Path, uid: str, timestamps: list[str], values: list[float]) -> int:
@@ -87,6 +91,54 @@ def load_uci_beijing_pm25(n_hours: int = 480, start_row: int = 8760) -> tuple[li
     return timestamps, values
 
 
+def _load_m4_config(config: str, n: int, m: int, min_std: float = 1e-6) -> tuple[str, list[str], list[float]]:
+    """Read one representative series from the cached Monash M4 ``config`` (offline HF Arrow).
+
+    Each Arrow row is a full series (parallel ``timestamp`` / ``target`` arrays). We pick the FIRST series
+    (deterministic) whose length >= ``n`` and whose window has real seasonal structure (a positive lag-``m``
+    autocorrelation and non-trivial variance), so the committed sample is a genuine seasonal case rather
+    than a flat or too-short one. Returns ``(series_id, iso_timestamps, values)`` for the first ``n`` points.
+    """
+    import numpy as np
+    from datasets import Dataset  # local, offline; the dep is already pinned for the pipeline
+
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+    os.environ.setdefault("HF_DATASETS_OFFLINE", "1")
+    arrows = glob.glob(str(_HF_M4 / config / "**" / "*.arrow"), recursive=True)
+    if not arrows:
+        raise FileNotFoundError(f"no cached Arrow for M4 config {config!r} under {_HF_M4}")
+    ds = Dataset.from_file(arrows[0])
+    for row in ds:
+        tgt = row.get("target")
+        ts = row.get("timestamp")
+        if tgt is None or ts is None or len(tgt) < n:
+            continue
+        y = np.asarray(tgt[:n], dtype=float)
+        if not np.all(np.isfinite(y)) or float(np.std(y)) < min_std:
+            continue
+        # require some seasonal signal at lag m (so we commit a genuinely seasonal sample)
+        yc = y - y.mean()
+        denom = float(np.dot(yc, yc))
+        if denom <= 0:
+            continue
+        acf_m = float(np.dot(yc[m:], yc[:-m]) / denom) if len(yc) > m else 0.0
+        if acf_m < 0.2:
+            continue
+        stamps = [str(t) for t in ts[:n]]
+        return str(row.get("id", config)), stamps, [float(v) for v in y]
+    raise ValueError(f"no suitable M4 series found in {config!r} (len>={n}, std>0, lag-{m} acf>=0.2)")
+
+
+def load_m4_hourly(n_hours: int = 480) -> tuple[str, list[str], list[float]]:
+    """A representative M4 hourly series (daily seasonality m=24): the real counterpart to SEAS_hourly."""
+    return _load_m4_config("m4_hourly", n_hours, m=24)
+
+
+def load_m4_daily(n_days: int = 400) -> tuple[str, list[str], list[float]]:
+    """A representative M4 daily series (weekly seasonality m=7)."""
+    return _load_m4_config("m4_daily", n_days, m=7)
+
+
 def refresh_samples(examples_dir: str) -> dict[str, int]:
     """Regenerate the committed PUBLIC-safe sample CSVs from the vault. Returns {name: n_rows}.
 
@@ -104,5 +156,16 @@ def refresh_samples(examples_dir: str) -> dict[str, int]:
         ts, ys = load_uci_beijing_pm25()
         written["beijing_pm25_sample.csv"] = _write_long_csv(out / "beijing_pm25_sample.csv", "BEIJING_PM25", ts, ys)
     except FileNotFoundError:
+        pass
+    # Monash M4 (CC-BY-4.0): real competition series at two seasonalities (hourly m=24, daily m=7).
+    try:
+        uid, ts, ys = load_m4_hourly()
+        written["m4_hourly_sample.csv"] = _write_long_csv(out / "m4_hourly_sample.csv", f"M4H_{uid}", ts, ys)
+    except (FileNotFoundError, ValueError):
+        pass
+    try:
+        uid, ts, ys = load_m4_daily()
+        written["m4_daily_sample.csv"] = _write_long_csv(out / "m4_daily_sample.csv", f"M4D_{uid}", ts, ys)
+    except (FileNotFoundError, ValueError):
         pass
     return written

@@ -3,6 +3,24 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.18.000] - 2026-07-10
+
+### Added
+- **Two real M4-competition cases (BL-131 slice): `REAL_m4_hourly` (m=24) and `REAL_m4_daily` (m=7)**,
+  from the Monash Time Series Forecasting Archive / M4 (CC-BY-4.0, public-safe), loaded offline from the
+  `autogluon/chronos_datasets` snapshot cached in the private vault. The matrix is now **14 cases**,
+  grounding the seasonal story in real competition data at two frequencies (the real counterparts to the
+  synthetic seasonals) and putting the zero-shot foundation models on genuine benchmark series.
+  - `data/loaders.py` gains `load_m4_hourly` / `load_m4_daily` (+ `_load_m4_config`): they read the cached
+    Arrow directly and pick the first series with length, variance, and a strong seasonal-lag autocorrelation,
+    so the committed excerpt is genuinely seasonal (hourly lag-24 ACF ~0.86, daily lag-7 ACF ~0.92).
+  - Public-safe (Monash CC-BY): the full trace ships, unlike the local-only sources; the committed samples
+    `data/examples/m4_{hourly,daily}_sample.csv` are the derived excerpts (the bulk snapshot stays in the vault).
+  - Deep write-ups `docs/cases/REAL_m4_{hourly,daily}.md`; the coverage matrix + growth-path note updated;
+    2 new loader tests (valid Contract-1 + strong seasonal-lag ACF); the public-safe-source test extended.
+- Full **18-method x 14-case** GPU re-bake (deterministic, seed 42); the frontend case-count prose and the
+  Experiments scenario list updated to 14; the forecastability atlas and the whole Benchmark now span 14.
+
 ## [0.17.000] - 2026-07-10
 
 ### Added
