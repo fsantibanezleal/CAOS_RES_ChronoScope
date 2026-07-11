@@ -1,6 +1,6 @@
 import { Callout, Cite, Equation, InlineMath, Refs, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
 
-// Methodology: the 18-method ladder with the actual math, per family (SubTabs), each method with its
+// Methodology: the 19-method ladder with the actual math, per family (SubTabs), each method with its
 // equations, when-it-wins/when-it-fails, and inline citations. Transcribed from the persisted research
 // dossiers (research-classical-statistical-ml, research-dl-forecasters, research-cluster-A/B/C).
 export default function Methodology() {
@@ -110,11 +110,16 @@ export default function Methodology() {
         ? 'El decoder-only de Google (200M, contexto 16k, cabeza cuantílica continua): el punto de referencia inter-proveedor.'
         : 'Google\'s decoder-only (200M, 16k context, continuous quantile head): the cross-vendor reference point.'}
         {' '}<Cite id="timesfm" /></p>
+      <h4>TiRex-2 {es ? '(carril WSL2)' : '(WSL2 lane)'}</h4>
+      <p>{es
+        ? 'El xLSTM streaming-nativo de NX-AI (el primer TSFM con estado). Sus kernels sLSTM (flashrnn -> triton, compilados por nvcc) no tienen wheels de Windows, así que corre en un carril WSL2 (Linux) con CUDA-in-WSL y se fusiona como el método 19 (fundacional): el pipeline de Windows escribe la serie, invoca TiRex-2 en WSL vía preqts con el MISMO backtest que el resto de la escalera, y lee el resultado. Es opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) y se salta con elegancia cuando WSL no está.'
+        : 'NX-AI\'s streaming-native xLSTM (the first stateful TSFM). Its sLSTM kernels (flashrnn -> triton, nvcc-compiled) have no Windows wheels, so it runs in a WSL2 (Linux) lane with CUDA-in-WSL and merges as the 19th method (foundation): the Windows pipeline writes the series, invokes TiRex-2 in WSL via preqts with the SAME backtest as the rest of the ladder, and reads the result back. Opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) and it degrades gracefully when WSL is absent.'}
+        {' '}<Cite id="tirex2" /></p>
       <h4>{es ? 'Los límites honestos del roster' : 'The honest roster limits'}</h4>
       <p>{es
-        ? 'TiRex-2 (xLSTM streaming-nativo, el primer TSFM con estado) está verificado como real (paper + checkpoint + PyPI) pero NO es instalable en Windows nativo (flashrnn requiere triton, sin wheels win): queda en el carril WSL2 y es el sujeto futuro del banco de streaming. Moirai-2 lidera GIFT-Eval pero sus pesos son CC-BY-NC (no comerciales): material de guía, nunca horneado.'
-        : 'TiRex-2 (streaming-native xLSTM, the first stateful TSFM) is verified real (paper + checkpoint + PyPI) but NOT installable on native Windows (flashrnn needs triton, no win wheels): it sits in the WSL2 lane and is the streaming bench\'s future subject. Moirai-2 tops GIFT-Eval but its weights are CC-BY-NC (non-commercial): guide material, never baked.'}
-        {' '}<Cite id="tirex2" /> <Cite id="moirai" /></p>
+        ? 'Con TiRex-2 en el carril WSL2, el único límite que queda es de licencia: Moirai-2 lidera GIFT-Eval pero sus pesos son CC-BY-NC (no comerciales): material de guía, nunca horneado.'
+        : 'With TiRex-2 in the WSL2 lane, the only remaining limit is a license one: Moirai-2 tops GIFT-Eval but its weights are CC-BY-NC (non-commercial): guide material, never baked.'}
+        {' '}<Cite id="moirai" /></p>
       <Callout variant="honest" title={es ? 'La caveat de fuga' : 'The leakage caveat'}>
         {es
           ? 'Los benchmarks públicos solo garantizan una evaluación limpia para modelos entrenados en SUS splits de pre-entrenamiento; un fundacional entrenado en otro corpus puede haber visto los datos de test. Por eso los casos sintéticos de ChronoScope (generados por semilla, imposibles de haber visto) son una señal de honestidad complementaria a los casos reales.'
@@ -145,8 +150,8 @@ export default function Methodology() {
     <section className="page-body prose">
       <h2>{es ? 'Metodología' : 'Methodology'}</h2>
       <p className="cs-lead">{es
-        ? 'La escalera completa de 18 métodos, familia por familia, con la matemática real de cada una: qué computa, cuándo gana y cuándo falla. El Benchmark muestra estos métodos medidos; esta página explica qué son.'
-        : 'The full 18-method ladder, family by family, with each one\'s real math: what it computes, when it wins, and when it fails. The Benchmark shows these methods measured; this page explains what they are.'}</p>
+        ? 'La escalera completa de 19 métodos, familia por familia, con la matemática real de cada una: qué computa, cuándo gana y cuándo falla. El Benchmark muestra estos métodos medidos; esta página explica qué son.'
+        : 'The full 19-method ladder, family by family, with each one\'s real math: what it computes, when it wins, and when it fails. The Benchmark shows these methods measured; this page explains what they are.'}</p>
       <SubTabs
         ariaLabel="method families"
         tabs={[
