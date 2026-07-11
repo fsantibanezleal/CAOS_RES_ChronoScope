@@ -3,6 +3,16 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.18.001] - 2026-07-10
+
+### Fixed
+- **Page height inflated to ~6400px (huge empty space below the workbench)**: the uPlot screen-reader
+  fallback rendered as a bare `<table class="cs-sr-only">`, but a `<table>` ignores `height: 1px` (table
+  layout sizes to content), so the visually-hidden clip did not collapse it and it pushed the scroll
+  height to thousands of pixels. Wrapped the table in a block `<div class="cs-sr-only">` (which respects
+  the clip) and capped the fallback rows. Structure-tab scroll height 6434 -> 1163px; the wasted vertical
+  space is gone.
+
 ## [0.18.000] - 2026-07-10
 
 ### Changed (App-section redesign, BL-134: the workbench rebuilt to the interactive-visualization rubric)
