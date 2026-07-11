@@ -19,9 +19,12 @@ Candes 2021 (arXiv:2106.00170); Conformal PID Angelopoulos, Candes & Tibshirani 
 """
 from __future__ import annotations
 
+import math
+
 import numpy as np
 
 from preqts import AdaptiveConformal, ConformalPID, ReplayAdapter, Stream, run_prequential
+from preqts import Covariate as PqCovariate
 
 from ..io.schema import SeriesSpec
 from ..model.forecasters import classical_forecasters
@@ -33,6 +36,78 @@ _TARGET = 0.8  # nominal outer coverage of the 10/90 band
 def _batch_fn(fc, m: int):
     def batch(context, horizon, past_cov, future_cov, levels):
         return fc.quantiles(np.asarray(context, dtype=float), m, horizon, tuple(levels))
+
+    return batch
+
+
+def _norm_ppf(p: float) -> float:
+    """Acklam's rational approximation of the standard-normal inverse CDF (|err| < 1.15e-9)."""
+    if not 0.0 < p < 1.0:
+        return 0.0
+    a = (-3.969683028665376e1, 2.209460984245205e2, -2.759285104469687e2,
+         1.383577518672690e2, -3.066479806614716e1, 2.506628277459239)
+    b = (-5.447609879822406e1, 1.615858368580409e2, -1.556989798598866e2,
+         6.680131188771972e1, -1.328068155288572e1)
+    c = (-7.784894002430293e-3, -3.223964580411365e-1, -2.400758277161838,
+         -2.549732539343734, 4.374664141464968, 2.938163982698783)
+    d = (7.784695709041462e-3, 3.224671290700398e-1, 2.445134137142996, 3.754408661907416)
+    pl = 0.02425
+    if p < pl:
+        q = math.sqrt(-2 * math.log(p))
+        return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / \
+               ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+    if p <= 1 - pl:
+        q = p - 0.5
+        r = q * q
+        return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / \
+               (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+    q = math.sqrt(-2 * math.log(1 - p))
+    return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / \
+        ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+
+
+def _ridge_batch(m: int, use_cov: bool, alpha: float = 1.0):
+    """A small online-ridge forecaster (as a ReplayAdapter batch fn): regress y[t] on an intercept, the
+    lag-1 and lag-m values, and (when ``use_cov``) the exogenous covariate. The covariate-aware variant
+    reads the KNOWN-FUTURE covariate for the horizon from ``future_cov``; the blind variant ignores it, so
+    the gap between the two isolates exactly what the covariate buys.
+    """
+    def batch(context, horizon, past_cov, future_cov, levels):
+        y = np.asarray(context, dtype=float)
+        n = y.shape[0]
+        lo = max(1, m)
+        if n <= lo + 3:
+            last = float(y[-1]) if n else 0.0
+            return np.full((horizon, len(levels)), last)
+        rows_x, rows_y = [], []
+        for t in range(lo, n):
+            feat = [1.0, y[t - 1], y[t - m]]
+            if use_cov and past_cov is not None:
+                feat.append(float(past_cov[t, 0]))
+            rows_x.append(feat)
+            rows_y.append(y[t])
+        X = np.asarray(rows_x)
+        yy = np.asarray(rows_y)
+        k = X.shape[1]
+        reg = alpha * np.eye(k)
+        reg[0, 0] = 0.0  # do not penalise the intercept
+        coef = np.linalg.solve(X.T @ X + reg, X.T @ yy)
+        sd = float(np.std(yy - X @ coef)) or 1e-6
+        hist = list(y)
+        preds = []
+        for h in range(horizon):
+            feat = [1.0, hist[-1], hist[-m]]
+            if use_cov:
+                cov_val = float(future_cov[h, 0]) if future_cov is not None else 0.0
+                feat.append(cov_val)
+            p = float(np.dot(coef, feat))
+            preds.append(p)
+            hist.append(p)
+        preds = np.asarray(preds)
+        out = np.zeros((horizon, len(levels)))
+        for j, q in enumerate(levels):
+            out[:, j] = preds + _norm_ppf(q) * sd * np.sqrt(np.arange(1, horizon + 1))
+        return out
 
     return batch
 
@@ -60,10 +135,18 @@ def _trajectories(res) -> dict:
 
 
 def run(spec: SeriesSpec, horizon: int = 1) -> dict:
-    """Run the streaming bench on the case history; return the JSON-ready streaming artifact block."""
+    """Run the streaming bench on the case history; return the JSON-ready streaming artifact block.
+
+    A case with a known-future covariate additionally gets the covariate-policy demonstration: a
+    covariate-aware ridge vs a covariate-blind ridge, run through a preqts Stream that carries the
+    covariate with its arrival policy. The aware one anticipates the scheduled driver; the blind one lags.
+    """
     y = np.asarray(spec.y, dtype=float)
     m = spec.seasonality
-    stream = Stream(y, seasonality=m, name=spec.case_id)
+    pq_covs = [PqCovariate(name=c.name, values=np.asarray(c.values, dtype=float), kind=c.kind, lag=c.lag)
+               for c in spec.covariates]
+    has_known_future = any(c.kind == "known_future" for c in spec.covariates)
+    stream = Stream(y, covariates=pq_covs, seasonality=m, name=spec.case_id)
     warmup = min(max(2 * m, 20), max(1, len(y) // 3))
 
     # the streaming roster: the best cheap classical live method raw, + its calibrated variants
@@ -79,6 +162,10 @@ def run(spec: SeriesSpec, horizon: int = 1) -> dict:
         "Theta+ACI": AdaptiveConformal(_theta(), target_coverage=_TARGET, gamma=0.02),
         "Theta+PID": ConformalPID(_theta(), target_coverage=_TARGET, kp=0.05, ki=0.02, kd=0.02),
     }
+    # covariate-policy demonstration (only when a known-future covariate is present)
+    if has_known_future:
+        roster["Ridge (blind)"] = ReplayAdapter(_ridge_batch(m, use_cov=False), name="Ridge (blind)")
+        roster["Ridge+exog (aware)"] = ReplayAdapter(_ridge_batch(m, use_cov=True), name="Ridge+exog (aware)")
 
     methods: dict[str, dict] = {}
     for name, fc in roster.items():
@@ -94,11 +181,22 @@ def run(spec: SeriesSpec, horizon: int = 1) -> dict:
         except Exception as exc:  # noqa: BLE001 - record, never crash the bake
             methods[name] = {"error": f"{type(exc).__name__}: {exc}"}
 
+    covariate_block = None
+    if spec.covariates:
+        c0 = spec.covariates[0]
+        covariate_block = {
+            "name": c0.name,
+            "kind": c0.kind,
+            "lag": int(c0.lag),
+            "values": [round(float(v), 4) for v in c0.values],
+        }
+
     return {
         "nominal_coverage": _TARGET,
         "horizon": int(horizon),
         "warmup": int(warmup),
         "methods": methods,
+        "covariate": covariate_block,
         "references": {
             "prequential": "Dawid 1984, JRSS-A 147(2):278-292, DOI 10.2307/2981683",
             "aci": "Gibbs & Candes 2021, NeurIPS, arXiv:2106.00170",

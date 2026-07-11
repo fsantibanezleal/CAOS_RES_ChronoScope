@@ -52,3 +52,28 @@ def test_block_is_json_ready_and_referenced():
     json.dumps(out)                                        # fully serializable
     assert "references" in out and "preqts" in out["references"]["package"]
     assert out["nominal_coverage"] == 0.8
+
+
+def test_exog_case_demonstrates_the_covariate_policy():
+    """The known-future-covariate case: the covariate-AWARE ridge must beat the covariate-BLIND one, and
+    the streaming block must carry the covariate with its arrival policy (the preqts novel piece)."""
+    from chronoscopelab import registry
+
+    spec = registry.build_series(registry.get_case("EXOG_promo"), seed=42)
+    assert spec.covariates and spec.covariates[0].kind == "known_future"
+    out = streaming.run(spec, horizon=1)
+    assert out["covariate"] is not None
+    assert out["covariate"]["kind"] == "known_future"
+    assert len(out["covariate"]["values"]) == len(spec.y)
+    aware = out["methods"]["Ridge+exog (aware)"]["final"]["mase"]
+    blind = out["methods"]["Ridge (blind)"]["final"]["mase"]
+    assert aware is not None and blind is not None
+    assert aware < blind          # knowing the scheduled driver ahead genuinely helps
+    import json
+    json.dumps(out)               # still fully serializable with the covariate block
+
+
+def test_univariate_case_has_no_covariate_block_or_ridge_roster():
+    out = streaming.run(_spec())  # a synthetic univariate spec
+    assert out["covariate"] is None
+    assert "Ridge+exog (aware)" not in out["methods"]   # the ridge roster only appears with a covariate
