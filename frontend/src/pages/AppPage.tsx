@@ -4,7 +4,7 @@
 //  - FORECAST: the ladder views (forecast + interval, ZOOM on the predicted zone, leaderboard, streaming
 //    bench trajectories from the preqts prequential bake).
 // Synthetic (LIVE): knobs regenerate the series; the TS classical engine + NLinear ONNX re-forecast
-// instantly. Baked case (REPLAY): the full 18-method ladder + analysis + streaming artifacts, baked offline.
+// instantly. Baked case (REPLAY): the full 19-method ladder + analysis + streaming artifacts, baked offline.
 import { useEffect, useMemo, useState } from 'react';
 import { SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
 import { loadAnalysis, loadIndex, loadManifest, loadStreaming, loadTrace } from '../api/artifacts';
@@ -26,7 +26,7 @@ const ONNX_NAME = 'NLinear (ONNX)';
 const COLORS: Record<string, string> = {
   SeasonalNaive: '#58a6ff', SES: '#bc8cff', Holt: '#f778ba', HoltWinters: '#ff9f1c', Theta: '#56d364',
   AutoETS: '#79c0ff', AutoTheta: '#d2a8ff', AutoARIMA: '#ffa657', LightGBM: '#7ee787',
-  'Chronos-Bolt': '#ff7b72', 'Chronos-2': '#ff9492', 'TimesFM-2.5': '#d29922',
+  'Chronos-Bolt': '#ff7b72', 'Chronos-2': '#ff9492', 'TimesFM-2.5': '#d29922', 'TiRex-2': '#e685b5',
   NLinear: '#e3b341', DLinear: '#f0883e', NHITS: '#a5d6ff',
   'NLinear (nf)': '#bf8700', 'DLinear (nf)': '#bd561d', 'NHITS (nf)': '#79c0ff',
   [ONNX_NAME]: '#e3b341',
@@ -541,7 +541,7 @@ export default function AppPage() {
         : (es ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico por método; con UNA curva visible se dibuja su intervalo. ' : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with ONE curve visible its interval is drawn. ')}
         {fcView === 'forecast' && (mode === 'synthetic'
           ? (es ? 'Clásicos + ONNX EN VIVO en tu navegador.' : 'Classical + ONNX computed LIVE in your browser.')
-          : (es ? 'Escalera completa (18 métodos), backtest horneado.' : 'The full 18-method ladder, offline-baked.'))}</p>
+          : (es ? 'Escalera completa (19 métodos), backtest horneado.' : 'The full 19-method ladder, offline-baked.'))}</p>
     </div>
   );
 

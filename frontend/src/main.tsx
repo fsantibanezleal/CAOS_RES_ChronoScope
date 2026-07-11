@@ -50,8 +50,8 @@ const config: ShellConfig = {
   architecture,
   footer: {
     provenance: {
-      en: 'All forecasts and diagnostics are baked offline by the open pipeline (18-method ladder, seed-deterministic) or computed live in your browser; every number is reproducible from the repo.',
-      es: 'Todos los pronósticos y diagnósticos se hornean offline con el pipeline abierto (escalera de 18 métodos, determinista por semilla) o se calculan en vivo en tu navegador; cada número es reproducible desde el repo.',
+      en: 'All forecasts and diagnostics are baked offline by the open pipeline (19-method ladder, seed-deterministic) or computed live in your browser; every number is reproducible from the repo.',
+      es: 'Todos los pronósticos y diagnósticos se hornean offline con el pipeline abierto (escalera de 19 métodos, determinista por semilla) o se calculan en vivo en tu navegador; cada número es reproducible desde el repo.',
     },
     disclaimer: {
       en: 'A research atlas: methods are compared honestly (no free lunch), synthetic cases are labelled, and real data ships under its license terms.',
