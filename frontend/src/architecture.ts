@@ -2,7 +2,7 @@
 // meeting the ADR FLOOR: a <style> class vocabulary (not per-element inline attrs), type-coded boxes with
 // real code/module paths in monospace, labeled flows, bands/lanes with nested boxes, ~880 wide. Every
 // colour is a CSS-variable token (the shell --color-* + ChronoScope's --cs-* diagram tokens), so the
-// diagrams follow light/dark. Content is the CURRENT system (10-tab workbench, 18-method ladder, preqts
+// diagrams follow light/dark. Content is the CURRENT system (10-tab workbench, 19-method ladder, preqts
 // streaming, the real pipeline stages + two data contracts). Inlined via dangerouslySetInnerHTML by the
 // shell's ArchitectureModal, so SVG var() colours resolve.
 import type { ArchitectureConfig } from '@fasl-work/caos-app-shell';
@@ -54,7 +54,7 @@ const APP = svg('cs-a1', 470, `
   <text class="mu" x="198" y="123" style="font-size:9px;">10 families: ADF/STL/PELT/GARCH/DFA</text>
   <rect class="bx bx-hi" x="186" y="146" width="196" height="46" rx="8"/>
   <text class="ttl" x="198" y="165" style="fill:var(--color-accent);">FORECAST</text>
-  <text class="mu" x="198" y="183" style="font-size:9px;">18 methods: naive &#8594; ARIMA &#8594; NHITS &#8594; Chronos</text>
+  <text class="mu" x="198" y="183" style="font-size:9px;">19 methods: naive &#8594; ARIMA &#8594; NHITS &#8594; Chronos</text>
   <path class="flow" d="M384,138 L418,138" marker-end="url(#cs-a1)"/>
   <text class="lbl" x="388" y="130">score</text>
   <rect class="bx bx-store" x="420" y="86" width="196" height="106" rx="9"/>
@@ -216,7 +216,7 @@ const FLOW = svg('cs-a3', 430, `
 
 // ---- Tab 4: the science ----
 const SCIENCE = svg('cs-a4', 470, `
-  <text class="hd" x="20" y="30">The science &#8212; the 18-method ladder, scored by one honest protocol</text>
+  <text class="hd" x="20" y="30">The science &#8212; the 19-method ladder, scored by one honest protocol</text>
   <rect class="grp" x="14" y="46" width="852" height="150" rx="10"/>
   <text class="sub" x="28" y="66" style="font-weight:600;">THE LADDER &#183; transparent baseline &#8594; SOTA, each emitting a point path + a prediction interval</text>
   ${[
@@ -332,8 +332,8 @@ export const architecture: ArchitectureConfig = {
   tabs: [
     {
       id: 'app', en: 'The app', es: 'La app', svg: APP,
-      body_en: 'ChronoScope is an interactive atlas of time-series forecasting. For each case it runs two pillars: UNDERSTAND (a 10-family analysis toolkit that diagnoses the series) and FORECAST (an 18-method ladder from the seasonal-naive baseline up to zero-shot foundation models). Every method is scored by a leakage-safe rolling-origin backtest and the prequential streaming bench, so the diagnosis explains which family wins and the intervals are honestly calibrated. The lower band is the design-build lifecycle: deep research persisted to dossiers, then implement, train + validate on GPU, bake the deterministic artifact, build the SPA over it, and deploy.',
-      body_es: 'ChronoScope es un atlas interactivo del pronóstico de series de tiempo. Por cada caso corre dos pilares: ENTENDER (un kit de 10 familias de análisis que diagnostica la serie) y PRONOSTICAR (una escalera de 18 métodos, del naive-estacional hasta modelos fundacionales zero-shot). Cada método se evalúa con un backtest de origen móvil sin fuga y el banco de streaming prequential, de modo que el diagnóstico EXPLICA qué familia gana y los intervalos quedan calibrados honestamente. La banda inferior es el ciclo diseño-construcción: investigación profunda persistida en dossiers, luego implementar, entrenar + validar en GPU, hornear el artefacto determinista, construir la SPA sobre él y desplegar.',
+      body_en: 'ChronoScope is an interactive atlas of time-series forecasting. For each case it runs two pillars: UNDERSTAND (a 10-family analysis toolkit that diagnoses the series) and FORECAST (an 19-method ladder from the seasonal-naive baseline up to zero-shot foundation models). Every method is scored by a leakage-safe rolling-origin backtest and the prequential streaming bench, so the diagnosis explains which family wins and the intervals are honestly calibrated. The lower band is the design-build lifecycle: deep research persisted to dossiers, then implement, train + validate on GPU, bake the deterministic artifact, build the SPA over it, and deploy.',
+      body_es: 'ChronoScope es un atlas interactivo del pronóstico de series de tiempo. Por cada caso corre dos pilares: ENTENDER (un kit de 10 familias de análisis que diagnostica la serie) y PRONOSTICAR (una escalera de 19 métodos (18 nativos + TiRex-2 por el carril WSL2), del naive-estacional hasta modelos fundacionales zero-shot). Cada método se evalúa con un backtest de origen móvil sin fuga y el banco de streaming prequential, de modo que el diagnóstico EXPLICA qué familia gana y los intervalos quedan calibrados honestamente. La banda inferior es el ciclo diseño-construcción: investigación profunda persistida en dossiers, luego implementar, entrenar + validar en GPU, hornear el artefacto determinista, construir la SPA sobre él y desplegar.',
     },
     {
       id: 'lanes', en: 'Lanes', es: 'Carriles', svg: LANES,

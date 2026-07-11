@@ -63,6 +63,12 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
     history, actual = infer.split(spec)
     eval_metrics = evaluate.run(spec, QUANTILE_LEVELS)
 
+    # opt-in cross-OS foundation method: TiRex-2 via the WSL2 lane (needs flashrnn/triton, no Windows
+    # wheels). Merges as the 19th method when CHRONOSCOPE_ENABLE_TIREX_WSL=1 and WSL is reachable; a no-op
+    # otherwise, so CI and the default bake are unaffected. See engines/tirex2_wsl_engine.py.
+    from .engines import tirex2_wsl_engine
+    result, eval_metrics = tirex2_wsl_engine.merge_into(result, eval_metrics, spec, QUANTILE_LEVELS)
+
     # The gate's run_ms measures the LIVE-lane (classical, browser) path, not the offline heavy engines
     # (statsforecast) that never run live. This keeps the live/precompute verdict honest.
     t_live = time.perf_counter()

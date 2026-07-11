@@ -21,12 +21,19 @@ Quantile handling: Chronos pipelines emit the requested levels directly; TimesFM
 returns `[mean, q0.1..q0.9]`, mapped to the nearest decile (the canonical 0.1/0.5/0.9 levels map exactly).
 All outputs are made monotone across levels.
 
-## Honest roster limits (verified 2026-07-10)
+## TiRex-2 via the WSL2 lane (INTEGRATED 2026-07-11)
 
-- **TiRex-2** (35M-class xLSTM, streaming-native, arXiv:2607.01204): NOT installable on native Windows - its
-  `flashrnn` dependency requires `triton`, which ships no Windows wheels. It remains the WSL2/Linux-lane
-  engine and the streaming bench's future headline subject; the paper + checkpoint are verified real
-  (see the research dossiers).
+- **TiRex-2** (NX-AI, streaming-native xLSTM, arXiv:2607.01204): cannot run on native Windows - its
+  `flashrnn` dependency needs `triton` + fused sLSTM CUDA kernels compiled by `nvcc`, none of which ship
+  Windows wheels. It now runs in a **WSL2 (Linux) lane** with CUDA-in-WSL and is merged as the 19th
+  ("foundation") method. See [../guides/tirex2-wsl-lane.md](../guides/tirex2-wsl-lane.md) for the setup;
+  `engines/tirex2_wsl_engine.py` + `tools/tirex2_wsl/tirex2_bake.py` are the bridge. Opt-in via
+  `CHRONOSCOPE_ENABLE_TIREX_WSL=1`; a graceful no-op when WSL is absent, so CI and the default bake are
+  unaffected. The WSL baker reuses the SAME `preqts.run_prequential` machinery as `stages/evaluate.py`, so
+  TiRex-2's metrics are computed identically to the rest of the ladder.
+
+## Honest roster limits (remaining)
+
 - **Granite TTM r2** (`granite-tsfm` 0.3.6): pins `torch<2.11`, conflicting with the pipeline's cu126
   `torch 2.12.1`. Deferred to a dedicated venv rather than downgrading the shared torch.
 - **Moirai / Moirai-2**: real and strong on GIFT-Eval, but the WEIGHTS are CC-BY-NC (non-commercial) - guide
