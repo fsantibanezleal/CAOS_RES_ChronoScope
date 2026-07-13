@@ -3,6 +3,32 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.21.000] - 2026-07-12
+
+### Added
+- **catch22 is now baked and surfaced (BL-136): the 24 canonical time-series features are real in every
+  case, not a standing `available: false` marker.** `catch22` (Lubba et al. 2019, DOI
+  10.1007/s10618-019-00647-x) was already coded and cited in `analysis/distribution.py`, but shipped
+  `"available": false` in every artifact because `pycatch22` was never installed and a stale note claimed it
+  "requires a C toolchain". In fact `pycatch22` 0.4.5 ships a prebuilt cp312 win_amd64 wheel; it is now
+  pinned in `requirements-precompute.txt`, the note is corrected, and the full canonical bake (all 15 cases,
+  19-method ladder) carries the 24 features (catch24 form: catch22 + mean and std).
+  - **Surfaced in the App's Verdicts tab**: a new `replay` panel renders the 24 features as a two-column
+    table with the Lubba 2019 citation, framed as the *principled* answer to "extract many features" (hctsa's
+    ~7700 distilled to 22 by classification performance and low redundancy), not a tsfresh/tsfel-style dump.
+    It stays import-guarded, so a slim dev install still records `available: false` honestly rather than
+    fabricating values.
+- **Drift-gate completeness floor for catch22** (`scripts/check_artifacts.py`): CI now fails if any
+  `analysis.json` ships `catch22.available != true` or fewer than 24 features. This is the same class of guard
+  as the method-ladder floor: a slim install (no `pycatch22`) can never clobber the canonical bake into the
+  corpus. Found and fixed a real mixed 5/15 state during this work.
+
+### Context
+- Outcome of a function-level evaluation of a "Top 7 TS feature-engineering libraries" listicle (tsfresh,
+  sktime, featuretools, tsfel, functime, ...): most of their catalog is already covered or superseded by the
+  10-family toolkit + catch22. The genuine gaps found (Matrix Profile motifs/discords/FLUSS; multiscale
+  entropy; Lempel-Ziv; time-reversal asymmetry) are tracked as backlog, not shipped here.
+
 ## [0.20.000] - 2026-07-11
 
 ### Added
