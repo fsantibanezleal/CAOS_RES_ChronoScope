@@ -206,6 +206,7 @@ export default function AppPage() {
   const alpha = fullSeries.length >= 64 ? safe(() => dfaAlpha(fullSeries), null) : null;
   const hist = fullSeries.length ? safe(() => histogram(fullSeries), null) : null;
   const band = bartlettBand(fullSeries.length);
+  const bakedCatch22 = analysis && ((analysis as any).distribution?.catch22 as { available?: boolean; reason?: string; features?: Record<string, number> } | undefined);
   const bakedStationarity = analysis && (analysis as any).stationarity;
   const bakedVolatility = analysis && (analysis as any).volatility;
   const bakedNonlinear = analysis && (analysis as any).nonlinear;
@@ -461,6 +462,43 @@ export default function AppPage() {
               </span></p>
           )}
           {bakedNonlinear?.skipped && <p className="cs-panel-sub">{es ? 'panel no lineal omitido honestamente (serie corta)' : 'nonlinear panel honestly skipped (short series)'}</p>}
+        </div>
+      )}
+      {mode === 'baked' && bakedCatch22 && (
+        <div className="cs-panel">
+          <div className="cs-panel-t">{es ? 'catch22 · huella canónica (horneado)' : 'catch22 · canonical fingerprint (baked)'} <span className="cs-badge replay">replay</span></div>
+          {bakedCatch22.available === false ? (
+            <p className="cs-panel-sub">{es ? 'no disponible: ' : 'unavailable: '}{bakedCatch22.reason}</p>
+          ) : (
+            <>
+              <div className="cs-panel-sub">{es
+                ? 'Las 24 features canónicas (catch22 + media y desviación): destiladas de las ~7700 de hctsa seleccionando por desempeño de clasificación y BAJA REDUNDANCIA. Es la respuesta rigurosa a "extraer muchas features": llevan la información de un banco grande sin la escopeta.'
+                : 'The 24 canonical features (catch22 + mean and std): distilled from hctsa\'s ~7700 by selecting for classification performance and LOW REDUNDANCY. This is the rigorous answer to "extract many features": the information of a large bank without the shotgun.'}</div>
+              <div className="cs-chart">
+                <table className="cs-table">
+                  <thead><tr><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
+                  <tbody>
+                    {(() => {
+                      const entries = Object.entries(bakedCatch22.features ?? {});
+                      const half = Math.ceil(entries.length / 2);
+                      return entries.slice(0, half).map(([k, v], i) => {
+                        const right = entries[half + i];
+                        return (
+                          <tr key={k}>
+                            <td style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem' }}>{k}</td>
+                            <td>{fmt(v as number, 4)}</td>
+                            <td style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem' }}>{right ? right[0] : ''}</td>
+                            <td>{right ? fmt(right[1] as number, 4) : ''}</td>
+                          </tr>
+                        );
+                      });
+                    })()}
+                  </tbody>
+                </table>
+              </div>
+              <p className="cs-panel-sub">Lubba et al. 2019, Data Min. Knowl. Disc. 33(6):1821-1852 (DOI 10.1007/s10618-019-00647-x).</p>
+            </>
+          )}
         </div>
       )}
       {mode === 'synthetic' && (
