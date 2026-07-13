@@ -2,8 +2,9 @@
 manifest exists; each artifact exists, is non-empty, and its byte size matches the manifest; the lane matches the
 gate verdict; and the LADDER IS COMPLETE (the committed bake is the canonical GPU run, all 18 methods - a trace
 carrying only the CPU-lane subset means something regenerated it on a lighter engine set and clobbered the
-canonical artifact, which once shipped 9-method traces to prod). Stdlib only (runs in CI WITHOUT installing the
-package). Exit non-zero on any drift.
+canonical artifact, which once shipped 9-method traces to prod); and CATCH22 IS BAKED (every analysis.json
+carries the 24 catch24 features, so a slim install without pycatch22 can never ship `available: false` to the
+corpus). Stdlib only (runs in CI WITHOUT installing the package). Exit non-zero on any drift.
 
 Used by scripts/smoke.* and by .github/workflows/ci.yml — the mechanical guard that a product can't regress to
 serving artifacts that don't match their manifests."""
@@ -54,6 +55,25 @@ def main() -> int:
                 f"ladder incomplete: {entry['case_id']} has {n_methods} methods "
                 f"(the canonical GPU bake has >= {MIN_LADDER}; a lighter-lane regeneration clobbered it?)"
             )
+        # catch22 completeness floor: the canonical bake carries the 24 catch24 features in every
+        # analysis.json. A slim install (no pycatch22) writes `available: false` honestly - valid on a dev
+        # box, but it must NEVER reach the committed corpus. This catches a partial/mixed re-bake too.
+        ana_rel = (m.get("analysis_artifact") or {}).get("path")
+        ana = (DERIVED / ana_rel) if ana_rel else (art.parent / "analysis.json")
+        if not ana.exists():
+            errs.append(f"missing analysis artifact: {ana}")
+        else:
+            c22 = json.loads(ana.read_text(encoding="utf-8")).get("distribution", {}).get("catch22", {})
+            if not c22.get("available"):
+                errs.append(
+                    f"catch22 not baked: {entry['case_id']} (distribution.catch22.available != true; "
+                    f"a slim install without pycatch22 clobbered the canonical bake?)"
+                )
+            elif len(c22.get("features", {})) < 24:
+                errs.append(
+                    f"catch22 incomplete: {entry['case_id']} has {len(c22.get('features', {}))} "
+                    f"features (the catch24 form has 24)"
+                )
     if errs:
         print("CONTRACT 2 DRIFT:")
         for e in errs:
