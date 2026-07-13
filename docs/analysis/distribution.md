@@ -67,11 +67,15 @@ diagnostic for "is there anything a linear model missed?".
 - Distribution via `scipy.stats` (`skew`, `kurtosis`, `jarque_bera`, `shapiro`, `gaussian_kde`, `probplot`);
   entropy via `antropy` (`sample_entropy`, `perm_entropy`, `spectral_entropy`); BDS via
   `statsmodels.tsa.stattools.bds`. Inputs coerced to finite 1-D.
-- **catch22** (22 canonical features, Lubba et al. 2019, DOI
-  [10.1007/s10618-019-00647-x](https://doi.org/10.1007/s10618-019-00647-x)) is optional: `pycatch22` needs a
-  C toolchain to build its extension. When it is not installed the report records that **honestly**
-  (`catch22.available = false` with the reason) - it never fabricates the values. Install `pycatch22` in an
-  environment with a compiler to enable it.
+- **catch22 / catch24** (Lubba et al. 2019, DOI
+  [10.1007/s10618-019-00647-x](https://doi.org/10.1007/s10618-019-00647-x)) is **baked** (`pycatch22`, pinned
+  in `requirements-precompute.txt`; it ships prebuilt wheels, so the old "needs a C toolchain" caveat is
+  obsolete). This is the *principled* answer to "extract hundreds of features": catch22 distils hctsa's
+  ~7700 features down to 22 by selecting for classification performance and **low redundancy**, so it carries
+  the information of a large feature bank without the shotgun - which is why we bake it rather than a
+  tsfresh/tsfel-style dump. We bake the **catch24** form (the 22 + mean and std). The import stays guarded:
+  if `pycatch22` is ever absent the report records that **honestly** (`catch22.available = false` with the
+  reason) - it never fabricates the values. The features are rendered in the App's Verdicts tab.
 - `distribution_report(x)` bakes the moments + normality verdicts, a KDE curve, Q-Q points, the entropy
   triple + BDS verdict, and the catch22 block (features or the honest unavailable marker).
 

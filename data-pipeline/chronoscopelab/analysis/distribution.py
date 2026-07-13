@@ -139,16 +139,19 @@ def complexity(x, order: int = 3, bds_dim: int = 2, alpha: float = 0.05) -> Comp
 
 
 def catch22_features(x) -> dict:
-    """The 22 canonical catch22 features (Lubba et al. 2019). OPTIONAL: needs a compiled pycatch22.
+    """The canonical catch22 feature set, in its catch24 form (+ mean and std). Lubba et al. 2019.
 
-    Returns a dict of {feature_name: value} when pycatch22 is installed, else a recorded-unavailable marker.
-    We never fabricate these values: if the C extension is not built, the report says so.
+    This is the PRINCIPLED answer to "extract many features": 22 features distilled from the ~7700 of hctsa
+    by selecting for classification performance and LOW REDUNDANCY - so it carries the information of a large
+    feature bank without the shotgun. We bake it per case (it is pinned in requirements-precompute.txt;
+    pycatch22 ships prebuilt wheels, no C toolchain needed). Kept import-guarded so the pipeline still runs
+    on a slim install, and if it is ever absent the report SAYS so rather than fabricating values.
     """
     try:
         import pycatch22
     except ImportError:
         return {"available": False,
-                "reason": "pycatch22 not installed (requires a C toolchain to build the extension)",
+                "reason": "pycatch22 not installed (pin it: requirements-precompute.txt)",
                 "reference": "Lubba et al. 2019, Data Min. Knowl. Disc. 33(6):1821-1852, DOI 10.1007/s10618-019-00647-x"}
     a = _clean(x)
     res = pycatch22.catch22_all(a.tolist(), catch24=True)

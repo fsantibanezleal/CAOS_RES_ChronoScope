@@ -21,7 +21,7 @@ antropy==0.2.2               # sample/permutation/spectral entropy + Higuchi/Kat
 nolds==0.6.3                 # Hurst (R/S), DFA (+ corr-dim/Lyapunov for the nonlinear-dynamics unit)
 hurst==0.0.5                 # Hurst R/S (Anis-Lloyd corrected)
 MFDFA==0.4.3                 # multifractal DFA singularity spectrum
-# pycatch22 (Lubba 2019, 22 canonical features): OPTIONAL, needs a C toolchain; recorded honestly if absent
+pycatch22==0.4.5             # the 24 canonical catch22/catch24 features (Lubba 2019); prebuilt wheels, no C toolchain
 preqts==0.3.0                # OUR published package (PyPI): prequential eval + ACI/Conformal-PID + MSIS + per-horizon curves
 # --- forecasting ladder (classical / statistical / ML / foundation) ---
 statsforecast==2.0.3         # AutoARIMA/AutoETS/AutoTheta, MSTL, TBATS, Croston, GARCH
