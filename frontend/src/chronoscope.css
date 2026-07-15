@@ -115,6 +115,11 @@
 .cs-legend .swatch, .cs-legend-item .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex: none; }
 .cs-legend-name { flex: 1 1 auto; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.76rem; }
 .cs-legend-mase { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-fg-faint); }
+.cs-legend-metric { display: flex; gap: 0.25rem; padding-bottom: 0.15rem; border-bottom: 1px solid var(--color-border); }
+.cs-legend-metric .cs-mini.on { background: var(--color-accent); color: var(--color-accent-fg, #fff); border-color: var(--color-accent); font-weight: 600; }
+.cs-legend-row.best .cs-legend-name { color: var(--color-accent); font-weight: 600; }
+.cs-legend-row.best .cs-legend-mase { color: var(--color-accent); font-weight: 700; }
+.cs-legend-foot { font-size: 0.66rem; color: var(--color-fg-faint); border-top: 1px solid var(--color-border); padding-top: 0.3rem; line-height: 1.35; }
 .cs-solo { font-size: 0.62rem; padding: 0.05rem 0.32rem; border-radius: 4px; border: 1px solid var(--color-border); background: transparent; color: var(--color-fg-faint); cursor: pointer; flex: none; }
 .cs-solo:hover { color: var(--color-accent); border-color: var(--color-accent); }
 

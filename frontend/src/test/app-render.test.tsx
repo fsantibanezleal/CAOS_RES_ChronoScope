@@ -14,7 +14,8 @@ describe('App workbench renders (baked-first with synthetic live mode available)
     expect(html).toContain('Baked case');
     expect(html).toContain('Synthetic (live)');
     expect(html).toContain('Source'); // the full-width control bar label
-    for (const label of ['Series', 'Structure', 'Decompose', 'Verdicts', 'Forecast', 'Zoom', 'Horizon', 'Residuals', 'Leaderboard', 'Streaming']) {
+    // 8 tabs: Forecast now carries the on-graph Full/Zoom/Horizon/Errors view switch (was 3 tabs + a toggle)
+    for (const label of ['Series', 'Structure', 'Decompose', 'Verdicts', 'Forecast', 'Residuals', 'Leaderboard', 'Streaming']) {
       expect(html).toContain(label);
     }
   });
