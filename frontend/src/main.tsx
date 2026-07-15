@@ -50,12 +50,12 @@ const config: ShellConfig = {
   architecture,
   footer: {
     provenance: {
-      en: 'All forecasts and diagnostics are baked offline by the open pipeline (19-method ladder, seed-deterministic) or computed live in your browser; every number is reproducible from the repo.',
-      es: 'Todos los pronósticos y diagnósticos se hornean offline con el pipeline abierto (escalera de 19 métodos, determinista por semilla) o se calculan en vivo en tu navegador; cada número es reproducible desde el repo.',
+      en: 'Data: UCI Electricity + Beijing PM2.5 and M4/Monash excerpts (CC-BY 4.0, attributed); synthetic cases seed-generated (MIT). Engines: Nixtla statsforecast/mlforecast/neuralforecast + local Chronos-2, TimesFM 2.5 and TiRex-2 checkpoints (Apache-2.0); streaming eval: preqts (PyPI).',
+      es: 'Datos: extractos UCI Electricity + PM2.5 de Beijing y M4/Monash (CC-BY 4.0, con atribución); casos sintéticos generados por semilla (MIT). Motores: Nixtla statsforecast/mlforecast/neuralforecast + checkpoints locales Chronos-2, TimesFM 2.5 y TiRex-2 (Apache-2.0); evaluación streaming: preqts (PyPI).',
     },
     disclaimer: {
-      en: 'A research atlas: methods are compared honestly (no free lunch), synthetic cases are labelled, and real data ships under its license terms.',
-      es: 'Un atlas de investigación: los métodos se comparan honestamente (no hay almuerzo gratis), los casos sintéticos están etiquetados y los datos reales se publican según su licencia.',
+      en: 'A research atlas, not a production forecasting service: every number is baked offline by the open seed-deterministic pipeline (or computed live in your browser) and is reproducible from the repo; methods are compared honestly (no free lunch) and synthetic cases are labelled.',
+      es: 'Un atlas de investigación, no un servicio de pronóstico de producción: cada número se hornea offline con el pipeline abierto determinista por semilla (o se calcula en vivo en tu navegador) y es reproducible desde el repo; los métodos se comparan honestamente (no hay almuerzo gratis) y los casos sintéticos están etiquetados.',
     },
   },
 };

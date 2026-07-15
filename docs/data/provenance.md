@@ -4,7 +4,7 @@ Code: [`chronoscopelab/data/provenance.py`](../../data-pipeline/chronoscopelab/d
 · Tests: [`tests/test_data_provenance.py`](../../tests/test_data_provenance.py),
 [`tests/test_data_export_guard.py`](../../tests/test_data_export_guard.py)
 
-ChronoScope is a public Apache-2.0 repository. The offline pipeline reads raw data from a **private local
+ChronoScope is a public MIT repository. The offline pipeline reads raw data from a **private local
 vault** (`E:\_Datos\chronoscope`) and bakes compact **derived artifacts** (series excerpts, forecasts,
 metrics, analysis) into the public repo. The legal question for every dataset is: *may those small derived
 excerpts be redistributed publicly, with attribution?* This page is the honest answer, and the pipeline
@@ -26,7 +26,7 @@ Each source carries a verified `public_artifact_ok` verdict:
 
 | Source | License | Public artifacts? | Citation |
 |---|---|---|---|
-| synthetic | ChronoScope-own (Apache-2.0) | **yes** | ChronoScope seeded generators |
+| synthetic | ChronoScope-own (MIT) | **yes** | ChronoScope seeded generators |
 | UCI Electricity | CC-BY-4.0 | **yes** | Trindade 2015, DOI 10.24432/C58C86 |
 | UCI Beijing PM2.5 | CC-BY-4.0 | **yes** | Liang et al. 2015 |
 | OPSD time_series | CC-BY-4.0 | **yes** | Open Power System Data 2020 |
