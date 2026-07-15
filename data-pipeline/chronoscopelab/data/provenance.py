@@ -1,6 +1,6 @@
 """Data provenance + license registry: the source of truth for what may ship in the PUBLIC repo.
 
-ChronoScope is a public Apache-2.0 repo. The offline pipeline reads raw data from a private local vault and
+ChronoScope is a public MIT repo. The offline pipeline reads raw data from a private local vault and
 bakes compact derived artifacts (series excerpts + forecasts + metrics + analysis) into the public repo. The
 LEGAL question per dataset is: may those small derived excerpts be redistributed publicly, with attribution?
 
@@ -36,7 +36,7 @@ class DataSource:
 SOURCES: dict[str, DataSource] = {
     "synthetic": DataSource(
         id="synthetic", name="Synthetic generators (ChronoScope)",
-        url="", license="ChronoScope-own (Apache-2.0)",
+        url="", license="ChronoScope-own (MIT)",
         citation="ChronoScope seeded synthetic generators (deterministic).",
         public_artifact_ok=True, note="fully owned; no third-party rights.",
     ),

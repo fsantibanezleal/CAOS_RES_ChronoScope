@@ -1,90 +1,80 @@
 # ChronoScope — the time-series forecasting method atlas
 
-> **Status: scaffolded 2026-07-03 (v0.01.000).** Instantiated from the CAOS product-repo template
-> (ADR-0057). The EXAMPLE engine (SIR) is still in place; the real engines (classical statistical
-> ladder, Nixtla stack, LightGBM, neural forecasters, and the pinned foundation models TiRex-2,
-> Chronos-2 + Bolt, TimesFM 2.5, Granite TTM r2, FlowState r1.1) land per the kickoff plan in
-> `_CAOS_MANAGE/wip/chronoscope/plan.md`. Novel contribution: prequential streaming evaluation +
-> streaming-adaptive conformal calibration of stateful foundation models (package `preqts`).
+[![CI](https://img.shields.io/github/actions/workflow/status/fsantibanezleal/CAOS_RES_ChronoScope/ci.yml?branch=main&label=CI)](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions)
+[![License](https://img.shields.io/github/license/fsantibanezleal/CAOS_RES_ChronoScope)](LICENSE)
+[![Version](https://img.shields.io/github/v/tag/fsantibanezleal/CAOS_RES_ChronoScope?label=version&sort=semver)](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tags)
+[![Live demo](https://img.shields.io/badge/demo-live-2ea44f)](https://chronoscope.fasl-work.com)
 
-ChronoScope is a research product about time-series forecasting itself: a rigorous interactive
-guide + workbench spanning the full method ladder (classical statistics, Prophet era, ML on lag
-features, deep forecasters, zero-shot foundation models), measuring the strengths and weaknesses
-of each family on shared benchmarks (GIFT-Eval, fev-bench, LTSF with TFB corrections), and owning
-the streaming lane no public harness covers today.
+**Live app: <https://chronoscope.fasl-work.com>**
 
----
+ChronoScope is an interactive research atlas of time-series forecasting. It takes a series, UNDERSTANDS
+it with the classical diagnostic toolkit (ten analysis families: stationarity, autocorrelation,
+seasonality, filters/decomposition, change points, volatility, distribution/complexity, fractals,
+nonlinear dynamics, causality), runs a **19-method forecast ladder** across it (5 classical + 3
+statistical + LightGBM + 6 deep + 4 foundation models), and shows honestly where each family wins and
+where it fails. The thesis: **the diagnosis explains the leaderboard** — no free lunch, and the atlas
+shows why.
 
-<!-- BADGE HEADER (ADR-0065) — copy this block to the top of an instantiated product README.
-     Replace <OWNER>/<REPO> and the CI workflow filename. Every badge here is auto-updating and truthful.
-     Allowed: CI (from Actions), license, latest version/tag, live demo, and arXiv ONLY once a real preprint exists.
-     FORBIDDEN: hand-typed count/claim badges (tests N passing, languages N, coverage unless from CI, agents N, ...)
-     and supply-chain-security theater (OpenSSF Scorecard, SLSA, VirusTotal) unless the repo actually ships signed
-     installable binaries. A badge that states something a tool does not verify live is vanity — do not add it.
-[![CI](https://img.shields.io/github/actions/workflow/status/<OWNER>/<REPO>/ci.yml?branch=main&label=CI)](https://github.com/<OWNER>/<REPO>/actions)
-[![License](https://img.shields.io/github/license/<OWNER>/<REPO>)](LICENSE)
-[![Version](https://img.shields.io/github/v/tag/<OWNER>/<REPO>?label=version&sort=semver)](https://github.com/<OWNER>/<REPO>/tags)
-[![Live demo](https://img.shields.io/badge/demo-live-2ea44f)](https://<SLUG>.fasl-work.com)
--->
+- **15 committed cases** (seeded synthetic across regimes + CC-BY real data: UCI Electricity, Beijing
+  PM2.5, two real M4/Monash series + honesty controls), each baked with the full ladder, the ten-family
+  analysis panel, and a prequential streaming bench.
+- **Foundation tier**: Chronos-Bolt, Chronos-2, TimesFM 2.5 (local Apache-2.0 checkpoints, GPU) and
+  TiRex-2 via an opt-in **WSL2 lane** (its sLSTM kernels have no Windows wheels).
+- **The novel lane**: prequential (predict → observe → update) evaluation of stateful forecasters with an
+  explicit covariate-arrival policy and online conformal calibration (ACI / Conformal-PID) — extracted as
+  the published PyPI package [`preqts`](https://pypi.org/project/preqts/).
+- **The web app replays the committed artifacts** (nothing heavy runs in the browser) while the classical
+  ladder + an ONNX NLinear run LIVE in-browser, parity-checked against the Python core.
 
-This is the **canonical template** every Faena/CAOS data-product repo is instantiated from. It exists because
-ad-hoc products (bespoke scripts, baked cases, no reproducible env, no data contract) kept shipping — they
-*look* done but **cannot be applied to new data**, so they are demos, not tools. This template makes the standard
-**executable**: clone it, run two scripts, and you have a reproducible offline pipeline that ingests data in a
-**standard format**, processes it through **typed, seeded, tested stages**, emits **committed standard-format
-artifacts + a manifest**, and feeds a web app that **replays** them — and that any third party can point at
-**their own data**.
-
-It is modelled on the validated exemplar **CAOS_SIMLAB** (`simlab/pipeline.py`, `requirements-*.txt`,
-`scripts/setup+precompute`, `docs/frameworks`, `data/artifacts`, `manifests/`).
-
-## The two data contracts (the thing that was missing everywhere)
-
-A product is only real if data flows through **two enforced contracts**:
-
-1. **Ingestion contract — `raw → processing`.** `data-pipeline/<slug>lab/io/contract.py` (shipped as `chronoscopelab`) defines the required schema (columns,
-   units, ranges) of an input dataset and an explicit **outlier policy** (reject / clip / flag). This is the
-   *"bring your own data"* gate: a user's dataset is accepted iff it satisfies the contract. Documented in
-   [docs/data-contract.md](docs/data-contract.md).
-2. **Artifact contract — `processing → web`.** Every pipeline run writes a compact, standard-format artifact and a
-   `manifests/<case>.json` (params, seed, run_ms, bytes, gate verdict, format/version). The web app loads **only**
-   these — it never recomputes — and a TS type mirrors the manifest schema so a contract drift fails the build.
-
-If either contract is missing, the product is a demo. CI enforces both.
-
-## Quickstart (proves the template runs end-to-end)
+## Quickstart
 
 ```bash
-# 1. create the reproducible environment (.venv + pinned per-need requirements)
-./scripts/setup.sh                      # or scripts/setup.ps1 on Windows PowerShell
+# 1. reproducible environments (pinned per lane; py3.12 for the pipeline)
+./scripts/setup.sh                      # or scripts/setup.ps1 on Windows
 
-# 2. run the offline pipeline over every case → data/artifacts/ + manifests/
-./scripts/precompute.sh                 # or scripts/precompute.ps1
+# 2. bake every case: forecasts + analysis + streaming -> data/derived/ (+ manifests)
+python scripts/bake.py all              # GPU lanes opt-in via CHRONOSCOPE_ENABLE_* env flags
 
-# 3. the tests (determinism, both data contracts, the gate, parity)
-.venv/bin/python -m pytest              # .venv/Scripts/python.exe on Windows
+# 3. the gates: determinism, both data contracts, artifact drift, TS<->Python parity
+python -m pytest tests/ -q
+python scripts/check_artifacts.py
 
 # 4. the web app consumes the artifacts (copy-data enforces the artifact contract)
-cd web && npm install && node copy-data.mjs && npm run dev
+cd frontend && npm ci && npm run dev
 ```
 
-## How to instantiate this template for a NEW product
+## The two data contracts
 
-See [docs/guides/00_instantiate.md](docs/guides/00_instantiate.md). In short: copy this tree, rename the
-`chronoscopelab` package (in `data-pipeline/`) to `<slug>lab`, **replace the EXAMPLE engine** (the SIR model in
-`data-pipeline/<slug>lab/model/` + `stages/`) with your
-product's research-chosen SOTA engine (the one documented in `docs/frameworks/`, pinned in
-`requirements-precompute.txt` — e.g. Yade/Chrono for DEM, OR-Tools for dispatch, MintPy for InSAR), write your
-ingestion contract + cases, and fill the `docs/` wiki **as you build, not at the end** (ADR-0056).
+1. **Ingestion contract — `raw → pipeline`** (`chronoscopelab/io/contract.py`): schema, dtypes, missing
+   policy, and the per-source **license verdict** (`chronoscopelab/data/provenance.py`). The export stage
+   ENFORCES it: a local-only-licensed source ships aggregate metrics only, never raw values.
+2. **Artifact contract — `pipeline → web`** (`chronoscopelab.trace/v2`, `chronoscope.analysis/v1`,
+   `chronoscope.streaming/v1` + per-case manifests): mirrored in TypeScript
+   (`frontend/src/lib/contract.types.ts`); a schema divergence breaks the build, and
+   `scripts/check_artifacts.py` (CI) fails on any byte/ladder/feature drift.
 
-## Hard rules this template bakes in
+## Repo map
 
-- **The deep research is binding, not decoration.** Every engine/solver/library the research selected lives in
-  `docs/frameworks/<tool>/` *and* `requirements-precompute.txt`, and the pipeline actually uses it. No hand-rolled
-  substitute for a SOTA engine the research prescribed.
-- **Standard formats end-to-end** (`data-pipeline/<slug>lab/io/formats.py`): domain-standard in, compact-standard out.
-- **Reproducible**: pinned requirements per need; `scripts/setup`; CI installs them and runs a pipeline smoke.
-- **Applicable to new data**: the ingestion contract is the bring-your-own-data door.
-- **Versioned** (X.XX.XXX, CHANGELOG + tags from day 1) with **license/attribution hygiene**.
+| Path | What lives there |
+|---|---|
+| `data-pipeline/chronoscopelab/` | the Python package: staged pipeline, 10 analysis families, engines (statsforecast, mlforecast, neuralforecast, torch-direct, Chronos/TimesFM/TiRex), provenance registry |
+| `data/derived/` | the committed per-case artifacts (trace + analysis + streaming + manifests) — seed-deterministic, never hand-edited |
+| `frontend/` | the React SPA (shared `@fasl-work/caos-app-shell`, uPlot workbench, onnxruntime-web live tier) |
+| `docs/` | the wiki: research dossiers, per-family analysis theory, architecture, per-case write-ups, guides |
+| `tools/tirex2_wsl/` | the WSL2 lane for TiRex-2 (CUDA-in-WSL bake bridge) |
+| `tests/` | 170 tests in 26 modules: ground-truth analysis tests, contract + determinism + parity + gate tests |
 
-See [docs/architecture/01_overview.md](docs/architecture/01_overview.md) for the full rationale.
+## Hard rules
+
+- **Honesty gates everywhere**: baked artifacts record what is unavailable rather than faking it; control
+  cases (white noise, random walk) exist so a "win" there flags harness leakage; n_windows per method is
+  recorded; local-only data never ships.
+- **Determinism**: every bake is a pure function of (case, seed); no timestamps in artifacts; re-baking is
+  a no-op diff unless code changed.
+- **Tests never write canonical artifacts** (sandboxed via `CHRONOSCOPE_DERIVED_DIR`).
+
+## License
+
+[MIT](LICENSE). Third-party model weights and data keep their own terms: Chronos / TimesFM / TiRex
+checkpoints are Apache-2.0; UCI Electricity, Beijing PM2.5 and Monash/M4 excerpts ship under CC-BY 4.0
+with attribution (see `docs/data/provenance.md`).

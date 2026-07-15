@@ -38,6 +38,11 @@ export const CITATIONS: Citation[] = [
   { id: 'fevbench', label: 'AutoGluon 2025 (fev-bench)', citation: 'Shchur, O., et al. (2025). fev-bench: A Realistic Benchmark for Time Series Forecasting. arXiv:2509.26468.', url: 'https://arxiv.org/abs/2509.26468' },
   { id: 'tfb', label: 'Qiu et al. 2024 (TFB)', citation: 'Qiu, X., et al. (2024). TFB: Towards Comprehensive and Fair Benchmarking of Time Series Forecasting Methods. PVLDB 17. arXiv:2403.20150.', url: 'https://arxiv.org/abs/2403.20150' },
   { id: 'prequential', label: 'Dawid 1984', citation: 'Dawid, A. P. (1984). Present Position and Potential Developments: Some Personal Views. Journal of the Royal Statistical Society A, 147(2), 278-292.', doi: '10.2307/2981683' },
+  // the generator processes (Experiments: the scenario equations)
+  { id: 'garch', label: 'Bollerslev 1986 (GARCH)', citation: 'Bollerslev, T. (1986). Generalized autoregressive conditional heteroskedasticity. Journal of Econometrics, 31(3), 307-327.', doi: '10.1016/0304-4076(86)90063-1' },
+  { id: 'mackey-glass', label: 'Mackey & Glass 1977', citation: 'Mackey, M. C., & Glass, L. (1977). Oscillation and chaos in physiological control systems. Science, 197(4300), 287-289.', doi: '10.1126/science.267326' },
+  { id: 'granger-joyeux', label: 'Granger & Joyeux 1980', citation: 'Granger, C. W. J., & Joyeux, R. (1980). An introduction to long-memory time series models and fractional differencing. Journal of Time Series Analysis, 1(1), 15-29.', doi: '10.1111/j.1467-9892.1980.tb00297.x' },
+  { id: 'hosking', label: 'Hosking 1981', citation: 'Hosking, J. R. M. (1981). Fractional differencing. Biometrika, 68(1), 165-176.', doi: '10.1093/biomet/68.1.165' },
 
   // --- data ---
   { id: 'uci-electricity', label: 'Trindade 2015 (UCI Electricity)', citation: 'Trindade, A. (2015). ElectricityLoadDiagrams20112014. UCI Machine Learning Repository (CC BY 4.0).', doi: '10.24432/C58C86' },

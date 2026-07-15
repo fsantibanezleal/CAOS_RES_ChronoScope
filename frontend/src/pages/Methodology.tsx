@@ -152,6 +152,22 @@ export default function Methodology() {
       <p className="cs-lead">{es
         ? 'La escalera completa de 19 métodos, familia por familia, con la matemática real de cada una: qué computa, cuándo gana y cuándo falla. El Benchmark muestra estos métodos medidos; esta página explica qué son.'
         : 'The full 19-method ladder, family by family, with each one\'s real math: what it computes, when it wins, and when it fails. The Benchmark shows these methods measured; this page explains what they are.'}</p>
+
+      <svg viewBox="0 0 680 150" width="100%" style={{ maxWidth: 680, display: 'block', margin: '0.8rem auto', font: '10px var(--font-sans, sans-serif)' }} role="img" aria-label={es ? 'la escalera de 19 métodos por familia, del naive a los fundacionales' : 'the 19-method ladder by family, from the naive to the foundation models'}>
+        {(es
+          ? [['Clásicos', '5 · en vivo (TS)', 'naive, SES, Holt, HW, Theta', 20, 108], ['Estadísticos', '3 · horneados', 'AutoARIMA, ETS, Theta', 150, 84], ['ML', '1 · horneado', 'LightGBM en rezagos', 280, 60], ['Profundos', '6 · GPU ×2 impl.', 'NLinear, DLinear, NHITS', 410, 36], ['Fundacionales', '4 · zero-shot', 'Bolt, Chronos-2, TimesFM, TiRex-2', 540, 12]]
+          : [['Classical', '5 · live (TS)', 'naive, SES, Holt, HW, Theta', 20, 108], ['Statistical', '3 · baked', 'AutoARIMA, ETS, Theta', 150, 84], ['ML', '1 · baked', 'LightGBM on lags', 280, 60], ['Deep', '6 · GPU ×2 impl.', 'NLinear, DLinear, NHITS', 410, 36], ['Foundation', '4 · zero-shot', 'Bolt, Chronos-2, TimesFM, TiRex-2', 540, 12]]
+        ).map(([fam, count, names, x, y]) => (
+          <g key={fam as string}>
+            <rect x={x as number} y={y as number} width={126} height={40} rx={6} fill="var(--color-surface)" stroke="var(--color-accent)" />
+            <text x={(x as number) + 63} y={(y as number) + 15} textAnchor="middle" fill="var(--color-fg)" fontSize="9.5" fontWeight="600">{fam} <tspan fill="var(--color-fg-subtle)" fontWeight="400">{count}</tspan></text>
+            <text x={(x as number) + 63} y={(y as number) + 30} textAnchor="middle" fill="var(--color-fg-subtle)" fontSize="8">{names}</text>
+          </g>
+        ))}
+        <line x1="20" y1="146" x2="672" y2="146" stroke="var(--color-border)" />
+        <text x="20" y="140" fill="var(--color-fg-faint)" fontSize="8.5">{es ? 'costo por serie: microsegundos' : 'per-series cost: microseconds'}</text>
+        <text x="672" y="10" textAnchor="end" fill="var(--color-fg-faint)" fontSize="8.5">{es ? 'pre-entrenado en miles de millones de obs.' : 'pretrained on billions of observations'}</text>
+      </svg>
       <SubTabs
         ariaLabel="method families"
         tabs={[
@@ -159,7 +175,7 @@ export default function Methodology() {
           { id: 'statistical', label: es ? 'Estadísticos (3)' : 'Statistical (3)', content: statistical },
           { id: 'ml', label: 'ML (LightGBM)', content: ml },
           { id: 'deep', label: es ? 'Profundos (6, GPU)' : 'Deep (6, GPU)', content: deep },
-          { id: 'foundation', label: es ? 'Fundacionales (3, zero-shot)' : 'Foundation (3, zero-shot)', content: foundation },
+          { id: 'foundation', label: es ? 'Fundacionales (4, zero-shot)' : 'Foundation (4, zero-shot)', content: foundation },
           { id: 'calibrated', label: es ? 'Calibrados (ACI/PID)' : 'Calibrated (ACI/PID)', content: calibrated },
         ]}
       />

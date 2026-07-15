@@ -1,6 +1,6 @@
 """Validate CONTRACT 2 on disk (the pipeline -> web artifact contract): the index references every case; each
 manifest exists; each artifact exists, is non-empty, and its byte size matches the manifest; the lane matches the
-gate verdict; and the LADDER IS COMPLETE (the committed bake is the canonical GPU run, all 18 methods - a trace
+gate verdict; and the LADDER IS COMPLETE (the committed bake is the canonical GPU run, all 19 methods - a trace
 carrying only the CPU-lane subset means something regenerated it on a lighter engine set and clobbered the
 canonical artifact, which once shipped 9-method traces to prod); and CATCH22 IS BAKED (every analysis.json
 carries the 24 catch24 features, so a slim install without pycatch22 can never ship `available: false` to the
@@ -17,9 +17,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DERIVED = ROOT / "data" / "derived"
 MANIFESTS = DERIVED / "manifests"
-# The canonical GPU bake carries 18 methods (5 classical + 3 statistical + LightGBM + 3 deep direct +
-# 3 deep nf + 3 foundation). The floor is set BELOW 18 so a deliberate roster change needs one edit,
-# but WELL ABOVE the 9-method CPU lane so a clobber can never pass.
+# The canonical GPU bake carries 19 methods (5 classical + 3 statistical + LightGBM + 3 deep direct +
+# 3 deep nf + 4 foundation incl. TiRex-2 via the WSL lane). The floor is set BELOW 19 so a deliberate
+# roster change needs one edit, but WELL ABOVE the 9-method CPU lane so a clobber can never pass.
 MIN_LADDER = 15
 
 
