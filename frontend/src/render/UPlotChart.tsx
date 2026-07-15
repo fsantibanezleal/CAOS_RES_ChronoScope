@@ -17,6 +17,8 @@ export interface USeries {
   dash?: number[];
   /** Render as vertical bars/stems (ACF/PACF) instead of a line. */
   bars?: boolean;
+  /** Render as a point cloud (QQ plots): no connecting line, visible points. Requires ascending xs. */
+  scatter?: boolean;
   /** Fill an interval band from this series down to the series with this label (e.g. upper -> lower). */
   fillToLabel?: string;
   fillAlpha?: number;
@@ -168,8 +170,8 @@ export function UPlotChart({ xs, series, height = 340, yLabel, xLabel, refLines 
         fill: s.bars ? col(s.color) : undefined,
         width: s.width ?? 1.6,
         dash: s.dash,
-        paths: s.bars ? barsPath : undefined,
-        points: { show: false },
+        paths: s.bars ? barsPath : s.scatter ? () => null : undefined,
+        points: s.scatter ? { show: true, size: 5, fill: col(s.color), stroke: col(s.color) } : { show: false },
         value: (_u: uPlot, v: number | null) => (v == null || !Number.isFinite(v) ? '-' : v.toFixed(precision)),
       })),
     ];

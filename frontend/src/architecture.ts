@@ -44,7 +44,7 @@ const APP = svg('cs-a1', 470, `
   <rect class="bx" x="28" y="78" width="120" height="120" rx="9"/>
   <text class="ttl" x="40" y="100">series in</text>
   <text class="cd mono" x="40" y="118">cases/forecast_cases.py</text>
-  <text class="it" x="40" y="140">14 cases:</text>
+  <text class="it" x="40" y="140">15 cases:</text>
   <text class="mu" x="40" y="156">synthetic (labelled),</text>
   <text class="mu" x="40" y="170">real (UCI, M4/Monash),</text>
   <text class="mu" x="40" y="184">controls (noise, walk)</text>

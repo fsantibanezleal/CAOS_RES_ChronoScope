@@ -17,6 +17,25 @@ export default function Experiments() {
         : 'Every method is scored by a leakage-safe ROLLING-ORIGIN backtest: at each cutoff the model fits/conditions ONLY on the history up to the cutoff and predicts the full horizon out-of-sample; the cutoff advances and repeats. Cheap methods get many windows; heavy ones a bounded budget (honest: n_windows is recorded per method). On top, the STREAMING bench evaluates prequentially (Dawid 1984): predict, observe, update, with model state carried step to step, which is how real forecasting operates.'}
         {' '}<Cite id="prequential" /></p>
 
+      <svg viewBox="0 0 680 170" width="100%" style={{ maxWidth: 680, display: 'block', margin: '0.8rem auto', font: '11px var(--font-sans, sans-serif)' }} role="img" aria-label={es ? 'backtest de origen móvil: el corte avanza, el modelo nunca ve el futuro' : 'rolling-origin backtest: the cutoff advances, the model never sees the future'}>
+        <text x="8" y="16" fill="var(--color-fg)" fontSize="10">{es ? 'origen móvil: en cada corte, ajustar SOLO con la historia y predecir h pasos fuera de muestra' : 'rolling origin: at each cutoff, fit ONLY on history and predict h steps out-of-sample'}</text>
+        {[0, 1, 2].map((k) => {
+          const y0 = 30 + k * 36;
+          const trainW = 240 + k * 60;
+          return (
+            <g key={k}>
+              <text x="8" y={y0 + 14} fill="var(--color-fg-subtle)" fontSize="9">{es ? `corte ${k + 1}` : `cutoff ${k + 1}`}</text>
+              <rect x="58" y={y0} width={trainW} height="20" rx="3" fill="var(--color-surface)" stroke="var(--color-accent)" />
+              <text x={58 + trainW / 2} y={y0 + 14} textAnchor="middle" fill="var(--color-fg-subtle)" fontSize="9">{es ? 'historia (train)' : 'history (train)'}</text>
+              <rect x={58 + trainW + 2} y={y0} width="70" height="20" rx="3" fill="var(--color-surface)" stroke="#3fb950" strokeDasharray="4 2" />
+              <text x={58 + trainW + 37} y={y0 + 14} textAnchor="middle" fill="#3fb950" fontSize="9">h</text>
+              <line x1={58 + trainW + 1} y1={y0 - 3} x2={58 + trainW + 1} y2={y0 + 23} stroke="var(--color-fg-subtle)" strokeDasharray="3 2" />
+            </g>
+          );
+        })}
+        <text x="58" y="158" fill="var(--color-fg-faint)" fontSize="9">{es ? 'el corte solo avanza: ninguna observación del horizonte entra al ajuste (sin fuga); las métricas promedian sobre todos los cortes' : 'the cutoff only advances: no horizon observation enters the fit (leakage-safe); metrics average over all cutoffs'}</text>
+      </svg>
+
       <h3>{es ? 'Las métricas (y su matemática)' : 'The metrics (and their math)'}</h3>
       <Equation tex={String.raw`\text{MASE} = \frac{\frac{1}{h}\sum_{i=1}^{h} |y_{t+i} - \hat y_{t+i}|}{\frac{1}{T-m}\sum_{t=m+1}^{T} |y_t - y_{t-m}|}`} caption={es ? 'MASE: error absoluto escalado por el MAE in-sample del naive estacional. Menor que 1 = le ganas al naive; libre de escala y comparable entre casos (Hyndman y Koehler 2006).' : 'MASE: absolute error scaled by the in-sample MAE of the seasonal naive. Below 1 = you beat the naive; scale-free and comparable across cases (Hyndman & Koehler 2006).'} />
       <Equation tex={String.raw`\text{WQL} = \frac{\sum_{q \in Q} \sum_{i} 2\,\rho_q\big(y_{t+i} - \hat y^{(q)}_{t+i}\big)}{\sum_i |y_{t+i}|}, \qquad \rho_q(u) = u\,(q - \mathbf{1}\{u < 0\})`} caption={es ? 'WQL: pérdida pinball agregada sobre la grilla de cuantiles, normalizada. Es la aproximación discreta del CRPS: mide la DISTRIBUCIÓN pronosticada, no solo el punto.' : 'WQL: pinball loss aggregated over the quantile grid, normalized. It is the discretized approximation of CRPS: it scores the forecast DISTRIBUTION, not just the point.'} />
@@ -44,13 +63,33 @@ export default function Experiments() {
         <li><b>RWLK_noise / CTRL_white_noise</b>: {es ? 'los controles de honestidad: nadie debería ganar por mucho; una brecha grande delata fuga en el harness.' : 'the honesty controls: nobody should win by much; a big gap betrays harness leakage.'}</li>
       </ul>
 
+      <h3>{es ? 'Los generadores, con sus ecuaciones reales' : 'The generators, with their actual equations'}</h3>
+      <p>{es
+        ? 'Cada caso sintético profundo es un proceso canónico de la literatura, generado con semilla fija (hashlib por caso, no el hash() salteado de Python). Las ecuaciones de abajo son las que ejecuta el código (chronoscopelab/cases/forecast_cases.py), no una aproximación:'
+        : 'Each deep synthetic case is a canonical process from the literature, generated under a fixed seed (per-case hashlib, not Python\'s salted hash()). The equations below are what the code executes (chronoscopelab/cases/forecast_cases.py), not an approximation:'}</p>
+      <Equation tex={String.raw`\sigma^2_t = \omega + \alpha_1\,\varepsilon^2_{t-1} + \beta_1\,\sigma^2_{t-1}, \qquad \varepsilon_t = \sigma_t z_t, \qquad y_t = 100 + 0.25\textstyle\sum_{s\le t}\varepsilon_s`} caption={es
+        ? 'HETV_garch: GARCH(1,1) de Bollerslev (1986) con ω=0.2, α₁=0.15, β₁=0.80 (persistencia α₁+β₁=0.95): la varianza se agrupa en rachas; el punto es casi caminata, la historia es el intervalo.'
+        : 'HETV_garch: Bollerslev\'s (1986) GARCH(1,1) with ω=0.2, α₁=0.15, β₁=0.80 (persistence α₁+β₁=0.95): variance clusters in bursts; the point path is near-walk, the story is the interval.'} />
+      <Equation tex={String.raw`y_t = 50 + (1-B)^{-d}\varepsilon_t, \quad \psi_k = \frac{\Gamma(k+d)}{\Gamma(k+1)\,\Gamma(d)}, \quad d = 0.35`} caption={es
+        ? 'LMEM_fractional: ruido fraccionalmente integrado (Granger-Joyeux 1980; Hosking 1981) vía la expansión MA(∞) truncada: ACF de decaimiento hiperbólico, H ≈ d + 0.5 ≈ 0.85 (verificado con DFA al generar).'
+        : 'LMEM_fractional: fractionally-integrated noise (Granger-Joyeux 1980; Hosking 1981) via the truncated MA(∞) expansion: hyperbolic ACF decay, H ≈ d + 0.5 ≈ 0.85 (DFA-verified at generation).'} />
+      <Equation tex={String.raw`\frac{dx}{dt} = \frac{0.2\,x(t-\tau)}{1 + x(t-\tau)^{10}} - 0.1\,x(t), \qquad \tau = 17`} caption={es
+        ? 'CHAO_mackey: la ecuación diferencial con retardo de Mackey-Glass (1977), caótica en τ=17; integrada por Euler (dt=0.1) y muestreada cada 6 unidades (el test 0-1 malinterpreta caos SOBREMUESTREADO como regular, una caveat documentada; este paso da K≈0.9 con Lyapunov positivo).'
+        : 'CHAO_mackey: the Mackey-Glass (1977) delay differential equation, chaotic at τ=17; Euler-integrated (dt=0.1) and sampled every 6 time units (the 0-1 test misreads OVERSAMPLED chaos as regular, a documented caveat; this stride gives K≈0.9 with a positive Lyapunov exponent).'} />
+      <Equation tex={String.raw`y_t = 50 + 15\,\mathbf{1}\{t \ge n/3\} - 25\,\mathbf{1}\{t \ge 2n/3\} + 6\sin\!\tfrac{2\pi t}{12} + \varepsilon_t`} caption={es
+        ? 'BRKV_level_shift (n=300): dos quiebres limpios de nivel en t=100 y t=200 sobre un ciclo estacional; PELT debe localizarlos y los modelos que promedian regímenes tropiezan justo después de cada quiebre.'
+        : 'BRKV_level_shift (n=300): two clean level breaks at t=100 and t=200 over a seasonal cycle; PELT must localize them, and regime-averaging models stumble right after each break.'} />
+      <p>{es
+        ? 'Los demás siguen el mismo estándar: MSEA superpone ciclos de 24 y 168 pasos (dos picos espectrales); INTM es Bernoulli(0.25) × Gamma(2, 4) (demanda intermitente, mayormente ceros); los controles son ruido blanco N(0,25) y una caminata aleatoria con paso N(0,1). Los parámetros exactos viven en el registro de casos y cada caso tiene su página en docs/cases/.'
+        : 'The rest follow the same standard: MSEA superposes 24- and 168-step cycles (two spectral peaks); INTM is Bernoulli(0.25) × Gamma(2, 4) (intermittent demand, mostly zeros); the controls are N(0,25) white noise and a random walk with N(0,1) steps. The exact parameters live in the case registry, and every case has its page in docs/cases/.'}</p>
+
       <Callout variant="honest" title={es ? 'Los controles negativos son parte del diseño' : 'The negative controls are part of the design'}>
         {es
           ? 'Un atlas que solo muestra casos donde los modelos sofisticados ganan está sobre-vendiendo. Los controles (ruido blanco, caminata aleatoria) y el caso GARCH (punto deliberadamente aburrido) existen para que el "no" sea tan visible como el "sí".'
           : 'An atlas showing only cases where sophisticated models win is overselling. The controls (white noise, random walk) and the GARCH case (deliberately boring point forecast) exist so the "no" is as visible as the "yes".'}
       </Callout>
 
-      <Refs ids={['prequential', 'mase', 'tfb', 'fevbench', 'uci-electricity']} label={es ? 'Referencias' : 'References'} />
+      <Refs ids={['prequential', 'mase', 'msis', 'tfb', 'fevbench', 'uci-electricity', 'garch', 'granger-joyeux', 'hosking', 'mackey-glass']} label={es ? 'Referencias' : 'References'} />
     </section>
   );
 }

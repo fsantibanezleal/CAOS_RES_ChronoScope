@@ -15,7 +15,7 @@ import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
 import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
 import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 import { PanelBoundary } from '../render/PanelBoundary';
-import { SeriesLegend, type LegendItem } from '../render/SeriesLegend';
+import { SeriesLegend, type LegendItem, type LegendMetric } from '../render/SeriesLegend';
 import { UPlotChart, type RefLine, type USeries } from '../render/UPlotChart';
 
 // a method's forecast (point + interval), shared by synthetic (live) + baked (replay)
@@ -42,7 +42,7 @@ function dig(o: unknown, ...path: (string | number)[]): number | null {
   return typeof cur === 'number' && Number.isFinite(cur) ? cur : null;
 }
 
-// group the 14 cases for the picker (Synthetic / Real / Control) from the case-id prefix.
+// group the 15 cases for the picker (Synthetic / Real / Control) from the case-id prefix.
 function caseGroup(id: string): 'Real' | 'Control' | 'Synthetic' {
   if (id.startsWith('REAL_')) return 'Real';
   if (id.startsWith('CTRL_')) return 'Control';
@@ -102,7 +102,11 @@ export default function AppPage() {
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [err, setErr] = useState('');
   const [onnx, setOnnx] = useState<(ChartSeries & { mase: number; coverage: number }) | null>(null);
-  const [fcView, setFcView] = useState<'forecast' | 'errors'>('forecast');
+  // one Forecast tab, four on-graph views: Full (whole context), Zoom (predicted zone), Horizon
+  // (per-lead error growth), Errors (per-lead residuals). Was three separate tabs + a toggle.
+  const [fcView, setFcView] = useState<'full' | 'zoom' | 'horizon' | 'errors'>('full');
+  // the metric the Methods legend displays (all lower-is-better); WQL/MSIS are baked-only
+  const [legendMetric, setLegendMetric] = useState<LegendMetric>('mase');
 
   useEffect(() => {
     loadIndex().then((ix) => { setIndex(ix); setCaseId(ix.cases[0]?.case_id ?? ''); }).catch((e) => setErr(String(e)));
@@ -189,7 +193,7 @@ export default function AppPage() {
     for (const name of names) { if (show) n.delete(name); else n.add(name); }
     return n;
   });
-  const legendItems: LegendItem[] = allRows.map((r) => ({ name: r.name, family: r.family, color: colorFor(r.name), mase: r.mase }));
+  const legendItems: LegendItem[] = allRows.map((r) => ({ name: r.name, family: r.family, color: colorFor(r.name), mase: r.mase, wql: r.wql, msis: r.msis }));
 
   // ---------------- UNDERSTAND half (live analysis on the active series + baked verdicts) ----------------
 
@@ -246,13 +250,14 @@ export default function AppPage() {
       {hist && (
         <div className="cs-panel">
           <div className="cs-panel-t">{es ? 'Distribución' : 'Distribution'}</div>
-          <svg viewBox="0 0 380 120" width="100%" style={{ maxWidth: 380 }} role="img" aria-label="histogram">
-            {hist.counts.map((c, i) => {
-              const max = Math.max(...hist.counts, 1);
-              const w = 340 / hist.counts.length;
-              return <rect key={i} x={20 + i * w} y={110 - (c / max) * 100} width={w - 1} height={(c / max) * 100} fill="var(--color-accent)" opacity={0.55} />;
-            })}
-          </svg>
+          <UPlotChart
+            xs={hist.edges.slice(0, -1).map((e, i) => e + (hist.edges[i + 1] - e) / 2)}
+            series={[{ label: es ? 'frecuencia' : 'count', values: hist.counts, color: 'var(--color-accent)', bars: true }]}
+            height={240}
+            xLabel={es ? 'valor' : 'value'}
+            ariaSummary={es ? 'histograma de la serie' : 'series histogram'}
+            precision={0}
+          />
           <div className="cs-panel-sub">{es
             ? `curtosis en exceso ${fmt(stats?.kurtosisExcess, 2)}: > 0 = colas más pesadas que la normal (los intervalos gaussianos sub-cubren).`
             : `excess kurtosis ${fmt(stats?.kurtosisExcess, 2)}: > 0 = heavier tails than normal (Gaussian intervals under-cover).`}</div>
@@ -302,22 +307,17 @@ export default function AppPage() {
           {remQQ.theoretical.length > 0 && (
             <div className="cs-panel">
               <div className="cs-panel-t">{es ? 'QQ normal del residuo' : 'Normal QQ of the remainder'}</div>
-              <svg viewBox="0 0 300 220" width="100%" style={{ maxWidth: 320 }} role="img" aria-label="QQ plot">
-                {(() => {
-                  const all = [...remQQ.theoretical, ...remQQ.sample].filter(Number.isFinite);
-                  const lo = Math.min(...all), hi = Math.max(...all);
-                  const sx = (v: number) => 20 + ((v - lo) / Math.max(1e-9, hi - lo)) * 260;
-                  const sy = (v: number) => 200 - ((v - lo) / Math.max(1e-9, hi - lo)) * 180;
-                  return (
-                    <>
-                      <line x1={sx(lo)} y1={sy(lo)} x2={sx(hi)} y2={sy(hi)} stroke="var(--color-fg-subtle)" strokeDasharray="4 3" />
-                      {remQQ.theoretical.map((t, i) => (
-                        <circle key={i} cx={sx(t)} cy={sy(remQQ.sample[i])} r={1.6} fill="var(--color-accent)" opacity={0.7} />
-                      ))}
-                    </>
-                  );
-                })()}
-              </svg>
+              <UPlotChart
+                xs={remQQ.theoretical}
+                series={[
+                  { label: 'y = x', values: remQQ.theoretical, color: 'var(--color-fg-subtle)', dash: [5, 4], width: 1.2 },
+                  { label: es ? 'residuo' : 'remainder', values: remQQ.sample, color: 'var(--color-accent)', scatter: true },
+                ]}
+                height={300}
+                xLabel={es ? 'cuantiles teóricos (normal)' : 'theoretical quantiles (normal)'}
+                yLabel={es ? 'cuantiles del residuo' : 'remainder quantiles'}
+                ariaSummary={es ? 'QQ normal del residuo' : 'normal QQ of the remainder'}
+              />
               <div className="cs-panel-sub">{es
                 ? 'puntos sobre la diagonal = residuo gaussiano (los intervalos gaussianos son honestos); forma de S = colas pesadas (sub-cobertura, ver la curtosis en Serie).'
                 : 'points on the diagonal = Gaussian remainder (Gaussian intervals are honest); an S-shape = heavy tails (under-coverage; see the kurtosis on Series).'}</div>
@@ -551,46 +551,85 @@ export default function AppPage() {
     return { xs, series, refs: [{ y: 0, dash: [5, 4] }] };
   };
 
-  // Forecast view: show a recent context window (last ~5 seasons) + the horizon so the forecast region is a
-  // meaningful fraction of the width (not a sliver behind hundreds of history points); the user can wheel/drag
-  // to see more, and the Zoom tab tightens to ~2 seasons. Errors view is per-lead.
+  // ONE Forecast tab. Full: a recent context window (last ~5 seasons) + the horizon so the forecast
+  // region is a meaningful fraction of the width; Zoom: tightens to ~2 seasons; Horizon: per-lead error
+  // growth from the baked backtest; Errors: per-lead residuals on the displayed holdout.
   const fcHistTail = Math.max(5 * (activeData?.m ?? 12), 60);
-  const fcData = fcView === 'errors' ? buildErrors() : buildForecast(fcHistTail);
-  const zoomFc = buildForecast(Math.max(2 * (activeData?.m ?? 12), 24));
+  const fcData = fcView === 'errors' ? buildErrors()
+    : fcView === 'zoom' ? buildForecast(Math.max(2 * (activeData?.m ?? 12), 24))
+    : fcView === 'full' ? buildForecast(fcHistTail)
+    : null;
 
-  const forecastFull = (
+  const horizonRows = mode === 'baked' && trace
+    ? trace.methods
+        .filter((m) => !hidden.has(m.name) && (m.backtest.per_horizon_scaled ?? []).some((v) => v != null && Number.isFinite(v)))
+        .map((m) => ({ label: m.name, values: (m.backtest.per_horizon_scaled ?? []) as (number | null)[], color: colorFor(m.name), width: 2 }))
+    : [];
+
+  const fcTitles: Record<typeof fcView, string> = {
+    full: es ? 'Pronóstico + intervalo' : 'Forecast + interval',
+    zoom: es ? 'Zoom en la zona predicha' : 'Zoom on the predicted zone',
+    horizon: es ? 'Crecimiento del error por horizonte (MASE por paso)' : 'Error growth by lead time (per-lead MASE)',
+    errors: es ? 'Errores por paso (verdad - punto)' : 'Errors by lead (truth - point)',
+  };
+  const fcNotes: Record<typeof fcView, string> = {
+    full: (es
+      ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico por método; con UNA curva visible (botón "solo") se dibuja su intervalo. '
+      : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with ONE curve visible ("solo") its interval is drawn. ')
+      + (mode === 'synthetic'
+        ? (es ? 'Clásicos + ONNX EN VIVO en tu navegador.' : 'Classical + ONNX computed LIVE in your browser.')
+        : (es ? 'Escalera completa (19 métodos), backtest horneado.' : 'The full 19-method ladder, offline-baked.')),
+    zoom: es
+      ? 'Las últimas ~2 temporadas + el horizonte. El cursor lee cada serie; arrastra para acercar más, doble clic reinicia.'
+      : 'The last ~2 seasons + the horizon. The cursor reads out every series; drag to zoom further, double-click resets.',
+    horizon: es
+      ? 'Media de |error| en el paso h sobre todos los cortes del backtest, escalada por el naive (1.0 = tan malo como el naive en ese paso). La FORMA es el diagnóstico: meseta = reversión a la media, crecimiento tipo raíz = caminata aleatoria, crecimiento exponencial que satura = caos determinista (horizonte de Lyapunov).'
+      : 'Mean |error| at lead h over all backtest cutoffs, scaled by the naive (1.0 = as wrong as the naive at that lead). The SHAPE is the diagnosis: a plateau = mean reversion, square-root growth = a random walk, exponential growth that saturates = deterministic chaos (the Lyapunov horizon).',
+    errors: es
+      ? 'El residuo por paso sobre el holdout mostrado: signo sistemático = sesgo; dispersión que crece con el paso = incertidumbre que crece. Aísla una curva con "solo" en la leyenda.'
+      : 'The per-lead residual on the displayed holdout: a systematic sign = bias; spread growing with lead = growing uncertainty. Isolate a curve with "solo" in the legend.',
+  };
+
+  const forecastPanel = (
     <div className="cs-main">
       <div className="cs-panel">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', gap: '0.6rem', flexWrap: 'wrap' }}>
-          <div className="cs-panel-t" style={{ marginBottom: 0 }}>{fcView === 'errors' ? (es ? 'Errores por paso (verdad - punto)' : 'Errors by lead (truth - point)') : (es ? 'Pronóstico + intervalo' : 'Forecast + interval')}</div>
+          <div className="cs-panel-t" style={{ marginBottom: 0 }}>{fcTitles[fcView]}</div>
           <div className="cs-seg" role="tablist" aria-label={es ? 'vista' : 'view'}>
-            <button className={fcView === 'forecast' ? 'on' : ''} onClick={() => setFcView('forecast')} role="tab" aria-selected={fcView === 'forecast'}>{es ? 'Pronóstico' : 'Forecast'}</button>
+            <button className={fcView === 'full' ? 'on' : ''} onClick={() => setFcView('full')} role="tab" aria-selected={fcView === 'full'}>{es ? 'Completo' : 'Full'}</button>
+            <button className={fcView === 'zoom' ? 'on' : ''} onClick={() => setFcView('zoom')} role="tab" aria-selected={fcView === 'zoom'}>Zoom</button>
+            <button className={fcView === 'horizon' ? 'on' : ''} onClick={() => setFcView('horizon')} role="tab" aria-selected={fcView === 'horizon'}>{es ? 'Horizonte' : 'Horizon'}</button>
             <button className={fcView === 'errors' ? 'on' : ''} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
           </div>
         </div>
-        {fcData
-          ? <UPlotChart xs={fcData.xs} series={fcData.series} refLines={fcData.refs} height={380} ariaSummary={fcView === 'errors' ? 'forecast errors by lead' : 'forecast and interval'} />
-          : <p className="cs-panel-sub">{fcView === 'errors'
-              ? (es ? 'la vista de errores necesita la verdad reservada (fuente con licencia solo-local: no se publica).' : 'the errors view needs the held-out truth (local-only-licensed source: not published).')
-              : (es ? 'fuente con licencia solo-local: la serie no se publica; ver la tabla y el banco de streaming.' : 'local-only-licensed source: the series is not published; see the table and the streaming bench.')}</p>}
+        {fcView === 'horizon' ? (
+          mode !== 'baked' ? (
+            <p className="cs-panel-sub">{es
+              ? 'La curva por horizonte se hornea offline por caso (media sobre todos los cortes del backtest): elige un caso horneado.'
+              : 'The per-horizon curve is baked offline per case (mean over all backtest cutoffs): pick a baked case.'}</p>
+          ) : horizonRows.length > 0 ? (
+            <UPlotChart
+              xs={Array.from({ length: trace?.horizon ?? 0 }, (_, i) => i + 1)}
+              series={horizonRows}
+              refLines={[{ y: 1, dash: [5, 4], label: 'naive' }]}
+              height={380}
+              xLabel={es ? 'paso (lead)' : 'lead'}
+              ariaSummary="per-lead scaled error growth"
+            />
+          ) : (
+            <p className="cs-panel-sub">{es
+              ? 'Este trace no trae curvas por horizonte (artefacto anterior a v2): re-hornea el caso.'
+              : 'This trace carries no per-horizon curves (a pre-v2 artifact): re-bake the case.'}</p>
+          )
+        ) : fcData ? (
+          <UPlotChart xs={fcData.xs} series={fcData.series} refLines={fcData.refs} height={380} ariaSummary={fcTitles[fcView]} />
+        ) : (
+          <p className="cs-panel-sub">{fcView === 'errors'
+            ? (es ? 'la vista de errores necesita la verdad reservada (fuente con licencia solo-local: no se publica).' : 'the errors view needs the held-out truth (local-only-licensed source: not published).')
+            : (es ? 'fuente con licencia solo-local: la serie no se publica; ver la tabla y el banco de streaming.' : 'local-only-licensed source: the series is not published; see the table and the streaming bench.')}</p>
+        )}
       </div>
-      <p className="cs-panel-sub">{fcView === 'errors'
-        ? (es ? 'El residuo por paso: signo sistemático = sesgo; dispersión que crece con el paso = incertidumbre que crece. Aísla una curva con "solo" en la leyenda; arrastra para hacer zoom, doble clic para reiniciar.' : 'The per-lead residual: a systematic sign = bias; spread growing with lead = growing uncertainty. Isolate a curve with "solo" in the legend; drag to zoom, double-click to reset.')
-        : (es ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico por método; con UNA curva visible se dibuja su intervalo. ' : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with ONE curve visible its interval is drawn. ')}
-        {fcView === 'forecast' && (mode === 'synthetic'
-          ? (es ? 'Clásicos + ONNX EN VIVO en tu navegador.' : 'Classical + ONNX computed LIVE in your browser.')
-          : (es ? 'Escalera completa (19 métodos), backtest horneado.' : 'The full 19-method ladder, offline-baked.'))}</p>
-    </div>
-  );
-
-  const forecastZoom = (
-    <div className="cs-main">
-      {zoomFc
-        ? <div className="cs-panel"><div className="cs-panel-t">{es ? 'Zoom en la zona predicha' : 'Zoom on the predicted zone'}</div><UPlotChart xs={zoomFc.xs} series={zoomFc.series} refLines={zoomFc.refs} height={360} ariaSummary="zoomed forecast" /></div>
-        : <p className="cs-panel-sub">{es ? 'sin serie publicable para esta fuente.' : 'no publishable series for this source.'}</p>}
-      <p className="cs-panel-sub">{es
-        ? 'ZOOM en la zona predicha: las últimas ~2 temporadas + el horizonte. El cursor lee cada serie; arrastra para acercar más, doble clic reinicia.'
-        : 'ZOOM on the predicted zone: the last ~2 seasons + the horizon. The cursor reads out every series; drag to zoom further, double-click resets.'}</p>
+      <p className="cs-panel-sub">{fcNotes[fcView]}</p>
     </div>
   );
 
@@ -616,40 +655,6 @@ export default function AppPage() {
       <p className="cs-panel-sub">{es
         ? `MASE < 1 le gana al naive estacional; WQL puntúa los cuantiles; MSIS puntúa el intervalo (ancho + 2/α por cada falla, escalado como MASE): un intervalo angosto que falla no puede verse bien. Mejor en esta serie: ${best ?? '-'}. Ningún método gana en todas partes; en los controles, ganar por mucho es una bandera roja.`
         : `MASE < 1 beats the seasonal naive; WQL scores the quantiles; MSIS prices the interval (width + 2/α per miss, scaled like MASE): a narrow interval that misses cannot look good. Best on this series: ${best ?? '-'}. No method wins everywhere; on the controls, winning big is a red flag.`}</p>
-    </div>
-  );
-
-  const horizonRows = mode === 'baked' && trace
-    ? trace.methods
-        .filter((m) => !hidden.has(m.name) && (m.backtest.per_horizon_scaled ?? []).some((v) => v != null && Number.isFinite(v)))
-        .map((m) => ({ label: m.name, values: (m.backtest.per_horizon_scaled ?? []) as (number | null)[], color: colorFor(m.name) }))
-    : [];
-  const horizonPanel = (
-    <div className="cs-main">
-      {mode !== 'baked' && <p className="cs-panel-sub">{es
-        ? 'La curva por horizonte se hornea offline por caso (media sobre todos los cortes del backtest): elige un caso horneado.'
-        : 'The per-horizon curve is baked offline per case (mean over all backtest cutoffs): pick a baked case.'}</p>}
-      {mode === 'baked' && trace && horizonRows.length > 0 && (
-        <>
-          <LinePlot
-            xs={Array.from({ length: trace.horizon }, (_, i) => i + 1)}
-            series={horizonRows}
-            refLine={1}
-            title={es ? 'Crecimiento del error por horizonte (MASE por paso)' : 'Error growth by lead time (per-lead MASE)'}
-            subtitle={es
-              ? 'media de |error| en el paso h sobre todos los cortes, escalada por el naive estacional; 1.0 = tan malo como el naive en ese paso.'
-              : 'mean |error| at lead h over all backtest cutoffs, scaled by the seasonal naive; 1.0 = as wrong as the naive at that lead.'}
-          />
-          <p className="cs-panel-sub">{es
-            ? 'La FORMA es el diagnóstico: meseta = reversión a la media (el error satura), crecimiento tipo raíz = caminata aleatoria (incertidumbre difusiva), crecimiento exponencial que satura = caos determinista (horizonte de Lyapunov). Desmarca métodos en la leyenda para aislar familias.'
-            : 'The SHAPE is the diagnosis: a plateau = mean reversion (error saturates), square-root growth = a random walk (diffusive uncertainty), exponential growth that saturates = deterministic chaos (the Lyapunov horizon). Untick methods in the legend to isolate families.'}</p>
-        </>
-      )}
-      {mode === 'baked' && trace && horizonRows.length === 0 && (
-        <p className="cs-panel-sub">{es
-          ? 'Este trace no trae curvas por horizonte (artefacto anterior a v2): re-hornea el caso.'
-          : 'This trace carries no per-horizon curves (a pre-v2 artifact): re-bake the case.'}</p>
-      )}
     </div>
   );
 
@@ -798,9 +803,7 @@ export default function AppPage() {
               { id: 'structure', label: es ? 'Estructura (ACF·espectro)' : 'Structure (ACF·spectrum)', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
               { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label="Decompose" es={es}>{understandDecompose}</PanelBoundary> },
               { id: 'verdicts', label: es ? 'Veredictos (tests)' : 'Verdicts (tests)', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
-              { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastFull}</PanelBoundary> },
-              { id: 'zoom', label: 'Zoom', content: <PanelBoundary label="Zoom" es={es}>{forecastZoom}</PanelBoundary> },
-              { id: 'horizon', label: es ? 'Horizonte' : 'Horizon', content: <PanelBoundary label="Horizon" es={es}>{horizonPanel}</PanelBoundary> },
+              { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastPanel}</PanelBoundary> },
               { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label="Residuals" es={es}>{forecastResiduals}</PanelBoundary> },
               { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
               { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
@@ -808,7 +811,7 @@ export default function AppPage() {
           />
         </div>
         {legendItems.length > 0 && (
-          <SeriesLegend items={legendItems} hidden={hidden} onToggle={toggle} onSolo={solo} onSetGroup={setGroup} es={es} />
+          <SeriesLegend items={legendItems} hidden={hidden} onToggle={toggle} onSolo={solo} onSetGroup={setGroup} metric={legendMetric} onMetric={setLegendMetric} es={es} />
         )}
       </div>
     </section>
