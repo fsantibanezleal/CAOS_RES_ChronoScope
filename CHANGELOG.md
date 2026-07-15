@@ -3,6 +3,45 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.22.000] - 2026-07-13
+
+### Fixed
+- **License coherence: ChronoScope's own license is MIT everywhere.** `provenance.py` claimed a "public
+  Apache-2.0 repo" and stamped `ChronoScope-own (Apache-2.0)` into every synthetic case's manifest (shown
+  as the App's license badge) while `LICENSE`, `pyproject.toml` and the rendered shell footer say MIT.
+  Standardized to MIT (the CAOS line standard), added the missing `license` field to
+  `frontend/package.json`, aligned `docs/data/provenance.md`, and re-baked so the manifests carry the
+  corrected string. Third-party license facts (Chronos/TimesFM/TiRex Apache-2.0 weights, CC-BY data)
+  untouched.
+- **README was still the raw ADR-0057 template** ("scaffolded v0.01.000", the SIR example, un-instantiated
+  badge placeholders): rewritten to describe the real product (19-method ladder, 15 cases, preqts, the two
+  contracts, repo map, verified test count) with instantiated auto-updating badges.
+- **Stale-count sweep**: 18 -> 19 methods (Implementation EN, `pipeline.py`, `check_artifacts.py`,
+  `EXOG_promo.md`), foundation 3 -> 4 (Methodology SubTab label), 14 -> 15 cases (`architecture.ts`,
+  Benchmark ES lead).
+
+### Changed
+- **One Forecast tab with an on-graph view switch** (Full | Zoom | Horizon | Errors): Forecast, Zoom and
+  Horizon were three tabs plus a Forecast/Errors toggle; the workbench is now 8 tabs and the view switch
+  sits on the chart, per Felipe's order. Per-view explanatory notes preserved.
+- **Full-width interactive Distribution + Normal-QQ panels**: both were static SVGs capped at 380/320 px;
+  now full-width Tier-A uPlot (histogram bars with value readout; QQ point cloud + y = x diagonal via a
+  new `scatter` mode in `UPlotChart`).
+- **Methods legend metric selector**: the per-row number was unlabelled (it was MASE); a MASE/WQL/MSIS
+  selector now sits in the legend rail, per-row numbers follow it, the best (minimum) row is highlighted
+  and labelled, and WQL/MSIS honestly disable in live/synthetic mode (baked-only metrics).
+- **Footer provenance per ADR-0016**: names the real data sources (UCI Electricity, Beijing PM2.5,
+  M4/Monash - CC-BY 4.0; seed-generated synthetic - MIT) and engines (Nixtla stack; Chronos-2 /
+  TimesFM 2.5 / TiRex-2 Apache-2.0 checkpoints; preqts) instead of a generic how-it-runs line.
+
+### Added
+- **Doc-page depth (validated, never recalled)**: Experiments gains the rolling-origin protocol diagram
+  and a "generators, with their actual equations" section (GARCH(1,1), ARFIMA MA-infinity, Mackey-Glass
+  delay ODE, BRKV level shifts - transcribed from `forecast_cases.py`, four new canonical-DOI citations);
+  Implementation gains the 8-stage pipeline map, the determinism-contract equation, the real parity
+  tolerances and the license-guard flow SVG; Methodology gains the 19-method ladder overview SVG;
+  Introduction gains the "how to read the atlas" workflow section.
+
 ## [0.21.000] - 2026-07-12
 
 ### Added
