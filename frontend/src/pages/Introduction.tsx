@@ -49,6 +49,14 @@ export default function Introduction() {
         {' '}<Cite id="prequential" /></p>
       <Equation tex={String.raw`\alpha_{t+1} \;=\; \alpha_t + \gamma\,\big(\alpha_{\text{target}} - \text{miss}_t\big)`} caption={es ? 'ACI: la mis-cobertura efectiva se corrige en línea; la cobertura de largo plazo converge al objetivo bajo deriva arbitraria (Gibbs y Candès 2021).' : 'ACI: the effective miscoverage self-corrects online; long-run coverage converges to the target under arbitrary drift (Gibbs & Candès 2021).'} />
 
+      <h3>{es ? 'Cómo leer el atlas' : 'How to read the atlas'}</h3>
+      <p>{es
+        ? 'El flujo de trabajo es el mismo que el de un pronóstico real. (1) Elige un caso en la App (o genera uno sintético con las perillas): la barra muestra su HUELLA (m, fuerza estacional, DFA α, persistencia GARCH, K de caos, mejor MASE), el resumen de una línea de lo que la serie ES. (2) Lee el diagnóstico: Serie (media/desviación móviles, distribución), Estructura (ACF/PACF, periodograma), Descomponer (tendencia/estación/residuo) y Veredictos (los tests horneados: raíces unitarias, ARCH, caos, catch22). (3) Recién entonces mira el pronóstico: la pestaña Pronóstico con sus vistas Completo/Zoom/Horizonte/Errores, la Tabla con MASE/WQL/MSIS/cobertura, y Streaming para la calibración en línea. El orden importa: el diagnóstico primero convierte la tabla de posiciones de un ranking opaco en una consecuencia explicable.'
+        : 'The workflow is the same as a real forecasting job. (1) Pick a case in the App (or generate a synthetic one with the knobs): the bar shows its FINGERPRINT (m, seasonal strength, DFA α, GARCH persistence, chaos K, best MASE), the one-line summary of what the series IS. (2) Read the diagnosis: Series (rolling mean/std, distribution), Structure (ACF/PACF, periodogram), Decompose (trend/seasonal/remainder) and Verdicts (the baked tests: unit roots, ARCH, chaos, catch22). (3) Only then look at the forecast: the Forecast tab with its Full/Zoom/Horizon/Errors views, the Leaderboard with MASE/WQL/MSIS/coverage, and Streaming for online calibration. The order matters: diagnosis-first turns the leaderboard from an opaque ranking into an explainable consequence.'}</p>
+      <p>{es
+        ? 'Cada número es trazable: los métodos pesados llevan la insignia "replay" (horneados por el pipeline abierto, con semilla), los ligeros corren en vivo en tu navegador, y el pie de página declara la procedencia de datos y motores con sus licencias.'
+        : 'Every number is traceable: heavy methods carry the "replay" badge (baked by the open, seeded pipeline), light ones run live in your browser, and the footer declares the data and engine provenance with their licenses.'}</p>
+
       <h3>{es ? 'Alcance honesto' : 'Honest scope'}</h3>
       <Callout variant="honest" title={es ? 'Qué es y qué NO es' : 'What it is and is NOT'}>
         {es

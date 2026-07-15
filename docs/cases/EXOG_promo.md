@@ -36,7 +36,7 @@ a covariate-aware method anticipates it. That gap is the whole demonstration.
 
 ## How the atlas shows it
 
-The 18-method ladder forecasts `y` **univariate** (honestly: classical/statistical/deep/foundation methods
+The 19-method ladder forecasts `y` **univariate** (honestly: classical/statistical/deep/foundation methods
 here ignore the exog, so the point leaderboard is deliberately unexciting - the promos look like noise from
 `y` alone). The **streaming bench** carries the covariate story: it builds a `preqts.Stream` with the
 known-future covariate and runs
