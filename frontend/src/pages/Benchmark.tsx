@@ -266,7 +266,7 @@ export default function Benchmark() {
       </div>
 
       <p className="cs-panel-sub">{es
-        ? 'El atlas conecta el DIAGNÓSTICO de cada serie (huella del toolkit horneado) con su RESULTADO (qué familia gana y qué tan pronosticable es). Lectura: estacionalidad fuerte y d bajo -> clásicos/estadísticos ganan con MASE bajo; memoria larga o caos -> profundos/fundacionales; ruido y caminata aleatoria -> nadie le gana al naive (MASE ~ 1, el muro). Es UNA realización (el backtest de origen móvil de este atlas), no una ley; los controles DEBEN quedar en el muro, si no, el pipeline tiene fuga.'
+        ? 'El atlas conecta el DIAGNÓSTICO de cada serie (huella del toolkit precalculado) con su RESULTADO (qué familia gana y qué tan pronosticable es). Lectura: estacionalidad fuerte y d bajo -> clásicos/estadísticos ganan con MASE bajo; memoria larga o caos -> profundos/fundacionales; ruido y caminata aleatoria -> nadie le gana al naive (MASE ~ 1, el muro). Es UNA realización (el backtest de origen móvil de este atlas), no una ley; los controles DEBEN quedar en el muro, si no, el pipeline tiene fuga.'
         : 'The atlas connects each series\' DIAGNOSIS (the baked toolkit fingerprint) to its OUTCOME (which family wins and how forecastable it is). Read: strong seasonality and low d -> classical/statistical win at low MASE; long memory or chaos -> deep/foundation; noise and random walk -> nobody beats the naive (MASE ~ 1, the wall). It is ONE realization (this atlas\'s rolling-origin backtest), not a law; the controls MUST sit at the wall, else the pipeline is leaking.'}
         {' '}<Cite id="mase" /></p>
     </div>

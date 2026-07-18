@@ -298,7 +298,7 @@ export default function AppPage() {
             series={[{ label: es ? 'residuo' : 'remainder', values: decomp.remainder, color: '#d29922' }]}
             refLine={0}
             title={es ? 'Residuo (serie - tendencia - estacional)' : 'Remainder (series - trend - seasonal)'}
-            subtitle={es ? 'estructura visible aqui = algo que el modelo estacional-mas-tendencia NO captura (ver Estructura y Veredictos).' : 'visible structure here = something the trend-plus-seasonal model does NOT capture (see Structure and Verdicts).'}
+            subtitle={es ? 'estructura visible aquí = algo que el modelo estacional-mas-tendencia NO captura (ver Estructura y Veredictos).' : 'visible structure here = something the trend-plus-seasonal model does NOT capture (see Structure and Verdicts).'}
           />
           <div className="cs-kpis">
             <div className="cs-kpi"><div className="cs-kpi-v">{fmt(decomp.seasonalStrength, 2)}</div><div className="cs-kpi-l">{es ? 'fuerza estacional' : 'seasonal strength'}</div></div>
@@ -324,7 +324,7 @@ export default function AppPage() {
             </div>
           )}
           <p className="cs-panel-sub">{es
-            ? 'Fuerzas segun FPP3 12.2: 1 - Var(residuo)/Var(componente + residuo). Los paneles horneados (Veredictos) traen STL/MSTL robustos; esta descomposicion clasica es el espejo LIVE que reacciona a los controles.'
+            ? 'Fuerzas según FPP3 12.2: 1 - Var(residuo)/Var(componente + residuo). Los paneles precalculados (Veredictos) traen STL/MSTL robustos; esta descomposicion clásica es el espejo LIVE que reacciona a los controles.'
             : 'Strengths per FPP3 12.2: 1 - Var(remainder)/Var(component + remainder). The baked panels (Verdicts) carry robust STL/MSTL; this classical decomposition is the LIVE mirror that reacts to the controls.'}</p>
         </>
       )}
@@ -365,7 +365,7 @@ export default function AppPage() {
       )}
       <div className="cs-panel cs-chart">
         <table className="cs-table">
-          <thead><tr><th>{es ? 'metodo' : 'method'}</th><th>{es ? 'sesgo' : 'bias'}</th><th>MAE</th><th>{es ? 'peor |e|' : 'worst |e|'}</th></tr></thead>
+          <thead><tr><th>{es ? 'método' : 'method'}</th><th>{es ? 'sesgo' : 'bias'}</th><th>MAE</th><th>{es ? 'peor |e|' : 'worst |e|'}</th></tr></thead>
           <tbody>
             {residualRows.map((r) => (
               <tr key={r.name}>
@@ -379,7 +379,7 @@ export default function AppPage() {
         </table>
       </div>
       <p className="cs-panel-sub">{es
-        ? 'Sobre el holdout mostrado (una realizacion): el sesgo aqui es un READ-OUT del caso, no un veredicto; el veredicto agregado (todos los cortes del backtest) vive en la Tabla y en Horizonte. Desmarca metodos en la leyenda para aislar familias.'
+        ? 'Sobre el holdout mostrado (una realizacion): el sesgo aquí es un READ-OUT del caso, no un veredicto; el veredicto agregado (todos los cortes del backtest) vive en la Tabla y en Horizonte. Desmarca métodos en la leyenda para aislar familias.'
         : 'Over the displayed holdout (one realization): bias here is a per-case READ-OUT, not a verdict; the aggregate verdict (all backtest cutoffs) lives in the Leaderboard and Horizon. Untick methods in the legend to isolate families.'}</p>
     </div>
   );
@@ -425,7 +425,7 @@ export default function AppPage() {
       </div>
       {mode === 'baked' && bakedStationarity && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'Estacionariedad (horneado offline)' : 'Stationarity (baked offline)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'Estacionariedad (precálculo offline)' : 'Stationarity (baked offline)'} <span className="cs-badge replay">replay</span></div>
           <table className="cs-table">
             <thead><tr><th>test</th><th>stat</th><th>p</th><th>{es ? 'veredicto' : 'verdict'}</th></tr></thead>
             <tbody>
@@ -442,7 +442,7 @@ export default function AppPage() {
       )}
       {mode === 'baked' && bakedVolatility && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'Volatilidad (horneado)' : 'Volatility (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'Volatilidad (precalculado)' : 'Volatility (baked)'} <span className="cs-badge replay">replay</span></div>
           <p>ARCH-LM p = <b>{fmt(bakedVolatility.arch_lm?.lm_pvalue, 4)}</b>{' '}
             <span className={`cs-badge ${bakedVolatility.arch_lm?.has_arch ? 'warn' : 'ok'}`}>
               {bakedVolatility.arch_lm?.has_arch ? (es ? 'varianza agrupada (GARCH ajustado)' : 'clustered variance (GARCH fitted)') : (es ? 'homocedástica' : 'homoscedastic')}
@@ -453,7 +453,7 @@ export default function AppPage() {
       )}
       {mode === 'baked' && (bakedNonlinear || bakedFractal) && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (horneado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (precalculado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">replay</span></div>
           {bakedFractal && <p>Hurst R/S = <b>{fmt(bakedFractal.hurst?.rs, 3)}</b> · DFA α = <b>{fmt(bakedFractal.hurst?.dfa_alpha, 3)}</b> · {bakedFractal.hurst?.interpretation}</p>}
           {bakedNonlinear && !bakedNonlinear.skipped && (
             <p>0-1 K = <b>{fmt(bakedNonlinear.zero_one_K, 3)}</b> · λ₁ = <b>{fmt(bakedNonlinear.largest_lyapunov, 4)}</b>{' '}
@@ -466,7 +466,7 @@ export default function AppPage() {
       )}
       {mode === 'baked' && bakedCatch22 && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'catch22 · huella canónica (horneado)' : 'catch22 · canonical fingerprint (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'catch22 · huella canónica (precalculado)' : 'catch22 · canonical fingerprint (baked)'} <span className="cs-badge replay">replay</span></div>
           {bakedCatch22.available === false ? (
             <p className="cs-panel-sub">{es ? 'no disponible: ' : 'unavailable: '}{bakedCatch22.reason}</p>
           ) : (
@@ -503,8 +503,8 @@ export default function AppPage() {
       )}
       {mode === 'synthetic' && (
         <p className="cs-panel-sub">{es
-          ? 'Los veredictos pesados (ADF/KPSS, GARCH, surrogates de caos) corren OFFLINE y aparecen al elegir un caso horneado; el resto de este panel es en vivo.'
-          : 'The heavy verdicts (ADF/KPSS, GARCH, chaos surrogates) run OFFLINE and appear when you pick a baked case; the rest of this panel is live.'}</p>
+          ? 'Los veredictos pesados (ADF/KPSS, GARCH, surrogates de caos) corren offline y aparecen al elegir un caso precalculado; el resto de este panel es en vivo.'
+          : 'The heavy verdicts (ADF/KPSS, GARCH, chaos surrogates) run offline and appear when you pick a baked case; the rest of this panel is live.'}</p>
       )}
     </div>
   );
@@ -578,7 +578,7 @@ export default function AppPage() {
       : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with ONE curve visible ("solo") its interval is drawn. ')
       + (mode === 'synthetic'
         ? (es ? 'Clásicos + ONNX EN VIVO en tu navegador.' : 'Classical + ONNX computed LIVE in your browser.')
-        : (es ? 'Escalera completa (19 métodos), backtest horneado.' : 'The full 19-method ladder, offline-baked.')),
+        : (es ? 'Escalera completa (19 métodos), backtest precalculado.' : 'The full 19-method ladder, offline-baked.')),
     zoom: es
       ? 'Las últimas ~2 temporadas + el horizonte. El cursor lee cada serie; arrastra para acercar más, doble clic reinicia.'
       : 'The last ~2 seasons + the horizon. The cursor reads out every series; drag to zoom further, double-click resets.',
@@ -605,7 +605,7 @@ export default function AppPage() {
         {fcView === 'horizon' ? (
           mode !== 'baked' ? (
             <p className="cs-panel-sub">{es
-              ? 'La curva por horizonte se hornea offline por caso (media sobre todos los cortes del backtest): elige un caso horneado.'
+              ? 'La curva por horizonte se hornea offline por caso (media sobre todos los cortes del backtest): elige un caso precalculado.'
               : 'The per-horizon curve is baked offline per case (mean over all backtest cutoffs): pick a baked case.'}</p>
           ) : horizonRows.length > 0 ? (
             <UPlotChart
@@ -660,7 +660,7 @@ export default function AppPage() {
 
   const streamingBench = (
     <div className="cs-main">
-      {mode !== 'baked' && <p className="cs-panel-sub">{es ? 'El banco de streaming se hornea offline por caso: elige un caso horneado.' : 'The streaming bench is baked offline per case: pick a baked case.'}</p>}
+      {mode !== 'baked' && <p className="cs-panel-sub">{es ? 'El banco de streaming se hornea offline por caso: elige un caso precalculado.' : 'The streaming bench is baked offline per case: pick a baked case.'}</p>}
       {mode === 'baked' && streaming && (() => {
         const meths = (streaming as any).methods ?? {};
         const names = Object.keys(meths).filter((k) => !meths[k].error);
@@ -747,7 +747,7 @@ export default function AppPage() {
         <div className="cs-bar-group">
           <span className="cs-bar-label">{es ? 'Fuente' : 'Source'}</span>
           <div className="cs-seg" role="tablist" aria-label={es ? 'fuente' : 'source'}>
-            <button className={mode === 'baked' ? 'on' : ''} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso horneado' : 'Baked case'}</button>
+            <button className={mode === 'baked' ? 'on' : ''} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso precalculado' : 'Baked case'}</button>
             <button className={mode === 'synthetic' ? 'on' : ''} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
           </div>
         </div>

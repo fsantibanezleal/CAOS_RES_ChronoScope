@@ -38,8 +38,8 @@ export default function Methodology() {
   const statistical = (
     <div className="prose">
       <p>{es
-        ? 'Los modelos estadísticos auto-ajustados (statsforecast): búsqueda por AICc sobre el espacio del modelo, intervalos analíticos. Se hornean OFFLINE (numba no corre en el navegador).'
-        : 'The auto-tuned statistical models (statsforecast): AICc search over the model space, analytic intervals. Baked OFFLINE (numba does not run in a browser).'}</p>
+        ? 'Los modelos estadísticos auto-ajustados (statsforecast): búsqueda por AICc sobre el espacio del modelo, intervalos analíticos. Se precalculan offline (numba no corre en el navegador).'
+        : 'The auto-tuned statistical models (statsforecast): AICc search over the model space, analytic intervals. Baked offline (numba does not run in a browser).'}</p>
       <h4>AutoARIMA</h4>
       <Equation tex={String.raw`\phi_p(B)\,(1-B)^d\, y_t \;=\; c + \theta_q(B)\,\varepsilon_t`} caption={es ? 'ARIMA(p,d,q): polinomios AR y MA sobre la serie d-diferenciada; la búsqueda elige (p,d,q) por AICc con tests de raíz unitaria para d.' : 'ARIMA(p,d,q): AR and MA polynomials on the d-differenced series; the search picks (p,d,q) by AICc with unit-root tests for d.'} />
       <h4>AutoETS</h4>
@@ -97,7 +97,7 @@ export default function Methodology() {
   const foundation = (
     <div className="prose">
       <p>{es
-        ? 'El nivel SOTA: transformers pre-entrenados sobre miles de millones de observaciones que pronostican CUALQUIER serie zero-shot, sin ajuste. Todos los pesos horneados son Apache-2.0; corren desde checkpoints locales en la GPU.'
+        ? 'El nivel SOTA: transformers pre-entrenados sobre miles de millones de observaciones que pronostican CUALQUIER serie zero-shot, sin ajuste. Todos los pesos precalculados son Apache-2.0; corren desde checkpoints locales en la GPU.'
         : 'The SOTA tier: transformers pretrained on billions of observations that forecast ANY series zero-shot, no fitting. All baked weights are Apache-2.0; they run from local checkpoints on the GPU.'}
         {' '}<Cite id="fm-survey" /></p>
       <h4>Chronos-Bolt · Chronos-2</h4>
@@ -117,7 +117,7 @@ export default function Methodology() {
         {' '}<Cite id="tirex2" /></p>
       <h4>{es ? 'Los límites honestos del roster' : 'The honest roster limits'}</h4>
       <p>{es
-        ? 'Con TiRex-2 en el carril WSL2, el único límite que queda es de licencia: Moirai-2 lidera GIFT-Eval pero sus pesos son CC-BY-NC (no comerciales): material de guía, nunca horneado.'
+        ? 'Con TiRex-2 en el carril WSL2, el único límite que queda es de licencia: Moirai-2 lidera GIFT-Eval pero sus pesos son CC-BY-NC (no comerciales): material de guía, nunca precalculado.'
         : 'With TiRex-2 in the WSL2 lane, the only remaining limit is a license one: Moirai-2 tops GIFT-Eval but its weights are CC-BY-NC (non-commercial): guide material, never baked.'}
         {' '}<Cite id="moirai" /></p>
       <Callout variant="honest" title={es ? 'La caveat de fuga' : 'The leakage caveat'}>
@@ -155,7 +155,7 @@ export default function Methodology() {
 
       <svg viewBox="0 0 680 150" width="100%" style={{ maxWidth: 680, display: 'block', margin: '0.8rem auto', font: '10px var(--font-sans, sans-serif)' }} role="img" aria-label={es ? 'la escalera de 19 métodos por familia, del naive a los fundacionales' : 'the 19-method ladder by family, from the naive to the foundation models'}>
         {(es
-          ? [['Clásicos', '5 · en vivo (TS)', 'naive, SES, Holt, HW, Theta', 20, 108], ['Estadísticos', '3 · horneados', 'AutoARIMA, ETS, Theta', 150, 84], ['ML', '1 · horneado', 'LightGBM en rezagos', 280, 60], ['Profundos', '6 · GPU ×2 impl.', 'NLinear, DLinear, NHITS', 410, 36], ['Fundacionales', '4 · zero-shot', 'Bolt, Chronos-2, TimesFM, TiRex-2', 540, 12]]
+          ? [['Clásicos', '5 · en vivo (TS)', 'naive, SES, Holt, HW, Theta', 20, 108], ['Estadísticos', '3 · precalculados', 'AutoARIMA, ETS, Theta', 150, 84], ['ML', '1 · precalculado', 'LightGBM en rezagos', 280, 60], ['Profundos', '6 · GPU ×2 impl.', 'NLinear, DLinear, NHITS', 410, 36], ['Fundacionales', '4 · zero-shot', 'Bolt, Chronos-2, TimesFM, TiRex-2', 540, 12]]
           : [['Classical', '5 · live (TS)', 'naive, SES, Holt, HW, Theta', 20, 108], ['Statistical', '3 · baked', 'AutoARIMA, ETS, Theta', 150, 84], ['ML', '1 · baked', 'LightGBM on lags', 280, 60], ['Deep', '6 · GPU ×2 impl.', 'NLinear, DLinear, NHITS', 410, 36], ['Foundation', '4 · zero-shot', 'Bolt, Chronos-2, TimesFM, TiRex-2', 540, 12]]
         ).map(([fam, count, names, x, y]) => (
           <g key={fam as string}>
