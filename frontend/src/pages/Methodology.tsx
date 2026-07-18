@@ -9,14 +9,14 @@ export default function Methodology() {
   const classical = (
     <div className="prose">
       <p>{es
-        ? 'La base transparente de la escalera: métodos de suavizamiento exponencial en forma de espacio de estados, cada uno computable en microsegundos y sorprendentemente difíciles de vencer. Todos corren EN VIVO en tu navegador (portados a TypeScript y verificados por paridad contra el núcleo Python).'
-        : 'The transparent base of the ladder: exponential-smoothing methods in state-space form, each computable in microseconds and surprisingly hard to beat. All run LIVE in your browser (ported to TypeScript, parity-checked against the Python core).'}</p>
+        ? 'La base transparente de la escalera: métodos de suavizamiento exponencial en forma de espacio de estados, cada uno computable en microsegundos y sorprendentemente difíciles de vencer. Todos corren en vivo en el navegador (portados a TypeScript y verificados por paridad contra el núcleo Python).'
+        : 'The transparent base of the ladder: exponential-smoothing methods in state-space form, each computable in microseconds and surprisingly hard to beat. All run live in the browser (ported to TypeScript, parity-checked against the Python core).'}</p>
       <h4>Seasonal naive</h4>
       <p>{es ? 'Repite la última temporada observada: ' : 'Repeats the last observed season: '}
         <InlineMath tex={String.raw`\hat y_{t+h} = y_{t+h-m}`} />.{' '}
         {es
-          ? 'Es el denominador del MASE: todo método se mide contra él, y en una caminata aleatoria o ruido blanco NADIE debería ganarle por mucho.'
-          : 'It is the MASE denominator: every method is measured against it, and on a random walk or white noise NOBODY should beat it by much.'}
+          ? 'Es el denominador del MASE: todo método se mide contra él, y en una caminata aleatoria o ruido blanco nadie debería ganarle por mucho.'
+          : 'It is the MASE denominator: every method is measured against it, and on a random walk or white noise nobody should beat it by much.'}
         {' '}<Cite id="mase" /></p>
       <h4>SES / Holt / Holt-Winters</h4>
       <Equation tex={String.raw`\ell_t = \alpha y_t + (1-\alpha)\,\ell_{t-1}, \qquad \hat y_{t+h} = \ell_t`} caption={es ? 'SES: un nivel exponencialmente suavizado; el pronóstico es plano.' : 'SES: an exponentially-smoothed level; the forecast is flat.'} />
@@ -76,8 +76,8 @@ export default function Methodology() {
   const deep = (
     <div className="prose">
       <p>{es
-        ? 'El nivel profundo cuenta el debate 2022-2026 completo: Zeng et al. mostraron que UNA capa lineal (DLinear/NLinear) vencía a los transformers de la época en horizontes largos; PatchTST e iTransformer respondieron cambiando QUÉ es un token (parches temporales; series como tokens), no la atención; y el consenso actual es que ambas familias compiten, con la frontera desplazada a los modelos fundacionales.'
-        : 'The deep tier tells the full 2022-2026 debate: Zeng et al. showed ONE linear layer (DLinear/NLinear) beat the era\'s transformers on long horizons; PatchTST and iTransformer answered by changing WHAT a token is (temporal patches; series as tokens), not the attention; and the current consensus is both families compete, with the frontier moved to foundation models.'}
+        ? 'El nivel profundo cuenta el debate 2022-2026 completo: Zeng et al. mostraron que una capa lineal (DLinear/NLinear) vencía a los transformers de la época en horizontes largos; PatchTST e iTransformer respondieron cambiando qué es un token (parches temporales; series como tokens), no la atención; y el consenso actual es que ambas familias compiten, con la frontera desplazada a los modelos fundacionales.'
+        : 'The deep tier tells the full 2022-2026 debate: Zeng et al. showed a single linear layer (DLinear/NLinear) beat the era\'s transformers on long horizons; PatchTST and iTransformer answered by changing what a token is (temporal patches; series as tokens), not the attention; and the current consensus is both families compete, with the frontier moved to foundation models.'}
         {' '}<Cite id="dlinear" /> <Cite id="patchtst" /> <Cite id="itransformer" /></p>
       <h4>NLinear / DLinear</h4>
       <Equation tex={String.raw`\hat{\mathbf y} = W(\mathbf x - x_L) + x_L \;\;\text{(NLinear)}; \qquad \hat{\mathbf y} = W_T\,\text{MA}(\mathbf x) + W_S(\mathbf x - \text{MA}(\mathbf x)) \;\;\text{(DLinear)}`} caption={es ? 'NLinear: normaliza por el último valor, una capa lineal, des-normaliza. DLinear: una capa para la tendencia (media móvil) + una para el resto.' : 'NLinear: normalize by the last value, one linear map, de-normalize. DLinear: one layer for the trend (moving average) + one for the remainder.'} />
@@ -88,8 +88,8 @@ export default function Methodology() {
         {' '}<Cite id="nhits" /></p>
       <Callout variant="strong" title={es ? 'Dos implementaciones que se auditan mutuamente' : 'Two implementations auditing each other'}>
         {es
-          ? 'ChronoScope hornea CADA modelo profundo dos veces: la implementación canónica del framework neuralforecast ("NHITS (nf)") y una implementación directa en PyTorch contra el paper ("NHITS"). Ambas entrenan por caso en la GPU con pérdida pinball multi-cuantil y semilla fija. Una discrepancia grande entre ambas es una bandera roja que el Benchmark expone, no esconde.'
-          : 'ChronoScope bakes EVERY deep model twice: the canonical neuralforecast framework implementation ("NHITS (nf)") and a direct-PyTorch implementation against the paper ("NHITS"). Both train per case on the GPU with a multi-quantile pinball loss and a fixed seed. A large disagreement between the two is a red flag the Benchmark surfaces, not hides.'}
+          ? 'ChronoScope precalcula cada modelo profundo dos veces: la implementación canónica del framework neuralforecast ("NHITS (nf)") y una implementación directa en PyTorch contra el paper ("NHITS"). Ambas entrenan por caso en la GPU con pérdida pinball multi-cuantil y semilla fija. Una discrepancia grande entre ambas es una bandera roja que el Benchmark expone, no esconde.'
+          : 'ChronoScope bakes every deep model twice: the canonical neuralforecast framework implementation ("NHITS (nf)") and a direct-PyTorch implementation against the paper ("NHITS"). Both train per case on the GPU with a multi-quantile pinball loss and a fixed seed. A large disagreement between the two is a red flag the Benchmark surfaces, not hides.'}
       </Callout>
     </div>
   );
@@ -112,8 +112,8 @@ export default function Methodology() {
         {' '}<Cite id="timesfm" /></p>
       <h4>TiRex-2 {es ? '(carril WSL2)' : '(WSL2 lane)'}</h4>
       <p>{es
-        ? 'El xLSTM streaming-nativo de NX-AI (el primer TSFM con estado). Sus kernels sLSTM (flashrnn -> triton, compilados por nvcc) no tienen wheels de Windows, así que corre en un carril WSL2 (Linux) con CUDA-in-WSL y se fusiona como el método 19 (fundacional): el pipeline de Windows escribe la serie, invoca TiRex-2 en WSL vía preqts con el MISMO backtest que el resto de la escalera, y lee el resultado. Es opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) y se salta con elegancia cuando WSL no está.'
-        : 'NX-AI\'s streaming-native xLSTM (the first stateful TSFM). Its sLSTM kernels (flashrnn -> triton, nvcc-compiled) have no Windows wheels, so it runs in a WSL2 (Linux) lane with CUDA-in-WSL and merges as the 19th method (foundation): the Windows pipeline writes the series, invokes TiRex-2 in WSL via preqts with the SAME backtest as the rest of the ladder, and reads the result back. Opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) and it degrades gracefully when WSL is absent.'}
+        ? 'El xLSTM streaming-nativo de NX-AI (el primer TSFM con estado). Sus kernels sLSTM (flashrnn -> triton, compilados por nvcc) no tienen wheels de Windows, así que corre en un carril WSL2 (Linux) con CUDA-in-WSL y se fusiona como el método 19 (fundacional): el pipeline de Windows escribe la serie, invoca TiRex-2 en WSL vía preqts con el mismo backtest que el resto de la escalera, y lee el resultado. Es opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) y se salta con elegancia cuando WSL no está.'
+        : 'NX-AI\'s streaming-native xLSTM (the first stateful TSFM). Its sLSTM kernels (flashrnn -> triton, nvcc-compiled) have no Windows wheels, so it runs in a WSL2 (Linux) lane with CUDA-in-WSL and merges as the 19th method (foundation): the Windows pipeline writes the series, invokes TiRex-2 in WSL via preqts with the same backtest as the rest of the ladder, and reads the result back. Opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) and it degrades gracefully when WSL is absent.'}
         {' '}<Cite id="tirex2" /></p>
       <h4>{es ? 'Los límites honestos del roster' : 'The honest roster limits'}</h4>
       <p>{es
@@ -122,8 +122,8 @@ export default function Methodology() {
         {' '}<Cite id="moirai" /></p>
       <Callout variant="honest" title={es ? 'La caveat de fuga' : 'The leakage caveat'}>
         {es
-          ? 'Los benchmarks públicos solo garantizan una evaluación limpia para modelos entrenados en SUS splits de pre-entrenamiento; un fundacional entrenado en otro corpus puede haber visto los datos de test. Por eso los casos sintéticos de ChronoScope (generados por semilla, imposibles de haber visto) son una señal de honestidad complementaria a los casos reales.'
-          : 'Public benchmarks only guarantee clean evaluation for models trained on THEIR pretraining splits; a foundation model trained on another corpus may have seen the test data. That is why ChronoScope\'s synthetic cases (seed-generated, impossible to have seen) are an honesty signal complementary to the real cases.'}
+          ? 'Los benchmarks públicos solo garantizan una evaluación limpia para modelos entrenados en sus splits de pre-entrenamiento; un fundacional entrenado en otro corpus puede haber visto los datos de test. Por eso los casos sintéticos de ChronoScope (generados por semilla, imposibles de haber visto) son una señal de honestidad complementaria a los casos reales.'
+          : 'Public benchmarks only guarantee clean evaluation for models trained on their pretraining splits; a foundation model trained on another corpus may have seen the test data. That is why ChronoScope\'s synthetic cases (seed-generated, impossible to have seen) are an honesty signal complementary to the real cases.'}
         {' '}<Cite id="gifteval" />
       </Callout>
     </div>
@@ -132,8 +132,8 @@ export default function Methodology() {
   const calibrated = (
     <div className="prose">
       <p>{es
-        ? 'Más allá del punto: TODA salida de la escalera es cuantílica, y el banco de streaming añade la capa "más allá del SOTA en la práctica": el mismo pronosticador puntual con intervalos que se auto-corrigen en línea.'
-        : 'Beyond the point: EVERY ladder output is quantile-based, and the streaming bench adds the beyond-SOTA-in-practice layer: the same point forecaster with intervals that self-correct online.'}</p>
+        ? 'Más allá del punto: toda salida de la escalera es cuantílica, y el banco de streaming añade la capa "más allá del SOTA en la práctica": el mismo pronosticador puntual con intervalos que se auto-corrigen en línea.'
+        : 'Beyond the point: every ladder output is quantile-based, and the streaming bench adds the beyond-SOTA-in-practice layer: the same point forecaster with intervals that self-correct online.'}</p>
       <h4>Adaptive Conformal Inference (ACI)</h4>
       <Equation tex={String.raw`\alpha_{t+1} = \alpha_t + \gamma\,(\alpha^{*} - \text{miss}_t), \qquad \hat q_t = \text{Quantile}_{1-\alpha_t}\{s_1, \ldots, s_t\}`} caption={es ? 'La mis-cobertura efectiva se ajusta con cada verdad revelada; la cobertura de largo plazo converge al objetivo bajo deriva arbitraria (sin intercambiabilidad).' : 'The effective miscoverage adjusts with each revealed truth; long-run coverage converges to the target under arbitrary drift (no exchangeability).'} />
       <h4>Conformal PID</h4>

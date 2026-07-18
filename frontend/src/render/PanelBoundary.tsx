@@ -34,7 +34,7 @@ export class PanelBoundary extends Component<Props, State> {
           <div className="cs-panel-t">{this.props.es ? 'Panel no disponible' : 'Panel unavailable'}</div>
           <p className="cs-panel-sub">
             {this.props.es
-              ? `El panel "${this.props.label}" fallo al renderizar; el resto de la app sigue operativo. Detalle: `
+              ? `El panel "${this.props.label}" falló al renderizar; el resto de la app sigue operativo. Detalle: `
               : `The "${this.props.label}" panel failed to render; the rest of the app keeps working. Detail: `}
             <code>{error.message}</code>
           </p>

@@ -29,7 +29,7 @@ All outputs are made monotone across levels.
   ("foundation") method. See [../guides/tirex2-wsl-lane.md](../guides/tirex2-wsl-lane.md) for the setup;
   `engines/tirex2_wsl_engine.py` + `tools/tirex2_wsl/tirex2_bake.py` are the bridge. Opt-in via
   `CHRONOSCOPE_ENABLE_TIREX_WSL=1`; a graceful no-op when WSL is absent, so CI and the default bake are
-  unaffected. The WSL baker reuses the SAME `preqts.run_prequential` machinery as `stages/evaluate.py`, so
+  unaffected. The WSL baker reuses the same `preqts.run_prequential` machinery as `stages/evaluate.py`, so
   TiRex-2's metrics are computed identically to the rest of the ladder.
 
 ## Honest roster limits (remaining)

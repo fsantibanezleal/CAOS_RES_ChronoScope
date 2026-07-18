@@ -88,17 +88,17 @@ export default function Benchmark() {
         : 'The per-family read confirms the atlas\'s no-free-lunch thesis:'}</p>
       <ul>
         <li>{es
-          ? 'Los CLÁSICOS ganan o empatan en los casos de estacionalidad limpia y en los controles (donde ganar por mucho sería una bandera roja).'
-          : 'CLASSICAL methods win or tie on the clean-seasonality cases and the controls (where winning big would be a red flag).'}</li>
+          ? 'Los clásicos ganan o empatan en los casos de estacionalidad limpia y en los controles (donde ganar por mucho sería una bandera roja).'
+          : 'Classical methods win or tie on the clean-seasonality cases and the controls (where winning big would be a red flag).'}</li>
         <li>{es
-          ? 'Los ESTADÍSTICOS (AutoARIMA/ETS/Theta) son el punto de referencia robusto del nivel medio: rara vez los mejores, rara vez malos.'
-          : 'STATISTICAL methods (AutoARIMA/ETS/Theta) are the robust mid-tier reference: rarely best, rarely bad.'}</li>
+          ? 'Los estadísticos (AutoARIMA/ETS/Theta) son el punto de referencia robusto del nivel medio: rara vez los mejores, rara vez malos.'
+          : 'Statistical methods (AutoARIMA/ETS/Theta) are the robust mid-tier reference: rarely best, rarely bad.'}</li>
         <li>{es
-          ? 'Los PROFUNDOS (NHITS en particular) lideran donde hay estructura no lineal o multi-escala que aprender (estacional + tendencia, multi-estacional, caos de corto plazo). Cada modelo profundo aparece dos veces (framework "(nf)" y implementación directa): su acuerdo es una auditoría integrada.'
-          : 'DEEP methods (NHITS in particular) lead where there is nonlinear or multi-scale structure to learn (seasonal + trend, multi-seasonal, short-horizon chaos). Every deep model appears twice (framework "(nf)" and direct implementation): their agreement is a built-in audit.'}</li>
+          ? 'Los profundos (NHITS en particular) lideran donde hay estructura no lineal o multi-escala que aprender (estacional + tendencia, multi-estacional, caos de corto plazo). Cada modelo profundo aparece dos veces (framework "(nf)" y implementación directa): su acuerdo es una auditoría integrada.'
+          : 'Deep methods (NHITS in particular) lead where there is nonlinear or multi-scale structure to learn (seasonal + trend, multi-seasonal, short-horizon chaos). Every deep model appears twice (framework "(nf)" and direct implementation): their agreement is a built-in audit.'}</li>
         <li>{es
-          ? 'Los FUNDACIONALES (TimesFM-2.5, Chronos-2) son los generalistas: zero-shot, sin ajuste, competitivos en casi todo, y ganadores donde el contexto largo importa (intermitencia, memoria larga). Que un modelo sin entrenar en estos datos compita con modelos entrenados EN ellos es el resultado SOTA central.'
-          : 'FOUNDATION models (TimesFM-2.5, Chronos-2) are the generalists: zero-shot, no fitting, competitive almost everywhere, and winners where long context matters (intermittency, long memory). That a model never trained on this data competes with models trained ON it is the central SOTA result.'}</li>
+          ? 'Los fundacionales (TimesFM-2.5, Chronos-2) son los generalistas: zero-shot, sin ajuste, competitivos en casi todo, y ganadores donde el contexto largo importa (intermitencia, memoria larga). Que un modelo sin entrenar en estos datos compita con modelos entrenados en ellos es el resultado SOTA central.'
+          : 'Foundation models (TimesFM-2.5, Chronos-2) are the generalists: zero-shot, no fitting, competitive almost everywhere, and winners where long context matters (intermittency, long memory). That a model never trained on this data competes with models trained on it is the central SOTA result.'}</li>
       </ul>
     </div>
   );
@@ -266,8 +266,8 @@ export default function Benchmark() {
       </div>
 
       <p className="cs-panel-sub">{es
-        ? 'El atlas conecta el DIAGNÓSTICO de cada serie (huella del toolkit precalculado) con su RESULTADO (qué familia gana y qué tan pronosticable es). Lectura: estacionalidad fuerte y d bajo -> clásicos/estadísticos ganan con MASE bajo; memoria larga o caos -> profundos/fundacionales; ruido y caminata aleatoria -> nadie le gana al naive (MASE ~ 1, el muro). Es UNA realización (el backtest de origen móvil de este atlas), no una ley; los controles DEBEN quedar en el muro, si no, el pipeline tiene fuga.'
-        : 'The atlas connects each series\' DIAGNOSIS (the baked toolkit fingerprint) to its OUTCOME (which family wins and how forecastable it is). Read: strong seasonality and low d -> classical/statistical win at low MASE; long memory or chaos -> deep/foundation; noise and random walk -> nobody beats the naive (MASE ~ 1, the wall). It is ONE realization (this atlas\'s rolling-origin backtest), not a law; the controls MUST sit at the wall, else the pipeline is leaking.'}
+        ? 'El atlas conecta el diagnóstico de cada serie (huella del toolkit precalculado) con su resultado (qué familia gana y qué tan pronosticable es). Lectura: estacionalidad fuerte y d bajo -> clásicos/estadísticos ganan con MASE bajo; memoria larga o caos -> profundos/fundacionales; ruido y caminata aleatoria -> nadie le gana al naive (MASE ~ 1, el muro). Es una realización (el backtest de origen móvil de este atlas), no una ley; los controles deben quedar en el muro, si no, el pipeline tiene fuga.'
+        : 'The atlas connects each series\' diagnosis (the baked toolkit fingerprint) to its outcome (which family wins and how forecastable it is). Read: strong seasonality and low d -> classical/statistical win at low MASE; long memory or chaos -> deep/foundation; noise and random walk -> nobody beats the naive (MASE ~ 1, the wall). It is one realization (this atlas\'s rolling-origin backtest), not a law; the controls must sit at the wall, else the pipeline is leaking.'}
         {' '}<Cite id="mase" /></p>
     </div>
   );
@@ -277,14 +277,14 @@ export default function Benchmark() {
       <Callout variant="honest" title={es ? 'Cómo leer esta tabla sin engañarse' : 'How to read this table without fooling yourself'}>
         <ul>
           <li>{es
-            ? 'Controles primero: en RWLK y ruido blanco nadie debería ganar por mucho. Si un método muestra MASE mucho menor que 1 ahí, sospecha del harness (fuga), no celebres el método.'
+            ? 'Controles primero: en RWLK y ruido blanco nadie debería ganar por mucho. Si un método muestra MASE mucho menor que 1 ahí, la sospecha recae en el harness (fuga), no es motivo para celebrar el método.'
             : 'Controls first: on RWLK and white noise nobody should win by much. If a method shows MASE far below 1 there, suspect the harness (leakage), do not celebrate the method.'}</li>
           <li>{es
             ? 'Presupuestos de ventanas: los métodos pesados se backtestean con menos ventanas (n_windows está en el manifiesto); sus MASE tienen más varianza.'
             : 'Window budgets: heavy methods are backtested on fewer windows (n_windows is in the manifest); their MASE has more variance.'}</li>
           <li>{es
-            ? 'Fuga de pre-entrenamiento: los fundacionales pudieron ver series públicas parecidas a los casos reales. Los casos sintéticos (sembrados, imposibles de haber visto) son el contrapeso; que los fundacionales también compitan AHÍ es la señal fuerte.'
-            : 'Pretraining leakage: foundation models may have seen public series resembling the real cases. The synthetic cases (seeded, impossible to have seen) are the counterweight; that foundation models also compete THERE is the strong signal.'}</li>
+            ? 'Fuga de pre-entrenamiento: los fundacionales pudieron ver series públicas parecidas a los casos reales. Los casos sintéticos (sembrados, imposibles de haber visto) son el contrapeso; que los fundacionales también compitan ahí es la señal fuerte.'
+            : 'Pretraining leakage: foundation models may have seen public series resembling the real cases. The synthetic cases (seeded, impossible to have seen) are the counterweight; that foundation models also compete there is the strong signal.'}</li>
           <li>{es
             ? 'GARCH es a propósito: su tabla de puntos es aburrida; su valor está en la vista de cobertura y en el banco de streaming.'
             : 'GARCH is on purpose: its point table is boring; its value lives in the coverage view and the streaming bench.'}</li>
@@ -297,8 +297,8 @@ export default function Benchmark() {
     <section className="page-body prose">
       <h2>Benchmark</h2>
       <p className="cs-lead">{es
-        ? 'Los resultados cruzados sobre los 15 casos, construidos EN VIVO desde los artefactos comprometidos (nunca tipeados a mano): 19 métodos, backtest de origen móvil, punto + cobertura.'
-        : 'The cross-case results over the 15 cases, built LIVE from the committed artifacts (never hand-typed): 19 methods, rolling-origin backtest, point + coverage.'}</p>
+        ? 'Los resultados cruzados sobre los 15 casos, construidos en vivo desde los artefactos comprometidos (nunca tipeados a mano): 19 métodos, backtest de origen móvil, punto + cobertura.'
+        : 'The cross-case results over the 15 cases, built live from the committed artifacts (never hand-typed): 19 methods, rolling-origin backtest, point + coverage.'}</p>
       {err && <p style={{ color: 'var(--color-danger, #f85149)' }}>error: {err}</p>}
       {rows.length === 0 && !err && <p className="cs-panel-sub">{es ? 'cargando artefactos...' : 'loading artifacts...'}</p>}
       {rows.length > 0 && (

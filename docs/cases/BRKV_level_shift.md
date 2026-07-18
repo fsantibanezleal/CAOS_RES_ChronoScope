@@ -20,7 +20,7 @@ A **structural break** violates the one-process-generated-all-of-it assumption b
 
 ## Expected honest outcome
 
-No method should "win" dramatically here; the interesting read-out is the ERROR TRAJECTORY around the breaks
+No method should "win" dramatically here; the interesting read-out is the error trajectory around the breaks
 (the streaming bench shows the coverage dip and recovery, and the ACI/PID-calibrated intervals re-widen and
 re-tighten). A model that looks great on the full-sample average while failing at the breaks is exactly the
 overclaim the case exists to expose.

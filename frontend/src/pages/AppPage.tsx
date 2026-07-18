@@ -237,8 +237,8 @@ export default function AppPage() {
           series={[{ label: covariate.name, values: covariate.values, color: '#bc8cff' }]}
           title={es ? `Covariable exógena: ${covariate.name} (${covariate.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'})` : `Exogenous covariate: ${covariate.name} (${covariate.kind === 'known_future' ? 'known-future' : 'past'})`}
           subtitle={es
-            ? 'un regresor programado (p. ej. promociones) alineado a la serie. Conocido-a-futuro: sus valores del horizonte se saben de antemano, así un método CON la covariable anticipa los saltos que uno univariado debe rezagar. La ganancia se ve en la pestaña Streaming (aware vs blind).'
-            : 'a scheduled regressor (e.g. promotions) aligned to the series. Known-future: its horizon values are known ahead, so a method WITH the covariate anticipates the jumps a univariate method must lag. The gain is visible in the Streaming tab (aware vs blind).'}
+            ? 'un regresor programado (p. ej. promociones) alineado a la serie. Conocido-a-futuro: sus valores del horizonte se saben de antemano, así un método con la covariable anticipa los saltos que uno univariado debe rezagar. La ganancia se ve en la pestaña Streaming (aware vs blind).'
+            : 'a scheduled regressor (e.g. promotions) aligned to the series. Known-future: its horizon values are known ahead, so a method with the covariate anticipates the jumps a univariate method must lag. The gain is visible in the Streaming tab (aware vs blind).'}
         />
       )}
       <div className="cs-kpis">
@@ -273,7 +273,7 @@ export default function AppPage() {
   const understandDecompose = (
     <div className="cs-main">
       {!decomp && <p className="cs-panel-sub">{es
-        ? `Sin estacionalidad declarada (m = ${m_}) o serie demasiado corta: la descomposición clásica necesita m >= 2 y n >= 2m + 1. Mira la tendencia en la pestaña Serie (media móvil).`
+        ? `Sin estacionalidad declarada (m = ${m_}) o serie demasiado corta: la descomposición clásica necesita m >= 2 y n >= 2m + 1. Ver la tendencia en la pestaña Serie (media móvil).`
         : `No declared seasonality (m = ${m_}) or the series is too short: the classical decomposition needs m >= 2 and n >= 2m + 1. Read the trend on the Series tab (rolling mean) instead.`}</p>}
       {decomp && (
         <>
@@ -298,7 +298,7 @@ export default function AppPage() {
             series={[{ label: es ? 'residuo' : 'remainder', values: decomp.remainder, color: '#d29922' }]}
             refLine={0}
             title={es ? 'Residuo (serie - tendencia - estacional)' : 'Remainder (series - trend - seasonal)'}
-            subtitle={es ? 'estructura visible aquí = algo que el modelo estacional-mas-tendencia NO captura (ver Estructura y Veredictos).' : 'visible structure here = something the trend-plus-seasonal model does NOT capture (see Structure and Verdicts).'}
+            subtitle={es ? 'estructura visible aquí = algo que el modelo estacional-más-tendencia no captura (ver Estructura y Veredictos).' : 'visible structure here = something the trend-plus-seasonal model does not capture (see Structure and Verdicts).'}
           />
           <div className="cs-kpis">
             <div className="cs-kpi"><div className="cs-kpi-v">{fmt(decomp.seasonalStrength, 2)}</div><div className="cs-kpi-l">{es ? 'fuerza estacional' : 'seasonal strength'}</div></div>
@@ -324,8 +324,8 @@ export default function AppPage() {
             </div>
           )}
           <p className="cs-panel-sub">{es
-            ? 'Fuerzas según FPP3 12.2: 1 - Var(residuo)/Var(componente + residuo). Los paneles precalculados (Veredictos) traen STL/MSTL robustos; esta descomposicion clásica es el espejo LIVE que reacciona a los controles.'
-            : 'Strengths per FPP3 12.2: 1 - Var(remainder)/Var(component + remainder). The baked panels (Verdicts) carry robust STL/MSTL; this classical decomposition is the LIVE mirror that reacts to the controls.'}</p>
+            ? 'Fuerzas según FPP3 12.2: 1 - Var(residuo)/Var(componente + residuo). Los paneles precalculados (Veredictos) traen STL/MSTL robustos; esta descomposición clásica es el espejo en vivo que reacciona a los controles.'
+            : 'Strengths per FPP3 12.2: 1 - Var(remainder)/Var(component + remainder). The baked panels (Verdicts) carry robust STL/MSTL; this classical decomposition is the live mirror that reacts to the controls.'}</p>
         </>
       )}
     </div>
@@ -359,8 +359,8 @@ export default function AppPage() {
           xs={Array.from({ length: activeData?.horizon ?? 0 }, (_, i) => i + 1)}
           series={residualSeries}
           refLine={0}
-          title={es ? 'Residuos del pronostico (verdad - punto) por paso' : 'Forecast residuals (truth - point) by lead'}
-          subtitle={es ? 'signo sistematico = sesgo; dispersion creciente = la incertidumbre crece con el paso (compara con Horizonte).' : 'a systematic sign = bias; growing spread = uncertainty growing with lead (compare with Horizon).'}
+          title={es ? 'Residuos del pronóstico (verdad - punto) por paso' : 'Forecast residuals (truth - point) by lead'}
+          subtitle={es ? 'signo sistemático = sesgo; dispersión creciente = la incertidumbre crece con el paso (comparar con Horizonte).' : 'a systematic sign = bias; growing spread = uncertainty growing with lead (compare with Horizon).'}
         />
       )}
       <div className="cs-panel cs-chart">
@@ -379,8 +379,8 @@ export default function AppPage() {
         </table>
       </div>
       <p className="cs-panel-sub">{es
-        ? 'Sobre el holdout mostrado (una realizacion): el sesgo aquí es un READ-OUT del caso, no un veredicto; el veredicto agregado (todos los cortes del backtest) vive en la Tabla y en Horizonte. Desmarca métodos en la leyenda para aislar familias.'
-        : 'Over the displayed holdout (one realization): bias here is a per-case READ-OUT, not a verdict; the aggregate verdict (all backtest cutoffs) lives in the Leaderboard and Horizon. Untick methods in the legend to isolate families.'}</p>
+        ? 'Sobre el holdout mostrado (una realización): el sesgo aquí es una lectura del caso, no un veredicto; el veredicto agregado (todos los cortes del backtest) vive en la Tabla y en Horizonte. Desmarcar métodos en la leyenda para aislar familias.'
+        : 'Over the displayed holdout (one realization): bias here is a per-case read-out, not a verdict; the aggregate verdict (all backtest cutoffs) lives in the Leaderboard and Horizon. Untick methods in the legend to isolate families.'}</p>
     </div>
   );
 
@@ -391,8 +391,8 @@ export default function AppPage() {
       <div className="cs-panel">
         <div className="cs-panel-t">{es ? 'Lectura Box-Jenkins' : 'Box-Jenkins read'}</div>
         <p className="cs-panel-sub">{es
-          ? 'ACF que se corta tras q: MA(q). PACF que se corta tras p: AR(p). Ambas decaen: ARMA. Todo dentro de la banda: ruido blanco (nada que modelar). Decaimiento LENTO (hiperbólico): memoria larga, mira el panel de memoria.'
-          : 'ACF cutting off after q: MA(q). PACF cutting off after p: AR(p). Both tailing off: ARMA. Everything inside the band: white noise (nothing to model). SLOW (hyperbolic) decay: long memory, see the memory panel.'}</p>
+          ? 'ACF que se corta tras q: MA(q). PACF que se corta tras p: AR(p). Ambas decaen: ARMA. Todo dentro de la banda: ruido blanco (nada que modelar). Decaimiento lento (hiperbólico): memoria larga, ver el panel de memoria.'
+          : 'ACF cutting off after q: MA(q). PACF cutting off after p: AR(p). Both tailing off: ARMA. Everything inside the band: white noise (nothing to model). Slow (hyperbolic) decay: long memory, see the memory panel.'}</p>
       </div>
       {pgram && (
         <LinePlot
@@ -472,8 +472,8 @@ export default function AppPage() {
           ) : (
             <>
               <div className="cs-panel-sub">{es
-                ? 'Las 24 features canónicas (catch22 + media y desviación): destiladas de las ~7700 de hctsa seleccionando por desempeño de clasificación y BAJA REDUNDANCIA. Es la respuesta rigurosa a "extraer muchas features": llevan la información de un banco grande sin la escopeta.'
-                : 'The 24 canonical features (catch22 + mean and std): distilled from hctsa\'s ~7700 by selecting for classification performance and LOW REDUNDANCY. This is the rigorous answer to "extract many features": the information of a large bank without the shotgun.'}</div>
+                ? 'Las 24 features canónicas (catch22 + media y desviación): destiladas de las ~7700 de hctsa seleccionando por desempeño de clasificación y baja redundancia. Es la respuesta rigurosa a "extraer muchas features": llevan la información de un banco grande sin la escopeta.'
+                : 'The 24 canonical features (catch22 + mean and std): distilled from hctsa\'s ~7700 by selecting for classification performance and low redundancy. This is the rigorous answer to "extract many features": the information of a large bank without the shotgun.'}</div>
               <div className="cs-chart">
                 <table className="cs-table">
                   <thead><tr><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
@@ -504,7 +504,7 @@ export default function AppPage() {
       {mode === 'synthetic' && (
         <p className="cs-panel-sub">{es
           ? 'Los veredictos pesados (ADF/KPSS, GARCH, surrogates de caos) corren offline y aparecen al elegir un caso precalculado; el resto de este panel es en vivo.'
-          : 'The heavy verdicts (ADF/KPSS, GARCH, chaos surrogates) run offline and appear when you pick a baked case; the rest of this panel is live.'}</p>
+          : 'The heavy verdicts (ADF/KPSS, GARCH, chaos surrogates) run offline and appear when a baked case is picked; the rest of this panel is live.'}</p>
       )}
     </div>
   );
@@ -574,19 +574,19 @@ export default function AppPage() {
   };
   const fcNotes: Record<typeof fcView, string> = {
     full: (es
-      ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico por método; con UNA curva visible (botón "solo") se dibuja su intervalo. '
-      : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with ONE curve visible ("solo") its interval is drawn. ')
+      ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico por método; con una curva visible (botón "solo") se dibuja su intervalo. '
+      : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with one curve visible ("solo") its interval is drawn. ')
       + (mode === 'synthetic'
-        ? (es ? 'Clásicos + ONNX EN VIVO en tu navegador.' : 'Classical + ONNX computed LIVE in your browser.')
+        ? (es ? 'Clásicos + ONNX en vivo en el navegador.' : 'Classical + ONNX computed live in the browser.')
         : (es ? 'Escalera completa (19 métodos), backtest precalculado.' : 'The full 19-method ladder, offline-baked.')),
     zoom: es
-      ? 'Las últimas ~2 temporadas + el horizonte. El cursor lee cada serie; arrastra para acercar más, doble clic reinicia.'
+      ? 'Las últimas ~2 temporadas + el horizonte. El cursor lee cada serie; arrastrar para acercar más; doble clic reinicia.'
       : 'The last ~2 seasons + the horizon. The cursor reads out every series; drag to zoom further, double-click resets.',
     horizon: es
-      ? 'Media de |error| en el paso h sobre todos los cortes del backtest, escalada por el naive (1.0 = tan malo como el naive en ese paso). La FORMA es el diagnóstico: meseta = reversión a la media, crecimiento tipo raíz = caminata aleatoria, crecimiento exponencial que satura = caos determinista (horizonte de Lyapunov).'
-      : 'Mean |error| at lead h over all backtest cutoffs, scaled by the naive (1.0 = as wrong as the naive at that lead). The SHAPE is the diagnosis: a plateau = mean reversion, square-root growth = a random walk, exponential growth that saturates = deterministic chaos (the Lyapunov horizon).',
+      ? 'Media de |error| en el paso h sobre todos los cortes del backtest, escalada por el naive (1.0 = tan malo como el naive en ese paso). La forma es el diagnóstico: meseta = reversión a la media, crecimiento tipo raíz = caminata aleatoria, crecimiento exponencial que satura = caos determinista (horizonte de Lyapunov).'
+      : 'Mean |error| at lead h over all backtest cutoffs, scaled by the naive (1.0 = as wrong as the naive at that lead). The shape is the diagnosis: a plateau = mean reversion, square-root growth = a random walk, exponential growth that saturates = deterministic chaos (the Lyapunov horizon).',
     errors: es
-      ? 'El residuo por paso sobre el holdout mostrado: signo sistemático = sesgo; dispersión que crece con el paso = incertidumbre que crece. Aísla una curva con "solo" en la leyenda.'
+      ? 'El residuo por paso sobre el holdout mostrado: signo sistemático = sesgo; dispersión que crece con el paso = incertidumbre que crece. Aislar una curva con "solo" en la leyenda.'
       : 'The per-lead residual on the displayed holdout: a systematic sign = bias; spread growing with lead = growing uncertainty. Isolate a curve with "solo" in the legend.',
   };
 
@@ -605,7 +605,7 @@ export default function AppPage() {
         {fcView === 'horizon' ? (
           mode !== 'baked' ? (
             <p className="cs-panel-sub">{es
-              ? 'La curva por horizonte se hornea offline por caso (media sobre todos los cortes del backtest): elige un caso precalculado.'
+              ? 'La curva por horizonte se precalcula offline por caso (media sobre todos los cortes del backtest): elegir un caso precalculado.'
               : 'The per-horizon curve is baked offline per case (mean over all backtest cutoffs): pick a baked case.'}</p>
           ) : horizonRows.length > 0 ? (
             <UPlotChart
@@ -618,7 +618,7 @@ export default function AppPage() {
             />
           ) : (
             <p className="cs-panel-sub">{es
-              ? 'Este trace no trae curvas por horizonte (artefacto anterior a v2): re-hornea el caso.'
+              ? 'Este trace no trae curvas por horizonte (artefacto anterior a v2): re-precalcular el caso.'
               : 'This trace carries no per-horizon curves (a pre-v2 artifact): re-bake the case.'}</p>
           )
         ) : fcData ? (
@@ -660,7 +660,7 @@ export default function AppPage() {
 
   const streamingBench = (
     <div className="cs-main">
-      {mode !== 'baked' && <p className="cs-panel-sub">{es ? 'El banco de streaming se hornea offline por caso: elige un caso precalculado.' : 'The streaming bench is baked offline per case: pick a baked case.'}</p>}
+      {mode !== 'baked' && <p className="cs-panel-sub">{es ? 'El banco de streaming se precalcula offline por caso: elegir un caso precalculado.' : 'The streaming bench is baked offline per case: pick a baked case.'}</p>}
       {mode === 'baked' && streaming && (() => {
         const meths = (streaming as any).methods ?? {};
         const names = Object.keys(meths).filter((k) => !meths[k].error);
@@ -691,8 +691,8 @@ export default function AppPage() {
               <div className="cs-panel" style={{ borderColor: '#3fb95066' }}>
                 <div className="cs-panel-t" style={{ color: '#3fb950' }}>{es ? 'La política de covariables (la pieza nueva)' : 'The covariate policy (the novel piece)'}</div>
                 <div className="cs-panel-sub">{es
-                  ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (aware, verde) la usa: conoce el driver del horizonte y anticipa los saltos; Ridge (blind, gris) es el MISMO modelo sin la covariable. La brecha entre ambos ES lo que compra la covariable. Ningún harness público evalúa esto con política de arribo; preqts sí.`
-                  : `This case carries a ${cov.kind === 'known_future' ? 'known-future' : 'past'} covariate (${cov.name}). Ridge+exog (aware, green) uses it: it knows the horizon's driver and anticipates the jumps; Ridge (blind, grey) is the SAME model without the covariate. The gap between them IS what the covariate buys. No public harness evaluates this with an arrival policy; preqts does.`}</div>
+                  ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (aware, verde) la usa: conoce el driver del horizonte y anticipa los saltos; Ridge (blind, gris) es el mismo modelo sin la covariable. La brecha entre ambos es lo que compra la covariable. Ningún harness público evalúa esto con política de arribo; preqts sí.`
+                  : `This case carries a ${cov.kind === 'known_future' ? 'known-future' : 'past'} covariate (${cov.name}). Ridge+exog (aware, green) uses it: it knows the horizon's driver and anticipates the jumps; Ridge (blind, grey) is the same model without the covariate. The gap between them is what the covariate buys. No public harness evaluates this with an arrival policy; preqts does.`}</div>
                 <div className="cs-panel-sub" style={{ marginTop: '0.3rem' }}>
                   {es ? 'MASE final: ' : 'Final MASE: '}
                   <b style={{ color: '#3fb950' }}>aware {fmt(meths['Ridge+exog (aware)']?.final?.mase, 2)}</b>
@@ -702,8 +702,8 @@ export default function AppPage() {
               </div>
             )}
             <p className="cs-panel-sub">{es
-              ? 'Evaluación prequential (Dawid 1984) con preqts, NUESTRO paquete PyPI: predecir, luego observar, luego actualizar, con estado acarreado. Ningún harness público hace esto con política de covariables; es la pieza nueva del atlas.'
-              : 'Prequential evaluation (Dawid 1984) with preqts, OUR PyPI package: predict, then observe, then update, state carried. No public harness does this with a covariate policy; it is the atlas\'s novel piece.'}</p>
+              ? 'Evaluación prequential (Dawid 1984) con preqts, nuestro paquete PyPI: predecir, luego observar, luego actualizar, con estado acarreado. Ningún harness público hace esto con política de covariables; es la pieza nueva del atlas.'
+              : 'Prequential evaluation (Dawid 1984) with preqts, our PyPI package: predict, then observe, then update, state carried. No public harness does this with a covariate policy; it is the atlas\'s novel piece.'}</p>
           </>
         );
       })()}

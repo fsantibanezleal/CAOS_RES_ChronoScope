@@ -8,7 +8,7 @@ Stage: [`chronoscopelab/stages/streaming.py`](../../data-pipeline/chronoscopelab
 
 Real forecasting is **streaming**: observations arrive one by one, the model updates, and its intervals must
 stay calibrated as the series drifts. Every public benchmark harness (fev, GIFT-Eval, the GluonTS/Darts
-backtests) evaluates forecasters STATELESSLY on rolling windows - no state carries across windows, and there
+backtests) evaluates forecasters statelessly on rolling windows - no state carries across windows, and there
 is no test-then-train loop (verified adversarially in the research dossiers; fev's own window API confirms
 it). The verified gap: **no public library evaluates stateful streaming forecasters prequentially with an
 explicit covariate-arrival policy.** ChronoScope's answer is `preqts`, our extracted, published package

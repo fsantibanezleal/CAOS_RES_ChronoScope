@@ -7,7 +7,7 @@
 | preprocess | `stages/preprocess.py` | read raw and apply CONTRACT 1 (validate the series + missing/outlier policy) |
 | analyze | `stages/analyze.py` | run the 10-family analysis toolkit and bake the per-case analysis panel (the "understand" half) |
 | feature_extraction | `stages/feature_extraction.py` | a series to a compact fingerprint (trend/seasonal strength, acf1, intermittency) |
-| train | `stages/train.py` | learn a global method selector by backtesting across the synthetic training cases (OFFLINE) |
+| train | `stages/train.py` | learn a global method selector by backtesting across the synthetic training cases (offline) |
 | infer | `stages/infer.py` | fit every method on the case history and forecast the horizon |
 | evaluate | `stages/evaluate.py` | leakage-safe rolling-origin backtest via preqts (MASE / WQL / coverage) |
 | export | `stages/export.py` | CONTRACT 2: compact trace artifact + analysis artifact + manifest |

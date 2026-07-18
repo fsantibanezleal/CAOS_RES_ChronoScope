@@ -71,7 +71,7 @@ export function SeriesLegend({
             role="tab"
             aria-selected={metric === m.id}
             title={!has(m.id)
-              ? (es ? 'métrica precalculada: elige un caso precalculado' : 'baked metric: pick a baked case')
+              ? (es ? 'métrica precalculada: elegir un caso precalculado' : 'baked metric: pick a baked case')
               : m.id === 'mase'
                 ? (es ? 'error absoluto escalado por el naive (punto)' : 'naive-scaled absolute error (point)')
                 : m.id === 'wql'
@@ -114,7 +114,7 @@ export function SeriesLegend({
         {metric === 'mase'
           ? (es ? 'MASE: error del punto escalado por el naive estacional; < 1 le gana al naive.' : 'MASE: point error scaled by the seasonal naive; < 1 beats the naive.')
           : metric === 'wql'
-            ? (es ? 'WQL: pérdida pinball sobre los cuantiles precalculados, normalizada; puntúa la DISTRIBUCIÓN.' : 'WQL: pinball loss over the baked quantiles, normalized; scores the DISTRIBUTION.')
+            ? (es ? 'WQL: pérdida pinball sobre los cuantiles precalculados, normalizada; puntúa la distribución.' : 'WQL: pinball loss over the baked quantiles, normalized; scores the distribution.')
             : (es ? 'MSIS: ancho del intervalo 80% + multa 2/α por falla, escalado como MASE.' : 'MSIS: 80% interval width + a 2/α miss penalty, scaled like MASE.')}
         {' '}{es ? 'Menor es mejor; el mejor va resaltado.' : 'Lower is better; the best is highlighted.'}
       </div>
