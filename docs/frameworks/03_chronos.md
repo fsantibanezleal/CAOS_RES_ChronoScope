@@ -1,6 +1,6 @@
 # Framework: Amazon Chronos (zero-shot foundation tier)
 
-The SOTA zero-shot foundation-model tier of the ladder, run OFFLINE on local checkpoints. Used by
+The SOTA zero-shot foundation-model tier of the ladder, run offline on local checkpoints. Used by
 `data-pipeline/chronoscopelab/engines/chronos_engine.py`.
 
 ## What and why

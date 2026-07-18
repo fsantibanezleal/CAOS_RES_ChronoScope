@@ -24,7 +24,7 @@ NHITS train on the GPU and produce monotone quantile forecasts (8 GPU-gated test
 of any single case succeeds). The engine already trains in a **subprocess** on Windows
 (`_run_in_subprocess`), which keeps a standalone deep bake healthy.
 
-**What is blocked.** Baking the deep tier as part of the SAME full-pipeline process as the statsforecast
+**What is blocked.** Baking the deep tier as part of the same full-pipeline process as the statsforecast
 (numba) tier: the parent process is already tainted before the deep subprocess returns, so the parent's
 artifact write to D: fails.
 

@@ -57,7 +57,7 @@ Env knobs: `CHRONOSCOPE_ENABLE_TIREX_WSL` (on/off), `CHRONOSCOPE_TIREX_WSL_DISTR
   `env CUDA_HOME=/usr PATH=... TORCH_EXTENSIONS_DIR=... python tools/tirex2_wsl/tirex2_bake.py in out` in
   WSL, and reads back the method + backtest. One WSL call per case (the model loads once inside that call).
 - `tools/tirex2_wsl/tirex2_bake.py` (WSL): loads TiRex-2 once, wraps its forecast in a `preqts.ReplayAdapter`,
-  and runs `preqts.run_prequential` with the SAME warmup/step formula as `stages/evaluate.py`, so
+  and runs `preqts.run_prequential` with the same warmup/step formula as `stages/evaluate.py`, so
   MASE/WQL/coverage/MSIS/per-horizon are identical to the rest of the ladder; it also emits the display
   forecast (point + 10/90 interval) on the full history.
 - `pipeline.precompute` calls `tirex2_wsl_engine.merge_into(...)` after `evaluate`, appending TiRex-2 to the

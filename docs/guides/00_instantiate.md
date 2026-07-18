@@ -18,7 +18,7 @@
    require it at the moment") — e.g. `app/` for a static product; `frontend/` for a pipeline-only product.
 9. **Verify**: `scripts/setup` → `scripts/precompute` → `pytest` → `cd frontend && npm run build`. CI guards green.
 10. **Version** from day 1: `CHANGELOG.md` (`X.XX.XXX`, `0.x` while synthetic) + a tag per release.
-11. **Ship the Architecture modal** (ADR-0058, MANDATORY): copy `frontend/src/architecture.ts.txt` â
+11. **Ship the Architecture modal** (ADR-0058, mandatory): copy `frontend/src/architecture.ts.txt` ->
     `architecture.ts`, specialise the product-specific SVGs (`public/svg/tech/01-the-app.svg`,
     `04-the-science.svg`) + tab copy, pass `architecture` to the `AppShell` config in `main.tsx`, and pin
     `@fasl-work/caos-app-shell` `^0.1.2`. See [guide 05](05_architecture-modal.md). Verified in screenshot-verify.

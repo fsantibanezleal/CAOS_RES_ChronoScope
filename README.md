@@ -7,7 +7,7 @@
 
 **Live app: <https://chronoscope.fasl-work.com>**
 
-ChronoScope is an interactive research atlas of time-series forecasting. It takes a series, UNDERSTANDS
+ChronoScope is an interactive research atlas of time-series forecasting. It takes a series, understands
 it with the classical diagnostic toolkit (ten analysis families: stationarity, autocorrelation,
 seasonality, filters/decomposition, change points, volatility, distribution/complexity, fractals,
 nonlinear dynamics, causality), runs a **19-method forecast ladder** across it (5 classical + 3
@@ -24,7 +24,7 @@ shows why.
   explicit covariate-arrival policy and online conformal calibration (ACI / Conformal-PID) — extracted as
   the published PyPI package [`preqts`](https://pypi.org/project/preqts/).
 - **The web app replays the committed artifacts** (nothing heavy runs in the browser) while the classical
-  ladder + an ONNX NLinear run LIVE in-browser, parity-checked against the Python core.
+  ladder + an ONNX NLinear run live in-browser, parity-checked against the Python core.
 
 ## Quickstart
 
@@ -47,7 +47,7 @@ cd frontend && npm ci && npm run dev
 
 1. **Ingestion contract — `raw → pipeline`** (`chronoscopelab/io/contract.py`): schema, dtypes, missing
    policy, and the per-source **license verdict** (`chronoscopelab/data/provenance.py`). The export stage
-   ENFORCES it: a local-only-licensed source ships aggregate metrics only, never raw values.
+   enforces it: a local-only-licensed source ships aggregate metrics only, never raw values.
 2. **Artifact contract — `pipeline → web`** (`chronoscopelab.trace/v2`, `chronoscope.analysis/v1`,
    `chronoscope.streaming/v1` + per-case manifests): mirrored in TypeScript
    (`frontend/src/lib/contract.types.ts`); a schema divergence breaks the build, and
