@@ -1,7 +1,7 @@
 # EXOG_promo - exogenous driver (known-future covariate)
 
 The scenario that exercises the one capability the other 14 cases cannot: a covariate with an explicit
-ARRIVAL POLICY. It is the reason `preqts` (our published harness) exists, and until this case nothing in
+arrival policy. It is the reason `preqts` (our published harness) exists, and until this case nothing in
 the atlas demonstrated it.
 
 Generator:

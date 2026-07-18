@@ -54,8 +54,8 @@ const config: ShellConfig = {
       es: 'Datos: extractos UCI Electricity + PM2.5 de Beijing y M4/Monash (CC-BY 4.0, con atribución); casos sintéticos generados por semilla (MIT). Motores: Nixtla statsforecast/mlforecast/neuralforecast + checkpoints locales Chronos-2, TimesFM 2.5 y TiRex-2 (Apache-2.0); evaluación streaming: preqts (PyPI).',
     },
     disclaimer: {
-      en: 'A research atlas, not a production forecasting service: every number is baked offline by the open seed-deterministic pipeline (or computed live in your browser) and is reproducible from the repo; methods are compared honestly (no free lunch) and synthetic cases are labelled.',
-      es: 'Un atlas de investigación, no un servicio de pronóstico de producción: cada número se hornea offline con el pipeline abierto determinista por semilla (o se calcula en vivo en tu navegador) y es reproducible desde el repo; los métodos se comparan honestamente (no hay almuerzo gratis) y los casos sintéticos están etiquetados.',
+      en: 'A research atlas, not a production forecasting service: every number is baked offline by the open seed-deterministic pipeline (or computed live in the browser) and is reproducible from the repo; methods are compared honestly (no free lunch) and synthetic cases are labelled.',
+      es: 'Un atlas de investigación, no un servicio de pronóstico de producción: cada número se precalcula offline con el pipeline abierto determinista por semilla (o se calcula en vivo en el navegador) y es reproducible desde el repo; los métodos se comparan honestamente (no hay almuerzo gratis) y los casos sintéticos están etiquetados.',
     },
   },
 };

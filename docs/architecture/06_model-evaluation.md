@@ -12,7 +12,7 @@ StatefulForecaster protocol and scored on:
 - MSIS (the M4 interval score: width + 2/alpha per unit of miss, seasonal-naive scaled; a narrow
   interval that misses cannot look good the way it can when coverage and width are read separately),
 - the per-horizon scaled error curve (mean |error| by lead over all cutoffs, a per-lead MASE; the
-  workbench Horizon tab renders it and its SHAPE is itself a diagnosis: plateau = mean reversion,
+  workbench Horizon tab renders it and its shape is itself a diagnosis: plateau = mean reversion,
   square-root growth = random walk, saturating exponential = deterministic chaos).
 
 The per-method metrics are written into each case's manifest and the trace, and surfaced on the App and the
