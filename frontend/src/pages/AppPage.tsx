@@ -503,7 +503,7 @@ export default function AppPage() {
       )}
       {mode === 'synthetic' && (
         <p className="cs-panel-sub">{es
-          ? 'Los veredictos pesados (ADF/KPSS, GARCH, surrogates de caos) corren offline y aparecen al elegir un caso precalculado; el resto de este panel es en vivo.'
+          ? 'Los veredictos pesados (ADF/KPSS, GARCH, surrogates de caos) se ejecutan offline y aparecen al elegir un caso precalculado; el resto de este panel es en vivo.'
           : 'The heavy verdicts (ADF/KPSS, GARCH, chaos surrogates) run offline and appear when a baked case is picked; the rest of this panel is live.'}</p>
       )}
     </div>
