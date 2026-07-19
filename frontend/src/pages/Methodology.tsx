@@ -9,7 +9,7 @@ export default function Methodology() {
   const classical = (
     <div className="prose">
       <p>{es
-        ? 'La base transparente de la escalera: métodos de suavizamiento exponencial en forma de espacio de estados, cada uno computable en microsegundos y sorprendentemente difíciles de vencer. Todos corren en vivo en el navegador (portados a TypeScript y verificados por paridad contra el núcleo Python).'
+        ? 'La base transparente de la escalera: métodos de suavizamiento exponencial en forma de espacio de estados, cada uno computable en microsegundos y sorprendentemente difíciles de vencer. Todos se ejecutan en vivo en el navegador (portados a TypeScript y verificados por paridad contra el núcleo Python).'
         : 'The transparent base of the ladder: exponential-smoothing methods in state-space form, each computable in microseconds and surprisingly hard to beat. All run live in the browser (ported to TypeScript, parity-checked against the Python core).'}</p>
       <h4>Seasonal naive</h4>
       <p>{es ? 'Repite la última temporada observada: ' : 'Repeats the last observed season: '}
@@ -38,7 +38,7 @@ export default function Methodology() {
   const statistical = (
     <div className="prose">
       <p>{es
-        ? 'Los modelos estadísticos auto-ajustados (statsforecast): búsqueda por AICc sobre el espacio del modelo, intervalos analíticos. Se precalculan offline (numba no corre en el navegador).'
+        ? 'Los modelos estadísticos auto-ajustados (statsforecast): búsqueda por AICc sobre el espacio del modelo, intervalos analíticos. Se precalculan offline (numba no se ejecuta en el navegador).'
         : 'The auto-tuned statistical models (statsforecast): AICc search over the model space, analytic intervals. Baked offline (numba does not run in a browser).'}</p>
       <h4>AutoARIMA</h4>
       <Equation tex={String.raw`\phi_p(B)\,(1-B)^d\, y_t \;=\; c + \theta_q(B)\,\varepsilon_t`} caption={es ? 'ARIMA(p,d,q): polinomios AR y MA sobre la serie d-diferenciada; la búsqueda elige (p,d,q) por AICc con tests de raíz unitaria para d.' : 'ARIMA(p,d,q): AR and MA polynomials on the d-differenced series; the search picks (p,d,q) by AICc with unit-root tests for d.'} />
@@ -97,8 +97,8 @@ export default function Methodology() {
   const foundation = (
     <div className="prose">
       <p>{es
-        ? 'El nivel SOTA: transformers pre-entrenados sobre miles de millones de observaciones que pronostican CUALQUIER serie zero-shot, sin ajuste. Todos los pesos precalculados son Apache-2.0; corren desde checkpoints locales en la GPU.'
-        : 'The SOTA tier: transformers pretrained on billions of observations that forecast ANY series zero-shot, no fitting. All baked weights are Apache-2.0; they run from local checkpoints on the GPU.'}
+        ? 'El nivel SOTA: transformers pre-entrenados sobre miles de millones de observaciones que pronostican cualquier serie zero-shot, sin ajuste. Todos los pesos precalculados son Apache-2.0; se ejecutan desde checkpoints locales en la GPU.'
+        : 'The SOTA tier: transformers pretrained on billions of observations that forecast any series zero-shot, no fitting. All baked weights are Apache-2.0; they run from local checkpoints on the GPU.'}
         {' '}<Cite id="fm-survey" /></p>
       <h4>Chronos-Bolt · Chronos-2</h4>
       <p>{es
@@ -112,7 +112,7 @@ export default function Methodology() {
         {' '}<Cite id="timesfm" /></p>
       <h4>TiRex-2 {es ? '(carril WSL2)' : '(WSL2 lane)'}</h4>
       <p>{es
-        ? 'El xLSTM streaming-nativo de NX-AI (el primer TSFM con estado). Sus kernels sLSTM (flashrnn -> triton, compilados por nvcc) no tienen wheels de Windows, así que corre en un carril WSL2 (Linux) con CUDA-in-WSL y se fusiona como el método 19 (fundacional): el pipeline de Windows escribe la serie, invoca TiRex-2 en WSL vía preqts con el mismo backtest que el resto de la escalera, y lee el resultado. Es opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) y se salta con elegancia cuando WSL no está.'
+        ? 'El xLSTM streaming-nativo de NX-AI (el primer TSFM con estado). Sus kernels sLSTM (flashrnn -> triton, compilados por nvcc) no tienen wheels de Windows, así que se ejecuta en un carril WSL2 (Linux) con CUDA-in-WSL y se fusiona como el método 19 (fundacional): el pipeline de Windows escribe la serie, invoca TiRex-2 en WSL vía preqts con el mismo backtest que el resto de la escalera, y lee el resultado. Es opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) y se salta con elegancia cuando WSL no está.'
         : 'NX-AI\'s streaming-native xLSTM (the first stateful TSFM). Its sLSTM kernels (flashrnn -> triton, nvcc-compiled) have no Windows wheels, so it runs in a WSL2 (Linux) lane with CUDA-in-WSL and merges as the 19th method (foundation): the Windows pipeline writes the series, invokes TiRex-2 in WSL via preqts with the same backtest as the rest of the ladder, and reads the result back. Opt-in (CHRONOSCOPE_ENABLE_TIREX_WSL) and it degrades gracefully when WSL is absent.'}
         {' '}<Cite id="tirex2" /></p>
       <h4>{es ? 'Los límites honestos del roster' : 'The honest roster limits'}</h4>
