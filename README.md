@@ -4,8 +4,14 @@
 [![License](https://img.shields.io/github/license/fsantibanezleal/CAOS_RES_ChronoScope)](LICENSE)
 [![Version](https://img.shields.io/github/v/tag/fsantibanezleal/CAOS_RES_ChronoScope?label=version&sort=semver)](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tags)
 [![Live demo](https://img.shields.io/badge/demo-live-2ea44f)](https://chronoscope.fasl-work.com)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21508920-blue)](https://doi.org/10.5281/zenodo.21508920)
 
 **Live app: <https://chronoscope.fasl-work.com>**
+
+Preprint (CC-BY-4.0): *"Prequential Streaming Evaluation of Stateful Time-Series
+Forecasters with Online Conformal Calibration"*, concept DOI
+[10.5281/zenodo.21508920](https://doi.org/10.5281/zenodo.21508920) (source in
+[`manuscripts/prequential-streaming-conformal/`](manuscripts/prequential-streaming-conformal/)).
 
 ChronoScope is an interactive research atlas of time-series forecasting. It takes a series, understands
 it with the classical diagnostic toolkit (ten analysis families: stationarity, autocorrelation,
