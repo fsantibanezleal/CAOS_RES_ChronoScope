@@ -20,14 +20,14 @@ Online Conformal Calibration: A Diagnostic Atlas and the \texttt{preqts} Harness
   Felipe Santib\'a\~nez-Leal~\orcidlink{0000-0002-0150-3246},~\IEEEmembership{Independent Researcher}%
   \thanks{F.\ Santib\'a\~nez-Leal is with the CAOS open-research programme, Santiago,
     Chile (e-mail: \texttt{fsantibanezleal@ug.uchile.cl}; ORCID: 0000-0002-0150-3246).}%
-  \thanks{Preprint, 2026, version 2 (comprehensive). The harness is released as the
+  \thanks{Preprint, 2026, version 2.1 (revised). The harness is released as the
     open-source package \texttt{preqts} (\url{https://pypi.org/project/preqts/}); the atlas
     (code, committed per-case artifacts, workbench) is at
     \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope} (MIT), live at
     \url{https://chronoscope.fasl-work.com}.}%
 }
 
-\markboth{Preprint, 2026 (v2) --- CAOS open-research programme}{Santib\'a\~nez-Leal:
+\markboth{Preprint, 2026 (v2.1) --- CAOS open-research programme}{Santib\'a\~nez-Leal:
 Prequential Streaming Evaluation of Stateful Forecasters with Online Conformal Calibration}
 
 \IEEEtitleabstractindextext{%
@@ -40,7 +40,7 @@ with a prequential streaming evaluation harness for \emph{stateful} forecasters,
 the open-source package \texttt{preqts}: it implements Dawid's predict-then-observe-then-update
 protocol behind a \texttt{StatefulForecaster} interface with an explicit covariate-arrival
 policy, and records four trajectories per method, rolling scaled error, rolling empirical
-coverage, interval width, and cumulative compute cost, the last of which separates a genuinely
+coverage, the rolling weighted quantile loss (interval sharpness), and cumulative compute cost, the last of which separates a genuinely
 stateful constant-cost model from a replay-everything wrapper. The harness is embedded in an
 atlas that first \emph{understands} each series with ten diagnostic families (stationarity,
 autocorrelation, seasonality, filters, change points, volatility, distribution and complexity,
@@ -48,7 +48,7 @@ fractal structure, nonlinear dynamics, and cross-series causality) and then fore
 nineteen-method ladder (classical, statistical, gradient-boosted, deep, and stateful foundation
 models), so that the diagnosis explains the no-free-lunch leaderboard. Using the harness we test
 a concrete claim: that online conformal calibration keeps streaming intervals at nominal under
-distribution shift. On fifteen series spanning distinct regimes plus white-noise and
+distribution shift. On fifteen series that span distinct regimes and include white-noise and
 random-walk honesty controls, wrapping a Theta point forecaster in Adaptive Conformal Inference
 or Conformal-PID control reduces the mean absolute coverage error at the nominal $80\%$ level
 from $0.042$ (raw Theta) and $0.060$ (seasonal-naive) to $0.0057$ and $0.0060$, a seven-to-tenfold
@@ -154,12 +154,12 @@ The update strictly follows scoring, so no point is used to predict itself; a co
 policy declares, per exogenous channel, whether its value at $t+h$ is known at prediction time (a
 planned promotion) or revealed with the target (a realized driver). After a warmup the harness
 records, as functions of stream position, four trajectories: the rolling scaled error, the rolling
-empirical coverage, the interval width, and the cumulative compute cost, the constant-cost-per-step
+empirical coverage, the rolling weighted quantile loss, and the cumulative compute cost, the constant-cost-per-step
 signature that separates a stateful model from a replay-everything wrapper. Point accuracy uses the
 mean absolute scaled error (MASE)~\cite{hyndman2006}; interval quality is read two ways that cannot
-be gamed independently, empirical coverage versus the nominal level and interval width, summarized
-by the M4 interval score~\cite{makridakis2020}; probabilistic sharpness uses the weighted quantile
-loss, a proper scoring rule~\cite{gneiting2007}. The harness sits behind a
+be gamed independently, empirical coverage versus the nominal level, and the weighted quantile
+loss~\cite{gneiting2007} for probabilistic sharpness, the sharpness component of the M4 interval
+score~\cite{makridakis2020}. The harness sits behind a
 \texttt{StatefulForecaster} interface so classical methods, gradient-boosted models, and stateful
 foundation models are evaluated identically, and it is published as the package \texttt{preqts};
 because the streaming artifact carries only aggregate metric trajectories (no raw series values are
@@ -216,11 +216,12 @@ view (Fig.~\ref{fig:percase}) shows the same effect as a collapse of dispersion:
 coverage of the calibrated methods clusters within a $0.04$ span at nominal, while raw Theta
 spreads over $0.19$ and seasonal-naive over $0.40$. The point forecast is unchanged (the MASE of
 Theta, Theta+ACI and Theta+PID is identical per case); only the interval self-corrects. The effect
-is regime-robust: where raw intervals drift most, the calibrators pull coverage back (intermittent
-demand raw $0.91\!\to\!$ ACI $0.81$; chaotic Mackey--Glass raw $0.77\!\to\!0.80$; real UCI
-electricity raw $0.76\!\to\!0.80$); and on the white-noise and random-walk honesty controls the
-calibrated coverage holds at $0.79$ against raw $0.75$, so the harness does not manufacture skill
-on unpredictable series, exactly the leakage guard the controls exist to enforce.
+is regime-robust: where raw intervals drift most, the calibrators pull the time-averaged coverage
+back (intermittent demand raw $0.91\!\to\!$ ACI $0.81$; chaotic Mackey--Glass raw
+$0.77\!\to\!0.80$; real UCI electricity raw $0.76\!\to\!0.80$); and on the honesty controls
+calibration lifts the white-noise coverage from $0.75$ (raw) to $0.79$ while the near-random-walk
+control is already at $\approx0.80$ raw and calibration leaves it there ($0.78$), so the harness
+does not manufacture skill on unpredictable series, exactly the leakage guard the controls exist to enforce.
 
 % =====================================================================
 \section{Discussion and honest scope}
@@ -277,7 +278,7 @@ gradient-boosted (LightGBM), deep, and stateful foundation models (Chronos, Time
 roster reported here is the honest floor (seasonal-naive), a strong classical live method (Theta)
 with raw intervals, and that same Theta wrapped in ACI and in Conformal-PID; all four are evaluated
 by the prequential harness of Section~\ref{sec:harness} at nominal coverage $80\%$, horizon one, and
-a warmup of twenty-four steps, on all fifteen cases.
+a per-case warmup of twice the seasonal period floored at 20 steps (20, 24 or 48 across the cases), on all fifteen cases.
 
 % =====================================================================
 \begin{thebibliography}{99}
