@@ -54,3 +54,7 @@ models/*.pth
 .DS_Store
 Thumbs.db
 *.log
+
+# --- LaTeX build intermediates ---
+*.fdb_latexmk
+*.fls
