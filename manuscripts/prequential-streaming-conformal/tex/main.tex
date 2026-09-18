@@ -11,6 +11,42 @@
 \usepackage{orcidlink}
 \graphicspath{{../figures/}}
 
+% IEEEtran hard-codes an em-dash after the abstract and index-terms names; the CAOS
+% content standard (ADR-0067) excludes em-dashes, so the separator is a full stop.
+\makeatletter
+\def\abstract{\normalfont
+    \if@twocolumn
+      \@IEEEabskeysecsize\bfseries\textit{\abstractname}.\ \relax
+    \else
+      \bgroup\par\addvspace{0.5\baselineskip}\centering\vspace{-1.78ex}\@IEEEabskeysecsize\textbf{\abstractname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize
+    \fi\@IEEEgobbleleadPARNLSP}
+\def\IEEEkeywords{\normalfont
+    \if@twocolumn
+      \@IEEEabskeysecsize\bfseries\textit{\IEEEkeywordsname}.\ \relax
+    \else
+      \bgroup\par\addvspace{0.5\baselineskip}\centering\@IEEEabskeysecsize\textbf{\IEEEkeywordsname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize
+    \fi\@IEEEgobbleleadPARNLSP}
+\makeatother
+
+% Page-1 header block (conventions/manuscript-header-standard.md). The four document
+% macros are set by the publishing tool when the version DOI is reserved.
+\newcommand{\doctype}{Preprint}
+\newcommand{\docversion}{v2.2}
+\newcommand{\docdate}{18 September 2026}
+\newcommand{\versiondoi}{10.5281/zenodo.22822861}
+\newcommand{\conceptdoi}{10.5281/zenodo.21508920}
+\newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
+\newcommand{\headerblock}{%
+\begin{center}
+\fbox{\parbox{0.94\textwidth}{\small\raggedright
+\textbf{\doctype} \quad$\cdot$\quad \docversion, \docdate \quad$\cdot$\quad Licence CC BY 4.0\\[2pt]
+CAOS open-research programme \quad$\cdot$\quad CAOS\_RES\_ChronoScope, time-series forecasting method atlas\\[2pt]
+Version DOI \href{https://doi.org/\versiondoi}{\texttt{\versiondoi}} \quad$\cdot$\quad
+concept DOI (always latest) \href{https://doi.org/\conceptdoi}{\texttt{\conceptdoi}}\\[2pt]
+Not peer reviewed. Source code, data and computational records: \href{https://\docrepo}{\texttt{\docrepo}}
+}}
+\end{center}}
+
 \begin{document}
 
 \title{Prequential Streaming Evaluation of Stateful Time-Series Forecasters with
@@ -20,28 +56,30 @@ Online Conformal Calibration: A Diagnostic Atlas and the \texttt{preqts} Harness
   Felipe Santib\'a\~nez-Leal~\orcidlink{0000-0002-0150-3246},~\IEEEmembership{Independent Researcher}%
   \thanks{F.\ Santib\'a\~nez-Leal is with the CAOS open-research programme, Santiago,
     Chile (e-mail: \texttt{fsantibanezleal@ug.uchile.cl}; ORCID: 0000-0002-0150-3246).}%
-  \thanks{Preprint, 2026, version 2.1 (revised). The harness is released as the
-    open-source package \texttt{preqts} (\url{https://pypi.org/project/preqts/}); the atlas
-    (code, committed per-case artifacts, workbench) is at
-    \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope} (MIT), live at
-    \url{https://chronoscope.fasl-work.com}.}%
+  \thanks{The harness is released as the open-source package \texttt{preqts}
+    (\url{https://pypi.org/project/preqts/}); the atlas (code, per-case artifacts,
+    workbench) is at \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope} (MIT),
+    and an interactive workbench is available at \url{https://chronoscope.fasl-work.com}.}%
 }
 
-\markboth{Preprint, 2026 (v2.1) --- CAOS open-research programme}{Santib\'a\~nez-Leal:
+\markboth{\doctype\ \docversion, 2026 \textperiodcentered\ CAOS open-research programme}{Santib\'a\~nez-Leal:
 Prequential Streaming Evaluation of Stateful Forecasters with Online Conformal Calibration}
+
+\IEEEaftertitletext{\vspace{-0.6\baselineskip}\headerblock\vspace{0.2\baselineskip}}
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
 Real forecasting is streaming: observations arrive one by one, the model updates, and its
 prediction intervals must stay calibrated as the series drifts. Yet every widely used
 forecasting benchmark harness evaluates models statelessly on rolling windows, carrying no
-state across windows and never running a test-then-train loop. We address this verified gap
+state across windows and never running a test-then-train loop. We address this gap
 with a prequential streaming evaluation harness for \emph{stateful} forecasters, released as
 the open-source package \texttt{preqts}: it implements Dawid's predict-then-observe-then-update
 protocol behind a \texttt{StatefulForecaster} interface with an explicit covariate-arrival
 policy, and records four trajectories per method, rolling scaled error, rolling empirical
-coverage, the rolling weighted quantile loss (interval sharpness), and cumulative compute cost, the last of which separates a genuinely
-stateful constant-cost model from a replay-everything wrapper. The harness is embedded in an
+coverage, the rolling weighted quantile loss (a quantile-based probabilistic score), and cumulative compute cost, the
+last of which separates a stateful constant-cost model from a replay-everything wrapper. The
+harness is embedded in an
 atlas that first \emph{understands} each series with ten diagnostic families (stationarity,
 autocorrelation, seasonality, filters, change points, volatility, distribution and complexity,
 fractal structure, nonlinear dynamics, and cross-series causality) and then forecasts it with a
@@ -49,14 +87,14 @@ nineteen-method ladder (classical, statistical, gradient-boosted, deep, and stat
 models), so that the diagnosis explains the no-free-lunch leaderboard. Using the harness we test
 a concrete claim: that online conformal calibration keeps streaming intervals at nominal under
 distribution shift. On fifteen series that span distinct regimes and include white-noise and
-random-walk honesty controls, wrapping a Theta point forecaster in Adaptive Conformal Inference
+random-walk negative controls, wrapping a Theta point forecaster in Adaptive Conformal Inference
 or Conformal-PID control reduces the mean absolute coverage error at the nominal $80\%$ level
 from $0.042$ (raw Theta) and $0.060$ (seasonal-naive) to $0.0057$ and $0.0060$, a seven-to-tenfold
 reduction, and shrinks the across-case span of the final coverage from $0.19$--$0.40$ to $0.04$,
-without changing the point forecast. The calibration holds on the honesty controls, where a
+without changing the point forecast. The calibration holds on the negative controls, where a
 spurious skill gap would flag harness leakage. The contribution is the reusable stateful-streaming
 harness, evaluated under the protocol forecasters are actually deployed under, and a
-leakage-guarded, artifact-backed demonstration of where online conformal calibration earns its keep.
+leakage-guarded, reproducible demonstration of where online conformal calibration earns its keep.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -79,8 +117,8 @@ its state before the next step; the prediction interval must remain calibrated t
 as the series drifts across regimes. This is not how forecasting models are usually evaluated.
 The widely used harnesses, including the rolling-window backtests of GluonTS and Darts and the
 window-based fev-bench~\cite{shchur2025}, score forecasters \emph{statelessly}: each window is
-independent, no learned state carries across windows, and there is no test-then-train loop. The
-verified gap is that no public library evaluates a \emph{stateful} streaming forecaster
+independent, no learned state carries across windows, and there is no test-then-train loop. None
+of these harnesses evaluates a \emph{stateful} streaming forecaster
 prequentially with an explicit policy for when covariates arrive.
 
 We fill it with \texttt{preqts}, an open-source harness implementing the prequential principle,
@@ -93,7 +131,7 @@ principle, made legible. We then use the harness to answer a specific question
 (Section~\ref{sec:results}): does online conformal calibration keep streaming intervals
 calibrated under distribution shift? Our contributions are: (i) the reusable prequential
 streaming harness \texttt{preqts} for stateful forecasters with a covariate-arrival policy;
-(ii) an artifact-backed, control-guarded demonstration that online conformal calibration
+(ii) a reproducible, control-guarded demonstration that online conformal calibration
 reduces streaming coverage error seven-to-tenfold and collapses its across-case spread, without
 changing the point forecast.
 
@@ -102,8 +140,8 @@ changing the point forecast.
 \label{sec:atlas}
 % =====================================================================
 
-ChronoScope pairs a diagnostic layer with a forecast ladder over fifteen committed cases, each
-baked deterministically (an artifact is a pure function of case and seed). \textbf{Ten
+ChronoScope pairs a diagnostic layer with a forecast ladder over fifteen cases, each
+computed deterministically (an artifact is a pure function of case and seed). \textbf{Ten
 diagnostic families} characterize a series before it is forecast: stationarity and unit roots
 (ADF, KPSS, Phillips--Perron, DF-GLS, Zivot--Andrews); autocorrelation (ACF/PACF, Ljung--Box);
 seasonality (periodogram, STL/MSTL, seasonal strength); filters and adaptive decompositions
@@ -113,9 +151,9 @@ Box--Cox); distribution, normality and complexity (moments, Jarque--Bera, sample
 entropy, the BDS test, and the catch22 feature set~\cite{lubba2019}); fractal and multifractal
 structure (Hurst via R/S and DFA, MF-DFA, ARFIMA long memory); nonlinear dynamics and chaos
 (Takens embedding, largest Lyapunov exponent, recurrence quantification, the 0--1 test, with a
-surrogate honesty gate); and cross-series causality (cross-correlation lead/lag, Granger,
-Engle--Granger and Johansen cointegration). Each is a real, verified implementation wrapped in a
-NaN-safe API and baked per case.
+surrogate-data test for nonlinearity); and cross-series causality (cross-correlation lead/lag,
+Granger, Engle--Granger and Johansen cointegration). Each is a verified implementation wrapped in
+a NaN-safe API and precomputed per case.
 
 \textbf{A nineteen-method forecast ladder} is then scored on the same cases: classical
 numpy live methods (seasonal-naive, SES, Holt, Holt--Winters, Theta~\cite{assimakopoulos2000}),
@@ -124,9 +162,9 @@ methods, and stateful zero-shot foundation models (Chronos~\cite{ansari2024},
 TimesFM~\cite{das2024}). The cases span distinct regimes by construction, level shift,
 deterministic chaos, GARCH heteroskedasticity, intermittent demand, long memory, coupled
 daily/weekly seasonality, exogenous promotions, plus real CC-BY series (UCI Electricity, Beijing
-PM2.5, M4 excerpts) and two honesty controls, white noise and a near-random walk. There is no
+PM2.5, M4 excerpts~\cite{makridakis2020}) and two negative controls, white noise and a near-random walk. There is no
 universal winner: the diagnosis explains the leaderboard, which is exactly the setting in which
-honest, leakage-free scoring matters most.
+leakage-free scoring matters most.
 
 % =====================================================================
 \section{The prequential streaming harness}
@@ -157,13 +195,16 @@ records, as functions of stream position, four trajectories: the rolling scaled 
 empirical coverage, the rolling weighted quantile loss, and the cumulative compute cost, the constant-cost-per-step
 signature that separates a stateful model from a replay-everything wrapper. Point accuracy uses the
 mean absolute scaled error (MASE)~\cite{hyndman2006}; interval quality is read two ways that cannot
-be gamed independently, empirical coverage versus the nominal level, and the weighted quantile
-loss~\cite{gneiting2007} for probabilistic sharpness, the sharpness component of the M4 interval
-score~\cite{makridakis2020}. The harness sits behind a
+be gamed independently, empirical coverage versus the nominal level, and the weighted quantile loss
+(WQL), the quantile (pinball) loss summed over the levels $0.1$, $0.5$ and $0.9$ and normalized by
+the sum of absolute target values, which penalizes both interval width and misses. The quantile
+loss is a proper scoring rule for quantile forecasts~\cite{gneiting2007}, and its average over
+quantile levels approximates the continuous ranked probability score (CRPS)~\cite{ansari2024}. The
+harness sits behind a
 \texttt{StatefulForecaster} interface so classical methods, gradient-boosted models, and stateful
 foundation models are evaluated identically, and it is published as the package \texttt{preqts};
 because the streaming artifact carries only aggregate metric trajectories (no raw series values are
-recoverable), the demonstration ships even for local-only-licensed real datasets.
+recoverable), the demonstration can be released even for real datasets licensed for local use only.
 
 % =====================================================================
 \section{Online conformal calibration}
@@ -193,8 +234,8 @@ change. Both wrap any point forecaster and change only the interval, never the p
 \centering
 \includegraphics[width=\columnwidth]{fig-coverage-summary.pdf}
 \caption{Mean absolute coverage error at nominal $80\%$ over the fifteen cases (bar) with the
-worst-case per-case error (whisker). Online conformal cuts the error seven-to-tenfold. Read from
-the committed \texttt{streaming.json} artifacts.}
+worst-case per-case error (whisker). Online conformal cuts the error seven-to-tenfold. Data: the
+per-case \texttt{streaming.json} artifacts.}
 \label{fig:summary}
 \end{figure}
 
@@ -203,7 +244,7 @@ the committed \texttt{streaming.json} artifacts.}
 \includegraphics[width=\columnwidth]{fig-coverage-percase.pdf}
 \caption{Final empirical coverage, one point per case. The calibrated methods cluster tightly at
 the nominal level (across-case span $0.04$) while the raw and naive intervals spread widely (span
-$0.19$ and $0.40$). Read from \texttt{streaming.json}.}
+$0.19$ and $0.40$). Data: \texttt{streaming.json}.}
 \label{fig:percase}
 \end{figure}
 
@@ -218,13 +259,13 @@ spreads over $0.19$ and seasonal-naive over $0.40$. The point forecast is unchan
 Theta, Theta+ACI and Theta+PID is identical per case); only the interval self-corrects. The effect
 is regime-robust: where raw intervals drift most, the calibrators pull the time-averaged coverage
 back (intermittent demand raw $0.91\!\to\!$ ACI $0.81$; chaotic Mackey--Glass raw
-$0.77\!\to\!0.80$; real UCI electricity raw $0.76\!\to\!0.80$); and on the honesty controls
+$0.77\!\to\!0.80$; real UCI electricity raw $0.76\!\to\!0.80$); and on the negative controls
 calibration lifts the white-noise coverage from $0.75$ (raw) to $0.79$ while the near-random-walk
 control is already at $\approx0.80$ raw and calibration leaves it there ($0.78$), so the harness
 does not manufacture skill on unpredictable series, exactly the leakage guard the controls exist to enforce.
 
 % =====================================================================
-\section{Discussion and honest scope}
+\section{Discussion and scope}
 % =====================================================================
 
 That online conformal calibration keeps streaming intervals near nominal under shift is not by
@@ -232,11 +273,11 @@ itself surprising, it is what ACI and Conformal-PID were designed to do. The con
 it is measured under the correct protocol. A stateless rolling-window harness cannot see a
 calibrator recover coverage after a regime change, because it does not carry the calibrator's state
 across windows; the prequential harness does, and it charges the compute cost that distinguishes a
-constant-cost stateful method from a replay wrapper. The honesty controls and the identical point
+constant-cost stateful method from a replay wrapper. The negative controls and the identical point
 forecasts across raw and calibrated variants rule out the two easy ways such a result could be an
 artifact, harness leakage and a point-accuracy confound. Scope: the demonstration uses a Theta base
 forecaster because it is a strong classical method that runs live; the calibration is method-agnostic
-and wraps any forecaster, which is the point of the protocol. The atlas mixes seeded synthetic
+and wraps any forecaster. The atlas mixes seeded synthetic
 regimes with a few real CC-BY series; the synthetic cases isolate regimes and the controls guard
 against leakage, but the real-data coverage is reported on a handful of public series, not a large
 corpus. Results are shown at horizon one and nominal $80\%$; the harness supports other horizons and
@@ -250,32 +291,34 @@ measurement, not a new calibrator.
 We built and released \texttt{preqts}, a prequential streaming evaluation harness for stateful
 time-series forecasters with an explicit covariate-arrival policy, embedded in an atlas that pairs
 ten diagnostic families with a nineteen-method ladder so the diagnosis explains the leaderboard, and
-used it to show, artifact-backed and control-guarded, that online conformal calibration reduces
-streaming interval coverage error seven-to-tenfold and collapses its across-case spread while leaving
-the point forecast unchanged. Evaluating forecasters the way they are deployed, as a stream with
-state, is what makes the calibration story visible; the harness and the committed atlas make it
-reproducible.
+used it to show, reproducibly and against negative controls, that online conformal calibration
+reduces streaming interval coverage error seven-to-tenfold and collapses its across-case spread while
+leaving the point forecast unchanged. Evaluating forecasters the way they are deployed, as a stream
+with state, is what makes the calibration behavior visible; the harness and the released atlas make
+it reproducible.
 
 % =====================================================================
 \section*{Data and code availability}
 % =====================================================================
 
+{\raggedright
 The harness is the open-source package \texttt{preqts} (\url{https://pypi.org/project/preqts/}). The
-atlas code, the committed per-case artifacts (trace, analysis, and streaming trajectories) and the
-workbench are at \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope} under the MIT license;
-live at \url{https://chronoscope.fasl-work.com}. Real datasets (UCI Electricity, Beijing PM2.5, M4
-excerpts) ship under CC-BY-4.0 with attribution; streaming artifacts carry aggregate trajectories
-only. The figures are regenerated deterministically from the committed artifacts by
-\texttt{manuscripts/prequential-streaming-conformal/figures/make\_figs.py}.
+atlas code, the per-case artifacts (trace, analysis, and streaming trajectories) and the workbench
+are at \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope} under the MIT license; an
+interactive workbench is available at \url{https://chronoscope.fasl-work.com}. Real datasets (UCI
+Electricity, Beijing PM2.5, M4 excerpts) are distributed under CC-BY-4.0 with attribution;
+streaming artifacts carry aggregate trajectories only. The figures are regenerated
+deterministically from these artifacts by
+\path{manuscripts/prequential-streaming-conformal/figures/make_figs.py}.\par}
 
 \appendices
 \section{The atlas roster}
 The ten diagnostic families and their principal methods are listed in Section~\ref{sec:atlas}; each
 is a verified implementation with its own theory page (equations, DOIs, and a theme-aware figure) in
-the repository \texttt{docs/analysis/}. The nineteen-method forecast ladder spans classical
+the repository \path{docs/analysis/}. The nineteen-method forecast ladder spans classical
 (seasonal-naive, SES, Holt, Holt--Winters, Theta), statistical (AutoARIMA, AutoETS, AutoTheta),
 gradient-boosted (LightGBM), deep, and stateful foundation models (Chronos, TimesFM). The streaming
-roster reported here is the honest floor (seasonal-naive), a strong classical live method (Theta)
+roster reported here is the naive floor (seasonal-naive), a strong classical live method (Theta)
 with raw intervals, and that same Theta wrapped in ACI and in Conformal-PID; all four are evaluated
 by the prequential harness of Section~\ref{sec:harness} at nominal coverage $80\%$, horizon one, and
 a per-case warmup of twice the seasonal period floored at 20 steps (20, 24 or 48 across the cases), on all fifteen cases.

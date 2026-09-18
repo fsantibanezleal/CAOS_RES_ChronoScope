@@ -1,16 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="290" viewBox="0 0 640 290" font-family="Helvetica, Arial, sans-serif">
+  <!-- Arrowheads are explicit polygons (not SVG markers) so the svglib/ReportLab PDF shows them.
+       Font sizes are 0.75 of the original design values: the published PDF (older svglib)
+       drew text at that scale, and svglib 2.2 honours the declared size. -->
   <defs>
-    <marker id="ap" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2b6cb0"/></marker>
-    <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#718096"/></marker>
     <style>
-      .t{fill:#1a202c;font-size:12px;text-anchor:middle;} .ts{fill:#4a5568;font-size:10px;text-anchor:middle;}
+      .t{fill:#1a202c;font-size:9px;text-anchor:middle;} .ts{fill:#4a5568;font-size:7.5px;text-anchor:middle;}
       .box{fill:#ebf8ff;stroke:#2b6cb0;stroke-width:1.4;rx:6;} .st{fill:#fffaf0;stroke:#c05621;stroke-width:1.4;rx:6;}
-      .loop{stroke:#2b6cb0;stroke-width:1.8;fill:none;marker-end:url(#ap);}
-      .hdr{fill:#718096;font-size:10.5px;font-weight:bold;letter-spacing:.4px;}
+      .loop{stroke:#2b6cb0;stroke-width:1.8;fill:none;}
+      .hdr{fill:#718096;font-size:7.875px;font-weight:bold;letter-spacing:.4px;}
     </style>
   </defs>
 
-  <text class="t" x="320" y="24" font-weight="bold" font-size="13">Prequential (test-then-train) evaluation of a STATEFUL forecaster</text>
+  <text class="t" x="320" y="24" font-weight="bold" font-size="9.75">Prequential (test-then-train) evaluation of a STATEFUL forecaster</text>
 
   <!-- the loop -->
   <rect class="box" x="60"  y="70" width="118" height="48"/><text class="t" x="119" y="90">1. PREDICT</text><text class="ts" x="119" y="106">horizon h from state s_t</text>
@@ -18,11 +19,12 @@
   <rect class="box" x="464" y="70" width="118" height="48"/><text class="t" x="523" y="90">3. SCORE</text><text class="ts" x="523" y="106">MASE, coverage, cost</text>
   <rect class="st"  x="262" y="168" width="118" height="48"/><text class="t" x="321" y="188">4. UPDATE state</text><text class="ts" x="321" y="204">s_t  ->  s_t+1 (state carried)</text>
 
-  <path class="loop" d="M178,94 L262,94"/>
-  <path class="loop" d="M380,94 L464,94"/>
-  <path class="loop" d="M523,118 L523,192 L380,192"/>
-  <path class="loop" d="M262,192 L119,192 L119,118"/>
-  <text class="ts" x="450" y="160" fill="#2b6cb0">only then</text>
+  <path class="loop" d="M178,94 L252,94"/><polygon fill="#2b6cb0" points="262,94 251,89.5 251,98.5"/>
+  <path class="loop" d="M380,94 L454,94"/><polygon fill="#2b6cb0" points="464,94 453,89.5 453,98.5"/>
+  <path class="loop" d="M523,118 L523,192 L390,192"/><polygon fill="#2b6cb0" points="380,192 391,187.5 391,196.5"/>
+  <path class="loop" d="M262,192 L119,192 L119,128"/><polygon fill="#2b6cb0" points="119,118 114.5,129 123.5,129"/>
+  <!-- "only then" labels the score-to-update arrow, to the right of its vertical segment -->
+  <text class="ts" x="547" y="158" fill="#2b6cb0">only then</text>
 
   <!-- covariate arrival policy -->
   <rect x="60" y="240" width="230" height="34" rx="5" fill="#f7fafc" stroke="#cbd5e0"/>
