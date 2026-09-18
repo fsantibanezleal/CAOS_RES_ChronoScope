@@ -31,9 +31,9 @@
 % Page-1 header block (conventions/manuscript-header-standard.md). The four document
 % macros are set by the publishing tool when the version DOI is reserved.
 \newcommand{\doctype}{Preprint}
-\newcommand{\docversion}{v2.2}
+\newcommand{\docversion}{v2.3}
 \newcommand{\docdate}{18 September 2026}
-\newcommand{\versiondoi}{10.5281/zenodo.22822861}
+\newcommand{\versiondoi}{10.5281/zenodo.22825217}
 \newcommand{\conceptdoi}{10.5281/zenodo.21508920}
 \newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
 \newcommand{\headerblock}{%
@@ -258,8 +258,8 @@ coverage of the calibrated methods clusters within a $0.04$ span at nominal, whi
 spreads over $0.19$ and seasonal-naive over $0.40$. The point forecast is unchanged (the MASE of
 Theta, Theta+ACI and Theta+PID is identical per case); only the interval self-corrects. The effect
 is regime-robust: where raw intervals drift most, the calibrators pull the time-averaged coverage
-back (intermittent demand raw $0.91\!\to\!$ ACI $0.81$; chaotic Mackey--Glass raw
-$0.77\!\to\!0.80$; real UCI electricity raw $0.76\!\to\!0.80$); and on the negative controls
+back (intermittent demand from $0.91$ raw to $0.81$ with ACI; chaotic Mackey--Glass from $0.77$
+raw to $0.80$; real UCI electricity from $0.76$ raw to $0.80$); and on the negative controls
 calibration lifts the white-noise coverage from $0.75$ (raw) to $0.79$ while the near-random-walk
 control is already at $\approx0.80$ raw and calibration leaves it there ($0.78$), so the harness
 does not manufacture skill on unpredictable series, exactly the leakage guard the controls exist to enforce.
