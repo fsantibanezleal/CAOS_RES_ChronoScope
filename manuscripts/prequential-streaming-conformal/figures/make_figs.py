@@ -40,7 +40,8 @@ def fig_percase():
         ax.plot([i - 0.28, i + 0.28], [sum(v) / len(v)] * 2, color=c, lw=2.2, zorder=4)
         ax.text(i, 1.02, f"span {band:.2f}", ha="center", fontsize=7, color=c)
     ax.set_xticks(range(len(order))); ax.set_xticklabels(labels, fontsize=8)
-    ax.set_ylim(0.62, 1.06); ax.set_ylabel("final empirical coverage (one point per case)")
+    # Two-line axis label: on one line it is taller than the axes and is clipped.
+    ax.set_ylim(0.62, 1.06); ax.set_ylabel("final empirical coverage\n(one point per case)")
     ax.set_title("Calibrated methods cluster at nominal; raw intervals spread", fontsize=8.8)
     ax.legend(fontsize=7, loc="lower left", framealpha=0.9)
     for s in ("top", "right"):
@@ -70,8 +71,9 @@ def fig_summary():
     cols = [GRAY, ORANGE, BLUE, GREEN]
     ax.barh(list(y), means, color=cols, height=0.6, zorder=3, xerr=[[0] * 4, [mx - mn for mx, mn in zip(maxes, means)]],
             error_kw=dict(ecolor="#4a5568", capsize=3, lw=0.9), label="mean (bar), worst case (whisker)")
+    # Value labels sit just above each bar (the y-axis is inverted), clear of the whisker line.
     for i, mv in enumerate(means):
-        ax.text(mv + 0.001, i, f"{mv:.4f}", va="center", fontsize=8, color=INK)
+        ax.text(mv + 0.001, i - 0.32, f"{mv:.4f}", va="bottom", fontsize=8, color=INK)
     ax.set_yticks(list(y)); ax.set_yticklabels(labels); ax.invert_yaxis()
     ax.set_xlabel(f"mean |coverage - {0.8:.2f}| over {ncases} cases (lower better)")
     ax.set_title("Online conformal cuts coverage error 7-10x", fontsize=9)
