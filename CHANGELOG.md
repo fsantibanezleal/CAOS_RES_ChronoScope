@@ -5,6 +5,9 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 
 ## [0.22.001] - 2026-09-26
 
+The footer constant in `frontend/src/lib/version.ts` had read `0.08.000` since that release; it
+names the current version again.
+
 ### Changed
 
 - No em-dash in the product's content (ADR-0067); the archetype's content guard runs in CI.
