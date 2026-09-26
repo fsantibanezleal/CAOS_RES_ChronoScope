@@ -1,7 +1,7 @@
-# Guide — run the precompute pipeline
+# Guide: run the precompute pipeline
 
 ```bash
-./scripts/setup.sh            # or scripts/setup.ps1 — builds .venv-pipeline + .venv, installs, editable pkg
+./scripts/setup.sh            # or scripts/setup.ps1, builds .venv-pipeline + .venv, installs, editable pkg
 ./scripts/precompute.sh       # all cases   (or:  ./scripts/precompute.sh SEAS_hourly --seed 7)
 .venv-pipeline/bin/python -m pytest        # (Scripts/python.exe on Windows)
 ./scripts/smoke.sh            # CONTRACT 2 check: index <-> manifests <-> artifacts consistent
