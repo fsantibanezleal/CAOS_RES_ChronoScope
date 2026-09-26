@@ -1,4 +1,4 @@
-# PRECOMPUTE / OFFLINE lane — the heavy engines for the analysis toolkit + the forecasting ladder.
+# PRECOMPUTE / OFFLINE lane: the heavy engines for the analysis toolkit + the forecasting ladder.
 # Installed in .venv-pipeline312 (Python 3.12; the canonical offline venv since 2026-07-10 - ray ships
 # cp312 win_amd64 wheels, so the REAL neuralforecast framework installs; py3.13-on-Windows cannot install ray).
 # Pinned to the verified install. NOT Pyodide-safe;

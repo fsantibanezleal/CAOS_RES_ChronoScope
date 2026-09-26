@@ -3,6 +3,12 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.22.001] - 2026-09-26
+
+### Changed
+
+- No em-dash in the product's content (ADR-0067); the archetype's content guard runs in CI.
+
 ## [0.22.000] - 2026-07-13
 
 ### Fixed

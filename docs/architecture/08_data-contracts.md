@@ -18,7 +18,7 @@ plus a manifest (`chronoscope.manifest/v1`) recording the series descriptors, se
 byte size, the measured [lane/gate](03_the-gate.md) verdict, the Contract-1 flags, the best method, and the
 evaluation metrics. A flat `data/derived/manifests/index.json` inventories every case.
 
-**Enforcement:** `frontend/src/lib/contract.types.ts` mirrors this schema — a drift fails `tsc`. `scripts/check_artifacts.py`
+**Enforcement:** `frontend/src/lib/contract.types.ts` mirrors this schema, a drift fails `tsc`. `scripts/check_artifacts.py`
 (run in CI) verifies index→manifests→artifacts exist, byte sizes match, and lane==gate. The web loads **only** these
 artifacts; it never recomputes (except the optional live lane, which emits the same trace schema).
 

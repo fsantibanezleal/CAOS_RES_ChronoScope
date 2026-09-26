@@ -1,4 +1,4 @@
-# Guide — bring your own data
+# Guide: bring your own data
 
 The product is applicable to NEW data, not just the baked cases: that is what makes it a tool. The door is
 CONTRACT 1 (`data-pipeline/chronoscopelab/io/contract.py`).

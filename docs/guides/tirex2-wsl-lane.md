@@ -1,4 +1,4 @@
-# TiRex-2 WSL2 lane — setup + how it works
+# TiRex-2 WSL2 lane: setup + how it works
 
 TiRex-2 (NX-AI, streaming-native xLSTM) is the atlas's 19th method. It cannot run on native Windows: its
 `flashrnn` dependency needs `triton` and fused sLSTM CUDA kernels compiled by `nvcc`, and none ship Windows

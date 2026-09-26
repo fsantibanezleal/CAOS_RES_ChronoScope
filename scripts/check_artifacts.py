@@ -6,7 +6,7 @@ canonical artifact, which once shipped 9-method traces to prod); and CATCH22 IS 
 carries the 24 catch24 features, so a slim install without pycatch22 can never ship `available: false` to the
 corpus). Stdlib only (runs in CI WITHOUT installing the package). Exit non-zero on any drift.
 
-Used by scripts/smoke.* and by .github/workflows/ci.yml — the mechanical guard that a product can't regress to
+Used by scripts/smoke.* and by .github/workflows/ci.yml, the mechanical guard that a product can't regress to
 serving artifacts that don't match their manifests."""
 from __future__ import annotations
 

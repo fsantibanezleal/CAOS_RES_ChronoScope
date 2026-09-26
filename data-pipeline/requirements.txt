@@ -1,4 +1,4 @@
-# PIPELINE lane (CPU): everything the offline pipeline + test suite need WITHOUT a GPU — the classical
+# PIPELINE lane (CPU): everything the offline pipeline + test suite need WITHOUT a GPU: the classical
 # ladder, the statistical/ML engines, preqts scoring, and the 10-family analysis toolkit. This is what CI
 # installs. The GPU/heavy tier (torch cu126, neuralforecast/ray, chronos, timesfm) is ADDED on top by
 # requirements-precompute.txt on the build box; those engines are env-gated and skip gracefully here.
