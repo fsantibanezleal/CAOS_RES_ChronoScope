@@ -53,3 +53,23 @@ def test_holt_winters_beats_naive_on_clean_seasonal():
     y = _seasonal(n=240, seed=3)
     point, _ = METHOD_FNS["HoltWinters"](y, 12, 24)
     assert point.shape == (24,) and np.all(np.isfinite(point))
+
+
+def test_adversarial_holt_winters_preserves_an_incomplete_seasons_phase():
+    pattern = np.array([10.0, 18.0, 7.0, 14.0])
+    history = np.tile(pattern, 21)[:83]
+    point, _ = METHOD_FNS["HoltWinters"](history, 4, 9)
+    expected = np.array([pattern[(len(history) + k) % 4] for k in range(9)])
+    np.testing.assert_allclose(point, expected, atol=1e-8)
+
+
+def test_adversarial_theta_matches_the_two_theta_lines_with_finite_history():
+    from chronoscopelab.model.forecasters import _opt_alpha, _ses_run, theta
+
+    y = np.array([3.0, 4.0, 7.0, 7.5, 10.0, 11.0, 15.0])
+    b, a = np.polyfit(np.arange(len(y)), y, 1)
+    alpha = _opt_alpha(y)
+    _, theta_two = _ses_run(2 * y - (a + b * np.arange(len(y))), alpha)
+    expected = 0.5 * (a + b * np.arange(len(y), len(y) + 5) + theta_two)
+    point, _ = theta(y, 1, 5)
+    np.testing.assert_allclose(point, expected, atol=1e-10)

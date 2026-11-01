@@ -12,7 +12,7 @@ The streaming study is finite: 15 selected cases, four real series, eleven gener
 
 Data file: content/executive.json
 
-The executive view is intended to summarize the atlas's evaluation scope and evidence boundaries for readers deciding whether a reported comparison applies to their forecasting workflow. A sourced, reviewable decision brief remains to be prepared.
+The executive view frames demand-planning decisions, forecasting adjustments, uncertainty, roles and review actions. Its source trail and the distinction between measured figures and author-estimated cause weights are recorded in `docs/research/2026-11-01-executive-evidence.md`.
 
 ## Research basis
 
@@ -21,6 +21,12 @@ The executive view is intended to summarize the atlas's evaluation scope and evi
 - Angelopoulos, Candès, and Tibshirani describe conformal PID control for time-series prediction: https://arxiv.org/abs/2307.16895
 - Hyndman and Koehler discuss forecast accuracy measures and their limitations: https://doi.org/10.1016/j.ijforecast.2006.03.001
 - Gneiting and Raftery establish proper scoring rules for probabilistic forecasts: https://doi.org/10.1198/016214506000001437
+- Hyndman and Billah derive the finite-history Theta point equation: https://robjhyndman.com/papers/Theta.pdf
+- Hyndman and Athanasopoulos specify additive seasonal phase continuation: https://otexts.com/fpp3/holt-winters.html
+- Montero-Manso et al. learn feature-dependent forecast weights across a reference collection: https://doi.org/10.1016/j.ijforecast.2019.02.011
+- Cerqueira et al. predict expert losses for dynamic aggregation: https://doi.org/10.1007/s10994-018-05774-y
+
+The refreshed implementation audit and sources are in `docs/research/2026-11-01-method-reevaluation.md`; the fixed experimental proposal and its refutation criteria are in `docs/research/2026-11-01-context-memory-proposal.md`. The executive brief has a separate evidence ledger.
 
 The implementation details in Sections III and IV of the manuscript were checked against `data-pipeline/chronoscopelab/stages/streaming.py`, the installed `preqts==0.3.0` package behavior, and `data/derived/*/streaming.json`.
 
@@ -34,7 +40,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 
 | component | package | version | use | alternative considered |
 |---|---|---|---|---|
-| frontend | @fasl-work/caos-app-shell | 0.19.11 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | @fasl-work/caos-app-shell | 0.19.12 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @testing-library/react | 16.3.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/katex | 0.16.8 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/node | 22.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
@@ -48,7 +54,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | requirements-precompute.txt | emd-signal | 1.9.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | hurst | 0.0.5 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | jsdom | 29.1.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
-| frontend | katex | 0.16.11 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | katex | 0.16.47 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | lightgbm | 4.6.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | lucide-react | 0.469.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | mfdfa | 0.4.3 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
@@ -98,11 +104,19 @@ The offline pipeline creates forecast, analysis, and streaming artifacts. The br
 | id | tier | method | acceptance criterion | gate |
 |---|---|---|---|---|
 | CL-1 | classical | Seasonal-naive and local smoothing methods | Forecast outputs match the checked parity fixture and preserve declared horizon length. | `tests/test_forecasters.py` |
-| ST-1 | sota | Selected statistical, machine-learning, neural, and pretrained model implementations | Committed artifacts validate against manifests and contain the declared methods or an explicit unavailable reason. | `scripts/check_artifacts.py` |
+| ST-1 | sota | AutoETS, AutoTheta and AutoARIMA via statsforecast | Source adapters and frozen paths are identified; common-holdout scores use the same actual values and scaling. | `tests/test_engines.py`, `frontend/src/test/reevaluation.test.ts` |
+| ST-2 | sota | LightGBM with lag features | The reference adapter is identifiable and frozen predictions are rescored without implying a new fit. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
+| ST-3 | sota | NLinear, DLinear and NHITS via neuralforecast, plus documented direct-torch adaptations | Reference and adapted implementations keep distinct method identities; quantile-head adaptations do not count as exact paper replication. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
+| ST-4 | sota | Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex-2 | Frozen forecast provenance stays visible; the refresh does not assert a current-checkpoint rerun or absence of pretraining overlap. | `frontend/src/test/reevaluation.test.ts` |
+| BS-1 | beyond | ContextMemory within-series forecast combination | On fixed final holdouts compare against identical-expert EqualMean and RecencyMean ablations; preserve negative results. | `tests/test_reevaluation.py`, `scripts/reevaluate.py` |
 
 ## Beyond the state of the art
 
-No validated new forecasting method is claimed in this release. The preqts harness is an evaluation library; ACI and Conformal-PID are calibration procedures described in prior literature. The manuscript documents an empirical comparison on selected finite cases, not a method contribution. A qualifying method claim requires a defined algorithm, source implementation, adversarial validation, comparison against relevant prior work, and a manuscript supported by those results.
+BS-1 proposes ContextMemory, a causal within-series combination of SeasonalNaive, SES, Holt, HoltWinters and Theta. Its hypothesis is that similar historical contexts give more useful expert-loss estimates than recency alone. At each completed historical origin it records normalized slope, level shift, volatility change, seasonal correlation and the experts' realised multi-step absolute errors. A distance kernel and fixed recency weights estimate the query-context loss; shrinkage toward the global recency estimate and a uniform floor determine convex forecast weights.
+
+The method is implemented in `data-pipeline/chronoscopelab/model/context_memory.py`, integrated in the offline method registry, and compared in `data/derived/reevaluation.json`. FFORMA and arbitrated dynamic ensembles already establish context-dependent combinations. This proposal makes no priority claim; it tests a particular low-data, within-series recurrence rule. A calibration wrapper or the preqts harness is not represented as this forecasting proposal.
+
+Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.1921 for ContextMemory and 1.1898 for RecencyMean; EqualMean gives 1.3047. This is a negative finite-sample result, not a claim about all recurrence models. Heavy-model paths are frozen released forecasts, rescored on this common holdout; they were not refitted in the refresh.
 
 ## Cases
 

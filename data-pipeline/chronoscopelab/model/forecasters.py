@@ -165,12 +165,17 @@ def holt_winters(y: np.ndarray, m: int, h: int) -> tuple[np.ndarray, float]:
                     best_sse, best = sse, (a, b, g)
     fitted, level, trend, season = _hw_run(y, m, *best)
     sigma = float(np.std(y[m:] - fitted[m:])) if y.shape[0] > m else 0.0
-    point = np.array([level + trend * (k + 1) + season[k % m] for k in range(h)])
+    # The next observation occupies phase n % m, including a partial final season.
+    point = np.array([level + trend * (k + 1) + season[(len(y) + k) % m] for k in range(h)])
     return point, sigma
 
 
 def theta(y: np.ndarray, m: int, h: int) -> tuple[np.ndarray, float]:
-    """Classic Theta method as SES with half the OLS drift (Hyndman and Billah, 2003)."""
+    """Nonseasonal Theta point equation (Hyndman and Billah, 2003, Eq. 5).
+
+    Alpha uses the documented finite grid and first-observation SES initialisation.
+    AutoTheta supplies automatic seasonal adjustment in the statistical engine.
+    """
     y = _clean(y)
     n = y.shape[0]
     t = np.arange(n, dtype=float)
@@ -178,7 +183,8 @@ def theta(y: np.ndarray, m: int, h: int) -> tuple[np.ndarray, float]:
     a = _opt_alpha(y)
     fitted, level = _ses_run(y, a)
     sigma = float(np.std(y[1:] - fitted[1:])) if n > 1 else 0.0
-    point = level + 0.5 * b * np.arange(1, h + 1)
+    lead = np.arange(1, h + 1)
+    point = level + 0.5 * b * (lead - 1 + (1 - (1 - a) ** n) / a)
     return point, sigma
 
 

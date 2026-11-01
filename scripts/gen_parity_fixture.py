@@ -44,6 +44,7 @@ def make_series(kind: str, n: int, m: int) -> list[float]:
 def main() -> int:
     cases = [
         {"kind": "seasonal", "n": 96, "m": 12, "h": 12},
+        {"kind": "seasonal", "n": 95, "m": 12, "h": 17},
         {"kind": "trend_seasonal", "n": 120, "m": 12, "h": 12},
         {"kind": "noisy_seasonal", "n": 144, "m": 24, "h": 24},
     ]

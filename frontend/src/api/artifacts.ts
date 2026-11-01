@@ -1,6 +1,7 @@
 // Fetch the committed artifacts (copied into public/data by copy-data.mjs). Works against the static site OR,
 // if app/ is activated, you can repoint these to the API: same shapes (CONTRACT 2).
 import type { CaseIndex, CaseManifest, Trace } from '../lib/contract.types';
+import type { Reevaluation } from '../lib/reevaluation.types';
 
 const base = import.meta.env.BASE_URL;
 
@@ -14,6 +15,7 @@ export const loadIndex = (): Promise<CaseIndex> => getJSON<CaseIndex>('manifests
 export const loadManifest = (caseId: string): Promise<CaseManifest> =>
   getJSON<CaseManifest>(`manifests/${caseId}.json`);
 export const loadTrace = (artifactPath: string): Promise<Trace> => getJSON<Trace>(artifactPath);
+export const loadReevaluation = (): Promise<Reevaluation> => getJSON<Reevaluation>('reevaluation.json');
 
 // The "understand the series" panel (chronoscope.analysis/v1) and the streaming bench
 // (chronoscope-streaming-v1): schema-loose on purpose (the panels render what is present and mark

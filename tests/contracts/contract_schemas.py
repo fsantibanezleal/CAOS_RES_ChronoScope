@@ -71,6 +71,14 @@ _VALIDATORS: dict[str, Callable[[Any], list[str]]] = {
 
 
 def errors(schema: str, doc: Any) -> list[str]:
+    if schema == "reevaluation":
+        import json
+        from pathlib import Path
+        from jsonschema import Draft202012Validator
+
+        path = Path(__file__).resolve().parents[2] / "docs/contracts/schemas/reevaluation.schema.json"
+        validator = Draft202012Validator(json.loads(path.read_text(encoding="utf-8")))
+        return [f"{list(e.path)}: {e.message}" for e in validator.iter_errors(doc)]
     validator = _VALIDATORS.get(schema)
     if validator is None:
         raise OSError(f"no validator registered for {schema!r}")

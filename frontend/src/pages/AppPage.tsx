@@ -7,8 +7,9 @@
 // instantly. Baked case (REPLAY): the full 19-method ladder + analysis + streaming artifacts, baked offline.
 import { useEffect, useMemo, useState } from 'react';
 import { formatNumber, TabGroups, useShellLang } from '@fasl-work/caos-app-shell';
-import { loadAnalysis, loadIndex, loadManifest, loadStreaming, loadTrace } from '../api/artifacts';
+import { loadAnalysis, loadIndex, loadManifest, loadReevaluation, loadStreaming, loadTrace } from '../api/artifacts';
 import type { CaseIndex, CaseManifest, Trace } from '../lib/contract.types';
+import type { Reevaluation } from '../lib/reevaluation.types';
 import { forecastAllLive, normalPpf } from '../lib/liveEngine';
 import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
 import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
@@ -116,6 +117,8 @@ export default function AppPage() {
   const [caseId, setCaseId] = useState('');
   const [manifest, setManifest] = useState<CaseManifest | null>(null);
   const [trace, setTrace] = useState<Trace | null>(null);
+  const [reevaluation, setReevaluation] = useState<Reevaluation | null>(null);
+  const [indexLoading, setIndexLoading] = useState(true);
   const [analysis, setAnalysis] = useState<Record<string, any> | null>(null);
   const [streaming, setStreaming] = useState<Record<string, any> | null>(null);
   const [artifactsLoading, setArtifactsLoading] = useState(false);
@@ -130,11 +133,17 @@ export default function AppPage() {
   const [legendMetric, setLegendMetric] = useState<LegendMetric>('mase');
 
   useEffect(() => {
-    loadIndex().then((ix) => { setIndex(ix); setCaseId(ix.cases[0]?.case_id ?? ''); }).catch((e) => setErr(String(e)));
+    let cancelled = false;
+    Promise.all([loadIndex(), loadReevaluation()]).then(([ix, comparison]) => {
+      if (cancelled) return;
+      setIndex(ix); setReevaluation(comparison); setCaseId(ix.cases[0]?.case_id ?? '');
+    }).catch((e) => { if (!cancelled) setErr(String(e)); })
+      .finally(() => { if (!cancelled) setIndexLoading(false); });
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
-    if (mode !== 'baked' || !caseId) return;
+    if (mode !== 'baked' || !caseId) { setArtifactsLoading(false); return; }
     let cancelled = false;
     setAnalysis(null); setStreaming(null); setTrace(null); setManifest(null);
     setErr('');
@@ -179,16 +188,16 @@ export default function AppPage() {
 
   const baked = useMemo(() => {
     if (mode !== 'baked' || !trace) return null;
-    const methods: ChartSeries[] = trace.methods
-      .filter((m) => m.point && m.lower && m.upper)
-      .map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point!, lower: m.lower!, upper: m.upper! }));
-    const rows: Row[] = trace.methods.map((m) => ({
+    const comparison = reevaluation?.cases.find(c => c.case_id === trace.case_id);
+    if (!comparison) return null;
+    const methods: ChartSeries[] = comparison.methods.map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
+    const rows: Row[] = comparison.methods.map((m) => ({
       name: m.name, family: m.family,
-      mase: m.backtest.mase ?? NaN, coverage: m.backtest.coverage ?? NaN,
-      wql: m.backtest.wql ?? NaN, msis: m.backtest.msis ?? NaN,
+      mase: m.metrics.mase ?? NaN, coverage: m.metrics.coverage ?? NaN,
+      wql: m.metrics.wql ?? NaN, msis: m.metrics.msis ?? NaN,
     }));
     return { history: trace.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
-  }, [mode, trace]);
+  }, [mode, trace, reevaluation]);
 
   const activeData = mode === 'synthetic' ? synthetic : baked;
 
@@ -693,8 +702,8 @@ export default function AppPage() {
         </table>
       </div>
       <p className="cs-panel-sub">{es
-        ? `MASE < 1 le gana al naive estacional; WQL puntúa los cuantiles; MSIS puntúa el intervalo (ancho + 2/α por cada falla, escalado como MASE): un intervalo angosto que falla no puede verse bien. Mejor en esta serie: ${best ?? '-'}. Ningún método gana en todas partes; en los controles, ganar por mucho es una bandera roja.`
-        : `MASE < 1 beats the seasonal naive; WQL scores the quantiles; MSIS prices the interval (width + 2/α per miss, scaled like MASE): a narrow interval that misses cannot look good. Best on this series: ${best ?? '-'}. No method wins everywhere; on the controls, winning big is a red flag.`}</p>
+        ? `Comparación sobre el mismo bloque final, con un origen por caso. MASE usa la escala estacional de la historia; WQL usa tres cuantiles; MSIS penaliza amplitud y fallas. Menor error en este bloque: ${best ?? '-'}. Los pronósticos pesados archivados se repuntúan; los métodos ligeros se recalcularon.`
+        : `Comparison on the same final block, with one origin per case. MASE uses the historical seasonal scale; WQL uses three quantiles; MSIS penalizes width and misses. Lowest error on this block: ${best ?? '-'}. Archived heavy forecasts are rescored; light methods were recomputed.`}</p>
     </div>
   );
 
@@ -779,7 +788,7 @@ export default function AppPage() {
   ];
 
   return (
-    <section className="cs-app" data-state={artifactsLoading || onnxLoading ? 'loading' : 'ready'}>
+    <section className="cs-app" data-state={indexLoading || artifactsLoading || onnxLoading ? 'loading' : 'ready'}>
       {err && <p style={{ color: 'var(--color-bad)' }}>error: {err}</p>}
 
       {/* full-width control bar: source, case/pattern picker, fingerprint */}

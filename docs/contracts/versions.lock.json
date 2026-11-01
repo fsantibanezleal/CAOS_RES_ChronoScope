@@ -23,5 +23,10 @@
     "version": "1.0.0",
     "schema": "frontend/public/models/nlinear.json",
     "sha256": "60e999e7e39231a6c69243b448bb0e971f2ec9d8d12a1238eece79a0f0e18404"
+  },
+  "reevaluation": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/reevaluation.schema.json",
+    "sha256": "d2734018b3d39483bc3e21ceadc2e1c46f51c43d396bcf3b06e8a2c740421279"
   }
 }

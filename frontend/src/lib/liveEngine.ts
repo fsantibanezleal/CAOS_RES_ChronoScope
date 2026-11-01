@@ -192,7 +192,7 @@ export function holtWinters(y: number[], m: number, h: number): PointFit {
   const { fitted, level, trend, season } = hwRun(y, m, best[0], best[1], best[2]);
   const resid: number[] = [];
   for (let t = m; t < y.length; t++) resid.push(y[t] - fitted[t]);
-  const point = Array.from({ length: h }, (_, k) => level + trend * (k + 1) + season[k % m]);
+  const point = Array.from({ length: h }, (_, k) => level + trend * (k + 1) + season[(y.length + k) % m]);
   return { point, sigma: y.length > m ? std(resid) : 0 };
 }
 
@@ -217,7 +217,8 @@ export function theta(y: number[], _m: number, h: number): PointFit {
   const a = optAlpha(y);
   const { fitted, level } = sesRun(y, a);
   const resid = y.slice(1).map((v, i) => v - fitted[i + 1]);
-  const point = Array.from({ length: h }, (_, k) => level + 0.5 * b * (k + 1));
+  const offset = (1 - (1 - a) ** y.length) / a;
+  const point = Array.from({ length: h }, (_, k) => level + 0.5 * b * (k + offset));
   return { point, sigma: y.length > 1 ? std(resid) : 0 };
 }
 

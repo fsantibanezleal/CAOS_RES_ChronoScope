@@ -1,13 +1,26 @@
-import { Callout, Cite, Equation, Refs, useShellLang } from '@fasl-work/caos-app-shell';
+import { Callout, Cite, DocPage, Equation, ExecutiveView, Refs, Tabs, useShellLang } from '@fasl-work/caos-app-shell';
+import executive from '../../../content/executive.json';
 
 // Introduction: what ChronoScope is (a forecasting + analysis atlas), the no-free-lunch thesis, the two
 // pillars (understand + forecast), the streaming story, and the honest scope. Content transcribed from the
 // persisted research dossiers (docs/research + wip/chronoscope), never improvised.
 export default function Introduction() {
   const es = useShellLang() === 'es';
+  return <DocPage
+    title={{ en: 'Introduction', es: 'Introducción' }}
+    lede={es ? 'La decisión de planificación y la evidencia que permite evaluar sus pronósticos.' : 'The planning decision and the evidence used to evaluate its forecasts.'}
+  >
+    <Tabs ariaLabel={es ? 'Vistas de la introducción' : 'Introduction views'} tabs={[
+      { id: 'executive', label: es ? 'Ejecutiva' : 'Executive', content: <ExecutiveView data={executive} base={import.meta.env.BASE_URL} /> },
+      { id: 'technical', label: es ? 'Técnica' : 'Technical', content: <TechnicalView /> },
+    ]} />
+  </DocPage>;
+}
+
+function TechnicalView() {
+  const es = useShellLang() === 'es';
   return (
-    <section className="page-body prose">
-      <h2>{es ? 'Introducción' : 'Introduction'}</h2>
+    <div>
       <p className="cs-lead">{es
         ? 'ChronoScope es un atlas interactivo del pronóstico de series de tiempo: toma una serie (sintética con perillas, un caso real, o una propia), la entiende con el kit clásico de diagnóstico (estacionariedad, autocorrelación, estacionalidad, quiebres, volatilidad, memoria larga, caos), ejecuta la escalera completa de métodos (clásicos, estadísticos, ML, profundos, fundacionales) sobre ella, y muestra honestamente dónde gana y dónde falla cada familia.'
         : 'ChronoScope is an interactive atlas of time-series forecasting: it takes a series (synthetic with knobs, a real case, or a user-supplied one), understands it with the classical diagnostic toolkit (stationarity, autocorrelation, seasonality, breaks, volatility, long memory, chaos), runs the full method ladder (classical, statistical, ML, deep, foundation) across it, and shows honestly where each family wins and where it fails.'}</p>
@@ -65,6 +78,6 @@ export default function Introduction() {
       </Callout>
 
       <Refs ids={['fm-survey', 'dlinear', 'gifteval', 'fevbench', 'prequential', 'mase']} label={es ? 'Referencias' : 'References'} />
-    </section>
+    </div>
   );
 }

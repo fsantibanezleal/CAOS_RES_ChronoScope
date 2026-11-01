@@ -16,7 +16,7 @@ export interface LegendItem {
 
 export type LegendMetric = 'mase' | 'wql' | 'msis';
 
-const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'deep (live)', 'foundation'];
+const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'deep (live)', 'foundation', 'adaptive ensemble'];
 const famLabel: Record<string, string> = {
   classical: 'Classical', statistical: 'Statistical', ml: 'ML', deep: 'Deep', 'deep (live)': 'Deep (live)', foundation: 'Foundation',
 };
@@ -114,7 +114,7 @@ export function SeriesLegend({
       })}
       <div className="cs-legend-foot">
         {metric === 'mase'
-          ? (es ? 'MASE: error del punto escalado por el naive estacional; < 1 le gana al naive.' : 'MASE: point error scaled by the seasonal naive; < 1 beats the naive.')
+          ? (es ? 'MASE: error absoluto dividido por la diferencia estacional media de la historia.' : 'MASE: absolute error divided by the mean historical seasonal difference.')
           : metric === 'wql'
             ? (es ? 'WQL: pérdida pinball sobre los cuantiles precalculados, normalizada; puntúa la distribución.' : 'WQL: pinball loss over the baked quantiles, normalized; scores the distribution.')
             : (es ? 'MSIS: ancho del intervalo 80% + multa 2/α por falla, escalado como MASE.' : 'MSIS: 80% interval width + a 2/α miss penalty, scaled like MASE.')}

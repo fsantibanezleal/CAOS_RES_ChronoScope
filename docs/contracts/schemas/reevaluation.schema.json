@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ChronoScope common-holdout comparison",
+  "type": "object",
+  "required": ["schema", "protocol", "source_engine_version", "trace_sha256", "code_sha256", "cases", "summary"],
+  "properties": {
+    "schema": {"const": "chronoscope.reevaluation/v1"},
+    "protocol": {"type": "object", "required": ["name", "forecast_origins_per_case", "quantile_levels", "heavy_forecasts", "light_forecasts", "limits", "context_memory"]},
+    "source_engine_version": {"type": "string"},
+    "trace_sha256": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "code_sha256": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "cases": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["case_id", "seasonality", "horizon", "history_length", "actual", "methods", "legacy_backtest_window_counts", "category"], "properties": {
+      "case_id": {"type": "string", "minLength": 1},
+      "seasonality": {"type": "integer", "minimum": 1}, "horizon": {"type": "integer", "minimum": 1},
+      "history_length": {"type": "integer", "minimum": 2}, "actual": {"$ref": "#/$defs/path"},
+      "methods": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/method"}}
+    }}},
+    "summary": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["name", "cases", "mean_mase", "mean_coverage"], "properties": {"name": {"type": "string"}, "cases": {"type": "integer", "minimum": 1}, "mean_mase": {"type": "number"}, "mean_coverage": {"type": "number", "minimum": 0, "maximum": 1}}}}
+  },
+  "$defs": {
+    "path": {"type": "array", "minItems": 1, "items": {"type": "number"}},
+    "method": {"type": "object", "required": ["name", "family", "source", "point", "lower", "upper", "metrics"], "properties": {
+      "name": {"type": "string", "minLength": 1}, "family": {"type": "string"},
+      "source": {"enum": ["frozen released forecast", "recomputed from current source"]},
+      "point": {"$ref": "#/$defs/path"}, "lower": {"$ref": "#/$defs/path"}, "upper": {"$ref": "#/$defs/path"},
+      "metrics": {"type": "object", "required": ["mae", "rmse", "mase", "coverage", "mean_width", "msis", "wql"], "properties": {
+        "mae": {"type": "number", "minimum": 0}, "rmse": {"type": "number", "minimum": 0},
+        "mase": {"type": ["number", "null"], "minimum": 0}, "msis": {"type": ["number", "null"], "minimum": 0}, "wql": {"type": ["number", "null"], "minimum": 0},
+        "coverage": {"type": "number", "minimum": 0, "maximum": 1}, "mean_width": {"type": "number", "minimum": 0}
+      }}
+    }}
+  }
+}

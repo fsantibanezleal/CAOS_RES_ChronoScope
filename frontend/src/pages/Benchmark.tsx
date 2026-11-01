@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Callout, Cite, formatNumber, Refs, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
-import { loadAnalysis, loadIndex, loadManifest, loadTrace } from '../api/artifacts';
+import { loadAnalysis, loadIndex, loadManifest, loadReevaluation, loadTrace } from '../api/artifacts';
 import type { Trace } from '../lib/contract.types';
+import type { Reevaluation } from '../lib/reevaluation.types';
+import { CommonHoldout } from '../render/CommonHoldout';
 
 // Benchmark: the cross-case results built LIVE from the committed artifacts (never hand-typed).
 // Tabbed: leaderboard (MASE per method x case) · per-family view · coverage · interval (MSIS) ·
@@ -27,10 +29,12 @@ export default function Benchmark() {
   const es = useShellLang() === 'es';
   const fmt = (v: number | null | undefined, nd = 3) => formatNumber(v, es ? 'es' : 'en', { digits: nd });
   const [rows, setRows] = useState<CaseTrace[]>([]);
+  const [reevaluation, setReevaluation] = useState<Reevaluation | null>(null);
   const [err, setErr] = useState('');
   const [atlasAxis, setAtlasAxis] = useState('dfa');
 
   useEffect(() => {
+    loadReevaluation().then(setReevaluation).catch(e => setErr(String(e)));
     loadIndex()
       .then(async (ix) => {
         const out: CaseTrace[] = [];
@@ -76,8 +80,8 @@ export default function Benchmark() {
         </tbody>
       </table>
       <p className="cs-panel-sub">{es
-        ? 'MASE por método x caso, del backtest de origen móvil sin fuga (menor es mejor; < 1 le gana al naive estacional). El ganador por caso en color. Construido en vivo desde los artefactos comprometidos.'
-        : 'MASE per method x case, from the leakage-safe rolling-origin backtest (lower is better; < 1 beats the seasonal naive). The per-case winner is highlighted. Built live from the committed artifacts.'}</p>
+        ? 'Resultados históricos de origen móvil, con distintos presupuestos de ventanas entre métodos. Los rankings no controlan esa diferencia; la pestaña Bloque común compara el mismo corte final para todos.'
+        : 'Historical rolling-origin results, with different window budgets between methods. Rankings do not control that difference; the Common holdout tab compares the same final split for every method.'}</p>
     </div>
   );
 
@@ -298,8 +302,8 @@ export default function Benchmark() {
     <section className="page-body prose">
       <h2>Benchmark</h2>
       <p className="cs-lead">{es
-        ? 'Los resultados cruzados sobre los 15 casos, construidos en vivo desde los artefactos comprometidos (nunca tipeados a mano): 19 métodos, backtest de origen móvil, punto + cobertura.'
-        : 'The cross-case results over the 15 cases, built live from the committed artifacts (never hand-typed): 19 methods, rolling-origin backtest, point + coverage.'}</p>
+        ? 'Comparación de 22 variantes sobre los mismos 15 bloques finales, con procedencia por método y ambas ablaciones de la propuesta. Las comparaciones históricas de origen móvil se conservan para inspección.'
+        : 'Compare 22 variants on the same 15 final holdouts, with method provenance and both proposal ablations. Historical rolling-origin comparisons remain available for inspection.'}</p>
       <p>{es
         ? 'El roster observado contiene 19 métodos en cada artefacto de los 15 casos. Estas comparaciones describen los datos y ventanas configuradas; no son una clasificación universal ni una afirmación causal. La tabla de cobertura resume la misma matriz finita, y las mediciones de tiempo varían por máquina.'
         : 'The observed roster contains 19 methods in each artifact across the 15 cases. These comparisons describe the data and configured windows; they are not a universal ranking or a causal claim. The coverage table summarizes the same finite matrix, and timing measurements vary by machine.'}</p>
@@ -309,7 +313,8 @@ export default function Benchmark() {
         <SubTabs
           ariaLabel="benchmark views"
           tabs={[
-            { id: 'leaderboard', label: es ? 'Tabla (MASE)' : 'Leaderboard (MASE)', content: leaderboard },
+            { id: 'common', label: es ? 'Bloque común' : 'Common holdout', content: reevaluation ? <CommonHoldout data={reevaluation} /> : <p data-state="loading">{es ? 'Cargando comparación' : 'Loading comparison'}</p> },
+            { id: 'leaderboard', label: es ? 'Origen móvil archivado' : 'Archived rolling origins', content: leaderboard },
             { id: 'families', label: es ? 'Por familia' : 'By family', content: families },
             { id: 'coverage', label: es ? 'Cobertura' : 'Coverage', content: coverage },
             { id: 'interval', label: es ? 'Intervalo (MSIS)' : 'Interval (MSIS)', content: interval },
