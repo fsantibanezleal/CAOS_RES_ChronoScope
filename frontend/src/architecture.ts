@@ -54,7 +54,7 @@ const APP = svg('cs-a1', 470, `
   <text class="mu" x="198" y="123" style="font-size:9px;">10 families: ADF/STL/PELT/GARCH/DFA</text>
   <rect class="bx bx-hi" x="186" y="146" width="196" height="46" rx="8"/>
   <text class="ttl" x="198" y="165" style="fill:var(--color-accent);">FORECAST</text>
-  <text class="mu" x="198" y="183" style="font-size:9px;">19 methods: naive → ARIMA → NHITS → Chronos</text>
+  <text class="mu" x="198" y="183" style="font-size:9px;">22 variants: baselines, models, combinations</text>
   <path class="flow" d="M384,138 L418,138" marker-end="url(#cs-a1)"/>
   <text class="lbl" x="388" y="130">score</text>
   <rect class="bx bx-store" x="420" y="86" width="196" height="106" rx="9"/>
@@ -69,7 +69,7 @@ const APP = svg('cs-a1', 470, `
   <text class="mu" x="664" y="126">and why: the diagnosis</text>
   <text class="mu" x="664" y="142">describes each case</text>
   <text class="mu" x="664" y="162">(forecastability atlas);</text>
-  <text class="mu" x="664" y="178">calibrated intervals (ACI/PID)</text>
+  <text class="mu" x="664" y="178">adaptive intervals (ACI/PID)</text>
 
   <rect class="grp" x="14" y="256" width="852" height="196" rx="10"/>
   <text class="sub" x="28" y="276" style="font-weight:600;">DESIGN-BUILD LIFECYCLE · how it was built (deep-research first, no shortcuts)</text>
@@ -142,13 +142,13 @@ const LANES = svg('cs-a2', 450, `
   <text class="mu" x="40" y="382">LightGBM (mlforecast)</text>
   <text class="mu" x="40" y="404">CPU, numba</text>
   <rect class="bx bx-compute" x="220" y="308" width="180" height="106" rx="9"/>
-  <text class="ttl" x="232" y="328">deep (GPU)</text>
+  <text class="ttl" x="232" y="328">deep (offline)</text>
   <text class="cd mono" x="232" y="346">engines/neuralforecast_*</text>
   <text class="mu" x="232" y="366">NHITS/DLinear/NLinear,</text>
   <text class="mu" x="232" y="382">MQLoss; + direct-torch</text>
   <text class="mu" x="232" y="404">parity reference</text>
   <rect class="bx bx-compute" x="412" y="308" width="180" height="106" rx="9"/>
-  <text class="ttl" x="424" y="328">foundation (GPU)</text>
+  <text class="ttl" x="424" y="328">foundation (offline)</text>
   <text class="cd mono" x="424" y="346">engines/chronos_*, timesfm_*</text>
   <text class="mu" x="424" y="366">Chronos-Bolt + Chronos-2</text>
   <text class="mu" x="424" y="382">+ TimesFM-2.5, zero-shot</text>
@@ -216,14 +216,14 @@ const FLOW = svg('cs-a3', 430, `
 
 // ---- Tab 4: the science ----
 const SCIENCE = svg('cs-a4', 470, `
-  <text class="hd" x="20" y="30">The science · the 19-method ladder, scored by one honest protocol</text>
+  <text class="hd" x="20" y="30">Forecast methods and their evaluation protocols</text>
   <rect class="grp" x="14" y="46" width="852" height="150" rx="10"/>
   <text class="sub" x="28" y="66" style="font-weight:600;">THE LADDER · transparent baselines through pretrained models, each emitting a point path + a prediction interval</text>
   ${[
-    ['classical', 'baselines', 'SeasonalNaive (MASE=1),', 'SES/Holt/HoltWinters, Theta'],
+    ['smoothing', 'references', 'SeasonalNaive reference,', 'SES/Holt/HoltWinters, Theta'],
     ['statistical', 'auto-tuned', 'AutoARIMA / AutoETS /', 'AutoTheta (statsforecast)'],
     ['ml', 'boosting', 'LightGBM on lag/date', 'features (mlforecast)'],
-    ['deep', 'neural', 'NHITS/DLinear/NLinear', '(neuralforecast, GPU)'],
+    ['deep', 'neural', 'NHITS/DLinear/NLinear', '(neuralforecast)'],
     ['foundation', 'zero-shot', 'Chronos-Bolt, Chronos-2,', 'TimesFM-2.5 (pretrained)'],
   ].map((b, i) => {
     const x = 28 + i * 167;
@@ -305,7 +305,7 @@ const CONTRACTS = svg('cs-a5', 430, `
   <text class="mu" x="46" y="290">safe to recompute in the browser</text>
   <rect class="bx bx-compute" x="228" y="234" width="188" height="72" rx="9"/>
   <text class="ttl" x="240" y="254" style="fill:var(--color-warn);">PRECOMPUTE</text>
-  <text class="mu" x="240" y="274">heavy (GPU/foundation/AutoARIMA):</text>
+  <text class="mu" x="240" y="274">heavy offline (models/AutoARIMA):</text>
   <text class="mu" x="240" y="290">baked offline, replayed as artifact</text>
   <text class="mu" x="34" y="332">a measured verdict per method, recorded in the manifest;</text>
   <text class="mu" x="34" y="350">the manifest lane must match the gate lane (checked in CI).</text>
@@ -332,13 +332,13 @@ export const architecture: ArchitectureConfig = {
   tabs: [
     {
       id: 'app', en: 'The app', es: 'La app', svg: APP,
-      body_en: 'ChronoScope is an interactive atlas of time-series forecasting. It presents ten analysis families and a roster of forecasting methods, from seasonal-naive to pretrained models. Rolling-origin backtests and a prequential streaming study report selected metrics. Diagnostics describe case structure; they do not establish why one method wins. The lower band shows the product pipeline from research and implementation through artifact generation, web build, and deployment.',
-      body_es: 'ChronoScope es un atlas interactivo del pronóstico de series de tiempo. Por cada caso ejecuta dos pilares: Entender (un kit de 10 familias de análisis que diagnostica la serie) y Pronosticar (una escalera de 19 métodos (18 nativos + TiRex-2 por el carril WSL2), del naive-estacional hasta modelos fundacionales zero-shot). Cada método se evalúa con un backtest de origen móvil sin fuga y el banco de streaming prequential, de modo que el diagnóstico explica qué familia gana y los intervalos quedan calibrados honestamente. La banda inferior es el ciclo diseño-construcción: investigación profunda persistida en dossiers, luego implementar, entrenar + validar en GPU, precalcular el artefacto determinista, construir la SPA sobre él y desplegar.',
+      body_en: 'ChronoScope combines ten diagnostic families with a common final-holdout comparison of 22 forecasting variants. Fourteen heavy paths remain frozen evidence, while five light methods and three combinations were recomputed. The ContextMemory proposal and both ablations retain their negative result. A separately dated streaming study reports online interval trajectories. Diagnostics describe case structure without establishing a causal explanation of rankings.',
+      body_es: 'ChronoScope combina diez familias diagnósticas con una comparación común de 22 variantes. Catorce trayectorias pesadas son evidencia congelada; cinco métodos ligeros y tres combinaciones fueron recalculados. ContextMemory y ambas ablaciones conservan el resultado negativo. Un estudio de streaming separado informa trayectorias de intervalos. Los diagnósticos describen los casos sin establecer una explicación causal de los rankings.',
     },
     {
       id: 'lanes', en: 'Lanes', es: 'Carriles', svg: LANES,
-      body_en: 'The split is the point. Web (live, in the browser): the classical ladder recomputes on every control via a TypeScript engine parity-checked against the Python core, a small NLinear model runs client-side via onnxruntime-web, the light analysis recomputes instantly, and every chart is an interactive uPlot view. Replay: the statistical, ML, deep and foundation tiers are too heavy for the browser, so their baked backtest (trace + analysis + streaming) is shown. Offline / compute: the .venv pipeline runs the real engines (statsforecast, LightGBM, neuralforecast on GPU, Chronos/TimesFM from local checkpoints) and preqts, and bakes the committed artifacts.',
-      body_es: 'La división es lo central. Web (en vivo, en el navegador): la escalera clásica recalcula con cada control vía un motor TypeScript verificado por paridad contra el núcleo Python, un pequeño modelo NLinear se ejecuta en el cliente vía onnxruntime-web, el análisis ligero recalcula al instante, y cada gráfico es una vista interactiva uPlot. Replay: los niveles estadístico, ML, profundo y fundacional son demasiado pesados para el navegador, así que se muestra su backtest precalculado (trace + análisis + streaming). Offline / cómputo: el pipeline en .venv ejecuta los motores reales (statsforecast, LightGBM, neuralforecast en GPU, Chronos/TimesFM desde checkpoints locales) y preqts, y precalcula los artefactos versionados.',
+      body_en: 'The split is the point. Web (live, in the browser): the classical ladder recomputes on every control via a TypeScript engine parity-checked against the Python core, a small NLinear model runs client-side via onnxruntime-web, the light analysis recomputes instantly, and every chart is an interactive uPlot view. Replay: statistical, ML, neural and pretrained model paths retain their released provenance. The common comparison rescores fourteen frozen paths and recomputes eight light variants on identical final holdouts. Offline / compute: the .venv pipeline runs the real engines (statsforecast, LightGBM, neuralforecast on GPU, Chronos/TimesFM from local checkpoints) and preqts, and bakes the committed artifacts.',
+      body_es: 'La división es lo central. Web (en vivo, en el navegador): la escalera clásica recalcula con cada control vía un motor TypeScript verificado por paridad contra el núcleo Python, un pequeño modelo NLinear se ejecuta en el cliente vía onnxruntime-web, el análisis ligero recalcula al instante, y cada gráfico es una vista interactiva uPlot. Replay: las trayectorias estadísticas, ML, neuronales y preentrenadas conservan su procedencia. La comparación común reevalúa catorce rutas congeladas y recalcula ocho variantes ligeras sobre bloques finales idénticos. Offline / cómputo: el pipeline en .venv ejecuta los motores reales (statsforecast, LightGBM, neuralforecast en GPU, Chronos/TimesFM desde checkpoints locales) y preqts, y precalcula los artefactos versionados.',
     },
     {
       id: 'flow', en: 'Web flow', es: 'Flujo web', svg: FLOW,

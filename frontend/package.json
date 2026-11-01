@@ -16,7 +16,7 @@
   "dependencies": {
     "@fasl-work/caos-app-shell": "0.19.12",
     "@types/katex": "^0.16.8",
-    "katex": "^0.16.11",
+    "katex": "0.19.1",
     "lucide-react": "^0.469.0",
     "onnxruntime-web": "^1.27.0",
     "react": "^19.0.0",

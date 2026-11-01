@@ -10,6 +10,7 @@ import { formatNumber, TabGroups, useShellLang } from '@fasl-work/caos-app-shell
 import { loadAnalysis, loadIndex, loadManifest, loadReevaluation, loadStreaming, loadTrace } from '../api/artifacts';
 import type { CaseIndex, CaseManifest, Trace } from '../lib/contract.types';
 import type { Reevaluation } from '../lib/reevaluation.types';
+import { methodColor } from '../lib/methodColors';
 import { forecastAllLive, normalPpf } from '../lib/liveEngine';
 import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
 import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
@@ -30,15 +31,7 @@ const ATLAS_TABS: Record<AtlasNav['group'], string[]> = {
   understand: ['series', 'structure', 'decompose', 'verdicts'],
   forecast: ['forecast', 'residuals', 'leaderboard', 'streaming'],
 };
-const COLORS: Record<string, string> = {
-  SeasonalNaive: '#58a6ff', SES: '#bc8cff', Holt: '#f778ba', HoltWinters: '#ff9f1c', Theta: '#56d364',
-  AutoETS: '#79c0ff', AutoTheta: '#d2a8ff', AutoARIMA: '#ffa657', LightGBM: '#7ee787',
-  'Chronos-Bolt': '#ff7b72', 'Chronos-2': '#ff9492', 'TimesFM-2.5': '#d29922', 'TiRex-2': '#e685b5',
-  NLinear: '#e3b341', DLinear: '#f0883e', NHITS: '#a5d6ff',
-  'NLinear (nf)': '#bf8700', 'DLinear (nf)': '#bd561d', 'NHITS (nf)': '#79c0ff',
-  [ONNX_NAME]: '#e3b341',
-};
-const colorFor = (n: string) => COLORS[n] ?? `hsl(${(n.split('').reduce((a, c) => a + c.charCodeAt(0), 0) * 47) % 360} 70% 55%)`;
+const colorFor = methodColor;
 const KINDS: SyntheticKind[] = ['seasonal', 'trend_seasonal', 'intermittent', 'random_walk', 'white_noise'];
 
 // Safe deep-getter for the baked analysis.json (chronoscope.analysis/v1); null on any missing link.
@@ -428,8 +421,8 @@ export default function AppPage() {
         </table>
       </div>
       <p className="cs-panel-sub">{es
-        ? 'Sobre el holdout mostrado (una realización): el sesgo aquí es una lectura del caso, no un veredicto; el veredicto agregado (todos los cortes del backtest) vive en la Tabla y en Horizonte. Desmarcar métodos en la leyenda para aislar familias.'
-        : 'Over the displayed holdout (one realization): bias here is a per-case read-out, not a verdict; the aggregate verdict (all backtest cutoffs) lives in the Leaderboard and Horizon. Untick methods in the legend to isolate families.'}</p>
+        ? 'Sesgo y errores sobre el mismo bloque final mostrado, con un origen por caso. La tabla resume este bloque y Horizonte muestra sus errores por paso; ninguna vista establece un resultado poblacional. Use la leyenda para aislar métodos.'
+        : 'Bias and errors on the same displayed final block, with one origin per case. The table summarizes this block and Horizon shows its lead-specific errors; neither view establishes a population result. Use the legend to isolate methods.'}</p>
     </div>
   );
 
@@ -440,8 +433,8 @@ export default function AppPage() {
       <div className="cs-panel">
         <div className="cs-panel-t">{es ? 'Lectura Box-Jenkins' : 'Box-Jenkins read'}</div>
         <p className="cs-panel-sub">{es
-          ? 'ACF que se corta tras q: MA(q). PACF que se corta tras p: AR(p). Ambas decaen: ARMA. Todo dentro de la banda: ruido blanco (nada que modelar). Decaimiento lento (hiperbólico): memoria larga, ver el panel de memoria.'
-          : 'ACF cutting off after q: MA(q). PACF cutting off after p: AR(p). Both tailing off: ARMA. Everything inside the band: white noise (nothing to model). Slow (hyperbolic) decay: long memory, see the memory panel.'}</p>
+          ? 'Bajo estacionariedad, ACF y PACF sugieren órdenes candidatos; no identifican un proceso de forma única. Las bandas son aproximaciones puntuales. Valores dentro de ellas no prueban independencia, y un decaimiento lento admite explicaciones distintas de memoria larga.'
+          : 'Under stationarity, ACF and PACF suggest candidate orders; they do not uniquely identify a process. The bands are pointwise approximations. Values inside them do not prove independence, and slow decay admits explanations other than long memory.'}</p>
       </div>
       {pgram && (
         <LinePlot
@@ -609,31 +602,31 @@ export default function AppPage() {
     : fcView === 'full' ? buildForecast(fcHistTail)
     : null;
 
-  const horizonRows = mode === 'baked' && trace
-    ? trace.methods
-        .filter((m) => !hidden.has(m.name) && (m.backtest.per_horizon_scaled ?? []).some((v) => v != null && Number.isFinite(v)))
-        .map((m) => ({ label: m.name, values: (m.backtest.per_horizon_scaled ?? []) as (number | null)[], color: colorFor(m.name), width: 2 }))
-    : [];
+  const horizonScale = activeData ? seasonalNaiveMae(activeData.history, activeData.m) : NaN;
+  const horizonRows = activeData ? visibleMethods.map(m => ({ label: m.name,
+    values: activeData.actual.map((a, i) => horizonScale > 0 ? Math.abs(a - m.point[i]) / horizonScale : null),
+    color: colorFor(m.name), width: 2,
+  })) : [];
 
   const fcTitles: Record<typeof fcView, string> = {
     full: es ? 'Pronóstico + intervalo' : 'Forecast + interval',
     zoom: es ? 'Zoom en la zona predicha' : 'Zoom on the predicted zone',
-    horizon: es ? 'Crecimiento del error por horizonte (MASE por paso)' : 'Error growth by lead time (per-lead MASE)',
+    horizon: es ? 'Error absoluto escalado por paso' : 'Scaled absolute error by lead',
     errors: es ? 'Errores por paso (verdad - punto)' : 'Errors by lead (truth - point)',
   };
   const fcNotes: Record<typeof fcView, string> = {
     full: (es
-      ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico por método; con una curva visible (botón "solo") se dibuja su intervalo. '
-      : 'Grey = history, dashed green = held-out truth, colour = each method\'s forecast; with one curve visible ("solo") its interval is drawn. ')
+      ? 'Gris = historia, verde discontinuo = verdad reservada, color = pronóstico; con un método visible se dibujan sus límites de cuantiles. '
+      : 'Grey = history, dashed green = held-out truth, colour = forecasts; with one method visible its quantile boundaries are drawn. ')
       + (mode === 'synthetic'
-        ? (es ? 'Clásicos + ONNX en vivo en el navegador.' : 'Classical + ONNX computed live in the browser.')
-        : (es ? 'Escalera completa (19 métodos), backtest precalculado.' : 'The full 19-method ladder, offline-baked.')),
+        ? (es ? 'Métodos de suavizamiento y ONNX calculados en el navegador.' : 'Smoothing methods and ONNX computed in the browser.')
+        : (es ? `${allMethods.length} variantes sobre el bloque final común.` : `${allMethods.length} variants on the common final holdout.`)),
     zoom: es
-      ? 'Las últimas ~2 temporadas + el horizonte. El cursor lee cada serie; arrastrar para acercar más; doble clic reinicia.'
-      : 'The last ~2 seasons + the horizon. The cursor reads out every series; drag to zoom further, double-click resets.',
+      ? 'Las últimas dos temporadas aproximadas y el horizonte. El cursor lee valores; use arrastre, teclado y el control de restablecimiento del gráfico.'
+      : 'Approximately the last two seasons and the horizon. The cursor reads values; use dragging, the keyboard and the chart reset control.',
     horizon: es
-      ? 'Media de |error| en el paso h sobre todos los cortes del backtest, escalada por el naive (1.0 = tan malo como el naive en ese paso). La forma es el diagnóstico: meseta = reversión a la media, crecimiento tipo raíz = caminata aleatoria, crecimiento exponencial que satura = caos determinista (horizonte de Lyapunov).'
-      : 'Mean |error| at lead h over all backtest cutoffs, scaled by the naive (1.0 = as wrong as the naive at that lead). The shape is the diagnosis: a plateau = mean reversion, square-root growth = a random walk, exponential growth that saturates = deterministic chaos (the Lyapunov horizon).',
+      ? 'Error absoluto de cada paso del bloque final dividido por la escala estacional histórica. Es una trayectoria observada, no una media de múltiples orígenes ni una identificación causal del proceso.'
+      : 'Absolute error at each final-block lead divided by the historical seasonal scale. This is one observed trajectory, not a multiple-origin mean or a causal identification of the process.',
     errors: es
       ? 'El residuo por paso sobre el holdout mostrado: signo sistemático = sesgo; dispersión que crece con el paso = incertidumbre que crece. Aislar una curva con "solo" en la leyenda.'
       : 'The per-lead residual on the displayed holdout: a systematic sign = bias; spread growing with lead = growing uncertainty. Isolate a curve with "solo" in the legend.',
@@ -652,15 +645,11 @@ export default function AppPage() {
           </div>
         </div>
         {fcView === 'horizon' ? (
-          mode !== 'baked' ? (
-            <p className="cs-panel-sub">{es
-              ? 'La curva por horizonte se precalcula offline por caso (media sobre todos los cortes del backtest): elegir un caso precalculado.'
-              : 'The per-horizon curve is baked offline per case (mean over all backtest cutoffs): pick a baked case.'}</p>
-          ) : horizonRows.length > 0 ? (
+          horizonRows.length > 0 ? (
             <UPlotChart
-              xs={Array.from({ length: trace?.horizon ?? 0 }, (_, i) => i + 1)}
+              xs={Array.from({ length: activeData?.horizon ?? 0 }, (_, i) => i + 1)}
               series={horizonRows}
-              refLines={[{ y: 1, dash: [5, 4], label: 'naive' }]}
+              refLines={[{ y: 1, dash: [5, 4], label: es ? 'escala histórica' : 'historical scale' }]}
               height={380}
               xLabel={es ? 'paso (lead)' : 'lead'}
               ariaSummary="per-lead scaled error growth"

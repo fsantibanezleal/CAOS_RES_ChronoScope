@@ -54,7 +54,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | requirements-precompute.txt | emd-signal | 1.9.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | hurst | 0.0.5 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | jsdom | 29.1.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
-| frontend | katex | 0.16.47 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | katex | 0.19.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | lightgbm | 4.6.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | lucide-react | 0.469.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | mfdfa | 0.4.3 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |

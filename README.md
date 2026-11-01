@@ -16,10 +16,16 @@ Forecasters with Online Conformal Calibration"*, concept DOI
 ChronoScope is an interactive research atlas of time-series forecasting. It takes a series, understands
 it with the classical diagnostic toolkit (ten analysis families: stationarity, autocorrelation,
 seasonality, filters/decomposition, change points, volatility, distribution/complexity, fractals,
-nonlinear dynamics, causality), runs a **19-method forecast ladder** across it (5 classical + 3
-statistical + LightGBM + 6 deep + 4 foundation models), and shows honestly where each family wins and
-where it fails. Case diagnostics add context to these comparisons; the finite case matrix does not
-establish a general causal explanation of model rankings.
+nonlinear dynamics, causality), and compares **22 forecast variants on common final holdouts**.
+The comparison includes fourteen frozen heavy-model paths, five corrected light forecasts, and
+ContextMemory with its RecencyMean and EqualMean ablations. Heavy paths are rescored historical
+outputs; they are not presented as fresh checkpoint runs. ContextMemory did not improve mean MASE
+over its recency-only ablation. Every case and the negative result remain available.
+
+The [implementation reassessment](docs/research/2026-11-01-method-reevaluation.md) records the
+HoltWinters seasonal-phase and finite-history Theta corrections, original unequal rolling-origin
+budgets, method provenance and the limits of the comparison. Diagnostic associations do not establish
+a causal explanation of model rankings.
 
 - **15 committed cases** (seeded synthetic across regimes + CC-BY real data: UCI Electricity, Beijing
   PM2.5, two real M4/Monash series + honesty controls), each baked with the full ladder, the ten-family

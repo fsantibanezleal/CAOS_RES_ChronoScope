@@ -4,6 +4,9 @@
 import type { Citation } from '@fasl-work/caos-app-shell';
 
 export const CITATIONS: Citation[] = [
+  { id: 'statsforecast', label: 'Nixtla StatsForecast', citation: 'Nixtla. StatsForecast model reference: AutoARIMA, AutoETS and AutoTheta.', url: 'https://nixtlaverse.nixtla.io/statsforecast/src/core/models.html' },
+  { id: 'fforma', label: 'Montero-Manso et al. 2020', citation: 'Montero-Manso, P., Athanasopoulos, G., Hyndman, R. J., and Talagala, T. S. (2020). FFORMA: Feature-based Forecast Model Averaging. International Journal of Forecasting, 36(1), 86-92.', doi: '10.1016/j.ijforecast.2019.02.011' },
+  { id: 'ade', label: 'Cerqueira et al. 2019', citation: 'Cerqueira, V., Torgo, L., Pinto, F., and Soares, C. (2019). Arbitrage of forecasting experts. Machine Learning, 108, 913-944.', doi: '10.1007/s10994-018-05774-y' },
   // --- scoring / classical ---
   { id: 'mase', label: 'Hyndman & Koehler 2006', citation: 'Hyndman, R. J., & Koehler, A. B. (2006). Another look at measures of forecast accuracy. International Journal of Forecasting, 22(4), 679-688.', doi: '10.1016/j.ijforecast.2006.03.001' },
   { id: 'msis', label: 'Gneiting & Raftery 2007', citation: 'Gneiting, T., & Raftery, A. E. (2007). Strictly Proper Scoring Rules, Prediction, and Estimation. Journal of the American Statistical Association, 102(477), 359-378.', doi: '10.1198/016214506000001437' },
