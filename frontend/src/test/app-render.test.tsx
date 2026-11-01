@@ -3,7 +3,7 @@
 // theme) is the shared @fasl-work/caos-app-shell and is exercised by its own package tests; here we assert
 // OUR page renders end to end. Full light/dark screenshot verification runs before deploy.
 import { renderToStaticMarkup } from 'react-dom/server';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import AppPage from '../pages/AppPage';
 
@@ -14,8 +14,8 @@ describe('App workbench renders (baked-first with synthetic live mode available)
     expect(html).toContain('Baked case');
     expect(html).toContain('Synthetic (live)');
     expect(html).toContain('Source'); // the full-width control bar label
-    // 8 tabs: Forecast now carries the on-graph Full/Zoom/Horizon/Errors view switch (was 3 tabs + a toggle)
-    for (const label of ['Series', 'Structure', 'Decompose', 'Verdicts', 'Forecast', 'Residuals', 'Leaderboard', 'Streaming']) {
+    // The two user questions group four views each; the first group is open on initial render.
+    for (const label of ['Understand', 'Forecast', 'Series', 'Structure', 'Decompose', 'Verdicts']) {
       expect(html).toContain(label);
     }
   });

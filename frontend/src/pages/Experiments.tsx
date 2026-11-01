@@ -28,7 +28,7 @@ export default function Experiments() {
               <rect x="58" y={y0} width={trainW} height="20" rx="3" fill="var(--color-surface)" stroke="var(--color-accent)" />
               <text x={58 + trainW / 2} y={y0 + 14} textAnchor="middle" fill="var(--color-fg-subtle)" fontSize="9">{es ? 'historia (train)' : 'history (train)'}</text>
               <rect x={58 + trainW + 2} y={y0} width="70" height="20" rx="3" fill="var(--color-surface)" stroke="#3fb950" strokeDasharray="4 2" />
-              <text x={58 + trainW + 37} y={y0 + 14} textAnchor="middle" fill="#3fb950" fontSize="9">h</text>
+              <text x={58 + trainW + 37} y={y0 + 14} textAnchor="middle" fill="var(--color-good)" fontSize="9">h</text>
               <line x1={58 + trainW + 1} y1={y0 - 3} x2={58 + trainW + 1} y2={y0 + 23} stroke="var(--color-fg-subtle)" strokeDasharray="3 2" />
             </g>
           );
@@ -47,20 +47,20 @@ export default function Experiments() {
 
       <h3>{es ? 'La matriz de escenarios (15 casos)' : 'The scenario matrix (15 cases)'}</h3>
       <p>{es
-        ? 'Cada caso ejercita una familia del análisis, de modo que el diagnóstico explica la tabla de posiciones:'
-        : 'Each case exercises one analysis family, so the diagnosis explains the leaderboard:'}</p>
+        ? 'Los casos cubren patrones y fuentes distintos. Los diagnósticos aportan contexto para comparar los resultados, sin atribuirles una explicación causal:'
+        : 'Cases cover different patterns and sources. Diagnostics provide context for the comparisons without establishing a causal explanation:'}</p>
       <ul>
         <li><b>SEAS_hourly / TRND_seasonal</b>: {es ? 'estacionalidad limpia y tendencia+estación; los métodos estacionales deben ganar (periodograma + Fs los diagnostican).' : 'clean seasonality and trend+season; seasonal methods must win (periodogram + Fs diagnose them).'}</li>
         <li><b>MSEA_daily_weekly</b>: {es ? 'ciclos diario + semanal superpuestos; dos picos espectrales, MSTL los separa; los métodos de un solo m pierden el componente semanal.' : 'superposed daily + weekly cycles; two spectral peaks, MSTL splits them; single-m methods miss the weekly component.'}</li>
         <li><b>INTM_demand</b>: {es ? 'demanda intermitente (mayormente ceros); difícil para los suavizadores.' : 'intermittent demand (mostly zeros); hard for smoothers.'}</li>
         <li><b>BRKV_level_shift</b>: {es ? 'dos quiebres de nivel; PELT los localiza, CUSUM rechaza estabilidad, y los modelos que promedian regímenes tropiezan justo después de cada quiebre.' : 'two level breaks; PELT localizes them, CUSUM rejects stability, and regime-averaging models stumble right after each break.'}</li>
-        <li><b>HETV_garch</b>: {es ? 'volatilidad GARCH(1,1) (persistencia 0.95): el punto es aburrido a propósito; la historia es la cobertura (ancho fijo falla, ACI/PID la sostienen).' : 'GARCH(1,1) volatility (persistence 0.95): the point is boring on purpose; the story is coverage (fixed width fails, ACI/PID hold it).'}</li>
+        <li><b>HETV_garch</b>: {es ? 'volatilidad GARCH(1,1) (persistencia 0.95); el artefacto permite comparar las trayectorias de cobertura, pero no incluye trayectorias de ancho de intervalo.' : 'GARCH(1,1) volatility (persistence 0.95); the artifact supports comparing coverage trajectories but does not include interval-width trajectories.'}</li>
         <li><b>LMEM_fractional</b>: {es ? 'ARFIMA d=0.35 (H~0.85, verificado con DFA al generar): decaimiento hiperbólico de la ACF; el borde de los modelos de contexto largo.' : 'ARFIMA d=0.35 (H~0.85, DFA-verified at generation): hyperbolic ACF decay; the long-context models\' edge.'}</li>
         <li><b>CHAO_mackey</b>: {es ? 'caos Mackey-Glass (test 0-1 K=0.87, Lyapunov positivo, verificados): pronosticable a corto plazo, el error crece a la tasa de Lyapunov; la curva por horizonte es la lectura estrella.' : 'Mackey-Glass chaos (0-1 test K=0.87, positive Lyapunov, verified): short-horizon forecastable, error grows at the Lyapunov rate; the per-horizon curve is the star read-out.'}</li>
         <li><b>REAL_electricity / REAL_pm25</b>: {es ? 'datos reales CC-BY (carga eléctrica UCI; PM2.5 de Beijing con colas pesadas, curtosis ~5).' : 'CC-BY real data (UCI electricity load; heavy-tailed Beijing PM2.5, kurtosis ~5).'}</li>
         <li><b>REAL_m4_hourly / REAL_m4_daily</b>: {es ? 'series reales de la competencia M4 (Monash CC-BY) a dos frecuencias (horaria m=24, diaria m=7): estacionalidad real, medida y no diseñada; la prueba zero-shot de los modelos fundacionales sobre datos de benchmark genuinos.' : 'real M4-competition series (Monash CC-BY) at two frequencies (hourly m=24, daily m=7): real seasonality, measured not designed; the zero-shot test of the foundation models on genuine benchmark data.'}</li>
-        <li><b>EXOG_promo</b>: {es ? 'un driver exógeno conocido-a-futuro (promociones programadas); el banco de streaming muestra la política de covariables (ridge aware vs blind), la pieza que ningún harness público evalúa.' : 'a known-future exogenous driver (scheduled promotions); the streaming bench shows the covariate policy (ridge aware vs blind), the piece no public harness evaluates.'}</li>
-        <li><b>RWLK_noise / CTRL_white_noise</b>: {es ? 'los controles de honestidad: nadie debería ganar por mucho; una brecha grande delata fuga en el harness.' : 'the honesty controls: nobody should win by much; a big gap betrays harness leakage.'}</li>
+        <li><b>EXOG_promo</b>: {es ? 'un caso sintético con promociones conocidas a futuro que permite inspeccionar cómo se declara la llegada de covariables.' : 'a synthetic case with known-future promotions for inspecting how covariate arrival is declared.'}</li>
+        <li><b>RWLK_noise / CTRL_white_noise</b>: {es ? 'controles de referencia; un resultado inesperado amerita revisar el protocolo, pero no demuestra fuga por sí solo.' : 'reference controls; an unexpected result warrants protocol review but does not establish leakage by itself.'}</li>
       </ul>
 
       <h3>{es ? 'Los generadores, con sus ecuaciones reales' : 'The generators, with their actual equations'}</h3>

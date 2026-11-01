@@ -1,6 +1,5 @@
 # Product-repo template: the offline engine package (ADR-0057). Rename `chronoscopelab` -> `<slug>lab` per product.
-# The EXAMPLE engine is numpy-only on purpose (an instantly-installable, no-hang reference); a real product pins
-# its research-chosen SOTA engines in data-pipeline/requirements.txt and documents them in docs/frameworks/.
+# Product pipeline dependencies and version metadata are maintained with the corresponding design records.
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
@@ -14,7 +13,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Felipe Santibáñez-Leal" }]
-dependencies = ["numpy>=1.26"]
+dependencies = ["numpy==2.4.6"]
 
 [tool.setuptools.packages.find]
 where = ["data-pipeline"]
@@ -28,5 +27,5 @@ line-length = 110
 target-version = "py311"
 
 [tool.ruff.lint]
-# S/I/R are the standard SIR compartment names; single-letter here is intentional domain notation, not ambiguous.
+# E741 is ignored for short mathematical variable names used in scientific code.
 ignore = ["E741"]

@@ -6,6 +6,7 @@
 // an aria-reachable data-table fallback (the canvas is aria-hidden). Static SVG line charts were the
 // below-bar defect this replaces.
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { formatNumber, useShellLang } from '@fasl-work/caos-app-shell';
 import uPlot from 'uplot';
 import 'uplot/dist/uPlot.min.css';
 
@@ -55,7 +56,7 @@ function readTokens(el: HTMLElement) {
   };
 }
 
-// Canvas cannot resolve `var(--token)` (unlike SVG/CSS), so resolve any CSS-variable colour to its
+// Canvas cannot resolve CSS variables (unlike SVG/CSS), so resolve any token colour to its
 // concrete computed value against the host element before handing it to uPlot / the canvas context.
 // Without this a var-coloured series (e.g. the grey history line) silently does not stroke.
 function resolveColor(el: HTMLElement, color: string): string {
@@ -135,6 +136,7 @@ function refLinePlugin(refs: RefLine[]): uPlot.Plugin {
 }
 
 export function UPlotChart({ xs, series, height = 340, yLabel, xLabel, refLines = [], precision = 2, ariaSummary }: UPlotChartProps) {
+  const lang = useShellLang();
   const hostRef = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | null>(null);
   // theme signal: re-init when the root theme attribute/class flips
@@ -172,7 +174,7 @@ export function UPlotChart({ xs, series, height = 340, yLabel, xLabel, refLines 
         dash: s.dash,
         paths: s.bars ? barsPath : s.scatter ? () => null : undefined,
         points: s.scatter ? { show: true, size: 5, fill: col(s.color), stroke: col(s.color) } : { show: false },
-        value: (_u: uPlot, v: number | null) => (v == null || !Number.isFinite(v) ? '-' : v.toFixed(precision)),
+        value: (_u: uPlot, v: number | null) => formatNumber(v, lang, { digits: precision }),
       })),
     ];
 
@@ -215,7 +217,7 @@ export function UPlotChart({ xs, series, height = 340, yLabel, xLabel, refLines 
           <thead><tr><th>x</th>{series.map((s) => <th key={s.label}>{s.label}</th>)}</tr></thead>
           <tbody>
             {xs.slice(0, 120).map((x, i) => (
-              <tr key={i}><td>{x}</td>{series.map((s) => <td key={s.label}>{s.values[i] == null || !Number.isFinite(s.values[i] as number) ? '-' : (s.values[i] as number).toFixed(precision)}</td>)}</tr>
+              <tr key={i}><td>{x}</td>{series.map((s) => <td key={s.label}>{formatNumber(s.values[i], lang, { digits: precision })}</td>)}</tr>
             ))}
           </tbody>
         </table>

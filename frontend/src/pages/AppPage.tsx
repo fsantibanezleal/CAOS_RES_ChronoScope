@@ -6,7 +6,7 @@
 // Synthetic (LIVE): knobs regenerate the series; the TS classical engine + NLinear ONNX re-forecast
 // instantly. Baked case (REPLAY): the full 19-method ladder + analysis + streaming artifacts, baked offline.
 import { useEffect, useMemo, useState } from 'react';
-import { SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
+import { formatNumber, TabGroups, useShellLang } from '@fasl-work/caos-app-shell';
 import { loadAnalysis, loadIndex, loadManifest, loadStreaming, loadTrace } from '../api/artifacts';
 import type { CaseIndex, CaseManifest, Trace } from '../lib/contract.types';
 import { forecastAllLive, normalPpf } from '../lib/liveEngine';
@@ -23,6 +23,12 @@ interface ChartSeries { name: string; color: string; point: number[]; lower: num
 
 const LEVELS = [0.1, 0.5, 0.9];
 const ONNX_NAME = 'NLinear (ONNX)';
+const ATLAS_NAV_KEY = 'chronoscope-atlas-nav';
+type AtlasNav = { group: 'understand' | 'forecast'; tab: string };
+const ATLAS_TABS: Record<AtlasNav['group'], string[]> = {
+  understand: ['series', 'structure', 'decompose', 'verdicts'],
+  forecast: ['forecast', 'residuals', 'leaderboard', 'streaming'],
+};
 const COLORS: Record<string, string> = {
   SeasonalNaive: '#58a6ff', SES: '#bc8cff', Holt: '#f778ba', HoltWinters: '#ff9f1c', Theta: '#56d364',
   AutoETS: '#79c0ff', AutoTheta: '#d2a8ff', AutoARIMA: '#ffa657', LightGBM: '#7ee787',
@@ -33,7 +39,6 @@ const COLORS: Record<string, string> = {
 };
 const colorFor = (n: string) => COLORS[n] ?? `hsl(${(n.split('').reduce((a, c) => a + c.charCodeAt(0), 0) * 47) % 360} 70% 55%)`;
 const KINDS: SyntheticKind[] = ['seasonal', 'trend_seasonal', 'intermittent', 'random_walk', 'white_noise'];
-const fmt = (v: number | null | undefined, nd = 3) => (v == null || !Number.isFinite(v) ? '-' : v.toFixed(nd));
 
 // Safe deep-getter for the baked analysis.json (chronoscope.analysis/v1); null on any missing link.
 function dig(o: unknown, ...path: (string | number)[]): number | null {
@@ -91,6 +96,20 @@ function LinePlot({ xs, series, title, subtitle, refLine, refLabel, height }: {
 
 export default function AppPage() {
   const es = useShellLang() === 'es';
+  const fmt = (v: number | null | undefined, nd = 3) => formatNumber(v, es ? 'es' : 'en', { digits: nd });
+  const [nav, setNav] = useState<AtlasNav>(() => {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(ATLAS_NAV_KEY) ?? 'null') as Partial<AtlasNav> | null;
+      if (saved && (saved.group === 'understand' || saved.group === 'forecast') &&
+          typeof saved.tab === 'string' && ATLAS_TABS[saved.group].includes(saved.tab)) {
+        return { group: saved.group, tab: saved.tab };
+      }
+    } catch { /* use the first view when storage is unavailable or malformed */ }
+    return { group: 'understand', tab: 'series' };
+  });
+  useEffect(() => {
+    try { sessionStorage.setItem(ATLAS_NAV_KEY, JSON.stringify(nav)); } catch { /* navigation still works without storage */ }
+  }, [nav]);
   const [mode, setMode] = useState<'synthetic' | 'baked'>('baked');
   const [knobs, setKnobs] = useState<SyntheticKnobs>(DEFAULT_KNOBS);
   const [index, setIndex] = useState<CaseIndex | null>(null);
@@ -99,9 +118,11 @@ export default function AppPage() {
   const [trace, setTrace] = useState<Trace | null>(null);
   const [analysis, setAnalysis] = useState<Record<string, any> | null>(null);
   const [streaming, setStreaming] = useState<Record<string, any> | null>(null);
+  const [artifactsLoading, setArtifactsLoading] = useState(false);
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [err, setErr] = useState('');
   const [onnx, setOnnx] = useState<(ChartSeries & { mase: number; coverage: number }) | null>(null);
+  const [onnxLoading, setOnnxLoading] = useState(false);
   // one Forecast tab, four on-graph views: Full (whole context), Zoom (predicted zone), Horizon
   // (per-lead error growth), Errors (per-lead residuals). Was three separate tabs + a toggle.
   const [fcView, setFcView] = useState<'full' | 'zoom' | 'horizon' | 'errors'>('full');
@@ -114,13 +135,30 @@ export default function AppPage() {
 
   useEffect(() => {
     if (mode !== 'baked' || !caseId) return;
+    let cancelled = false;
     setAnalysis(null); setStreaming(null); setTrace(null); setManifest(null);
-    loadManifest(caseId).then(async (m) => {
-      setManifest(m);
-      setTrace(await loadTrace(m.artifact.path));
-      if (m.analysis_artifact) setAnalysis(await loadAnalysis(m.analysis_artifact.path));
-      if (m.streaming_artifact) setStreaming(await loadStreaming(m.streaming_artifact.path));
-    }).catch((e) => setErr(String(e)));
+    setErr('');
+    setArtifactsLoading(true);
+    (async () => {
+      try {
+        const m = await loadManifest(caseId);
+        const [nextTrace, nextAnalysis, nextStreaming] = await Promise.all([
+          loadTrace(m.artifact.path),
+          m.analysis_artifact ? loadAnalysis(m.analysis_artifact.path) : Promise.resolve(null),
+          m.streaming_artifact ? loadStreaming(m.streaming_artifact.path) : Promise.resolve(null),
+        ]);
+        if (cancelled) return;
+        setManifest(m);
+        setTrace(nextTrace);
+        setAnalysis(nextAnalysis);
+        setStreaming(nextStreaming);
+      } catch (e) {
+        if (!cancelled) setErr(String(e));
+      } finally {
+        if (!cancelled) setArtifactsLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
   }, [mode, caseId]);
 
   const synthetic = useMemo(() => {
@@ -155,11 +193,12 @@ export default function AppPage() {
   const activeData = mode === 'synthetic' ? synthetic : baked;
 
   // ONNX live deep tier on the active history (the LIVE learned model).
-  const sig = activeData ? `${mode}:${activeData.horizon}:${activeData.m}:${activeData.history.length}:${activeData.history.reduce((a, v) => a + v, 0).toFixed(1)}` : '';
+  const sig = activeData ? `${mode}:${activeData.horizon}:${activeData.m}:${activeData.history.length}:${Math.round(activeData.history.reduce((a, v) => a + v, 0) * 10) / 10}` : '';
   useEffect(() => {
     let cancelled = false;
     setOnnx(null);
-    if (!activeData || !activeData.history.length) return;
+    if (!activeData || !activeData.history.length) { setOnnxLoading(false); return; }
+    setOnnxLoading(true);
     const { history, actual, horizon, m } = activeData;
     (async () => {
       try {
@@ -172,6 +211,7 @@ export default function AppPage() {
         const sc = seasonalNaiveMae(history, m);
         if (!cancelled) setOnnx({ name: ONNX_NAME, color: colorFor(ONNX_NAME), point, lower, upper, mase: mase(actual, point, sc), coverage: coverage(actual, lower, upper) });
       } catch { /* graceful: the live ONNX method simply does not appear */ }
+      finally { if (!cancelled) setOnnxLoading(false); }
     })();
     return () => { cancelled = true; };
   }, [sig]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -284,7 +324,7 @@ export default function AppPage() {
               { label: es ? 'tendencia (MA centrada)' : 'trend (centered MA)', values: decomp.trend, color: 'var(--color-accent)' },
             ]}
             title={es ? 'Tendencia (media móvil centrada de orden m)' : 'Trend (centered order-m moving average)'}
-            subtitle={es ? 'el método clásico (FPP3 cap. 3): exacto para tendencia lineal; NaN honesto en los bordes (m/2 puntos).' : 'the classical method (FPP3 ch. 3): exact for a linear trend; honestly NaN at the edges (m/2 points).'}
+            subtitle={es ? 'promedio móvil centrado (FPP3 cap. 3): exacto para tendencia lineal; NaN honesto en los bordes (m/2 puntos).' : 'centered moving average (FPP3 ch. 3): exact for a linear trend; honestly NaN at the edges (m/2 points).'}
           />
           <LinePlot
             xs={Array.from({ length: Math.min(3 * m_, fullSeries.length) }, (_, i) => i)}
@@ -369,7 +409,7 @@ export default function AppPage() {
           <tbody>
             {residualRows.map((r) => (
               <tr key={r.name}>
-                <td style={{ color: colorFor(r.name) }}>{r.name}</td>
+                <td style={{ color: 'var(--color-fg)' }}>{r.name}</td>
                 <td>{fmt(r.bias, 2)}</td>
                 <td>{fmt(r.mae, 2)}</td>
                 <td>{fmt(r.worst, 2)}</td>
@@ -386,7 +426,7 @@ export default function AppPage() {
 
   const understandStructure = (
     <div className="cs-main">
-      {acfVals.length > 0 && <StemPlot values={acfVals} band={band} title={`ACF (${es ? 'banda' : 'band'} ±${band.toFixed(3)})`} />}
+      {acfVals.length > 0 && <StemPlot values={acfVals} band={band} title={`ACF (${es ? 'banda' : 'band'} ±${fmt(band, 3)})`} />}
       {pacfVals.length > 0 && <StemPlot values={pacfVals} band={band} title="PACF (Durbin-Levinson)" />}
       <div className="cs-panel">
         <div className="cs-panel-t">{es ? 'Lectura Box-Jenkins' : 'Box-Jenkins read'}</div>
@@ -596,10 +636,10 @@ export default function AppPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', gap: '0.6rem', flexWrap: 'wrap' }}>
           <div className="cs-panel-t" style={{ marginBottom: 0 }}>{fcTitles[fcView]}</div>
           <div className="cs-seg" role="tablist" aria-label={es ? 'vista' : 'view'}>
-            <button className={fcView === 'full' ? 'on' : ''} onClick={() => setFcView('full')} role="tab" aria-selected={fcView === 'full'}>{es ? 'Completo' : 'Full'}</button>
-            <button className={fcView === 'zoom' ? 'on' : ''} onClick={() => setFcView('zoom')} role="tab" aria-selected={fcView === 'zoom'}>Zoom</button>
-            <button className={fcView === 'horizon' ? 'on' : ''} onClick={() => setFcView('horizon')} role="tab" aria-selected={fcView === 'horizon'}>{es ? 'Horizonte' : 'Horizon'}</button>
-            <button className={fcView === 'errors' ? 'on' : ''} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
+            <button className={fcView === 'full' ? 'is-active' : ''} onClick={() => setFcView('full')} role="tab" aria-selected={fcView === 'full'}>{es ? 'Completo' : 'Full'}</button>
+            <button className={fcView === 'zoom' ? 'is-active' : ''} onClick={() => setFcView('zoom')} role="tab" aria-selected={fcView === 'zoom'}>Zoom</button>
+            <button className={fcView === 'horizon' ? 'is-active' : ''} onClick={() => setFcView('horizon')} role="tab" aria-selected={fcView === 'horizon'}>{es ? 'Horizonte' : 'Horizon'}</button>
+            <button className={fcView === 'errors' ? 'is-active' : ''} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
           </div>
         </div>
         {fcView === 'horizon' ? (
@@ -641,7 +681,7 @@ export default function AppPage() {
           <tbody>
             {rankedRows.map((r) => (
               <tr key={r.name} className={r.name === best ? 'best' : undefined}>
-                <td style={{ color: colorFor(r.name) }}>{r.name}</td>
+                <td style={{ color: 'var(--color-fg)' }}>{r.name}</td>
                 <td>{r.family}</td>
                 <td>{fmt(r.mase)}</td>
                 <td>{fmt(r.wql)}</td>
@@ -689,7 +729,7 @@ export default function AppPage() {
             />
             {cov && (
               <div className="cs-panel" style={{ borderColor: '#3fb95066' }}>
-                <div className="cs-panel-t" style={{ color: '#3fb950' }}>{es ? 'La política de covariables (la pieza nueva)' : 'The covariate policy (the novel piece)'}</div>
+                <div className="cs-panel-t" style={{ color: 'var(--color-good)' }}>{es ? 'Política de llegada de covariables' : 'Covariate arrival policy'}</div>
                 <div className="cs-panel-sub">{es
                   ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (aware, verde) la usa: conoce el driver del horizonte y anticipa los saltos; Ridge (blind, gris) es el mismo modelo sin la covariable. La brecha entre ambos es lo que compra la covariable. Ningún harness público evalúa esto con política de arribo; preqts sí.`
                   : `This case carries a ${cov.kind === 'known_future' ? 'known-future' : 'past'} covariate (${cov.name}). Ridge+exog (aware, green) uses it: it knows the horizon's driver and anticipates the jumps; Ridge (blind, grey) is the same model without the covariate. The gap between them is what the covariate buys. No public harness evaluates this with an arrival policy; preqts does.`}</div>
@@ -703,7 +743,7 @@ export default function AppPage() {
             )}
             <p className="cs-panel-sub">{es
               ? 'Evaluación prequential (Dawid 1984) con preqts, nuestro paquete PyPI: predecir, luego observar, luego actualizar, con estado acarreado. Ningún harness público hace esto con política de covariables; es la pieza nueva del atlas.'
-              : 'Prequential evaluation (Dawid 1984) with preqts, our PyPI package: predict, then observe, then update, state carried. No public harness does this with a covariate policy; it is the atlas\'s novel piece.'}</p>
+              : 'Prequential evaluation (Dawid 1984) with preqts: predict, observe, then update while carrying state. This study also records covariate arrival policies; it does not claim a new forecasting method.'}</p>
           </>
         );
       })()}
@@ -717,14 +757,14 @@ export default function AppPage() {
   if (mode === 'baked' && trace) {
     fp.push({ label: 'm', value: String(trace.seasonality) });
     const ss = dig(analysis, 'seasonality', 'stl_at_dominant', 'strength_seasonal');
-    if (ss != null) fp.push({ label: es ? 'estac.' : 'seasonal', value: ss.toFixed(2) });
+    if (ss != null) fp.push({ label: es ? 'estac.' : 'seasonal', value: fmt(ss, 2) });
     const a = dig(analysis, 'fractal', 'hurst', 'dfa_alpha');
-    if (a != null) fp.push({ label: 'DFA α', value: a.toFixed(2) });
+    if (a != null) fp.push({ label: 'DFA α', value: fmt(a, 2) });
     const gp = dig(analysis, 'volatility', 'garch', 'persistence');
-    if (gp != null) fp.push({ label: 'GARCH', value: gp.toFixed(2) });
+    if (gp != null) fp.push({ label: 'GARCH', value: fmt(gp, 2) });
     const k = dig(analysis, 'nonlinear', 'zero_one_K');
-    if (k != null) fp.push({ label: es ? 'caos K' : 'chaos K', value: k.toFixed(2) });
-    if (trace.summary.best_mase != null) fp.push({ label: es ? 'mejor MASE' : 'best MASE', value: trace.summary.best_mase.toFixed(2) });
+    if (k != null) fp.push({ label: es ? 'caos K' : 'chaos K', value: fmt(k, 2) });
+    if (trace.summary.best_mase != null) fp.push({ label: es ? 'mejor MASE' : 'best MASE', value: fmt(trace.summary.best_mase, 2) });
   }
 
   const groups: ('Synthetic' | 'Real' | 'Control')[] = ['Synthetic', 'Real', 'Control'];
@@ -739,16 +779,16 @@ export default function AppPage() {
   ];
 
   return (
-    <section className="page-body cs-app">
-      {err && <p style={{ color: 'var(--color-danger, #f85149)' }}>error: {err}</p>}
+    <section className="cs-app" data-state={artifactsLoading || onnxLoading ? 'loading' : 'ready'}>
+      {err && <p style={{ color: 'var(--color-bad)' }}>error: {err}</p>}
 
       {/* full-width control bar: source, case/pattern picker, fingerprint */}
       <div className="cs-bar">
         <div className="cs-bar-group">
           <span className="cs-bar-label">{es ? 'Fuente' : 'Source'}</span>
           <div className="cs-seg" role="tablist" aria-label={es ? 'fuente' : 'source'}>
-            <button className={mode === 'baked' ? 'on' : ''} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso precalculado' : 'Baked case'}</button>
-            <button className={mode === 'synthetic' ? 'on' : ''} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
+            <button className={mode === 'baked' ? 'is-active' : ''} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso precalculado' : 'Baked case'}</button>
+            <button className={mode === 'synthetic' ? 'is-active' : ''} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
           </div>
         </div>
         {mode === 'baked' ? (
@@ -787,7 +827,7 @@ export default function AppPage() {
           {knobDefs.map(([label, value, min, max, step, on]) => (
             <label key={label} className="cs-ctl" style={{ minWidth: 128 }}>
               <span className="cs-ctl-row"><span>{label}</span><b>{value}</b></span>
-              <input className="range" type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} />
+              <input className="cs-range" type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} />
             </label>
           ))}
         </div>
@@ -796,17 +836,23 @@ export default function AppPage() {
       {/* chart area (fills the width) + the interactive method-legend rail */}
       <div className="cs-plotwrap" style={{ marginTop: '0.8rem' }}>
         <div className="cs-plot">
-          <SubTabs
+          <TabGroups
             ariaLabel="workbench views"
-            tabs={[
-              { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label="Series" es={es}>{understandSeries}</PanelBoundary> },
-              { id: 'structure', label: es ? 'Estructura (ACF·espectro)' : 'Structure (ACF·spectrum)', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
-              { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label="Decompose" es={es}>{understandDecompose}</PanelBoundary> },
-              { id: 'verdicts', label: es ? 'Veredictos (tests)' : 'Verdicts (tests)', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
-              { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastPanel}</PanelBoundary> },
-              { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label="Residuals" es={es}>{forecastResiduals}</PanelBoundary> },
-              { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
-              { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
+            value={nav}
+            onChange={(next) => setNav(next as AtlasNav)}
+            groups={[
+              { id: 'understand', label: es ? 'Entender' : 'Understand', tabs: [
+                { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label="Series" es={es}>{understandSeries}</PanelBoundary> },
+                { id: 'structure', label: es ? 'Estructura' : 'Structure', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
+                { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label="Decompose" es={es}>{understandDecompose}</PanelBoundary> },
+                { id: 'verdicts', label: es ? 'Veredictos' : 'Verdicts', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
+              ] },
+              { id: 'forecast', label: es ? 'Pronosticar' : 'Forecast', tabs: [
+                { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastPanel}</PanelBoundary> },
+                { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label="Residuals" es={es}>{forecastResiduals}</PanelBoundary> },
+                { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
+                { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
+              ] },
             ]}
           />
         </div>

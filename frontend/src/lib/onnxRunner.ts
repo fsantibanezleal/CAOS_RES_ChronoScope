@@ -8,6 +8,7 @@
 // The /wasm subpath pins the plain wasm backend (the default bundle asks for the JSEP/webgpu loader,
 // which copy-data.mjs deliberately does not ship).
 import * as ort from 'onnxruntime-web/wasm';
+import modelMeta from './nlinearMeta.json';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -23,18 +24,12 @@ export interface NLinearMeta {
   sigma_norm: number;
 }
 
-let metaPromise: Promise<NLinearMeta> | null = null;
 let sessionPromise: Promise<ort.InferenceSession> | null = null;
 
-export function loadNLinearMeta(): Promise<NLinearMeta> {
-  if (!metaPromise) {
-    metaPromise = fetch(`${BASE}models/nlinear.json`).then((r) => {
-      if (!r.ok) throw new Error(`nlinear.json ${r.status}`);
-      return r.json() as Promise<NLinearMeta>;
-    });
-  }
-  return metaPromise;
-}
+// The metadata is tiny and changes only with a model bake. Import the canonical generated
+// JSON into the bundle so the first inference does not depend on an extra request racing page teardown.
+const NLINEAR_META = modelMeta as NLinearMeta;
+export const loadNLinearMeta = (): Promise<NLinearMeta> => Promise.resolve(NLINEAR_META);
 
 function getSession(): Promise<ort.InferenceSession> {
   if (!sessionPromise) {

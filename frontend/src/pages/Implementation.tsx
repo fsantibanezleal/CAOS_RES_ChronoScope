@@ -9,8 +9,8 @@ export default function Implementation() {
     <section className="page-body prose">
       <h2>{es ? 'Implementación' : 'Implementation'}</h2>
       <p className="cs-lead">{es
-        ? 'ChronoScope es un producto de pipeline-offline-pesado con replay determinista y estático: el procesamiento duro (entrenar la escalera profunda en GPU, ejecutar los fundacionales, las diez familias de análisis, el banco de streaming) ocurre offline y se precalcula en artefactos compactos versionados; esta web los reproduce, y el nivel clásico + un modelo profundo pequeño se ejecutan en vivo en el navegador.'
-        : 'ChronoScope is an offline-pipeline-heavy, static, deterministic-replay product: the hard processing (training the deep ladder on GPU, running the foundation models, the ten analysis families, the streaming bench) happens offline and is baked into compact versioned artifacts; this web replays them, and the classical tier + a small deep model run live in the browser.'}</p>
+        ? 'ChronoScope precalcula modelos y análisis en GPU en artefactos compactos versionados; esta web reproduce esos datos. Seasonal-naive, suavizado exponencial y un modelo NLinear pequeño también se ejecutan en el navegador.'
+        : 'ChronoScope precomputes GPU models and analysis into compact versioned artifacts; this web replays them. Seasonal-naive, exponential smoothing and a small NLinear model also run in the browser.'}</p>
 
       <svg viewBox="0 0 680 150" width="100%" style={{ maxWidth: 680, display: 'block', margin: '0.8rem auto', font: '11px var(--font-sans, sans-serif)' }} role="img" aria-label="the three lanes">
         <rect x="6" y="10" width="200" height="60" rx="6" fill="var(--color-surface)" stroke="var(--color-accent)" /><text x="106" y="30" textAnchor="middle" fill="var(--color-fg)" fontSize="10">{es ? 'OFFLINE (GPU, py3.12)' : 'OFFLINE (GPU, py3.12)'}</text><text x="106" y="44" textAnchor="middle" fill="var(--color-fg-subtle)" fontSize="9">statsforecast · LightGBM · torch</text><text x="106" y="57" textAnchor="middle" fill="var(--color-fg-subtle)" fontSize="9">neuralforecast · Chronos · TimesFM</text>
@@ -40,7 +40,7 @@ export default function Implementation() {
           </g>
         ))}
         <text x="6" y="14" fill="var(--color-fg)" fontSize="10">{es ? 'una ejecución = una función pura de (caso, semilla); cada etapa es tipada, sembrada y testeada' : 'one run = a pure function of (case, seed); every stage is typed, seeded, and tested'}</text>
-        <text x="6" y="90" fill="var(--color-fg-faint)" fontSize="9">{es ? 'emite por caso: trace.json (19 métodos + backtest) · analysis.json (veredictos + catch22) · streaming.json (trayectorias) · manifest (bytes + gate + procedencia)' : 'emits per case: trace.json (19 methods + backtest) · analysis.json (verdicts + catch22) · streaming.json (trajectories) · manifest (bytes + gate + provenance)'}</text>
+        <text x="6" y="90" fill="var(--color-fg-faint)" fontSize="9">{es ? 'artefactos por caso: trace · analysis · streaming · manifest' : 'artifacts per case: trace · analysis · streaming · manifest'}</text>
         <text x="6" y="106" fill="var(--color-fg-faint)" fontSize="9">{es ? 'los carriles pesados son opt-in por bandera: CHRONOSCOPE_ENABLE_NEURAL / _FOUNDATION / _NEURALFORECAST / _TIREX_WSL' : 'heavy lanes are opt-in by flag: CHRONOSCOPE_ENABLE_NEURAL / _FOUNDATION / _NEURALFORECAST / _TIREX_WSL'}</text>
       </svg>
 

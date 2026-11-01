@@ -1,28 +1,22 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import { Activity } from 'lucide-react';
-import { AppShell, applyTheme, readTheme, CitationsProvider, type ShellConfig } from '@fasl-work/caos-app-shell';
+import { AppShell, CitationsProvider, Landing, STANDARD_ROUTES, SurfacePage, useShellLang, type ShellConfig } from '@fasl-work/caos-app-shell';
 import '@fasl-work/caos-app-shell/styles.css';
+import '@fasl-work/caos-app-shell/chart.css';
+import 'katex/dist/katex.min.css';
 import './chronoscope.css';
 import { CITATIONS } from './data/citations';
 import { architecture } from './architecture';
 import { EXTERNAL_LINKS } from './lib/links';
-import pkg from '../package.json';
-
-// Display version X.XX.XXX derived from the semver manifest (single source, no drift).
-const displayVersion = pkg.version
-  .split('.')
-  .map((p, i) => (i === 0 ? p : p.padStart(i === 1 ? 2 : 3, '0')))
-  .join('.');
+import product from '../../product.json';
 import AppPage from './pages/AppPage';
 import Introduction from './pages/Introduction';
 import Methodology from './pages/Methodology';
 import Implementation from './pages/Implementation';
 import Experiments from './pages/Experiments';
 import Benchmark from './pages/Benchmark';
-
-applyTheme(readTheme());
 
 // Restore a deep link captured by the Pages 404 shim (public/404.html) before the router mounts.
 const redirect = sessionStorage.getItem('cs-redirect');
@@ -32,22 +26,19 @@ if (redirect && redirect !== location.pathname + location.search) {
 }
 
 const config: ShellConfig = {
-  product: { name: 'ChronoScope', mark: <Activity size={18} aria-hidden="true" /> },
-  routes: [
-    { path: '/', en: 'App', es: 'App' },
-    { path: '/introduction', en: 'Introduction', es: 'Introducción' },
-    { path: '/methodology', en: 'Methodology', es: 'Metodología' },
-    { path: '/implementation', en: 'Implementation', es: 'Implementación' },
-    { path: '/experiments', en: 'Experiments', es: 'Experimentos' },
-    { path: '/benchmark', en: 'Benchmark', es: 'Benchmark' },
-  ],
+  product: { name: product.name, mark: <Activity size={18} aria-hidden="true" /> },
+  routes: STANDARD_ROUTES,
   links: {
     github: EXTERNAL_LINKS.github,
     personal: EXTERNAL_LINKS.personal,
     portfolio: EXTERNAL_LINKS.portfolio,
   },
-  version: displayVersion, // single source: frontend/package.json (no drift)
+  version: __APP_VERSION__,
+  build: __BUILD_ID__,
+  license: { en: `${product.license} licence`, es: `Licencia ${product.license}` },
+  visibility: product.visibility as ShellConfig['visibility'],
   architecture,
+  contain: true,
   footer: {
     provenance: {
       en: 'Data: UCI Electricity + Beijing PM2.5 and M4/Monash excerpts (CC-BY 4.0, attributed); synthetic cases seed-generated (MIT). Engines: Nixtla statsforecast/mlforecast/neuralforecast + local Chronos-2, TimesFM 2.5 and TiRex-2 checkpoints (Apache-2.0); streaming eval: preqts (PyPI).',
@@ -62,20 +53,46 @@ const config: ShellConfig = {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <CitationsProvider items={CITATIONS}>
         <AppShell config={config}>
           <Routes>
-            <Route path="/" element={<AppPage />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/app" element={<AtlasSurface />} />
             <Route path="/introduction" element={<Introduction />} />
             <Route path="/methodology" element={<Methodology />} />
             <Route path="/implementation" element={<Implementation />} />
             <Route path="/experiments" element={<Experiments />} />
             <Route path="/benchmark" element={<Benchmark />} />
-            <Route path="*" element={<AppPage />} />
+            <Route path="*" element={<Landing />} />
           </Routes>
         </AppShell>
       </CitationsProvider>
     </BrowserRouter>
   </StrictMode>,
 );
+
+function AtlasSurface() {
+  const lang = useShellLang();
+  return (
+    <SurfacePage
+      title={{ en: 'Forecasting atlas', es: 'Atlas de pronósticos' }}
+      lede={lang === 'es'
+        ? 'Inspecciona una serie, compara pronósticos y sigue sus errores y sus intervalos.'
+        : 'Inspect a series, compare forecasts, and follow their error and interval behavior.'}
+      tabs={[
+        {
+          id: 'explore',
+          label: lang === 'es' ? 'Explorar' : 'Explore',
+          focus: {
+            title: { en: 'Forecasting atlas', es: 'Atlas de pronósticos' },
+            description: { en: 'Series diagnostics and forecast comparisons', es: 'Diagnósticos de series y comparación de pronósticos' },
+          },
+          content: <AppPage />,
+        },
+      ]}
+      instrument
+      focus
+    />
+  );
+}

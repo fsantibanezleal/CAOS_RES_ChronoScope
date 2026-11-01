@@ -18,16 +18,16 @@ it with the classical diagnostic toolkit (ten analysis families: stationarity, a
 seasonality, filters/decomposition, change points, volatility, distribution/complexity, fractals,
 nonlinear dynamics, causality), runs a **19-method forecast ladder** across it (5 classical + 3
 statistical + LightGBM + 6 deep + 4 foundation models), and shows honestly where each family wins and
-where it fails. The thesis: **the diagnosis explains the leaderboard**, no free lunch, and the atlas
-shows why.
+where it fails. Case diagnostics add context to these comparisons; the finite case matrix does not
+establish a general causal explanation of model rankings.
 
 - **15 committed cases** (seeded synthetic across regimes + CC-BY real data: UCI Electricity, Beijing
   PM2.5, two real M4/Monash series + honesty controls), each baked with the full ladder, the ten-family
   analysis panel, and a prequential streaming bench.
 - **Foundation tier**: Chronos-Bolt, Chronos-2, TimesFM 2.5 (local Apache-2.0 checkpoints, GPU) and
   TiRex-2 via an opt-in **WSL2 lane** (its sLSTM kernels have no Windows wheels).
-- **The novel lane**: prequential (predict → observe → update) evaluation of stateful forecasters with an
-  explicit covariate-arrival policy and online conformal calibration (ACI / Conformal-PID), extracted as
+- **Prequential streaming evaluation**: predict, score, then ingest, with an explicit covariate-arrival
+  policy and online interval calibration (ACI / Conformal-PID), implemented through
   the published PyPI package [`preqts`](https://pypi.org/project/preqts/).
 - **The web app replays the committed artifacts** (nothing heavy runs in the browser) while the classical
   ladder + an ONNX NLinear run live in-browser, parity-checked against the Python core.
@@ -48,6 +48,21 @@ python scripts/check_artifacts.py
 # 4. the web app consumes the artifacts (copy-data enforces the artifact contract)
 cd frontend && npm ci && npm run dev
 ```
+
+## Areas
+
+| Area | Folder | Status | What it holds |
+|---|---|---|---|
+| Web | [frontend/](frontend/) | active | Interactive atlas and static app shell integration |
+| API | [app/](app/) | dormant: static Pages deployment serves committed artifacts | Optional read-only FastAPI service |
+| Core pipelines | [data-pipeline/](data-pipeline/) | active | Forecasting engines analysis stages and artifact export |
+| Packages | [preqts on PyPI](https://pypi.org/project/preqts/) | active | Prequential forecast evaluation and calibration library |
+| Notebooks | [notebooks/](notebooks/) | dormant: no committed notebook workflow | Reserved for reproducible exploratory analyses |
+| Data | [data/](data/) | active | Case inputs provenance and committed derived artifacts |
+| Contracts | [docs/contracts/](docs/contracts/) | active | Artifact schemas compatibility and boundary records |
+| Documentation | [docs/](docs/) | active | Methods cases architecture and user guides |
+| Tests and gates | [tests/](tests/) [scripts/](scripts/) | active | Python TypeScript and artifact validation gates |
+| Deploy | [deploy/](deploy/) | active | GitHub Pages target and deployment notes |
 
 ## The two data contracts
 
@@ -72,9 +87,9 @@ cd frontend && npm ci && npm run dev
 
 ## Hard rules
 
-- **Honesty gates everywhere**: baked artifacts record what is unavailable rather than faking it; control
-  cases (white noise, random walk) exist so a "win" there flags harness leakage; n_windows per method is
-  recorded; local-only data never ships.
+- **Evidence boundaries**: baked artifacts record what is unavailable rather than faking it; the white-noise
+  and near-random-walk cases provide limited baseline checks, not proof against all leakage; n_windows per
+  method is recorded; local-only data never ships.
 - **Determinism**: every bake is a pure function of (case, seed); no timestamps in artifacts; re-baking is
   a no-op diff unless code changed.
 - **Tests never write canonical artifacts** (sandboxed via `CHRONOSCOPE_DERIVED_DIR`).

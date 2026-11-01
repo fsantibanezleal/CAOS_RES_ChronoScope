@@ -97,8 +97,8 @@ export default function Methodology() {
   const foundation = (
     <div className="prose">
       <p>{es
-        ? 'El nivel SOTA: transformers pre-entrenados sobre miles de millones de observaciones que pronostican cualquier serie zero-shot, sin ajuste. Todos los pesos precalculados son Apache-2.0; se ejecutan desde checkpoints locales en la GPU.'
-        : 'The SOTA tier: transformers pretrained on billions of observations that forecast any series zero-shot, no fitting. All baked weights are Apache-2.0; they run from local checkpoints on the GPU.'}
+        ? 'Los modelos de base pronostican sin ajuste por serie. Los pesos precalculados que se distribuyen aquí tienen licencia Apache-2.0 y se ejecutan desde checkpoints locales en GPU.'
+        : 'Foundation models forecast without per-series fitting. The pretrained weights distributed here are Apache-2.0 and run from local GPU checkpoints.'}
         {' '}<Cite id="fm-survey" /></p>
       <h4>Chronos-Bolt · Chronos-2</h4>
       <p>{es
@@ -118,12 +118,12 @@ export default function Methodology() {
       <h4>{es ? 'Los límites honestos del roster' : 'The honest roster limits'}</h4>
       <p>{es
         ? 'Con TiRex-2 en el carril WSL2, el único límite que queda es de licencia: Moirai-2 lidera GIFT-Eval pero sus pesos son CC-BY-NC (no comerciales): material de guía, nunca precalculado.'
-        : 'With TiRex-2 in the WSL2 lane, the only remaining limit is a license one: Moirai-2 tops GIFT-Eval but its weights are CC-BY-NC (non-commercial): guide material, never baked.'}
+        : 'Moirai-2 is discussed as related work but is not included in this roster because its weights are CC-BY-NC. Other limits include compute, platform support, and incomplete source provenance.'}
         {' '}<Cite id="moirai" /></p>
       <Callout variant="honest" title={es ? 'La caveat de fuga' : 'The leakage caveat'}>
         {es
-          ? 'Los benchmarks públicos solo garantizan una evaluación limpia para modelos entrenados en sus splits de pre-entrenamiento; un fundacional entrenado en otro corpus puede haber visto los datos de test. Por eso los casos sintéticos de ChronoScope (generados por semilla, imposibles de haber visto) son una señal de honestidad complementaria a los casos reales.'
-          : 'Public benchmarks only guarantee clean evaluation for models trained on their pretraining splits; a foundation model trained on another corpus may have seen the test data. That is why ChronoScope\'s synthetic cases (seed-generated, impossible to have seen) are an honesty signal complementary to the real cases.'}
+          ? 'La presencia de series de prueba en corpus de preentrenamiento puede ser desconocida. Los casos sintéticos complementan los casos reales, pero no prueban que un modelo no haya visto datos similares.'
+          : 'Test-series overlap with pretraining corpora may be unknown. Synthetic cases complement real series, but they do not prove that a model has never seen similar data.'}
         {' '}<Cite id="gifteval" />
       </Callout>
     </div>
@@ -132,10 +132,10 @@ export default function Methodology() {
   const calibrated = (
     <div className="prose">
       <p>{es
-        ? 'Más allá del punto: toda salida de la escalera es cuantílica, y el banco de streaming añade la capa "más allá del SOTA en la práctica": el mismo pronosticador puntual con intervalos que se auto-corrigen en línea.'
-        : 'Beyond the point: every ladder output is quantile-based, and the streaming bench adds the beyond-SOTA-in-practice layer: the same point forecaster with intervals that self-correct online.'}</p>
+        ? 'Además del punto, los métodos entregan cuantiles. El banco de streaming estudia cómo cambia la cobertura cuando ACI o Conformal-PID actualizan los intervalos en línea.'
+        : 'Alongside point forecasts, the methods emit quantiles. The streaming bench studies how coverage changes when ACI or Conformal-PID updates intervals online.'}</p>
       <h4>Adaptive Conformal Inference (ACI)</h4>
-      <Equation tex={String.raw`\alpha_{t+1} = \alpha_t + \gamma\,(\alpha^{*} - \text{miss}_t), \qquad \hat q_t = \text{Quantile}_{1-\alpha_t}\{s_1, \ldots, s_t\}`} caption={es ? 'La mis-cobertura efectiva se ajusta con cada verdad revelada; la cobertura de largo plazo converge al objetivo bajo deriva arbitraria (sin intercambiabilidad).' : 'The effective miscoverage adjusts with each revealed truth; long-run coverage converges to the target under arbitrary drift (no exchangeability).'} />
+      <Equation tex={String.raw`\alpha_{t+1} = \alpha_t + \gamma\,(\alpha^{*} - \text{miss}_t), \qquad \hat q_t = \text{Quantile}_{1-\alpha_t}\{s_1, \ldots, s_t\}`} caption={es ? 'La regla ACI actualiza la mis-cobertura tras cada observación. La trayectoria finita mostrada es empírica y no constituye por sí sola una garantía de cobertura.' : 'The ACI rule updates target miscoverage after each observation. The finite trajectory shown is empirical and does not by itself establish a coverage guarantee.'} />
       <h4>Conformal PID</h4>
       <p>{es
         ? 'La calibración como problema de control: términos Proporcional + Integral + Derivativo sobre el error de cobertura (ACI es el caso especial solo-integral, kp = kd = 0, verificado por test). P y D compran mejores transientes: recuperación más rápida tras un cambio de régimen.'
@@ -164,8 +164,6 @@ export default function Methodology() {
             <text x={(x as number) + 63} y={(y as number) + 30} textAnchor="middle" fill="var(--color-fg-subtle)" fontSize="8">{names}</text>
           </g>
         ))}
-        <line x1="20" y1="146" x2="672" y2="146" stroke="var(--color-border)" />
-        <text x="20" y="140" fill="var(--color-fg-faint)" fontSize="8.5">{es ? 'costo por serie: microsegundos' : 'per-series cost: microseconds'}</text>
         <text x="672" y="10" textAnchor="end" fill="var(--color-fg-faint)" fontSize="8.5">{es ? 'pre-entrenado en miles de millones de obs.' : 'pretrained on billions of observations'}</text>
       </svg>
       <SubTabs

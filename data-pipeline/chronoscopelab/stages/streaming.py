@@ -1,21 +1,13 @@
-"""Stage 5b - streaming: the prequential streaming bench (the product's flagship novel piece).
+"""Stage 5b - prequential streaming metrics for the forecast cases.
 
-Real forecasting is streaming: observations arrive one by one, the model updates, and its INTERVALS must
-stay calibrated as the series drifts. No public harness evaluates stateful forecasters this way with an
-explicit covariate-arrival policy - that is the gap `preqts` (our published package, PyPI `preqts>=0.2`)
-fills, and this stage bakes the demonstration per case:
+The stage runs a predict-score-ingest loop through the separately published `preqts` package and
+stores per-case trajectories. The current roster uses batch forecasters through ReplayAdapter; it does
+not demonstrate a streaming-native model's constant-cost update. The bake records rolling MASE,
+empirical coverage, weighted quantile loss, and cumulative prediction and ingestion latency. It does
+not store interval width. Runtime is machine-dependent and is not a complexity guarantee.
 
-For each streaming method (the classical live methods wrapped as replay + the ACI / Conformal-PID
-calibrated variants of the best one), it runs a prequential test-then-update pass over the case history
-and records the CUMULATIVE trajectories the web's streaming bench renders:
-
-  * rolling MASE (skill as the stream lengthens),
-  * rolling empirical coverage vs the nominal target (the calibration story: raw vs ACI vs PID),
-  * per-step interval width (the price of coverage),
-  * cumulative compute cost (ms) - the constant-cost-per-step story.
-
-References (verified dossiers): prequential evaluation Dawid 1984 (DOI 10.2307/2981683); ACI Gibbs &
-Candes 2021 (arXiv:2106.00170); Conformal PID Angelopoulos, Candes & Tibshirani 2023 (arXiv:2307.16895).
+References: prequential evaluation Dawid 1984 (DOI 10.2307/2981683); ACI Gibbs & Candes 2021
+(arXiv:2106.00170); Conformal PID Angelopoulos, Candes & Tibshirani 2023 (arXiv:2307.16895).
 """
 from __future__ import annotations
 

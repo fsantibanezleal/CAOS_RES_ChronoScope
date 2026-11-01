@@ -1,0 +1,30 @@
+{
+  "name": "ChronoScope",
+  "slug": "chronoscope",
+  "tagline": {
+    "en": "Explore time-series structure and compare forecasts on reproducible cases.",
+    "es": "Explora la estructura de series temporales y compara pronósticos en casos reproducibles."
+  },
+  "repo": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope",
+  "visibility": "public",
+  "license": "MIT",
+  "holder": "Felipe Santibáñez-Leal",
+  "year": 2026,
+  "app": "surface",
+  "focus": true,
+  "method_packages": [],
+  "method_entrypoints": [
+    "chronoscopelab.stages.streaming.run",
+    "chronoscopelab.model.forecasters.theta",
+    "chronoscopelab.model.forecasters.seasonal_naive"
+  ],
+  "manuscripts": [
+    {
+      "kind": "manuscript",
+      "concept_doi": "10.5281/zenodo.21508920",
+      "title": "Prequential Streaming Evaluation of Stateful Time-Series Forecasters with Online Conformal Calibration: A Diagnostic Atlas and the preqts Harness",
+      "version": "2.3",
+      "covers": []
+    }
+  ]
+}

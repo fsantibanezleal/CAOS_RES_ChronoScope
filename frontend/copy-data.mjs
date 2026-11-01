@@ -9,6 +9,14 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const PUB = join(HERE, 'public');
 
+// The generated ONNX metadata is imported by the browser and also published beside the ONNX weights.
+const modelMeta = join(HERE, 'src', 'lib', 'nlinearMeta.json');
+if (existsSync(modelMeta)) {
+  mkdirSync(join(PUB, 'models'), { recursive: true });
+  cpSync(modelMeta, join(PUB, 'models', 'nlinear.json'));
+  console.log('[copy-data] embedded NLinear metadata -> public/models/nlinear.json');
+}
+
 // 1) data/derived -> public/data (traces under <case>/trace.json + manifests/ subdir incl. index.json)
 const derived = join(ROOT, 'data', 'derived');
 if (existsSync(derived)) {

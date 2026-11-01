@@ -3,6 +3,8 @@
 // score under a SELECTABLE metric (MASE / WQL / MSIS - all lower-is-better), with the best row highlighted,
 // so the selection is informed and the number is never ambiguous. This is the on-chart curve selection the
 // rubric requires when many series overlap (you can pick out one method among 19).
+import { formatNumber } from '@fasl-work/caos-app-shell';
+
 export interface LegendItem {
   name: string;
   family: string;
@@ -38,7 +40,7 @@ export function SeriesLegend({
 }) {
   const families = Array.from(new Set(items.map((i) => i.family)))
     .sort((a, b) => (FAMILY_ORDER.indexOf(a) + 1 || 99) - (FAMILY_ORDER.indexOf(b) + 1 || 99));
-  const fmt = (v: number | null | undefined) => (v == null || !Number.isFinite(v) ? '' : v.toFixed(2));
+  const fmt = (v: number | null | undefined) => v == null || !Number.isFinite(v) ? '' : formatNumber(v, es ? 'es' : 'en', { digits: 2 });
   const allNames = items.map((i) => i.name);
   const anyHidden = hidden.size > 0;
 
@@ -96,7 +98,7 @@ export function SeriesLegend({
                 <div key={it.name} className={`cs-legend-row${off ? ' off' : ''}${isBest ? ' best' : ''}`}>
                   <button className="cs-legend-item" onClick={() => onToggle(it.name)} aria-pressed={!off} title={es ? 'mostrar/ocultar' : 'show/hide'}>
                     <span className="swatch" style={{ background: it.color, opacity: off ? 0.3 : 1 }} />
-                    <span className="cs-legend-name">{it.name}</span>
+                    <span className="cs-legend-name" title={it.name}>{it.name}</span>
                     {valueOf(it) != null && (
                       <span className="cs-legend-mase" title={metric.toUpperCase()}>
                         {fmt(valueOf(it))}{isBest ? (es ? ' · mejor' : ' · best') : ''}

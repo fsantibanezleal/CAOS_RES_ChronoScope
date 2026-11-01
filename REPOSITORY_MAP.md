@@ -7,7 +7,7 @@ built against it until the shape is approved, so we don't build-then-redo.
 > generic names. In the tree actually shipped: **`productlab/` = `data-pipeline/chronoscopelab/`** (the Python
 > package lives INSIDE `data-pipeline/`; on instantiation rename `chronoscopelab` → `<slug>lab`), **`web/` =
 > `frontend/`**, and **`api/` = `app/`** (the dormant FastAPI module). The stage/contract/lane semantics below
-> are unchanged, only the paths differ. When in doubt, the shipped tree + `docs/guides/00_instantiate.md` win.
+> are unchanged, only the paths differ. When in doubt, the shipped tree + `README.md` win.
 
 ## Three execution lanes + a replay fallback: SEPARATE dependencies AND implementation
 
@@ -54,7 +54,7 @@ persists artifact + manifest. Add domain stages as needed (e.g. `calibrate.py`, 
 ## The TWO data contracts (were missing everywhere)
 
 1. **Ingestion `raw → processing`**: `productlab/io/contract.py`: required schema (columns, units, ranges) + an
-   explicit outlier policy (reject/clip/flag). The *bring-your-own-data* gate. Doc: `docs/data-contract.md`.
+   explicit outlier policy (reject/clip/flag). The *bring-your-own-data* gate. Doc: `docs/contracts/catalog.md`.
 2. **Artifact `processing → web`**: `manifests/<case>.json` + the compact artifact schema; the web has a TS type
    mirroring it (`web/src/contract.ts`) so a drift fails the build; `web/copy-data.mjs` copies canonical artifacts.
 

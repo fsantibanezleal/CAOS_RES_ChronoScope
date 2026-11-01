@@ -1,0 +1,27 @@
+{
+  "trace": {
+    "version": "1.0.0",
+    "schema": "data-pipeline/chronoscopelab/core/trace.py",
+    "sha256": "c9838f61470ebd19d4b6b4b5425e6e69fd0e4a73da8129909c9bece0a8a5140b"
+  },
+  "manifest": {
+    "version": "1.0.0",
+    "schema": "data-pipeline/chronoscopelab/core/manifest.py",
+    "sha256": "5d15e47bbdc5237f21eca4032304f875d1c11b9a38596ecba3f49aa2d6160936"
+  },
+  "streaming": {
+    "version": "1.0.0",
+    "schema": "data-pipeline/chronoscopelab/stages/streaming.py",
+    "sha256": "bd3c4746476afd7346da51f6d2f8284ac9cb68353f3572c00adc603a88633bc8"
+  },
+  "analysis": {
+    "version": "1.0.0",
+    "schema": "data-pipeline/chronoscopelab/stages/analyze.py",
+    "sha256": "d1b81f7ee48b7d3a128c566a28abd3273f356da16ba3eff42ad46ee663babc39"
+  },
+  "nlinear-model": {
+    "version": "1.0.0",
+    "schema": "frontend/public/models/nlinear.json",
+    "sha256": "60e999e7e39231a6c69243b448bb0e971f2ec9d8d12a1238eece79a0f0e18404"
+  }
+}

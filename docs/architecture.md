@@ -7,6 +7,6 @@
 - [05: the staged precompute pipeline](architecture/05_precompute-pipeline.md)
 - [06: model evaluation](architecture/06_model-evaluation.md)
 - [07: deploy](architecture/07_deploy.md)
-- [08: the two data contracts](architecture/08_data-contracts.md)
+- [08: the data contracts](architecture/08_data-contracts.md)
 
-Binding decision: [ADR-0057](../../conventions/architecture/0-archetype/ADR-0057-product-repo-archetype.md).
+The repository boundary is documented locally: the staged pipeline writes committed artifacts, and the browser consumes them through the manifest and trace contracts.

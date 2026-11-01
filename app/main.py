@@ -6,13 +6,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
+from . import __version__
 from .config import Settings, origins
 from .routers import content
 
 
 def create_app() -> FastAPI:
     s = Settings()
-    app = FastAPI(title="product (dormant API)", version="0.01.000")
+    app = FastAPI(title="ChronoScope (dormant API)", version=__version__)
     app.add_middleware(GZipMiddleware, minimum_size=1024)
     app.add_middleware(
         CORSMiddleware,

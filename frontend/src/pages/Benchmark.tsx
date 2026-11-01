@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Callout, Cite, Refs, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
+import { Callout, Cite, formatNumber, Refs, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
 import { loadAnalysis, loadIndex, loadManifest, loadTrace } from '../api/artifacts';
 import type { Trace } from '../lib/contract.types';
 
@@ -7,7 +7,6 @@ import type { Trace } from '../lib/contract.types';
 // Tabbed: leaderboard (MASE per method x case) · per-family view · coverage · interval (MSIS) ·
 // forecastability atlas (diagnosis -> winner) · honesty notes.
 interface CaseTrace { caseId: string; category: string; trace: Trace; analysis: Record<string, unknown> | null; }
-const fmt = (v: number | null | undefined, nd = 3) => (v == null || Number.isNaN(v) ? '-' : v.toFixed(nd));
 
 const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'foundation'];
 const FAMILY_COLOR: Record<string, string> = {
@@ -26,6 +25,7 @@ function dig(o: unknown, ...path: string[]): number | null {
 
 export default function Benchmark() {
   const es = useShellLang() === 'es';
+  const fmt = (v: number | null | undefined, nd = 3) => formatNumber(v, es ? 'es' : 'en', { digits: nd });
   const [rows, setRows] = useState<CaseTrace[]>([]);
   const [err, setErr] = useState('');
   const [atlasAxis, setAtlasAxis] = useState('dfa');
@@ -89,16 +89,16 @@ export default function Benchmark() {
       <ul>
         <li>{es
           ? 'Los clásicos ganan o empatan en los casos de estacionalidad limpia y en los controles (donde ganar por mucho sería una bandera roja).'
-          : 'Classical methods win or tie on the clean-seasonality cases and the controls (where winning big would be a red flag).'}</li>
+          : 'Seasonal-naive and simple smoothing methods win or tie on some clean-seasonality cases and controls (where winning big would be a red flag).'}</li>
         <li>{es
           ? 'Los estadísticos (AutoARIMA/ETS/Theta) son el punto de referencia robusto del nivel medio: rara vez los mejores, rara vez malos.'
-          : 'Statistical methods (AutoARIMA/ETS/Theta) are the robust mid-tier reference: rarely best, rarely bad.'}</li>
+          : 'Statistical methods (AutoARIMA/ETS/Theta) are a useful reference: rarely best, rarely bad.'}</li>
         <li>{es
           ? 'Los profundos (NHITS en particular) lideran donde hay estructura no lineal o multi-escala que aprender (estacional + tendencia, multi-estacional, caos de corto plazo). Cada modelo profundo aparece dos veces (framework "(nf)" y implementación directa): su acuerdo es una auditoría integrada.'
           : 'Deep methods (NHITS in particular) lead where there is nonlinear or multi-scale structure to learn (seasonal + trend, multi-seasonal, short-horizon chaos). Every deep model appears twice (framework "(nf)" and direct implementation): their agreement is a built-in audit.'}</li>
         <li>{es
-          ? 'Los fundacionales (TimesFM-2.5, Chronos-2) son los generalistas: zero-shot, sin ajuste, competitivos en casi todo, y ganadores donde el contexto largo importa (intermitencia, memoria larga). Que un modelo sin entrenar en estos datos compita con modelos entrenados en ellos es el resultado SOTA central.'
-          : 'Foundation models (TimesFM-2.5, Chronos-2) are the generalists: zero-shot, no fitting, competitive almost everywhere, and winners where long context matters (intermittency, long memory). That a model never trained on this data competes with models trained on it is the central SOTA result.'}</li>
+          ? 'TimesFM-2.5 y Chronos-2 pronostican sin ajuste por serie. Su rendimiento varía entre casos; las trayectorias de este atlas no establecen una ventaja general.'
+          : 'TimesFM-2.5 and Chronos-2 forecast without per-series fitting. Their performance varies across cases; this atlas does not establish a general advantage.'}</li>
       </ul>
     </div>
   );
@@ -223,9 +223,9 @@ export default function Benchmark() {
 
       <div className="cs-panel" style={{ marginTop: '1rem' }}>
         <div className="cs-panel-t">{es ? 'Mapa: pronosticabilidad vs diagnóstico' : 'Map: forecastability vs diagnostic'}</div>
-        <div className="cs-chips" style={{ margin: '0.4rem 0' }}>
+        <div className="cs-chip-group" style={{ margin: '0.4rem 0' }}>
           {AXES.map((ax) => (
-            <button key={ax.key} className={`chip${atlasAxis === ax.key ? ' on' : ''}`} onClick={() => setAtlasAxis(ax.key)}>
+            <button key={ax.key} className={`cs-filter-chip${atlasAxis === ax.key ? ' is-active' : ''}`} onClick={() => setAtlasAxis(ax.key)}>
               {es ? ax.labelEs : ax.label}
             </button>
           ))}
@@ -245,14 +245,15 @@ export default function Benchmark() {
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W }} role="img" aria-label="forecastability atlas scatter">
               {/* naive wall at MASE = 1 */}
               <line x1={PAD} y1={sy(1)} x2={W - PAD} y2={sy(1)} stroke="var(--color-fg-subtle)" strokeDasharray="4 3" />
-              <text x={W - PAD} y={sy(1) - 4} textAnchor="end" fontSize="9" fill="var(--color-fg-subtle)">{es ? 'muro del naive (MASE=1)' : 'naive wall (MASE=1)'}</text>
+              <text x={W - PAD} y={PAD - 6} textAnchor="end" fontSize="9" fill="var(--color-fg-subtle)">{es ? 'muro del naive (MASE=1)' : 'naive wall (MASE=1)'}</text>
               {/* axes labels */}
               <text x={W / 2} y={H - 8} textAnchor="middle" fontSize="10" fill="var(--color-fg-subtle)">{es ? ax.labelEs : ax.label}</text>
               <text x={12} y={H / 2} textAnchor="middle" fontSize="10" fill="var(--color-fg-subtle)" transform={`rotate(-90 12 ${H / 2})`}>{es ? 'mejor MASE (menor = más pronosticable)' : 'best MASE (lower = more forecastable)'}</text>
               {pts.map((p) => (
                 <g key={p.id}>
-                  <circle cx={sx(p.x)} cy={sy(p.y)} r={5} fill={FAMILY_COLOR[p.fam] ?? '#888'} opacity={0.85} />
-                  <text x={sx(p.x) + 7} y={sy(p.y) + 3} fontSize="8" fill="var(--color-fg-subtle)">{p.id.replace(/_.*/, '')}</text>
+                  <circle cx={sx(p.x)} cy={sy(p.y)} r={5} fill={FAMILY_COLOR[p.fam] ?? '#888'} opacity={0.85} aria-label={`${p.id}: ${ax.label} ${p.x}; MASE ${p.y}`}>
+                    <title>{`${p.id}: ${ax.label} ${p.x}; MASE ${p.y}`}</title>
+                  </circle>
                 </g>
               ))}
             </svg>
@@ -266,8 +267,8 @@ export default function Benchmark() {
       </div>
 
       <p className="cs-panel-sub">{es
-        ? 'El atlas conecta el diagnóstico de cada serie (huella del toolkit precalculado) con su resultado (qué familia gana y qué tan pronosticable es). Lectura: estacionalidad fuerte y d bajo -> clásicos/estadísticos ganan con MASE bajo; memoria larga o caos -> profundos/fundacionales; ruido y caminata aleatoria -> nadie le gana al naive (MASE ~ 1, el muro). Es una realización (el backtest de origen móvil de este atlas), no una ley; los controles deben quedar en el muro, si no, el pipeline tiene fuga.'
-        : 'The atlas connects each series\' diagnosis (the baked toolkit fingerprint) to its outcome (which family wins and how forecastable it is). Read: strong seasonality and low d -> classical/statistical win at low MASE; long memory or chaos -> deep/foundation; noise and random walk -> nobody beats the naive (MASE ~ 1, the wall). It is one realization (this atlas\'s rolling-origin backtest), not a law; the controls must sit at the wall, else the pipeline is leaking.'}
+        ? 'El atlas muestra la huella diagnóstica y el resultado observado en estos casos. La relación es descriptiva: no establece que una característica cause que una familia gane ni predice el resultado en una serie no observada. La cobertura resume las trayectorias finitas publicadas; es observacional, no una garantía marginal o libre de distribución. Los conteos de ventanas varían por método y están en los artefactos de cada caso. Los tiempos de streaming dependen de la máquina. Revise los resultados por caso y el protocolo antes de usar un promedio cruzado.'
+        : 'The atlas plots each case’s diagnostic fingerprint against its observed outcome. The relationship is descriptive: it does not show that a feature causes a method family to win, or predict results for an unseen series. Coverage summarizes the finite released trajectories; it is observational, not a marginal or distribution-free guarantee. Window counts vary by method and appear in each case’s artifacts. Streaming timings depend on the machine. Review per-case results and the protocol before using a cross-case average.'}
         {' '}<Cite id="mase" /></p>
     </div>
   );
@@ -283,8 +284,8 @@ export default function Benchmark() {
             ? 'Presupuestos de ventanas: los métodos pesados se backtestean con menos ventanas (n_windows está en el manifiesto); sus MASE tienen más varianza.'
             : 'Window budgets: heavy methods are backtested on fewer windows (n_windows is in the manifest); their MASE has more variance.'}</li>
           <li>{es
-            ? 'Fuga de pre-entrenamiento: los fundacionales pudieron ver series públicas parecidas a los casos reales. Los casos sintéticos (sembrados, imposibles de haber visto) son el contrapeso; que los fundacionales también compitan ahí es la señal fuerte.'
-            : 'Pretraining leakage: foundation models may have seen public series resembling the real cases. The synthetic cases (seeded, impossible to have seen) are the counterweight; that foundation models also compete there is the strong signal.'}</li>
+            ? 'Fuga de pre-entrenamiento: los modelos fundacionales pudieron ver series públicas parecidas a los casos reales. Los casos sintéticos locales complementan la evaluación, pero no prueban que los corpus de preentrenamiento carezcan de datos análogos.'
+            : 'Pretraining leakage: foundation models may have seen public series resembling the real cases. The locally generated synthetic cases complement the evaluation, but do not prove that pretraining corpora lack analogous data.'}</li>
           <li>{es
             ? 'GARCH es a propósito: su tabla de puntos es aburrida; su valor está en la vista de cobertura y en el banco de streaming.'
             : 'GARCH is on purpose: its point table is boring; its value lives in the coverage view and the streaming bench.'}</li>
@@ -299,7 +300,10 @@ export default function Benchmark() {
       <p className="cs-lead">{es
         ? 'Los resultados cruzados sobre los 15 casos, construidos en vivo desde los artefactos comprometidos (nunca tipeados a mano): 19 métodos, backtest de origen móvil, punto + cobertura.'
         : 'The cross-case results over the 15 cases, built live from the committed artifacts (never hand-typed): 19 methods, rolling-origin backtest, point + coverage.'}</p>
-      {err && <p style={{ color: 'var(--color-danger, #f85149)' }}>error: {err}</p>}
+      <p>{es
+        ? 'El roster observado contiene 19 métodos en cada artefacto de los 15 casos. Estas comparaciones describen los datos y ventanas configuradas; no son una clasificación universal ni una afirmación causal. La tabla de cobertura resume la misma matriz finita, y las mediciones de tiempo varían por máquina.'
+        : 'The observed roster contains 19 methods in each artifact across the 15 cases. These comparisons describe the data and configured windows; they are not a universal ranking or a causal claim. The coverage table summarizes the same finite matrix, and timing measurements vary by machine.'}</p>
+      {err && <p style={{ color: 'var(--color-bad)' }}>error: {err}</p>}
       {rows.length === 0 && !err && <p className="cs-panel-sub">{es ? 'cargando artefactos...' : 'loading artifacts...'}</p>}
       {rows.length > 0 && (
         <SubTabs
