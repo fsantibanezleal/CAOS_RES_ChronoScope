@@ -64,6 +64,353 @@
     "causality": {
       "type": "object",
       "additionalProperties": true
+    },
+    "sequence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "n": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "observation_indices": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "matrix_profile": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "available": {
+                      "const": true
+                    },
+                    "n": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "window": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "exclusion_zone": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "profile": {
+                      "type": "array",
+                      "items": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      }
+                    },
+                    "nearest_neighbor": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "motifs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "start": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "match": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "distance": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "start",
+                          "match",
+                          "distance"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "discords": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "start": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "distance": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "start",
+                          "distance"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "corrected_arc_curve": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    },
+                    "regime_boundaries": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "regimes_requested": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "normalization": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "available",
+                    "n",
+                    "window",
+                    "exclusion_zone",
+                    "profile",
+                    "nearest_neighbor",
+                    "motifs",
+                    "discords",
+                    "corrected_arc_curve",
+                    "regime_boundaries",
+                    "regimes_requested",
+                    "normalization",
+                    "note"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "available": {
+                      "const": false
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "n": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "window": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "available",
+                    "reason"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "multiscale_entropy": {
+              "type": "object",
+              "properties": {
+                "order": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "tolerance_ratio": {
+                  "type": "number"
+                },
+                "tolerance_basis": {
+                  "type": "string"
+                },
+                "scales": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "scale": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "n": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "tolerance": {
+                        "type": "number"
+                      },
+                      "entropy": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "matching_m": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "matching_m_plus_one": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "reason": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "scale",
+                      "n",
+                      "tolerance",
+                      "entropy",
+                      "matching_m",
+                      "matching_m_plus_one"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "order",
+                "tolerance_ratio",
+                "tolerance_basis",
+                "scales"
+              ],
+              "additionalProperties": false
+            },
+            "lempel_ziv": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "normalized": {
+                  "type": "number"
+                },
+                "threshold": {
+                  "type": "number"
+                },
+                "alphabet": {
+                  "type": "string"
+                },
+                "normalization": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "raw",
+                "normalized",
+                "threshold",
+                "alphabet",
+                "normalization"
+              ],
+              "additionalProperties": false
+            },
+            "time_reversal": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "lag": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "raw": {
+                    "type": "number"
+                  },
+                  "standardized": {
+                    "type": "number"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lag",
+                  "raw",
+                  "standardized",
+                  "note"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "interpretation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "n",
+            "observation_indices",
+            "values",
+            "matrix_profile",
+            "multiscale_entropy",
+            "lempel_ziv",
+            "time_reversal",
+            "interpretation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "available": {
+              "const": false
+            },
+            "reason": {
+              "type": "string"
+            },
+            "n": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "window": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "available",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
     }
   },
   "additionalProperties": false

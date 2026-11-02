@@ -106,6 +106,76 @@ export interface components {
             causality: {
                 [key: string]: unknown;
             };
+            sequence?: {
+                n: number;
+                observation_indices: number[];
+                values: number[];
+                matrix_profile: {
+                    /** @constant */
+                    available: true;
+                    n: number;
+                    window: number;
+                    exclusion_zone: number;
+                    profile: (number | null)[];
+                    nearest_neighbor: number[];
+                    motifs: {
+                        start: number;
+                        match: number;
+                        distance: number;
+                    }[];
+                    discords: {
+                        start: number;
+                        distance: number;
+                    }[];
+                    corrected_arc_curve: number[];
+                    regime_boundaries: number[];
+                    regimes_requested: number;
+                    normalization: string;
+                    note: string;
+                } | {
+                    /** @constant */
+                    available: false;
+                    reason: string;
+                    n?: number;
+                    window?: number;
+                };
+                multiscale_entropy: {
+                    order: number;
+                    tolerance_ratio: number;
+                    tolerance_basis: string;
+                    scales: {
+                        scale: number;
+                        n: number;
+                        tolerance: number;
+                        entropy: number | null;
+                        matching_m: number;
+                        matching_m_plus_one: number;
+                        reason?: string;
+                    }[];
+                };
+                lempel_ziv: {
+                    raw: number;
+                    normalized: number;
+                    threshold: number;
+                    alphabet: string;
+                    normalization: string;
+                };
+                time_reversal: {
+                    lag: number;
+                    raw: number;
+                    standardized: number;
+                    note: string;
+                }[];
+                interpretation: string;
+            } | {
+                /** @constant */
+                available: false;
+                reason: string;
+                n?: number;
+                window?: number;
+            } | {
+                error: string;
+            };
         };
         /** streaming */
         Streaming: {
@@ -212,6 +282,88 @@ export interface components {
                 torch_cuda: string | null;
                 gpu: string | null;
                 torch_cpu_threads: number;
+            };
+        };
+        /** ForecastabilityStudy */
+        ForecastabilityStudy: {
+            /** @constant */
+            schema: "chronoscope.forecastability/v1";
+            /** @constant */
+            complete: true;
+            protocol: Record<string, never>;
+            packages: {
+                [key: string]: string;
+            };
+            code_sha256: {
+                [key: string]: string;
+            };
+            source_sha256: string;
+            source: Record<string, never>;
+            /** @constant */
+            source_n: 4227;
+            included_n: number;
+            excluded: {
+                id: string;
+                excluded: string;
+                sequence_sha256: string;
+            }[];
+            model_names: string[];
+            summary: {
+                discovery_n: number;
+                confirmation_n: number;
+                associations: {
+                    feature: string;
+                    discovery: {
+                        feature: string;
+                        n: number;
+                        tau: number;
+                        p: number;
+                        q: number;
+                        rejected: boolean;
+                    };
+                    confirmation: {
+                        feature: string;
+                        n: number;
+                        tau: number;
+                        p: number;
+                        q: number;
+                        rejected: boolean;
+                    };
+                    confirmed: boolean;
+                }[];
+                constant_method: string;
+                selection_mean_mase: {
+                    selected: number;
+                    discovery_constant: number;
+                    oracle: number;
+                };
+                model_mean_mase: {
+                    [key: string]: number;
+                };
+                selector_features: string[];
+                discovery_medians: number[];
+                limitations: string[];
+            };
+            series: {
+                id: string;
+                start_timestamp: string;
+                source_n: number;
+                sequence_sha256: string;
+                /** @enum {unknown} */
+                partition: "discovery" | "confirmation";
+                features: {
+                    [key: string]: number | null;
+                };
+                mase: {
+                    [key: string]: number;
+                };
+                origins: number[];
+                selected_method?: string;
+            }[];
+            audit: {
+                verified_origin_scores: number;
+                selector_sha256: string;
+                cache_identity: string;
             };
         };
         MethodBacktest: {

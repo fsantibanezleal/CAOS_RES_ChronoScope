@@ -1,0 +1,180 @@
+{
+  "ok": true,
+  "cases": [
+    {
+      "id": "BRKV_level_shift",
+      "bytes": 113077,
+      "sha256": "7b1ad6ee72fe2be02a0a78d18b3804dbc6c06a782ebe6f3208048ed911966108",
+      "n": 300,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "CHAO_mackey",
+      "bytes": 179213,
+      "sha256": "4f28f61728e55a25aa5cf059121a1ce53d8f76fd11a32465947583c206baac91",
+      "n": 500,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "CTRL_white_noise",
+      "bytes": 70091,
+      "sha256": "5257ff0a23d3dbd5bc6439dd8db8704aff7c072614fabf37f4592304ffcf8367",
+      "n": 160,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "EXOG_promo",
+      "bytes": 97374,
+      "sha256": "069de568733491a70147f782ef343f16aac9d2e5ca9c6fec770b3b341655329c",
+      "n": 240,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "HETV_garch",
+      "bytes": 183070,
+      "sha256": "5a5b53ef97e4d2035dcc4fdebd260e1ae844e4a6f0cc084aaf851cac8693325a",
+      "n": 500,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "INTM_demand",
+      "bytes": 78223,
+      "sha256": "329a747d94828ed0971ba93bdcdb36ca436dce027b294d06a00bcc25fc47c18a",
+      "n": 200,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "LMEM_fractional",
+      "bytes": 188880,
+      "sha256": "68f709c3df54d514a257ce66716bca801ab36e440bfa388cdd64909b44897b0f",
+      "n": 500,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "MSEA_daily_weekly",
+      "bytes": 230144,
+      "sha256": "b0337e1c2690c82d835ccd3d732c70d372b39e1713e08f76e21169ae024b8602",
+      "n": 672,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "REAL_electricity",
+      "bytes": 173376,
+      "sha256": "e177a8a58bac067742b67fae727e051a3a71c72072e1d474df7d5651bf514089",
+      "n": 480,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "REAL_m4_daily",
+      "bytes": 135796,
+      "sha256": "6ec8e420051ed52874ee20c96cdfa09f7ef4658e45c90f806cb52ecca1453ac9",
+      "n": 400,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "REAL_m4_hourly",
+      "bytes": 145783,
+      "sha256": "69ed277458a2734e27a729ba71ffc740eb3b877e12ecf451edc75d335e5f7c13",
+      "n": 480,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "REAL_pm25",
+      "bytes": 163564,
+      "sha256": "c92850a2e651fdb8e87cecf5f18d7b246a68670b63c04519383e0c7603528e0c",
+      "n": 480,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "RWLK_noise",
+      "bytes": 85136,
+      "sha256": "5737266350fc0b6f62bafc33393aab20a2c69f6c09f67c317f3b3304b8a65991",
+      "n": 200,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "SEAS_hourly",
+      "bytes": 171404,
+      "sha256": "2c6c1d78ac2d0ebf173a8579309ae6d90e6cfc3bab562f4b466881ba9a70bdf8",
+      "n": 480,
+      "identical_independent_runs": 2
+    },
+    {
+      "id": "TRND_seasonal",
+      "bytes": 70890,
+      "sha256": "cae7dc812f765e12d38956d0147913f3c78981a2edba181a2bd6e364d9359d11",
+      "n": 180,
+      "identical_independent_runs": 2
+    }
+  ],
+  "code_sha256": {
+    "data-pipeline/chronoscopelab/__init__.py": "a2fc4d5b031b6aab5b41d6c76386a417866ee69bd0e058df52bb12289b14d219",
+    "data-pipeline/chronoscopelab/analysis/__init__.py": "875ba0e041f06378c91d12ac260ad30245f6404d7cb0e747e5ebb223ad991437",
+    "data-pipeline/chronoscopelab/analysis/atlas.py": "0c038b33f39110ca257cb6888a31d8fa8764ac4a38018ffe9e73af6ef1dc7719",
+    "data-pipeline/chronoscopelab/analysis/autocorrelation.py": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552",
+    "data-pipeline/chronoscopelab/analysis/causality.py": "e9b8fe8bc9b64a5cadf0e7accc2fae0b322fa1511958c375828f8ffede840c01",
+    "data-pipeline/chronoscopelab/analysis/changepoints.py": "dc0ce4fcb0eae8ca1b58bcf12046d09298d9807ce83e3d9344528a583b8e1466",
+    "data-pipeline/chronoscopelab/analysis/distribution.py": "36d79880747d2cef9c715e84e23586014988b77eadb78acac33edf6cf3d07f42",
+    "data-pipeline/chronoscopelab/analysis/filters.py": "227301d30878b6379d9588e8baa204a03a1d8d8dd4a329f90df8ac65db87741f",
+    "data-pipeline/chronoscopelab/analysis/fractal.py": "f1fa42f4c0676a97cde5a07ca79e9a832ae356c13451a7d46ee3859c107f3b1e",
+    "data-pipeline/chronoscopelab/analysis/nonlinear.py": "fcbc4a473636d1dd8a6c13b5170d1d6ee977fd6dc78beb56bd2d12f2caa6f593",
+    "data-pipeline/chronoscopelab/analysis/seasonality.py": "99c328fdb6b792b73485928146313e613f9c3ba354b1760e82e8bdd7e50b7cbb",
+    "data-pipeline/chronoscopelab/analysis/sequence.py": "63cf6a21ba110d08fd5bde2c9e4df2ec53a75b29ab03fba151b83be35c7420b9",
+    "data-pipeline/chronoscopelab/analysis/stationarity.py": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029",
+    "data-pipeline/chronoscopelab/analysis/volatility.py": "38685dc0684377d816ead19cff357c75caef68c5db7038fb9c5c96ad213978c0",
+    "data-pipeline/chronoscopelab/cases/__init__.py": "1058bf31ffba798823211621698f81fc0a742fc1c92fe28de44e6694e4b25e6b",
+    "data-pipeline/chronoscopelab/cases/forecast_cases.py": "f2b2333496d1159f4be7e83a07bbce4c8ba3cac76a4075a0ab7d861ef9d374f1",
+    "data-pipeline/chronoscopelab/core/__init__.py": "6a9821fcee40c25ba70c48cd3281d70a250a0f8554d6fe02995c78e0e55df55e",
+    "data-pipeline/chronoscopelab/core/gate.py": "05673ae1895ebe8d71a76c719b1cafd76224aaf6cb52e18f26f5ae98735f05a1",
+    "data-pipeline/chronoscopelab/core/manifest.py": "5d15e47bbdc5237f21eca4032304f875d1c11b9a38596ecba3f49aa2d6160936",
+    "data-pipeline/chronoscopelab/core/rng.py": "814846f833cc87f6c143410c113c1270b0e34414ccd4ca7a6e98b011c6c55679",
+    "data-pipeline/chronoscopelab/core/trace.py": "c9838f61470ebd19d4b6b4b5425e6e69fd0e4a73da8129909c9bece0a8a5140b",
+    "data-pipeline/chronoscopelab/data/__init__.py": "9871b1f0b2fce453de51ecf2866837307702a20acda115bfb1116378c00c1152",
+    "data-pipeline/chronoscopelab/data/loaders.py": "af93c06e1afeeff1bfaf5a0da61aabbdf6aeeb061ec070cbf61b52f4c32a0100",
+    "data-pipeline/chronoscopelab/data/provenance.py": "7116c4277911d78f26f51094b0f7311e80cf2b7749fda826a007a21afb285bc8",
+    "data-pipeline/chronoscopelab/engines/__init__.py": "43be6a6ba3a06949f5be046635bcb991bc2041b84ef8c113fa6c777619c002cf",
+    "data-pipeline/chronoscopelab/engines/chronos_engine.py": "dbbbca3f4567007e98feaf4409a4660520b3bbe9890b7c46f930adb9ad7924c4",
+    "data-pipeline/chronoscopelab/engines/lightgbm_engine.py": "7ce55fa309d5072c9a44751d8d06aac52f7e823950cda3a14154c0b3267a467c",
+    "data-pipeline/chronoscopelab/engines/neural_engine.py": "91776da3315fc850fa51fe3911ae9e25b93b7c11364363be982d7b8d2e72d341",
+    "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py": "c0b2386012a1c53f61d58ce03dd37c4b4579f14053db8b30ade61f696d72d235",
+    "data-pipeline/chronoscopelab/engines/statsforecast_engine.py": "2277da5ffc93ea2543b43239d4b0f334fd440d0fdfc67c627a253e2a9cab7a34",
+    "data-pipeline/chronoscopelab/engines/timesfm_engine.py": "343d3557395ce904530525bb69ed9c0b8bcf16c3595239181c5fe69ef7a99780",
+    "data-pipeline/chronoscopelab/engines/tirex2_engine.py": "b81e7b32deaacde94ee358ba0e58a086525c37eb1c8b5869af96d54c9c34bd92",
+    "data-pipeline/chronoscopelab/engines/tirex2_wsl_engine.py": "2e8de3eb02803cfda7907c1dbce5fdfc4697e2a7cff24c12009ca5bc866eea60",
+    "data-pipeline/chronoscopelab/gpu.py": "680fac239cbf8175cdb2ffbf7e46bcac390af1c21d02803ea5e6531ee8a82153",
+    "data-pipeline/chronoscopelab/io/__init__.py": "ff8f850f1919f5a91932db412b58719209716c42b0036ba071878e79d6326d99",
+    "data-pipeline/chronoscopelab/io/contract.py": "e44d9d4f94b3dd3feb48cefed8cd0f28091687200887cffb64713cb08023eda9",
+    "data-pipeline/chronoscopelab/io/formats.py": "7d164ee240f94430fb95586908c3ee704b55599e6d800c69e6275675095de647",
+    "data-pipeline/chronoscopelab/io/schema.py": "adefcafc958fb67e0d85300b8c56d1875b0d79a200acc1c7c5e58259060579e3",
+    "data-pipeline/chronoscopelab/live.py": "27d3f3cc001b3f99b2b3018ef20fa740d3f1ca4e095a031ac1afd2a2a33997ad",
+    "data-pipeline/chronoscopelab/methods.py": "1c4c57425476f1b3b1ffbe2a27cfd832199398d6290dc19037bee75069bc1a8d",
+    "data-pipeline/chronoscopelab/model/__init__.py": "3aa15ec2efe83ded16ba21bb4b3b9182dd82d793b568c348a83b1a1a6a82d112",
+    "data-pipeline/chronoscopelab/model/context_memory.py": "dbafac6c79f05a562718e217113c170aac6a968ddbae6bf723e8e5e7292fc5ad",
+    "data-pipeline/chronoscopelab/model/forecasters.py": "940c194ab85fe9d2ccbd58b89b986c1e0bb580298954f06a8793117b6469e664",
+    "data-pipeline/chronoscopelab/pipeline.py": "4223ea9529b9f371ab5511bba30f8dbefca5aa70ed6db7bc67b0cbfd19415282",
+    "data-pipeline/chronoscopelab/reevaluation.py": "571b0293ef70271dbff2be502d0a9458104a28946b2d8ec2d6da59dabbc937fe",
+    "data-pipeline/chronoscopelab/registry.py": "f6969cf9eb599d724dda6e1bd794834c20a8e6a2d8d431b709f1750f5e7ae86f",
+    "data-pipeline/chronoscopelab/stages/__init__.py": "3259ae271e8fa8d31b168b4b965c106e2284b4a59dc47b541d0671ea79b03696",
+    "data-pipeline/chronoscopelab/stages/analyze.py": "44f3484254dfe51b9a1dec0ae80e54917a2ebc89588db3054b07783cce6ba701",
+    "data-pipeline/chronoscopelab/stages/evaluate.py": "d4f2e1461e1301fe7c7efd1ee7cb0f4fd6b0d8b47dedd419c8c819af7a4b91f6",
+    "data-pipeline/chronoscopelab/stages/export.py": "70e31d4cec66d7d5adcb6ada8a55cd5a42c409400cccb63b37e2bfe4439a143c",
+    "data-pipeline/chronoscopelab/stages/feature_extraction.py": "9ba36c76b68fca28a52f27ad915b2cdbe54bbaccd0004296e71f570597a14802",
+    "data-pipeline/chronoscopelab/stages/infer.py": "e44e981f6cd0d64c3d3d9664e46321cd2233e288ac2eef20d64dd6874bf8d224",
+    "data-pipeline/chronoscopelab/stages/preprocess.py": "01a54976ecb766cfc5ffb3e27a0dbbfb7c1cc415a7a6941cc5eb62a1fd08c577",
+    "data-pipeline/chronoscopelab/stages/streaming.py": "bd3c4746476afd7346da51f6d2f8284ac9cb68353f3572c00adc603a88633bc8",
+    "data-pipeline/chronoscopelab/stages/train.py": "6e72e60b03da95fb164bd6939d1f79c41af7fe2464906f17b52bd250c3fe49ae"
+  },
+  "verified_runtime": {
+    "python": "3.13.14",
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.15.3",
+      "stumpy": "1.14.1",
+      "nolds": "0.6.3",
+      "scikit-learn": "1.9.1",
+      "antropy": "0.2.2",
+      "pycatch22": "0.4.5",
+      "statsmodels": "0.14.6"
+    }
+  }
+}
