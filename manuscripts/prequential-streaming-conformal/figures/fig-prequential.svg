@@ -4,37 +4,37 @@
        drew text at that scale, and svglib 2.2 honours the declared size. -->
   <defs>
     <style>
-      .t{fill:#1a202c;font-size:9px;text-anchor:middle;} .ts{fill:#4a5568;font-size:7.5px;text-anchor:middle;}
+      .t{fill:#1a202c;font-size:14px;text-anchor:middle;} .ts{fill:#4a5568;font-size:13px;text-anchor:middle;}
       .box{fill:#ebf8ff;stroke:#2b6cb0;stroke-width:1.4;rx:6;} .st{fill:#fffaf0;stroke:#c05621;stroke-width:1.4;rx:6;}
       .loop{stroke:#2b6cb0;stroke-width:1.8;fill:none;}
       .hdr{fill:#718096;font-size:7.875px;font-weight:bold;letter-spacing:.4px;}
     </style>
   </defs>
 
-  <text class="t" x="320" y="24" font-weight="bold" font-size="9.75">Prequential (test-then-train) evaluation of a STATEFUL forecaster</text>
+  <text class="t" x="320" y="24" font-weight="bold" font-size="9.75">One-step replay forecasting with a persistent interval controller</text>
 
   <!-- the loop -->
-  <rect class="box" x="60"  y="70" width="118" height="48"/><text class="t" x="119" y="90">1. PREDICT</text><text class="ts" x="119" y="106">horizon h from state s_t</text>
-  <rect class="box" x="262" y="70" width="118" height="48"/><text class="t" x="321" y="90">2. REVEAL truth</text><text class="ts" x="321" y="106">y at t+h observed</text>
-  <rect class="box" x="464" y="70" width="118" height="48"/><text class="t" x="523" y="90">3. SCORE</text><text class="ts" x="523" y="106">MASE, coverage, cost</text>
-  <rect class="st"  x="262" y="168" width="118" height="48"/><text class="t" x="321" y="188">4. UPDATE state</text><text class="ts" x="321" y="204">s_t  ->  s_t+1 (state carried)</text>
+  <rect class="box" x="45"  y="70" width="148" height="48"/><text class="t" x="119" y="90">1. PREDICT</text><text class="ts" x="119" y="106">fit prefix; interval</text>
+  <rect class="box" x="247" y="70" width="148" height="48"/><text class="t" x="321" y="90">2. REVEAL truth</text><text class="ts" x="321" y="106">next target arrives</text>
+  <rect class="box" x="449" y="70" width="148" height="48"/><text class="t" x="523" y="90">3. SCORE</text><text class="ts" x="523" y="106">coverage and loss</text>
+  <rect class="st"  x="247" y="168" width="148" height="48"/><text class="t" x="321" y="188">4. UPDATE</text><text class="ts" x="321" y="204">append; recalibrate</text>
 
-  <path class="loop" d="M178,94 L252,94"/><polygon fill="#2b6cb0" points="262,94 251,89.5 251,98.5"/>
-  <path class="loop" d="M380,94 L454,94"/><polygon fill="#2b6cb0" points="464,94 453,89.5 453,98.5"/>
-  <path class="loop" d="M523,118 L523,192 L390,192"/><polygon fill="#2b6cb0" points="380,192 391,187.5 391,196.5"/>
-  <path class="loop" d="M262,192 L119,192 L119,128"/><polygon fill="#2b6cb0" points="119,118 114.5,129 123.5,129"/>
+  <path class="loop" d="M193,94 L237,94"/><polygon fill="#2b6cb0" points="247,94 236,89.5 236,98.5"/>
+  <path class="loop" d="M395,94 L439,94"/><polygon fill="#2b6cb0" points="449,94 438,89.5 438,98.5"/>
+  <path class="loop" d="M523,118 L523,192 L405,192"/><polygon fill="#2b6cb0" points="395,192 406,187.5 406,196.5"/>
+  <path class="loop" d="M247,192 L119,192 L119,128"/><polygon fill="#2b6cb0" points="119,118 114.5,129 123.5,129"/>
   <!-- "only then" labels the score-to-update arrow, to the right of its vertical segment -->
   <text class="ts" x="547" y="158" fill="#2b6cb0">only then</text>
 
   <!-- covariate arrival policy -->
   <rect x="60" y="240" width="230" height="34" rx="5" fill="#f7fafc" stroke="#cbd5e0"/>
-  <text class="ts" x="175" y="256" font-weight="bold">covariate-arrival policy (per channel)</text>
-  <text class="ts" x="175" y="269">known-future (planned) vs revealed-with-target</text>
+  <text class="ts" x="175" y="256" font-weight="bold">Prediction information</text>
+  <text class="ts" x="175" y="269">observed prefix; past scores</text>
 
-  <!-- contrast with stateless -->
+  <!-- implementation scope -->
   <rect x="350" y="240" width="230" height="34" rx="5" fill="#fff5f5" stroke="#feb2b2"/>
-  <text class="ts" x="465" y="256" font-weight="bold" fill="#c53030">stateless-window harnesses (fev/GluonTS/Darts)</text>
-  <text class="ts" x="465" y="269" fill="#742a2a">reset state each window; no test-then-train loop</text>
+  <text class="ts" x="465" y="256" font-weight="bold" fill="#c53030">Scope of the experiment</text>
+  <text class="ts" x="465" y="269" fill="#742a2a">no native-state comparison</text>
 
-  <text class="ts" x="320" y="150">skill is a trajectory over the stream: an adapting model's error falls, a static one drifts</text>
+  <text class="ts" x="320" y="150">forecast first; score next; then reveal the target to the update procedure</text>
 </svg>

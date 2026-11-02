@@ -1,0 +1,12 @@
+\begin{table}[htbp]\centering\footnotesize
+\caption{Mean rolling absolute error across fifteen cases. Controller cells give the range of the three fixed gain multipliers (0.5, 1, 2), not sampling uncertainty or a selected optimum.}
+\begin{tabular}{lrrrr}
+\toprule
+Base & $c$ & Raw & ACI-style & PID-style\\\midrule
+Seasonal naive & 0.7 & 0.1543 & 0.0976--0.1211 & 0.0907--0.1176\\
+Seasonal naive & 0.8 & 0.1309 & 0.0849--0.1033 & 0.0774--0.1016\\
+Seasonal naive & 0.9 & 0.0957 & 0.0629--0.0766 & 0.0596--0.0731\\
+S+D & 0.7 & 0.1085 & 0.0712--0.0864 & 0.0667--0.0852\\
+S+D & 0.8 & 0.0830 & 0.0597--0.0697 & 0.0558--0.0667\\
+S+D & 0.9 & 0.0567 & 0.0499--0.0571 & 0.0494--0.0557\\
+\bottomrule\end{tabular}\end{table}

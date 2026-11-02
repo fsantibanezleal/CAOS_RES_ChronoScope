@@ -3,60 +3,56 @@
   "candidates": [
     {
       "kind": "technical-report",
-      "version": "0.24.000",
+      "version": "0.25.000",
       "covers": [
         "BS-1"
       ],
-      "state": "published",
+      "state": "revision-in-progress",
       "pdf": "manuscripts/product-report/main.pdf",
-      "sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
+      "sha256": "2b90b1a3c5d0d0f135d537ccd22261ef078fe951b82c5e892e4a420522047848",
       "source": "manuscripts/product-report/tex/main.tex",
-      "source_sha256": "a0eb706053f553bd75ee4551f6765a936a8a8155a1b1a5150f3b8903f0fb1b95",
-      "version_doi": "10.5281/zenodo.23876442",
+      "source_sha256": "afbe671ea7edbb148587ff627e7a705507d56035b96a9980f4f102bcfe95c142",
+      "version_doi": "10.5281/zenodo.23884372",
       "concept_doi": "10.5281/zenodo.23874816",
-      "reviewed_pdf_sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
-      "reviewed_source_sha256": "a0eb706053f553bd75ee4551f6765a936a8a8155a1b1a5150f3b8903f0fb1b95",
-      "doi": "10.5281/zenodo.23876442",
-      "record_url": "https://zenodo.org/records/23876442"
+      "doi": "10.5281/zenodo.23884372",
+      "record_url": "https://zenodo.org/records/23884372"
     },
     {
       "kind": "manuscript",
-      "version": "0.1",
+      "version": "0.2",
       "covers": [
         "BS-1"
       ],
-      "state": "published",
+      "state": "revision-in-progress",
       "pdf": "manuscripts/context-memory/main.pdf",
-      "sha256": "6f5e83d18df28c3ac96f90858f27c3da18df512bba25cf14b55e67db597d7d3a",
+      "sha256": "0053127e947a9ef77a7e47f0400625cd843f2e628869e3dc7e1db476e85bafc4",
       "source": "manuscripts/context-memory/tex/main.tex",
-      "source_sha256": "31354ae6c6f725cf2db8383d0b81f94881de5454be5e45ac56d3737f216ddcdb",
-      "version_doi": "10.5281/zenodo.23874821",
+      "source_sha256": "0120dffe182f1fe334d479c3668709ac2467a0f6e9a037b94770b58a021d8a4d",
+      "version_doi": "10.5281/zenodo.23884371",
       "concept_doi": "10.5281/zenodo.23874820",
-      "reviewed_pdf_sha256": "6555ece921ed04bd3a7ac232e58fc8fa40dd27abbddf7f57eb07c3bf536c0817",
-      "reviewed_source_sha256": "d8dff375d9c71134bbffe5b8995bd22dcda1ab73d126a6aad49792505beeec8c",
-      "doi": "10.5281/zenodo.23874821",
-      "record_url": "https://zenodo.org/records/23874821"
+      "doi": "10.5281/zenodo.23884371",
+      "record_url": "https://zenodo.org/records/23884371"
     },
     {
       "kind": "companion-study-revision",
-      "version": "2.4",
+      "version": "2.5",
       "covers": [],
       "state": "published",
       "pdf": "manuscripts/prequential-streaming-conformal/main.pdf",
-      "sha256": "ebd90c74d17ef9b6a33f09ef08f9052176798d57907e148f8b5a1cb743105bba",
+      "sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
       "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
-      "source_sha256": "d1c2e8b8564497f99b0f8c7f938d85fda4d0e56749277a76ff80fe8fc168e146",
-      "version_doi": "10.5281/zenodo.23874824",
+      "source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4",
+      "version_doi": "10.5281/zenodo.23884367",
       "concept_doi": "10.5281/zenodo.21508920",
-      "reviewed_pdf_sha256": "7d45e487f0de6278bdb5df770a4975f2e50bd3d54812cf9f8fd673e599db03da",
-      "reviewed_source_sha256": "490c257e0a5d51b13259cee8447a7fad9bc8b463ff7eb5a990b9161803ffac90",
-      "doi": "10.5281/zenodo.23874824",
-      "record_url": "https://zenodo.org/records/23874824"
+      "reviewed_pdf_sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
+      "reviewed_source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4",
+      "doi": "10.5281/zenodo.23884367",
+      "record_url": "https://zenodo.org/records/23884367"
     }
   ],
   "approval": {
-    "instruction": "Continue with all four remaining research extensions. Implement and validate everything required, commit and push every change, and deploy the completed app.",
-    "scope": "Complete four research extensions, publish the required versioned technical report, promote and deploy the completed app"
+    "instruction": "review all the mansucripts; change and update all the rquried; try and implement betttter solutions",
+    "scope": "Correct all three manuscripts, implement improved combinations with external evaluation, publish required revisions and deploy"
   },
   "previous_versions": [
     {
@@ -77,6 +73,61 @@
       "doi": "10.5281/zenodo.23874817",
       "record_url": "https://zenodo.org/records/23874817",
       "immutable_source": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/v0.23.000/manuscripts/product-report"
+    },
+    {
+      "kind": "companion-study-revision",
+      "version": "2.4",
+      "covers": [],
+      "state": "published",
+      "pdf": "manuscripts/prequential-streaming-conformal/main.pdf",
+      "sha256": "ebd90c74d17ef9b6a33f09ef08f9052176798d57907e148f8b5a1cb743105bba",
+      "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
+      "source_sha256": "d1c2e8b8564497f99b0f8c7f938d85fda4d0e56749277a76ff80fe8fc168e146",
+      "version_doi": "10.5281/zenodo.23874824",
+      "concept_doi": "10.5281/zenodo.21508920",
+      "reviewed_pdf_sha256": "7d45e487f0de6278bdb5df770a4975f2e50bd3d54812cf9f8fd673e599db03da",
+      "reviewed_source_sha256": "490c257e0a5d51b13259cee8447a7fad9bc8b463ff7eb5a990b9161803ffac90",
+      "doi": "10.5281/zenodo.23874824",
+      "record_url": "https://zenodo.org/records/23874824",
+      "immutable_source": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/v0.24.000/manuscripts/prequential-streaming-conformal"
+    },
+    {
+      "kind": "technical-report",
+      "version": "0.24.000",
+      "covers": [
+        "BS-1"
+      ],
+      "state": "published",
+      "pdf": "manuscripts/product-report/main.pdf",
+      "sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
+      "source": "manuscripts/product-report/tex/main.tex",
+      "source_sha256": "a0eb706053f553bd75ee4551f6765a936a8a8155a1b1a5150f3b8903f0fb1b95",
+      "version_doi": "10.5281/zenodo.23876442",
+      "concept_doi": "10.5281/zenodo.23874816",
+      "reviewed_pdf_sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
+      "reviewed_source_sha256": "a0eb706053f553bd75ee4551f6765a936a8a8155a1b1a5150f3b8903f0fb1b95",
+      "doi": "10.5281/zenodo.23876442",
+      "record_url": "https://zenodo.org/records/23876442",
+      "immutable_source": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/v0.24.000/manuscripts/product-report"
+    },
+    {
+      "kind": "manuscript",
+      "version": "0.1",
+      "covers": [
+        "BS-1"
+      ],
+      "state": "published",
+      "pdf": "manuscripts/context-memory/main.pdf",
+      "sha256": "6f5e83d18df28c3ac96f90858f27c3da18df512bba25cf14b55e67db597d7d3a",
+      "source": "manuscripts/context-memory/tex/main.tex",
+      "source_sha256": "31354ae6c6f725cf2db8383d0b81f94881de5454be5e45ac56d3737f216ddcdb",
+      "version_doi": "10.5281/zenodo.23874821",
+      "concept_doi": "10.5281/zenodo.23874820",
+      "reviewed_pdf_sha256": "6555ece921ed04bd3a7ac232e58fc8fa40dd27abbddf7f57eb07c3bf536c0817",
+      "reviewed_source_sha256": "d8dff375d9c71134bbffe5b8995bd22dcda1ab73d126a6aad49792505beeec8c",
+      "doi": "10.5281/zenodo.23874821",
+      "record_url": "https://zenodo.org/records/23874821",
+      "immutable_source": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/v0.24.000/manuscripts/context-memory"
     }
   ],
   "prior_approval": {

@@ -11,7 +11,7 @@ LABELS = {"SeasonalNaive": "Seasonal naive", "Theta": "S+D", "Theta+ACI": "S+D +
 
 
 def table(caption, headings, rows):
-    return "\n".join([r"\begin{table}[!t]\centering\footnotesize", "\\caption{" + caption + "}",
+    return "\n".join([r"\begin{table}[htbp]\centering\footnotesize", "\\caption{" + caption + "}",
                       r"\begin{tabular}{l" + "r" * (len(headings) - 1) + "}", r"\toprule",
                       " & ".join(headings) + r"\\\midrule", *[" & ".join(row) + r"\\" for row in rows],
                       r"\bottomrule\end{tabular}\end{table}", ""])
