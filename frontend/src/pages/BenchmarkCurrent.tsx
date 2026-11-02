@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Callout, DocPage, DocSection, Figure, SubTabs, formatNumber, useShellLang } from '@fasl-work/caos-app-shell';
+import { Callout, DocPage, DocSection, Figure, TabGroups, formatNumber, useShellLang } from '@fasl-work/caos-app-shell';
 import { loadManifest, loadReevaluation, loadTrace } from '../api/artifacts';
 import type { CaseManifest, Trace } from '../lib/contract.types';
 import type { Reevaluation, ReevaluatedCase } from '../lib/reevaluation.types';
@@ -7,6 +7,7 @@ import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
 import { CommonHoldout } from '../render/CommonHoldout';
 import { UPlotChart } from '../render/UPlotChart';
 import { methodColor } from '../lib/methodColors';
+import { ForecastabilityStudy } from '../render/ForecastabilityStudy';
 
 function CaseSelect({ cases, value, onChange }: { cases: ReevaluatedCase[]; value: string; onChange: (value: string) => void }) {
   const es = useShellLang() === 'es';
@@ -94,7 +95,7 @@ export default function BenchmarkCurrent() {
       <option value="fresh">{t('Fresh executions', 'Ejecuciones nuevas')}</option>
       <option value="archived">{t('Archived predictions rescored', 'Pronósticos archivados repuntuados')}</option>
     </select></label>
-    {err ? <p role="alert">{err}</p> : !data ? <p data-state="loading">{t('Loading admitted results', 'Cargando resultados admitidos')}</p> : <SubTabs ariaLabel={t('Benchmark topics', 'Temas de comparación')} tabs={[
+    {err ? <p role="alert">{err}</p> : !data ? <p data-state="loading">{t('Loading admitted results', 'Cargando resultados admitidos')}</p> : <TabGroups ariaLabel={t('Benchmark topics', 'Temas de comparación')} groups={[{id:'case-comparison',label:t('Case comparisons','Comparaciones por caso'),tabs:[
       { id:'results',label:t('Common results','Resultados comunes'),content:<DocSection title={{en:'Common final holdout',es:'Bloque final común'}} area="results" refs={['chronoscope-report','mase','msis']}><CommonHoldout data={data} /></DocSection> },
       { id:'real',label:t('Real series','Series reales'),content:<DocSection title={{en:'Models on the same real outcomes',es:'Modelos sobre los mismos resultados reales'}} area="comparison" refs={['uci-electricity','mase']}>
         <CaseSelect cases={real} value={realCase?.case_id ?? ''} onChange={setCaseId} />
@@ -114,16 +115,18 @@ export default function BenchmarkCurrent() {
         <p>{t('This is an observed degradation diagnostic from one final block, not a confidence band or a repeated-noise robustness experiment. Compare local spikes with the aggregate score before drawing a conclusion.', 'Este es un diagnóstico observado de un bloque final, no una banda de confianza ni un experimento repetido con perturbaciones. Compare los errores locales con la medida agregada antes de concluir.')}</p>
       </DocSection> },
       { id:'live',label:t('Live real inference','Inferencia real viva'),content:<DocSection title={{en:'NLinear in the browser',es:'NLinear en el navegador'}} area="live" refs={['dlinear']}><LiveRealInference cases={data.cases} /></DocSection> },
+    ]},{id:'corpus-scope',label:t('Corpus and scope','Corpus y alcance'),tabs:[
       { id:'sources',label:t('Cases and sources','Casos y fuentes'),content:<DocSection title={{en:'Case provenance and diagnostic context',es:'Procedencia y contexto diagnóstico'}} area="provenance" noRefsReason={own}>
         <div className="cs-table-scroll"><table className="cs-table"><thead><tr><th>{t('Case','Caso')}</th><th>{t('Difficulty','Dificultad')}</th><th>{t('Source','Fuente')}</th><th>{t('Redistribution','Redistribución')}</th></tr></thead><tbody>{manifests.map(m=><tr key={m.case_id}><td>{m.case_id}</td><td>{es ? m.category.replace(/(\d)\.(\d)/g, '$1,$2') : m.category}</td><td>{m.provenance.source}</td><td><code>{m.provenance.license}</code>: {m.provenance.public_artifact_ok?t('admitted','admitida'):t('restricted','restringida')}</td></tr>)}</tbody></table></div>
         <label className="cs-ctl" data-control>{t('Diagnostic coordinate','Coordenada diagnóstica')}<select className="cs-sel" value={feature} onChange={e=>setFeature(e.target.value as typeof feature)}><option value="seasonal_strength">{t('Seasonal strength','Fuerza estacional')}</option><option value="acf1">{t('Lag-one correlation','Correlación de rezago uno')}</option><option value="pct_zeros">{t('Zero observations','Observaciones nulas')}</option></select></label>
         <UPlotChart xs={points.map(p=>p.x)} series={[{label:method,values:points.map(p=>p.y),color:'var(--color-accent)',scatter:true}]} xLabel={feature} yLabel="MASE" ariaSummary={t('Diagnostic coordinate and held-out error','Coordenada diagnóstica y error reservado')} readout={i=>`${points[i].id}: ${fmt(points[i].y)} MASE`} onPick={i=>setCaseId(points[i].id)} />
         <p>{t('The diagnostic coordinate describes the case; its association with error does not establish a causal explanation. Select a point to carry that case into the other comparison views.', 'La coordenada describe el caso; su relación con el error no establece una explicación causal. Seleccione un punto para llevar el caso a las otras vistas comparativas.')}</p>
       </DocSection> },
+      { id:'corpus',label:t('Corpus study','Estudio de corpus'),content:<DocSection title={{en:'Forecastability over the M4 Daily corpus',es:'Pronosticabilidad en el corpus M4 Daily'}} area="robustness" refs={['chronoscope-report','m4-daily','fresh-filtering','mase']}><ForecastabilityStudy /></DocSection> },
       { id:'limits',label:t('Limits','Límites'),content:<DocSection title={{en:'What the experiment establishes',es:'Qué establece el experimento'}} area="caveat" noRefsReason={own}>
         <Callout variant="honest" title={t('Finite evidence','Evidencia finita')}>{t('One origin per selected case does not establish population superiority or significance. The fresh experiment executes all methods; the archived experiment rescores older heavy-model paths. Pretraining overlap remains unverified. ContextMemory failed its mean comparison against its recency-only ablation; the negative result and all cases are retained.', 'Un origen por caso no establece superioridad poblacional ni significancia. El experimento nuevo ejecuta todos los métodos; el archivado repuntúa trayectorias pesadas anteriores. El solapamiento de preentrenamiento sigue sin verificar. ContextMemory no mejoró su ablación de recencia; se conservan el resultado negativo y todos los casos.')}</Callout>
         <p>{t('Historical rolling results used different origin schedules and remain in the source artifacts. The common comparison uses the same final targets and explicitly distinguishes forecast provenance. MASE below one compares error to an in-history scale, not directly to a separately scored naive path.', 'Los resultados móviles históricos usaron otros calendarios y permanecen en los artefactos de origen. La comparación común utiliza los mismos objetivos finales y distingue procedencia. MASE inferior a uno compara el error con una escala histórica y no directamente con otra trayectoria naive puntuada.')}</p>
       </DocSection> },
-    ]} />}
+    ]}]} />}
   </DocPage>;
 }

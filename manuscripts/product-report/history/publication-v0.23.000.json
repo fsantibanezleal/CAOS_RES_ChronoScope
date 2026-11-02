@@ -1,0 +1,16 @@
+{
+  "id": 23874817,
+  "doi": "10.5281/zenodo.23874817",
+  "concept_doi": "10.5281/zenodo.23874816",
+  "version": "0.23.000",
+  "state": "published",
+  "filename": "chronoscope-product-report-v0.23.000.pdf",
+  "bytes": 333865,
+  "md5": "a4ae8f04e43cf41dd45184e861512e74",
+  "sha256": "1cda236e44688cde662386c3bf74b56aa31b3c995a18f2aed2751f0d034a9d3d",
+  "publication_date": "2026-11-02",
+  "published_utc": "2026-11-02T03:02:19Z",
+  "record_url": "https://zenodo.org/records/23874817",
+  "source": "manuscripts/product-report/tex/main.tex",
+  "source_sha256": "031f2372aeb28c5f454ece0119ed9c3dc3e6e33e013c963d7bee42517c574297"
+}

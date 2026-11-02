@@ -3,21 +3,21 @@
   "candidates": [
     {
       "kind": "technical-report",
-      "version": "0.23.000",
+      "version": "0.24.000",
       "covers": [
         "BS-1"
       ],
       "state": "published",
       "pdf": "manuscripts/product-report/main.pdf",
-      "sha256": "1cda236e44688cde662386c3bf74b56aa31b3c995a18f2aed2751f0d034a9d3d",
+      "sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
       "source": "manuscripts/product-report/tex/main.tex",
-      "source_sha256": "031f2372aeb28c5f454ece0119ed9c3dc3e6e33e013c963d7bee42517c574297",
-      "version_doi": "10.5281/zenodo.23874817",
+      "source_sha256": "a0eb706053f553bd75ee4551f6765a936a8a8155a1b1a5150f3b8903f0fb1b95",
+      "version_doi": "10.5281/zenodo.23876442",
       "concept_doi": "10.5281/zenodo.23874816",
-      "reviewed_pdf_sha256": "09c8edf95021a5c2fd2c6f9f8d434caaa9656182ac5fad6f5fa77eb964b08e58",
-      "reviewed_source_sha256": "2c055593cfc7fb77d9ef061cf8cc807017edebfae2a3810d7f08870baa8f260a",
-      "doi": "10.5281/zenodo.23874817",
-      "record_url": "https://zenodo.org/records/23874817"
+      "reviewed_pdf_sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
+      "reviewed_source_sha256": "a0eb706053f553bd75ee4551f6765a936a8a8155a1b1a5150f3b8903f0fb1b95",
+      "doi": "10.5281/zenodo.23876442",
+      "record_url": "https://zenodo.org/records/23876442"
     },
     {
       "kind": "manuscript",
@@ -55,6 +55,31 @@
     }
   ],
   "approval": {
+    "instruction": "Continue with all four remaining research extensions. Implement and validate everything required, commit and push every change, and deploy the completed app.",
+    "scope": "Complete four research extensions, publish the required versioned technical report, promote and deploy the completed app"
+  },
+  "previous_versions": [
+    {
+      "kind": "technical-report",
+      "version": "0.23.000",
+      "covers": [
+        "BS-1"
+      ],
+      "state": "published",
+      "pdf": "manuscripts/product-report/main.pdf",
+      "sha256": "1cda236e44688cde662386c3bf74b56aa31b3c995a18f2aed2751f0d034a9d3d",
+      "source": "manuscripts/product-report/tex/main.tex",
+      "source_sha256": "031f2372aeb28c5f454ece0119ed9c3dc3e6e33e013c963d7bee42517c574297",
+      "version_doi": "10.5281/zenodo.23874817",
+      "concept_doi": "10.5281/zenodo.23874816",
+      "reviewed_pdf_sha256": "09c8edf95021a5c2fd2c6f9f8d434caaa9656182ac5fad6f5fa77eb964b08e58",
+      "reviewed_source_sha256": "2c055593cfc7fb77d9ef061cf8cc807017edebfae2a3810d7f08870baa8f260a",
+      "doi": "10.5281/zenodo.23874817",
+      "record_url": "https://zenodo.org/records/23874817",
+      "immutable_source": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/v0.23.000/manuscripts/product-report"
+    }
+  ],
+  "prior_approval": {
     "instruction": "I approve all . deploy and update anything required",
     "scope": "Publish the three reviewed manuscripts, update required records, promote and deploy ChronoScope"
   }

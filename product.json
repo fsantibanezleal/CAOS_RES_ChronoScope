@@ -29,14 +29,23 @@
     "chronoscopelab.engines.neuralforecast_engine.NeuralForecastForecaster",
     "chronoscopelab.engines.chronos_engine.ChronosForecaster",
     "chronoscopelab.engines.timesfm_engine.TimesFmForecaster",
-    "chronoscopelab.engines.tirex2_engine.Tirex2Forecaster"
+    "chronoscopelab.engines.tirex2_engine.Tirex2Forecaster",
+    "chronoscopelab.analysis.sequence.matrix_profile",
+    "chronoscopelab.analysis.sequence.sequence_report",
+    "chronoscopelab.analysis.sequence.multiscale_entropy",
+    "chronoscopelab.analysis.sequence.time_reversal",
+    "chronoscopelab.analysis.nonlinear.chaos_measures",
+    "chronoscopelab.analysis.atlas.prefix_features",
+    "chronoscopelab.analysis.atlas.associations",
+    "chronoscopelab.analysis.atlas.by_adjust",
+    "chronoscopelab.analysis.atlas.study_summary"
   ],
   "manuscripts": [
     {
       "kind": "technical-report",
       "concept_doi": "10.5281/zenodo.23874816",
-      "title": "ChronoScope: Forecasting Implementations, Contiguous-History Evaluation and Context-Dependent Combination",
-      "version": "0.23.000",
+      "title": "ChronoScope: Forecasting Methods, Sequence Diagnostics and Corpus Forecastability",
+      "version": "0.24.000",
       "covers": [
         "BS-1"
       ]

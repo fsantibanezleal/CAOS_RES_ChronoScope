@@ -19,6 +19,7 @@ import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, q
 import { PanelBoundary } from '../render/PanelBoundary';
 import { SeriesLegend, type LegendItem, type LegendMetric } from '../render/SeriesLegend';
 import { UPlotChart, type RefLine, type USeries } from '../render/UPlotChart';
+import { SequenceDiagnostics, type SequenceData } from '../render/SequenceDiagnostics';
 
 // a method's forecast (point + interval), shared by synthetic (live) + baked (replay)
 interface ChartSeries { name: string; color: string; point: number[]; lower: number[]; upper: number[]; }
@@ -28,7 +29,7 @@ const ONNX_NAME = 'NLinear (ONNX)';
 const ATLAS_NAV_KEY = 'chronoscope-atlas-nav';
 type AtlasNav = { group: 'understand' | 'forecast'; tab: string };
 const ATLAS_TABS: Record<AtlasNav['group'], string[]> = {
-  understand: ['series', 'structure', 'decompose', 'verdicts'],
+  understand: ['series', 'structure', 'decompose', 'patterns', 'verdicts'],
   forecast: ['forecast', 'residuals', 'leaderboard', 'streaming'],
 };
 const colorFor = methodColor;
@@ -69,14 +70,14 @@ function StemPlot({ values, band, title }: { values: number[]; band: number; tit
   );
 }
 
-function LinePlot({ xs, series, title, subtitle, refLine, refLabel, height }: {
+function LinePlot({ xs, series, title, subtitle, refLine, refLabel, height, xMarks = [] }: {
   xs: number[]; series: { label: string; values: (number | null)[]; color: string; dash?: number[] }[];
-  title: string; subtitle?: string; refLine?: number; refLabel?: string; height?: number;
+  title: string; subtitle?: string; refLine?: number; refLabel?: string; height?: number; xMarks?: RefLine[];
 }) {
   const any = series.some((s) => s.values.some((v) => v != null && Number.isFinite(v)));
   if (!any) return null;
   const uSeries: USeries[] = series.map((s) => ({ label: s.label, values: s.values, color: s.color, dash: s.dash, width: 1.7 }));
-  const refs: RefLine[] = refLine != null ? [{ y: refLine, label: refLabel, dash: [5, 4] }] : [];
+  const refs: RefLine[] = [...xMarks, ...(refLine != null ? [{ y: refLine, label: refLabel, dash: [5, 4] }] : [])];
   return (
     <div className="cs-panel">
       <div className="cs-panel-t">{title}</div>
@@ -242,7 +243,10 @@ export default function AppPage() {
   // Each live diagnostic degrades to its empty value instead of crashing the page on a pathological
   // series (the per-tab PanelBoundary is the second layer; this is the first).
   const safe = <T,>(f: () => T, fb: T): T => { try { return f(); } catch { return fb; } };
-  const fullSeries = activeData ? [...activeData.history, ...activeData.actual] : [];
+  const sequenceData = mode === 'baked' ? analysis?.sequence as SequenceData | undefined : undefined;
+  const fullSeries = sequenceData && 'values' in sequenceData ? sequenceData.values : activeData ? [...activeData.history, ...activeData.actual] : [];
+  const sequenceProfile = sequenceData && 'values' in sequenceData ? sequenceData.matrix_profile : null;
+  const sequenceMarks: RefLine[] = sequenceProfile?.available ? sequenceProfile.regime_boundaries.map(x => ({ x, label: 'FLUSS' })) : [];
   const stats = fullSeries.length ? safe(() => summaryStats(fullSeries), null) : null;
   const nlags = Math.min(48, Math.max(10, Math.floor(fullSeries.length / 4)));
   const acfVals = fullSeries.length > 8 ? safe(() => acf(fullSeries, nlags), []) : [];
@@ -270,6 +274,7 @@ export default function AppPage() {
             { label: es ? 'desv. móvil' : 'rolling std', values: roll.std, color: '#d29922' },
           ]}
           title={es ? 'Serie + estadísticos móviles' : 'Series + rolling statistics'}
+          xMarks={sequenceMarks}
           subtitle={es ? 'Una media móvil que deriva = tendencia/quiebre; una desviación móvil que respira = heterocedasticidad.' : 'A drifting rolling mean = trend/break; a breathing rolling std = heteroscedasticity.'}
         />
       )}
@@ -793,7 +798,7 @@ export default function AppPage() {
           <>
             <div className="cs-bar-group">
               <span className="cs-bar-label">{es ? 'Caso' : 'Case'}</span>
-              <select className="cs-sel" value={caseId} onChange={(e) => setCaseId(e.target.value)}>
+              <select className="cs-sel" aria-label={es ? 'Caso' : 'Case'} value={caseId} onChange={(e) => setCaseId(e.target.value)}>
                 {groups.map((g) => {
                   const opts = (index?.cases ?? []).filter((c) => caseGroup(c.case_id) === g);
                   return opts.length ? <optgroup key={g} label={g}>{opts.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id.replace(/_/g, ' ')}</option>)}</optgroup> : null;
@@ -810,7 +815,7 @@ export default function AppPage() {
         ) : (
           <div className="cs-bar-group">
             <span className="cs-bar-label">{es ? 'Patrón' : 'Pattern'}</span>
-            <select className="cs-sel" value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
+            <select className="cs-sel" aria-label={es ? 'Patrón sintético' : 'Synthetic pattern'} value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
               {KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
             </select>
             <span className="cs-badge live">LIVE</span>
@@ -843,6 +848,7 @@ export default function AppPage() {
                 { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label="Series" es={es}>{understandSeries}</PanelBoundary> },
                 { id: 'structure', label: es ? 'Estructura' : 'Structure', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
                 { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label="Decompose" es={es}>{understandDecompose}</PanelBoundary> },
+                { id: 'patterns', label: es ? 'Patrones' : 'Patterns', content: <PanelBoundary label="Patterns" es={es}><SequenceDiagnostics data={sequenceData} /></PanelBoundary> },
                 { id: 'verdicts', label: es ? 'Veredictos' : 'Verdicts', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
               ] },
               { id: 'forecast', label: es ? 'Pronosticar' : 'Forecast', tabs: [

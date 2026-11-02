@@ -1,0 +1,67 @@
+{
+  "checked_utc": "2026-11-02T03:38:01.6729745Z",
+  "source_sha": "5e4128b972da24a9686b4a44ba570b401ae7b257",
+  "tag": "v0.23.000",
+  "pull_requests": [
+    {
+      "baseRefName": "develop",
+      "headRefName": "work/chronoscope-template-manuscript-20261101",
+      "mergeCommit": {
+        "oid": "19c1dbd90f357f5733429de7c11c88a5667d623a"
+      },
+      "mergedAt": "2026-11-02T03:16:01Z",
+      "number": 76,
+      "state": "MERGED",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/pull/76"
+    },
+    {
+      "baseRefName": "main",
+      "headRefName": "develop",
+      "mergeCommit": {
+        "oid": "5e4128b972da24a9686b4a44ba570b401ae7b257"
+      },
+      "mergedAt": "2026-11-02T03:19:28Z",
+      "number": 77,
+      "state": "MERGED",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/pull/77"
+    }
+  ],
+  "ci_runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 41382146289,
+      "headSha": "19c1dbd90f357f5733429de7c11c88a5667d623a",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/41382146289"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 41382466684,
+      "headSha": "5e4128b972da24a9686b4a44ba570b401ae7b257",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/41382466684"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 41382563189,
+      "headSha": "5e4128b972da24a9686b4a44ba570b401ae7b257",
+      "name": "Deploy Pages",
+      "status": "completed",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/41382563189"
+    }
+  ],
+  "release": {
+    "isDraft": false,
+    "publishedAt": "2026-11-02T03:26:15Z",
+    "tagName": "v0.23.000",
+    "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/releases/tag/v0.23.000"
+  },
+  "pages": {
+    "cname": "chronoscope.fasl-work.com",
+    "https_enforced": true,
+    "build_type": "workflow",
+    "html_url": "https://chronoscope.fasl-work.com/"
+  }
+}

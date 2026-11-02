@@ -1,0 +1,10 @@
+{
+  "inputs": {
+    "data/derived/forecastability.json": "183d9023a86e8449c567615389dda7e6909b6d68bbb46eb2ea46f9d3aad7b5ce",
+    "data/derived/fresh-reevaluation.json": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
+    "data/derived/reevaluation.json": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c",
+    "data/derived/BRKV_level_shift/analysis.json": "7b1ad6ee72fe2be02a0a78d18b3804dbc6c06a782ebe6f3208048ed911966108"
+  },
+  "generator": "scripts/build_research_report.py",
+  "confirmed_features": 21
+}

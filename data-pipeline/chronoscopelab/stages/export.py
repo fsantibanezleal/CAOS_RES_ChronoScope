@@ -32,6 +32,9 @@ def _redact_analysis(analysis: dict) -> dict:
         return obj
 
     out = _clean(analysis)
+    if "sequence" in out:
+        # Even a short sequence must not escape the source's redistribution boundary.
+        out["sequence"] = {"available": False, "reason": "sequence diagnostics omitted under source redistribution terms"}
     out["_redacted"] = "raw series-derived arrays omitted (source license forbids public redistribution)"
     return out
 

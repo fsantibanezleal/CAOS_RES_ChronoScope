@@ -52,7 +52,7 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
     flags = [flag] if flag else []
 
     # The "understand the series" panel (10 diagnostic families) baked alongside the forecast trace.
-    analysis = analyze.run(spec)
+    analysis = analyze.run(spec, seed=seed)
 
     # The streaming bench (preqts, the flagship novel piece): prequential skill/coverage/cost trajectories
     # for the raw vs ACI- vs PID-calibrated methods; the web streaming bench renders these.

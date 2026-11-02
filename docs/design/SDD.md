@@ -32,14 +32,25 @@ The implementation details in Sections III and IV of the manuscript were checked
 
 UNVERIFIED: Stored trajectories do not contain per-step controller state, complete execution-environment identifiers, or repeated-seed replications; the released data therefore cannot establish exact state replay, runtime generalization, or sensitivity to controller gains.
 
+- Sequence/corpus extension primary reference: https://cschoel.github.io/nolds/nolds.html
+- Sequence/corpus extension primary reference: https://doi.org/10.1103/PhysRevLett.89.068102
+- Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2016.0179
+- Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2017.21
+- Sequence/corpus extension primary reference: https://doi.org/10.1109/TIT.1976.1055501
+- Sequence/corpus extension primary reference: https://doi.org/10.5281/zenodo.4656548
+- Sequence/corpus extension primary reference: https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html
+
 ## Sizing and contracts
 
-The committed index lists 15 cases. Four are real-data excerpts and eleven are generated cases, including white-noise and near-random-walk controls. Each case can carry trace, analysis, streaming, and manifest artifacts. Contract 1 validates source provenance and license policy; Contract 2 connects pipeline artifacts to the TypeScript consumer. Redacted sources expose aggregate metrics without raw values or paths.
+The committed index lists 15 cases. Four are real-data excerpts and eleven are generated cases, including white-noise and near-random-walk controls. Each case can carry trace, analysis, streaming, and manifest artifacts. Contract 1 validates source provenance and license policy; Contract 2 connects pipeline artifacts to the TypeScript consumer. Redacted sources expose aggregate metrics without raw values or paths. The separate M4 Daily study accounts for all 4,227 source identities, including explicit exclusions, and publishes forty prefix features with disjoint-series confirmation.
+
 
 ## Technology and versions
 
 | component | package | version | use | alternative considered |
 |---|---|---|---|---|
+| requirements-precompute.txt | stumpy | 1.14.1 | Exact Matrix Profile and FLUSS; primary API verified 2026-11-02. | Exhaustive normalized-distance oracle retained in tests. |
+| requirements-precompute.txt | scikit-learn | 1.9.1 | Explicitly seeded robust slopes and discovery-only corpus selector. | Unseeded nolds fitting rejected by determinism tests. |
 | notebooks/requirements.txt | ipykernel | 7.4.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | matplotlib | 3.10.8 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbclient | 0.11.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
@@ -114,6 +125,7 @@ The offline pipeline creates forecast, analysis, and streaming artifacts. The br
 | ST-2 | sota | LightGBM with lag features | Fresh fits and archived predictions retain distinct provenance and share the same targets and historical scale. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
 | ST-3 | sota | NLinear, DLinear and NHITS via neuralforecast, plus documented direct-torch adaptations | Reference and adapted implementations keep distinct method identities; quantile-head adaptations do not count as exact paper replication. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
 | ST-4 | sota | Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex-2 | Fresh inference records all four checkpoint revisions and runtime versions; archived provenance stays selectable; no absence of pretraining overlap is asserted. | `frontend/src/test/reevaluation.test.ts` |
+| ST-5 | sota | Exact Matrix Profile/FLUSS and dependent feature filtering via STUMPY and SciPy | Exhaustive distance and entropy oracles, prefix-only features, independent BY/Kendall confirmation and discovery-only selection; original-axis consumer. | `tests/test_sequence_diagnostics.py`, `tests/test_forecastability.py`, `scripts/check_research_extensions.py` |
 | BS-1 | beyond | ContextMemory within-series forecast combination | On fixed final holdouts compare against identical-expert EqualMean and RecencyMean ablations; preserve negative results. | `tests/test_reevaluation.py`, `scripts/reevaluate.py` |
 
 ## Beyond the state of the art

@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "checked_utc": "2026-11-02T03:31:51.577092+00:00",
+  "record_id": 23875115,
+  "doi": "10.5281/zenodo.23875115",
+  "concept_doi": "10.5281/zenodo.23875114",
+  "version": "v0.23.000",
+  "source_sha": "5e4128b972da24a9686b4a44ba570b401ae7b257",
+  "archive_bytes": 4382837,
+  "archive_md5": "f05c87b712cc04cdbad7c568f8bab1b6",
+  "archive_sha256": "f72b39d82c91b8e64165a002f94a939b766e9df8e6586fad842071fc35ddcefd",
+  "verified_archive_members": 518,
+  "comparison": "Every member matches git archive of the exact source commit, including .gitattributes eol conversion for PowerShell scripts.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/v0.23.000",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ]
+}

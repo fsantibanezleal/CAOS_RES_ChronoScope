@@ -40,6 +40,13 @@ a causal explanation of model rankings.
 - **The web app replays the committed artifacts** (nothing heavy runs in the browser) while the classical
   ladder + an ONNX NLinear run live in-browser, parity-checked against the Python core.
 
+The sequence research extension adds exact Matrix Profile motifs/discords and FLUSS candidates
+on original observation indices, multiscale entropy, binary Lempel–Ziv complexity and time-reversal
+asymmetry. A separate complete M4 Daily study uses three final origins, forty prefix-only features,
+BY correction and disjoint discovery/confirmation series. Its selector is assessed against a
+discovery-selected constant and a future-informed oracle. See the [executed protocol and limits](docs/research/2026-11-02-sequence-evidence.md)
+and the [bilingual lessons](notebooks/README.md).
+
 ## Quickstart
 
 ```bash
@@ -70,7 +77,7 @@ contextual-combination paper and a revision of the streaming study. The technica
 | API | [app/](app/) | dormant: static Pages deployment serves committed artifacts | Optional read-only FastAPI service |
 | Core pipelines | [data-pipeline/](data-pipeline/) | active | Forecasting engines analysis stages and artifact export |
 | Packages | [preqts on PyPI](https://pypi.org/project/preqts/) | active | Prequential forecast evaluation and calibration library |
-| Notebooks | [notebooks/](notebooks/) | active | Eight executed English and Spanish worked forecasting lessons |
+| Notebooks | [notebooks/](notebooks/) | active | Fourteen executed English and Spanish forecasting, sequence and corpus lessons |
 | Data | [data/](data/) | active | Case inputs provenance and committed derived artifacts |
 | Contracts | [docs/contracts/](docs/contracts/) | active | Artifact schemas compatibility and boundary records |
 | Documentation | [docs/](docs/) | active | Methods cases architecture and user guides |

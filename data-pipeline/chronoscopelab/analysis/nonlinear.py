@@ -56,15 +56,39 @@ class ChaosMeasures:
     reference: str
 
 
-def chaos_measures(x, emb_dim: int = 4, lag: int = 1) -> ChaosMeasures:
+def _seeded_slope(debug, seed: int) -> float:
+    """Fit nolds' exposed log-data with its robust model and an isolated seed."""
+    from sklearn.linear_model import LinearRegression, RANSACRegressor
+    from sklearn.preprocessing import PolynomialFeatures
+
+    x, y, _ = debug
+    x, y = np.asarray(x), np.asarray(y)
+    keep = np.isfinite(x) & np.isfinite(y)
+    x, y = x[keep], y[keep]
+    if len(x) < 2:
+        return float("nan")
+    model = RANSACRegressor(LinearRegression(fit_intercept=False), random_state=seed)
+    try:
+        model.fit(PolynomialFeatures(1).fit_transform(x.reshape(-1, 1)), y)
+        return float(model.estimator_.coef_[-1])
+    except ValueError:
+        return float(np.polyfit(x, y, 1)[0])
+
+
+def chaos_measures(x, emb_dim: int = 4, lag: int = 1, seed: int = 0) -> ChaosMeasures:
     """Grassberger-Procaccia correlation dimension + Rosenstein largest Lyapunov exponent (nolds)."""
     import nolds
 
     a = _clean(x)
-    d2 = float(nolds.corr_dim(a, emb_dim=emb_dim))
+    if not isinstance(seed, int) or not 0 <= seed < 2**32:
+        raise ValueError("seed must be a nonnegative 32-bit integer")
+    _, d2_debug = nolds.corr_dim(a, emb_dim=emb_dim, lag=lag, fit="poly", debug_data=True)
+    d2 = _seeded_slope(d2_debug, seed)
     # Rosenstein largest Lyapunov: positive => sensitive dependence (a chaos signature, not proof)
     try:
-        lyap = float(nolds.lyap_r(a, emb_dim=emb_dim, lag=lag, min_tsep=max(5, len(a) // 200)))
+        _, lyap_debug = nolds.lyap_r(a, emb_dim=emb_dim, lag=lag, min_tsep=max(5, len(a) // 200),
+                                    fit="poly", debug_data=True)
+        lyap = _seeded_slope(lyap_debug, (seed + 1) % 2**32)
     except Exception:  # noqa: BLE001
         lyap = float("nan")
     return ChaosMeasures(
@@ -204,18 +228,19 @@ def zero_one_test(x, n_c: int = 100, seed: int = 0) -> float:
     return float(np.median(ks)) if ks else float("nan")
 
 
-def nonlinear_report(x, emb_dim: int = 4, lag: int = 1, n_surrogates: int = 19) -> dict:
+def nonlinear_report(x, emb_dim: int = 4, lag: int = 1, n_surrogates: int = 19, seed: int = 0) -> dict:
     """Full nonlinear-dynamics panel WITH the surrogate gate: chaos claims require surrogate rejection."""
     a = _clean(x)
-    cm = chaos_measures(a, emb_dim=emb_dim, lag=lag)
+    cm = chaos_measures(a, emb_dim=emb_dim, lag=lag, seed=seed)
     rqa = recurrence_quantification(a, emb_dim=emb_dim, lag=lag)
-    k01 = zero_one_test(a)
+    k01 = zero_one_test(a, seed=seed)
     # surrogate test: compare the data's correlation dimension to an ensemble of IAAFT surrogates.
     surr_d2 = []
     for i in range(n_surrogates):
         try:
-            s = iaaft_surrogate(a, seed=i)
-            surr_d2.append(chaos_measures(s, emb_dim=emb_dim, lag=lag).corr_dim)
+            surrogate_seed = (seed + i + 2) % 2**32
+            s = iaaft_surrogate(a, seed=surrogate_seed)
+            surr_d2.append(chaos_measures(s, emb_dim=emb_dim, lag=lag, seed=surrogate_seed).corr_dim)
         except Exception:  # noqa: BLE001
             pass
     nonlinear_detected = None
@@ -226,6 +251,8 @@ def nonlinear_report(x, emb_dim: int = 4, lag: int = 1, n_surrogates: int = 19) 
     likely_chaotic = bool((cm.lyap_r > 0.01) and (k01 > 0.5) and (nonlinear_detected is True))
     return {
         "n": int(len(a)),
+        "seed": seed,
+        "fit": "RANSAC with explicit random_state; OLS on no consensus",
         "correlation_dimension": cm.corr_dim,
         "largest_lyapunov": cm.lyap_r,
         "zero_one_K": k01,
