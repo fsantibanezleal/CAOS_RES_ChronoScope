@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "streaming",
+  "type": "object",
+  "required": [
+    "nominal_coverage",
+    "horizon",
+    "warmup",
+    "methods",
+    "covariate",
+    "references"
+  ],
+  "properties": {
+    "nominal_coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "horizon": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "warmup": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "methods": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/StreamingMethod"
+      }
+    },
+    "covariate": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "StreamingMethod": {
+      "type": "object",
+      "required": [
+        "cutoffs",
+        "rolling_mase",
+        "rolling_coverage",
+        "rolling_wql",
+        "cumulative_cost_ms",
+        "n_steps",
+        "final"
+      ],
+      "properties": {
+        "cutoffs": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "rolling_mase": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "rolling_coverage": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "rolling_wql": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "cumulative_cost_ms": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "n_steps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "final": {
+          "type": "object",
+          "required": [
+            "mase",
+            "coverage",
+            "wql"
+          ],
+          "properties": {
+            "mase": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "coverage": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "wql": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

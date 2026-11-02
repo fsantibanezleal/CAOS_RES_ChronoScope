@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "upload_type": "publication",
+    "publication_type": "preprint",
+    "title": "Within-Series Context Memory for Forecast Combination: A Fixed-Configuration Experiment with a Negative Aggregate Result",
+    "creators": [
+      {
+        "name": "Santibáñez-Leal, Felipe",
+        "orcid": "0000-0002-0150-3246",
+        "affiliation": "CAOS open-research programme, Santiago, Chile"
+      }
+    ],
+    "description": "<p>A forecasting combination may use remembered contexts to estimate which experts will be useful at a new origin. ContextMemory implements a small within-series loss-memory rule with five lightweight experts, completed historical targets, context-distance weighting, recency decay, global shrinkage and a uniform allocation floor. Its contextual component is tested against a matching recency-only ablation and an equal-weight combination on fifteen selected final holdouts. Full contiguous histories are reconstructed from admitted sources and verified against released display samples and targets; display-decimated replay arrays are not treated as fitting sequences. With configuration fixed before scoring, mean MASE is 1.4504 for ContextMemory, 1.4489 for RecencyMean and 1.8970 for EqualMean. The context component therefore fails its declared mean-error criterion. Positive convex weights preserve quantile-column order, but averaging quantiles establishes neither a calibrated mixture nor a coverage guarantee. The experiment supplies an explicit unsuccessful result and reproducible implementation, not a priority, significance or population-superiority claim. Faithful external ensemble comparators and repeated-origin evaluation remain necessary follow-up work.</p><p>Source code, admitted inputs and computational records: https://github.com/fsantibanezleal/CAOS_RES_ChronoScope . Research atlas: https://chronoscope.fasl-work.com . Not peer reviewed.</p>",
+    "keywords": [
+      "time-series forecasting",
+      "reproducibility",
+      "forecast combination",
+      "benchmark",
+      "uncertainty"
+    ],
+    "license": "cc-by-4.0",
+    "language": "eng",
+    "version": "0.1",
+    "related_identifiers": [
+      {
+        "relation": "isSupplementedBy",
+        "identifier": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope",
+        "resource_type": "software"
+      }
+    ],
+    "publication_date": "2026-11-02",
+    "version_notes": "First preprint of the fixed contextual forecast-combination experiment and its matching ablations; the negative aggregate outcome is retained."
+  }
+}

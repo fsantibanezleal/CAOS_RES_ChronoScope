@@ -19,7 +19,7 @@ from onnx import TensorProto, helper, numpy_helper
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_ONNX = ROOT / "frontend" / "public" / "models" / "nlinear.onnx"
-OUT_META = ROOT / "frontend" / "public" / "models" / "nlinear.json"
+OUT_META = ROOT / "frontend" / "src" / "lib" / "nlinearMeta.json"
 
 L = 48   # lookback
 H = 12   # horizon

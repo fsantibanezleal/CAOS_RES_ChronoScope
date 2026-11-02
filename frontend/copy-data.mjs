@@ -1,22 +1,39 @@
 // Prebuild: copy the committed CONTRACT-2 artifacts (../data/derived) into the SPA's public/ so the static site
 // replays them, and inline the chronoscopelab sources for the live (Pyodide) lane. Canonical copies live in ../data
 // and ../data-pipeline, public/ is a build-time overlay (git-ignored).
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const PUB = join(HERE, 'public');
 
+// The generated ONNX metadata is imported by the browser and also published beside the ONNX weights.
+const modelMeta = join(HERE, 'src', 'lib', 'nlinearMeta.json');
+if (existsSync(modelMeta)) {
+  mkdirSync(join(PUB, 'models'), { recursive: true });
+  cpSync(modelMeta, join(PUB, 'models', 'nlinear.json'));
+  console.log('[copy-data] embedded NLinear metadata -> public/models/nlinear.json');
+}
+
 // 1) data/derived -> public/data (traces under <case>/trace.json + manifests/ subdir incl. index.json)
 const derived = join(ROOT, 'data', 'derived');
 if (existsSync(derived)) {
+  // public/data is a generated overlay: retaining files removed from the canonical
+  // corpus would expose obsolete cases through the static site.
+  mkdirSync(PUB, { recursive: true });
+  const output = join(PUB, 'data');
+  if (relative(realpathSync(HERE), realpathSync(PUB)) !== 'public'
+      || (existsSync(output) && relative(realpathSync(PUB), realpathSync(output)) !== 'data')) {
+    throw new Error('Generated data cleanup must stay inside frontend/public/data');
+  }
+  rmSync(output, { recursive: true, force: true });
   mkdirSync(join(PUB, 'data'), { recursive: true });
   cpSync(derived, join(PUB, 'data'), { recursive: true });
   console.log('[copy-data] data/derived -> public/data');
 } else {
-  console.warn('[copy-data] no data/derived, run scripts/precompute first');
+  throw new Error('Canonical data/derived is missing; admit the complete corpus before building');
 }
 
 // 2) inline the chronoscopelab Python sources for the optional Pyodide live lane -> public/pyodide/sources.json

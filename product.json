@@ -1,0 +1,54 @@
+{
+  "name": "ChronoScope",
+  "slug": "chronoscope",
+  "tagline": {
+    "en": "Explore time-series structure and compare forecasts on reproducible cases.",
+    "es": "Explora la estructura de series temporales y compara pronósticos en casos reproducibles."
+  },
+  "repo": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope",
+  "visibility": "public",
+  "license": "MIT",
+  "holder": "Felipe Santibáñez-Leal",
+  "year": 2026,
+  "app": "surface",
+  "focus": true,
+  "method_packages": [],
+  "method_entrypoints": [
+    "chronoscopelab.stages.streaming.run",
+    "chronoscopelab.model.forecasters.theta",
+    "chronoscopelab.model.forecasters.seasonal_naive",
+    "chronoscopelab.model.forecasters.holt",
+    "chronoscopelab.model.forecasters.holt_winters",
+    "chronoscopelab.model.forecasters.ses",
+    "chronoscopelab.model.forecasters.gaussian_quantiles",
+    "chronoscopelab.model.context_memory.fit_context_memory",
+    "chronoscopelab.reevaluation.metrics",
+    "chronoscopelab.engines.statsforecast_engine.StatsforecastForecaster",
+    "chronoscopelab.engines.lightgbm_engine.LightGBMForecaster",
+    "chronoscopelab.engines.neural_engine.NeuralForecaster",
+    "chronoscopelab.engines.neuralforecast_engine.NeuralForecastForecaster",
+    "chronoscopelab.engines.chronos_engine.ChronosForecaster",
+    "chronoscopelab.engines.timesfm_engine.TimesFmForecaster",
+    "chronoscopelab.engines.tirex2_engine.Tirex2Forecaster"
+  ],
+  "manuscripts": [
+    {
+      "kind": "technical-report",
+      "concept_doi": "10.5281/zenodo.23874816",
+      "title": "ChronoScope: Forecasting Implementations, Contiguous-History Evaluation and Context-Dependent Combination",
+      "version": "0.23.000",
+      "covers": [
+        "BS-1"
+      ]
+    },
+    {
+      "kind": "manuscript",
+      "concept_doi": "10.5281/zenodo.23874820",
+      "title": "Within-Series Context Memory for Forecast Combination: A Fixed-Configuration Experiment with a Negative Aggregate Result",
+      "version": "0.1",
+      "covers": [
+        "BS-1"
+      ]
+    }
+  ]
+}

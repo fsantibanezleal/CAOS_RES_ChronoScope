@@ -28,6 +28,7 @@ frontend/public/manifests/
 frontend/public/pyodide/
 # onnxruntime-web runtime assets copied from node_modules at build time (never versioned)
 frontend/public/ort/
+frontend/gate-output/
 *.tsbuildinfo
 
 # --- Secrets / env (public repo: only .env.example is committed) ---

@@ -22,5 +22,4 @@ Which stage uses it (`infer`/`train`/…), its inputs/outputs, and which contrac
 Numerical caveats, performance, and redistribution terms.
 
 ---
-*The template's example engine is numpy-only SIR, so it ships no SOTA card, a real product fills one per engine
-(e.g. `01_yade/`, `02_ortools/`, `03_mintpy/`, `04_torch/`).*
+*This file is a framework-card template. Copy it only when documenting a selected dependency; do not treat this file as an engine record.*

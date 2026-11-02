@@ -11,6 +11,12 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 const read = <T>(...p: string[]): T => JSON.parse(readFileSync(join(ROOT, 'data', 'derived', ...p), 'utf-8')) as T;
 
 describe('CONTRACT 2 mirror matches the committed artifacts', () => {
+  it('publishes the same generated NLinear metadata that the browser bundles', () => {
+    const source = readFileSync(join(ROOT, 'frontend', 'src', 'lib', 'nlinearMeta.json'), 'utf-8');
+    const published = readFileSync(join(ROOT, 'frontend', 'public', 'models', 'nlinear.json'), 'utf-8');
+    expect(JSON.parse(published)).toEqual(JSON.parse(source));
+  });
+
   it('index -> manifest -> trace parse into the mirror types and are consistent', () => {
     const idx = read<CaseIndex>('manifests', 'index.json');
     expect(idx.schema).toContain('chronoscope.index/');

@@ -1,0 +1,8 @@
+{
+  "name": "NLinear",
+  "lookback": 48,
+  "horizon": 12,
+  "normalization": "subtract_last_then_divide_std",
+  "sigma_norm": 0.735199,
+  "trained_windows": 52144
+}

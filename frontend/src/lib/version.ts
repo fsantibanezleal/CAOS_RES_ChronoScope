@@ -1,2 +1,2 @@
-// Display version (X.XX.XXX), shown in the shell footer. Mirrors chronoscopelab.__version__ + CHANGELOG.
-export const APP_VERSION = '0.22.001';
+// Version is read from VERSION by vite.config.ts and injected at build time.
+export const APP_VERSION = __APP_VERSION__;

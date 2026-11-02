@@ -3,6 +3,8 @@
 // score under a SELECTABLE metric (MASE / WQL / MSIS - all lower-is-better), with the best row highlighted,
 // so the selection is informed and the number is never ambiguous. This is the on-chart curve selection the
 // rubric requires when many series overlap (you can pick out one method among 19).
+import { formatNumber } from '@fasl-work/caos-app-shell';
+
 export interface LegendItem {
   name: string;
   family: string;
@@ -14,7 +16,7 @@ export interface LegendItem {
 
 export type LegendMetric = 'mase' | 'wql' | 'msis';
 
-const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'deep (live)', 'foundation'];
+const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'deep (live)', 'foundation', 'adaptive ensemble'];
 const famLabel: Record<string, string> = {
   classical: 'Classical', statistical: 'Statistical', ml: 'ML', deep: 'Deep', 'deep (live)': 'Deep (live)', foundation: 'Foundation',
 };
@@ -38,7 +40,7 @@ export function SeriesLegend({
 }) {
   const families = Array.from(new Set(items.map((i) => i.family)))
     .sort((a, b) => (FAMILY_ORDER.indexOf(a) + 1 || 99) - (FAMILY_ORDER.indexOf(b) + 1 || 99));
-  const fmt = (v: number | null | undefined) => (v == null || !Number.isFinite(v) ? '' : v.toFixed(2));
+  const fmt = (v: number | null | undefined) => v == null || !Number.isFinite(v) ? '' : formatNumber(v, es ? 'es' : 'en', { digits: 2 });
   const allNames = items.map((i) => i.name);
   const anyHidden = hidden.size > 0;
 
@@ -96,7 +98,7 @@ export function SeriesLegend({
                 <div key={it.name} className={`cs-legend-row${off ? ' off' : ''}${isBest ? ' best' : ''}`}>
                   <button className="cs-legend-item" onClick={() => onToggle(it.name)} aria-pressed={!off} title={es ? 'mostrar/ocultar' : 'show/hide'}>
                     <span className="swatch" style={{ background: it.color, opacity: off ? 0.3 : 1 }} />
-                    <span className="cs-legend-name">{it.name}</span>
+                    <span className="cs-legend-name" translate="no" title={it.name}>{it.name}</span>
                     {valueOf(it) != null && (
                       <span className="cs-legend-mase" title={metric.toUpperCase()}>
                         {fmt(valueOf(it))}{isBest ? (es ? ' · mejor' : ' · best') : ''}
@@ -112,7 +114,7 @@ export function SeriesLegend({
       })}
       <div className="cs-legend-foot">
         {metric === 'mase'
-          ? (es ? 'MASE: error del punto escalado por el naive estacional; < 1 le gana al naive.' : 'MASE: point error scaled by the seasonal naive; < 1 beats the naive.')
+          ? (es ? 'MASE: error absoluto dividido por la diferencia estacional media de la historia.' : 'MASE: absolute error divided by the mean historical seasonal difference.')
           : metric === 'wql'
             ? (es ? 'WQL: pérdida pinball sobre los cuantiles precalculados, normalizada; puntúa la distribución.' : 'WQL: pinball loss over the baked quantiles, normalized; scores the distribution.')
             : (es ? 'MSIS: ancho del intervalo 80% + multa 2/α por falla, escalado como MASE.' : 'MSIS: 80% interval width + a 2/α miss penalty, scaled like MASE.')}

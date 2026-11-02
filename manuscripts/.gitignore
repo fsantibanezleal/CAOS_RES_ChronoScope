@@ -8,3 +8,6 @@
 *.synctex.gz
 *.toc
 b*.log
+
+# Canonical PDFs live at each manuscript root.
+**/tex/main.pdf

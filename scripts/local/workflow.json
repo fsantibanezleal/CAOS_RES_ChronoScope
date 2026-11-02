@@ -1,0 +1,149 @@
+{
+  "product_admission": true,
+  "stage_inputs": [
+    "data/derived/BRKV_level_shift/analysis.json",
+    "data/derived/BRKV_level_shift/streaming.json",
+    "data/derived/BRKV_level_shift/trace.json",
+    "data/derived/CHAO_mackey/analysis.json",
+    "data/derived/CHAO_mackey/streaming.json",
+    "data/derived/CHAO_mackey/trace.json",
+    "data/derived/CTRL_white_noise/analysis.json",
+    "data/derived/CTRL_white_noise/streaming.json",
+    "data/derived/CTRL_white_noise/trace.json",
+    "data/derived/EXOG_promo/analysis.json",
+    "data/derived/EXOG_promo/streaming.json",
+    "data/derived/EXOG_promo/trace.json",
+    "data/derived/HETV_garch/analysis.json",
+    "data/derived/HETV_garch/streaming.json",
+    "data/derived/HETV_garch/trace.json",
+    "data/derived/INTM_demand/analysis.json",
+    "data/derived/INTM_demand/streaming.json",
+    "data/derived/INTM_demand/trace.json",
+    "data/derived/LMEM_fractional/analysis.json",
+    "data/derived/LMEM_fractional/streaming.json",
+    "data/derived/LMEM_fractional/trace.json",
+    "data/derived/manifests/BRKV_level_shift.json",
+    "data/derived/manifests/CHAO_mackey.json",
+    "data/derived/manifests/CTRL_white_noise.json",
+    "data/derived/manifests/EXOG_promo.json",
+    "data/derived/manifests/HETV_garch.json",
+    "data/derived/manifests/index.json",
+    "data/derived/manifests/INTM_demand.json",
+    "data/derived/manifests/LMEM_fractional.json",
+    "data/derived/manifests/MSEA_daily_weekly.json",
+    "data/derived/manifests/REAL_electricity.json",
+    "data/derived/manifests/REAL_m4_daily.json",
+    "data/derived/manifests/REAL_m4_hourly.json",
+    "data/derived/manifests/REAL_pm25.json",
+    "data/derived/manifests/RWLK_noise.json",
+    "data/derived/manifests/SEAS_hourly.json",
+    "data/derived/manifests/TRND_seasonal.json",
+    "data/derived/MSEA_daily_weekly/analysis.json",
+    "data/derived/MSEA_daily_weekly/streaming.json",
+    "data/derived/MSEA_daily_weekly/trace.json",
+    "data/derived/REAL_electricity/analysis.json",
+    "data/derived/REAL_electricity/streaming.json",
+    "data/derived/REAL_electricity/trace.json",
+    "data/derived/REAL_m4_daily/analysis.json",
+    "data/derived/REAL_m4_daily/streaming.json",
+    "data/derived/REAL_m4_daily/trace.json",
+    "data/derived/REAL_m4_hourly/analysis.json",
+    "data/derived/REAL_m4_hourly/streaming.json",
+    "data/derived/REAL_m4_hourly/trace.json",
+    "data/derived/REAL_pm25/analysis.json",
+    "data/derived/REAL_pm25/streaming.json",
+    "data/derived/REAL_pm25/trace.json",
+    "data/derived/RWLK_noise/analysis.json",
+    "data/derived/RWLK_noise/streaming.json",
+    "data/derived/RWLK_noise/trace.json",
+    "data/derived/SEAS_hourly/analysis.json",
+    "data/derived/SEAS_hourly/streaming.json",
+    "data/derived/SEAS_hourly/trace.json",
+    "data/derived/TRND_seasonal/analysis.json",
+    "data/derived/TRND_seasonal/streaming.json",
+    "data/derived/TRND_seasonal/trace.json",
+    "models/selector.json",
+    "data/examples/beijing_pm25_sample.csv",
+    "data/examples/electricity_sample.csv",
+    "data/examples/m4_daily_sample.csv",
+    "data/examples/m4_hourly_sample.csv",
+    "data/derived/fresh-reevaluation.json",
+    "models/.gitkeep"
+  ],
+  "primary_environment": ".venv",
+  "generation_environments": [
+    ".venv"
+  ],
+  "environments": [
+    {
+      "path": ".venv",
+      "requirements": [
+        "requirements.txt",
+        "requirements-dev.txt"
+      ]
+    },
+    {
+      "path": ".venv-notebooks",
+      "when": "notebooks",
+      "requirements": [
+        "notebooks/requirements.txt"
+      ]
+    }
+  ],
+  "node_stamp": ".caos-package-lock.sha256",
+  "required": [
+    "data/derived/manifests/index.json",
+    "data/derived/reevaluation.json",
+    "models/selector.json",
+    "data/derived/fresh-reevaluation.json"
+  ],
+  "promote": [
+    "data/derived",
+    "models"
+  ],
+  "api": {
+    "environment": ".venv",
+    "active": false,
+    "port": 8000,
+    "health": "/health",
+    "command": []
+  },
+  "web_port": 5173,
+  "frontend_prepare": [
+    [
+      "{npm}",
+      "run",
+      "predev"
+    ]
+  ],
+  "frontend_command": [
+    "node",
+    "node_modules/vite/bin/vite.js",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "{web_port}",
+    "--strictPort"
+  ],
+  "generation": [
+    {
+      "script": "scripts/local/producer_bridge.py",
+      "args": [
+        "generate",
+        "{stage}"
+      ]
+    }
+  ],
+  "validators": [
+    {
+      "script": "scripts/local/producer_bridge.py",
+      "args": [
+        "validate",
+        "{stage}"
+      ]
+    }
+  ],
+  "generation_modules": [
+    "numpy"
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "trace",
+  "type": "object",
+  "required": [
+    "schema",
+    "case_id",
+    "seasonality",
+    "horizon",
+    "quantile_levels",
+    "redacted",
+    "history_len",
+    "history_index",
+    "history",
+    "actual",
+    "methods",
+    "summary"
+  ],
+  "properties": {
+    "schema": {
+      "const": "chronoscope.trace/v2"
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "seasonality": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "horizon": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "quantile_levels": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "redacted": {
+      "type": "boolean"
+    },
+    "history_len": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "history_index": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "actual": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MethodForecast"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/TraceSummary"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "MethodBacktest": {
+      "type": "object",
+      "required": [
+        "mase",
+        "wql",
+        "coverage",
+        "mae",
+        "rmse",
+        "smape",
+        "msis",
+        "per_horizon_scaled",
+        "n_windows"
+      ],
+      "properties": {
+        "mase": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "wql": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "coverage": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "mae": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "rmse": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "smape": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "msis": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "per_horizon_scaled": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "n_windows": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "MethodForecast": {
+      "type": "object",
+      "required": [
+        "name",
+        "family",
+        "backtest"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "backtest": {
+          "$ref": "#/$defs/MethodBacktest"
+        },
+        "point": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "lower": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "upper": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "TraceSummary": {
+      "type": "object",
+      "required": [
+        "best_method",
+        "best_mase",
+        "nominal_coverage"
+      ],
+      "properties": {
+        "best_method": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "best_mase": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "nominal_coverage": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
