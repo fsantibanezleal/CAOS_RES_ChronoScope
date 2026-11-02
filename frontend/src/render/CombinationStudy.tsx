@@ -32,7 +32,7 @@ export function CombinationStudy() {
   if (error) return <p role="alert">{t('The combination study could not be loaded.', 'No se pudo cargar el estudio de combinaciones.')} {error}</p>;
   if (!index || !cohort) return <p role="status">{t('Loading the measured combination study…', 'Cargando el estudio medido de combinaciones…')}</p>;
   const experts = ['SeasonalNaive', 'SES', 'Holt', 'HoltWinters', 'Theta'];
-  return <div data-state={activeDetail ? 'ready' : 'loading'}>
+  return <div data-state={activeDetail ? 'ready' : 'loading'} data-combination-study={activeDetail ? 'ready' : 'loading'} data-dataset={dataset} data-series={entry?.id}>
     <p>{t('Temporal validation selects parameters using completed historical blocks. ValidationMix improves on RecencyMean in both external collections; AutoTheta remains better on M3 Monthly. The fifteen selected development cases are displayed separately.', 'La validación temporal selecciona parámetros con bloques históricos completos. ValidationMix mejora a RecencyMean en ambas colecciones externas; AutoTheta conserva menor error en M3 Monthly. Los quince casos de desarrollo se muestran separadamente.')}</p>
     <div className="cs-bar">
       <label className="cs-bar-group">{t('Collection', 'Colección')}
