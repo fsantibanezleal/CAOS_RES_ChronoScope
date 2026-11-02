@@ -138,10 +138,12 @@ def copy_node_modules(frontend: Path) -> None:
     assert target.resolve().is_relative_to(frontend), "fixture dependencies escape the fixture"
     assert NODE_MODULES.is_dir(), "installed frontend/node_modules is required; no install is performed by the test"
     # The current complete install is about 156 MB. Bound the simple copy rather than build another package resolver.
-    files = [p for p in NODE_MODULES.rglob("*") if p.is_file()]
+    excluded = {"onnxruntime-web", "playwright", "playwright-core"}
+    files = [p for p in NODE_MODULES.rglob("*") if p.is_file()
+             and not excluded.intersection(p.relative_to(NODE_MODULES).parts)]
     assert len(files) <= 12_000 and sum(p.stat().st_size for p in files) <= 384 * 1024 * 1024, "dependency fixture exceeded its copy budget"
     # Vendor test fixtures are not runtime dependencies and can exceed Windows path limits in a nested copy.
-    shutil.copytree(NODE_MODULES, target, dirs_exist_ok=True, ignore=shutil.ignore_patterns(".bin", "__tests__"))
+    shutil.copytree(NODE_MODULES, target, dirs_exist_ok=True, ignore=shutil.ignore_patterns(".bin", "__tests__", *excluded))
 
 
 SDD = "docs/design/SDD.md"

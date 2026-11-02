@@ -27,15 +27,15 @@ describe('Actual product routing and document shell', () => {
     for (const path of ['/', '/a-route-that-does-not-exist']) {
       mount(path);
       await waitFor(() => expect(screen.getByTestId('location').textContent).toBe('/introduction'));
-      expect(screen.getByRole('tab', { name: 'Executive', exact: true }).getAttribute('aria-selected')).toBe('true');
-      expect(screen.getByRole('tab', { name: 'Technical', exact: true })).toBeTruthy();
+      expect(screen.getByRole('tab', { name: /^Executive$/ }).getAttribute('aria-selected')).toBe('true');
+      expect(screen.getByRole('tab', { name: /^Technical$/ })).toBeTruthy();
       cleanup();
     }
   });
   it('adversarial: an old root app link preserves its case query and fragment', async () => {
     mount('/?case=REAL_m4_daily#forecast');
     await waitFor(() => expect(screen.getByTestId('location').textContent).toBe('/app?case=REAL_m4_daily#forecast'));
-    expect(screen.getByRole('heading', { name: 'Forecasting atlas', exact: true })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /^Forecasting atlas$/ })).toBeTruthy();
   });
   it('adversarial: landing choice does not change the six header destinations or their order', () => {
     const view = mount('/introduction');

@@ -60,7 +60,7 @@ def test_tech_t3b_a_greater_than_range(tech_repo: Path) -> None:
 
 def test_tech_t3c_an_x_range_that_the_sdd_repeats(tech_repo: Path) -> None:
     edit(tech_repo, "frontend/package.json", '"react": "^19.0.0"', '"react": "19.x"')
-    edit(tech_repo, SDD, "| react | 19.3.0 |", "| react | 19.x |")
+    edit(tech_repo, SDD, "| react | 19.2.7 |", "| react | 19.x |")
     r = _tech(tech_repo)
     assert r.returncode == 1 and "react" in r.stdout, r.stdout
 

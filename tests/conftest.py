@@ -94,7 +94,8 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
     for key in sorted(candidates):
         path = ROOT / pathlib.PurePosixPath(key)
         if not path.is_file():
-            changed.append(key)
+            if key in before_stats:
+                changed.append(key)
         elif key in before_bytes:
             if hashlib.sha256(path.read_bytes()).hexdigest() != before_bytes[key]:
                 changed.append(key)
@@ -126,3 +127,4 @@ def _sandbox_pipeline_writes(tmp_path, monkeypatch):
 
     monkeypatch.setattr(pipeline, "DERIVED", tmp_path / "derived")
     monkeypatch.setattr(pipeline, "MANIFESTS", tmp_path / "derived" / "manifests")
+    monkeypatch.setattr(pipeline, "MODELS", tmp_path / "models")

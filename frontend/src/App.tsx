@@ -32,8 +32,8 @@ const config: ShellConfig = {
       es: 'Cuatro extractos reales y once casos generados. Banco de pruebas detalla licencias, versiones y procedencia congelada o recalculada. Los experimentos de streaming utilizan preqts.',
     },
     disclaimer: {
-      en: 'A research atlas, not a production forecasting service: every number is baked offline by the open seed-deterministic pipeline (or computed live in the browser) and is reproducible from the repo; methods are compared honestly (no free lunch) and synthetic cases are labelled.',
-      es: 'Un atlas de investigación, no un servicio de pronóstico de producción: cada número se precalcula offline con el pipeline abierto determinista por semilla (o se calcula en vivo en el navegador) y es reproducible desde el repo; los métodos se comparan honestamente (no hay almuerzo gratis) y los casos sintéticos están etiquetados.',
+      en: 'Research examples with explicit sources, seeds and evaluation protocols. Forecast quality, uncertainty and runtime are bounded by the reported experiment; generated cases are labelled.',
+      es: 'Ejemplos de investigación con fuentes, semillas y protocolos explícitos. La calidad, incertidumbre y tiempo de cálculo dependen del experimento declarado; los casos generados están identificados.',
     },
   },
 };

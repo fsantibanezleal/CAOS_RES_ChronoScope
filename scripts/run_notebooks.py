@@ -249,7 +249,10 @@ def main() -> int:
                 print(f"  FAIL  {rel}: {why}")
     finally:
         if tmp_root is not None:
-            shutil.rmtree(tmp_root, ignore_errors=True)
+            resolved = tmp_root.resolve()
+            if temp_root is None or not resolved.is_relative_to(temp_root.resolve()) or resolved == temp_root.resolve():
+                raise ValueError("Notebook cleanup escaped the explicitly named temporary root")
+            shutil.rmtree(resolved, ignore_errors=True)
     if failures:
         print(f"run_notebooks: {len(failures)} of {len(books)} notebooks failed: {', '.join(failures)}")
         return 1
