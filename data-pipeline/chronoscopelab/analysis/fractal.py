@@ -66,8 +66,9 @@ def hurst(x) -> HurstResult:
     try:
         h_rs, _c, _data = compute_Hc(a, kind="random_walk", simplified=True)
     except Exception:  # noqa: BLE001 - fall back to nolds if compute_Hc rejects the input
-        h_rs = float(nolds.hurst_rs(a))
-    dfa_alpha = float(nolds.dfa(a))
+        h_rs = float(nolds.hurst_rs(a, fit="poly"))
+    # Explicit least-squares slopes avoid nolds' unseeded randomized default.
+    dfa_alpha = float(nolds.dfa(a, fit_exp="poly"))
     # DFA alpha maps to H: fGn regime alpha in [0,1] -> H=alpha; fBm regime alpha in [1,2] -> H=alpha-1
     h_from_dfa = dfa_alpha if dfa_alpha <= 1.0 else dfa_alpha - 1.0
     return HurstResult(
