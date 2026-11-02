@@ -1,0 +1,75 @@
+{
+  "ok": true,
+  "manuscripts": [
+    {
+      "slug": "prequential-streaming-conformal",
+      "pages_reviewed": 7,
+      "publication_gates_passed": 39,
+      "publication": {
+        "id": 23884367,
+        "doi": "10.5281/zenodo.23884367",
+        "concept_doi": "10.5281/zenodo.21508920",
+        "version": "2.5",
+        "state": "published",
+        "filename": "chronoscope-prequential-streaming-conformal-v2.5.pdf",
+        "bytes": 389190,
+        "md5": "93fb93fd2bb2162abe8c7d16f6970780",
+        "sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
+        "publication_date": "2026-11-02",
+        "published_utc": "2026-11-02T12:28:56Z",
+        "record_url": "https://zenodo.org/records/23884367",
+        "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
+        "source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4"
+      },
+      "public_download_matches": true,
+      "complete_file_set": "exactly one expected PDF"
+    },
+    {
+      "slug": "context-memory",
+      "pages_reviewed": 10,
+      "publication_gates_passed": 39,
+      "publication": {
+        "id": 23884371,
+        "doi": "10.5281/zenodo.23884371",
+        "concept_doi": "10.5281/zenodo.23874820",
+        "version": "0.2",
+        "state": "published",
+        "filename": "chronoscope-context-memory-v0.2.pdf",
+        "bytes": 371218,
+        "md5": "8d86d27a27ee240a7ff63fbe15eaa347",
+        "sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
+        "publication_date": "2026-11-02",
+        "published_utc": "2026-11-02T13:50:31Z",
+        "record_url": "https://zenodo.org/records/23884371",
+        "source": "manuscripts/context-memory/tex/main.tex",
+        "source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3"
+      },
+      "public_download_matches": true,
+      "complete_file_set": "exactly one expected PDF"
+    },
+    {
+      "slug": "product-report",
+      "pages_reviewed": 18,
+      "publication_gates_passed": 39,
+      "publication": {
+        "id": 23884372,
+        "doi": "10.5281/zenodo.23884372",
+        "concept_doi": "10.5281/zenodo.23874816",
+        "version": "0.25.000",
+        "state": "published",
+        "filename": "chronoscope-product-report-v0.25.000.pdf",
+        "bytes": 505376,
+        "md5": "daf2b7adeb1450b49f99defc648574a2",
+        "sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
+        "publication_date": "2026-11-02",
+        "published_utc": "2026-11-02T13:51:33Z",
+        "record_url": "https://zenodo.org/records/23884372",
+        "source": "manuscripts/product-report/tex/main.tex",
+        "source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea"
+      },
+      "public_download_matches": true,
+      "complete_file_set": "exactly one expected PDF"
+    }
+  ],
+  "rendered_pages_reviewed": 35
+}

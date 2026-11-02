@@ -49,6 +49,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 
 | component | package | version | use | alternative considered |
 |---|---|---|---|---|
+| requirements-combinations.txt | numba | 0.68.1 | Compile unchanged recursive expert loops for the CPU-only combination study; fastmath disabled. | Reference execution retained with independent parity checks. |
 | requirements-precompute.txt | stumpy | 1.14.1 | Exact Matrix Profile and FLUSS; primary API verified 2026-11-02. | Exhaustive normalized-distance oracle retained in tests. |
 | requirements-precompute.txt | scikit-learn | 1.9.1 | Explicitly seeded robust slopes and discovery-only corpus selector. | Unseeded nolds fitting rejected by determinism tests. |
 | notebooks/requirements.txt | ipykernel | 7.4.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |

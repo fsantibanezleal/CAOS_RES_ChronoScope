@@ -50,7 +50,7 @@ try {
           // Every method is clicked on the first series; the last series protects identity changes.
           const methods = entry === entries[0] ? expected.origins[i].methods : expected.origins[i].methods.filter(m => m.name === 'ValidationMix');
           for (const method of methods) {
-            const button = study.getByRole('button', { name: method.name, exact: true });
+            const button = study.locator('table').first().getByRole('button', { name: method.name, exact: true });
             await button.click();
             assert.equal(await button.getAttribute('aria-pressed'), 'true');
             const score = study.locator('p').filter({ hasText: new RegExp(`^${method.name}: MASE`) });

@@ -49,7 +49,7 @@ on original observation indices, multiscale entropy, binary Lempel–Ziv complex
 asymmetry. A separate complete M4 Daily study uses three final origins, forty prefix-only features,
 BY correction and disjoint discovery/confirmation series. Its selector is assessed against a
 discovery-selected constant and a future-informed oracle. See the [executed protocol and limits](docs/research/2026-11-02-sequence-evidence.md)
-and the [bilingual lessons](notebooks/README.md).
+and the [bilingual lessons](notebooks/README.md). The [temporal-combination reproduction guide](docs/guides/validated-combinations.md) supplies the separate CPU environment, complete external audit and browser-control checks.
 
 ## Quickstart
 

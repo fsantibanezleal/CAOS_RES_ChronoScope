@@ -1,0 +1,10 @@
+# CPU-only environment for the frozen M4 Weekly/M3 Monthly combination study.
+# Full diagnostics and neural/checkpoint experiments use their separate environments.
+numpy==2.4.6
+scipy==1.15.3
+numba==0.68.1
+statsforecast==2.0.3
+pandas==2.3.3
+statsmodels==0.14.6
+coreforecast==0.0.17
+utilsforecast==0.2.16
