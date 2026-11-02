@@ -102,7 +102,7 @@ def validate_study(d: dict, root: Path = ROOT, statistics_check: bool = False):
                 x,y = zip(*pairs,strict=True) if pairs else ((),())
                 tau,p = kendalltau(x,y) if len(pairs)>=20 and len(set(x))>1 else (0.,1.)
                 if not close(float(p),result['p']) or not close(float(tau),result['tau']) or len(pairs)!=result['n']:
-                    raise ValueError('Independent Kendall statistic differs')
+                    raise ValueError(f"Independent Kendall statistic differs: {group}/{a['feature']}, expected {(tau,p,len(pairs))}, observed {(result['tau'],result['p'],result['n'])}")
     for a in associations:
         expected = a['discovery']['rejected'] and a['confirmation']['rejected'] and a['discovery']['tau']*a['confirmation']['tau']>0
         if a['confirmed'] != expected:
@@ -139,10 +139,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--statistics',action='store_true',help='Recompute Kendall statistics (local release gate; needs SciPy)')
     parser.add_argument('--study',type=Path,default=ROOT/'data/derived/forecastability.json')
+    parser.add_argument('--receipt',type=Path,help='Write a passed admission receipt after all checks')
     args = parser.parse_args()
     n = validate_diagnostics()
     d = json.loads(args.study.read_text())
     validate_study(d, statistics_check=args.statistics)
+    if args.receipt:
+        from datetime import datetime, timezone
+        args.receipt.parent.mkdir(parents=True,exist_ok=True)
+        receipt = {'ok':True,'checked_utc':datetime.now(timezone.utc).isoformat(),
+                   'study_sha256':hashlib.sha256(args.study.read_bytes()).hexdigest(),
+                   'diagnostic_cases':n,'source_n':d['source_n'],'included_n':d['included_n'],
+                   'excluded_n':len(d['excluded']),'statistics_recomputed':args.statistics,
+                   'independently_scored_origin_paths':d['audit']['verified_origin_scores'],
+                   'discovery_n':d['summary']['discovery_n'],'confirmation_n':d['summary']['confirmation_n'],
+                   'confirmed_features':sum(a['confirmed'] for a in d['summary']['associations']),
+                   'constant_method':d['summary']['constant_method'],
+                   'selection_mean_mase':d['summary']['selection_mean_mase']}
+        args.receipt.write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
     print(f'Research extensions: {n} complete sequence diagnostics; {d["included_n"]} admitted corpus series and disjoint confirmation passed')
 
 

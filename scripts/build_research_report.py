@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -32,7 +33,10 @@ def save(name, fig):
 def main():
     from check_research_extensions import validate_diagnostics, validate_study
 
-    study = load("forecastability.json")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--study",type=Path,default=ROOT/"data/derived/forecastability.json")
+    args = parser.parse_args()
+    study = json.loads(args.study.read_text(encoding="utf-8"))
     validate_diagnostics()
     validate_study(study, statistics_check=True)
     summary = study["summary"]
@@ -80,7 +84,7 @@ def main():
     direction = "higher" if difference > 0 else "lower"
     body = (
         f"The complete source contains {study['source_n']:,} identities; {study['included_n']:,} are admitted "
-        f"and {len(study['excluded']):,} are explicitly excluded. The deterministic partitions contain "
+        f"and {len(study['excluded']):,} {'is' if len(study['excluded']) == 1 else 'are'} explicitly excluded. The deterministic partitions contain "
         f"{summary['discovery_n']:,} discovery and {summary['confirmation_n']:,} confirmation series. "
         f"Of forty tested features, {n_confirmed} meet the fixed two-partition confirmation rule. "
         f"The discovery-selected constant is {summary['constant_method']}. On confirmation series, the fixed "
@@ -147,7 +151,7 @@ def main():
     )
     receipt = {
         "inputs": {
-            "data/derived/" + p: hashlib.sha256((ROOT / "data/derived" / p).read_bytes()).hexdigest()
+            "data/derived/" + p: hashlib.sha256((args.study if p == "forecastability.json" else ROOT / "data/derived" / p).read_bytes()).hexdigest()
             for p in inputs
         },
         "generator": "scripts/build_research_report.py",

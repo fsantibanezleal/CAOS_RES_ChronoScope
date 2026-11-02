@@ -243,6 +243,7 @@ LESSON_SOURCES = {
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--only", choices=NAMES)
+    parser.add_argument("--study",type=Path,default=ROOT/"data/derived/forecastability.json")
     args = parser.parse_args()
     pins = [
         s
@@ -251,7 +252,7 @@ def main():
     ]
     analysis = json.loads((ROOT / "data/derived/BRKV_level_shift/analysis.json").read_text(encoding="utf-8"))
     study = (
-        json.loads((ROOT / "data/derived/forecastability.json").read_text(encoding="utf-8"))
+        json.loads(args.study.read_text(encoding="utf-8"))
         if args.only in (None, NAMES[2])
         else None
     )
