@@ -57,7 +57,10 @@ jobs:
       - name: The README states the repository by areas
         run: python scripts/check_readme_areas.py
       - name: An animated SVG carries its reduced-motion block and plays ten seconds at most (shell 0.14.0, reuses the shell's analysis)
-        run: python scripts/check_svg_animation.py
+        run: |
+          python scripts/check_svg_animation.py
+          python scripts/check_executive_assets.py
+          python scripts/check_owner_names.py
       - name: One deploy place
         run: python scripts/check_deploy_place.py
       - name: The SDD technology table is the pinned dependencies (spec area)
@@ -72,7 +75,9 @@ jobs:
       - name: The contract catalog, every row complete and every path it names present (ADR-0080)
         run: python scripts/check_contracts.py docs/contracts/catalog.md --repo-root .
       - name: The readiness document is current with the catalog and the bake (ADR-0080)
-        run: python scripts/local/producer_bridge.py validate .
+        run: |
+          python scripts/local/producer_bridge.py validate .
+          python scripts/check_fresh_reevaluation.py
       - name: Every committed document valid against its schema file (ADR-0080)
         run: pip install jsonschema==4.26.0 && python scripts/check_documents.py
       - name: Rows still served by a provider (listed while building; none on main)

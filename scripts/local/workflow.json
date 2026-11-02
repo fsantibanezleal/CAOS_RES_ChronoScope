@@ -66,7 +66,8 @@
     "data/examples/beijing_pm25_sample.csv",
     "data/examples/electricity_sample.csv",
     "data/examples/m4_daily_sample.csv",
-    "data/examples/m4_hourly_sample.csv"
+    "data/examples/m4_hourly_sample.csv",
+    "data/derived/fresh-reevaluation.json"
   ],
   "primary_environment": ".venv",
   "generation_environments": [
@@ -76,6 +77,7 @@
     {
       "path": ".venv",
       "requirements": [
+        "requirements.txt",
         "requirements-dev.txt"
       ]
     },
@@ -91,7 +93,8 @@
   "required": [
     "data/derived/manifests/index.json",
     "data/derived/reevaluation.json",
-    "models/selector.json"
+    "models/selector.json",
+    "data/derived/fresh-reevaluation.json"
   ],
   "promote": [
     "data/derived",

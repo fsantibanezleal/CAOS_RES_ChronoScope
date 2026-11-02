@@ -25,9 +25,9 @@
     "sha256": "9773a75a2f5277ed999f34574b7b8fd0ee671f9314b9e76e0ab87c9d8ada48fe"
   },
   "reevaluation": {
-    "version": "2.0.0",
+    "version": "2.1.0",
     "schema": "docs/contracts/schemas/reevaluation.schema.json",
-    "sha256": "09029609dc8f5f56822a4ccc032a602034658c01bc3be0092248e8c783371a80"
+    "sha256": "67f5342339c554c404200e193404c96b0bbe94acb64badd459e3b30d4014505c"
   },
   "index": {
     "version": "1.0.0",
@@ -38,5 +38,10 @@
     "version": "1.0.0",
     "schema": "docs/contracts/schemas/selector.schema.json",
     "sha256": "f98ce34083256065b4d7cf412a67529a70b418e4c2dfab82f4e9142624552e16"
+  },
+  "fresh-reevaluation": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/reevaluation.schema.json",
+    "sha256": "67f5342339c554c404200e193404c96b0bbe94acb64badd459e3b30d4014505c"
   }
 }

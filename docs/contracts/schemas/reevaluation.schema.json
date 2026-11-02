@@ -175,6 +175,74 @@
         "type": "string",
         "pattern": "^[0-9a-f]{64}$"
       }
+    },
+    "source_comparison_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "python",
+        "platform",
+        "packages",
+        "checkpoint_revisions",
+        "checkpoint_sha256",
+        "cuda_available",
+        "torch_cuda",
+        "gpu",
+        "torch_cpu_threads"
+      ],
+      "properties": {
+        "python": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "packages": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "checkpoint_revisions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          }
+        },
+        "checkpoint_sha256": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "cuda_available": {
+          "type": "boolean"
+        },
+        "torch_cuda": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gpu": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "torch_cpu_threads": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
     }
   },
   "$defs": {
@@ -269,6 +337,31 @@
               "type": "number",
               "minimum": 0
             }
+          }
+        },
+        "fit_inference_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "warning_categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expert_weights": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "training_origins": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
           }
         }
       }

@@ -326,6 +326,12 @@ def initialize(root, config, gpu=False, notebooks=False):
         python = venv_python(root, item["path"])
         stamp = directory / ".bootstrap-requirements.sha256"
         if not stamp.is_file() or stamp.read_text().strip() != fingerprint:
+            pip_probe = subprocess.run(
+                [python, "-m", "pip", "--version"], cwd=root, env=env,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
+            )
+            if pip_probe.returncode:
+                run([python, "-m", "ensurepip", "--upgrade"], root, env)
             command = [python, "-m", "pip", "install"]
             for name in item["requirements"]:
                 command += ["-r", relative(root, name)]

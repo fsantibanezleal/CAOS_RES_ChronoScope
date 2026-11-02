@@ -7,10 +7,13 @@ import type { Reevaluation } from '../lib/reevaluation.types';
 import { mase } from '../lib/liveMetrics';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
-const data: Reevaluation = JSON.parse(readFileSync(join(root, 'data/derived/reevaluation.json'), 'utf8'));
+describe.each(['reevaluation', 'fresh-reevaluation'])('%s final-holdout contract', (artifact) => {
+  const data: Reevaluation = JSON.parse(readFileSync(join(root, `data/derived/${artifact}.json`), 'utf8'));
 
-describe('Common final-holdout contract', () => {
   it('adversarial: detects changed traces or source before admitting stored scores', () => {
+    if (data.source_comparison_sha256) {
+      expect(createHash('sha256').update(readFileSync(join(root, 'data/derived/reevaluation.json'))).digest('hex')).toBe(data.source_comparison_sha256);
+    }
     for (const [path, expected] of Object.entries({ ...data.trace_sha256, ...data.code_sha256, ...data.input_sha256 })) {
       const actual = createHash('sha256').update(readFileSync(join(root, path))).digest('hex');
       expect(actual, path).toBe(expected);

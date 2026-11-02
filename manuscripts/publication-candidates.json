@@ -1,0 +1,45 @@
+{
+  "publication_authorized": false,
+  "candidates": [
+    {
+      "kind": "technical-report",
+      "version": "0.23.000",
+      "covers": [
+        "BS-1"
+      ],
+      "state": "local review draft",
+      "pdf": "manuscripts/product-report/main.pdf",
+      "sha256": "09c8edf95021a5c2fd2c6f9f8d434caaa9656182ac5fad6f5fa77eb964b08e58",
+      "source": "manuscripts/product-report/tex/main.tex",
+      "source_sha256": "2c055593cfc7fb77d9ef061cf8cc807017edebfae2a3810d7f08870baa8f260a",
+      "version_doi": null,
+      "concept_doi": null
+    },
+    {
+      "kind": "manuscript",
+      "version": "0.1",
+      "covers": [
+        "BS-1"
+      ],
+      "state": "local review draft",
+      "pdf": "manuscripts/context-memory/main.pdf",
+      "sha256": "6555ece921ed04bd3a7ac232e58fc8fa40dd27abbddf7f57eb07c3bf536c0817",
+      "source": "manuscripts/context-memory/tex/main.tex",
+      "source_sha256": "d8dff375d9c71134bbffe5b8995bd22dcda1ab73d126a6aad49792505beeec8c",
+      "version_doi": null,
+      "concept_doi": null
+    },
+    {
+      "kind": "companion-study-revision",
+      "version": "2.4",
+      "covers": [],
+      "state": "local review draft",
+      "pdf": "manuscripts/prequential-streaming-conformal/main.pdf",
+      "sha256": "7d45e487f0de6278bdb5df770a4975f2e50bd3d54812cf9f8fd673e599db03da",
+      "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
+      "source_sha256": "490c257e0a5d51b13259cee8447a7fad9bc8b463ff7eb5a990b9161803ffac90",
+      "version_doi": null,
+      "concept_doi": "10.5281/zenodo.21508920"
+    }
+  ]
+}

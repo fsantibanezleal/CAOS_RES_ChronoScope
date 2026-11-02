@@ -73,7 +73,11 @@ def validate(stage):
             for lo, point, hi in zip(*vectors, strict=True):
                 if not all(math.isfinite(x) for x in (lo, point, hi)) or not lo <= point <= hi:
                     raise ValueError("Invalid prediction quantiles")
-    print("Product admission: complete frozen corpus and 22 source-bound common-holdout variants")
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from check_fresh_reevaluation import validate as validate_fresh
+
+    validate_fresh(read(stage / "data/derived/fresh-reevaluation.json"), root=ROOT, artifact_root=stage)
+    print("Product admission: complete frozen corpus, archived comparison and 22 freshly executed variants")
 
 
 def main():
@@ -91,7 +95,7 @@ def main():
             target.write_bytes((ROOT / rel).read_bytes())
         document = build(stage)
         (stage / "data/derived/reevaluation.json").write_text(
-            json.dumps(document, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+            json.dumps(document, indent=2, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
     elif mode != "validate":
         raise ValueError("Expected generate or validate")
     validate(stage)

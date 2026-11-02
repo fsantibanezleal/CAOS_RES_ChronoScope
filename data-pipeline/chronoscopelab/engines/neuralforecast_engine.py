@@ -3,8 +3,9 @@
 With the pipeline's Python base on 3.12 (decision revised 2026-07-10: ray ships cp312 win_amd64 wheels, so
 neuralforecast installs; the earlier blocker was py3.13-on-Windows-specific), the REAL Nixtla framework is
 the canonical deep tier: ``neuralforecast`` trains NHITS, DLinear and NLinear per case with a multi-quantile
-``MQLoss`` so each forecast carries a calibrated interval. The direct-torch implementations in
-``neural_engine.py`` are kept as the independent parity reference (same architectures, no framework).
+``MQLoss`` to estimate three quantile columns. Their coverage is evaluated rather than presumed calibrated.
+The direct-torch implementations in ``neural_engine.py`` are separate documented adaptations,
+not automatically exact replicas or parity references for the library models.
 
 Engineering notes:
   * OPT-IN via CHRONOSCOPE_ENABLE_NEURALFORECAST=1 (heavy: Lightning + per-case training). Graceful skip when

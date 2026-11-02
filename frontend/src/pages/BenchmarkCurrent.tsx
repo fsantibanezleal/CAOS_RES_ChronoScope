@@ -64,17 +64,19 @@ export default function BenchmarkCurrent() {
   const [caseId, setCaseId] = useState('REAL_electricity');
   const [method, setMethod] = useState('ContextMemory');
   const [feature, setFeature] = useState<'seasonal_strength' | 'acf1' | 'pct_zeros'>('seasonal_strength');
+  const [study, setStudy] = useState<'fresh' | 'archived'>('fresh');
   useEffect(() => {
     let cancelled = false;
+    setData(null); setErr('');
     (async () => {
       try {
-        const comparison = await loadReevaluation();
+        const comparison = await loadReevaluation(study);
         const sources = await Promise.all(comparison.cases.map(c => loadManifest(c.case_id)));
         if (!cancelled) { setData(comparison); setManifests(sources); }
       } catch (e) { if (!cancelled) setErr(String(e)); }
     })();
     return () => { cancelled = true; };
-  }, []);
+  }, [study]);
   const own = { en: 'Reports computations and provenance from the committed case artifacts.', es: 'Informa cómputos y procedencia de los artefactos comprometidos.' };
   const c = data?.cases.find(v => v.case_id === caseId) ?? data?.cases[0];
   const fmt = (v: number | null) => formatNumber(v, lang, { digits: 3 });
@@ -87,7 +89,11 @@ export default function BenchmarkCurrent() {
     const x = m.series[feature];
     return result?.metrics.mase != null && Number.isFinite(x) ? [{ id: m.case_id, x, y: result.metrics.mase }] : [];
   });
-  return <DocPage title={{ en: 'Benchmark', es: 'Comparación' }} lede={t('The common comparison scores twenty-two forecasting variants on identical final blocks from fifteen selected cases. Inspect aggregate results, real-series comparisons, lead-time errors, executable browser inference and data provenance, while retaining the distinction between newly recomputed light forecasts and archived heavy-model outputs.', 'La comparación común puntúa veintidós variantes sobre bloques finales idénticos de quince casos. Examine resultados agregados, series reales, errores por horizonte, inferencia ejecutable y procedencia, conservando la distinción entre pronósticos ligeros recalculados y resultados pesados archivados.')}>
+  return <DocPage title={{ en: 'Benchmark', es: 'Comparación' }} lede={t('The common comparison scores twenty-two forecasting variants on identical final blocks from fifteen selected cases. Inspect fresh executions, archived comparisons, real-series forecasts, lead-time errors, executable browser inference and source provenance. Exact packages and checkpoint revisions identify the new numerical experiment.', 'La comparación común puntúa veintidós variantes sobre bloques finales idénticos de quince casos. Examine ejecuciones nuevas, comparaciones archivadas, pronósticos reales, errores por horizonte, inferencia ejecutable y procedencia. Las versiones de paquetes y revisiones de modelos identifican el nuevo experimento numérico.')}>
+    <label className="cs-ctl">{t('Experiment', 'Experimento')}<select className="cs-sel" value={study} onChange={e => setStudy(e.target.value as typeof study)}>
+      <option value="fresh">{t('Fresh executions', 'Ejecuciones nuevas')}</option>
+      <option value="archived">{t('Archived predictions rescored', 'Pronósticos archivados repuntuados')}</option>
+    </select></label>
     {err ? <p role="alert">{err}</p> : !data ? <p data-state="loading">{t('Loading admitted results', 'Cargando resultados admitidos')}</p> : <SubTabs ariaLabel={t('Benchmark topics', 'Temas de comparación')} tabs={[
       { id:'results',label:t('Common results','Resultados comunes'),content:<DocSection title={{en:'Common final holdout',es:'Bloque final común'}} area="results" refs={['mase','msis']}><CommonHoldout data={data} /></DocSection> },
       { id:'real',label:t('Real series','Series reales'),content:<DocSection title={{en:'Models on the same real outcomes',es:'Modelos sobre los mismos resultados reales'}} area="comparison" refs={['uci-electricity','mase']}>
@@ -96,7 +102,7 @@ export default function BenchmarkCurrent() {
           {label:t('Observed','Observado'),values:realCase.actual,color:'var(--color-fg)'},
           ...realCase.methods.filter(m=>['SeasonalNaive','Chronos-Bolt','ContextMemory'].includes(m.name)).map(m=>({label:m.name,values:m.point,color:methodColor(m.name)})),
         ]} ariaSummary={t('Forecasts on a real held-out block','Pronósticos sobre un bloque real reservado')} xLabel={t('Lead','Paso')} yLabel={t('Case value units','Unidades del caso')} /></Figure>}
-        <p>{t('The pretrained path is frozen evidence; the smoothing reference and combination were recomputed. The comparison concerns these outcomes and does not establish independence from a pretraining corpus.', 'La trayectoria preentrenada es evidencia congelada; la referencia y combinación fueron recalculadas. La comparación corresponde a estos resultados y no establece independencia del corpus de preentrenamiento.')}</p>
+        <p>{study === 'fresh' ? t('Every displayed method was executed again on the original contiguous history. The pretrained checkpoint is identified by its revision; independence from its pretraining corpus remains unverified.', 'Cada método mostrado se ejecutó de nuevo sobre la historia original contigua. La revisión identifica el modelo preentrenado; la independencia de su corpus sigue sin verificar.') : t('The pretrained path is frozen evidence; the smoothing reference and combination were recomputed. The comparison concerns these outcomes and does not establish independence from a pretraining corpus.', 'La trayectoria preentrenada es evidencia congelada; la referencia y combinación fueron recalculadas. La comparación corresponde a estos resultados y no establece independencia del corpus de preentrenamiento.')}</p>
       </DocSection> },
       { id:'lead',label:t('Lead-time errors','Errores por paso'),content:<DocSection title={{en:'Observed error by forecast lead',es:'Error observado por paso'}} area="robustness" noRefsReason={own}>
         <CaseSelect cases={data.cases} value={c?.case_id ?? ''} onChange={setCaseId} />
@@ -115,7 +121,7 @@ export default function BenchmarkCurrent() {
         <p>{t('The diagnostic coordinate describes the case; its association with error does not establish a causal explanation. Select a point to carry that case into the other comparison views.', 'La coordenada describe el caso; su relación con el error no establece una explicación causal. Seleccione un punto para llevar el caso a las otras vistas comparativas.')}</p>
       </DocSection> },
       { id:'limits',label:t('Limits','Límites'),content:<DocSection title={{en:'What the experiment establishes',es:'Qué establece el experimento'}} area="caveat" noRefsReason={own}>
-        <Callout variant="honest" title={t('Finite evidence','Evidencia finita')}>{t('One origin per selected case does not establish population superiority or significance. Heavy forecasts were rescored, not refitted, and pretraining overlap remains unverified. ContextMemory failed its mean comparison against its recency-only ablation; the negative result and all cases are retained.', 'Un origen por caso no establece superioridad poblacional ni significancia. Los pronósticos pesados fueron repuntuados y el solapamiento de preentrenamiento sigue sin verificar. ContextMemory no mejoró su ablación de recencia; se conservan el resultado negativo y todos los casos.')}</Callout>
+        <Callout variant="honest" title={t('Finite evidence','Evidencia finita')}>{t('One origin per selected case does not establish population superiority or significance. The fresh experiment executes all methods; the archived experiment rescores older heavy-model paths. Pretraining overlap remains unverified. ContextMemory failed its mean comparison against its recency-only ablation; the negative result and all cases are retained.', 'Un origen por caso no establece superioridad poblacional ni significancia. El experimento nuevo ejecuta todos los métodos; el archivado repuntúa trayectorias pesadas anteriores. El solapamiento de preentrenamiento sigue sin verificar. ContextMemory no mejoró su ablación de recencia; se conservan el resultado negativo y todos los casos.')}</Callout>
         <p>{t('Historical rolling results used different origin schedules and remain in the source artifacts. The common comparison uses the same final targets and explicitly distinguishes forecast provenance. MASE below one compares error to an in-history scale, not directly to a separately scored naive path.', 'Los resultados móviles históricos usaron otros calendarios y permanecen en los artefactos de origen. La comparación común utiliza los mismos objetivos finales y distingue procedencia. MASE inferior a uno compara el error con una escala histórica y no directamente con otra trayectoria naive puntuada.')}</p>
       </DocSection> },
     ]} />}

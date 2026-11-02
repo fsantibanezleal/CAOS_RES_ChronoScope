@@ -17,9 +17,10 @@ ChronoScope is an interactive research atlas of time-series forecasting. It take
 it with the classical diagnostic toolkit (ten analysis families: stationarity, autocorrelation,
 seasonality, filters/decomposition, change points, volatility, distribution/complexity, fractals,
 nonlinear dynamics, causality), and compares **22 forecast variants on common final holdouts**.
-The comparison includes fourteen frozen heavy-model paths, five corrected light forecasts, and
-ContextMemory with its RecencyMean and EqualMean ablations. Heavy paths are rescored historical
-outputs; they are not presented as fresh checkpoint runs. ContextMemory did not improve mean MASE
+The default comparison freshly executes all 22 variants on original contiguous histories, with
+exact package versions and checkpoint revisions. An explicit selector retains the earlier
+comparison of fourteen frozen paths, five corrected light methods and three combinations.
+ContextMemory did not improve mean MASE
 over its recency-only ablation. Every case and the negative result remain available.
 
 The [implementation reassessment](docs/research/2026-11-01-method-reevaluation.md) records the
@@ -31,7 +32,8 @@ a causal explanation of model rankings.
   PM2.5, two real M4/Monash series + honesty controls), each baked with the full ladder, the ten-family
   analysis panel, and a prequential streaming bench.
 - **Foundation tier**: Chronos-Bolt, Chronos-2, TimesFM 2.5 (local Apache-2.0 checkpoints, GPU) and
-  TiRex-2 via an opt-in **WSL2 lane** (its sLSTM kernels have no Windows wheels).
+  TiRex-2 via native Linux/WSL CUDA inference (its sLSTM kernels have no Windows wheels).
+  TimesFM 3.0 is documented separately with its noncommercial, nonproduction weight terms.
 - **Prequential streaming evaluation**: predict, score, then ingest, with an explicit covariate-arrival
   policy and online interval calibration (ACI / Conformal-PID), implemented through
   the published PyPI package [`preqts`](https://pypi.org/project/preqts/).
@@ -41,19 +43,25 @@ a causal explanation of model rankings.
 ## Quickstart
 
 ```bash
-# 1. reproducible environments (pinned per lane; py3.12 for the pipeline)
-./scripts/setup.sh                      # or scripts/setup.ps1 on Windows
-
-# 2. bake every case: forecasts + analysis + streaming -> data/derived/ (+ manifests)
-python scripts/bake.py all              # GPU lanes opt-in via CHRONOSCOPE_ENABLE_* env flags
-
-# 3. the gates: determinism, both data contracts, artifact drift, TS<->Python parity
-python -m pytest tests/ -q
-python scripts/check_artifacts.py
-
-# 4. the web app consumes the artifacts (copy-data enforces the artifact contract)
-cd frontend && npm ci && npm run dev
+# Numbered scripts have PowerShell equivalents in scripts/local.
+./scripts/local/00_install-prereqs.sh
+./scripts/local/01_init.sh
+# Existing admitted artifacts are sufficient for development.
+./scripts/local/03_dev.sh
+# Optional generation creates an external candidate; promotion is explicit.
+CAOS_TEMP_ROOT=/your/external/scratch ./scripts/local/02_generate-data.sh
 ```
+
+See [local workflows](scripts/local/README.md) for staged generation and
+[fresh model execution](docs/guides/fresh-reevaluation.md) for the separate Linux/GPU
+runtime. The default generation path verifies the admitted fresh experiment; it does not
+pretend to rerun foundation models. Local scientific tests, notebook reproduction,
+frontend checks and the browser matrix are recorded separately from remote delivery.
+
+The [manuscript review set](manuscripts/README.md) contains the detailed report, the
+contextual-combination paper and a revision of the streaming study. These are local
+candidates; external publication and the strict manuscript release gate remain pending.
+
 
 ## Areas
 
@@ -89,15 +97,16 @@ cd frontend && npm ci && npm run dev
 | `frontend/` | the React SPA (shared `@fasl-work/caos-app-shell`, uPlot workbench, onnxruntime-web live tier) |
 | `docs/` | the wiki: research dossiers, per-family analysis theory, architecture, per-case write-ups, guides |
 | `tools/tirex2_wsl/` | the WSL2 lane for TiRex-2 (CUDA-in-WSL bake bridge) |
-| `tests/` | 170 tests in 26 modules: ground-truth analysis tests, contract + determinism + parity + gate tests |
+| `tests/` | Scientific, contract, numerical parity, fresh admission, notebook, guard and planted-defect checks |
 
 ## Hard rules
 
 - **Evidence boundaries**: baked artifacts record what is unavailable rather than faking it; the white-noise
   and near-random-walk cases provide limited baseline checks, not proof against all leakage; n_windows per
   method is recorded; local-only data never ships.
-- **Determinism**: every bake is a pure function of (case, seed); no timestamps in artifacts; re-baking is
-  a no-op diff unless code changed.
+- **Reproduction**: seeded lightweight numerical artifacts and notebook outputs have byte checks.
+  Fresh GPU runs record packages, checkpoints and execution timings; cross-runtime bitwise identity
+  and identical hardware timing are not promised.
 - **Tests never write canonical artifacts** (sandboxed via `CHRONOSCOPE_DERIVED_DIR`).
 
 ## License

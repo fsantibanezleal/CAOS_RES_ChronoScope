@@ -24,15 +24,12 @@
     "chronoscopelab.model.context_memory.fit_context_memory",
     "chronoscopelab.reevaluation.metrics",
     "chronoscopelab.engines.statsforecast_engine.StatsforecastForecaster",
-    "chronoscopelab.engines.lightgbm_engine.LightGBMForecaster"
+    "chronoscopelab.engines.lightgbm_engine.LightGBMForecaster",
+    "chronoscopelab.engines.neural_engine.NeuralForecaster",
+    "chronoscopelab.engines.neuralforecast_engine.NeuralForecastForecaster",
+    "chronoscopelab.engines.chronos_engine.ChronosForecaster",
+    "chronoscopelab.engines.timesfm_engine.TimesFmForecaster",
+    "chronoscopelab.engines.tirex2_engine.Tirex2Forecaster"
   ],
-  "manuscripts": [
-    {
-      "kind": "manuscript",
-      "concept_doi": "10.5281/zenodo.21508920",
-      "title": "Prequential Streaming Evaluation of Stateful Time-Series Forecasters with Online Conformal Calibration: A Diagnostic Atlas and the preqts Harness",
-      "version": "2.3",
-      "covers": []
-    }
-  ]
+  "manuscripts": []
 }

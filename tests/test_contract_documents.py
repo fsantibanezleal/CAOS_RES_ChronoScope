@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
     ("nlinear-model", "frontend/public/models/nlinear.json"),
     ("selector", "models/selector.json"),
     ("reevaluation", "data/derived/reevaluation.json"),
+    ("reevaluation", "data/derived/fresh-reevaluation.json"),
 ])
 def test_every_committed_boundary_document_matches_its_schema(schema, pattern):
     files = list(ROOT.glob(pattern))

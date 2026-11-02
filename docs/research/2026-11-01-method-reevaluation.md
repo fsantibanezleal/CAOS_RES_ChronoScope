@@ -2,6 +2,10 @@
 
 Reviewed 2026-11-01 against current source, the released traces, the current template and primary sources. The product checkpoint is `2706742`; follow-up source changes and the comparison artifact are separately committed.
 
+The sections below record the initial archived-path reassessment. The subsequent full
+fresh execution is documented in the [fresh evaluation guide](../guides/fresh-reevaluation.md)
+and its separately admitted artifact; the browser retains both experiments explicitly.
+
 ## Established forecasts
 
 SeasonalNaive repeats the last observed seasonal block. SES and Holt use explicit finite grids, first-observation initialisation and residual Gaussian intervals. They are transparent implementations with narrower fitting choices than a fully optimised state-space package. Their intervals are approximations; fitting a quantile loss or applying square-root-horizon widening does not establish calibration.

@@ -378,7 +378,7 @@ def test_notebook_pins_are_exact_and_in_the_sdd_table(tmp_path: Path) -> None:
     saved = req.read_text(encoding="utf-8")
     req.write_text(saved + "nbclient>=0.1\n", encoding="utf-8")
     assert tech().returncode == 1 and "nbclient" in tech().stdout
-    req.write_text(saved.replace("matplotlib==3.11.2", "matplotlib==3.11.1"), encoding="utf-8")
+    req.write_text(saved.replace("matplotlib==3.10.8", "matplotlib==3.10.7"), encoding="utf-8")
     assert tech().returncode == 1 and "matplotlib" in tech().stdout
     req.write_text(saved, encoding="utf-8")
     assert CHECK.unpinned_lines(sandbox) == []
@@ -416,7 +416,8 @@ def runner_repo(tmp_path: Path, body: str) -> tuple[Path, Path]:
 
 
 def run_runner(base: Path, *args: str) -> subprocess.CompletedProcess:
-    return subprocess.run([str(NOTEBOOK_PYTHON), str(base / "scripts" / "run_notebooks.py"), *args], capture_output=True, encoding="utf-8",
+    scratch = ["--tmp", str(base.parent / "scratch")] if "--check" in args else []
+    return subprocess.run([str(NOTEBOOK_PYTHON), str(base / "scripts" / "run_notebooks.py"), *args, *scratch], capture_output=True, encoding="utf-8",
                           errors="replace", cwd=base, timeout=300)
 
 

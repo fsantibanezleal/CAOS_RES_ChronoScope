@@ -193,6 +193,26 @@ export interface components {
             input_sha256: {
                 [key: string]: string;
             };
+            source_comparison_sha256?: string;
+            runtime?: {
+                python: string;
+                platform: string;
+                packages: {
+                    [key: string]: string;
+                };
+                checkpoint_revisions: {
+                    [key: string]: string;
+                };
+                checkpoint_sha256: {
+                    [key: string]: {
+                        [key: string]: string;
+                    };
+                };
+                cuda_available: boolean;
+                torch_cuda: string | null;
+                gpu: string | null;
+                torch_cpu_threads: number;
+            };
         };
         MethodBacktest: {
             mase: number | null;
@@ -281,6 +301,12 @@ export interface components {
                 coverage: number;
                 mean_width: number;
             };
+            fit_inference_seconds?: number;
+            warning_categories?: string[];
+            expert_weights?: {
+                [key: string]: number;
+            };
+            training_origins?: number[];
         };
     };
     responses: never;

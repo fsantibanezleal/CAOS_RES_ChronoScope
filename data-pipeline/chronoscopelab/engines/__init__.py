@@ -14,6 +14,7 @@ from .neural_engine import neural_forecasters
 from .neuralforecast_engine import neuralforecast_forecasters
 from .statsforecast_engine import statsforecast_forecasters
 from .timesfm_engine import timesfm_forecasters
+from .tirex2_engine import tirex2_forecasters
 
 
 def heavy_forecasters() -> list[Forecaster]:
@@ -23,7 +24,8 @@ def heavy_forecasters() -> list[Forecaster]:
     out.extend(statsforecast_forecasters())
     out.extend(lightgbm_forecasters())
     out.extend(neuralforecast_forecasters())   # canonical deep tier (py3.12 base)
-    out.extend(neural_forecasters())            # direct-torch parity reference
+    out.extend(neural_forecasters())            # separate direct-torch adaptations
     out.extend(chronos_forecasters())
     out.extend(timesfm_forecasters())
+    out.extend(tirex2_forecasters())
     return out

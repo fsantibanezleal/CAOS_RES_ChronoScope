@@ -3,6 +3,15 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.23.000] - 2026-11-01
+
+- Refactor the executive and technical views onto the current shared shell and normative generated contracts.
+- Correct seasonal phase, finite-history Theta and contiguous-history scoring; retain the invalidated experiment record.
+- Execute all 22 forecasting variants on the same 15 final holdouts, recording exact packages and checkpoint revisions; retain the earlier archived-path comparison.
+- Implement ContextMemory with matching recency and uniform ablations; preserve its negative aggregate result.
+- Add eight executed bilingual lessons, staged local workflows, adversarial guards and three locally reviewable manuscript PDFs.
+- Publication and remote release remain separate from this locally validated candidate.
+
 ## [0.22.001] - 2026-09-26
 
 The footer constant in `frontend/src/lib/version.ts` had read `0.08.000` since that release; it

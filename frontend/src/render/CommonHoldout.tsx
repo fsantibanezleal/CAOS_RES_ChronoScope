@@ -5,14 +5,18 @@ import type { Reevaluation } from '../lib/reevaluation.types';
 export function CommonHoldout({ data }: { data: Reevaluation }) {
   const lang = useShellLang();
   const es = lang === 'es';
+  const fresh = data.protocol.name === 'fresh common final holdout';
   const [caseId, setCaseId] = useState(data.cases[0]?.case_id ?? '');
   const selected = data.cases.find(c => c.case_id === caseId) ?? data.cases[0];
   const fmt = (v: number | null) => formatNumber(v, lang, { digits: 3 });
   const rows = [...data.summary].sort((a, b) => a.mean_mase - b.mean_mase);
   return <div className="cs-main">
-    <p>{es
+    <p>{fresh ? (es
+      ? 'Las veintidós variantes se ejecutaron de nuevo sobre historias originales contiguas y los mismos objetivos reservados. Las versiones de paquetes y revisiones de los cuatro modelos preentrenados quedan registradas. Los tiempos incluyen ajuste, inferencia y carga inicial; no miden latencia en caliente.'
+      : 'All twenty-two variants were freshly executed on contiguous original histories and identical held-out targets. Package versions and revisions of all four pretrained models are recorded. Timings include fitting, inference and first-use loading; they do not measure warm inference latency.') : es
       ? 'Cada método se puntúa sobre el mismo bloque final de cada caso. Los pronósticos pesados provienen de la versión archivada; los métodos ligeros y las combinaciones se recalcularon con la historia comprometida.'
       : 'Every method is scored on the same final block of each case. Heavy forecasts come from the archived release; light methods and combinations were recomputed on the committed history.'}</p>
+    {fresh && data.runtime && <p>{es ? 'Ejecución registrada' : 'Recorded execution'}: Python <code>{data.runtime.python}</code>, PyTorch <code>{data.runtime.packages.torch}</code>, <code>{data.runtime.gpu ?? 'CPU'}</code>. {es ? 'El solapamiento con datos de preentrenamiento sigue sin verificar.' : 'Pretraining-data overlap remains unverified.'}</p>}
     <Callout variant="honest" title={es ? 'Resultado de la propuesta' : 'Proposal result'}>
       {es
         ? 'ContextMemory no mejoró el MASE medio de la combinación que usa solo recencia. Se conservan la propuesta, ambas ablaciones y todos los casos; los parámetros no se ajustaron usando el bloque final.'

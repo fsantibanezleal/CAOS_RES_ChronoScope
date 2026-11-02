@@ -58,6 +58,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | requirements-precompute.txt | emd-signal | 1.9.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | hurst | 0.0.5 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | jsdom | 29.1.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| requirements-dev.txt | jsonschema | 4.26.0 | Normative artifact validation and planted-defect guards. | Partial structural checks were removed. |
 | frontend | openapi-typescript | 7.13.0 | Browser types generated from artifact schemas. | Handwritten mirrors were removed to prevent schema drift. |
 | frontend | katex | 0.19.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | lightgbm | 4.6.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
@@ -110,9 +111,9 @@ The offline pipeline creates forecast, analysis, and streaming artifacts. The br
 |---|---|---|---|---|
 | CL-1 | classical | Seasonal-naive and local smoothing methods | Forecast outputs match the checked parity fixture and preserve declared horizon length. | `tests/test_forecasters.py` |
 | ST-1 | sota | AutoETS, AutoTheta and AutoARIMA via statsforecast | Source adapters and frozen paths are identified; common-holdout scores use the same actual values and scaling. | `tests/test_engines.py`, `frontend/src/test/reevaluation.test.ts` |
-| ST-2 | sota | LightGBM with lag features | The reference adapter is identifiable and frozen predictions are rescored without implying a new fit. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
+| ST-2 | sota | LightGBM with lag features | Fresh fits and archived predictions retain distinct provenance and share the same targets and historical scale. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
 | ST-3 | sota | NLinear, DLinear and NHITS via neuralforecast, plus documented direct-torch adaptations | Reference and adapted implementations keep distinct method identities; quantile-head adaptations do not count as exact paper replication. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
-| ST-4 | sota | Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex-2 | Frozen forecast provenance stays visible; the refresh does not assert a current-checkpoint rerun or absence of pretraining overlap. | `frontend/src/test/reevaluation.test.ts` |
+| ST-4 | sota | Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex-2 | Fresh inference records all four checkpoint revisions and runtime versions; archived provenance stays selectable; no absence of pretraining overlap is asserted. | `frontend/src/test/reevaluation.test.ts` |
 | BS-1 | beyond | ContextMemory within-series forecast combination | On fixed final holdouts compare against identical-expert EqualMean and RecencyMean ablations; preserve negative results. | `tests/test_reevaluation.py`, `scripts/reevaluate.py` |
 
 ## Beyond the state of the art
@@ -121,7 +122,7 @@ BS-1 proposes ContextMemory, a causal within-series combination of SeasonalNaive
 
 The method is implemented in `data-pipeline/chronoscopelab/model/context_memory.py`, integrated in the offline method registry, and compared in `data/derived/reevaluation.json`. FFORMA and arbitrated dynamic ensembles already establish context-dependent combinations. This proposal makes no priority claim; it tests a particular low-data, within-series recurrence rule. A calibration wrapper or the preqts harness is not represented as this forecasting proposal.
 
-Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.4504 for ContextMemory and 1.4489 for RecencyMean; EqualMean gives 1.8970. This is a negative finite-sample result, not a claim about all recurrence models. Heavy-model paths are frozen released forecasts, rescored on this common holdout; they were not refitted in the refresh.
+Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.4504 for ContextMemory and 1.4489 for RecencyMean; EqualMean gives 1.8970. This is a negative finite-sample result, not a claim about all recurrence models. The archived comparison rescores frozen heavy paths. The separate fresh experiment executes all 22 variants on the same original histories and targets, binds package/checkpoint/source identities and independently verifies all metrics.
 
 ## Cases
 
@@ -137,7 +138,7 @@ The artifact scripts compare committed output structure, manifest references, an
 
 ## Risks and kill criteria
 
-Do not publish a claim of a new forecasting method, universal calibration, general runtime advantage, or broad leaderboard superiority without new evidence. Stop a release if source licensing is unresolved, artifact and consumer shapes diverge, a control case reveals a material harness defect, or the deployed commit and artifact identity cannot be established. The required novel-method tier and an evidence-backed technical report are currently absent, so the corresponding template readiness checks remain open.
+Do not publish a claim of a new forecasting method, universal calibration, general runtime advantage, or broad leaderboard superiority without new evidence. Stop a release if source licensing is unresolved, artifact and consumer shapes diverge, a control case reveals a material harness defect, or the deployed commit and artifact identity cannot be established. The forecasting proposal and detailed report are implemented and available as local reviewable drafts. Their separate Zenodo publication records remain pending under the external-publication boundary; the strict manuscript release gate remains open until publication is authorized and verified.
 
 ## ADR fit
 

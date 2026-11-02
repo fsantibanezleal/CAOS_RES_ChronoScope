@@ -15,7 +15,8 @@ export const loadIndex = (): Promise<CaseIndex> => getJSON<CaseIndex>('manifests
 export const loadManifest = (caseId: string): Promise<CaseManifest> =>
   getJSON<CaseManifest>(`manifests/${caseId}.json`);
 export const loadTrace = (artifactPath: string): Promise<Trace> => getJSON<Trace>(artifactPath);
-export const loadReevaluation = (): Promise<Reevaluation> => getJSON<Reevaluation>('reevaluation.json');
+export const loadReevaluation = (study: 'fresh' | 'archived' = 'fresh'): Promise<Reevaluation> =>
+  getJSON<Reevaluation>(study === 'fresh' ? 'fresh-reevaluation.json' : 'reevaluation.json');
 
 // The "understand the series" panel (chronoscope.analysis/v1) and the streaming bench
 // (chronoscope-streaming-v1): schema-loose on purpose (the panels render what is present and mark

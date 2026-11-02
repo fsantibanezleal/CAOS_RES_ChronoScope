@@ -73,6 +73,16 @@ def main():
         rows += [r"\bottomrule", r"\end{longtable}"]
         (tables / filename).write_text("\n".join(rows) + "\n")
     print("Manuscript evidence: 15 cases, 22 methods, 3 matching-expert variants")
+    fresh = json.loads((ROOT / "data/derived/fresh-reevaluation.json").read_text(encoding="utf-8"))
+    if fresh["protocol"]["name"] != "fresh common final holdout":
+        raise ValueError("The second results table requires complete fresh execution")
+    new_rows = [r"\begin{longtable}{lrrr}",
+                r"\caption{Fresh execution alongside the archived-path comparison. The same fifteen final blocks are used in both; these are not independent replications.}\\",
+                r"\toprule Method & Archived MASE & Fresh MASE & Fresh coverage\\\midrule\endhead"]
+    for row in sorted(fresh["summary"], key=lambda r: r["mean_mase"]):
+        new_rows.append(f"{tex(row['name'])} & {summary[row['name']]['mean_mase']:.4f} & {row['mean_mase']:.4f} & {row['mean_coverage']:.4f} " + r"\\")
+    new_rows += [r"\bottomrule", r"\end{longtable}"]
+    (tables / "fresh.tex").write_text("\n".join(new_rows) + "\n", encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":
