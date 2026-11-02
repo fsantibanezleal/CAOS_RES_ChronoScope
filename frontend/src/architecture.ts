@@ -65,16 +65,16 @@ const APP = svg('cs-a1', 470, `
   <text class="mu" x="432" y="178">MASE/WQL/coverage/MSIS + per-horizon</text>
   <path class="flow" d="M616,138 L650,138" marker-end="url(#cs-a1)"/>
   <rect class="bx" x="652" y="86" width="200" height="106" rx="9"/>
-  <text class="ttl" x="664" y="106">where each family wins</text>
-  <text class="mu" x="664" y="126">and why: the diagnosis</text>
+  <text class="ttl" x="664" y="106">compare forecast errors</text>
+  <text class="mu" x="664" y="126">inspect diagnostics</text>
   <text class="mu" x="664" y="142">describes each case</text>
   <text class="mu" x="664" y="162">(forecastability atlas);</text>
-  <text class="mu" x="664" y="178">adaptive intervals (ACI/PID)</text>
+  <text class="mu" x="664" y="178">adaptive replay intervals</text>
 
   <rect class="grp" x="14" y="256" width="852" height="196" rx="10"/>
-  <text class="sub" x="28" y="276" style="font-weight:600;">DESIGN-BUILD LIFECYCLE · how it was built (deep-research first, no shortcuts)</text>
+  <text class="sub" x="28" y="276" style="font-weight:600;">RESEARCH AND BUILD WORKFLOW</text>
   ${[
-    ['1 research', 'wip/*.md dossiers', 'papers, methods,', 'datasets, licenses'],
+    ['1 research', 'research notes', 'papers, methods,', 'datasets, licenses'],
     ['2 implement', 'chronoscopelab/', 'engines + the', '10-family toolkit'],
     ['3 train + validate', 'stages/train.py', 'GPU deep + foundation;', 'ONNX export + parity'],
     ['4 bake artifact', 'stages/export.py', 'trace v2 + manifest', '+ streaming, seeded'],
@@ -182,9 +182,9 @@ const FLOW = svg('cs-a3', 430, `
   <rect class="bx bx-hi" x="410" y="52" width="442" height="150" rx="10"/>
   <text class="ttl" x="424" y="72" style="fill:var(--color-accent);">the workbench · grouped interactive views (uPlot)</text>
   <text class="sub" x="424" y="92">UNDERSTAND</text>
-  <text class="mu" x="424" y="110">Series · Structure (ACF/PACF/spectrum) · Decompose · Verdicts</text>
+  <text class="mu" x="424" y="110">Series · Patterns · Structure · Decompose · Verdicts</text>
   <text class="sub" x="424" y="134">FORECAST</text>
-  <text class="mu" x="424" y="152">Forecast (↔ Errors) · Zoom · Horizon · Residuals · Leaderboard · Streaming</text>
+  <text class="mu" x="424" y="152">Forecast (Full/Zoom/Horizon/Errors) · Residuals · Leaderboard · Streaming</text>
   <text class="mu" x="424" y="180">every chart: zoom/pan/crosshair/brush; the legend rail solos a curve; theme-aware</text>
 
   <rect class="grp" x="20" y="222" width="832" height="184" rx="10"/>
@@ -250,15 +250,15 @@ const SCIENCE = svg('cs-a4', 470, `
   <text class="mu" x="28" y="430">Diagnostics describe case structure.</text>
 
   <rect class="grp" x="446" y="210" width="420" height="242" rx="10"/>
-  <text class="sub" x="460" y="230" style="font-weight:600;">EVALUATION · rolling-origin and prequential protocols</text>
+  <text class="sub" x="460" y="230" style="font-weight:600;">EVALUATION · separate target-block and replay studies</text>
   <rect class="bx" x="460" y="242" width="392" height="74" rx="9"/>
-  <text class="ttl" x="472" y="262">rolling-origin backtest</text>
-  <text class="mu" x="472" y="282">each cutoff fits only on history up to it, predicts</text>
-  <text class="mu" x="472" y="298">the full horizon out-of-sample; the cutoff advances</text>
+  <text class="ttl" x="472" y="262">declared common or rolling target blocks</text>
+  <text class="mu" x="472" y="282">each fit uses its available prefix; future targets</text>
+  <text class="mu" x="472" y="298">are scored under that study's declared protocol</text>
   <rect class="bx bx-pkg" x="460" y="326" width="392" height="60" rx="9"/>
-  <text class="ttl" x="472" y="346" style="fill:var(--color-accent);">streaming (prequential) · preqts</text>
+  <text class="ttl" x="472" y="346" style="fill:var(--color-accent);">separate prequential prefix replay</text>
   <text class="mu" x="472" y="366">predict, score, ingest; interval state persists</text>
-  <text class="mu" x="472" y="380" style="font-size:9px;">recalibrate the interval online, per horizon (the atlas's prequential comparison)</text>
+  <text class="mu" x="472" y="380" style="font-size:9px;">one-step intervals; controller state persists across cutoffs</text>
   <text class="mu" x="460" y="408" style="fill:var(--color-accent);">metrics:</text>
   <text class="mu" x="502" y="408">MASE · WQL · coverage · MSIS · per-horizon curve</text>
   <text class="mu" x="460" y="428">a control that beats the naive by a lot is a red flag,</text>
@@ -280,12 +280,12 @@ const CONTRACTS = svg('cs-a5', 430, `
   <text class="lbl" x="224" y="108">valid obs</text>
 
   <rect class="bx bx-hi" x="258" y="56" width="340" height="120" rx="10"/>
-  <text class="ttl" x="270" y="76" style="fill:var(--color-accent);">the staged pipeline · pure function of (case, seed)</text>
+  <text class="ttl" x="270" y="76" style="fill:var(--color-accent);">staged computation with source identities</text>
   <text class="cd mono" x="270" y="94">chronoscopelab/pipeline.py</text>
   <text class="mu" x="270" y="116">preprocess → feature_extraction → train → infer</text>
-  <text class="mu" x="270" y="134">→ evaluate → export · deterministic, seeded (42)</text>
-  <text class="mu" x="270" y="158">same (case, seed) → byte-identical artifacts; no network,</text>
-  <text class="mu" x="270" y="172" style="font-size:9px;">no wall-clock branching. CHRONOSCOPE_DERIVED_DIR sandboxes test writes.</text>
+  <text class="mu" x="270" y="134">→ evaluate → export · seeded numerical fits</text>
+  <text class="mu" x="270" y="158">source, package and checkpoint hashes retained;</text>
+  <text class="mu" x="270" y="172" style="font-size:9px;">timings remain separate. Tests redirect generated artifacts.</text>
   <path class="flow" d="M598,116 L634,116" marker-end="url(#cs-a5)"/>
   <text class="lbl" x="602" y="108">baked</text>
 
@@ -332,28 +332,28 @@ export const architecture: ArchitectureConfig = {
   tabs: [
     {
       id: 'app', en: 'The app', es: 'La app', svg: APP,
-      body_en: 'ChronoScope combines ten diagnostic families with a common final-holdout comparison of 22 forecasting variants. Fourteen heavy paths remain frozen evidence, while five light methods and three combinations were recomputed. The ContextMemory proposal and both ablations retain their negative result. A separately dated streaming study reports online interval trajectories. Diagnostics describe case structure without establishing a causal explanation of rankings.',
-      body_es: 'ChronoScope combina diez familias diagnósticas con una comparación común de 22 variantes. Catorce trayectorias pesadas son evidencia congelada; cinco métodos ligeros y tres combinaciones fueron recalculados. ContextMemory y ambas ablaciones conservan el resultado negativo. Un estudio de streaming separado informa trayectorias de intervalos. Los diagnósticos describen los casos sin establecer una explicación causal de los rankings.',
+      body_en: "ChronoScope combines ten diagnostic families with a freshly executed common final-holdout comparison of 22 forecast variants. The earlier archived-path comparison remains separately available. Fixed ContextMemory retains its unfavorable recency-ablation result. A further twelve-method study evaluates ContextMemoryCV and ValidationMix on complete M4 Weekly and M3 Monthly inventories; both improve point error against RecencyMean on the admitted collections, while AutoTheta remains stronger on monthly point error and interval scores. The streaming study separately replays adaptive intervals. These are bounded research outcomes.",
+      body_es: "ChronoScope combina diez familias diagnósticas y una comparación de 22 variantes recién ejecutadas sobre los mismos bloques finales. La comparación anterior de trayectorias archivadas se conserva separadamente. ContextMemory fijo mantiene su resultado desfavorable frente a la ablación por recencia. Otro estudio de doce métodos evalúa ContextMemoryCV y ValidationMix en los inventarios completos de M4 Weekly y M3 Monthly: ambas variantes mejoran el error puntual de RecencyMean en las colecciones admitidas; AutoTheta conserva menor error mensual y mejores puntuaciones de intervalos. El estudio de streaming reproduce intervalos adaptativos como evidencia separada. Son resultados acotados de investigación.",
     },
     {
       id: 'lanes', en: 'Lanes', es: 'Carriles', svg: LANES,
-      body_en: 'The split is the point. Web (live, in the browser): the classical ladder recomputes on every control via a TypeScript engine parity-checked against the Python core, a small NLinear model runs client-side via onnxruntime-web, the light analysis recomputes instantly, and every chart is an interactive uPlot view. Replay: statistical, ML, neural and pretrained model paths retain their released provenance. The common comparison rescores fourteen frozen paths and recomputes eight light variants on identical final holdouts. Offline / compute: the .venv pipeline runs the real engines (statsforecast, LightGBM, neuralforecast on GPU, Chronos/TimesFM from local checkpoints) and preqts, and bakes the committed artifacts.',
-      body_es: 'La división es lo central. Web (en vivo, en el navegador): la escalera clásica recalcula con cada control vía un motor TypeScript verificado por paridad contra el núcleo Python, un pequeño modelo NLinear se ejecuta en el cliente vía onnxruntime-web, el análisis ligero recalcula al instante, y cada gráfico es una vista interactiva uPlot. Replay: las trayectorias estadísticas, ML, neuronales y preentrenadas conservan su procedencia. La comparación común reevalúa catorce rutas congeladas y recalcula ocho variantes ligeras sobre bloques finales idénticos. Offline / cómputo: el pipeline en .venv ejecuta los motores reales (statsforecast, LightGBM, neuralforecast en GPU, Chronos/TimesFM desde checkpoints locales) y preqts, y precalcula los artefactos versionados.',
+      body_en: "The browser computes lightweight classical forecasts, small ONNX NLinear inference and lightweight diagnostics. Heavy engine fitting runs offline. The default fifteen-case comparison stores fresh execution of all 22 configurations with package, checkpoint and source identities; the earlier archived-path experiment remains separate. The twelve-method weekly/monthly combination study also runs offline and serves a compact index plus the selected series document, exposing expert weights, validation choices, targets and scores. The adaptive-interval experiment is a separate prefix replay; native stateful updates and normalized runtime advantages are outside its evidence.",
+      body_es: "El navegador calcula pronósticos clásicos ligeros, inferencia ONNX de un pequeño NLinear y diagnósticos ligeros. Los ajustes pesados se ejecutan offline. La comparación predeterminada de quince casos conserva la ejecución nueva de las 22 configuraciones con identidades de paquetes, pesos y fuentes; el experimento anterior con trayectorias archivadas permanece separado. El estudio semanal y mensual de doce métodos también se ejecuta offline y sirve un índice compacto y el documento de la serie elegida, mostrando pesos de expertos, decisiones de validación, objetivos y puntuaciones. Los intervalos adaptativos se evalúan en una reproducción separada de prefijos; su evidencia no incluye actualizaciones nativas con estado ni ventajas de tiempo normalizadas.",
     },
     {
       id: 'flow', en: 'Web flow', es: 'Flujo web', svg: FLOW,
-      body_en: 'The App page is a per-case workbench. A source selector chooses a baked case or a synthetic pattern with live controls; forecasts run in the browser or replay from artifacts. Eight views are grouped into Understand (Series, Structure, Decompose, Verdicts) and Forecast (Forecast, Residuals, Leaderboard, Streaming). The TypeScript contract mirror fails the build when artifact shapes drift; CI checks artifact consistency before deployment.',
-      body_es: 'La página App es un entorno de trabajo por caso. Un selector de fuente elige un caso precalculado (replay) o un patrón sintético con perillas en vivo; los motores producen pronósticos (en vivo para clásicos + ONNX, replay para los niveles pesados); y el caso se presenta en 10 pestañas interactivas, divididas en Entender (Serie, Estructura, Descomponer, Veredictos) y Pronosticar (Pronóstico con un toggle Pronóstico/Errores, Zoom, Horizonte, Residuos, Tabla, Streaming). Dos mecanismos lo mantienen honesto: copy-data.mjs superpone los artefactos versionados (nunca tipeados a mano) y el espejo de contrato en TypeScript rompe el build ante cualquier divergencia de esquema; un drift-gate de CI se ejecuta antes de desplegar.',
+      body_en: "The App workbench groups series observations, original-axis patterns, structure, decomposition and verdicts separately from forecast paths, residuals, leaderboards and streaming results. The forecast chart offers Full, Zoom, Horizon and Errors modes. Users choose committed cases or interactive synthetic controls. A separate experiment view explores combination studies by collection, series, origin and method. Builds replace public data from canonical artifacts; normative schemas generate TypeScript types, and independent numerical tests check displayed paths.",
+      body_es: "El entorno App agrupa observaciones, patrones en el eje original, estructura, descomposición y veredictos, separados de trayectorias de pronóstico, residuos, tablas y streaming. El gráfico de pronósticos ofrece vistas Completa, Zoom, Horizonte y Errores. Se eligen casos comprometidos o controles sintéticos interactivos. Otra vista experimental explora combinaciones por colección, serie, origen y método. El build reemplaza datos públicos desde artefactos canónicos; los esquemas normativos generan tipos TypeScript y pruebas numéricas independientes verifican las trayectorias.",
     },
     {
       id: 'science', en: 'The science', es: 'La ciencia', svg: SCIENCE,
-      body_en: 'The roster includes seasonal-naive, exponential smoothing, Theta, auto-tuned statistical models, LightGBM, neural models, and pretrained models. The ten-family analysis toolkit reports case diagnostics. Evaluation combines rolling-origin backtests with a prequential streaming study through preqts, using ACI-style and PID-style interval rules. Metrics include MASE, WQL, coverage, MSIS, and per-horizon error; negative controls remain visible.',
-      body_es: 'El conjunto incluye referencias estacionales, suavizamiento, Theta, modelos estadísticos, LightGBM, redes y modelos preentrenados. Diez familias de análisis describen los casos. La evaluación distingue bloques finales comunes y trayectorias históricas de streaming con preqts, reglas ACI-style y PID-style. Las medidas incluyen MASE, pérdida de cuantiles, cobertura, amplitud y MSIS. ContextMemory se compara con ablaciones de recencia y promedio uniforme; el componente contextual no mejora el criterio medio en los casos seleccionados.',
+      body_en: "The fifteen-case roster contains classical, automatic statistical, tree, neural and pretrained methods. Separate experiments evaluate fixed ContextMemory ablations, temporally validated combinations on weekly/monthly collections, prefix-feature associations and held-out method selection on M4 Daily, and one-step adaptive intervals through prefix replay. ContextMemoryCV and ValidationMix improve the recency control on both external collections, while stronger automatic-statistical and interval-score outcomes remain visible. Original-axis patterns, multiscale complexity and seeded nonlinear estimates describe case structure. Scores and associations do not establish population superiority, calibrated uncertainty or a causal forecasting mechanism.",
+      body_es: "El conjunto de quince casos contiene métodos clásicos, estadísticos automáticos, árboles, redes y modelos preentrenados. Experimentos separados evalúan ablaciones de ContextMemory fijo, combinaciones con validación temporal en colecciones semanales y mensuales, asociaciones y selección fuera de muestra en M4 Daily, e intervalos adaptativos de un paso mediante reproducción de prefijos. ContextMemoryCV y ValidationMix mejoran el control de recencia en ambas colecciones externas; se conservan los mejores resultados estadísticos automáticos y de intervalos. Los patrones en el eje original, la complejidad multiescala y las estimaciones no lineales con semilla describen los casos. Estos resultados no prueban superioridad poblacional, incertidumbre calibrada ni un mecanismo causal.",
     },
     {
       id: 'contracts', en: 'Data contracts', es: 'Contratos de datos', svg: CONTRACTS,
-      body_en: 'Two validated contracts bracket the pipeline. Contract 1 (ingestion) defines a valid series (long-format id/timestamp/value + a missing/outlier policy), so the tool accepts external data, not just the built-in cases. Between them a staged, seeded pipeline (preprocess to export) is a pure function of (case, seed): same inputs give byte-identical artifacts. Contract 2 (artifact) defines the compact trace v2 + manifest + analysis + streaming the web reads, mirrored by a TypeScript type so drift fails the build. A measured live/replay lane gate is recorded per method (the manifest lane must match it), a license guard ships aggregate-only metrics for local-only sources, and a CI drift-gate enforces artifact consistency and ladder completeness (>= 15 methods/trace) so a lighter-lane regeneration can never silently ship a downgraded bake.',
-      body_es: 'Dos contratos validados encierran el pipeline. El Contrato 1 (ingesta) define una serie válida (formato largo id/marca-de-tiempo/valor + una política de faltantes/atípicos), para que la herramienta acepte datos externos, no solo los casos incluidos. Entre ambos, un pipeline por etapas y con semilla (de preprocess a export) es una función pura de (caso, semilla): las mismas entradas dan artefactos byte-idénticos. El Contrato 2 (artefacto) define el trace v2 compacto + manifiesto + análisis + streaming que lee la web, espejado por un tipo TypeScript para que la divergencia rompa el build. Un gate de carril live/replay medido se registra por método (el carril del manifiesto debe coincidir), una compuerta de licencia publica solo métricas agregadas para fuentes solo-locales, y un drift-gate de CI exige consistencia de artefactos y completitud de la escalera (>= 15 métodos/trace) para que una regeneración en un carril liviano nunca publique en silencio un precálculo degradado.',
+      body_en: "Ingestion and artifact interfaces bracket the pipeline. Twelve catalog boundaries cover cases, forecasts, diagnostics, streaming, model metadata, corpus studies and combination records. Normative JSON Schemas generate browser TypeScript types; admission independently checks source identities, temporal eligibility, expert mixtures and scores. Seeded numerical diagnostics are tested for repeatability, while timing records and runtime-dependent model fitting retain separate limits. Tests redirect generated output away from canonical data. License checks govern redistribution, and completeness checks reject partial inventories or degraded model rosters before publication.",
+      body_es: "Las interfaces de ingesta y artefactos delimitan el pipeline. Doce límites del catálogo cubren casos, pronósticos, diagnósticos, streaming, metadatos de modelos, estudios de corpus y combinaciones. Los esquemas JSON normativos generan tipos TypeScript; la admisión verifica independientemente fuentes, elegibilidad temporal, mezclas y puntuaciones. Se prueba la repetibilidad de diagnósticos numéricos con semilla; los tiempos y ajustes dependientes del entorno mantienen límites separados. Las pruebas redirigen salidas fuera de los datos canónicos. Las licencias gobiernan la redistribución y las comprobaciones de completitud rechazan inventarios parciales o conjuntos de modelos degradados antes de publicar.",
     },
   ],
 };
