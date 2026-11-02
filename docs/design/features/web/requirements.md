@@ -23,3 +23,4 @@ The current shell and product definitions are enforced on the actual product, it
 | WB-017 | Every JSON artifact SHALL validate against its normative schema; declared non-JSON files SHALL name their real contract tests. | `scripts/check_documents.py` |
 | WB-018 | The technology guard SHALL validate exact npm aliases against the lock and design table. | `tests/adversarial/test_guard_gaps_0_09_0.py` |
 | WB-019 | Product-neutral inherited guards SHALL carry no owner-specific prose or hardcoded machine configuration. | `scripts/check_owner_names.py` |
+| WB-020 | Prebuild SHALL replace the generated public corpus from canonical inputs and reject a missing canonical corpus rather than ship cached results. | `frontend/scripts/copy-data.test.mjs` |

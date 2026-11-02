@@ -11,6 +11,7 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 - Implement ContextMemory with matching recency and uniform ablations; preserve its negative aggregate result.
 - Add eight executed bilingual lessons, staged local workflows, adversarial guards and three locally reviewable manuscript PDFs.
 - Publication and remote release remain separate from this locally validated candidate.
+- Replace generated public data from the canonical corpus on every build; reject absent canonical inputs and remove cached obsolete examples.
 
 ## [0.22.001] - 2026-09-26
 
