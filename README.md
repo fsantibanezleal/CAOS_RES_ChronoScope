@@ -63,7 +63,7 @@ cd frontend && npm ci && npm run dev
 | API | [app/](app/) | dormant: static Pages deployment serves committed artifacts | Optional read-only FastAPI service |
 | Core pipelines | [data-pipeline/](data-pipeline/) | active | Forecasting engines analysis stages and artifact export |
 | Packages | [preqts on PyPI](https://pypi.org/project/preqts/) | active | Prequential forecast evaluation and calibration library |
-| Notebooks | [notebooks/](notebooks/) | dormant: no committed notebook workflow | Reserved for reproducible exploratory analyses |
+| Notebooks | [notebooks/](notebooks/) | active | Eight executed English and Spanish worked forecasting lessons |
 | Data | [data/](data/) | active | Case inputs provenance and committed derived artifacts |
 | Contracts | [docs/contracts/](docs/contracts/) | active | Artifact schemas compatibility and boundary records |
 | Documentation | [docs/](docs/) | active | Methods cases architecture and user guides |

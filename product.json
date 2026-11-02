@@ -16,7 +16,15 @@
   "method_entrypoints": [
     "chronoscopelab.stages.streaming.run",
     "chronoscopelab.model.forecasters.theta",
-    "chronoscopelab.model.forecasters.seasonal_naive"
+    "chronoscopelab.model.forecasters.seasonal_naive",
+    "chronoscopelab.model.forecasters.holt",
+    "chronoscopelab.model.forecasters.holt_winters",
+    "chronoscopelab.model.forecasters.ses",
+    "chronoscopelab.model.forecasters.gaussian_quantiles",
+    "chronoscopelab.model.context_memory.fit_context_memory",
+    "chronoscopelab.reevaluation.metrics",
+    "chronoscopelab.engines.statsforecast_engine.StatsforecastForecaster",
+    "chronoscopelab.engines.lightgbm_engine.LightGBMForecaster"
   ],
   "manuscripts": [
     {
