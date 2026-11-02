@@ -8,8 +8,8 @@
 
 **Live app: <https://chronoscope.fasl-work.com>**
 
-Preprint (CC-BY-4.0): *"Prequential Streaming Evaluation of Stateful Time-Series
-Forecasters with Online Conformal Calibration"*, concept DOI
+Preprint (CC-BY-4.0): *"Prequential Evaluation of Adaptive Prediction Intervals:
+A Fifteen-Series Replay Study"*, concept DOI
 [10.5281/zenodo.21508920](https://doi.org/10.5281/zenodo.21508920) (source in
 [`manuscripts/prequential-streaming-conformal/`](manuscripts/prequential-streaming-conformal/)).
 
@@ -21,7 +21,11 @@ The default comparison freshly executes all 22 variants on original contiguous h
 exact package versions and checkpoint revisions. An explicit selector retains the earlier
 comparison of fourteen frozen paths, five corrected light methods and three combinations.
 ContextMemory did not improve mean MASE
-over its recency-only ablation. Every case and the negative result remain available.
+over its recency-only ablation. Every case and the negative result remain available. Two further combinations, ContextMemoryCV
+and ValidationMix, select settings through causal historical validation. On complete M4 Weekly
+and M3 Monthly inventories, both improve point error against RecencyMean on each admitted
+collection. AutoTheta remains better on monthly point error and both collections’ interval scores.
+The app exposes all twelve methods and 53,148 independently rescored external forecasts.
 
 The [implementation reassessment](docs/research/2026-11-01-method-reevaluation.md) records the
 HoltWinters seasonal-phase and finite-history Theta corrections, original unequal rolling-origin
@@ -35,7 +39,7 @@ a causal explanation of model rankings.
   TiRex-2 via native Linux/WSL CUDA inference (its sLSTM kernels have no Windows wheels).
   TimesFM 3.0 is documented separately with its noncommercial, nonproduction weight terms.
 - **Prequential streaming evaluation**: predict, score, then ingest, with an explicit covariate-arrival
-  policy and online interval calibration (ACI / Conformal-PID), implemented through
+  policy and adaptive interval rules (ACI-style / PID-style), implemented through
   the published PyPI package [`preqts`](https://pypi.org/project/preqts/).
 - **The web app replays the committed artifacts** (nothing heavy runs in the browser) while the classical
   ladder + an ONNX NLinear run live in-browser, parity-checked against the Python core.
@@ -45,7 +49,7 @@ on original observation indices, multiscale entropy, binary Lempel–Ziv complex
 asymmetry. A separate complete M4 Daily study uses three final origins, forty prefix-only features,
 BY correction and disjoint discovery/confirmation series. Its selector is assessed against a
 discovery-selected constant and a future-informed oracle. See the [executed protocol and limits](docs/research/2026-11-02-sequence-evidence.md)
-and the [bilingual lessons](notebooks/README.md).
+and the [bilingual lessons](notebooks/README.md). The [temporal-combination reproduction guide](docs/guides/validated-combinations.md) supplies the separate CPU environment, complete external audit and browser-control checks.
 
 ## Quickstart
 
@@ -66,7 +70,7 @@ pretend to rerun foundation models. Local scientific tests, notebook reproductio
 frontend checks and the browser matrix are recorded separately from remote delivery.
 
 The [manuscript review set](manuscripts/README.md) contains the detailed report, the
-contextual-combination paper and a revision of the streaming study. The technical report, proposal preprint and streaming revision 2.4 are published with verified PDF checksums and separate manuscript records.
+contextual-combination paper and a revision of the streaming study. The technical report v0.25.000, combination preprint v0.2 and streaming revision v2.5 are published with verified PDF checksums and separate manuscript records.
 
 
 ## Areas
@@ -77,7 +81,7 @@ contextual-combination paper and a revision of the streaming study. The technica
 | API | [app/](app/) | dormant: static Pages deployment serves committed artifacts | Optional read-only FastAPI service |
 | Core pipelines | [data-pipeline/](data-pipeline/) | active | Forecasting engines analysis stages and artifact export |
 | Packages | [preqts on PyPI](https://pypi.org/project/preqts/) | active | Prequential forecast evaluation and calibration library |
-| Notebooks | [notebooks/](notebooks/) | active | Fourteen executed English and Spanish forecasting, sequence and corpus lessons |
+| Notebooks | [notebooks/](notebooks/) | active | Sixteen executed English and Spanish forecasting, sequence, corpus and temporal-combination lessons |
 | Data | [data/](data/) | active | Case inputs provenance and committed derived artifacts |
 | Contracts | [docs/contracts/](docs/contracts/) | active | Artifact schemas compatibility and boundary records |
 | Documentation | [docs/](docs/) | active | Methods cases architecture and user guides |

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="pytest tests">
+  <testsuite name="pytest" errors="0" failures="0" skipped="0" tests="31" time="38.157" timestamp="2026-11-02T11:07:39.906655-03:00">
+    <testcase classname="tests.test_fresh_reevaluation" name="test_complete_fresh_execution_has_independently_matching_scores" time="0.384" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_inventory_cannot_omit_a_transitive_engine" time="0.193" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_independent_module_does_not_relabel_frozen_experiment" time="20.981" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_new_transitive_import_requires_its_own_binding" time="2.432" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[trial]" time="0.271" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[case]" time="0.499" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[method]" time="0.593" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[frozen]" time="0.372" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[metric]" time="0.526" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[target]" time="0.455" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[source]" time="0.285" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[checkpoint]" time="0.537" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[duration]" time="0.691" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_native_tirex_cannot_map_arbitrary_levels_to_deciles" time="0.320" />
+    <testcase classname="tests.test_combination_admission" name="test_adversarial_eligible_series_cannot_be_excluded_as_short_or_unscaled" time="0.457" />
+    <testcase classname="tests.test_combination_admission" name="test_adversarial_origin_cannot_be_dropped_or_borrowed_from_the_future" time="0.333" />
+    <testcase classname="tests.test_combination_admission" name="test_short_and_constant_sources_have_independently_valid_exclusions" time="0.222" />
+    <testcase classname="tests.test_validated_combination" name="test_adversarial_temporal_validation_excludes_incomplete_target_blocks" time="0.234" />
+    <testcase classname="tests.test_validated_combination" name="test_adversarial_convex_stacking_finds_perfect_expert_and_obeys_simplex" time="0.410" />
+    <testcase classname="tests.test_validated_combination" name="test_deterministic_ordered_predictions_with_causally_complete_memory[True]" time="1.529" />
+    <testcase classname="tests.test_validated_combination" name="test_deterministic_ordered_predictions_with_causally_complete_memory[False]" time="0.488" />
+    <testcase classname="tests.test_validated_combination" name="test_insufficient_validation_uses_exact_matching_recency_control" time="0.472" />
+    <testcase classname="tests.test_validated_combination" name="test_adversarial_stacking_rejects_unavailable_training_values" time="0.845" />
+    <testcase classname="tests.test_combination_contract" name="test_index_validates_and_accounts_for_every_source_identity" time="0.662" />
+    <testcase classname="tests.test_combination_contract" name="test_adversarial_index_rejects_a_traversal_path_and_unlicensed_source" time="0.875" />
+    <testcase classname="tests.test_combination_contract" name="test_adversarial_case_rejects_missing_quantile_columns_and_retains_parameters" time="0.320" />
+    <testcase classname="tests.test_manuscript_replay" name="test_exported_updates_match_package[ACI]" time="0.948" />
+    <testcase classname="tests.test_manuscript_replay" name="test_exported_updates_match_package[PID]" time="0.695" />
+    <testcase classname="tests.test_manuscript_replay" name="test_future_targets_cannot_change_earlier_intervals" time="0.234" />
+    <testcase classname="tests.test_manuscript_replay" name="test_local_coverage_error_is_not_cancelled_by_time_averaging" time="0.300" />
+    <testcase classname="tests.test_manuscript_replay" name="test_zero_target_wql_is_unavailable" time="0.220" />
+  </testsuite>
+</testsuites>

@@ -1,0 +1,411 @@
+{
+  "index_sha256": "a2cbce54e080d1938b32b9232bd6a721159ed3cd347bffb4b144e8089dc265da",
+  "cohorts": {
+    "m4_weekly": {
+      "id": "m4_weekly",
+      "name": "M4 Weekly",
+      "inventory": 359,
+      "admitted": 294,
+      "excluded": 65,
+      "exclusion_reasons": {
+        "nonfinite observations or no eligible origin": 65
+      },
+      "origins": 882,
+      "summary": [
+        {
+          "name": "SeasonalNaive",
+          "series": 294,
+          "mase": 0.8445786496899594,
+          "mae": 708.8004642428223,
+          "coverage": 0.9325832897261469,
+          "mean_width": 7039.494727869918,
+          "msis": 8.167043834888643
+        },
+        {
+          "name": "SES",
+          "series": 294,
+          "mase": 0.3533022233710003,
+          "mae": 277.79241661112934,
+          "coverage": 0.8925518925518926,
+          "mean_width": 1656.4911583840362,
+          "msis": 2.3403970105729983
+        },
+        {
+          "name": "Holt",
+          "series": 294,
+          "mase": 0.38058853005796056,
+          "mae": 303.74152856695133,
+          "coverage": 0.8843537414965986,
+          "mean_width": 1699.8884971794494,
+          "msis": 2.4610762867328986
+        },
+        {
+          "name": "HoltWinters",
+          "series": 294,
+          "mase": 0.5396087689334471,
+          "mae": 383.8856032126524,
+          "coverage": 0.8412698412698412,
+          "mean_width": 1793.2659969576698,
+          "msis": 3.077795934407901
+        },
+        {
+          "name": "Theta",
+          "series": 294,
+          "mase": 0.34686612879846485,
+          "mae": 273.6108960042407,
+          "coverage": 0.9040641897784754,
+          "mean_width": 1656.4911583840362,
+          "msis": 2.323725853849663
+        },
+        {
+          "name": "AutoETS",
+          "series": 294,
+          "mase": 0.34127913228654133,
+          "mae": 269.031666112352,
+          "coverage": 0.8712715855573,
+          "mean_width": 1217.65101310783,
+          "msis": 1.8490292779395177
+        },
+        {
+          "name": "AutoTheta",
+          "series": 294,
+          "mase": 0.3075940362347169,
+          "mae": 256.8271733362853,
+          "coverage": 0.8511250654107797,
+          "mean_width": 1095.8296694629398,
+          "msis": 1.7124979009568055
+        },
+        {
+          "name": "ContextMemory",
+          "series": 294,
+          "mase": 0.30794654884097306,
+          "mae": 240.70944824329064,
+          "coverage": 0.9750566893424036,
+          "mean_width": 2400.833414333688,
+          "msis": 2.9467710731492125
+        },
+        {
+          "name": "RecencyMean",
+          "series": 294,
+          "mase": 0.31086614633035387,
+          "mae": 242.39314287839701,
+          "coverage": 0.9741845456131171,
+          "mean_width": 2381.058006622774,
+          "msis": 2.9315353859971394
+        },
+        {
+          "name": "EqualMean",
+          "series": 294,
+          "mase": 0.35484280471462276,
+          "mae": 275.07284636757714,
+          "coverage": 0.9701726844583988,
+          "mean_width": 2769.1263077550225,
+          "msis": 3.3233311354333632
+        },
+        {
+          "name": "ContextMemoryCV",
+          "series": 294,
+          "mase": 0.28477468161923875,
+          "mae": 229.33928407377272,
+          "coverage": 0.9510727367870224,
+          "mean_width": 2047.8199542237107,
+          "msis": 2.553813918409117
+        },
+        {
+          "name": "ValidationMix",
+          "series": 294,
+          "mase": 0.2855290588882053,
+          "mae": 231.50302234260937,
+          "coverage": 0.9502878074306647,
+          "mean_width": 2033.2206351260234,
+          "msis": 2.54772763942075
+        }
+      ],
+      "selection_counts": {
+        "ContextMemoryCV:('context', 0.0, 0.5)": 66,
+        "ValidationMix:('context', 0.0, 0.5)": 49,
+        "ContextMemoryCV:('context', 1.0, 0.15)": 286,
+        "ValidationMix:('context', 1.0, 0.15)": 191,
+        "ContextMemoryCV:('context', 0.0, 0.15)": 282,
+        "ValidationMix:('context', 0.0, 0.15)": 166,
+        "ContextMemoryCV:('recency', 1.0, 1.0)": 34,
+        "ValidationMix:('recency', 1.0, 1.0)": 29,
+        "ContextMemoryCV:('equal', 0.0, 1.0)": 78,
+        "ValidationMix:('equal', 0.0, 1.0)": 58,
+        "ValidationMix:('stack', 0.01, 1.0)": 166,
+        "ContextMemoryCV:('context', 0.5, 0.15)": 32,
+        "ValidationMix:('context', 0.5, 0.15)": 26,
+        "ContextMemoryCV:('context', 0.0, 1.0)": 40,
+        "ValidationMix:('context', 0.0, 1.0)": 29,
+        "ValidationMix:('stack', 10.0, 1.0)": 22,
+        "ContextMemoryCV:('context', 1.0, 0.5)": 56,
+        "ValidationMix:('context', 1.0, 0.5)": 43,
+        "ValidationMix:('stack', 0.1, 1.0)": 60,
+        "ValidationMix:('stack', 1.0, 1.0)": 41,
+        "ContextMemoryCV:('context', 0.5, 0.5)": 7,
+        "ContextMemoryCV:('context', 0.5, 1.0)": 1,
+        "ValidationMix:('context', 0.5, 1.0)": 1,
+        "ValidationMix:('context', 0.5, 0.5)": 1
+      }
+    },
+    "m3_monthly": {
+      "id": "m3_monthly",
+      "name": "M3 Monthly",
+      "inventory": 1428,
+      "admitted": 1422,
+      "excluded": 6,
+      "exclusion_reasons": {
+        "exact duplicate": 6
+      },
+      "origins": 3547,
+      "summary": [
+        {
+          "name": "SeasonalNaive",
+          "series": 1422,
+          "mase": 1.0864328071703353,
+          "mae": 768.1003092280043,
+          "coverage": 0.9341628900349013,
+          "mean_width": 6705.555921354156,
+          "msis": 8.812340995515298
+        },
+        {
+          "name": "SES",
+          "series": 1422,
+          "mase": 1.045615283486388,
+          "mae": 718.7485226493839,
+          "coverage": 0.8533625045580039,
+          "mean_width": 4921.734601123966,
+          "msis": 7.194500158787517
+        },
+        {
+          "name": "Holt",
+          "series": 1422,
+          "mase": 1.8039576423370824,
+          "mae": 1321.7878167486328,
+          "coverage": 0.8005287284471532,
+          "mean_width": 5559.975038311722,
+          "msis": 10.84716160332193
+        },
+        {
+          "name": "HoltWinters",
+          "series": 1422,
+          "mase": 0.9375025891598804,
+          "mae": 699.2500734601584,
+          "coverage": 0.9159634317862166,
+          "mean_width": 5153.377849820477,
+          "msis": 6.711245864503107
+        },
+        {
+          "name": "Theta",
+          "series": 1422,
+          "mase": 1.0021042169070506,
+          "mae": 700.9381020107064,
+          "coverage": 0.8700447986664583,
+          "mean_width": 4921.734601123966,
+          "msis": 7.045287532962627
+        },
+        {
+          "name": "AutoETS",
+          "series": 1422,
+          "mase": 0.8514163791703947,
+          "mae": 619.1043171261084,
+          "coverage": 0.7324451737250611,
+          "mean_width": 1866.833107143645,
+          "msis": 4.151849831657912
+        },
+        {
+          "name": "AutoTheta",
+          "series": 1422,
+          "mase": 0.8471802190131941,
+          "mae": 626.5988418422127,
+          "coverage": 0.7279457727769962,
+          "mean_width": 1958.0473534411726,
+          "msis": 4.299401521702489
+        },
+        {
+          "name": "ContextMemory",
+          "series": 1422,
+          "mase": 0.9085602282811863,
+          "mae": 665.5514671455946,
+          "coverage": 0.9348400791790384,
+          "mean_width": 5334.697522520165,
+          "msis": 6.884555584214307
+        },
+        {
+          "name": "RecencyMean",
+          "series": 1422,
+          "mase": 0.9084882401371271,
+          "mae": 665.5780768800544,
+          "coverage": 0.934774964838256,
+          "mean_width": 5334.683229008064,
+          "msis": 6.884567906233564
+        },
+        {
+          "name": "EqualMean",
+          "series": 1422,
+          "mase": 0.9962362868035868,
+          "mae": 712.2652288023316,
+          "coverage": 0.9332643121321039,
+          "mean_width": 5452.475602346859,
+          "msis": 7.213090299027583
+        },
+        {
+          "name": "ContextMemoryCV",
+          "series": 1422,
+          "mase": 0.899590931270234,
+          "mae": 661.126557696082,
+          "coverage": 0.9328996718237226,
+          "mean_width": 5287.689583321182,
+          "msis": 6.799918841338959
+        },
+        {
+          "name": "ValidationMix",
+          "series": 1422,
+          "mase": 0.8993340473225471,
+          "mae": 661.1251629927064,
+          "coverage": 0.9325871229879668,
+          "mean_width": 5299.864423706024,
+          "msis": 6.820780032142715
+        }
+      ],
+      "selection_counts": {
+        "ContextMemoryCV:('recency', 1.0, 1.0)": 1329,
+        "ValidationMix:('recency', 1.0, 1.0)": 1274,
+        "ContextMemoryCV:('equal', 0.0, 1.0)": 723,
+        "ValidationMix:('equal', 0.0, 1.0)": 586,
+        "ContextMemoryCV:('context', 1.0, 0.15)": 531,
+        "ValidationMix:('stack', 0.01, 1.0)": 424,
+        "ValidationMix:('context', 1.0, 0.15)": 209,
+        "ContextMemoryCV:('context', 0.0, 0.15)": 455,
+        "ValidationMix:('context', 0.0, 0.15)": 232,
+        "ContextMemoryCV:('context', 0.0, 1.0)": 97,
+        "ValidationMix:('context', 0.0, 1.0)": 60,
+        "ValidationMix:('stack', 1.0, 1.0)": 251,
+        "ValidationMix:('stack', 10.0, 1.0)": 90,
+        "ContextMemoryCV:('context', 0.0, 0.5)": 163,
+        "ValidationMix:('context', 0.0, 0.5)": 89,
+        "ContextMemoryCV:('context', 1.0, 0.5)": 210,
+        "ValidationMix:('context', 1.0, 0.5)": 95,
+        "ValidationMix:('stack', 0.1, 1.0)": 225,
+        "ContextMemoryCV:('context', 0.5, 0.15)": 33,
+        "ValidationMix:('context', 0.5, 0.15)": 11,
+        "ContextMemoryCV:('context', 0.5, 0.5)": 6,
+        "ValidationMix:('context', 0.5, 0.5)": 1
+      }
+    },
+    "selected_cases": {
+      "id": "selected_cases",
+      "name": "Selected development cases",
+      "inventory": 15,
+      "admitted": 15,
+      "excluded": 0,
+      "exclusion_reasons": {},
+      "origins": 15,
+      "summary": [
+        {
+          "name": "SeasonalNaive",
+          "series": 15,
+          "mase": 1.4136625534917533,
+          "mae": 12.270347463898995,
+          "coverage": 0.8702380952380951,
+          "mean_width": 170.93852766516127,
+          "msis": 11.295440845863682
+        },
+        {
+          "name": "SES",
+          "series": 15,
+          "mase": 1.9166571416168423,
+          "mae": 22.182814708569136,
+          "coverage": 0.8273809523809523,
+          "mean_width": 93.55373020874448,
+          "msis": 9.462649699043277
+        },
+        {
+          "name": "Holt",
+          "series": 15,
+          "mase": 3.9845867397785217,
+          "mae": 42.852040055550255,
+          "coverage": 0.7301587301587301,
+          "mean_width": 87.04600348842494,
+          "msis": 25.382758262851475
+        },
+        {
+          "name": "HoltWinters",
+          "series": 15,
+          "mase": 1.6777619781889923,
+          "mae": 16.28865592340167,
+          "coverage": 0.8638888888888888,
+          "mean_width": 82.94300907180717,
+          "msis": 8.955890227429423
+        },
+        {
+          "name": "Theta",
+          "series": 15,
+          "mase": 1.9223766774888513,
+          "mae": 22.0738928267264,
+          "coverage": 0.8273809523809523,
+          "mean_width": 93.5537302087445,
+          "msis": 9.626459630187318
+        },
+        {
+          "name": "ContextMemory",
+          "series": 15,
+          "mase": 1.450434774236029,
+          "mae": 12.181237210881056,
+          "coverage": 0.8944444444444444,
+          "mean_width": 110.72647306743184,
+          "msis": 9.139245959192047
+        },
+        {
+          "name": "RecencyMean",
+          "series": 15,
+          "mase": 1.4488829631302031,
+          "mae": 12.195921193504628,
+          "coverage": 0.8888888888888888,
+          "mean_width": 110.33107366303702,
+          "msis": 9.107581654600047
+        },
+        {
+          "name": "EqualMean",
+          "series": 15,
+          "mase": 1.896958363608499,
+          "mae": 18.66969482355376,
+          "coverage": 0.861111111111111,
+          "mean_width": 105.60700012857647,
+          "msis": 9.82084373198215
+        },
+        {
+          "name": "ContextMemoryCV",
+          "series": 15,
+          "mase": 1.3973500611317478,
+          "mae": 11.268443755633474,
+          "coverage": 0.8833333333333332,
+          "mean_width": 126.85166017242658,
+          "msis": 9.50254207639786
+        },
+        {
+          "name": "ValidationMix",
+          "series": 15,
+          "mase": 1.4030844094587895,
+          "mae": 11.284543856686431,
+          "coverage": 0.8944444444444444,
+          "mean_width": 124.18239308460956,
+          "msis": 9.342750397794477
+        }
+      ],
+      "selection_counts": {
+        "ContextMemoryCV:('context', 1.0, 0.15)": 5,
+        "ValidationMix:('context', 1.0, 0.15)": 1,
+        "ValidationMix:('stack', 0.01, 1.0)": 7,
+        "ContextMemoryCV:('context', 0.0, 0.15)": 7,
+        "ValidationMix:('context', 0.0, 0.15)": 4,
+        "ContextMemoryCV:('equal', 0.0, 1.0)": 2,
+        "ValidationMix:('stack', 10.0, 1.0)": 1,
+        "ContextMemoryCV:('context', 1.0, 0.5)": 1,
+        "ValidationMix:('context', 1.0, 0.5)": 1,
+        "ValidationMix:('equal', 0.0, 1.0)": 1
+      }
+    }
+  },
+  "generator_sha256": "bec23f0257f21753168820b27d49b6f8ad3d595dc25343cefff7a9b0c4a49058"
+}

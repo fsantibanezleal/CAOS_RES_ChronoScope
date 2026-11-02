@@ -8,27 +8,29 @@
 \usepackage{microtype}
 \graphicspath{{../figures/}}
 \setlength{\parskip}{5pt}
+\setlength{\LTcapwidth}{\textwidth}
 \setlength{\parindent}{0pt}
 \newcommand{\doctype}{Technical report}
-\newcommand{\docversion}{0.24.000}
+\newcommand{\docversion}{v0.25.000}
 \newcommand{\docdate}{2 November 2026}
-\newcommand{\versiondoi}{10.5281/zenodo.23876442}
+\newcommand{\versiondoi}{10.5281/zenodo.23884372}
 \newcommand{\conceptdoi}{10.5281/zenodo.23874816}
 \newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
 \newcommand{\headerblock}{\begin{center}\fbox{\parbox{0.94\textwidth}{\small\raggedright
-\textbf{\doctype}\quad v\docversion, \docdate\quad Licence CC BY 4.0\\[2pt]
+\textbf{\doctype}\quad \docversion, \docdate\quad Licence CC BY 4.0\\[2pt]
 CAOS open-research programme; ChronoScope forecasting and diagnostic atlas.\\[2pt]
 Version DOI: \versiondoi. Concept DOI (always latest): \conceptdoi.\\[2pt]
 Not peer reviewed. Source, data and computational records: \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope}.
 }}\end{center}}
-\title{ChronoScope: Forecasting Methods, Sequence Diagnostics and Corpus Forecastability}
+\title{ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation}
 \author{Felipe Santib\'a\~nez-Leal\\CAOS open-research programme, Santiago, Chile\\\small ORCID: 0000-0002-0150-3246}
 \date{}
+\hypersetup{pdftitle={ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation},pdfauthor={Felipe Santibáñez-Leal}}
 \begin{document}
 \maketitle
 \headerblock
 \begin{abstract}
-ChronoScope combines inspectable sequence diagnostics with explicit forecasting experiments. This revision adds exact Matrix Profile motifs and discords, FLUSS candidate segmentation, multiscale sample entropy, binary Lempel-Ziv complexity, time-reversal asymmetry and reproducibly seeded nonlinear fits. A separate fixed-protocol study processes all 4,227 M4 Daily identities: 4,226 are admitted and one is excluded for an unavailable scaled-error denominator. Forty features use only the earliest fitting prefix before three non-overlapping fourteen-step forecast blocks. Exact sequence identities allocate 2,946 discovery and 1,280 confirmation series. Kendall tests with dependent-test Benjamini-Yekutieli correction confirm 21 features under a fixed same-direction rule. Nevertheless, the discovery-trained selector has higher confirmation mean MASE than the discovery-selected AutoETS constant, 3.3501 versus 3.2570; the future-informed oracle gives 3.0005. This negative selection result is retained. The separate fresh twenty-two-variant experiment on fifteen selected cases also retains the negative ContextMemory comparison, mean MASE 1.4504 versus 1.4489 for RecencyMean. Source-bound artifacts, normative schemas, generated browser types and fourteen executed bilingual lessons expose the protocols and their limits. Related corpus sources, bounded model rosters, retrospective diagnostic scope, fixed training configurations and unverified pretrained-data overlap preclude population-superiority or operational-benefit claims.
+ChronoScope combines source-bound sequence diagnostics with distinct forecast evaluations. Exact Matrix Profile and FLUSS annotations, multiscale entropy, symbolic complexity, time-reversal statistics and seeded nonlinear estimates characterize original observations. A separate M4 Daily study admits 4,226 of 4,227 identities, confirms 21 of 40 prefix features under a fixed two-partition rule, and retains a negative selection result: mean confirmation MASE 3.3501 for the selector versus 3.2570 for a discovery-selected AutoETS constant. The fifteen-case forecasting experiment likewise retains the fixed ContextMemory negative result, mean MASE 1.4504 versus 1.4489 for RecencyMean. Two additional combinations select parameters using causally completed historical validation blocks. In an external twelve-method comparison, ValidationMix has mean MASE 0.2855 versus RecencyMean's 0.3109 on 294 eligible M4 Weekly series, and 0.8993 versus 0.9085 on 1,422 unique M3 Monthly series. AutoTheta remains better on monthly point error and both collections' interval score. Independent recomputation checks all 53,148 external forecasts. A reconstructed one-step interval study separately distinguishes local coverage error from error after temporal averaging. Normative schemas, generated browser types, complete numerical files and sixteen executed bilingual lessons expose computations and limitations. These finite-collection improvements do not establish population superiority, calibrated uncertainty, operational benefit or priority for the underlying combination principles.
 \end{abstract}
 
 \section{Decision problem and scope}
@@ -41,7 +43,7 @@ The browser offers series structure, forecasts, interval boundaries, individual 
 \section{Implementation identities}
 The method roster distinguishes algorithms from their implementations. A reference library, a direct adaptation and a small browser-exported model can share an architectural idea while differing in objectives, preprocessing and training budget. Their results remain separate.
 
-\begin{longtable}{p{0.22\textwidth}p{0.32\textwidth}p{0.37\textwidth}}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.32\textwidth}>{\raggedright\arraybackslash}p{0.37\textwidth}}
 \toprule Methods & Implementation and settings & Evidence in the archived comparison\\\midrule\endhead
 SeasonalNaive, SES, Holt, HoltWinters, Theta & NumPy core; browser TypeScript parity; finite smoothing grids & Recomputed on original contiguous prefixes. Gaussian residual intervals are approximations.\\
 AutoETS, AutoTheta, AutoARIMA & statsforecast; ARIMA stepwise and approximate, context cap 360 & Released paths rescored. Separate worked lessons freshly execute the installed adapters.\\
@@ -111,7 +113,7 @@ This is an average of three quantile losses, not a complete predictive-density e
 \section{A fixed context-memory proposal}
 ContextMemory tests whether similar completed historical contexts help estimate expert competence beyond recency alone. Feature-dependent combinations and dynamic ensembles are established ideas~\cite{fforma,ade}. The experiment tests a specific within-series recurrence rule and makes no priority claim for contextual weighting.
 
-The expert set is fixed to SeasonalNaive, SES, Holt, HoltWinters and Theta. Up to twelve completed historical origins are selected within the prefix. For every origin $o$, eligibility requires $o+H\leq n$. A normalized slope, level shift, volatility-change statistic and seasonal correlation describe the context. Expert multi-step absolute losses are normalized using information available at that origin. A Gaussian context-distance kernel combines with recency weights of half-life six origins. Local estimated losses are shrunk 25\% toward the recency-only loss estimate.
+The expert set is fixed to SeasonalNaive, SES, Holt, HoltWinters and Theta. Up to twelve completed historical origins are selected within the prefix. For every origin $o$, eligibility requires $o+H\leq n$. A normalized half-window mean contrast, level shift, volatility-change statistic and seasonal correlation describe the context. Expert multi-step absolute losses are normalized using information available at that origin. A Gaussian context-distance kernel combines with recency weights of half-life six origins. Local estimated losses are shrunk 25\% toward the recency-only loss estimate.
 
 An exponential loss transformation produces a simplex allocation, followed by a 5\% uniform floor. With $K=5$ experts, each final weight is at least $0.05/K=0.01$ and the weights sum to one. Corresponding point and quantile columns are averaged with these same weights. Nonnegative convex weights preserve the order of the input quantile columns. They do not make the result a calibrated predictive mixture.
 
@@ -144,19 +146,40 @@ The two experiments use the same final targets, so rerunning an implementation i
 
 Exact Hugging Face revisions identify the four admitted pretrained checkpoints. TimesFM 3.0 is a newer upstream candidate with noncommercial, nonproduction weight terms; the admitted experiment retains the Apache-licensed 2.5 checkpoint. This roster therefore makes no claim to contain the latest released model of every family. The original streaming results below were not regenerated by this final-block execution.
 
-\section{Streaming evaluation as separate evidence}
-The committed streaming experiments use a predict--observe--update order inspired by prequential evaluation~\cite{dawid}. Their raw, adaptive conformal and PID-controlled intervals are evaluated along observation arrivals. Covariate availability is governed by an explicit known-future or lagged-past policy. These trajectories answer a different question from the final-block experiment and must not be pooled with its scores.
+\section{Combinations selected by temporal validation}
+ContextMemoryCV and ValidationMix extend the fixed combination with parameter selection inside the observed prefix. They retain SeasonalNaive, SES, Holt, additive HoltWinters and finite-history Theta as experts. At a remembered validation origin $v$, a training block beginning at $o$ is eligible only if $o+H\le v$. At least three fully completed training blocks are required. Candidate scores average scaled absolute error over these causally held-out historical blocks. Without eligible validation, the method falls back to the original RecencyMean rule. No outer target is accepted by the fitting API.
 
-Adaptive conformal inference responds to distribution shift, while conformal PID control provides another adaptive mechanism~\cite{aci,pid}. Their assumptions and guarantees do not translate into conditional coverage for every local regime. Rolling coverage, width and adaptation delay should be read together. Original streaming timings are historical observations of their original runtime, rather than contemporary browser latency or a normalized hardware benchmark.
+ContextMemoryCV selects among context shrinkages $\{0,.5,1\}$ and temperatures $\{.15,.5,1\}$ plus the recency-only and equal-weight controls. ValidationMix additionally considers regularized convex stacking, minimizing mean squared normalized expert-combination error plus $\lambda\|w-\mathbf1/5\|_2^2$ over the simplex, for $\lambda\in\{.01,.1,1,10\}$. Five experts permit explicit active-set enumeration. A 5\% uniform floor is applied after fitting. Candidate ranking uses historical absolute error; the selected rule is refit on all completed memory blocks. All families and parameter values are fixed before the external outcomes are evaluated. Established stacking and temporal-validation principles are not claimed as new general ideas.
+
+The external sources are complete Monash M4 Weekly and M3 Monthly inventories~\cite{m4weekly,m3monthly}. Horizons and seasonal periods are $(13,52)$ and $(18,12)$, respectively. Every method receives at most the final 512 contiguous observations at an origin. Up to three nonoverlapping final blocks are used, with a minimum available prefix of $\max(2m,2H+8,24)$. Sixty-five weekly identities have no eligible origin, leaving 294 series and 882 origins. Six exact duplicate monthly identities are excluded, leaving 1,422 series and 3,547 origins. Every source identity and exclusion remains available. Origins are averaged within series, then series equally within each collection. This is not the original forecasting-competition protocol or an official competition ranking.
+
+\input{../tables/validated-combinations.tex}
+\begin{figure}[htbp]\centering\includegraphics[width=.98\textwidth]{validated-combinations.pdf}
+\caption{The new temporally selected combinations and fixed controls on each external collection, with AutoTheta as an automatic-statistical comparator. The complete twelve-method table retains the other individual experts and AutoETS. Bars are descriptive mean MASE without population confidence intervals.}\end{figure}
+
+ValidationMix lowers mean MASE relative to RecencyMean on both admitted collections, .2855 versus .3109 weekly and .8993 versus .9085 monthly. ContextMemoryCV gives .2848 and .8996. AutoTheta's .3076 weekly result is higher, while its .8472 monthly result is lower. The point improvement therefore depends on collection and comparator. Context shrinkage, temperature and temporal selection change together; this comparison does not isolate the causal value of the context kernel alone.
+
+Interval quality remains unfavorable relative to AutoTheta. ValidationMix gives weekly MSIS 2.5477 and coverage .9503, and monthly MSIS 6.8208 and coverage .9326. AutoTheta gives 1.7125 and .8511 weekly, and 4.2994 and .7279 monthly. Nominal coverage is .8. These weighted Gaussian endpoints are not calibrated by minimizing point error, and wider intervals do not establish a better decision rule.
+
+On the original fifteen development blocks, ContextMemoryCV and ValidationMix give mean MASE 1.3974 and 1.4031, while the original fixed ContextMemory and RecencyMean results remain 1.4504 and 1.4489. Their MSIS values, 9.5025 and 9.3428, are worse than RecencyMean's 9.1076. These already examined cases are not new external confirmation. The separate original twenty-two-variant execution and complete M4 Daily association/selection study remain unchanged.
+
+All 53,148 external forecast blocks are independently rescored against their source-derived targets and seasonal scales. Final expert weights reconstruct the combined quantile paths. Temporal splits, complete historical targets, candidate losses and chosen parameters remain in the compressed numerical file. Browser delivery uses a compact index and separately fetched per-series documents, rather than downloading the entire numerical file for one chart. Every displayed path is independently checked against its stored score. Exact duplicates do not imply that all remaining series are independent or free of related-source overlap; no population or operational-superiority conclusion follows.
+
+\section{Streaming evaluation as separate evidence}
+The historical streaming experiment uses a predict--observe--update order~\cite{dawid}, but the point forecaster is recomputed on each full observed prefix. Its artifact key \texttt{Theta} denotes a smoothing-plus-half-drift adaptation, not the corrected finite-history Theta equation used in the final-block comparison. ACI-style and PID-style controllers adapt the effective miscoverage level of a normalized-residual FIFO buffer. The PID-style rule is not a faithful implementation of published Conformal PID~\cite{pid}; its guarantees are not imported by name. No native stateful model update or framework capability comparison is evaluated.
+
+A full numerical reconstruction exports 21,296 method-cutoff rows across fifteen cases, with targets, forecast endpoints, scores, buffer sizes and controller states. Every archived coverage trajectory and final weighted quantile loss matches at saved precision. At nominal 80\%, mean rolling absolute coverage error is .0830 for the raw smoothing-plus-drift base, .0656 for its ACI-style controller and .0645 for its PID-style controller. The much smaller .0416, .0057 and .0060 values measure absolute deviations after temporal averaging, which permits local errors to cancel. These are different statistics. Scaled widths and interval scores accompany coverage.
+
+The reconstruction also varies coverage (.7, .8, .9), two point bases and three gain multipliers, retaining all 630 case-setting rows. Eleven generated mechanisms are repeated at two additional seeds, while the four real excerpts are not assigned artificial repetitions. These are sensitivity calculations on the same selected design, not independent population confirmation. The original gains have no recovered historical tuning rationale, and original per-call hardware metadata remain unavailable. Historical latencies therefore support no normalized runtime comparison. Exact source arrays and hashes permit numerical replay without claiming to restore missing acquisition history. These streaming outcomes are separate from both the final-block experiment and the M4 Daily corpus study.
 
 \section{Artifact and browser engineering}
-Ten catalog boundaries cover traces, manifests, the index, diagnostic analysis, streaming results, ONNX metadata/assets, the archived-path comparison, fresh execution, historical selector metadata and the complete corpus study. Normative JSON Schemas validate the committed JSON documents and generate browser TypeScript types through an OpenAPI component inventory. That inventory supports type generation without activating a prediction API. Cross-field invariants, source hashes, temporal reconstruction and numerical parity remain executable tests; a structural schema alone cannot enforce them.
+Twelve catalog boundaries cover traces, manifests, the index, diagnostic analysis, streaming results, ONNX metadata/assets, archived-path and fresh comparisons, historical selector metadata, the complete daily corpus study, the validated-combination index and its per-series records. Normative JSON Schemas validate the committed JSON documents and generate browser TypeScript types through an OpenAPI component inventory. That inventory supports type generation without activating a prediction API. Cross-field invariants, source hashes, temporal reconstruction and numerical parity remain executable tests; a structural schema alone cannot enforce them.
 
 The browser delegates chart interaction, summaries, tables, reset controls and keyboard support to the pinned shared shell. The product supplies data adapters, stable method identities and scenario state. Bilingual content uses locale-aware numbers; model and licence versions retain their identity. Request cancellation and generation identifiers prevent a slower case request or inference result from overwriting a newer selection.
 
 Numbered local workflows check prerequisites, initialize declared environments, build an external data candidate and start the development server. Generation binds source and payload fingerprints, refuses partial inventories and changed frozen inputs, and separates candidate creation from explicit promotion. Historical engine-version metadata is retained rather than relabeled to match the new browser release. An unused epidemic-model surrogate inherited from an older repository structure was removed.
 
-Fourteen executed English and Spanish notebooks cover a seasonal reference, an incomplete-season experiment, actual statistical/tree adapter execution, the fixed combination with its ablations, sequence patterns, multiscale complexity and disjoint-series corpus inference. Their metadata records exact direct dependencies, sources, inputs and method coverage. Fresh-kernel execution and byte comparison check that committed outputs are current. Numerical convergence notices are retained as portable text; machine paths and incidental notebook metadata are excluded.
+Sixteen executed English and Spanish notebooks cover a seasonal reference, an incomplete-season experiment, actual statistical/tree adapter execution, the fixed combination with its ablations, sequence patterns, multiscale complexity and disjoint-series corpus inference. Their metadata records exact direct dependencies, sources, inputs and method coverage. Fresh-kernel execution and byte comparison check that committed outputs are current. Numerical convergence notices are retained as portable text; machine paths and incidental notebook metadata are excluded.
 
 \section{Validation and remaining scientific limits}
 The validation layers are distinct. Structural schema checks establish artifact shape; source bindings establish input identity; independent equation tests establish selected numerical behaviours; browser traversal measures rendered routes and interactions; local notebook reproduction measures executable teaching artifacts. A successful build alone establishes none of the other layers. Computational records distinguish local numerical checks from remote CI, deployment and owner acceptance.
@@ -166,9 +189,11 @@ The fifteen-case forecasting experiment has these scientific limitations: one or
 For the contextual proposal, a stronger follow-up also needs faithful FFORMA and arbitrated-ensemble comparators rather than only internal ablations. Such work could reject or improve the proposed recurrence rule. The current negative outcome remains informative without being promoted to a general impossibility result.
 
 \section{Reproduction and availability}
+Implementations and admitted numerical outputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/d702831a7660f9fb8123798a2e3bbf5e47887bce}{frozen source and data snapshot}.
+
 The source tree contains the corrected computation in \texttt{chronoscopelab.reevaluation}, the fixed proposal in \texttt{model/context\_memory.py}, original released traces, admitted source CSVs and the generated comparison. Running \texttt{scripts/reevaluate.py} regenerates the common final-block artifact while preserving the original traces. The staged local workflow provides complete candidate admission and explicit promotion. Exact commands, environment pins and validation results are recorded with the source.
 
-The numerical tables and figures are generated directly from the two admitted forecast comparisons, full-sequence diagnostics and complete M4 study. The research report generator checks independent corpus statistics before producing its tables. The new lesson authoring script records the exact admitted corpus results; fresh-kernel execution remains a separate step. Code and compact admitted data use the repository's software/data licences; prose uses the licence stated in the header. External publication, remote promotion and a verified live deployment are separate operations. Absence of those operations does not change a local numerical result, but prevents representing the candidate as a publicly delivered release.
+The numerical tables and figures are generated directly from the two admitted forecast comparisons, full-sequence diagnostics and complete M4 study. The research report generator checks independent corpus statistics before producing its tables. The new lesson authoring script records the exact admitted corpus results; fresh-kernel execution remains a separate step. Code and compact admitted data use the repository's software/data licences; prose uses the licence stated in the header. Numerical reproduction does not establish representative population sampling, operational adoption or calibrated uncertainty for a future deployment.
 
 
 \section{Sequence diagnostics on original observations}
@@ -189,12 +214,12 @@ Costa multiscale entropy averages non-overlapping blocks at each scale $\tau$~\c
 \end{equation}
 Fewer than twenty coarse observations, or no matching extensions, yield an unavailable estimate with a reason and exported counts. An unavailable value is not zero complexity. Constant sequences give zero where all eligible templates match.
 
-Binary Lempel--Ziv complexity uses $1[x_t>\operatorname{median}(x)]$, assigning ties to zero. Both phrase count $c(n)$ and $c(n)\log_2(n)/n$ are retained~\cite{lz}. The asymptotic normalization is not clipped to one. Time-reversal asymmetry reports the mean of $x_{t+\ell}(x_{t+2\ell}^2-x_t^2)$ at lags one, two and seven, where available, on raw and standardized observations. Raw units are cubed source units. Reversal changes the sign, but a finite nonzero statistic alone is not a significance test or an irreversibility verdict.
+Binary Lempel--Ziv complexity uses $1[x_t>\operatorname{median}(x)]$, assigning ties to zero. Both phrase count $c(n)$ and $c(n)\log_2(n)/n$ are retained~\cite{lz}. The asymptotic normalization is not clipped to one. Time-reversal asymmetry reports the mean of $x_{t+\ell}(x_{t+2\ell}^2-x_t^2)$ at lags one, two and seven, where available, on raw and standardized observations. Raw units are cubed source units. Reversal changes the sign, but a finite nonzero statistic alone is not a significance test or an irreversibility test.
 
 \begin{figure}[ht]\centering\includegraphics[width=.8\linewidth]{sequence-entropy.pdf}
 \caption{Multiscale entropy on the structural-break case with the original tolerance fixed across scales. Coarse sequence lengths decrease with scale; finite-sample availability and matching counts remain part of the interpretation.}\end{figure}
 
-The previous nolds correlation-dimension and Lyapunov defaults used randomized RANSAC fits without an explicit random state. The adapter now obtains deterministic log-distance fitting data, then fits the same robust polynomial-feature linear model with an explicit local seed. Least squares is the fallback when consensus fails. A case seed is derived from SHA-256 of case identity and the supplied pipeline seed; surrogate and 0--1 calculations receive derived local seeds. Process-global random state is not changed. DFA and fallback R/S slopes explicitly request least squares. These fit choices can move historical diagnostics even when the source observations are unchanged. Two complete analyzer calls for every case must serialize identically before promotion; independent-process and caller-RNG tests additionally protect the estimator boundary. The existing surrogate gate remains necessary for a chaos verdict.
+The previous nolds correlation-dimension and Lyapunov defaults used randomized RANSAC fits without an explicit random state. The adapter now obtains deterministic log-distance fitting data, then fits the same robust polynomial-feature linear model with an explicit local seed. Least squares is the fallback when consensus fails. A case seed is derived from SHA-256 of case identity and the supplied pipeline seed; surrogate and 0--1 calculations receive derived local seeds. Process-global random state is not changed. DFA and fallback R/S slopes explicitly request least squares. These fit choices can move historical diagnostics even when the source observations are unchanged. Two complete analyzer calls for every case must serialize identically before promotion; independent-process and caller-RNG tests additionally protect the estimator boundary. The existing surrogate gate remains necessary for a chaos classification.
 
 \section{Corpus forecastability and disjoint-series confirmation}
 A separate fixed-protocol experiment processes the complete Monash M4 Daily source, 4,227 series under CC BY 4.0~\cite{m4daily}. Every identity is admitted or assigned an explicit exclusion. Exact whole-sequence duplicates retain the lexicographically first identity for inference. Nonfinite observations, insufficient prefixes and unavailable MASE denominators are excluded with reasons. Source ZIP and extracted TSF hashes identify the input bytes; a full-sequence identity hash is used only for duplicate grouping and partition allocation, never as a predictor.
@@ -212,20 +237,27 @@ Confirmation requires rejection in both partitions and matching effect direction
 A fixed random forest predicts the best model identity from discovery features, with 200 trees, maximum depth eight, minimum leaf size ten and random state 42. Missing-value medians and the constant comparator are fitted on discovery only. Confirmation outcomes choose neither parameters nor feature thresholds. The selected rule is compared once on confirmation series with that constant method and the future-informed per-series oracle. Scores are descriptive held-out results, not population-superiority or operational guarantees. Negative selection outcomes remain in the report.
 
 \input{../tables/corpus-summary.tex}
-\begin{figure}[ht]\centering\includegraphics[width=.85\linewidth]{corpus-selection.pdf}
-\caption{Mean MASE on confirmation series for the fixed discovery-trained selector, the discovery-selected constant method and the future-informed oracle. Bars are descriptive averages over the same admitted confirmation rows; they are not confidence intervals.}\end{figure}
+\clearpage
 \input{../tables/corpus-associations.tex}
 
-The evaluator retains external per-origin forecast-path audits and independently rescores every exported MASE before compact export. Its resumable cache binds source bytes, fixed protocol, implementation and package identities. Admission independently checks inventory, duplicate separation, temporal schedules, discovery-only imputation, aggregate scores, corrected probabilities and Kendall effects. The public notebook retrains the selector from admitted discovery rows and repeats reference statistical calculations without claiming a new fit of the eight external-corpus forecasting models. These layers distinguish full forecasting reproduction, compact-table statistical reproduction and browser inspection.
+\begin{samepage}
+The evaluator retains external per-origin forecast-path audits and independently rescores every exported MASE before compact export. Its resumable cache binds source bytes, fixed protocol, implementation and package identities. Admission independently checks inventory, duplicate separation, temporal schedules, discovery-only imputation, aggregate scores, corrected probabilities and Kendall effects. The public notebook retrains the selector from admitted discovery rows and repeats reference statistical calculations without claiming a new fit of the eight external-corpus forecasting models. These layers distinguish full forecasting reproduction, compact-table statistical reproduction and browser inspection.\par
+\end{samepage}
+
+
+\begin{figure}[ht]\centering\includegraphics[width=.85\linewidth]{corpus-selection.pdf}
+\caption{Mean MASE on confirmation series for the fixed discovery-trained selector, the discovery-selected constant method and the future-informed oracle. Bars are descriptive averages over the same admitted confirmation rows; they are not confidence intervals.}\end{figure}
 
 
 \clearpage
+\begingroup\small
 \begin{thebibliography}{99}
+\raggedright
 \bibitem{theta} R. J. Hyndman and B. Billah, Unmasking the Theta method. \emph{International Journal of Forecasting}, 2003. \url{https://robjhyndman.com/papers/Theta.pdf}.
 \bibitem{mase} R. J. Hyndman and A. B. Koehler, Another look at measures of forecast accuracy. \emph{International Journal of Forecasting}, 2006. \url{https://doi.org/10.1016/j.ijforecast.2006.03.001}.
 \bibitem{scores} T. Gneiting and A. E. Raftery, Strictly proper scoring rules, prediction, and estimation. \emph{JASA}, 2007. \url{https://doi.org/10.1198/016214506000001437}.
 \bibitem{fforma} P. Montero-Manso et al., FFORMA: Feature-based forecast model averaging. \emph{International Journal of Forecasting}, 2020. \url{https://doi.org/10.1016/j.ijforecast.2019.02.011}.
-\bibitem{ade} V. Cerqueira et al., Arbitrated ensemble for time series forecasting. \emph{Machine Learning}, 2019. \url{https://doi.org/10.1007/s10994-018-05774-y}.
+\bibitem{ade} V. Cerqueira et al., Arbitrage of forecasting experts. \emph{Machine Learning}, 108, 913--944, 2019. \url{https://doi.org/10.1007/s10994-018-05774-y}.
 \bibitem{dawid} A. P. Dawid, Statistical theory: The prequential approach. \emph{JRSS A}, 1984. \url{https://doi.org/10.2307/2981683}.
 \bibitem{aci} I. Gibbs and E. Cand\`es, Adaptive conformal inference under distribution shift. \emph{NeurIPS}, 2021. \url{https://arxiv.org/abs/2106.00170}.
 \bibitem{pid} A. N. Angelopoulos, E. Cand\`es and R. J. Tibshirani, Conformal PID control for time series prediction. \url{https://arxiv.org/abs/2307.16895}.
@@ -233,7 +265,7 @@ The evaluator retains external per-origin forecast-path audits and independently
 \bibitem{statsforecast} Nixtla, StatsForecast model implementation documentation. \url{https://nixtlaverse.nixtla.io/statsforecast/src/core/models.html}.
 \bibitem{chronos} Amazon Science, Chronos forecasting implementation and releases. \url{https://github.com/amazon-science/chronos-forecasting}.
 \bibitem{timesfm} Google Research, TimesFM model API. \url{https://github.com/google-research/timesfm}.
-\bibitem{tirex} TiRex-2 primary research record. \url{https://arxiv.org/abs/2607.01204}.
+\bibitem{tirex} P. Podest et al., TiRex-2: Generalizing TiRex to Multivariate Data and Streaming, 2026. \url{https://arxiv.org/abs/2607.01204}.
 
 \bibitem{profile} C.-C. M. Yeh et al., Matrix Profile I: All Pairs Similarity Joins for Time Series. ICDM, 2016. \url{https://doi.org/10.1109/ICDM.2016.0179}.
 \bibitem{fluss} S. Gharghabi et al., Matrix Profile VIII: Domain Agnostic Online Semantic Segmentation at Superhuman Performance Levels. ICDM, 2017. \url{https://doi.org/10.1109/ICDM.2017.21}.
@@ -242,5 +274,8 @@ The evaluator retains external per-origin forecast-path audits and independently
 \bibitem{m4daily} R. Godahewa et al., M4 Daily Dataset, Monash Forecasting Repository. \url{https://doi.org/10.5281/zenodo.4656548}.
 \bibitem{freshby} tsfresh, Feature filtering: dependent-test significance and Benjamini--Yekutieli correction. \url{https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html}.
 
+\bibitem{m4weekly} R. Godahewa et al., M4 Weekly Dataset, Monash Forecasting Repository, version 3. \url{https://doi.org/10.5281/zenodo.4656522}.
+\bibitem{m3monthly} R. Godahewa et al., M3 Monthly Dataset, Monash Forecasting Repository, version 3. \url{https://doi.org/10.5281/zenodo.4656298}.
 \end{thebibliography}
+\endgroup
 \end{document}

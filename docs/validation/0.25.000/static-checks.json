@@ -1,0 +1,239 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "command": [
+        "python",
+        "scripts/check_artifacts.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.2,
+      "output": "CONTRACT 2 OK: 15 cases, manifests <-> artifacts consistent, ladder complete (>= 15 methods/case).\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_version_coherence.py"
+      ],
+      "exit_code": 0,
+      "seconds": 1.05,
+      "output": "version: OK, 0.25.000 everywhere\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_sdd.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.52,
+      "output": "check_sdd: OK, SDD.md complete, 40 live requirements with real gates\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_notebooks.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8,
+      "output": "check_notebooks: OK, 16 notebooks in two trees, mirrored, ordered, annotated and clean\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_internal_names.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.43,
+      "output": "check_internal_names: OK, no tier name in the notebooks, the manuscripts, the README or the app\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_manuscripts.py",
+        "--release"
+      ],
+      "exit_code": 0,
+      "seconds": 0.33,
+      "output": "check_manuscripts: OK, 2 manuscripts declared\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_readme_areas.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4,
+      "output": "check_readme_areas: OK, 10 areas stated, each active or dormant, every folder link present\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_svg_animation.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5,
+      "output": "check_svg_animation: OK (9 svg, 1 animated, each with its reduced-motion block)\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_executive_assets.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.21,
+      "output": "Executive assets: bilingual labels and theme paints\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_owner_names.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.17,
+      "output": "Inherited guards: owner-neutral\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_deploy_place.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.14,
+      "output": "deploy place: OK, pages only\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_tech_matrix.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.22,
+      "output": "check_tech_matrix: OK, 53 pinned dependencies, all in the SDD technology table with the same version\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_contract_versions.py",
+        "--base",
+        "origin/develop"
+      ],
+      "exit_code": 0,
+      "seconds": 1.0,
+      "output": "check_contract_versions: OK, 12 contracts, 12 locked, every version has its History entry, schemas and versions checked against origin/develop\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_contracts.py",
+        "docs/contracts/catalog.md",
+        "--repo-root",
+        "."
+      ],
+      "exit_code": 0,
+      "seconds": 0.17,
+      "output": "id                           version   provider                                     model\ntrace                        2.0.0     baseline:data/derived/REAL_m4_daily/trace.json no\nmanifest                     2.0.0     baseline:data/derived/manifests/REAL_m4_daily.json no\nstreaming                    2.0.0     baseline:data/derived/REAL_m4_daily/streaming.json no\nanalysis                     2.1.0     baseline:data/derived/REAL_m4_daily/analysis.json no\nnlinear-model                2.0.0     baseline:frontend/public/models/nlinear.onnx yes\nreevaluation                 2.1.0     baseline:data/derived/reevaluation.json      no\nfresh-reevaluation           1.0.0     baseline:data/derived/fresh-reevaluation.json no\nindex                        1.0.0     baseline:data/derived/manifests/index.json   no\nselector                     1.0.0     baseline:models/selector.json                yes\nforecastability              1.0.0     baseline:data/derived/forecastability.json   no\ncombination-index            1.0.0     baseline:data/derived/validated-combinations.json no\ncombination-case             1.0.0     baseline:data/derived/combinations/m4_weekly/T1.json no\nOK: 12 contract(s) in docs\\contracts\\catalog.md\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/local/producer_bridge.py",
+        "validate",
+        "."
+      ],
+      "exit_code": 0,
+      "seconds": 0.7,
+      "output": "Product admission: complete case diagnostics, fresh comparison and source-bound M4 corpus\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_fresh_reevaluation.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.37,
+      "output": "Fresh comparison: 15 cases, 22 freshly executed variants; all metrics independently match\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_research_extensions.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.47,
+      "output": "Research extensions: 15 complete sequence diagnostics; 4226 admitted corpus series and disjoint confirmation passed\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_documents.py"
+      ],
+      "exit_code": 0,
+      "seconds": 84.63,
+      "output": "documents: 1869 valid\ndocuments: 1 not JSON, left to the contract test of their row: frontend/public/models/nlinear.onnx\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_skeleton.py",
+        "docs/contracts/catalog.md"
+      ],
+      "exit_code": 0,
+      "seconds": 0.17,
+      "output": "OK: every boundary is real\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_web_baseline.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.19,
+      "output": "web baseline: OK (43 source files, 53 tokens, 385 classes)\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_base_integrity.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.53,
+      "output": "guards: OK (1 model file(s) admitted, 0.00 MB)\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_template_residue.py"
+      ],
+      "exit_code": 0,
+      "seconds": 22.57,
+      "output": "check_template_residue: OK, no example content in 2444 tracked files.\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_doc_paths.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.86,
+      "output": "doc paths: OK, every named path exists\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_content_standards.py"
+      ],
+      "exit_code": 0,
+      "seconds": 18.36,
+      "output": "check_content_standards: OK, no em-dash or emoji in tracked content.\n"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/check_ci_budget.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.14,
+      "output": "ci budget: OK\n"
+    }
+  ]
+}

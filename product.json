@@ -38,14 +38,15 @@
     "chronoscopelab.analysis.atlas.prefix_features",
     "chronoscopelab.analysis.atlas.associations",
     "chronoscopelab.analysis.atlas.by_adjust",
-    "chronoscopelab.analysis.atlas.study_summary"
+    "chronoscopelab.analysis.atlas.study_summary",
+    "chronoscopelab.model.validated_combination.fit_validated"
   ],
   "manuscripts": [
     {
       "kind": "technical-report",
       "concept_doi": "10.5281/zenodo.23874816",
-      "title": "ChronoScope: Forecasting Methods, Sequence Diagnostics and Corpus Forecastability",
-      "version": "0.24.000",
+      "title": "ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation",
+      "version": "0.25.000",
       "covers": [
         "BS-1"
       ]
@@ -53,8 +54,8 @@
     {
       "kind": "manuscript",
       "concept_doi": "10.5281/zenodo.23874820",
-      "title": "Within-Series Context Memory for Forecast Combination: A Fixed-Configuration Experiment with a Negative Aggregate Result",
-      "version": "0.1",
+      "title": "Forecast Combination with Temporal Validation and Context Memory",
+      "version": "0.2",
       "covers": [
         "BS-1"
       ]

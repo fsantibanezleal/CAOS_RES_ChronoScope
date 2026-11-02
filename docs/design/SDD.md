@@ -49,6 +49,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 
 | component | package | version | use | alternative considered |
 |---|---|---|---|---|
+| requirements-combinations.txt | numba | 0.68.1 | Compile unchanged recursive expert loops for the CPU-only combination study; fastmath disabled. | Reference execution retained with independent parity checks. |
 | requirements-precompute.txt | stumpy | 1.14.1 | Exact Matrix Profile and FLUSS; primary API verified 2026-11-02. | Exhaustive normalized-distance oracle retained in tests. |
 | requirements-precompute.txt | scikit-learn | 1.9.1 | Explicitly seeded robust slopes and discovery-only corpus selector. | Unseeded nolds fitting rejected by determinism tests. |
 | notebooks/requirements.txt | ipykernel | 7.4.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
@@ -162,3 +163,15 @@ Do not publish a claim of a new forecasting method, universal calibration, gener
 | ADR-0070 | Focus mode applies to the forecasting atlas surface. |
 | ADR-0074 | CI checks repository integrity and artifact consistency without running the heavy bake. |
 | ADR-0078 | The shell measurement gate is required before declaring the app-shell migration complete. |
+
+## Temporal-validation combination extension
+
+Requirements VC-1 to VC-5 are specified in `features/validated-combinations/requirements.md`.
+ContextMemoryCV and ValidationMix retain the existing experts and context definition, select
+only from completed historical validation blocks, and preserve the original fixed-rule result.
+The full external source inventories are M4 Weekly, https://doi.org/10.5281/zenodo.4656522,
+and M3 Monthly, https://doi.org/10.5281/zenodo.4656298, both CC BY 4.0. Source and code
+hashes, explicit exclusions, common prefixes, up to three origins and independent scoring
+bind the browser index and per-series records to their computation. The empirical point
+improvements are collection-specific; interval quality and attribution to the context kernel
+remain separate questions. The second bilingual combination lesson executes both variants.
