@@ -8,11 +8,11 @@ That outcome is retained; new configurations receive their own identities and ev
 
 | ID | Requirement | Verification |
 |---|---|---|
-| VC-1 | A combination shall fit and validate only on complete target blocks already available inside its supplied prefix. At an inner query origin v, a training origin o is eligible only if o+H <= v. | Future-perturbation and overlapping-origin exclusion tests. |
-| VC-2 | ContextMemoryCV shall select context shrinkage and temperature from a fixed finite family using temporal validation. ValidationMix shall additionally consider regularized convex stacking and the original equal/recency combinations. | Independent mixture equations, simplex constraints, fallback and deterministic-selection tests. |
-| VC-3 | Every outer forecast shall retain its method, expert paths, weights, selected configuration, validation origins and scores. No outer target may select a candidate or change its settings. | Complete per-origin audit and independent score recomputation. |
-| VC-4 | The evaluation shall account for every M4 Weekly and M3 Monthly source identity, explicitly retaining exclusions, duplicates and all model failures. | Source counts/checksums, schedule and full-inventory admission checks. |
-| VC-5 | The app, notebooks, report and method manuscript shall expose the new methods and measured results without rewriting earlier negative results or assigning novelty by implementation alone. | Scientific review, executed notebooks, public references and browser verification. |
+| VC-1 | A combination SHALL fit and validate only on complete target blocks already available inside its supplied prefix. At an inner query origin v, a training origin o is eligible only if o+H <= v. | `tests/test_validated_combination.py` |
+| VC-2 | ContextMemoryCV SHALL select context shrinkage and temperature from a fixed finite family using temporal validation. ValidationMix SHALL additionally consider regularized convex stacking and the original equal/recency combinations. | `tests/test_validated_combination.py` |
+| VC-3 | Every outer forecast SHALL retain its method, expert paths, weights, selected configuration, validation origins and scores. No outer target may select a candidate or change its settings. | `scripts/check_combination_study.py` |
+| VC-4 | The evaluation SHALL account for every M4 Weekly and M3 Monthly source identity, explicitly retaining exclusions, duplicates and all model failures. | `scripts/check_combination_study.py`, `tests/test_combination_contract.py` |
+| VC-5 | The app, notebooks, report and method manuscript SHALL expose the new methods and measured results without rewriting earlier negative results or assigning novelty by implementation alone. | `scripts/run_notebooks.py`, `scripts/check_manuscripts.py`, `frontend/scripts/gate.mjs` |
 
 ## Fixed protocol before new external outcomes
 

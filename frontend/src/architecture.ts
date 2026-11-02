@@ -156,7 +156,7 @@ const LANES = svg('cs-a2', 450, `
   <rect class="bx bx-pkg" x="604" y="308" width="248" height="106" rx="9"/>
   <text class="ttl" x="616" y="328" style="fill:var(--color-accent);">preqts (our PyPI package)</text>
   <text class="cd mono" x="616" y="346">preqts 0.3 · ADR-0061 extraction</text>
-  <text class="mu" x="616" y="366">prequential eval + ACI-style/PID-style;</text>
+  <text class="mu" x="616" y="366">replay + adaptive intervals;</text>
   <text class="mu" x="616" y="382">MSIS + per-horizon curves; the</text>
   <text class="mu" x="616" y="404">streaming bench's spine</text>
   <path class="flow" d="M300,266 L300,306" marker-end="url(#cs-a2)"/>
@@ -257,7 +257,7 @@ const SCIENCE = svg('cs-a4', 470, `
   <text class="mu" x="472" y="298">the full horizon out-of-sample; the cutoff advances</text>
   <rect class="bx bx-pkg" x="460" y="326" width="392" height="60" rx="9"/>
   <text class="ttl" x="472" y="346" style="fill:var(--color-accent);">streaming (prequential) · preqts</text>
-  <text class="mu" x="472" y="366">predict → observe → update, state carried; ACI-style + PID-style</text>
+  <text class="mu" x="472" y="366">predict, score, ingest; interval state persists</text>
   <text class="mu" x="472" y="380" style="font-size:9px;">recalibrate the interval online, per horizon (the atlas's prequential comparison)</text>
   <text class="mu" x="460" y="408" style="fill:var(--color-accent);">metrics:</text>
   <text class="mu" x="502" y="408">MASE · WQL · coverage · MSIS · per-horizon curve</text>

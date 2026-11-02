@@ -12,6 +12,26 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPERTS = ("SeasonalNaive", "SES", "Holt", "HoltWinters", "Theta")
+METHODS = {*EXPERTS, "AutoETS", "AutoTheta", "ContextMemory", "RecencyMean", "EqualMean",
+           "ContextMemoryCV", "ValidationMix"}
+
+
+def admit_eligibility(row, y, h, m):
+    """Independently reconstruct exclusion reasons and the full outer schedule."""
+    expected = [o for o in (len(y) - 3*h, len(y) - 2*h, len(y) - h)
+                if o >= max(2*m, 2*h+8, 24)]
+    assert row["source_n"] == len(y)
+    reason = row.get("excluded")
+    if reason == "nonfinite observations or no eligible origin":
+        assert not np.isfinite(y).all() or not expected, "Eligible source incorrectly excluded"
+        assert not row["origins"]
+    elif reason == "unavailable seasonal MASE scale at an outer origin":
+        scales = [np.mean(abs(y[max(0, o-512)+m:o] - y[max(0, o-512):o-m])) for o in expected]
+        assert any(not np.isfinite(s) or s <= 1e-12 for s in scales), "Valid scale incorrectly excluded"
+    elif not reason:
+        assert np.isfinite(y).all() and expected
+        assert [o["origin"] for o in row["origins"]] == expected, "Incomplete outer schedule"
+    return expected
 
 
 def validate(document, source_root):
@@ -34,6 +54,7 @@ def validate(document, source_root):
         for row in rows:
             y = source[row["id"]]
             assert hashlib.sha256(y.astype("<f8").tobytes()).hexdigest() == row["sequence_sha256"]
+            admit_eligibility(row, y, h, m)
             if row.get("excluded"):
                 assert row["excluded"] in {
                     "exact duplicate",
@@ -46,10 +67,6 @@ def validate(document, source_root):
                     )
                     assert other["sequence_sha256"] == row["sequence_sha256"]
                 continue
-            expected = [
-                o for o in (len(y) - 3 * h, len(y) - 2 * h, len(y) - h) if o >= max(2 * m, 2 * h + 8, 24)
-            ]
-            assert [o["origin"] for o in row["origins"]] == expected
             per_series = {}
             for origin in row["origins"]:
                 origins_checked += 1
@@ -63,7 +80,7 @@ def validate(document, source_root):
                 scale = float(np.mean(abs(prefix[m:] - prefix[:-m])))
                 np.testing.assert_allclose(scale, origin["scale"], rtol=1e-12)
                 forecasts = {model["name"]: np.asarray(model["quantiles"]) for model in origin["methods"]}
-                assert len(forecasts) == 12
+                assert len(origin["methods"]) == len(forecasts) == 12 and set(forecasts) == METHODS
                 for model in origin["methods"]:
                     q = forecasts[model["name"]]
                     assert q.shape == (h, 3) and np.isfinite(q).all() and np.all(np.diff(q, axis=1) >= 0)

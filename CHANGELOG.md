@@ -8,6 +8,7 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 - Add ContextMemoryCV and ValidationMix with causal historical validation and regularized convex stacking; compare complete M4 Weekly and M3 Monthly inventories.
 - Review and correct all three manuscript titles, scope, algorithm identities, equations, references and figures.
 - Reconstruct 21,296 streaming updates; independently reproduce archived coverage and weighted quantile loss. Separate local rolling error from error after temporal averaging, report scaled interval efficiency, and retain all 630 sensitivity settings and 66 additional-seed results.
+- Add two executed bilingual temporal-validation lessons (sixteen total), complete public per-series paths and interactive collection/origin/method controls.
 - Publish corrected manuscript versions under their existing concepts; align app citations and historical streaming labels with the evaluated algorithms. Preserve the negative ContextMemory and M4 Daily selection outcomes.
 
 ## [0.24.000] - 2026-11-02

@@ -59,7 +59,7 @@ export function CombinationStudy() {
       <caption>{t('Complete comparison on the same admitted series; select a method to inspect its paths.', 'Comparación completa sobre las mismas series admitidas; seleccione un método para inspeccionar sus trayectorias.')}</caption>
       <thead><tr><th>{t('Method', 'Método')}</th><th>{t('Mean MASE', 'MASE medio')}</th><th>{t('Mean MSIS', 'MSIS medio')}</th><th>{t('Coverage', 'Cobertura')}</th></tr></thead>
       <tbody>{[...cohort.summary].sort((a, b) => a.mase - b.mase).map(row => <tr key={row.name}>
-        <td><button type="button" onClick={() => setMethod(row.name)} aria-pressed={chosen?.name === row.name}>{row.name}</button></td><td>{fmt(row.mase)}</td><td>{fmt(row.msis)}</td><td>{fmt(row.coverage)}</td>
+        <td><button className={`cs-filter-chip${chosen?.name === row.name ? ' is-active' : ''}`} type="button" onClick={() => setMethod(row.name)} aria-pressed={chosen?.name === row.name}>{row.name}</button></td><td>{fmt(row.mase)}</td><td>{fmt(row.msis)}</td><td>{fmt(row.coverage)}</td>
       </tr>)}</tbody>
     </table></div>
     {origin && chosen && <>
@@ -74,7 +74,7 @@ export function CombinationStudy() {
         ]} />
       <p>{chosen.name}: MASE {fmt(chosen.metrics.mase)}; MSIS {fmt(chosen.metrics.msis)}; {t('coverage', 'cobertura')} {fmt(chosen.metrics.coverage)}.</p>
       {chosen.weights && <div className="cs-table-scroll"><table className="cs-table"><caption>{t('Expert weights fitted before this target block', 'Pesos de expertos ajustados antes de este bloque objetivo')}</caption><thead><tr>{experts.map(e => <th key={e}>{e}</th>)}</tr></thead><tbody><tr>{chosen.weights.map((w, i) => <td key={experts[i]}>{fmt(w)}</td>)}</tr></tbody></table></div>}
-      {chosen.selected && <p>{t('Selected rule', 'Regla seleccionada')}: {chosen.selected.join(', ')}. {t('Eligible historical validation blocks', 'Bloques históricos elegibles de validación')}: {chosen.validation_blocks ?? 0}.</p>}
+      {chosen.selected && <p>{t('Selected rule', 'Regla seleccionada')}: {chosen.selected.map(value => typeof value === 'number' ? fmt(value) : value).join('; ')}. {t('Eligible historical validation blocks', 'Bloques históricos elegibles de validación')}: {chosen.validation_blocks ?? 0}.</p>}
     </>}
     <p>{t('The interval endpoints are weighted Gaussian approximations. Lower point error does not establish calibrated uncertainty; coverage and interval score must be checked separately. The original fixed ContextMemory negative result remains available.', 'Los extremos de los intervalos son aproximaciones gaussianas ponderadas. Un menor error puntual no establece incertidumbre calibrada; la cobertura y la puntuación de intervalos se revisan por separado. El resultado negativo original de ContextMemory sigue disponible.')}</p>
     {cohort.excluded > 0 && <details><summary>{t('Excluded source identities', 'Identidades de origen excluidas')}</summary><ul>{index.cases.filter(c => c.dataset === dataset && c.excluded).map(c => <li key={c.id}>{c.id}: {c.excluded === 'exact duplicate' ? t('exact duplicate', 'duplicado exacto') : t('insufficient history for the fixed seasonal/origin protocol', 'historia insuficiente para el protocolo estacional y de orígenes fijado')}</li>)}</ul></details>}

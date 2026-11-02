@@ -24,7 +24,7 @@ def test_index_validates_and_accounts_for_every_source_identity():
         assert sum(not c.get("excluded") for c in entries) == cohort["admitted"]
 
 
-def test_index_rejects_a_traversal_path_and_unlicensed_source():
+def test_adversarial_index_rejects_a_traversal_path_and_unlicensed_source():
     index = read("data/derived/validated-combinations.json")
     validator = Draft202012Validator(read("docs/contracts/schemas/combination-index.schema.json"))
     bad = copy.deepcopy(index)
@@ -35,7 +35,7 @@ def test_index_rejects_a_traversal_path_and_unlicensed_source():
     assert list(validator.iter_errors(bad))
 
 
-def test_case_rejects_missing_quantile_columns_and_retains_parameters():
+def test_adversarial_case_rejects_missing_quantile_columns_and_retains_parameters():
     row = read("data/derived/combinations/m4_weekly/T1.json")
     validator = Draft202012Validator(read("docs/contracts/schemas/combination-case.schema.json"))
     validator.validate(row)

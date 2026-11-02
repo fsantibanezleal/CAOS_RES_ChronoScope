@@ -5,14 +5,14 @@ from chronoscopelab.model.context_memory import fit_context_memory
 from chronoscopelab.model.validated_combination import convex_weights, fit_validated, temporal_splits
 
 
-def test_temporal_validation_excludes_incomplete_target_blocks():
+def test_adversarial_temporal_validation_excludes_incomplete_target_blocks():
     splits = temporal_splits((20, 23, 26, 29, 32), 7)
     assert splits[2]["train"] == ()
     assert splits[3]["train"] == (0,)
     assert splits[4]["train"] == (0, 1)
 
 
-def test_convex_stacking_finds_perfect_expert_and_obeys_simplex():
+def test_adversarial_convex_stacking_finds_perfect_expert_and_obeys_simplex():
     errors = np.array([[0., 10., -4.], [0., 5., 2.], [0., -3., 7.]])
     w = convex_weights(errors, .01)
     assert np.min(w) >= 0 and np.sum(w) == pytest.approx(1.)
@@ -43,6 +43,6 @@ def test_insufficient_validation_uses_exact_matching_recency_control():
     np.testing.assert_array_equal(proposed.quantiles, control.quantiles)
 
 
-def test_stacking_rejects_unavailable_training_values():
+def test_adversarial_stacking_rejects_unavailable_training_values():
     with pytest.raises(ValueError, match="finite"):
         convex_weights([[1., np.nan]], .1)

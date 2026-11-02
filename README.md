@@ -21,7 +21,11 @@ The default comparison freshly executes all 22 variants on original contiguous h
 exact package versions and checkpoint revisions. An explicit selector retains the earlier
 comparison of fourteen frozen paths, five corrected light methods and three combinations.
 ContextMemory did not improve mean MASE
-over its recency-only ablation. Every case and the negative result remain available.
+over its recency-only ablation. Every case and the negative result remain available. Two further combinations, ContextMemoryCV
+and ValidationMix, select settings through causal historical validation. On complete M4 Weekly
+and M3 Monthly inventories, both improve point error against RecencyMean on each admitted
+collection. AutoTheta remains better on monthly point error and both collections’ interval scores.
+The app exposes all twelve methods and 53,148 independently rescored external forecasts.
 
 The [implementation reassessment](docs/research/2026-11-01-method-reevaluation.md) records the
 HoltWinters seasonal-phase and finite-history Theta corrections, original unequal rolling-origin
@@ -66,7 +70,7 @@ pretend to rerun foundation models. Local scientific tests, notebook reproductio
 frontend checks and the browser matrix are recorded separately from remote delivery.
 
 The [manuscript review set](manuscripts/README.md) contains the detailed report, the
-contextual-combination paper and a revision of the streaming study. The technical report, proposal preprint and streaming revision 2.4 are published with verified PDF checksums and separate manuscript records.
+contextual-combination paper and a revision of the streaming study. The technical report v0.25.000, combination preprint v0.2 and streaming revision v2.5 are published with verified PDF checksums and separate manuscript records.
 
 
 ## Areas
@@ -77,7 +81,7 @@ contextual-combination paper and a revision of the streaming study. The technica
 | API | [app/](app/) | dormant: static Pages deployment serves committed artifacts | Optional read-only FastAPI service |
 | Core pipelines | [data-pipeline/](data-pipeline/) | active | Forecasting engines analysis stages and artifact export |
 | Packages | [preqts on PyPI](https://pypi.org/project/preqts/) | active | Prequential forecast evaluation and calibration library |
-| Notebooks | [notebooks/](notebooks/) | active | Fourteen executed English and Spanish forecasting, sequence and corpus lessons |
+| Notebooks | [notebooks/](notebooks/) | active | Sixteen executed English and Spanish forecasting, sequence, corpus and temporal-combination lessons |
 | Data | [data/](data/) | active | Case inputs provenance and committed derived artifacts |
 | Contracts | [docs/contracts/](docs/contracts/) | active | Artifact schemas compatibility and boundary records |
 | Documentation | [docs/](docs/) | active | Methods cases architecture and user guides |
