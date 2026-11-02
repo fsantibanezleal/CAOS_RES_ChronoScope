@@ -29,14 +29,14 @@ export function UPlotChart({ xs, series, height = 340, yLabel, xLabel, refLines 
   const es = lang === 'es';
   const title = ariaSummary ?? yLabel ?? (es ? 'Valores de la serie' : 'Series values');
   if (series.length === 1 && series[0].bars && refLines.length === 0) {
-    return <BarChart title={title} orientation="vertical" height={height} values={false}
-      axis={{ label: yLabel ?? (es ? 'Cantidad' : 'Count'), format: { digits: precision } }}
+    return <BarChart title={title} orientation="horizontal" height={height} values={false}
+      axis={{ label: yLabel ?? (es ? 'Cantidad' : 'Count'), format: { decimals: precision } }}
       data={xs.map((x, i) => ({ id: String(i), label: formatNumber(x, lang, { digits: 4 }), value: series[0].values[i] }))} />;
   }
   return <SharedChart title={title} height={height} solo={series.length <= 6} readout={readout} onPick={onPick}
-    x={{ values: xs, label: xLabel ?? (es ? 'Índice de observación' : 'Observation index'), time: false, format: { digits: precision } }}
-    y={{ label: yLabel ?? (es ? 'Valor' : 'Value'), format: { digits: precision } }}
-    series={series.map((s, i) => ({ id: s.label, label: s.label, values: s.values,
+    x={{ values: xs, label: xLabel ?? (es ? 'Índice de observación' : 'Observation index'), time: false, format: { decimals: precision } }}
+    y={{ label: yLabel ?? (es ? 'Valor' : 'Value'), format: { decimals: precision } }}
+    series={series.map((s, i) => ({ id: s.label, label: s.label.replace('TimesFM-2.5', 'TimesFM v2.5'), values: s.values,
       color: colorToken(s.color, i), width: s.width,
       dash: s.dash ?? (s.fillToLabel ? [4, 3] : undefined),
       mode: s.scatter ? 'points' as const : 'line' as const, dots: s.bars,

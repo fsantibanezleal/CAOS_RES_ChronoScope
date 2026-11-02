@@ -17,4 +17,6 @@ The original implementation checkpoint is commit `2706742` on `work/chronoscope-
 | Manuscripts | Existing empirical streaming study is retained with its evidence boundaries. | Write the detailed current product report and align the companion study; build, review and validate the reviewable file set before any separately authorized publication. |
 | Persistence | Source checkpoints are committed; generated browser evidence stays available locally. | Commit every completed milestone and report exact outstanding gates. |
 
-The initial ContextMemory experiment is negative at its predeclared aggregate criterion: mean MASE 1.1921 versus 1.1898 for RecencyMean. Its configuration is not changed in response. Heavy model paths in that comparison were rescored, not refitted. No general model winner, coverage guarantee, pretraining independence or external publication is implied by these local results.
+The corrected ContextMemory experiment is negative at its predeclared aggregate criterion: mean MASE 1.4504 versus 1.4489 for RecencyMean. Its configuration is not changed in response. Heavy model paths in that comparison were rescored, not refitted. No general model winner, coverage guarantee, pretraining independence or external publication is implied by these local results.
+
+The contiguous-history correction and invalidated earlier calculation are recorded in `docs/research/2026-11-01-history-decimation-correction.md`.

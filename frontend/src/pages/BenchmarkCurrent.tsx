@@ -35,7 +35,7 @@ function LiveRealInference({ cases }: { cases: ReevaluatedCase[] }) {
     try {
       const meta = await loadNLinearMeta();
       if (trace.actual.length < meta.horizon) throw new Error('The reserved block is shorter than the model horizon');
-      const result = await runNLinear(trace.history);
+      const result = await runNLinear(real.find(c => c.case_id === caseId)!.history);
       if (generation === runId.current) setPoint(result.point);
     } catch (e) { if (generation === runId.current) setErr(String(e)); }
     finally { if (generation === runId.current) setBusy(false); }
@@ -43,7 +43,7 @@ function LiveRealInference({ cases }: { cases: ReevaluatedCase[] }) {
   return <div className="cs-main" data-state={busy || (!trace && !err) ? 'loading' : 'ready'}>
     <CaseSelect cases={real} value={caseId} onChange={setCaseId} />
     <p>{es ? 'Este panel ejecuta el pequeño modelo NLinear en el navegador sobre una historia real reservada. El modelo fue entrenado con ventanas sintéticas; aquí se comparan doce predicciones nuevas con las primeras doce observaciones del bloque final, sin actualizar el ajuste con ellas.' : 'This panel executes the small NLinear model in the browser on a real held-out history. The model was trained on synthetic windows; twelve new predictions are compared with the first twelve observations of the final block, without updating the fit from those outcomes.'}</p>
-    <button type="button" className="cs-mini" disabled={!trace || busy} onClick={execute}>{es ? 'Ejecutar NLinear en este caso real' : 'Run NLinear on this real case'}</button>
+    <button type="button" data-control="run-real-nlinear" className="cs-mini" disabled={!trace || busy} onClick={execute}>{es ? 'Ejecutar NLinear en este caso real' : 'Run NLinear on this real case'}</button>
     {err && <p role="alert">{err}</p>}
     {point && trace && <>
       <UPlotChart xs={point.map((_, i) => i + 1)} series={[
@@ -100,7 +100,7 @@ export default function BenchmarkCurrent() {
       </DocSection> },
       { id:'lead',label:t('Lead-time errors','Errores por paso'),content:<DocSection title={{en:'Observed error by forecast lead',es:'Error observado por paso'}} area="robustness" noRefsReason={own}>
         <CaseSelect cases={data.cases} value={c?.case_id ?? ''} onChange={setCaseId} />
-        <label className="cs-ctl">{t('Method','Método')}<select className="cs-sel" value={method} onChange={e=>setMethod(e.target.value)}>{data.summary.map(m=><option key={m.name}>{m.name}</option>)}</select></label>
+        <label className="cs-ctl" data-control>{t('Method','Método')}<select className="cs-sel" value={method} onChange={e=>setMethod(e.target.value)}>{data.summary.map(m=><option key={m.name}>{m.name}</option>)}</select></label>
         {c && selected && naive && <UPlotChart xs={c.actual.map((_,i)=>i+1)} series={[
           {label:method,values:c.actual.map((a,i)=>Math.abs(a-selected.point[i])),color:methodColor(method)},
           ...(method==='SeasonalNaive'?[]:[{label:'SeasonalNaive',values:c.actual.map((a,i)=>Math.abs(a-naive.point[i])),color:methodColor('SeasonalNaive')}]),
@@ -109,8 +109,8 @@ export default function BenchmarkCurrent() {
       </DocSection> },
       { id:'live',label:t('Live real inference','Inferencia real viva'),content:<DocSection title={{en:'NLinear in the browser',es:'NLinear en el navegador'}} area="live" refs={['dlinear']}><LiveRealInference cases={data.cases} /></DocSection> },
       { id:'sources',label:t('Cases and sources','Casos y fuentes'),content:<DocSection title={{en:'Case provenance and diagnostic context',es:'Procedencia y contexto diagnóstico'}} area="provenance" noRefsReason={own}>
-        <table className="cs-table"><thead><tr><th>{t('Case','Caso')}</th><th>{t('Difficulty','Dificultad')}</th><th>{t('Source','Fuente')}</th><th>{t('Redistribution','Redistribución')}</th></tr></thead><tbody>{manifests.map(m=><tr key={m.case_id}><td>{m.case_id}</td><td>{m.category}</td><td>{m.provenance.source}</td><td>{m.provenance.license}: {m.provenance.public_artifact_ok?t('admitted','admitida'):t('restricted','restringida')}</td></tr>)}</tbody></table>
-        <label className="cs-ctl">{t('Diagnostic coordinate','Coordenada diagnóstica')}<select className="cs-sel" value={feature} onChange={e=>setFeature(e.target.value as typeof feature)}><option value="seasonal_strength">{t('Seasonal strength','Fuerza estacional')}</option><option value="acf1">{t('Lag-one correlation','Correlación de rezago uno')}</option><option value="pct_zeros">{t('Zero observations','Observaciones nulas')}</option></select></label>
+        <div className="cs-table-scroll"><table className="cs-table"><thead><tr><th>{t('Case','Caso')}</th><th>{t('Difficulty','Dificultad')}</th><th>{t('Source','Fuente')}</th><th>{t('Redistribution','Redistribución')}</th></tr></thead><tbody>{manifests.map(m=><tr key={m.case_id}><td>{m.case_id}</td><td>{es ? m.category.replace(/(\d)\.(\d)/g, '$1,$2') : m.category}</td><td>{m.provenance.source}</td><td><code>{m.provenance.license}</code>: {m.provenance.public_artifact_ok?t('admitted','admitida'):t('restricted','restringida')}</td></tr>)}</tbody></table></div>
+        <label className="cs-ctl" data-control>{t('Diagnostic coordinate','Coordenada diagnóstica')}<select className="cs-sel" value={feature} onChange={e=>setFeature(e.target.value as typeof feature)}><option value="seasonal_strength">{t('Seasonal strength','Fuerza estacional')}</option><option value="acf1">{t('Lag-one correlation','Correlación de rezago uno')}</option><option value="pct_zeros">{t('Zero observations','Observaciones nulas')}</option></select></label>
         <UPlotChart xs={points.map(p=>p.x)} series={[{label:method,values:points.map(p=>p.y),color:'var(--color-accent)',scatter:true}]} xLabel={feature} yLabel="MASE" ariaSummary={t('Diagnostic coordinate and held-out error','Coordenada diagnóstica y error reservado')} readout={i=>`${points[i].id}: ${fmt(points[i].y)} MASE`} onPick={i=>setCaseId(points[i].id)} />
         <p>{t('The diagnostic coordinate describes the case; its association with error does not establish a causal explanation. Select a point to carry that case into the other comparison views.', 'La coordenada describe el caso; su relación con el error no establece una explicación causal. Seleccione un punto para llevar el caso a las otras vistas comparativas.')}</p>
       </DocSection> },

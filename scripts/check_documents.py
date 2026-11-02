@@ -21,7 +21,8 @@ Errors: a file matched by two rows (one committed document has one contract); a 
 (root or provider tree) that is JSON and that no row covers (it would pass unvalidated); a ``.json`` file that is not JSON or
 departs from its schema (the path and the schema are named); a non-JSON document whose row names no test; an absent document of a row whose ``missing-data behavior``
 begins ``missing:`` and whose ``documents`` cell is one fixed path (for the template, the index: no inventory, nothing to
-validate). A glob that matches nothing is not reported: scripts/check_artifacts.py judges the released corpus. The generated TypeScript types do not encode a ``pattern`` or a ``minItems``; this check does (review finding F5).
+validate). A glob that matches nothing is not reported: scripts/check_artifacts.py and scripts/check_readiness.py judge
+absence. The generated TypeScript types do not encode a ``pattern`` or a ``minItems``; this check does (review finding F5).
 It uses the registry of ``tests/contracts/contract_schemas.py`` (one place resolves a schema reference), so it needs only
 ``jsonschema`` (4.26.0) and its ``referencing``, no pipeline and no numpy.
 
@@ -45,7 +46,7 @@ CATALOG_REL = "docs/contracts/catalog.md"
 FIXTURES_REL = "docs/contracts/fixtures"
 EXAMPLES_REL = "docs/contracts/examples/"
 ROOTED = ("data/", "models/")  # globs under these also apply in the provider tree
-HOLE_DIRS = ("data/derived",)  # each released JSON artifact must be covered by a row
+HOLE_DIRS = ("data/derived", "models")  # a JSON file here must be covered by a row
 
 
 class Report:

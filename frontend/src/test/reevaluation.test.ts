@@ -11,7 +11,7 @@ const data: Reevaluation = JSON.parse(readFileSync(join(root, 'data/derived/reev
 
 describe('Common final-holdout contract', () => {
   it('adversarial: detects changed traces or source before admitting stored scores', () => {
-    for (const [path, expected] of Object.entries({ ...data.trace_sha256, ...data.code_sha256 })) {
+    for (const [path, expected] of Object.entries({ ...data.trace_sha256, ...data.code_sha256, ...data.input_sha256 })) {
       const actual = createHash('sha256').update(readFileSync(join(root, path))).digest('hex');
       expect(actual, path).toBe(expected);
     }
@@ -22,11 +22,15 @@ describe('Common final-holdout contract', () => {
     for (const c of data.cases) {
       const trace = JSON.parse(readFileSync(join(root, `data/derived/${c.case_id}/trace.json`), 'utf8'));
       expect(c.actual).toEqual(trace.actual);
+      expect(c.history).toHaveLength(trace.history_len);
+      for (let i = 0; i < trace.history_index.length; i++) {
+        expect(c.history[trace.history_index[i]]).toBeCloseTo(trace.history[i], 4);
+      }
       for (const method of c.methods) {
         expect(method.point).toHaveLength(c.horizon);
         expect(method.metrics.mase).toBeCloseTo(mase(c.actual, method.point,
-          trace.history.slice(c.seasonality).reduce((s: number, v: number, i: number) => s + Math.abs(v - trace.history[i]), 0)
-          / (trace.history.length - c.seasonality)), 8);
+          c.history.slice(c.seasonality).reduce((s: number, v: number, i: number) => s + Math.abs(v - c.history[i]), 0)
+          / (c.history.length - c.seasonality)), 8);
       }
     }
   });

@@ -16,6 +16,7 @@ SOURCE_FILES = (
     "data-pipeline/chronoscopelab/reevaluation.py",
     "data-pipeline/chronoscopelab/model/forecasters.py",
     "data-pipeline/chronoscopelab/model/context_memory.py",
+    "data-pipeline/chronoscopelab/cases/forecast_cases.py",
 )
 
 
@@ -47,6 +48,9 @@ def validate(stage):
         raise ValueError("Comparison has stale trace bindings")
     if document["code_sha256"] != {p: digest(ROOT / p) for p in SOURCE_FILES}:
         raise ValueError("Comparison has stale implementation bindings")
+    expected_inputs = {p.relative_to(stage).as_posix(): digest(p) for p in sorted((stage / "data/examples").glob("*.csv"))}
+    if document["input_sha256"] != expected_inputs:
+        raise ValueError("Comparison has stale source input bindings")
     for row, case in zip(index["cases"], document["cases"], strict=True):
         if row["case_id"] != case["case_id"]:
             raise ValueError("Comparison order differs from the source inventory")
@@ -57,6 +61,11 @@ def validate(stage):
         trace = read(stage / f"data/derived/{case['case_id']}/trace.json")
         if case["actual"] != trace["actual"] or len(case["methods"]) != 22:
             raise ValueError("Common holdout differs from its source or methods are incomplete")
+        if len(case["history"]) != trace["history_len"] or case["history_length"] != trace["history_len"]:
+            raise ValueError("Fitting history is not the contiguous original prefix")
+        for i, position in enumerate(trace["history_index"]):
+            if abs(case["history"][position] - trace["history"][i]) > 0.000051:
+                raise ValueError("Reconstructed history differs from released observations")
         for method in case["methods"]:
             vectors = [method[k] for k in ("lower", "point", "upper")]
             if any(len(a) != case["horizon"] for a in vectors):

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "selector",
+  "type": "object",
+  "required": [
+    "kind",
+    "metric",
+    "scope",
+    "ranking",
+    "default_method",
+    "n_train_cases"
+  ],
+  "properties": {
+    "kind": {
+      "const": "method-selector"
+    },
+    "metric": {
+      "const": "mean_mase_over_training_cases"
+    },
+    "scope": {
+      "const": "classical"
+    },
+    "ranking": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "default_method": {
+      "type": "string"
+    },
+    "n_train_cases": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": false
+}

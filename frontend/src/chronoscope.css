@@ -88,14 +88,6 @@
 .cs-plot { min-width: 0; }
 
 /* uPlot theming: legend + axes read the shell tokens so light/dark both read cleanly */
-.cs-uplot { width: 100%; }
-.cs-uplot .u-title { color: var(--color-fg); font: 600 0.82rem/1.2 var(--font-sans, system-ui); }
-.cs-uplot .u-legend { font-size: 0.74rem; color: var(--color-fg-subtle); margin-top: 0.3rem; }
-.cs-uplot .u-legend .u-marker { width: 10px; height: 10px; border-radius: 2px; }
-.cs-uplot .u-legend .u-value { font-family: var(--font-mono); color: var(--color-fg); }
-.cs-uplot .u-legend .u-series th { font-weight: 500; }
-.cs-uplot .u-legend .u-series.u-off { opacity: 0.35; }
-.cs-uplot .u-cursor-x, .cs-uplot .u-cursor-y { border-color: var(--color-fg-faint); }
 
 /* interactive method legend (grouped, toggle, solo, MASE) */
 .cs-legend-panel { display: flex; flex-direction: column; gap: 0.35rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px; padding: 0.55rem 0.6rem; position: sticky; top: 0.5rem; max-height: 78vh; overflow-y: auto; }
@@ -157,3 +149,6 @@ html { contain: layout; }
 }
 
 .cs-lead { font-size: 1.05rem; line-height: 1.55; color: var(--color-fg-subtle); max-width: 72ch; }
+
+/* Keep wide provenance tables inside the document on phones and enlarged fonts. */
+.cs-table-scroll { max-width: 100%; overflow-x: auto; }

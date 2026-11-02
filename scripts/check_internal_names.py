@@ -3,7 +3,7 @@
 
 "Classical", "state of the art", "beyond the state of the art", SOTA, beyond-SOTA, the claim ids ``BS-<n>``, "method tiers"
 and the Spanish "enfoque clásico", "estado del arte" and "más allá del estado del arte" are the names the SDD, the plans and the
-gates use to sort a product's methods (Felipe, 2026-10-30: "that terms can never reach the manuscripts or the app titles or
+gates use to sort a product's methods (Product convention, 2026-10-30: "that terms can never reach the manuscripts or the app titles or
 sections"). A reader sees each method by its name. The check fails, naming the file, the place and the words, on a tier name in
 
 - a notebook (``notebooks/**/*.ipynb``): its file or folder name; its ``caos.title``; its markdown, the References section excepted (a cited work keeps

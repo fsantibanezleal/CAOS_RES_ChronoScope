@@ -189,7 +189,7 @@ export default function AppPage() {
       mase: m.metrics.mase ?? NaN, coverage: m.metrics.coverage ?? NaN,
       wql: m.metrics.wql ?? NaN, msis: m.metrics.msis ?? NaN,
     }));
-    return { history: trace.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
+    return { history: comparison.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
   }, [mode, trace, reevaluation]);
 
   const activeData = mode === 'synthetic' ? synthetic : baked;
@@ -366,8 +366,8 @@ export default function AppPage() {
             </div>
           )}
           <p className="cs-panel-sub">{es
-            ? 'Fuerzas según FPP3 12.2: 1 - Var(residuo)/Var(componente + residuo). Los paneles precalculados (Veredictos) traen STL/MSTL robustos; esta descomposición clásica es el espejo en vivo que reacciona a los controles.'
-            : 'Strengths per FPP3 12.2: 1 - Var(remainder)/Var(component + remainder). The baked panels (Verdicts) carry robust STL/MSTL; this classical decomposition is the live mirror that reacts to the controls.'}</p>
+            ? 'Fuerzas según FPP3, capítulo 12: 1 - Var(residuo)/Var(componente + residuo). Los paneles precalculados (Veredictos) traen STL/MSTL robustos; esta descomposición clásica es el espejo en vivo que reacciona a los controles.'
+            : 'Strengths per FPP3, capítulo 12: 1 - Var(remainder)/Var(component + remainder). The baked panels (Verdicts) carry robust STL/MSTL; this classical decomposition is the live mirror that reacts to the controls.'}</p>
         </>
       )}
     </div>
@@ -411,7 +411,7 @@ export default function AppPage() {
           <tbody>
             {residualRows.map((r) => (
               <tr key={r.name}>
-                <td style={{ color: 'var(--color-fg)' }}>{r.name}</td>
+                <td style={{ color: 'var(--color-fg)' }}><code>{r.name}</code></td>
                 <td>{fmt(r.bias, 2)}</td>
                 <td>{fmt(r.mae, 2)}</td>
                 <td>{fmt(r.worst, 2)}</td>
@@ -462,7 +462,7 @@ export default function AppPage() {
           )}
         </p>
         <p className="cs-panel-sub">{es
-          ? 'α~0.5 ruido blanco · ~1 ruido 1/f · ~1.5 caminata aleatoria. Para fGn H=α; el vínculo ARFIMA es d = H − 0.5.'
+          ? 'α~0,5 ruido blanco · ~1 ruido 1/f · ~1,5 caminata aleatoria. Para fGn H=α; el vínculo ARFIMA es d = H − 0,5.'
           : 'α~0.5 white noise · ~1 pink noise · ~1.5 random walk. For fGn H=α; the ARFIMA link is d = H − 0.5.'}</p>
       </div>
       {mode === 'baked' && bakedStationarity && (
@@ -496,7 +496,7 @@ export default function AppPage() {
       {mode === 'baked' && (bakedNonlinear || bakedFractal) && (
         <div className="cs-panel">
           <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (precalculado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">replay</span></div>
-          {bakedFractal && <p>Hurst R/S = <b>{fmt(bakedFractal.hurst?.rs, 3)}</b> · DFA α = <b>{fmt(bakedFractal.hurst?.dfa_alpha, 3)}</b> · {bakedFractal.hurst?.interpretation}</p>}
+          {bakedFractal && <p>Hurst R/S = <b>{fmt(bakedFractal.hurst?.rs, 3)}</b> · DFA α = <b>{fmt(bakedFractal.hurst?.dfa_alpha, 3)}</b> · {es ? 'Estimaciones de muestra finita; no demuestran memoria poblacional ni estacionariedad.' : bakedFractal.hurst?.interpretation}</p>}
           {bakedNonlinear && !bakedNonlinear.skipped && (
             <p>0-1 K = <b>{fmt(bakedNonlinear.zero_one_K, 3)}</b> · λ₁ = <b>{fmt(bakedNonlinear.largest_lyapunov, 4)}</b>{' '}
               <span className={`cs-badge ${bakedNonlinear.likely_chaotic ? 'warn' : 'ok'}`}>
@@ -679,7 +679,7 @@ export default function AppPage() {
           <tbody>
             {rankedRows.map((r) => (
               <tr key={r.name} className={r.name === best ? 'best' : undefined}>
-                <td style={{ color: 'var(--color-fg)' }}>{r.name}</td>
+                <td style={{ color: 'var(--color-fg)' }}><code>{r.name}</code></td>
                 <td>{r.family}</td>
                 <td>{fmt(r.mase)}</td>
                 <td>{fmt(r.wql)}</td>
@@ -712,8 +712,8 @@ export default function AppPage() {
               series={names.map((k) => ({ label: k, values: meths[k].rolling_coverage ?? [], color: colors[k] ?? colorFor(k) }))}
               title={es ? 'Cobertura rodante vs nominal (el resultado central)' : 'Rolling coverage vs nominal (the central result)'}
               subtitle={es
-                ? `objetivo ${(streaming as any).nominal_coverage}: los calibrados (ACI/PID) deben pegarse a la línea; el crudo deriva cuando el régimen cambia.`
-                : `target ${(streaming as any).nominal_coverage}: the calibrated variants (ACI/PID) should hug the line; the raw one drifts when the regime shifts.`}
+                ? `objetivo ${fmt((streaming as any).nominal_coverage)}: compare cobertura, amplitud y demora de adaptación; ACI/PID no garantizan cobertura condicional en cada régimen.`
+                : `target ${fmt((streaming as any).nominal_coverage)}: compare coverage, width and adaptation delay; ACI/PID do not guarantee conditional coverage in every regime.`}
               refLine={(streaming as any).nominal_coverage}
             />
             <LinePlot xs={xs}
@@ -729,8 +729,8 @@ export default function AppPage() {
               <div className="cs-panel" style={{ borderColor: '#3fb95066' }}>
                 <div className="cs-panel-t" style={{ color: 'var(--color-good)' }}>{es ? 'Política de llegada de covariables' : 'Covariate arrival policy'}</div>
                 <div className="cs-panel-sub">{es
-                  ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (aware, verde) la usa: conoce el driver del horizonte y anticipa los saltos; Ridge (blind, gris) es el mismo modelo sin la covariable. La brecha entre ambos es lo que compra la covariable. Ningún harness público evalúa esto con política de arribo; preqts sí.`
-                  : `This case carries a ${cov.kind === 'known_future' ? 'known-future' : 'past'} covariate (${cov.name}). Ridge+exog (aware, green) uses it: it knows the horizon's driver and anticipates the jumps; Ridge (blind, grey) is the same model without the covariate. The gap between them is what the covariate buys. No public harness evaluates this with an arrival policy; preqts does.`}</div>
+                  ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (aware, verde) la usa: conoce el driver del horizonte y anticipa los saltos; Ridge (blind, gris) es el mismo modelo sin la covariable. La brecha entre ambos es lo que compra la covariable. La política de arribo determina qué información estaba disponible en cada origen.`
+                  : `This case carries a ${cov.kind === 'known_future' ? 'known-future' : 'past'} covariate (${cov.name}). Ridge+exog (aware, green) uses it: it knows the horizon's driver and anticipates the jumps; Ridge (blind, grey) is the same model without the covariate. The gap between them is what the covariate buys. The arrival policy determines which information was available at each origin.`}</div>
                 <div className="cs-panel-sub" style={{ marginTop: '0.3rem' }}>
                   {es ? 'MASE final: ' : 'Final MASE: '}
                   <b style={{ color: '#3fb950' }}>aware {fmt(meths['Ridge+exog (aware)']?.final?.mase, 2)}</b>
@@ -740,7 +740,7 @@ export default function AppPage() {
               </div>
             )}
             <p className="cs-panel-sub">{es
-              ? 'Evaluación prequential (Dawid 1984) con preqts, nuestro paquete PyPI: predecir, luego observar, luego actualizar, con estado acarreado. Ningún harness público hace esto con política de covariables; es la pieza nueva del atlas.'
+              ? 'Evaluación prequential (Dawid 1984) con preqts, nuestro paquete PyPI: predecir, luego observar, luego actualizar, con estado acarreado. La política de covariables se registra junto con cada experimento.'
               : 'Prequential evaluation (Dawid 1984) with preqts: predict, observe, then update while carrying state. This study also records covariate arrival policies; it does not claim a new forecasting method.'}</p>
           </>
         );
@@ -824,7 +824,7 @@ export default function AppPage() {
         <div className="cs-bar" style={{ gap: '0.5rem 1.2rem' }}>
           {knobDefs.map(([label, value, min, max, step, on]) => (
             <label key={label} className="cs-ctl" style={{ minWidth: 128 }}>
-              <span className="cs-ctl-row"><span>{label}</span><b>{value}</b></span>
+              <span className="cs-ctl-row"><span>{label}</span><b>{fmt(value)}</b></span>
               <input className="cs-range" type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} />
             </label>
           ))}

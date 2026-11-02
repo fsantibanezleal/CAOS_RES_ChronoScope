@@ -1,0 +1,79 @@
+import { Route, Routes } from 'react-router';
+import { Activity } from 'lucide-react';
+import { AppShell, CitationsProvider, Landing, STANDARD_ROUTES, SurfacePage, useShellLang, type ShellConfig } from '@fasl-work/caos-app-shell';
+import { CITATIONS } from './data/citations';
+import { architecture } from './architecture';
+import { EXTERNAL_LINKS } from './lib/links';
+import product from '../../product.json';
+import AppPage from './pages/AppPage';
+import Introduction from './pages/Introduction';
+import Methodology from './pages/Methodology';
+import Implementation from './pages/Implementation';
+import Experiments from './pages/Experiments';
+import Benchmark from './pages/Benchmark';
+
+const config: ShellConfig = {
+  product: { name: product.name, mark: <Activity size={18} aria-hidden="true" /> },
+  routes: STANDARD_ROUTES,
+  links: {
+    github: EXTERNAL_LINKS.github,
+    personal: EXTERNAL_LINKS.personal,
+    portfolio: EXTERNAL_LINKS.portfolio,
+  },
+  version: __APP_VERSION__,
+  build: __BUILD_ID__,
+  license: { en: `${product.license} licence`, es: `Licencia ${product.license}` },
+  visibility: product.visibility as ShellConfig['visibility'],
+  architecture,
+  contain: true,
+  footer: {
+    provenance: {
+      en: 'Four real data excerpts and eleven generated cases. Source licences, method versions and frozen-versus-recomputed provenance are listed in Benchmark. Streaming experiments use preqts.',
+      es: 'Cuatro extractos reales y once casos generados. Banco de pruebas detalla licencias, versiones y procedencia congelada o recalculada. Los experimentos de streaming utilizan preqts.',
+    },
+    disclaimer: {
+      en: 'A research atlas, not a production forecasting service: every number is baked offline by the open seed-deterministic pipeline (or computed live in the browser) and is reproducible from the repo; methods are compared honestly (no free lunch) and synthetic cases are labelled.',
+      es: 'Un atlas de investigación, no un servicio de pronóstico de producción: cada número se precalcula offline con el pipeline abierto determinista por semilla (o se calcula en vivo en el navegador) y es reproducible desde el repo; los métodos se comparan honestamente (no hay almuerzo gratis) y los casos sintéticos están etiquetados.',
+    },
+  },
+};
+
+export default function App() {
+  return <CitationsProvider items={CITATIONS}><AppShell config={config}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/app" element={<AtlasSurface />} />
+            <Route path="/introduction" element={<Introduction />} />
+            <Route path="/methodology" element={<Methodology />} />
+            <Route path="/implementation" element={<Implementation />} />
+            <Route path="/experiments" element={<Experiments />} />
+            <Route path="/benchmark" element={<Benchmark />} />
+            <Route path="*" element={<Landing />} />
+          </Routes>
+  </AppShell></CitationsProvider>;
+}
+
+function AtlasSurface() {
+  const lang = useShellLang();
+  return (
+    <SurfacePage
+      title={{ en: 'Forecasting atlas', es: 'Atlas de pronósticos' }}
+      lede={lang === 'es'
+        ? 'Inspecciona una serie, compara pronósticos y sigue sus errores y sus intervalos.'
+        : 'Inspect a series, compare forecasts, and follow their error and interval behavior.'}
+      tabs={[
+        {
+          id: 'explore',
+          label: lang === 'es' ? 'Explorar' : 'Explore',
+          focus: {
+            title: { en: 'Forecasting atlas', es: 'Atlas de pronósticos' },
+            description: { en: 'Series diagnostics and forecast comparisons', es: 'Diagnósticos de series y comparación de pronósticos' },
+          },
+          content: <AppPage />,
+        },
+      ]}
+      instrument
+      focus
+    />
+  );
+}

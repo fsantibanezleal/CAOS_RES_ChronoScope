@@ -161,8 +161,8 @@ def _synth(spec: dict, seed: int, case_id: str) -> list[float]:
     return [float(v) for v in y]
 
 
-def _load_real(spec: dict) -> list[float]:
-    path = _EXAMPLES / spec["file"]
+def _load_real(spec: dict, examples_root: Path | None = None) -> list[float]:
+    path = (examples_root if examples_root is not None else _EXAMPLES) / spec["file"]
     import csv
 
     with open(path, newline="", encoding="utf-8") as f:
@@ -194,11 +194,11 @@ def _synth_exog(spec: dict, seed: int, case_id: str) -> tuple[list[float], list[
     return [float(v) for v in y], [float(v) for v in driver]
 
 
-def build_series(case: Case, seed: int = 42) -> SeriesSpec:
+def build_series(case: Case, seed: int = 42, examples_root: Path | None = None) -> SeriesSpec:
     """Produce the (deterministic) SeriesSpec for a case (with optional exogenous covariates)."""
     covariates: tuple[Covariate, ...] = ()
     if case.real_or_synthetic == "real":
-        y = _load_real(case.spec)
+        y = _load_real(case.spec, examples_root)
     elif case.spec.get("kind") == "exog_promo":
         ylist, driver = _synth_exog(case.spec, seed, case.id)
         y = ylist

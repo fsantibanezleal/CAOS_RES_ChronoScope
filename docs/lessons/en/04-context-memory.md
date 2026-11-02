@@ -66,7 +66,7 @@ The aggregate bars show the small difference between the contextual and recency-
 
 ## Results
 
-**Answer:** ContextMemory has mean MASE 1.1921 and RecencyMean 1.1898. The contextual rule therefore fails its declared mean-error criterion on this selected collection. EqualMean has mean MASE 1.3047. Combining experts with estimated recent losses helped relative to that equal average here, but the additional context kernel did not improve the primary comparison.
+**Answer:** ContextMemory has mean MASE 1.4504 and RecencyMean 1.4489. The contextual rule therefore fails its declared mean-error criterion on this selected collection. EqualMean has mean MASE 1.8970. Combining experts with estimated recent losses helped relative to that equal average here, but the additional context kernel did not improve the primary comparison.
 
 These numbers do not establish equivalence or prove that contextual weighting can never help. They identify an unsuccessful fixed experiment. A follow-up should declare broader data, repeated origins, dependence-aware uncertainty and runtime accounting before execution. Any changed settings define a new experiment and must not overwrite this one. The historical origins used to estimate weights are training information, not extra independent final-test replications.
 

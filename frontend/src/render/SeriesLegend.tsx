@@ -98,7 +98,7 @@ export function SeriesLegend({
                 <div key={it.name} className={`cs-legend-row${off ? ' off' : ''}${isBest ? ' best' : ''}`}>
                   <button className="cs-legend-item" onClick={() => onToggle(it.name)} aria-pressed={!off} title={es ? 'mostrar/ocultar' : 'show/hide'}>
                     <span className="swatch" style={{ background: it.color, opacity: off ? 0.3 : 1 }} />
-                    <span className="cs-legend-name" title={it.name}>{it.name}</span>
+                    <span className="cs-legend-name" translate="no" title={it.name}>{it.name}</span>
                     {valueOf(it) != null && (
                       <span className="cs-legend-mase" title={metric.toUpperCase()}>
                         {fmt(valueOf(it))}{isBest ? (es ? ' · mejor' : ' · best') : ''}

@@ -24,7 +24,7 @@ import json
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
-root = next(p for p in Path.cwd().parents if (p / "product.json").is_file())
+root = next(p for p in Path.cwd().parents if (p / "VERSION").is_file() and (p / "data-pipeline").is_dir())
 sys.path.insert(0, str(root / "data-pipeline"))
 from chronoscopelab.model.forecasters import seasonal_naive, ses, holt, holt_winters, theta
 from chronoscopelab.model.forecasters import gaussian_quantiles

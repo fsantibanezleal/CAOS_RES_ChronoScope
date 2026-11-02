@@ -58,6 +58,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | requirements-precompute.txt | emd-signal | 1.9.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | hurst | 0.0.5 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | jsdom | 29.1.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | openapi-typescript | 7.13.0 | Browser types generated from artifact schemas. | Handwritten mirrors were removed to prevent schema drift. |
 | frontend | katex | 0.19.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | lightgbm | 4.6.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | lucide-react | 0.469.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
@@ -120,7 +121,7 @@ BS-1 proposes ContextMemory, a causal within-series combination of SeasonalNaive
 
 The method is implemented in `data-pipeline/chronoscopelab/model/context_memory.py`, integrated in the offline method registry, and compared in `data/derived/reevaluation.json`. FFORMA and arbitrated dynamic ensembles already establish context-dependent combinations. This proposal makes no priority claim; it tests a particular low-data, within-series recurrence rule. A calibration wrapper or the preqts harness is not represented as this forecasting proposal.
 
-Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.1921 for ContextMemory and 1.1898 for RecencyMean; EqualMean gives 1.3047. This is a negative finite-sample result, not a claim about all recurrence models. Heavy-model paths are frozen released forecasts, rescored on this common holdout; they were not refitted in the refresh.
+Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.4504 for ContextMemory and 1.4489 for RecencyMean; EqualMean gives 1.8970. This is a negative finite-sample result, not a claim about all recurrence models. Heavy-model paths are frozen released forecasts, rescored on this common holdout; they were not refitted in the refresh.
 
 ## Cases
 

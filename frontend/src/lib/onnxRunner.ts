@@ -17,12 +17,7 @@ const BASE = import.meta.env.BASE_URL;
 ort.env.wasm.wasmPaths = new URL(`${BASE}ort/`, globalThis.location?.href ?? 'http://localhost/').href;
 ort.env.wasm.numThreads = 1;
 
-export interface NLinearMeta {
-  name: string;
-  lookback: number;
-  horizon: number;
-  sigma_norm: number;
-}
+export type NLinearMeta = import('./contract.gen').components['schemas']['NLinearMetadata'];
 
 let sessionPromise: Promise<ort.InferenceSession> | null = null;
 

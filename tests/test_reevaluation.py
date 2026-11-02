@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from chronoscopelab.model.context_memory import fit_context_memory
-from chronoscopelab.reevaluation import metrics
+from chronoscopelab.reevaluation import compare_case, metrics
 
 
 def test_adversarial_context_memory_uses_only_completed_training_targets():
@@ -34,3 +34,27 @@ def test_holdout_metrics_have_known_values():
     assert score["mae"] == score["mase"] == 0.5
     assert score["coverage"] == 1.0
     assert score["mean_width"] == 2.0
+
+
+def test_adversarial_display_decimation_cannot_become_a_fitting_series():
+    with pytest.raises(ValueError, match="Decimated replay"):
+        compare_case({"history": [10, 20, 30], "history_len": 9})
+
+
+def test_reconstruction_matches_all_released_observation_positions():
+    """Verify source reconstruction independently of the scoring and aggregate code."""
+    import json
+    from pathlib import Path
+
+    from chronoscopelab.cases.forecast_cases import CASES, build_series
+
+    root = Path(__file__).resolve().parents[1]
+    artifact = json.loads((root / "data/derived/reevaluation.json").read_text())
+    for case in CASES:
+        trace = json.loads((root / f"data/derived/{case.id}/trace.json").read_text())
+        manifest = json.loads((root / f"data/derived/manifests/{case.id}.json").read_text())
+        series = np.array(build_series(case, manifest["seed"], root / "data/examples").y)
+        result = next(c for c in artifact["cases"] if c["case_id"] == case.id)
+        np.testing.assert_array_equal(result["history"], series[:-case.horizon])
+        np.testing.assert_allclose(series[trace["history_index"]], trace["history"], atol=0.000051, rtol=0)
+        np.testing.assert_allclose(series[-case.horizon:], result["actual"], atol=0.000051, rtol=0)

@@ -1,32 +1,42 @@
 {
   "trace": {
-    "version": "1.0.0",
-    "schema": "data-pipeline/chronoscopelab/core/trace.py",
-    "sha256": "c9838f61470ebd19d4b6b4b5425e6e69fd0e4a73da8129909c9bece0a8a5140b"
+    "version": "2.0.0",
+    "schema": "docs/contracts/schemas/trace.schema.json",
+    "sha256": "cf1c1607c4b2e8d2fe445a86c9b43ce1fae85bc116bfecac32e1f21997bb370a"
   },
   "manifest": {
-    "version": "1.0.0",
-    "schema": "data-pipeline/chronoscopelab/core/manifest.py",
-    "sha256": "5d15e47bbdc5237f21eca4032304f875d1c11b9a38596ecba3f49aa2d6160936"
+    "version": "2.0.0",
+    "schema": "docs/contracts/schemas/manifest.schema.json",
+    "sha256": "ef845b9582625b52d8608c46a2c0d8f1c5713c83c265c8d25d35bacaf12d41f5"
   },
   "streaming": {
-    "version": "1.0.0",
-    "schema": "data-pipeline/chronoscopelab/stages/streaming.py",
-    "sha256": "bd3c4746476afd7346da51f6d2f8284ac9cb68353f3572c00adc603a88633bc8"
+    "version": "2.0.0",
+    "schema": "docs/contracts/schemas/streaming.schema.json",
+    "sha256": "3fef87c09e99005c4f0d79d5c6e31d99d47631e9366325338a2a05694f809929"
   },
   "analysis": {
-    "version": "1.0.0",
-    "schema": "data-pipeline/chronoscopelab/stages/analyze.py",
-    "sha256": "d1b81f7ee48b7d3a128c566a28abd3273f356da16ba3eff42ad46ee663babc39"
+    "version": "2.0.0",
+    "schema": "docs/contracts/schemas/analysis.schema.json",
+    "sha256": "a5fc688e5249f76a80a6e3a56c558a6c0111a03b6cc1ce7557cca7edea14e94c"
   },
   "nlinear-model": {
-    "version": "1.0.0",
-    "schema": "frontend/public/models/nlinear.json",
-    "sha256": "60e999e7e39231a6c69243b448bb0e971f2ec9d8d12a1238eece79a0f0e18404"
+    "version": "2.0.0",
+    "schema": "docs/contracts/schemas/nlinear-model.schema.json",
+    "sha256": "9773a75a2f5277ed999f34574b7b8fd0ee671f9314b9e76e0ab87c9d8ada48fe"
   },
   "reevaluation": {
-    "version": "1.0.0",
+    "version": "2.0.0",
     "schema": "docs/contracts/schemas/reevaluation.schema.json",
-    "sha256": "d2734018b3d39483bc3e21ceadc2e1c46f51c43d396bcf3b06e8a2c740421279"
+    "sha256": "09029609dc8f5f56822a4ccc032a602034658c01bc3be0092248e8c783371a80"
+  },
+  "index": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/index.schema.json",
+    "sha256": "0e3e6e61e42433aeb8803e3e1f5bb728e3d1ac95172bcbc0adfedb2e3e9658a7"
+  },
+  "selector": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/selector.schema.json",
+    "sha256": "f98ce34083256065b4d7cf412a67529a70b418e4c2dfab82f4e9142624552e16"
   }
 }

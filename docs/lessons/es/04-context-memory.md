@@ -66,7 +66,7 @@ Las barras muestran una diferencia pequeña entre las variantes contextual y de 
 
 ## Resultados
 
-**Respuesta:** ContextMemory obtiene MASE medio 1,1921 y RecencyMean 1,1898. La regla contextual falla su criterio declarado de error medio en esta colección. EqualMean obtiene 1,3047. Estimar pérdidas recientes ayudó frente al promedio uniforme en estos casos, pero el núcleo contextual adicional no mejoró la comparación primaria. Las cifras conservan la precisión de la salida computada.
+**Respuesta:** ContextMemory obtiene MASE medio 1,4504 y RecencyMean 1,4489. La regla contextual falla su criterio declarado de error medio en esta colección. EqualMean obtiene 1,8970. Estimar pérdidas recientes ayudó frente al promedio uniforme en estos casos, pero el núcleo contextual adicional no mejoró la comparación primaria. Las cifras conservan la precisión de la salida computada.
 
 Estos valores no establecen equivalencia ni demuestran que ponderar contextos nunca pueda ayudar. Identifican un experimento fijo sin éxito. Un seguimiento debe declarar datos más amplios, varios orígenes, incertidumbre que considere dependencia y costos computacionales antes de ejecutarse. Modificar parámetros define otro experimento y no debe sobrescribir este. Los orígenes empleados para estimar pesos aportan entrenamiento, no repeticiones independientes adicionales de la evaluación final.
 

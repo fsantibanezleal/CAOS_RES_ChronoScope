@@ -13,8 +13,9 @@ import numpy as np
 
 from .model.context_memory import CONFIG, EXPERT_NAMES, fit_context_memory
 from .model.forecasters import METHODS, gaussian_quantiles
+from .cases.forecast_cases import CASES, build_series
 
-SCHEMA = "chronoscope.reevaluation/v1"
+SCHEMA = "chronoscope.reevaluation/v2"
 
 
 def metrics(history, actual, point, lower, upper, seasonality):
@@ -43,8 +44,12 @@ def metrics(history, actual, point, lower, upper, seasonality):
     }
 
 
-def compare_case(trace):
-    history, actual = np.asarray(trace["history"]), np.asarray(trace["actual"])
+def compare_case(trace, history=None):
+    if history is None:
+        if trace.get("history_len", len(trace["history"])) != len(trace["history"]):
+            raise ValueError("Decimated replay history is not an equally spaced fitting series")
+        history = trace["history"]
+    history, actual = np.asarray(history), np.asarray(trace["actual"])
     m, h = int(trace["seasonality"]), int(trace["horizon"])
     if trace.get("redacted") or len(actual) != h:
         raise ValueError("A redacted or incomplete case needs locally admitted raw inputs before reevaluation")
@@ -73,7 +78,7 @@ def compare_case(trace):
                      "training_origins": list(fit.origins)})
     counts = {row["name"]: row.get("backtest", {}).get("n_windows") for row in trace["methods"]}
     return {"case_id": trace["case_id"], "seasonality": m, "horizon": h,
-            "history_length": len(history), "actual": actual.tolist(), "methods": rows,
+            "history_length": len(history), "history": history.tolist(), "actual": actual.tolist(), "methods": rows,
             "legacy_backtest_window_counts": counts}
 
 
@@ -84,12 +89,22 @@ def build(root: Path):
         rel = f"data/derived/{row['case_id']}/trace.json"
         raw = (root / rel).read_bytes()
         hashes[rel] = hashlib.sha256(raw).hexdigest()
-        case = compare_case(json.loads(raw))
+        trace = json.loads(raw)
+        manifest = json.loads((root / f"data/derived/manifests/{row['case_id']}.json").read_text(encoding="utf-8"))
+        definition = next(c for c in CASES if c.id == row["case_id"])
+        series = np.asarray(build_series(definition, manifest["seed"], root / "data/examples").y)
+        history = series[:-trace["horizon"]]
+        if (len(history) != trace["history_len"]
+                or not np.allclose(history[trace["history_index"]], trace["history"], rtol=0, atol=0.000051)
+                or not np.allclose(series[-trace["horizon"]:], trace["actual"], rtol=0, atol=0.000051)):
+            raise ValueError(f"Reconstructed source differs from released trace: {row['case_id']}")
+        case = compare_case(trace, history)
         case["category"] = row["category"]
         cases.append(case)
     source_paths = ["data-pipeline/chronoscopelab/reevaluation.py",
                     "data-pipeline/chronoscopelab/model/forecasters.py",
-                    "data-pipeline/chronoscopelab/model/context_memory.py"]
+                    "data-pipeline/chronoscopelab/model/context_memory.py",
+                    "data-pipeline/chronoscopelab/cases/forecast_cases.py"]
     sources = {p: hashlib.sha256((root / p).read_bytes()).hexdigest() for p in source_paths}
     names = sorted({m["name"] for c in cases for m in c["methods"]})
     summary = []
@@ -98,10 +113,13 @@ def build(root: Path):
                   if any(m["name"] == name for m in c["methods"])]
         summary.append({"name": name, "cases": len(scores), "mean_mase": float(np.mean([s["mase"] for s in scores if s["mase"] is not None])),
                         "mean_coverage": float(np.mean([s["coverage"] for s in scores]))})
+    inputs = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+              for p in sorted((root / "data/examples").glob("*.csv"))}
     return {"schema": SCHEMA, "protocol": {
         "name": "common final holdout", "forecast_origins_per_case": 1, "quantile_levels": [0.1, 0.5, 0.9],
         "heavy_forecasts": "Rescored from frozen released paths; no new fitting or pretraining-data audit is implied.",
-        "light_forecasts": "Recomputed on the exact committed history; the final holdout is never supplied to fit.",
+        "light_forecasts": "Recomputed on reconstructed contiguous original history, verified against every released display sample and target; the final holdout is never supplied to fit.",
+        "history": "Full-precision source observations; replay traces are display-decimated and never used as consecutive fitting inputs. Released targets and frozen predictions retain their four-decimal precision.",
         "limits": "Fifteen selected cases and one origin per case do not establish population superiority or significance.",
         "context_memory": CONFIG}, "source_engine_version": index["engine_version"],
-        "trace_sha256": hashes, "code_sha256": sources, "cases": cases, "summary": summary}
+        "trace_sha256": hashes, "code_sha256": sources, "input_sha256": inputs, "cases": cases, "summary": summary}

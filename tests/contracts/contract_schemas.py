@@ -1,89 +1,112 @@
-"""Structural validators for the repository's published pipeline and model contracts.
-
-These intentionally validate the stable boundary and required fields. Detailed semantic parity is
-covered by the producer and browser consumer tests named in docs/contracts/catalog.md.
-"""
+"""Schema access for the contract tests (docs/contracts/catalog.md): every catalog schema file and the OpenAPI
+document, validated with jsonschema (Draft 2020-12) through one referencing registry, so an OpenAPI component that
+points at a schema file resolves to that same file. The schema files are the single source of every contract; no
+test re-declares a shape."""
 from __future__ import annotations
 
-from collections.abc import Callable
+import json
+import subprocess
+import sys
+from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
+from jsonschema import Draft202012Validator
+from referencing import Registry, Resource
+from referencing.jsonschema import DRAFT202012
 
-def _object(doc: Any, required: tuple[str, ...], schema: str) -> list[str]:
-    if not isinstance(doc, dict):
-        return [f"expected an object for {schema}"]
-    missing = [key for key in required if key not in doc]
-    return [f"missing required field {key!r}" for key in missing]
+ROOT = Path(__file__).resolve().parents[2]
+CONTRACTS = ROOT / "docs" / "contracts"
+SCHEMAS = CONTRACTS / "schemas"
+OPENAPI = CONTRACTS / "api.openapi.json"
+# the provider tree mirrors the repository layout: <root>/data/derived and <root>/data/examples
+FIXTURE_ROOT = CONTRACTS / "fixtures"
+DERIVED_ROOTS = {"bake": ROOT / "data" / "derived", "fixture": FIXTURE_ROOT / "data" / "derived"}
 
-
-def _trace(doc: Any) -> list[str]:
-    out = _object(doc, ("schema", "case_id", "seasonality", "horizon", "quantile_levels", "redacted",
-                        "history_len", "history_index", "history", "actual", "methods", "summary"), "trace")
-    if isinstance(doc, dict):
-        if not str(doc.get("schema", "")).startswith("chronoscope.trace/"):
-            out.append("schema must identify a chronoscope.trace version")
-        if not isinstance(doc.get("methods"), list):
-            out.append("methods must be an array")
-    return out
+BASE = "https://contracts.invalid/"  # a base URI only; nothing is fetched
 
 
-def _manifest(doc: Any) -> list[str]:
-    if isinstance(doc, dict) and str(doc.get("schema", "")).startswith("chronoscope.index/"):
-        out = _object(doc, ("schema", "engine_version", "n_cases", "cases"), "index")
-        if isinstance(doc.get("cases"), list):
-            for i, case in enumerate(doc["cases"]):
-                out.extend(f"cases[{i}]: {e}" for e in _object(case, ("case_id", "category", "manifest_path"), "index entry"))
-        return out
-    out = _object(doc, ("schema", "case_id", "category", "real_or_synthetic", "expected_band", "engine",
-                        "provenance", "series", "seed", "artifact", "lane", "gate", "flags", "best_method", "metrics"), "manifest")
-    if isinstance(doc, dict) and not str(doc.get("schema", "")).startswith("chronoscope.manifest/"):
-        out.append("schema must identify a chronoscope.manifest version")
-    return out
+def load_json(path: str | Path) -> Any:
+    return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def _streaming(doc: Any) -> list[str]:
-    out = _object(doc, ("nominal_coverage", "horizon", "warmup", "methods", "covariate", "references"), "streaming")
-    if isinstance(doc, dict) and not isinstance(doc.get("methods"), dict):
-        out.append("methods must be an object keyed by method name")
-    return out
+@lru_cache(maxsize=None)
+def registry() -> Registry:
+    """Every schema file at BASE/schemas/<file> and the OpenAPI document at BASE/api.openapi.json."""
+    resources = [(f"{BASE}schemas/{f.name}", Resource.from_contents(load_json(f), default_specification=DRAFT202012))
+                 for f in sorted(SCHEMAS.glob("*.schema.json"))]
+    resources.append((f"{BASE}api.openapi.json", Resource.from_contents(load_json(OPENAPI), default_specification=DRAFT202012)))
+    return Registry().with_resources(resources)
 
 
-def _nlinear(doc: Any) -> list[str]:
-    out = _object(doc, ("name", "lookback", "horizon", "normalization", "sigma_norm", "trained_windows"), "NLinear metadata")
-    if isinstance(doc, dict):
-        if doc.get("name") != "NLinear":
-            out.append("name must be NLinear")
-        for key in ("lookback", "horizon", "trained_windows"):
-            if not isinstance(doc.get(key), int) or doc[key] <= 0:
-                out.append(f"{key} must be a positive integer")
-    return out
+def _validator_for(ref: str) -> Draft202012Validator:
+    return Draft202012Validator({"$schema": "https://json-schema.org/draft/2020-12/schema", "$ref": ref},
+                                registry=registry())
 
 
-_VALIDATORS: dict[str, Callable[[Any], list[str]]] = {
-    "trace.py": _trace,
-    "manifest.py": _manifest,
-    "streaming.py": _streaming,
-    "nlinear.json": _nlinear,
-    "analyze.py": lambda doc: _object(doc, ("n", "seasonality_period", "stationarity", "autocorrelation",
-                                             "seasonality", "filters", "changepoints", "volatility",
-                                             "distribution", "fractal", "nonlinear", "causality"), "analysis"),
-}
+@lru_cache(maxsize=None)
+def validator(name: str) -> Draft202012Validator:
+    """The validator of docs/contracts/schemas/<name>.schema.json (the schema itself is checked first)."""
+    path = SCHEMAS / f"{name}.schema.json"
+    Draft202012Validator.check_schema(load_json(path))
+    return _validator_for(f"{BASE}schemas/{path.name}")
 
 
-def errors(schema: str, doc: Any) -> list[str]:
-    if schema == "reevaluation":
-        import json
-        from pathlib import Path
-        from jsonschema import Draft202012Validator
-
-        path = Path(__file__).resolve().parents[2] / "docs/contracts/schemas/reevaluation.schema.json"
-        validator = Draft202012Validator(json.loads(path.read_text(encoding="utf-8")))
-        return [f"{list(e.path)}: {e.message}" for e in validator.iter_errors(doc)]
-    validator = _VALIDATORS.get(schema)
-    if validator is None:
-        raise OSError(f"no validator registered for {schema!r}")
-    return validator(doc)
+def errors(name: str, instance: Any) -> list[str]:
+    """Every way ``instance`` departs from schema ``name``, as ``path: message``; empty when it conforms."""
+    return _messages(validator(name), instance)
 
 
-def component_errors(schema: str, doc: Any) -> list[str]:
-    return errors(schema, doc)
+def _messages(v: Draft202012Validator, instance: Any) -> list[str]:
+    found = sorted(v.iter_errors(instance), key=lambda e: [str(p) for p in e.absolute_path])
+    return [f"{'/'.join(str(p) for p in e.absolute_path) or '$'}: {e.message}" for e in found]
+
+
+def component_errors(name: str, instance: Any) -> list[str]:
+    """Every way ``instance`` departs from the OpenAPI component ``name`` (for example UnavailableBody)."""
+    return _messages(_validator_for(f"{BASE}api.openapi.json#/components/schemas/{name}"), instance)
+
+
+def _escape(token: str) -> str:
+    return token.replace("~", "~0").replace("/", "~1")
+
+
+@lru_cache(maxsize=None)
+def response_validator(path: str, method: str, status: int) -> Draft202012Validator:
+    """The validator of the JSON body the OpenAPI document declares for ``method path`` answering ``status``.
+
+    A response given as ``{"$ref": "#/components/responses/X"}`` is followed; the body schema's own references
+    (components, schema files) resolve through the registry."""
+    doc = load_json(OPENAPI)
+    response = doc["paths"][path][method.lower()]["responses"][str(status)]
+    pointer = "/" + "/".join(_escape(t) for t in ("paths", path, method.lower(), "responses", str(status)))
+    if "$ref" in response:
+        ref = response["$ref"]
+        if not ref.startswith("#/"):
+            raise ValueError(f"{method} {path} {status}: only local response references are supported, got {ref}")
+        pointer = ref[1:]
+    return _validator_for(f"{BASE}api.openapi.json#{pointer}/content/application~1json/schema")
+
+
+def response_errors(path: str, method: str, status: int, body: Any) -> list[str]:
+    """Every way ``body`` departs from the response the OpenAPI document declares; empty when it conforms."""
+    return _messages(response_validator(path, method, status), body)
+
+
+def edit(path: Path, change) -> None:
+    """Load a committed JSON document, change it, write it back compact (the plant of the document-guard tests)."""
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    change(doc)
+    path.write_text(json.dumps(doc, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+
+
+NO_NUMPY = ("import sys, runpy; sys.modules['numpy'] = None; path = sys.argv[1]; sys.argv = sys.argv[1:]; "
+            "runpy.run_path(path, run_name='__main__')")
+
+
+def run_readiness_guard(root: Path | None = None, *, no_numpy: bool = False) -> subprocess.CompletedProcess:
+    """Run the readiness guard as CI does, on the repository or on a copy; ``no_numpy`` makes ``import numpy`` fail first."""
+    script = str(ROOT / "scripts" / "check_readiness.py")
+    args = [str(root)] if root else []
+    cmd = [sys.executable, "-c", NO_NUMPY, script, *args] if no_numpy else [sys.executable, script, *args]
+    return subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)

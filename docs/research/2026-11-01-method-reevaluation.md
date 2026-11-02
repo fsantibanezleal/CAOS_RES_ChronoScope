@@ -29,3 +29,7 @@ ContextMemory is specified in the companion proposal, implemented as engine code
 ## Evidence limits
 
 The common final-holdout experiment has one origin per selected case. Heavy forecasts are archived outputs, not a fresh replication using every newly released package. Pretraining overlap and source-corpus revisions remain unverified. The in-history seasonal scale in MASE is not the error of an independently scored naive forecast on the final holdout. The direct-torch quantile heads and the Gaussian intervals are not calibrated merely because a loss function or an interval was implemented. These distinctions are carried into the app and technical report.
+
+## Contiguous-history correction
+
+Replay histories are display-decimated for nine cases and cannot be treated as consecutive observations. The corrected comparison reconstructs the complete original histories, verifies every displayed sample and target, binds the original CSV inputs and uses one contiguous historical scale per case. See `docs/research/2026-11-01-history-decimation-correction.md` for the invalidation record.

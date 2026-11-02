@@ -63,7 +63,10 @@
     "data/derived/TRND_seasonal/streaming.json",
     "data/derived/TRND_seasonal/trace.json",
     "models/selector.json",
-    "models/surrogate.json"
+    "data/examples/beijing_pm25_sample.csv",
+    "data/examples/electricity_sample.csv",
+    "data/examples/m4_daily_sample.csv",
+    "data/examples/m4_hourly_sample.csv"
   ],
   "primary_environment": ".venv",
   "generation_environments": [
@@ -88,8 +91,7 @@
   "required": [
     "data/derived/manifests/index.json",
     "data/derived/reevaluation.json",
-    "models/selector.json",
-    "models/surrogate.json"
+    "models/selector.json"
   ],
   "promote": [
     "data/derived",
