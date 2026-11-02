@@ -72,5 +72,12 @@
     "cname": "chronoscope.fasl-work.com",
     "html_url": "https://chronoscope.fasl-work.com/",
     "https_enforced": true
+  },
+  "production_browser": {
+    "ok": true,
+    "states": 1166,
+    "failures": 0,
+    "waivers": 0,
+    "receipt_sha256": "ef991acb3ee342ae41a4b3253b60d8a4a2d959e5706bc0ff21d1a4454158372d"
   }
 }
