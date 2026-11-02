@@ -28,7 +28,8 @@ Compare Naive, the five implemented lightweight experts, AutoETS and AutoTheta. 
 are fixed before scoring. This bounded roster is not a foundation-model comparison. The earlier
 22-variant experiment remains available separately. Aggregate origins within each series before
 statistical testing. Use series-level deterministic discovery/confirmation splits; exact duplicate
-sequences share a partition. Test continuous features against log1p of the best mean MASE within
+sequences share a partition; retain the lexicographically first exact duplicate for inference and
+list the rest as exclusions. Test continuous features against log1p of the best mean MASE within
 this roster with Kendall's tau. Apply BY at q=0.05 jointly across the preregistered features in each
 partition. Confirmation requires rejection in both partitions and matching effect direction.
 
