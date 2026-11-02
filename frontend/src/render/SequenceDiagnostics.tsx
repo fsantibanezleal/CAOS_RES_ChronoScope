@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatNumber, useShellLang } from '@fasl-work/caos-app-shell';
 import type { components } from '../lib/contract.gen';
 import { UPlotChart, type RefLine } from './UPlotChart';
@@ -10,6 +10,7 @@ export function SequenceDiagnostics({ data }: { data?: SequenceData }) {
   const t = (en: string, translated: string) => es ? translated : en;
   const [marks, setMarks] = useState<'all' | 'motif' | 'discord' | 'regime'>('regime');
   const [picked, setPicked] = useState<number | null>(null);
+  useEffect(() => setPicked(null), [data]);
   const fmt = (v: number | null) => formatNumber(v, lang, { digits: 4 });
   if (!data || !('values' in data)) return <p>{t('Original-sequence diagnostics are unavailable for this source.', 'Los diagnósticos de la secuencia original no están disponibles para esta fuente.')}</p>;
   const p = data.matrix_profile;
@@ -18,7 +19,7 @@ export function SequenceDiagnostics({ data }: { data?: SequenceData }) {
     // Colored intervals and their table retain both edges without overlapping inline labels.
     if (marks === 'all' || marks === 'regime') p.regime_boundaries.forEach(b => refs.push({ x: b, label: 'FLUSS' }));
   }
-  if (picked != null) refs.push({ x: picked, label: t('Selected profile window', 'Ventana del perfil seleccionada') });
+  if (picked != null && p.available && picked < p.profile.length) refs.push({ x: picked, label: t('Selected profile window', 'Ventana del perfil seleccionada') });
   const entropy = data.multiscale_entropy.scales;
   return <div className="cs-main" data-sequence-diagnostics="ready" data-observation-count={data.n}>
     <label className="cs-ctl">{t('Sequence annotations', 'Anotaciones de la secuencia')}<select className="cs-sel" value={marks} onChange={e => setMarks(e.target.value as typeof marks)}>

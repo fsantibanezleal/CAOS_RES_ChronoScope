@@ -6,9 +6,10 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { SequenceDiagnostics, type SequenceData } from '../render/SequenceDiagnostics';
 import { admitForecastability } from '../lib/forecastability';
 
-vi.mock('../render/UPlotChart', () => ({ UPlotChart: (p: { ariaSummary: string; xs: number[]; refLines?: { x?: number }[]; series: { values: (number | null)[] }[] }) =>
-  <output data-testid={p.ariaSummary}>{JSON.stringify({ count: p.xs.length, marks: p.refLines,
-    visibleCounts:p.series.map(s => s.values.filter(v => v != null).length) })}</output> }));
+vi.mock('../render/UPlotChart', () => ({ UPlotChart: (p: { ariaSummary: string; xs: number[]; onPick?: (index:number)=>void; refLines?: { x?: number }[]; series: { values: (number | null)[] }[] }) =>
+  <><output data-testid={p.ariaSummary}>{JSON.stringify({ count: p.xs.length, marks: p.refLines,
+    visibleCounts:p.series.map(s => s.values.filter(v => v != null).length) })}</output>
+    {p.onPick && <button onClick={()=>p.onPick!(p.xs.length-1)}>Pick from {p.ariaSummary}</button>}</> }));
 
 afterEach(cleanup);
 const analysis = JSON.parse(readFileSync(resolve('../data/derived/REAL_electricity/analysis.json'), 'utf8'));
@@ -30,6 +31,18 @@ describe('Original-sequence diagnostic consumer', () => {
     render(<SequenceDiagnostics data={{ available: false, reason: 'source terms' }} />);
     expect(screen.getByText(/diagnostics are unavailable/)).toBeTruthy();
     expect(screen.queryByTestId('Exact Matrix Profile')).toBeNull();
+  });
+  it('adversarial: clears a picked profile window when the source changes to a shorter case', () => {
+    const shorter = JSON.parse(readFileSync(resolve('../data/derived/BRKV_level_shift/analysis.json'),'utf8'));
+    const { rerender } = render(<SequenceDiagnostics data={analysis.sequence as SequenceData} />);
+    fireEvent.click(screen.getByRole('button',{name:'Pick from Exact Matrix Profile'}));
+    const selectedIndex = analysis.sequence.matrix_profile.profile.length-1;
+    expect(selectedIndex).toBeGreaterThan(shorter.n);
+    const marks = () => JSON.parse(screen.getByTestId('Original sequence with detected pattern windows').textContent!).marks;
+    expect(marks().some((m:{x:number})=>m.x===selectedIndex)).toBe(true);
+    rerender(<SequenceDiagnostics data={shorter.sequence as SequenceData} />);
+    expect(marks().some((m:{x:number})=>m.x===selectedIndex)).toBe(false);
+    expect(marks().every((m:{x:number})=>m.x<shorter.n)).toBe(true);
   });
 });
 
