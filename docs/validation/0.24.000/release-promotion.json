@@ -1,0 +1,76 @@
+{
+  "ok": true,
+  "checked_utc": "2026-11-02T06:56:57.300957+00:00",
+  "source_sha": "a74cb19364010d7d7acfcdb03a6eb5d5ee907cbb",
+  "tag": "v0.24.000",
+  "pull_requests": [
+    {
+      "baseRefName": "develop",
+      "headRefName": "feat/20261102_010106_research-extensions",
+      "mergeCommit": {
+        "oid": "0e3e31e01c752644fc2ba37156c37f9fdb977cc2"
+      },
+      "mergedAt": "2026-11-02T06:47:56Z",
+      "number": 79,
+      "state": "MERGED",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/pull/79"
+    },
+    {
+      "baseRefName": "main",
+      "headRefName": "develop",
+      "mergeCommit": {
+        "oid": "a74cb19364010d7d7acfcdb03a6eb5d5ee907cbb"
+      },
+      "mergedAt": "2026-11-02T06:50:10Z",
+      "number": 80,
+      "state": "MERGED",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/pull/80"
+    }
+  ],
+  "ci_runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 41401961213,
+      "headSha": "385a8496739891713588782a37b0227f474aa8b1",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/41401961213"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 41402194914,
+      "headSha": "0e3e31e01c752644fc2ba37156c37f9fdb977cc2",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/41402194914"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 41402432683,
+      "headSha": "a74cb19364010d7d7acfcdb03a6eb5d5ee907cbb",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/41402432683"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 41402551148,
+      "headSha": "a74cb19364010d7d7acfcdb03a6eb5d5ee907cbb",
+      "name": "Deploy Pages",
+      "status": "completed",
+      "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/41402551148"
+    }
+  ],
+  "release": {
+    "isDraft": false,
+    "publishedAt": "2026-11-02T06:53:48Z",
+    "tagName": "v0.24.000",
+    "url": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/releases/tag/v0.24.000"
+  },
+  "pages": {
+    "build_type": "workflow",
+    "cname": "chronoscope.fasl-work.com",
+    "html_url": "https://chronoscope.fasl-work.com/",
+    "https_enforced": true
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "ok": true,
+  "started": "2026-11-02T06:53:34.950Z",
+  "completed": "2026-11-02T06:54:32.085Z",
+  "base": "https://chronoscope.fasl-work.com",
+  "patterns_only": false,
+  "states": [
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "BRKV_level_shift",
+      "original_observations": 300,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "REAL_electricity",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "view": "patterns",
+      "case_id": "SEAS_hourly",
+      "original_observations": 480,
+      "filters": 4
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "view": "corpus",
+      "series": 4226,
+      "partition_filters": 3,
+      "method": "AutoETS"
+    }
+  ],
+  "page_errors": []
+}
