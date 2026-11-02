@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "build_id": "260b6d7",
+  "screens": [
+    {
+      "route": "introduction",
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "route": "benchmark",
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "height": 800
+    },
+    {
+      "route": "implementation",
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "route": "app",
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "height": 800
+    }
+  ],
+  "page_errors": []
+}

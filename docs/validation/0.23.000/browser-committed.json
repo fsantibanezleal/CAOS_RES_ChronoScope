@@ -1,0 +1,146 @@
+{
+  "ok": true,
+  "base": "http://127.0.0.1:51026/",
+  "expectBrand": "ChronoScope",
+  "sizes": "1280x800",
+  "themes": "dark",
+  "langs": "en",
+  "wideFontSizes": "390x844,1280x800",
+  "states": 138,
+  "minima": {
+    "drawnShare": null,
+    "stageFill": null
+  },
+  "waivers": [],
+  "checks": {},
+  "captures": 20,
+  "failures": [],
+  "artifactChecks": [
+    {
+      "path": "/data/manifests/index.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/fresh-reevaluation.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/BRKV_level_shift.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/analysis.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/streaming.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CHAO_mackey.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CTRL_white_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/EXOG_promo.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/HETV_garch.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/INTM_demand.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/LMEM_fractional.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/MSEA_daily_weekly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_electricity.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_daily.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_pm25.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/RWLK_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/SEAS_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/TRND_seasonal.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/REAL_electricity/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    }
+  ]
+}

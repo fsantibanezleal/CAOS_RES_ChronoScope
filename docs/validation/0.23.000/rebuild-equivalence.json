@@ -1,0 +1,36 @@
+{
+  "matrix_build": {
+    "version": "0.23.000",
+    "sha": "d511c932abd0db3def4bd07a0804a06420a0d826",
+    "built": "2026-11-02T01:45:24.117Z"
+  },
+  "committed_build": {
+    "version": "0.23.000",
+    "sha": "260b6d74a83aaf7bd1808d5f837351eab68a61a6",
+    "built": "2026-11-02T02:31:31.879Z"
+  },
+  "main_bundle_identical_after_build_id_normalization": true,
+  "retained_payloads_identical": true,
+  "removed_orphaned_generated_files": 12,
+  "removed_payload_hashes": [
+    "07b92f0ab8e8802cef2a494e566b647ca66f728a43b2d6c6bc76d8bec8a76a55",
+    "3605a49c4b2aa0c39cc62a95e511f9767117003500019856fc72403369e8abc3",
+    "43a921953cb264fafffea098c73c554706875af85db1b8bb4b160984fb9852f6",
+    "47e736fff2e5f631c4985b0dde369c75c27b54fd3cde72bfe1c6ca106df98b21",
+    "6fb7f879fca2b3bb91010845611c7a3db27c9cc5b4f6cc1e33ad423b0f27f0d3",
+    "88579a67b99c5228e817f88c82c47f163b4759ff261aff8bfa83cc6f74f920d7",
+    "a1d0d3b31a96b01b1f17702e106876910206f506f718aa3474860548b0158101",
+    "a78bc7a73cdb3e8591075c356dcbb81becad432717163787e88c42328d2b882a",
+    "dc70ed202f5329e15a8ed671493a3663eecf0288987fa32ddd418ee5bc9b6792",
+    "df260338b94ade5184f94919b3184e44e549a4274a8e7fb9edb12c6d28e60b72",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  ],
+  "canonical_public_and_dist_inventories_match": true,
+  "files_checked": 154,
+  "allowed_differences": [
+    "build.json identity/timestamp",
+    "seven-character build ID and hashed chunk references",
+    "removal of 12 generated files absent from the canonical corpus"
+  ]
+}
