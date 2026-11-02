@@ -1,8 +1,8 @@
-import { Callout, Cite, DocPage, DocSection, Equation, Figure, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
+import { Callout, Cite, DocPage, DocSection, Equation, Figure, TabGroups, useShellLang } from '@fasl-work/caos-app-shell';
 import { RESEARCH_TOPICS } from '../data/researchTopics';
 
 type Bi = { en: string; es: string };
-type Topic = { id: string; name: string; kind: 'classical' | 'learned'; refs: string[]; paragraphs: Bi[]; equations: [string, Bi][]; flow: Bi[]; caveat: Bi };
+type Topic = { id: string; name: string; nameEs?: string; kind: 'classical' | 'learned'; refs: string[]; paragraphs: Bi[]; equations: [string, Bi][]; flow: Bi[]; caveat: Bi };
 const bi = (en: string, es: string): Bi => ({ en, es });
 
 const topics: Topic[] = [
@@ -80,25 +80,40 @@ const topics: Topic[] = [
   },
 ];
 
+function flowLines(text: string): string[] {
+  const lines: string[] = [''];
+  for (const word of text.split(' ')) {
+    const last = lines.length-1;
+    if (lines[last] && (lines[last]+' '+word).length > 18) lines.push(word);
+    else lines[last] += (lines[last] ? ' ' : '')+word;
+  }
+  return lines;
+}
+
 export default function MethodologyCurrent() {
   const lang = useShellLang();
   const show = (v: Bi) => v[lang];
-  return <DocPage title={{ en: 'Methodology', es: 'Metodología' }} lede={show(bi('The forecasting methods differ in their assumptions, fitting budgets, information use and uncertainty construction. These method topics describe the configured computations, connect their equations to source implementations, and explain the limits that matter when their outputs are compared on the selected cases.', 'Los métodos difieren en hipótesis, presupuestos de ajuste, uso de información y construcción de incertidumbre. Estos temas describen los cómputos configurados, conectan ecuaciones e implementaciones y explican los límites relevantes al comparar sus resultados en los casos seleccionados.'))}>
-    <SubTabs ariaLabel={lang === 'es' ? 'Métodos y diagnósticos' : 'Methods and diagnostics'} tabs={[...topics, ...RESEARCH_TOPICS].map(topic => ({
-      id: topic.id, label: topic.name, content: <DocSection title={{ en: topic.name, es: topic.name }} area="method" kind={topic.kind} refs={topic.refs}>
+  const topicName = (topic: Topic) => lang === 'es' ? topic.nameEs ?? topic.name : topic.name;
+  const renderTopic = (topic: Topic) => ({
+      id: topic.id, label: topicName(topic), content: <DocSection title={{ en: topic.name, es: topic.nameEs ?? topic.name }} area="method" kind={topic.kind} refs={topic.refs}>
         {topic.paragraphs.map((p, i) => <p key={i}>{show(p)}{i === 0 && <> <Cite id={topic.refs[0]} /></>}</p>)}
         {topic.equations.map(([tex, caption]) => <Equation key={tex} tex={tex} caption={show(caption)} />)}
-        <Figure caption={show(bi('The computation follows these method-specific inputs, internal representation and forecast output.', 'El cómputo sigue estas entradas, representación interna y salida específicas del método.'))}>
-          <svg viewBox="0 0 600 125" role="img" aria-label={topic.name}>
+        <Figure caption={show(bi('The computation follows these method-specific inputs, internal representation and output.', 'El cómputo sigue estas entradas, representación interna y salida específicas del método.'))}>
+          <svg viewBox="0 0 600 125" role="img" aria-label={topicName(topic)}>
             {topic.flow.map((step, i) => <g key={i}>
               <rect x={10 + 200 * i} y="30" width="180" height="65" rx="9" fill="var(--color-surface-2)" stroke="var(--color-border)" />
-              <text x={100 + 200 * i} y="68" textAnchor="middle" fontSize="17" fill="var(--color-fg)">{show(step)}</text>
+              <text x={100 + 200 * i} y={flowLines(show(step)).length > 1 ? 58 : 68} textAnchor="middle" fontSize="17" fill="var(--color-fg)">{flowLines(show(step)).map((line,j)=><tspan key={j} x={100+200*i} dy={j ? 21 : 0}>{line}</tspan>)}</text>
               {i < 2 && <path d={`M${192 + 200 * i} 62h15`} stroke="var(--color-accent)" strokeWidth="3" />}
             </g>)}
           </svg>
         </Figure>
         <Callout variant="honest" title={lang === 'es' ? 'Límite de la comparación' : 'Comparison limit'}>{show(topic.caveat)}</Callout>
       </DocSection>,
-    }))} />
+    });
+  return <DocPage title={{ en: 'Methodology', es: 'Metodología' }} lede={show(bi('The forecasting methods differ in their assumptions, fitting budgets, information use and uncertainty construction. These method topics describe the configured computations, connect their equations to source implementations, and explain the limits that matter when their outputs are compared on the selected cases.', 'Los métodos difieren en hipótesis, presupuestos de ajuste, uso de información y construcción de incertidumbre. Estos temas describen los cómputos configurados, conectan ecuaciones e implementaciones y explican los límites relevantes al comparar sus resultados en los casos seleccionados.'))}>
+    <TabGroups ariaLabel={lang === 'es' ? 'Métodos y diagnósticos' : 'Methods and diagnostics'} groups={[
+      {id:'forecast-methods',label:show(bi('Forecasting methods','Métodos de pronóstico')),tabs:topics.map(renderTopic)},
+      {id:'sequence-methods',label:show(bi('Sequence and corpus','Secuencias y corpus')),tabs:RESEARCH_TOPICS.map(renderTopic)},
+    ]} />
   </DocPage>;
 }

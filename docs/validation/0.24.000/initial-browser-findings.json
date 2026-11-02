@@ -1,0 +1,19 @@
+{
+  "admitted": false,
+  "measured_states": 1166,
+  "failure_events": 558,
+  "counts_by_check": {
+    "G3": 509,
+    "ADR-0017.2": 8,
+    "G13": 40,
+    "G10": 1
+  },
+  "causes": [
+    "Peer sub-tab rows exceeded the shell maximum; replaced with semantic two-level TabGroups.",
+    "Two research methods lacked a second captioned equation; added corrected arc normalization and the actual corpus target definition.",
+    "Research sections declared unsupported page areas; classified them by the existing reproduction/question anatomy.",
+    "Native unstyled series buttons had insufficient dark-theme contrast; added token-based button paints.",
+    "The wide-font Spanish confirmation label crossed its SVG edge; wrapped diagram labels by words."
+  ],
+  "outcome": "Candidate rejected; full corrected traversal is required before promotion."
+}

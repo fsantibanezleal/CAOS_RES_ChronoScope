@@ -23,5 +23,6 @@
   "notebook_execution": 14,
   "report_pages_rendered_and_reviewed": 16,
   "report_sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
-  "publication_gates_passed": 33
+  "publication_gates_passed": 33,
+  "notebook_fresh_kernel_byte_comparison": 14
 }

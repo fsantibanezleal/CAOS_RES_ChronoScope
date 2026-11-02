@@ -156,3 +156,6 @@ html { contain: layout; }
 .cs-corpus-controls .cs-sel { min-width: 0; max-width: 100%; width: 100%; box-sizing: border-box; }
 .cs-association-table td:first-child { min-width: 10rem; max-width: 14rem; white-space: normal; overflow-wrap: anywhere; }
 .cs-association-table caption { text-align: left; max-width: 22rem; }
+.cs-corpus-button { color: var(--color-fg); background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: 0.3rem; padding: 0.3rem 0.6rem; cursor: pointer; }
+.cs-corpus-button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.cs-corpus-button:disabled { cursor: default; opacity: 0.5; }

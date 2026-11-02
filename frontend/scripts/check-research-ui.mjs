@@ -47,6 +47,7 @@ try {
     }
     if (!patternsOnly) {
       await page.goto(`${base}/benchmark`, {waitUntil:'domcontentloaded',timeout:60000});
+      await page.getByRole('tab', { name: lang === 'es' ? 'Corpus y alcance' : 'Corpus and scope', exact: true }).click();
       await page.getByRole('tab', { name: lang === 'es' ? 'Estudio de corpus' : 'Corpus study', exact: true }).click();
       await page.locator('[data-forecastability-study="ready"]').waitFor({ timeout:60000 });
       const source = await (await page.request.get(`${base}/data/forecastability.json`)).json();
