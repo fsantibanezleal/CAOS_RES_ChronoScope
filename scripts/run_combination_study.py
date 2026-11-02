@@ -27,15 +27,18 @@ from chronoscopelab.model.forecasters import METHODS, gaussian_quantiles  # noqa
 from chronoscopelab.model.validated_combination import fit_validated  # noqa: E402
 from chronoscopelab.reevaluation import metrics  # noqa: E402
 from run_forecastability_study import series_from_tsf  # noqa: E402
+from accelerate_expert_loops import enable as accelerate  # noqa: E402
 
 DATASETS = {
     "m4_weekly": {"record": 4656522, "file": "m4_weekly_dataset.tsf", "count": 359, "horizon": 13, "seasonality": 52},
     "m3_monthly": {"record": 4656298, "file": "m3_monthly_dataset.tsf", "count": 1428, "horizon": 18, "seasonality": 12},
 }
 PROTOCOL = {"context_cap": 512, "max_origins": 3, "scale": "seasonal difference of the supplied prefix",
+            "loop_execution": "unchanged recursive expert loops compiled by Numba without fastmath; reference parity tested",
             "primary": "ValidationMix versus RecencyMean mean series MASE, separately per dataset",
             "selection": "completed historical targets only; no outer target selects a configuration"}
 SOURCE_FILES = ["scripts/run_combination_study.py", "data-pipeline/chronoscopelab/model/validated_combination.py",
+                "scripts/accelerate_expert_loops.py",
                 "data-pipeline/chronoscopelab/model/context_memory.py", "data-pipeline/chronoscopelab/model/forecasters.py",
                 "data-pipeline/chronoscopelab/reevaluation.py"]
 NAMES = [*(name for name, _, _ in METHODS), "AutoETS", "AutoTheta", "ContextMemory", "RecencyMean", "EqualMean", "ContextMemoryCV", "ValidationMix"]
@@ -62,6 +65,7 @@ def evaluate(job):
     path = Path(destination) / dataset / (name + ".json")
     if path.exists():
         return json.loads(path.read_text(encoding="utf-8"))
+    accelerate()
     spec = DATASETS[dataset]
     h, m = spec["horizon"], spec["seasonality"]
     row = {"id": name, "dataset": dataset, "start_timestamp": timestamp, "source_n": len(y),
@@ -134,10 +138,11 @@ def main():
     args = parser.parse_args()
     source_hashes = {p: digest(ROOT/p) for p in SOURCE_FILES}
     input_hashes = {k: digest(args.source_root/v["file"]) for k, v in DATASETS.items()}
-    versions = {k: importlib.metadata.version(k) for k in ("numpy", "scipy", "statsforecast")}
+    versions = {k: importlib.metadata.version(k) for k in ("numpy", "scipy", "statsforecast", "numba")}
     binding = {"protocol": PROTOCOL, "datasets": DATASETS, "code_sha256": source_hashes, "input_sha256": input_hashes, "packages": versions}
     identity = hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest()
     cache = args.cache / identity
+    os.environ["NUMBA_CACHE_DIR"] = str(args.cache / "numba-cache")
     jobs, duplicate_rows, seen = [], [], {}
     for dataset, config in DATASETS.items():
         inventory = list(series_from_tsf(args.source_root/config["file"]))
