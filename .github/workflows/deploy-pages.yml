@@ -5,15 +5,18 @@ name: Deploy Pages
 # artifacts: the offline pipeline (statsforecast / LightGBM / torch+Chronos on local checkpoints) is the
 # canonical bake, and regenerating in CI would drop the tiers CI has no deps/checkpoints for. Artifact/schema
 # drift is caught by the frontend contract test (vitest) and the TS mirror (tsc), not by re-running the engine.
-# The build's `prebuild` hook runs copy-data.mjs, overlaying data/derived into the SPA's public/.
+# Prebuild replaces the generated public corpus from the admitted canonical data.
 
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -23,17 +26,27 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - name: Require successful main CI for this exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          target=$(git rev-parse HEAD)
+          passed=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs?head_sha=${target}&branch=main" --jq '.workflow_runs | any(.conclusion == "success")')
+          test "$passed" = true
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - name: Build the SPA over the committed artifacts (prebuild runs copy-data.mjs)
-        run: cd frontend && npm ci && npm run build
+        run: cd frontend && npm ci && npm test && npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: frontend/dist
@@ -41,7 +54,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

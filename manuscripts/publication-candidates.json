@@ -1,5 +1,5 @@
 {
-  "publication_authorized": false,
+  "publication_authorized": true,
   "candidates": [
     {
       "kind": "technical-report",
@@ -7,13 +7,17 @@
       "covers": [
         "BS-1"
       ],
-      "state": "local review draft",
+      "state": "published",
       "pdf": "manuscripts/product-report/main.pdf",
-      "sha256": "09c8edf95021a5c2fd2c6f9f8d434caaa9656182ac5fad6f5fa77eb964b08e58",
+      "sha256": "1cda236e44688cde662386c3bf74b56aa31b3c995a18f2aed2751f0d034a9d3d",
       "source": "manuscripts/product-report/tex/main.tex",
-      "source_sha256": "2c055593cfc7fb77d9ef061cf8cc807017edebfae2a3810d7f08870baa8f260a",
-      "version_doi": null,
-      "concept_doi": null
+      "source_sha256": "031f2372aeb28c5f454ece0119ed9c3dc3e6e33e013c963d7bee42517c574297",
+      "version_doi": "10.5281/zenodo.23874817",
+      "concept_doi": "10.5281/zenodo.23874816",
+      "reviewed_pdf_sha256": "09c8edf95021a5c2fd2c6f9f8d434caaa9656182ac5fad6f5fa77eb964b08e58",
+      "reviewed_source_sha256": "2c055593cfc7fb77d9ef061cf8cc807017edebfae2a3810d7f08870baa8f260a",
+      "doi": "10.5281/zenodo.23874817",
+      "record_url": "https://zenodo.org/records/23874817"
     },
     {
       "kind": "manuscript",
@@ -21,25 +25,37 @@
       "covers": [
         "BS-1"
       ],
-      "state": "local review draft",
+      "state": "published",
       "pdf": "manuscripts/context-memory/main.pdf",
-      "sha256": "6555ece921ed04bd3a7ac232e58fc8fa40dd27abbddf7f57eb07c3bf536c0817",
+      "sha256": "6f5e83d18df28c3ac96f90858f27c3da18df512bba25cf14b55e67db597d7d3a",
       "source": "manuscripts/context-memory/tex/main.tex",
-      "source_sha256": "d8dff375d9c71134bbffe5b8995bd22dcda1ab73d126a6aad49792505beeec8c",
-      "version_doi": null,
-      "concept_doi": null
+      "source_sha256": "31354ae6c6f725cf2db8383d0b81f94881de5454be5e45ac56d3737f216ddcdb",
+      "version_doi": "10.5281/zenodo.23874821",
+      "concept_doi": "10.5281/zenodo.23874820",
+      "reviewed_pdf_sha256": "6555ece921ed04bd3a7ac232e58fc8fa40dd27abbddf7f57eb07c3bf536c0817",
+      "reviewed_source_sha256": "d8dff375d9c71134bbffe5b8995bd22dcda1ab73d126a6aad49792505beeec8c",
+      "doi": "10.5281/zenodo.23874821",
+      "record_url": "https://zenodo.org/records/23874821"
     },
     {
       "kind": "companion-study-revision",
       "version": "2.4",
       "covers": [],
-      "state": "local review draft",
+      "state": "published",
       "pdf": "manuscripts/prequential-streaming-conformal/main.pdf",
-      "sha256": "7d45e487f0de6278bdb5df770a4975f2e50bd3d54812cf9f8fd673e599db03da",
+      "sha256": "ebd90c74d17ef9b6a33f09ef08f9052176798d57907e148f8b5a1cb743105bba",
       "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
-      "source_sha256": "490c257e0a5d51b13259cee8447a7fad9bc8b463ff7eb5a990b9161803ffac90",
-      "version_doi": null,
-      "concept_doi": "10.5281/zenodo.21508920"
+      "source_sha256": "d1c2e8b8564497f99b0f8c7f938d85fda4d0e56749277a76ff80fe8fc168e146",
+      "version_doi": "10.5281/zenodo.23874824",
+      "concept_doi": "10.5281/zenodo.21508920",
+      "reviewed_pdf_sha256": "7d45e487f0de6278bdb5df770a4975f2e50bd3d54812cf9f8fd673e599db03da",
+      "reviewed_source_sha256": "490c257e0a5d51b13259cee8447a7fad9bc8b463ff7eb5a990b9161803ffac90",
+      "doi": "10.5281/zenodo.23874824",
+      "record_url": "https://zenodo.org/records/23874824"
     }
-  ]
+  ],
+  "approval": {
+    "instruction": "I approve all . deploy and update anything required",
+    "scope": "Publish the three reviewed manuscripts, update required records, promote and deploy ChronoScope"
+  }
 }

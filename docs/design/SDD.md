@@ -138,7 +138,7 @@ The artifact scripts compare committed output structure, manifest references, an
 
 ## Risks and kill criteria
 
-Do not publish a claim of a new forecasting method, universal calibration, general runtime advantage, or broad leaderboard superiority without new evidence. Stop a release if source licensing is unresolved, artifact and consumer shapes diverge, a control case reveals a material harness defect, or the deployed commit and artifact identity cannot be established. The forecasting proposal and detailed report are implemented and available as local reviewable drafts. Their separate Zenodo publication records remain pending under the external-publication boundary; the strict manuscript release gate remains open until publication is authorized and verified.
+Do not publish a claim of a new forecasting method, universal calibration, general runtime advantage, or broad leaderboard superiority without new evidence. Stop a release if source licensing is unresolved, artifact and consumer shapes diverge, a control case reveals a material harness defect, or the deployed commit and artifact identity cannot be established. The forecasting proposal and detailed report are implemented and published under separate verified Zenodo concepts. The proposal retains its negative aggregate result. Publication does not replace remote CI, exact deployment identity, canonical live checks or owner acceptance.
 
 ## ADR fit
 

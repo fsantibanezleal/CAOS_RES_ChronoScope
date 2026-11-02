@@ -1,5 +1,7 @@
 # ChronoScope local validation, 0.23.000
 
+This retained pre-publication snapshot is followed by the approved publication and deployment record in `docs/releases/0.23.000.md`.
+
 The implementation and fresh experiment are committed in `66dda79`; the model-marker preservation fix is `a05ed7d`, and final clean-export fixes are `9dcb47b` and `260b6d7`. This record concerns local computation and
 rendering. It does not establish remote CI, a published manuscript, deployment or owner
 acceptance.

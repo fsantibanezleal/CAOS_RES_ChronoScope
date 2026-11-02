@@ -59,8 +59,7 @@ pretend to rerun foundation models. Local scientific tests, notebook reproductio
 frontend checks and the browser matrix are recorded separately from remote delivery.
 
 The [manuscript review set](manuscripts/README.md) contains the detailed report, the
-contextual-combination paper and a revision of the streaming study. These are local
-candidates; external publication and the strict manuscript release gate remain pending.
+contextual-combination paper and a revision of the streaming study. The technical report, proposal preprint and streaming revision 2.4 are published with verified PDF checksums and separate manuscript records.
 
 
 ## Areas

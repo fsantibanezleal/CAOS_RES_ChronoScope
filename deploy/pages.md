@@ -3,10 +3,9 @@
 The default deploy for this archetype (ADR-0055 Pages-first): the SPA + the committed artifacts are served
 statically; there is **no backend** at request time. The workflow `.github/workflows/deploy-pages.yml`:
 
-1. regenerates the artifacts deterministically (`python -m chronoscopelab.pipeline all`) so the site replays fresh,
-   audited outputs;
-2. builds the frontend (`cd frontend && npm ci && npm run build`: `copy-data.mjs` overlays `data/derived` into
-   `public/`);
+1. waits for successful `main` CI and checks that success belongs to the exact commit being deployed;
+2. uses Node 24, installs dependencies, runs frontend tests and builds from the committed admitted artifacts.
+   `copy-data.mjs` replaces the generated public corpus from canonical inputs; no heavy model training runs in CI;
 3. uploads `frontend/dist` and deploys to Pages.
 
 Enable once per product: repo **Settings → Pages → Source = GitHub Actions**. Custom domain: set via

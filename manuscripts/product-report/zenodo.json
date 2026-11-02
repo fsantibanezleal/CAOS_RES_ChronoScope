@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "upload_type": "publication",
+    "publication_type": "report",
+    "title": "ChronoScope: Forecasting Implementations, Contiguous-History Evaluation and Context-Dependent Combination",
+    "creators": [
+      {
+        "name": "Santibáñez-Leal, Felipe",
+        "orcid": "0000-0002-0150-3246",
+        "affiliation": "CAOS open-research programme, Santiago, Chile"
+      }
+    ],
+    "description": "<p>Forecast comparisons are useful only when their information sets, implementation identities and scoring targets are explicit. ChronoScope combines a diagnostic atlas with a reproducible forecasting workbench. Its fresh final-block experiment executes twenty-two variants on fifteen selected series with recorded package and checkpoint identities. A separate archived-path comparison retains fourteen released model paths alongside five corrected lightweight methods and three matching-expert combinations. Two algorithm defects were corrected: additive HoltWinters seasonal continuation after an incomplete cycle, and a finite-history term in Theta. A separate evaluation defect was identified and invalidated: display-decimated replay histories had been used as consecutive fitting observations. Reconstructing the original observations changes the historical scales and the recomputed predictions. Under the corrected protocol, ContextMemory has mean MASE 1.4504, compared with 1.4489 for RecencyMean and 1.8970 for EqualMean. The additional context component therefore fails its declared aggregate criterion. A source-bound artifact, normative schemas, generated browser types and eight executed bilingual lessons make the implementation and its limits inspectable. One origin per selected series, bounded training configurations and unverified pretraining overlap preclude population superiority or deployment claims.</p><p>Source code, admitted inputs and computational records: https://github.com/fsantibanezleal/CAOS_RES_ChronoScope . Research atlas: https://chronoscope.fasl-work.com . Not peer reviewed.</p>",
+    "keywords": [
+      "time-series forecasting",
+      "reproducibility",
+      "forecast combination",
+      "benchmark",
+      "uncertainty"
+    ],
+    "license": "cc-by-4.0",
+    "language": "eng",
+    "version": "0.23.000",
+    "related_identifiers": [
+      {
+        "relation": "isSupplementedBy",
+        "identifier": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope",
+        "resource_type": "software"
+      },
+      {
+        "relation": "isSupplementedBy",
+        "identifier": "https://pypi.org/project/preqts/",
+        "resource_type": "software"
+      }
+    ],
+    "publication_date": "2026-11-02",
+    "version_notes": "Detailed report of the forecasting implementations, corrected contiguous-history comparison, fresh full-roster execution, negative combination result and engineering validation."
+  }
+}

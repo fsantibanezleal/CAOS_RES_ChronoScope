@@ -95,7 +95,7 @@ export default function BenchmarkCurrent() {
       <option value="archived">{t('Archived predictions rescored', 'Pronósticos archivados repuntuados')}</option>
     </select></label>
     {err ? <p role="alert">{err}</p> : !data ? <p data-state="loading">{t('Loading admitted results', 'Cargando resultados admitidos')}</p> : <SubTabs ariaLabel={t('Benchmark topics', 'Temas de comparación')} tabs={[
-      { id:'results',label:t('Common results','Resultados comunes'),content:<DocSection title={{en:'Common final holdout',es:'Bloque final común'}} area="results" refs={['mase','msis']}><CommonHoldout data={data} /></DocSection> },
+      { id:'results',label:t('Common results','Resultados comunes'),content:<DocSection title={{en:'Common final holdout',es:'Bloque final común'}} area="results" refs={['chronoscope-report','mase','msis']}><CommonHoldout data={data} /></DocSection> },
       { id:'real',label:t('Real series','Series reales'),content:<DocSection title={{en:'Models on the same real outcomes',es:'Modelos sobre los mismos resultados reales'}} area="comparison" refs={['uci-electricity','mase']}>
         <CaseSelect cases={real} value={realCase?.case_id ?? ''} onChange={setCaseId} />
         {realCase && <Figure caption={t('These model paths share one real historical cutoff and the same final observations.', 'Estas trayectorias comparten un corte histórico real y las mismas observaciones finales.')}><UPlotChart xs={realCase.actual.map((_,i)=>i+1)} series={[

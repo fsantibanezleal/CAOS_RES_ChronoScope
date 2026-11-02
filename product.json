@@ -31,5 +31,24 @@
     "chronoscopelab.engines.timesfm_engine.TimesFmForecaster",
     "chronoscopelab.engines.tirex2_engine.Tirex2Forecaster"
   ],
-  "manuscripts": []
+  "manuscripts": [
+    {
+      "kind": "technical-report",
+      "concept_doi": "10.5281/zenodo.23874816",
+      "title": "ChronoScope: Forecasting Implementations, Contiguous-History Evaluation and Context-Dependent Combination",
+      "version": "0.23.000",
+      "covers": [
+        "BS-1"
+      ]
+    },
+    {
+      "kind": "manuscript",
+      "concept_doi": "10.5281/zenodo.23874820",
+      "title": "Within-Series Context Memory for Forecast Combination: A Fixed-Configuration Experiment with a Negative Aggregate Result",
+      "version": "0.1",
+      "covers": [
+        "BS-1"
+      ]
+    }
+  ]
 }

@@ -30,10 +30,10 @@
 
 % Page-1 header block (conventions/manuscript-header-standard.md). The four document
 % macros are set by the publishing tool when the version DOI is reserved.
-\newcommand{\doctype}{Working manuscript}
+\newcommand{\doctype}{Preprint}
 \newcommand{\docversion}{v2.4}
-\newcommand{\docdate}{1 November 2026}
-\newcommand{\versiondoi}{Not assigned; local revision draft}
+\newcommand{\docdate}{2 November 2026}
+\newcommand{\versiondoi}{10.5281/zenodo.23874824}
 \newcommand{\conceptdoi}{10.5281/zenodo.21508920}
 \newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
 \newcommand{\headerblock}{%
@@ -185,7 +185,7 @@ $y_{0:t-1}$ and observations subsequently revealed at earlier cutoffs. It return
 $q\in\{0.1,0.5,0.9\}$. The prediction is recorded and scored against the next observation before
 that observation is passed to the forecaster:
 \begin{equation}
-(\hat Q_{t,0.1},\hat Q_{t,0.5},\hat Q_{t,0.9})=f_\text{predict}(s_t),\qquad
+(\hat Q_{t,0.1},\hat Q_{t,0.5},\hat Q_{t,0.9})=f_\text{predict}(s_t),\quad
 s_{t+1}=f_\text{ingest}(s_t,y_t).
 \end{equation}
 The initial context length is $w=\min(\max(2m,20),\max(1,\lfloor T/3\rfloor))$. The harness

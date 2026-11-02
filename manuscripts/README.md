@@ -1,32 +1,15 @@
-# Manuscript review set
+# Published manuscripts
 
-These are local review candidates. No new Zenodo record or manuscript version has been
-published in this refactor. The strict manuscript gate remains a release requirement;
-an unpublished candidate is never entered as a published record in `product.json`.
+All three records were published on 2 November 2026 after approval. Each contains exactly one PDF; fresh unauthenticated downloads matched the frozen hashes. These are technical reports or preprints, not peer-reviewed articles.
 
-| Candidate | Canonical PDF | Source | Status |
+| Document | Published record | Canonical PDF | Source |
 |---|---|---|---|
-| Detailed product report | [Product report](product-report/main.pdf) | [LaTeX](product-report/tex/main.tex) | Local draft; separate concept and version DOIs required |
-| ContextMemory and matching ablations | [Proposal manuscript](context-memory/main.pdf) | [LaTeX](context-memory/tex/main.tex) | Local draft; separate record required; retains the negative result |
-| Streaming evaluation revision | [Streaming manuscript](prequential-streaming-conformal/main.pdf) | [LaTeX](prequential-streaming-conformal/tex/main.tex) | Local revision 2.4; existing published version remains 2.3 |
+| Product report, v0.23.000 | [23874817](https://zenodo.org/records/23874817) | [Report](product-report/main.pdf) | [LaTeX](product-report/tex/main.tex) |
+| ContextMemory experiment, v0.1 | [23874821](https://zenodo.org/records/23874821) | [Proposal](context-memory/main.pdf) | [LaTeX](context-memory/tex/main.tex) |
+| Streaming revision, v2.4 | [23874824](https://zenodo.org/records/23874824) | [Streaming study](prequential-streaming-conformal/main.pdf) | [LaTeX](prequential-streaming-conformal/tex/main.tex) |
 
-The published companion streaming study has concept DOI
-[10.5281/zenodo.21508920](https://doi.org/10.5281/zenodo.21508920) and version 2.3 record
-[22825217](https://zenodo.org/records/22825217). It does not report the newly implemented
-contextual forecasting proposal, and is not used to cover that proposal in the registry.
+The report has concept DOI [23874816](https://doi.org/10.5281/zenodo.23874816), and the contextual proposal has concept DOI [23874820](https://doi.org/10.5281/zenodo.23874820). The streaming revision continues concept [21508920](https://doi.org/10.5281/zenodo.21508920); its earlier version 2.3 remains preserved as record [22825217](https://zenodo.org/records/22825217).
 
-The product report separates the archived-path comparison from fresh final-block
-executions. The streaming manuscript retains the original streaming measurements and
-identifies its historical smoothing-plus-drift adapter separately from the corrected
-finite-history Theta implementation. Revising prose does not rerun that old experiment.
+The report separates archived-path comparison from fresh final-block execution. The contextual proposal retains its negative aggregate result. The streaming paper retains the original measurements and distinguishes its historical smoothing-plus-drift adapter from the corrected finite-history Theta implementation. It does not report the new contextual proposal and is not assigned that claim in the product registry.
 
-To reproduce numerical figures and tables, run the report's evidence generator from the
-repository root in the notebook environment. Compile each source from its `tex` folder
-with `latexmk -pdf main.tex`, then copy the resulting PDF to its canonical manuscript
-root. Render every page for visual review and run the scientific-voice and content gates.
-Exact package and checkpoint identities belong to the numerical artifacts, not to a DOI
-reservation or a successful PDF build.
-
-Publication requires review of these concrete PDFs, actual DOI assignment, updated DOI
-headers, recompilation and verification of the published records before updating the
-strict product registry. Remote promotion and live deployment remain separate gates.
+Each manuscript folder contains publication metadata and a verification receipt. The approval manifest retains reviewed draft hashes alongside published file hashes. Supporting code and data remain in the software repository, separate from the one-PDF manuscript records. Remote CI and deployment are separate release checks.
