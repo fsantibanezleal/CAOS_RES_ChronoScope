@@ -7,7 +7,7 @@ and Bash entry points call the same standard-library workflow implementation.
 
 Set `CAOS_TEMP_ROOT` to an external scratch directory. Generation recomputes the eight
 light variants from the immutable released histories and rescores fourteen frozen model
-paths. It carries the already admitted fresh experiment unchanged and verifies its source, input and metric bindings. It does not train or download foundation models. The explicit
+paths. It carries the already admitted fresh experiment unchanged and verifies its source, input and metric bindings. The complete admitted sequence diagnostics and M4 corpus study are carried unchanged and checked independently. It does not rerun the corpus forecasts, train or download foundation models. The explicit
 `02_generate-data --release --from-stage <candidate>` operation validates source and
 payload fingerprints, then promotes the complete candidate transactionally. A partial
 corpus, altered released input, stale implementation binding, source change during
@@ -22,3 +22,6 @@ Local validation: `python scripts/check_notebooks.py`, then
 `python scripts/run_notebooks.py --check --tmp <external scratch directory>`.
 Full scientific tests use `.venv` and run locally, outside CI. CI performs schema,
 content, design, manuscript declaration, notebook static, frontend and guard tests.
+
+For complete sequence/corpus reproduction and the distinction between full forecast execution and
+compact-table lesson checks, see the [research extension guide](../../docs/guides/research-extensions.md).

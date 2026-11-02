@@ -46,7 +46,7 @@ export function SequenceDiagnostics({ data }: { data?: SequenceData }) {
       <div className="cs-table-scroll"><table className="cs-table"><caption>{t('Detected candidate windows on the original axis', 'Ventanas candidatas sobre el eje original')}</caption><thead><tr><th>{t('Kind', 'Tipo')}</th><th>{t('Start', 'Inicio')}</th><th>{t('End', 'Fin')}</th><th>{t('Distance', 'Distancia')}</th></tr></thead><tbody>
         {p.motifs.flatMap((m, i) => [m.start,m.match].map((start, j) => <tr key={`m${i}-${j}`}><td>{t('Motif pair', 'Par de motivos')}</td><td>{start}</td><td>{start+p.window-1}</td><td>{fmt(m.distance)}</td></tr>))}
         {p.discords.map((d, i) => <tr key={`d${i}`}><td>{t('Discord', 'Discordancia')}</td><td>{d.start}</td><td>{d.start+p.window-1}</td><td>{fmt(d.distance)}</td></tr>)}
-        {p.regime_boundaries.map(b => <tr key={`b${b}`}><td>FLUSS</td><td>{b}</td><td>—</td><td>—</td></tr>)}
+        {p.regime_boundaries.map(b => <tr key={`b${b}`}><td>FLUSS</td><td>{b}</td><td>{t("n/a", "n/d")}</td><td>{t("n/a", "n/d")}</td></tr>)}
       </tbody></table></div>
     </> : <p>{p.reason}</p>}
     <UPlotChart xs={entropy.map(s => s.scale)} series={[{ label: t('Sample entropy', 'Entropía muestral'), values: entropy.map(s => s.entropy), color: 'var(--color-good)' }]}

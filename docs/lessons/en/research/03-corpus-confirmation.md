@@ -58,7 +58,9 @@ The selector is now fitted again from the compact discovery rows. It uses the fi
 
 ## Results
 
-**Answer:** <!-- code: selection_plot -->
+**Answer:** The selector reaches {{SELECTED}} mean MASE against {{CONSTANT}} for the discovery constant. The admitted counts, corrected feature decisions and confirmation selection errors below answer the fixed corpus question. A reproduced selector score verifies the table calculation; it does not turn a retrospective oracle into a forecasting policy or establish population superiority.
+
+<!-- code: selection_plot -->
 
 The oracle bar uses future scores to choose a different winner for every confirmation series. It is therefore a lower reference within this roster, not a deployable rule. The constant method was chosen from discovery only, and the forest makes its choices from available prefix features. Read both deployable rules against the same confirmation rows and units. A low oracle error can coexist with an unsuccessful learned selector because the features may not reliably identify the individual winners.
 

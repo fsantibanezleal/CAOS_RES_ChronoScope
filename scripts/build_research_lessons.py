@@ -106,7 +106,7 @@ fig.tight_layout()
 plt.show()
 """,
     "corpus": DATA
-    + """study = json.loads((root / "data/derived/forecastability.json").read_text())
+    + """study = json.loads((root / "data/derived/forecastability.json").read_text(encoding="utf-8"))
 discovery = [r for r in study["series"] if r["partition"] == "discovery"]
 confirmation = [r for r in study["series"] if r["partition"] == "confirmation"]
 print("Source series:", study["source_n"])
@@ -190,7 +190,13 @@ CODES["selection_plot"] = CODES["selection_plot"].replace(
 )
 
 
+CODES["sensitivity"] = """short_profile = matrix_profile(values, window=12)
+print("Short-window motif pair:", short_profile["motifs"])
+print("Short-window candidate boundaries:", short_profile["regime_boundaries"])
+"""
+
 COMMENTS = {
+    "sensitivity": "Compare a fixed shorter window without selecting a favorable result.",
     "setup": "Configure a portable session and suppress only the known repeated-shape control warning.",
     "data": "Read every original observation from the admitted structural-break case.",
     "profile": "Calculate the exact normalized self-join and retain original window positions.",

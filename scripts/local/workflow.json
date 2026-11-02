@@ -96,7 +96,8 @@
     "data/derived/manifests/index.json",
     "data/derived/reevaluation.json",
     "models/selector.json",
-    "data/derived/fresh-reevaluation.json"
+    "data/derived/fresh-reevaluation.json",
+    "data/derived/forecastability.json"
   ],
   "promote": [
     "data/derived",

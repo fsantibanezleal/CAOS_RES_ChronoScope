@@ -56,10 +56,15 @@ try {
       for (const value of ['discovery','confirmation','all']) {
         await partition.selectOption(value); assert.equal(await partition.inputValue(),value);
       }
+      await page.getByRole('combobox',{name:lang === 'es'?'Característica del prefijo':'Prefix feature'}).selectOption('history_length');
       await page.getByRole('combobox',{name:lang === 'es'?'Método del corpus':'Corpus method'}).selectOption('AutoETS');
+      await page.getByRole('button',{name:lang === 'es'?'Página siguiente':'Next page',exact:true}).click();
+      await page.getByRole('button',{name:lang === 'es'?'Página anterior':'Previous page',exact:true}).click();
       const firstId = source.series[0].id;
       await page.getByRole('textbox',{name:lang === 'es'?'Buscar serie':'Find series'}).fill(firstId);
-      assert.ok(await page.locator('[data-forecastability-study] table').nth(1).getByRole('button',{name:firstId,exact:true}).count());
+      await page.locator('[data-forecastability-study] table').nth(1).getByRole('button',{name:firstId,exact:true}).click();
+      assert.ok((await page.locator('[data-forecastability-study] [aria-live]').innerText()).includes(firstId));
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1),'Corpus overflows the viewport');
       await page.screenshot({path:resolve(output,`corpus-${lang}-${theme}-${width}.png`),fullPage:true});
       states.push({lang,theme,width,view:'corpus',series:source.included_n,partition_filters:3,method:'AutoETS'});
     }

@@ -46,7 +46,9 @@ A change of positive units and an additive offset should preserve the median ord
 
 ## Results
 
-**Answer:** <!-- code: entropy_plot -->
+**Answer:** The binary phrase count is 13 and its normalization is 0.3566. The entropy curve varies with scale under one fixed original tolerance, while the binary phrase count describes a different representation. Reversal changes the signed lag statistic. None of these descriptive values alone certifies chaos, significance or forecast accuracy.
+
+<!-- code: entropy_plot -->
 
 The two curves share a declared tolerance convention, but they describe different sequences. The case curve can change as local ordering is averaged away, whereas the constant control remains at zero wherever the sample-size rule admits an estimate. Missing endpoints should remain visible as missing values. A falling curve alone does not prove randomness, and a sustained curve does not prove useful long-range forecast information in this finite, nonstationary record.
 

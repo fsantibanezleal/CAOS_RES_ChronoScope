@@ -36,9 +36,15 @@ The independent library call exposes the same exact distance profile. Agreement 
 
 FLUSS reads nearest-neighbor arcs and constructs a corrected arc curve. The product asks for three candidate regimes and reports their internal boundaries. It is given a count, not the generator's known break locations. This distinction matters: the requested number of regimes must not be presented as an estimate of how many true changes exist. The boundaries use the complete sequence and therefore describe a retrospective analysis rather than information available at an earlier prediction origin.
 
+A second window of twelve observations tests sensitivity to the declared local shape scale. It is a diagnostic comparison, not a search for the most favorable annotation.
+
+<!-- code: sensitivity -->
+
 ## Results
 
-**Answer:** <!-- code: pattern_plot -->
+**Answer:** The selected motif windows start at 112 and 232 on the original axis. FLUSS proposes boundaries at 104 and 239 for the requested three regimes. These candidates describe the observed shapes; their positions do not establish known generator breaks or a prospective alarm.
+
+<!-- code: pattern_plot -->
 
 The upper panel keeps the original observation axis and shows the motif intervals against the raw values. The lower panel assigns a distance to each window start, so its final index is smaller than the raw sequence's final index. Read the interval width before comparing a profile feature with a point in the upper panel. A minimum identifies a close eligible neighbor; a maximum identifies a window whose best available neighbor is relatively distant under the declared normalization.
 

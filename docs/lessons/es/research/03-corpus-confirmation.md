@@ -58,7 +58,9 @@ El selector se vuelve a entrenar con las filas compactas de descubrimiento. Usa 
 
 ## Resultados
 
-**Respuesta:** <!-- code: selection_plot -->
+**Respuesta:** El selector obtiene MASE medio {{SELECTED}} frente a {{CONSTANT}} de la constante de descubrimiento. Los conteos admitidos, decisiones corregidas y errores de selección confirmatoria responden la pregunta fija del corpus. Reproducir la puntuación verifica el cálculo de la tabla; no convierte el oráculo retrospectivo en una política ni establece superioridad poblacional.
+
+<!-- code: selection_plot -->
 
 La barra del oráculo usa medidas futuras para elegir un ganador distinto en cada serie de confirmación. Es una referencia inferior dentro del conjunto, no una regla desplegable. El método constante se eligió solo en descubrimiento y el bosque decide usando características de prefijos disponibles. Lea ambas reglas sobre las mismas filas y unidades. Un error bajo del oráculo puede coexistir con un selector desfavorable porque las características no identifican fiablemente a los ganadores individuales.
 

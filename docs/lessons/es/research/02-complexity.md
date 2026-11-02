@@ -46,7 +46,9 @@ Un cambio positivo de unidades y un desplazamiento deberían conservar el orden 
 
 ## Resultados
 
-**Respuesta:** <!-- code: entropy_plot -->
+**Respuesta:** El conteo de frases binarias es 13 y su normalización es 0.3566. La curva de entropía cambia con la escala bajo una tolerancia original fija, mientras el conteo de frases binarias describe otra representación. Invertir el orden cambia el signo del estadístico. Ninguno de estos valores descriptivos certifica por sí solo caos, significancia o precisión de pronóstico.
+
+<!-- code: entropy_plot -->
 
 Las curvas comparten una convención de tolerancia, pero describen secuencias diferentes. La curva del caso puede cambiar al eliminarse detalles de orden mediante promedios; el control constante permanece en cero donde la regla de tamaño permite estimarlo. Los extremos ausentes deben seguir viéndose como ausentes. Una curva descendente no demuestra aleatoriedad, y una curva persistente tampoco prueba información predictiva de largo alcance en este registro finito y no estacionario.
 

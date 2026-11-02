@@ -36,9 +36,15 @@ La llamada independiente a la biblioteca expone el mismo perfil exacto de distan
 
 FLUSS lee los arcos entre vecinos y construye una curva corregida. El producto solicita tres regímenes candidatos y comunica sus límites internos. Recibe una cantidad, no los puntos de quiebre conocidos del generador. Esta diferencia importa: la cantidad solicitada no debe presentarse como una estimación del número de cambios verdaderos. Los límites usan la secuencia completa, por lo que describen un análisis retrospectivo y no información disponible en un origen anterior de predicción.
 
+Una ventana de doce observaciones permite examinar sensibilidad a la escala local declarada. Es una comparación diagnóstica, no una búsqueda de anotaciones favorables.
+
+<!-- code: sensitivity -->
+
 ## Resultados
 
-**Respuesta:** <!-- code: pattern_plot -->
+**Respuesta:** Las ventanas del par de motivos comienzan en 112 y 232 sobre el eje original. FLUSS propone límites en 104 y 239 para los tres regímenes solicitados. Los candidatos describen formas observadas; sus posiciones no establecen rupturas conocidas del generador ni una alarma prospectiva.
+
+<!-- code: pattern_plot -->
 
 El panel superior conserva el eje original y muestra los intervalos de motivos sobre los valores brutos. El panel inferior asigna una distancia a cada inicio de ventana; su último índice es menor que el último índice de la secuencia. Lea el ancho del intervalo antes de asociar una característica del perfil con un punto superior. Un mínimo identifica un vecino elegible cercano; un máximo señala una ventana cuyo mejor vecino disponible resulta relativamente distante bajo la normalización declarada.
 
