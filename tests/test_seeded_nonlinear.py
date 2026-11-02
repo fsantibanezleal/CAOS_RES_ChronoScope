@@ -21,7 +21,7 @@ def test_seeded_fit_preserves_global_rng_and_repeats_after_unrelated_random_draw
     assert chaos_measures(x, seed=42) == first
 
 
-def test_independent_processes_reproduce_identical_robust_estimates():
+def test_adversarial_independent_processes_reproduce_identical_robust_estimates():
     code = """import json,numpy as np
 from dataclasses import asdict
 from chronoscopelab.analysis.nonlinear import chaos_measures

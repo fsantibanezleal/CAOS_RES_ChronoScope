@@ -1,4 +1,5 @@
 import { Callout, Cite, DocPage, DocSection, Equation, Figure, SubTabs, useShellLang } from '@fasl-work/caos-app-shell';
+import { RESEARCH_TOPICS } from '../data/researchTopics';
 
 type Bi = { en: string; es: string };
 type Topic = { id: string; name: string; kind: 'classical' | 'learned'; refs: string[]; paragraphs: Bi[]; equations: [string, Bi][]; flow: Bi[]; caveat: Bi };
@@ -82,8 +83,8 @@ const topics: Topic[] = [
 export default function MethodologyCurrent() {
   const lang = useShellLang();
   const show = (v: Bi) => v[lang];
-  return <DocPage title={{ en: 'Methodology', es: 'Metodología' }} lede={show(bi('The forecasting methods differ in their assumptions, fitting budgets, information use and uncertainty construction. These six topics describe the configured computations, connect their equations to source implementations, and explain the limits that matter when their outputs are compared on the selected cases.', 'Los métodos difieren en hipótesis, presupuestos de ajuste, uso de información y construcción de incertidumbre. Estos seis temas describen los cómputos configurados, conectan ecuaciones e implementaciones y explican los límites relevantes al comparar sus resultados en los casos seleccionados.'))}>
-    <SubTabs ariaLabel={lang === 'es' ? 'Métodos de pronóstico' : 'Forecasting methods'} tabs={topics.map(topic => ({
+  return <DocPage title={{ en: 'Methodology', es: 'Metodología' }} lede={show(bi('The forecasting methods differ in their assumptions, fitting budgets, information use and uncertainty construction. These method topics describe the configured computations, connect their equations to source implementations, and explain the limits that matter when their outputs are compared on the selected cases.', 'Los métodos difieren en hipótesis, presupuestos de ajuste, uso de información y construcción de incertidumbre. Estos temas describen los cómputos configurados, conectan ecuaciones e implementaciones y explican los límites relevantes al comparar sus resultados en los casos seleccionados.'))}>
+    <SubTabs ariaLabel={lang === 'es' ? 'Métodos y diagnósticos' : 'Methods and diagnostics'} tabs={[...topics, ...RESEARCH_TOPICS].map(topic => ({
       id: topic.id, label: topic.name, content: <DocSection title={{ en: topic.name, es: topic.name }} area="method" kind={topic.kind} refs={topic.refs}>
         {topic.paragraphs.map((p, i) => <p key={i}>{show(p)}{i === 0 && <> <Cite id={topic.refs[0]} /></>}</p>)}
         {topic.equations.map(([tex, caption]) => <Equation key={tex} tex={tex} caption={show(caption)} />)}

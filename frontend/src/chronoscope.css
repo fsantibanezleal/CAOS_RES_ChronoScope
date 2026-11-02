@@ -152,3 +152,5 @@ html { contain: layout; }
 
 /* Keep wide provenance tables inside the document on phones and enlarged fonts. */
 .cs-table-scroll { max-width: 100%; overflow-x: auto; }
+.cs-corpus-controls .cs-ctl { min-width: 0; max-width: 100%; flex: 1 1 12rem; }
+.cs-corpus-controls .cs-sel { min-width: 0; max-width: 100%; width: 100%; box-sizing: border-box; }

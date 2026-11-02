@@ -77,7 +77,11 @@ def validate(stage):
     from check_fresh_reevaluation import validate as validate_fresh
 
     validate_fresh(read(stage / "data/derived/fresh-reevaluation.json"), root=ROOT, artifact_root=stage)
-    print("Product admission: complete frozen corpus, archived comparison and 22 freshly executed variants")
+    from check_research_extensions import validate_study, validate_diagnostics
+
+    validate_diagnostics(root=stage)
+    validate_study(read(stage / "data/derived/forecastability.json"), root=ROOT)
+    print("Product admission: complete case diagnostics, fresh comparison and source-bound M4 corpus")
 
 
 def main():

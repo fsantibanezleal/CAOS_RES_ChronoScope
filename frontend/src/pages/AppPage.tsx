@@ -798,7 +798,7 @@ export default function AppPage() {
           <>
             <div className="cs-bar-group">
               <span className="cs-bar-label">{es ? 'Caso' : 'Case'}</span>
-              <select className="cs-sel" value={caseId} onChange={(e) => setCaseId(e.target.value)}>
+              <select className="cs-sel" aria-label={es ? 'Caso' : 'Case'} value={caseId} onChange={(e) => setCaseId(e.target.value)}>
                 {groups.map((g) => {
                   const opts = (index?.cases ?? []).filter((c) => caseGroup(c.case_id) === g);
                   return opts.length ? <optgroup key={g} label={g}>{opts.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id.replace(/_/g, ' ')}</option>)}</optgroup> : null;
@@ -815,7 +815,7 @@ export default function AppPage() {
         ) : (
           <div className="cs-bar-group">
             <span className="cs-bar-label">{es ? 'Patrón' : 'Pattern'}</span>
-            <select className="cs-sel" value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
+            <select className="cs-sel" aria-label={es ? 'Patrón sintético' : 'Synthetic pattern'} value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
               {KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
             </select>
             <span className="cs-badge live">LIVE</span>

@@ -36,6 +36,14 @@ UNVERIFIED: Stored trajectories do not contain per-step controller state, comple
 
 The committed index lists 15 cases. Four are real-data excerpts and eleven are generated cases, including white-noise and near-random-walk controls. Each case can carry trace, analysis, streaming, and manifest artifacts. Contract 1 validates source provenance and license policy; Contract 2 connects pipeline artifacts to the TypeScript consumer. Redacted sources expose aggregate metrics without raw values or paths.
 
+- Sequence/corpus extension primary reference: https://cschoel.github.io/nolds/nolds.html
+- Sequence/corpus extension primary reference: https://doi.org/10.1103/PhysRevLett.89.068102
+- Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2016.0179
+- Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2017.21
+- Sequence/corpus extension primary reference: https://doi.org/10.1109/TIT.1976.1055501
+- Sequence/corpus extension primary reference: https://doi.org/10.5281/zenodo.4656548
+- Sequence/corpus extension primary reference: https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html
+
 ## Technology and versions
 
 | component | package | version | use | alternative considered |

@@ -7,7 +7,7 @@ import pytest
 from chronoscopelab.analysis.sequence import multiscale_entropy, sequence_report, matrix_profile, time_reversal
 
 
-def test_profile_matches_exhaustive_z_normalized_distance_oracle():
+def test_adversarial_profile_matches_exhaustive_z_normalized_distance_oracle():
     x = np.random.default_rng(3).normal(size=64)
     m = 8
     got = matrix_profile(x, window=m)
@@ -51,7 +51,7 @@ def test_lempel_ziv_binary_mapping_and_known_periodic_sequence():
     assert report['lempel_ziv']['normalized'] == pytest.approx(3*np.log2(32)/32)
 
 
-def test_multiscale_entropy_uses_original_tolerance_and_independent_pair_counts():
+def test_adversarial_multiscale_entropy_uses_original_tolerance_and_independent_pair_counts():
     x = np.array([0, 1, 0, 1, 0, 1, 1, 0] * 20, dtype=float)
     report = multiscale_entropy(x, scales=(1, 2, 4), tolerance_ratio=.3)
     tolerance = .3 * np.std(x)

@@ -34,6 +34,10 @@ def adjusted(p):
 def validate_study(d: dict, root: Path = ROOT, statistics_check: bool = False):
     if d.get('schema') != 'chronoscope.forecastability/v1' or d.get('complete') is not True or d.get('source_n') != 4227:
         raise ValueError('A partial/trial corpus cannot be admitted')
+    if (d.get('source_sha256') != 'd4d70b66ab4685a493f201bfff311c5495bf34972c206a1add0027d6d2a57d38'
+            or d['source'].get('record') != 4656548 or d['source'].get('license') != 'cc-by-4.0'
+            or d['source'].get('sha256') != '0f07fc3b67a93be1865de7853e06d8ad212f1a8cb8436ba859920cfe5625d889'):
+        raise ValueError('Corpus differs from the verified licensed source')
     rows = d['series']
     if len(rows) < 3000 or d['included_n'] != len(rows) or len(rows)+len(d['excluded']) != 4227:
         raise ValueError('Corpus inventory is incomplete')

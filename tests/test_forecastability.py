@@ -21,7 +21,7 @@ def test_duplicate_identity_always_stays_in_the_same_partition():
     assert {partition(f'{i:064x}') for i in range(50)} == {'discovery','confirmation'}
 
 
-def test_future_changes_do_not_change_origin_features():
+def test_adversarial_future_changes_do_not_change_origin_features():
     # The exact prefix consumed by the production evaluator, not a shuffled full series.
     rng = np.random.default_rng(17)
     full = rng.normal(size=160)

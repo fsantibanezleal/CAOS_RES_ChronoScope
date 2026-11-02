@@ -3,6 +3,15 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.24.000] - 2026-11-02
+
+- Add exact original-sequence Matrix Profile motifs, discord windows and FLUSS candidates with interactive annotations.
+- Add fixed-tolerance multiscale entropy, binary Lempel-Ziv complexity and raw/standardized time-reversal statistics.
+- Isolate nonlinear robust-fit random states and require two identical diagnostic bakes for every case.
+- Add a fixed-protocol M4 Daily corpus evaluator with prefix-only features, dependent-test correction, disjoint-series confirmation and held-out method selection.
+- Execute the full 22-variant GPU comparison again against current source bindings; preserve the ContextMemory negative aggregate result.
+- Add normative corpus contracts, independent admission checks, a corpus explorer and bilingual methodological lessons.
+
 ## [0.23.000] - 2026-11-02
 
 - Refactor the executive and technical views onto the current shared shell and normative generated contracts.
@@ -115,7 +124,7 @@ names the current version again.
   the one capability `preqts` was built for (covariates with an explicit ARRIVAL POLICY) that nothing in the
   atlas exercised until now. A weekly-seasonal target plus a scheduled-promotion driver, attached as a
   `known_future` `Covariate`; the driver is known ahead but not predictable from the target's own history.
-  - `io/schema.py`: a `Covariate` dataclass (name, values, kind ∈ {known_future, past}, lag) + optional
+  - `io/schema.py`: a `Covariate` dataclass (name, values, kind âˆˆ {known_future, past}, lag) + optional
     `SeriesSpec.covariates` / `ForecastResult.covariates`; univariate cases are unchanged (empty tuple).
   - `stages/streaming.py`: builds a `preqts.Stream` carrying the covariate with its arrival policy, and for
     a known-future covariate adds **Ridge (blind)** vs **Ridge+exog (aware)** to the roster: the same online
