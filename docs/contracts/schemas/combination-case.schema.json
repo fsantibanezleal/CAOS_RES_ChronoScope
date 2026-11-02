@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CombinationCase",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "chronoscope.combination-case/v1"
+    },
+    "id": {
+      "type": "string"
+    },
+    "dataset": {
+      "enum": [
+        "m4_weekly",
+        "m3_monthly",
+        "selected_cases"
+      ]
+    },
+    "source_n": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sequence_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "origins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "origin": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "prefix_start": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "prefix_length": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "prefix_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "scale": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "actual": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 1
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "quantiles": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  }
+                },
+                "metrics": {
+                  "type": "object",
+                  "properties": {
+                    "mae": {
+                      "type": "number"
+                    },
+                    "rmse": {
+                      "type": "number"
+                    },
+                    "mase": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "coverage": {
+                      "type": "number"
+                    },
+                    "mean_width": {
+                      "type": "number"
+                    },
+                    "msis": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "wql": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "mae",
+                    "rmse",
+                    "mase",
+                    "coverage",
+                    "mean_width",
+                    "msis",
+                    "wql"
+                  ],
+                  "additionalProperties": false
+                },
+                "weights": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 5,
+                  "maxItems": 5
+                },
+                "memory_origins": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "selected": {
+                  "type": "array",
+                  "items": {
+                    "type": [
+                      "string",
+                      "number"
+                    ]
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "validation_blocks": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "name",
+                "quantiles",
+                "metrics"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "origin",
+          "prefix_start",
+          "prefix_length",
+          "prefix_sha256",
+          "scale",
+          "actual",
+          "methods"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "excluded": {
+      "type": "string"
+    },
+    "representative": {
+      "type": "string"
+    },
+    "seasonality": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "horizon": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "dataset",
+    "source_n",
+    "sequence_sha256",
+    "origins"
+  ],
+  "additionalProperties": false
+}

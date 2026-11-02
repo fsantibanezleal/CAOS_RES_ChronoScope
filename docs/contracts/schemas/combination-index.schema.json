@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CombinationIndex",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "chronoscope.combination-index/v1"
+    },
+    "complete": {
+      "const": true
+    },
+    "identity": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "protocol": {
+      "type": "object"
+    },
+    "code_sha256": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "export_code_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "packages": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "selected_case_source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "cohorts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "inventory": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "admitted": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "excluded": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "exclusion_reasons": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "origins": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "summary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "series": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "mase": {
+                  "type": "number"
+                },
+                "mae": {
+                  "type": "number"
+                },
+                "coverage": {
+                  "type": "number"
+                },
+                "mean_width": {
+                  "type": "number"
+                },
+                "msis": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name",
+                "series",
+                "mase",
+                "mae",
+                "coverage",
+                "mean_width",
+                "msis"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "selection_counts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "inventory",
+          "admitted",
+          "excluded",
+          "exclusion_reasons",
+          "origins",
+          "summary",
+          "selection_counts"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "dataset": {
+            "type": "string"
+          },
+          "source_n": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^combinations/(m4_weekly|m3_monthly|selected_cases)/[A-Za-z0-9_]+\\.json$"
+          },
+          "origins": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "excluded": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "dataset",
+          "source_n",
+          "path",
+          "origins"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1802,
+      "maxItems": 1802
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "doi": {
+            "type": "string"
+          },
+          "license": {
+            "const": "CC-BY-4.0"
+          },
+          "tsf_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "zip_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "horizon": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "seasonality": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "doi",
+          "license",
+          "tsf_sha256",
+          "zip_sha256",
+          "horizon",
+          "seasonality"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "browser_forecast_decimals": {
+      "const": 8
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "uncompressed_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "uncompressed_sha256",
+        "scope"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "complete",
+    "identity",
+    "protocol",
+    "code_sha256",
+    "export_code_sha256",
+    "packages",
+    "selected_case_source_sha256",
+    "cohorts",
+    "cases",
+    "sources",
+    "browser_forecast_decimals",
+    "audit"
+  ],
+  "additionalProperties": false
+}

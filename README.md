@@ -8,8 +8,8 @@
 
 **Live app: <https://chronoscope.fasl-work.com>**
 
-Preprint (CC-BY-4.0): *"Prequential Streaming Evaluation of Stateful Time-Series
-Forecasters with Online Conformal Calibration"*, concept DOI
+Preprint (CC-BY-4.0): *"Prequential Evaluation of Adaptive Prediction Intervals:
+A Fifteen-Series Replay Study"*, concept DOI
 [10.5281/zenodo.21508920](https://doi.org/10.5281/zenodo.21508920) (source in
 [`manuscripts/prequential-streaming-conformal/`](manuscripts/prequential-streaming-conformal/)).
 
@@ -35,7 +35,7 @@ a causal explanation of model rankings.
   TiRex-2 via native Linux/WSL CUDA inference (its sLSTM kernels have no Windows wheels).
   TimesFM 3.0 is documented separately with its noncommercial, nonproduction weight terms.
 - **Prequential streaming evaluation**: predict, score, then ingest, with an explicit covariate-arrival
-  policy and online interval calibration (ACI / Conformal-PID), implemented through
+  policy and adaptive interval rules (ACI-style / PID-style), implemented through
   the published PyPI package [`preqts`](https://pypi.org/project/preqts/).
 - **The web app replays the committed artifacts** (nothing heavy runs in the browser) while the classical
   ladder + an ONNX NLinear run live in-browser, parity-checked against the Python core.

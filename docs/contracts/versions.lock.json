@@ -48,5 +48,15 @@
     "version": "1.0.0",
     "schema": "docs/contracts/schemas/forecastability.schema.json",
     "sha256": "99273d545ab0d2105cd747f67ba24519dc5db0431c957b003a76199e997bb14a"
+  },
+  "combination-index": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/combination-index.schema.json",
+    "sha256": "38ee880dfdbff7816c5498f999853195953cf8c2a00079c9149311d61b4b4b9a"
+  },
+  "combination-case": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/combination-case.schema.json",
+    "sha256": "8ffd1ab481876a7d723b7ca2e78926fe48dd1fea8d70e546d7a50ee5b7920a75"
   }
 }

@@ -3,6 +3,7 @@ import { Callout, DocPage, DocSection, Equation, Figure, TabGroups, formatNumber
 import { loadManifest, loadReevaluation } from '../api/artifacts';
 import type { CaseManifest } from '../lib/contract.types';
 import type { Reevaluation } from '../lib/reevaluation.types';
+import { CombinationStudy } from '../render/CombinationStudy';
 import { ForecastabilityStudy } from '../render/ForecastabilityStudy';
 
 export default function ExperimentsCurrent() {
@@ -55,10 +56,14 @@ export default function ExperimentsCurrent() {
     <p>{t('A second question asks whether the features help choose a method. The fixed forest and all missing-value medians use discovery only. The confirmation table compares its selected forecast with a discovery-chosen constant and the future-informed oracle, keeping unfavorable outcomes. The oracle is an optimistic reference that sees future errors. No search over forest settings, thresholds or partitions is conducted after this result.', 'La segunda pregunta es si las características ayudan a elegir un método. El bosque fijo y las medianas de imputación usan solo descubrimiento. La tabla compara selección, constante elegida en descubrimiento y oráculo informado por errores futuros, conservando resultados desfavorables. El oráculo es una referencia optimista. No se buscan opciones, umbrales ni particiones tras observar este resultado.')}</p>
     <ForecastabilityStudy />
   </DocSection>;
+  const combinations = <DocSection title={{en:'Do temporally validated combinations improve forecasts?',es:'¿Mejoran los pronósticos las combinaciones con validación temporal?'}} area="question" refs={['context-memory','mase','m4-weekly','m3-monthly']}>
+    <p>{t('ContextMemoryCV selects context shrinkage and temperature on completed historical blocks. ValidationMix additionally considers regularized convex stacking. Neither method receives the outer target when choosing a configuration. The fixed original ContextMemory result and the two improved variants have separate identities.', 'ContextMemoryCV selecciona contracción contextual y temperatura con bloques históricos completos. ValidationMix considera además apilamiento convexo regularizado. Ningún método recibe el objetivo externo para elegir configuración. El ContextMemory original y las dos variantes mejoradas conservan identidades separadas.')}</p>
+    <CombinationStudy />
+  </DocSection>;
   return <DocPage title={{en:'Experiments',es:'Experimentos'}} lede={t('The experiments ask distinct questions about forecast error, context-dependent combinations, control cases and prefix-based method selection. Every answer identifies its data, temporal cutoff, score definition and limitations, so a favourable aggregate number cannot silently replace a different protocol or conceal an unsuccessful proposed component.', 'Los experimentos plantean preguntas distintas sobre error, combinaciones contextuales, controles y selección por prefijos. Cada respuesta identifica datos, corte temporal, medidas y limitaciones, de modo que un agregado favorable no sustituya silenciosamente otro protocolo ni oculte un componente propuesto que no mejoró la comparación.')}>
     {err?<p role="alert">{err}</p>:!data?<p data-state="loading">{t('Loading experiment evidence','Cargando evidencia')}</p>:<TabGroups ariaLabel={t('Experimental questions','Preguntas experimentales')} groups={[
       {id:'questions',label:t('Questions','Preguntas'),tabs:[
-        {id:'ranking',label:t('Final errors','Errores finales'),content:ranking},{id:'context',label:'ContextMemory',content:context},{id:'controls',label:t('Controls','Controles'),content:controls},{id:'corpus',label:t('Corpus selection','Selección en corpus'),content:corpus},
+        {id:'ranking',label:t('Final errors','Errores finales'),content:ranking},{id:'context',label:'ContextMemory',content:context},{id:'controls',label:t('Controls','Controles'),content:controls},{id:'corpus',label:t('Corpus selection','Selección en corpus'),content:corpus},{id:'combinations',label:t('Validated combinations','Combinaciones validadas'),content:combinations},
       ]},
       {id:'protocol-data',label:t('Protocol and data','Protocolo y datos'),tabs:[
         {id:'protocol',label:t('Protocol','Protocolo'),content:protocol},{id:'metrics',label:t('Metrics','Medidas'),content:metrics},{id:'datasets',label:t('Data','Datos'),content:datasets},

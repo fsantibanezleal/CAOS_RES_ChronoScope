@@ -156,7 +156,7 @@ const LANES = svg('cs-a2', 450, `
   <rect class="bx bx-pkg" x="604" y="308" width="248" height="106" rx="9"/>
   <text class="ttl" x="616" y="328" style="fill:var(--color-accent);">preqts (our PyPI package)</text>
   <text class="cd mono" x="616" y="346">preqts 0.3 · ADR-0061 extraction</text>
-  <text class="mu" x="616" y="366">prequential eval + ACI/Conformal-PID;</text>
+  <text class="mu" x="616" y="366">prequential eval + ACI-style/PID-style;</text>
   <text class="mu" x="616" y="382">MSIS + per-horizon curves; the</text>
   <text class="mu" x="616" y="404">streaming bench's spine</text>
   <path class="flow" d="M300,266 L300,306" marker-end="url(#cs-a2)"/>
@@ -257,7 +257,7 @@ const SCIENCE = svg('cs-a4', 470, `
   <text class="mu" x="472" y="298">the full horizon out-of-sample; the cutoff advances</text>
   <rect class="bx bx-pkg" x="460" y="326" width="392" height="60" rx="9"/>
   <text class="ttl" x="472" y="346" style="fill:var(--color-accent);">streaming (prequential) · preqts</text>
-  <text class="mu" x="472" y="366">predict → observe → update, state carried; ACI + Conformal-PID</text>
+  <text class="mu" x="472" y="366">predict → observe → update, state carried; ACI-style + PID-style</text>
   <text class="mu" x="472" y="380" style="font-size:9px;">recalibrate the interval online, per horizon (the atlas's prequential comparison)</text>
   <text class="mu" x="460" y="408" style="fill:var(--color-accent);">metrics:</text>
   <text class="mu" x="502" y="408">MASE · WQL · coverage · MSIS · per-horizon curve</text>
@@ -347,8 +347,8 @@ export const architecture: ArchitectureConfig = {
     },
     {
       id: 'science', en: 'The science', es: 'La ciencia', svg: SCIENCE,
-      body_en: 'The roster includes seasonal-naive, exponential smoothing, Theta, auto-tuned statistical models, LightGBM, neural models, and pretrained models. The ten-family analysis toolkit reports case diagnostics. Evaluation combines rolling-origin backtests with a prequential streaming study through preqts, using ACI and Conformal-PID interval calibration. Metrics include MASE, WQL, coverage, MSIS, and per-horizon error; negative controls remain visible.',
-      body_es: 'El conjunto incluye referencias estacionales, suavizamiento, Theta, modelos estadísticos, LightGBM, redes y modelos preentrenados. Diez familias de análisis describen los casos. La evaluación distingue bloques finales comunes y trayectorias históricas de streaming con preqts, ACI y Conformal-PID. Las medidas incluyen MASE, pérdida de cuantiles, cobertura, amplitud y MSIS. ContextMemory se compara con ablaciones de recencia y promedio uniforme; el componente contextual no mejora el criterio medio en los casos seleccionados.',
+      body_en: 'The roster includes seasonal-naive, exponential smoothing, Theta, auto-tuned statistical models, LightGBM, neural models, and pretrained models. The ten-family analysis toolkit reports case diagnostics. Evaluation combines rolling-origin backtests with a prequential streaming study through preqts, using ACI-style and PID-style interval rules. Metrics include MASE, WQL, coverage, MSIS, and per-horizon error; negative controls remain visible.',
+      body_es: 'El conjunto incluye referencias estacionales, suavizamiento, Theta, modelos estadísticos, LightGBM, redes y modelos preentrenados. Diez familias de análisis describen los casos. La evaluación distingue bloques finales comunes y trayectorias históricas de streaming con preqts, reglas ACI-style y PID-style. Las medidas incluyen MASE, pérdida de cuantiles, cobertura, amplitud y MSIS. ContextMemory se compara con ablaciones de recencia y promedio uniforme; el componente contextual no mejora el criterio medio en los casos seleccionados.',
     },
     {
       id: 'contracts', en: 'Data contracts', es: 'Contratos de datos', svg: CONTRACTS,

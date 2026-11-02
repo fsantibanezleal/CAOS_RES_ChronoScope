@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "chronoscopelab"
 # PEP 440 form of the display version X.XX.XXX (see CHANGELOG.md + chronoscopelab.__version__).
-version = "0.24.0"
+version = "0.25.0"
 description = "ChronoScope: time-series forecasting method atlas (classical to foundation models). Offline data pipeline, normative artifact schemas and staged generation; classical + statistical (statsforecast) + ML (LightGBM) + zero-shot foundation (Chronos) ladder scored by preqts."
 readme = "README.md"
 requires-python = ">=3.11"

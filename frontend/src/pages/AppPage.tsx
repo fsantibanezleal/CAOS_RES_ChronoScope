@@ -707,6 +707,8 @@ export default function AppPage() {
       {mode === 'baked' && streaming && (() => {
         const meths = (streaming as any).methods ?? {};
         const names = Object.keys(meths).filter((k) => !meths[k].error);
+        const labels: Record<string, string> = { Theta: 'S+D', 'Theta+ACI': 'S+D + ACI-style', 'Theta+PID': 'S+D + PID-style' };
+        const displayName = (key: string) => labels[key] ?? key;
         const colors: Record<string, string> = { SeasonalNaive: '#58a6ff', Theta: '#56d364', 'Theta+ACI': '#d29922', 'Theta+PID': '#ff7b72', 'Ridge (blind)': '#8b949e', 'Ridge+exog (aware)': '#3fb950' };
         const n = Math.max(...names.map((k) => meths[k].n_steps ?? 0), 0);
         const xs = Array.from({ length: n }, (_, i) => i);
@@ -714,21 +716,21 @@ export default function AppPage() {
         return (
           <>
             <LinePlot xs={xs}
-              series={names.map((k) => ({ label: k, values: meths[k].rolling_coverage ?? [], color: colors[k] ?? colorFor(k) }))}
-              title={es ? 'Cobertura rodante vs nominal (el resultado central)' : 'Rolling coverage vs nominal (the central result)'}
+              series={names.map((k) => ({ label: displayName(k), values: meths[k].rolling_coverage ?? [], color: colors[k] ?? colorFor(k) }))}
+              title={es ? 'Cobertura rodante y nivel nominal' : 'Rolling coverage and nominal level'}
               subtitle={es
-                ? `objetivo ${fmt((streaming as any).nominal_coverage)}: compare cobertura, amplitud y demora de adaptación; ACI/PID no garantizan cobertura condicional en cada régimen.`
-                : `target ${fmt((streaming as any).nominal_coverage)}: compare coverage, width and adaptation delay; ACI/PID do not guarantee conditional coverage in every regime.`}
+                ? `objetivo ${fmt((streaming as any).nominal_coverage)}: ventanas solapadas de hasta 25 observaciones; los controles adaptativos no garantizan cobertura condicional.`
+                : `target ${fmt((streaming as any).nominal_coverage)}: overlapping windows of up to 25 observations; adaptive controllers do not guarantee conditional coverage.`}
               refLine={(streaming as any).nominal_coverage}
             />
             <LinePlot xs={xs}
-              series={names.map((k) => ({ label: k, values: meths[k].rolling_mase ?? [], color: colors[k] ?? colorFor(k) }))}
+              series={names.map((k) => ({ label: displayName(k), values: meths[k].rolling_mase ?? [], color: colors[k] ?? colorFor(k) }))}
               title={es ? 'MASE rodante (habilidad sobre el stream)' : 'Rolling MASE (skill over the stream)'}
             />
             <LinePlot xs={xs}
-              series={names.map((k) => ({ label: k, values: meths[k].cumulative_cost_ms ?? [], color: colors[k] ?? colorFor(k) }))}
+              series={names.map((k) => ({ label: displayName(k), values: meths[k].cumulative_cost_ms ?? [], color: colors[k] ?? colorFor(k) }))}
               title={es ? 'Costo de cómputo acumulado (ms)' : 'Cumulative compute cost (ms)'}
-              subtitle={es ? 'la historia del costo-por-paso: la calibración añade casi nada sobre el pronosticador base.' : 'the cost-per-step story: calibration adds almost nothing over the base forecaster.'}
+              subtitle={es ? 'Tiempos históricos de la ejecución original; no son una comparación normalizada de hardware ni una medición actual.' : 'Historical timings from the original run; these are not a normalized hardware comparison or a current measurement.'}
             />
             {cov && (
               <div className="cs-panel" style={{ borderColor: '#3fb95066' }}>
@@ -745,8 +747,8 @@ export default function AppPage() {
               </div>
             )}
             <p className="cs-panel-sub">{es
-              ? 'Evaluación prequential (Dawid 1984) con preqts, nuestro paquete PyPI: predecir, luego observar, luego actualizar, con estado acarreado. La política de covariables se registra junto con cada experimento.'
-              : 'Prequential evaluation (Dawid 1984) with preqts: predict, observe, then update while carrying state. This study also records covariate arrival policies; it does not claim a new forecasting method.'}</p>
+              ? 'Estudio histórico a un paso: S+D es una adaptación de suavizamiento más deriva, identificada como Theta en los archivos. El pronóstico se recalcula con toda la historia observada. ACI-style y PID-style ajustan intervalos; PID-style no replica el algoritmo Conformal PID publicado. La clave histórica no identifica el Theta corregido de la comparación de bloques finales.'
+              : 'Historical one-step replay: S+D is the smoothing-plus-drift adaptation stored under the artifact key Theta. Point forecasts are recomputed from the full observed prefix. ACI-style and PID-style adapt intervals; PID-style does not replicate the published Conformal PID algorithm. The historical key does not identify the corrected Theta in the final-block comparison.'}</p>
           </>
         );
       })()}
