@@ -1,7 +1,7 @@
 # ChronoScope 0.24.000 local validation
 
 The four research extensions are implemented. These receipts distinguish numerical execution,
-browser validation, publication and remote delivery. Production proof is recorded separately.
+browser validation, publication and remote delivery. The [release record](../../releases/0.24.000.md) and [production proof](production-deployment.json) identify the delivered main commit.
 
 | Boundary | Result | Evidence |
 |---|---|---|
@@ -33,3 +33,8 @@ the future-informed oracle gives 3.0005. ContextMemory also retains its earlier 
 comparison. Related sources, scaled-error targets and bounded model/configuration rosters limit
 interpretation. These results establish neither causal feature relevance nor operational benefit.
 Numerical convergence and degenerate-input warnings remain visible in scientific execution.
+
+The exact deployed main commit a74cb19364010d7d7acfcdb03a6eb5d5ee907cbb passed the
+[full canonical browser matrix](production-browser.json): 1,166 measured states, no failures and
+no waivers. [Production research controls](production-research-browser.json), [actual inference](production-live-real.json),
+[archive identity](software-archive.json) and [promotion](release-promotion.json) have separate receipts.

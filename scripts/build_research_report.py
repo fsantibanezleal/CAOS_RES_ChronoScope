@@ -112,7 +112,7 @@ def main():
     lines = [
         r"\begingroup\footnotesize\setlength{\tabcolsep}{3pt}",
         r"\begin{longtable}{p{.35\textwidth}rrrrrr}",
-        r"\caption{All forty preregistered features. D/C denote discovery/confirmation. Signed Kendall effects, BY-adjusted probabilities and the fixed confirmation decision are retained, including negative outcomes. Available counts and raw probabilities are in the public artifact.}\\",
+        r"\caption{All forty prespecified features. D/C denote discovery/confirmation. Signed Kendall effects, BY-adjusted probabilities and the fixed confirmation decision are retained, including negative outcomes. Available counts and raw probabilities are in the public artifact.}\\",
         r"\toprule Feature & $n_D$ & $\tau_D$ & $q_D$ & $n_C$ & $\tau_C$ & $q_C$\\\midrule\endhead",
     ]
     for row in summary["associations"]:

@@ -6,6 +6,7 @@
 | 2 | [Pronosticar después de una estación incompleta](01-forecast-decisions/02-seasonal-phase.ipynb) |
 | 3 | [Comparar adaptadores ejecutados con trayectorias archivadas](01-forecast-decisions/03-model-comparison.ipynb) |
 | 4 | [Evaluar si recordar contextos mejora una combinación](01-forecast-decisions/04-context-memory.ipynb) |
+| 4 | [Elegir una combinación antes de que llegue su objetivo](01-forecast-decisions/05-temporal-validation.ipynb) |
 
 <!-- sequence-lessons:start -->
 

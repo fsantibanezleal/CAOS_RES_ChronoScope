@@ -11,5 +11,7 @@ export type SeriesDescriptors = components['schemas']['SeriesDescriptors'];
 export type CaseManifest = components['schemas']['CaseManifest'];
 export type CaseIndexEntry = components['schemas']['CaseIndexEntry'];
 export type CaseIndex = components['schemas']['CaseIndex'];
+export type CombinationIndex = components['schemas']['CombinationIndex'];
+export type CombinationCase = components['schemas']['CombinationCase'];
 export type AnalysisArtifactRef = NonNullable<CaseManifest['analysis_artifact']>;
 export type StreamingArtifactRef = NonNullable<CaseManifest['streaming_artifact']>;

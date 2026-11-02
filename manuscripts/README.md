@@ -1,20 +1,15 @@
-# Published manuscripts
+# Manuscripts and revisions
 
-The technical report was revised to 0.24.000 on 2 November 2026 after approval. The two companion preprints retain their earlier published versions. Each contains exactly one PDF; fresh unauthenticated downloads matched the frozen hashes. These are technical reports or preprints, not peer-reviewed articles.
+All three revised manuscripts are published. Each final PDF was compiled without LaTeX warnings or box defects, inspected on every page, and verified through a fresh unauthenticated download matching the frozen checksum.
 
-| Document | Published record | Canonical PDF | Source |
+| Document | Published version | Canonical PDF | Source |
 |---|---|---|---|
-| Product report, v0.24.000 | [23876442](https://zenodo.org/records/23876442) | [Report](product-report/main.pdf) | [LaTeX](product-report/tex/main.tex) |
-| ContextMemory experiment, v0.1 | [23874821](https://zenodo.org/records/23874821) | [Proposal](context-memory/main.pdf) | [LaTeX](context-memory/tex/main.tex) |
-| Streaming revision, v2.4 | [23874824](https://zenodo.org/records/23874824) | [Streaming study](prequential-streaming-conformal/main.pdf) | [LaTeX](prequential-streaming-conformal/tex/main.tex) |
+| Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study | [v2.5, DOI 23884367](https://doi.org/10.5281/zenodo.23884367) | [Seven-page streaming study](prequential-streaming-conformal/main.pdf) | [LaTeX](prequential-streaming-conformal/tex/main.tex) |
+| Forecast Combination with Temporal Validation and Context Memory | [v0.2, DOI 23884371](https://doi.org/10.5281/zenodo.23884371) | [Ten-page combination study](context-memory/main.pdf) | [LaTeX](context-memory/tex/main.tex) |
+| ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation | [v0.25.000, DOI 23884372](https://doi.org/10.5281/zenodo.23884372) | [Eighteen-page technical report](product-report/main.pdf) | [LaTeX](product-report/tex/main.tex) |
 
-The report has concept DOI [23874816](https://doi.org/10.5281/zenodo.23874816), and the contextual proposal has concept DOI [23874820](https://doi.org/10.5281/zenodo.23874820). The streaming revision continues concept [21508920](https://doi.org/10.5281/zenodo.21508920); its earlier version 2.3 remains preserved as record [22825217](https://zenodo.org/records/22825217).
+The combination paper and report cover ContextMemoryCV, ValidationMix and the complete external M4 Weekly/M3 Monthly evaluation. Both new methods lower point error relative to RecencyMean on each admitted collection; AutoTheta remains stronger on monthly point error and both collections' interval scores. All 53,148 external forecasts are independently rescored. The original ContextMemory and M4 Daily selection outcomes remain unchanged.
 
-The report separates archived-path comparison from fresh final-block execution. The contextual proposal retains its negative aggregate result. The streaming paper retains the original measurements and distinguishes its historical smoothing-plus-drift adapter from the corrected finite-history Theta implementation. It does not report the new contextual proposal and is not assigned that claim in the product registry.
+The streaming revision corrects the overbroad stateful-evaluation title, historical algorithm identities, coverage statistics and figures. It supplies complete numerical replay, sensitivity settings and additional generated seeds while retaining limits on runtime and generalization.
 
-Each manuscript folder contains publication metadata and a verification receipt. The approval manifest retains reviewed draft hashes alongside published file hashes. Supporting code and data remain in the software repository, separate from the one-PDF manuscript records. Remote CI and deployment are separate release checks.
-
-The report revision adds original-axis sequence diagnostics, seeded nonlinear estimates and the complete
-M4 Daily study. It retains the negative selector result, twenty-one corrected confirmations, and the
-separate fifteen-case forecasting evidence. The previous report record and hashes remain in version
-history; the canonical PDF and metadata refer to the published 0.24.000 revision.
+The report retains concept DOI [23874816](https://doi.org/10.5281/zenodo.23874816), the combination study [23874820](https://doi.org/10.5281/zenodo.23874820), and the streaming study [21508920](https://doi.org/10.5281/zenodo.21508920). Earlier publication receipts remain under each folder's history and in immutable Git history. Each manuscript record contains exactly one PDF; software and numerical evidence are separate. These documents are not peer-reviewed articles.

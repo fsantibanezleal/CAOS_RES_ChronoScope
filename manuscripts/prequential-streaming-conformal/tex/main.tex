@@ -1,39 +1,18 @@
-\documentclass[journal]{IEEEtran}
-
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{array}
-\usepackage{url}
+\usepackage{lmodern}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,graphicx,booktabs,array,microtype}
 \usepackage[hidelinks]{hyperref}
 \usepackage{orcidlink}
 \graphicspath{{../figures/}}
-
-% IEEEtran hard-codes an em-dash after the abstract and index-terms names; the CAOS
-% content standard (ADR-0067) excludes em-dashes, so the separator is a full stop.
-\makeatletter
-\def\abstract{\normalfont
-    \if@twocolumn
-      \@IEEEabskeysecsize\bfseries\textit{\abstractname}.\ \relax
-    \else
-      \bgroup\par\addvspace{0.5\baselineskip}\centering\vspace{-1.78ex}\@IEEEabskeysecsize\textbf{\abstractname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize
-    \fi\@IEEEgobbleleadPARNLSP}
-\def\IEEEkeywords{\normalfont
-    \if@twocolumn
-      \@IEEEabskeysecsize\bfseries\textit{\IEEEkeywordsname}.\ \relax
-    \else
-      \bgroup\par\addvspace{0.5\baselineskip}\centering\@IEEEabskeysecsize\textbf{\IEEEkeywordsname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize
-    \fi\@IEEEgobbleleadPARNLSP}
-\makeatother
-
-% Page-1 header block (conventions/manuscript-header-standard.md). The four document
-% macros are set by the publishing tool when the version DOI is reserved.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
 \newcommand{\doctype}{Preprint}
-\newcommand{\docversion}{v2.4}
+\newcommand{\docversion}{v2.5}
 \newcommand{\docdate}{2 November 2026}
-\newcommand{\versiondoi}{10.5281/zenodo.23874824}
+\newcommand{\versiondoi}{10.5281/zenodo.23884367}
 \newcommand{\conceptdoi}{10.5281/zenodo.21508920}
 \newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
 \newcommand{\headerblock}{%
@@ -47,389 +26,122 @@ Not peer reviewed. Source code, data and computational records: \href{https://\d
 }}
 \end{center}}
 
+\hypersetup{pdftitle={Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study},pdfauthor={Felipe Santibáñez-Leal}}
 \begin{document}
-
-\title{Prequential Streaming Evaluation of Stateful Time-Series Forecasters with
-Online Conformal Calibration: A Diagnostic Atlas and the \texttt{preqts} Harness}
-
-\author{%
-  Felipe Santib\'a\~nez-Leal~\orcidlink{0000-0002-0150-3246},~\IEEEmembership{Independent Researcher}%
-  \thanks{F.\ Santib\'a\~nez-Leal is with the CAOS open-research programme, Santiago,
-    Chile (e-mail: \texttt{fsantibanezleal@ug.uchile.cl}; ORCID: 0000-0002-0150-3246).}%
-  \thanks{The harness is released as the open-source package \texttt{preqts}
-    (\url{https://pypi.org/project/preqts/}); the atlas (code, per-case artifacts,
-    workbench) is at \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope} (MIT),
-    and an interactive workbench is available at \url{https://chronoscope.fasl-work.com}.}%
-}
-
-\markboth{\doctype\ \docversion, 2026 \textperiodcentered\ CAOS open-research programme}{Santib\'a\~nez-Leal:
-Prequential Streaming Evaluation of Stateful Forecasters with Online Conformal Calibration}
-
-\IEEEaftertitletext{\vspace{-0.6\baselineskip}\headerblock\vspace{0.2\baselineskip}}
-
-\IEEEtitleabstractindextext{%
+\title{Prequential Evaluation of Adaptive Prediction Intervals:\\A Fifteen-Series Replay Study}
+\author{Felipe Santib\'a\~nez-Leal~\orcidlink{0000-0002-0150-3246}\\CAOS open-research programme, Santiago, Chile\\\small \texttt{fsantibanezleal@ug.uchile.cl}}
+\date{}
+\maketitle
+\headerblock
 \begin{abstract}
-Forecasting may be deployed as a stream: observations arrive one by one, the model updates, and
-its prediction intervals are expected to remain useful as the series changes. We provide a
-prequential streaming evaluation harness, released as
-the open-source package \texttt{preqts}: it implements Dawid's predict-then-observe-then-update
-protocol behind a \texttt{StatefulForecaster} interface with an explicit covariate-arrival
-policy, and records four trajectories per method: rolling scaled error, rolling empirical
-coverage, rolling weighted quantile loss, and cumulative measured compute time. The package
-supports stateful and replay-based forecasters; the experiment reported here uses replay-based
-Theta wrappers and does not compare constant-cost native state updates. The
-harness is embedded in an
-atlas that characterizes each series with ten diagnostic families (stationarity,
-autocorrelation, seasonality, filters, change points, volatility, distribution and complexity,
-fractal structure, nonlinear dynamics, and cross-series causality) and then forecasts it with a
-method catalogue spanning classical, statistical, gradient-boosted, deep, and foundation-model
-methods. Using the harness we test
-a concrete claim: that online conformal calibration keeps streaming intervals at nominal under
-distribution shift. On fifteen series that span distinct regimes and include white-noise and
-random-walk negative controls, wrapping a Theta point forecaster in Adaptive Conformal Inference
-or Conformal-PID control reduces the mean absolute coverage error at the nominal $80\%$ level
-from $0.0416$ (raw Theta) and $0.0599$ (seasonal-naive) to $0.0057$ and $0.0060$, a seven-to-tenfold
-reduction, and shrinks the across-case span of the final coverage from $0.19$--$0.40$ to $0.04$,
-without changing the point forecast. Calibrated coverage is also near target on the two generated
-negative controls, which provide limited checks against simple predictable-versus-unpredictable
-confounds but cannot rule out all leakage. The contribution is the reusable prequential harness
-and an artifact-backed comparison under the protocol defined below.
+
+Adaptive prediction intervals can have accurate average coverage while retaining substantial local coverage error. We examine this distinction in a one-step prequential study of fifteen selected time series: eleven generated mechanisms and four real excerpts. The point forecaster is a full-history smoothing-plus-drift adaptation, rather than a native stateful forecaster or the standard finite-history Theta method. Two scale-normalized score-buffer controllers use ACI-style and PID-style updates of an effective miscoverage level. At nominal 80\% coverage, their mean rolling absolute coverage errors are 0.0656 and 0.0645, compared with 0.0830 for unadjusted intervals. The substantially smaller errors obtained by first averaging signed coverage deviations over time describe a different statistic and do not establish uniformly accurate local coverage. Every numerical forecast, target, score and controller update is reconstructed and checked against the archived coverage trajectories and final weighted quantile losses. Sensitivity calculations vary nominal coverage, base forecaster, controller gains and generated-series seeds. These selected finite-stream results characterize the evaluated implementations; they provide neither a new coverage theorem nor a general forecasting advantage.
 \end{abstract}
 
-\begin{IEEEkeywords}
-time-series forecasting, prequential evaluation, streaming, conformal prediction, adaptive
-conformal inference, calibration, coverage, stateful forecasters, foundation models,
-diagnostics, benchmark, reproducibility.
-\end{IEEEkeywords}}
+\section{Question and relation to prior work}
+A sequential interval forecast must use information available before its target arrives. Its quality has at least two dimensions: coverage and concentration. An interval can obtain high coverage by becoming excessively wide; a long-run coverage average can also conceal sustained local deviations. We ask how two particular adaptive interval controllers behave on a selected collection when these distinctions are made explicit.
 
-\maketitle
-\IEEEdisplaynotcompsoctitleabstractindextext
-\IEEEpeerreviewmaketitle
+Prequential evaluation scores predictions before incorporating their outcomes~\cite{dawid1984}. Adaptive Conformal Inference (ACI) adapts an effective miscoverage level~\cite{gibbs2021}. Conformal PID Control combines control-theoretic ideas with prospective conformal score forecasting~\cite{angelopoulos2023}. The evaluated algorithms build on these precedents. The PID-style controller evaluated here acts on a bounded effective miscoverage level and uses an empirical score buffer. It is not a faithful implementation or comparative evaluation of the published Conformal PID algorithm, and that algorithm's guarantees are not assigned to it.
 
-% =====================================================================
-\section{Introduction}
-% =====================================================================
+The contribution is a reproducible, implementation-specific comparison of global and local empirical coverage measures, interval efficiency, and sensitivity on the same streams. The software package \texttt{preqts} supplies the replay interface and archived controllers. The experiment compares interval rules; it does not compare native model-state updates or establish a capability gap in other evaluation frameworks.
 
-\IEEEPARstart{F}{orecasting} deployed as a stream has a sequential information constraint: at
-each cutoff, a forecast must be made from information available then, scored after the target
-arrives, and followed by an update. Rolling-origin evaluations are useful for other questions;
-their treatment of model state depends on the evaluated method and adapter. We do not claim that
-existing benchmark harnesses universally omit stateful or prequential evaluation. We instead
-describe and release \texttt{preqts}, which makes the predict-score-ingest order and covariate
-arrival policy explicit, and use it to evaluate an artifact-backed interval-calibration study.
+\section{Data and sequential information}
+The collection contains fifteen deliberately selected cases: eleven generated mechanisms and four real excerpts. Generated mechanisms include daily seasonality, trend with seasonality, intermittent demand, a near-random walk, white noise, level changes, multiple seasonalities, heteroskedasticity, long memory, nonlinear Mackey--Glass dynamics and a promotion covariate example. Real excerpts comprise UCI electricity, Beijing PM2.5, M4 hourly and M4 daily. They do not constitute random draws from a forecasting population. White noise and the near-random walk are negative controls, not proofs that every form of leakage is absent.
 
-The harness implements the prequential principle, Dawid's ``predictive sequential''
-protocol~\cite{dawid1984}: at each step the model predicts, the truth is revealed and scored, and
-only then does the model update. Metrics can therefore be inspected along the stream rather than
-only as one aggregate. The harness is embedded in an
-atlas (Section~\ref{sec:atlas}) that pairs forecasts with a diagnostic layer. We then use the
-harness to measure
-(Section~\ref{sec:results}): does online conformal calibration keep streaming intervals
-near the nominal level on this selected set of changing and control series? Our contributions
-are: (i) the reusable prequential streaming harness \texttt{preqts}, with a covariate-arrival
-policy; and (ii) an artifact-backed comparison showing lower descriptive coverage error for
-online calibration than for raw intervals in these 15 cases, while retaining the same Theta
-median forecast.
-
-% =====================================================================
-\section{The atlas: understand, then forecast}
-\label{sec:atlas}
-% =====================================================================
-
-ChronoScope pairs a diagnostic layer with a forecast ladder over fifteen cases, each
-computed deterministically (an artifact is a pure function of case and seed). \textbf{Ten
-diagnostic families} characterize a series before it is forecast: stationarity and unit roots
-(ADF, KPSS, Phillips--Perron, DF-GLS, Zivot--Andrews); autocorrelation (ACF/PACF, Ljung--Box);
-seasonality (periodogram, STL/MSTL, seasonal strength); filters and adaptive decompositions
-(Hodrick--Prescott, Baxter--King, EMD/CEEMDAN, wavelet scalogram); change points and regimes
-(PELT, OLS-CUSUM, Hamilton Markov-switching); volatility and transforms (ARCH-LM, GARCH,
-Box--Cox); distribution, normality and complexity (moments, Jarque--Bera, sample/spectral
-entropy, the BDS test, and the catch22 feature set~\cite{lubba2019}); fractal and multifractal
-structure (Hurst via R/S and DFA, MF-DFA, ARFIMA long memory); nonlinear dynamics and chaos
-(Takens embedding, largest Lyapunov exponent, recurrence quantification, the 0--1 test, with a
-surrogate-data test for nonlinearity); and cross-series causality (cross-correlation lead/lag,
-Granger, Engle--Granger and Johansen cointegration). Each is a verified implementation wrapped in
-a NaN-safe API and precomputed per case.
-
-\textbf{A nineteen-method forecast ladder} is then scored on the same cases: classical
-numpy live methods (seasonal-naive, SES, Holt, Holt--Winters, Theta~\cite{assimakopoulos2000}),
-statistical methods (AutoARIMA, AutoETS, AutoTheta), a gradient-boosted method (LightGBM), deep
-methods, and stateful zero-shot foundation models (Chronos~\cite{ansari2024},
-TimesFM~\cite{das2024}). The cases span distinct regimes by construction, level shift,
-deterministic chaos, GARCH heteroskedasticity, intermittent demand, long memory, coupled
-daily/weekly seasonality, exogenous promotions, plus real CC-BY series (UCI Electricity, Beijing
-PM2.5, M4 excerpts~\cite{makridakis2020}) and two negative controls, white noise and a near-random walk. There is no
-universal winner: the diagnosis explains the leaderboard, which is exactly the setting in which
-leakage-free scoring matters most.
-
-% =====================================================================
-\section{The prequential streaming protocol}
-\label{sec:harness}
-% =====================================================================
-
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=0.9\textwidth]{fig-prequential.pdf}
-\caption{The prequential test-then-train loop for a stateful forecaster. At each step the model
-predicts from its current state, the truth is revealed and scored, and only then is the state
-updated; a covariate-arrival policy declares, per channel, whether a value is known at prediction
-time or revealed with the target. Stateless-window harnesses reset state each window and run no
-test-then-train loop, so they cannot see a calibrator recover coverage after a shift.}
-\label{fig:prequential}
-\end{figure*}
-
-Let the stored target series be $y_0,\ldots,y_{T-1}$, let $m$ denote its case-specific seasonal
-period, and let $h$ denote the forecast horizon. In the experiment reported here $h=1$ and the
-cutoff step is one observation. At cutoff $t$, the forecaster receives only the initial context
-$y_{0:t-1}$ and observations subsequently revealed at earlier cutoffs. It returns quantiles at
-$q\in\{0.1,0.5,0.9\}$. The prediction is recorded and scored against the next observation before
-that observation is passed to the forecaster:
+Let $y_0,\ldots,y_{T-1}$ be the complete stream and $m$ its configured seasonal lag. The initial prefix has length
 \begin{equation}
-(\hat Q_{t,0.1},\hat Q_{t,0.5},\hat Q_{t,0.9})=f_\text{predict}(s_t),\quad
-s_{t+1}=f_\text{ingest}(s_t,y_t).
+w=\min\{\max(2m,20),\max(1,\lfloor T/3\rfloor)\}.
 \end{equation}
-The initial context length is $w=\min(\max(2m,20),\max(1,\lfloor T/3\rfloor))$. The harness
-initializes each forecaster once with $y_{0:w-1}$ and evaluates cutoffs $t=w,\ldots,T-h$;
-after scoring at $t$, it ingests $y_t$ and advances by one. Thus the target being scored is not
-available to either the point forecaster or the interval controller when the forecast is made.
-For a covariate channel, the stream contract distinguishes past-only values (optionally delayed by
-their declared lag) from known-future values. The conformal experiment has no covariates, so this
-policy does not affect its results.
+At $t=w,\ldots,T-1$, every method predicts $y_t$ using $y_{0:t-1}$. The target is then revealed, the forecast is scored, and the prefix and controller are updated. Horizon and advance are both one. This streaming experiment includes the full case sequence; its targets must not be pooled with the separate final-block experiment in the surrounding atlas.
 
-The evaluated point method is the archived NumPy smoothing-plus-drift adaptation labelled Theta,
-not a streaming-native state update or the finite-history Theta equation used in the current final-block experiment. At every cutoff, a \texttt{ReplayAdapter} calls the batch forecaster on the full
-history then available. For a context $x_0,\ldots,x_{n-1}$, the implementation estimates an OLS
-slope $b$ against integer time, selects the SES coefficient $a$ from
-$\{0.05,0.10,\ldots,0.95\}$ by minimum in-sample one-step squared error, and updates the level
-$\ell_i=a x_i+(1-a)\ell_{i-1}$ from $\ell_0=x_0$. Its one-step fitted values are the prior
-levels; $\hat\sigma$ is the population standard deviation of the resulting one-step residuals.
-For lead $j=1,\ldots,h$, the point path is $\hat y_{t+j}=\ell_{n-1}+0.5 b j$. The base quantiles
-are $\hat Q_{t,j,q}=\hat y_{t+j}+\Phi^{-1}(q)\hat\sigma\sqrt{j}$, using the implementation's
-Acklam approximation to the normal quantile. This Gaussian widening is an implementation choice,
-not a distribution-free interval guarantee. In the reported one-step experiment, this reduces to
-the evaluated adaptation's point forecast plus or minus $\Phi^{-1}(0.9)\hat\sigma$.
+\begin{figure}[htbp]\centering
+\includegraphics[width=.86\textwidth]{fig-prequential.pdf}
+\caption{Information order in the evaluated replay implementation. The point method is recomputed on the observed prefix; an interval controller carries its own scores and level between arrivals. The next target enters either update only after scoring. This diagram makes no comparison with other forecasting frameworks or native state-update costs.}
+\label{fig:prequential}\end{figure}
 
-At each forecast the harness records one-step MASE, empirical coverage of the inclusive interval
-$[\hat Q_{0.1},\hat Q_{0.9}]$, WQL at the three requested quantiles, and prediction and ingestion
-latency. MASE divides absolute error by a single scale fixed from the warmup context,
-$S_w=(T_w-m)^{-1}\sum_{i=m}^{w-1}|y_i-y_{i-m}|$ (with the package's documented fallback for a
-short or constant context). WQL follows the implementation's GluonTS-style normalization:
-$2\sum_q\rho_q(y-\hat Q_q)/\sum_i|y_i|$, where $\rho_q(u)=u(q-\mathbf1\{u<0\})$ is pinball
-loss. Each displayed rolling trajectory is the trailing arithmetic mean over at most 25 cutoff
-values, including the current cutoff. Cumulative cost is the running sum of measured prediction
-and ingestion latencies; it is a machine- and run-dependent timing observation, not an asymptotic
-complexity proof. The package also computes other metrics, but they are not used for the headline
-plots in this work. The three-quantile WQL summary is not treated as a CRPS estimate.
+The numerical reconstruction retains the full-precision source values, generator definitions and seeds, case identities, seasonal lags and initial-prefix lengths. SHA-256 values bind each source array, admitted real-data CSV, generator implementation, case manifest, display trace and archived streaming artifact. Every displayed sample and reserved final-block target is matched to the original indexed source within its four-decimal export tolerance. These bindings identify the actual experimental inputs, even where a historical upstream download revision or timing environment is unavailable. Covariates are not supplied to the four interval methods, including for the promotion case; no covariate-availability result is inferred here.
 
-The experiment uses the package API \texttt{run\_prequential} from \texttt{preqts==0.3.0};
-the series, case-specific seasonal periods and generated artifacts are those committed under
-\path{data/derived/}. Each method starts from the same case prefix and receives the same target
-sequence. The four methods are seasonal-naive, uncalibrated Theta, Theta with ACI, and Theta with
-Conformal-PID. Only the two wrappers change the interval; they retain the same Theta median
-forecast. The adapters recompute each batch forecast from its accumulated history, so this
-experiment compares their interval behavior under a common replay protocol and does not measure
-the benefit of persistent internal model state.
-
-% =====================================================================
-\section{Interval calibration and experimental design}
-\label{sec:conformal}
-% =====================================================================
-
-The wrappers recalibrate the outer interval of the same Theta forecast. For a one-step base
-forecast, write its median as $m_t$ and its half-width as
-$r_t=\max\{(\hat Q_{t,0.9}-\hat Q_{t,0.1})/2,10^{-8}\}$. Once $y_t$ arrives, the nonconformity
-score is the scale-normalized absolute error
-$z_t=|y_t-m_t|/r_t$. This is not raw-residual split conformal: it is a sequential score buffer
-and a multiplicative correction to the base interval. Each horizon has a separate state in the
-package; the experiment uses only horizon one. For either method, the calibrated outer endpoints
-are $m_t\pm \hat q_t r_t$, where $\hat q_t$ is the empirical quantile of the previous scores in
-that horizon's buffer at level $1-\alpha_t$. The buffer is a FIFO deque capped at 200 scores and
-the quantile is NumPy's default linearly interpolated sample quantile. Before any score is
-available, $\hat q_t=1$. The current prediction is therefore formed from past state only; its
-score enters the buffer after that prediction has been scored.
-
-\textbf{Adaptive Conformal Inference} (ACI)~\cite{gibbs2021} begins with target miscoverage
-$\alpha_0=1-c=0.2$, where $c=0.8$. After the current miss indicator
-$e_t=\mathbf1\{|y_t-m_t|>\hat q_t r_t\}$ is evaluated using the multiplier that generated the
-forecast, it updates
+\section{Point forecasts and base intervals}
+We call the archived adaptation smoothing plus drift (S+D). The historical artifact key \texttt{Theta} identifies this implementation, but it lacks the finite-history correction of the standard nonseasonal Theta representation~\cite{hyndman2003}. For the observed prefix $x_0,\ldots,x_{n-1}$, an OLS line against integer time gives slope $b$. A smoothing coefficient $a$ is selected from $\{.05,.10,\ldots,.95\}$ by minimum in-sample one-step squared error. With $\ell_0=x_0$,
 \begin{equation}
-\alpha_{t+1}=\operatorname{clip}\!\left(\alpha_t+\gamma\bigl((1-c)-e_t\bigr),10^{-4},1-10^{-4}\right),
-\label{eq:aci}
+\ell_i=a x_i+(1-a)\ell_{i-1},\qquad
+p_t=\ell_{n-1}+\tfrac12 b.
 \end{equation}
-with $\gamma=0.02$. A miss reduces $\alpha_t$, raising the next quantile level and generally
-expanding the interval; a covered observation increases $\alpha_t$ and generally contracts it.
-Clipping bounds the effective level. These implementation details do not establish the
-an unconditional convergence theorem: the empirical rolling-quantile buffer,
-level clipping, and this particular base interval define the evaluated procedure, and the results
-below are finite-stream measurements rather than a new coverage guarantee.
+The fitted value for $x_i$ is $\ell_{i-1}$; $\hat\sigma_t$ is the population standard deviation of these residuals for $i=1,\ldots,n-1$. At nominal coverage $c$, the base half-width is $\Phi^{-1}((1+c)/2)\hat\sigma_t$, using the package's Acklam normal-quantile approximation. This Gaussian approximation has no distribution-free coverage guarantee.
 
-\textbf{Conformal-PID}~\cite{angelopoulos2023} uses the same score buffer and quantile rule. With
-target miscoverage $\alpha^*=0.2$, its error is $u_t=\alpha^*-e_t$, its integral is
-$I_t=I_{t-1}+u_t$ (initialized at zero), and its derivative is $d_t=u_t-u_{t-1}$ (initialized
-to zero on the first update). The controller computes
+A second base is seasonal naive, $p_t=y_{t-m}$, with dispersion equal to the population standard deviation of observed lag-$m$ differences. The historical comparison contains seasonal naive and raw S+D, plus two calibrated versions of S+D. The sensitivity comparison applies the same controllers to both bases. Both are full-prefix replay calculations; the point forecasts do not become streaming-native merely because the interval controller has persistent state.
+
+\section{Adaptive interval rules}
+For a base median $p_t$ and half-width $r_t=\max(\Phi^{-1}((1+c)/2)\hat\sigma_t,10^{-8})$, a FIFO buffer retains at most 200 past scores
+\begin{equation}
+z_j=|y_j-p_j|/r_j,\qquad j<t.
+\end{equation}
+Before forecasting $y_t$, $q_t$ is the buffered sample quantile at level $1-\alpha_t$, using NumPy's default linear interpolation. An empty buffer gives $q_t=1$. Endpoints are $p_t\pm q_t r_t$. Only after scoring is $z_t$ appended. This is a normalized-residual buffer rule, not a finite-sample split-conformal construction.
+
+Let $e_t=\mathbf1\{z_t>q_t\}$, $\alpha^*=1-c$, and initialize $\alpha_w=\alpha^*$. The ACI-style update is
+\begin{equation}
+\alpha_{t+1}=\operatorname{clip}(\alpha_t+\gamma(\alpha^*-e_t),10^{-4},1-10^{-4}),
+\end{equation}
+with $\gamma=.02$. Level clipping and the interpolated finite score buffer are part of this evaluated variant; the ACI paper's theoretical guarantee is not claimed for it without further argument.
+
+For the PID-style rule, set $u_t=\alpha^*-e_t$, $I_t=I_{t-1}+u_t$ with initial integral zero, and $d_t=u_t-u_{t-1}$, using zero derivative on the first update. Then
+\begin{equation}
+\alpha_{t+1}=\operatorname{clip}(\alpha^*+k_pu_t+k_iI_t+k_dd_t,10^{-4},1-10^{-4}),
+\end{equation}
+where $(k_p,k_i,k_d)=(.05,.02,.02)$. The integral is not separately clipped. Unlike the ACI recursion, this rule recomputes the level around $\alpha^*$ from all three terms. The median is unchanged by either controller.
+
+The gains are inherited fixed software settings. No historical parameter-selection rationale, optimality study or independent tuning set is available. Sensitivity uses all multipliers $g\in\{.5,1,2\}$, multiplying $\gamma$ or all three PID gains together. It does not choose and re-evaluate the best multiplier. Nominal coverages are $.7,.8,.9$. The full design gives $15\times2\times3\times(1+3+3)=630$ case-setting rows, including raw references.
+
+\section{Metrics and numerical reconstruction}
+For case $i$, write $B_{it}=\mathbf1\{l_{it}\le y_{it}\le u_{it}\}$ and let $C_{it}$ be its trailing coverage mean over at most 25 cutoffs, including $t$. With $N=15$ cases and $K_i$ cutoffs, three different errors are
 \begin{align}
-v_t &= k_pu_t+k_iI_t+k_dd_t,\\
-\alpha_{t+1}&=\operatorname{clip}(\alpha^*+v_t,10^{-4},1-10^{-4}),
+E_{\rm avg}&=N^{-1}\sum_i\left|K_i^{-1}\sum_t C_{it}-c\right|,\\
+E_{\rm roll}&=N^{-1}\sum_i K_i^{-1}\sum_t|C_{it}-c|,\\
+E_{\rm final}&=N^{-1}\sum_i\left|K_i^{-1}\sum_t B_{it}-c\right|.
 \end{align}
-with $k_p=0.05$, $k_i=0.02$, and $k_d=0.02$. The cumulative integral itself is not separately
-clipped in the implementation. These gains are hard-coded in the bake; the repository does not
-record a parameter-selection or sensitivity-analysis procedure. The wrapper changes only the
-outer quantiles, leaving the median column and hence the point forecast unchanged.
+$E_{\rm avg}$ permits temporal cancellation within each case; $E_{\rm roll}$ does not. Neither is a conditional-coverage guarantee, and overlapping rolling windows are not independent observations. Archived $C_{it}$ values are rounded to five decimals; the reproduction uses that same rounding for these comparisons. Equal case weights prevent longer streams from dominating the summary.
 
-The comparison is a fixed artifact-based study of 15 repository cases: 11 generated regimes and
-four redistributed real-data cases, with two generated cases designated as negative controls
-(white noise and near-random walk). The checked-in artifacts identify the cases and preserve
-their streaming metric trajectories. The current admitted corpus also contains source values for all fifteen cases. The streaming predictions and timings retain their original computation provenance; they are not regenerated by rescoring the corrected final-block comparison.
-The streaming stage sets $c=0.8$, $h=1$, levels $(0.1,0.5,0.9)$, step one, and the
-warmup formula in Section~III. The main figures give equal weight to each case. For case $i$ and
-method $a$, let $C_{i,a,k}$ be the stored trailing-25 coverage at cutoff $k$. The plotted summary
-is $\frac1{15}\sum_i|K_i^{-1}\sum_{k\in K_i}C_{i,a,k}-0.8|$; the whisker reaches the largest
-case-level absolute deviation. The per-case figure instead plots each artifact's final full-run
-coverage, with its across-case range. From the committed trajectories, the rolling-trajectory
-summary is 0.0599 for seasonal-naive, 0.0416 for raw Theta, 0.0057 for Theta+ACI and 0.0060 for
-Theta+PID; the largest case-level deviations are 0.3071, 0.1124, 0.0225 and 0.0224,
-respectively. The final-coverage spans are 0.3964, 0.1912, 0.0444 and 0.0444, respectively. These
-are descriptive summaries of this selected set, not inferential estimates for a population of
-forecasting tasks.
+Width is $u_t-l_t$. The central interval score is
+\begin{equation}
+\operatorname{IS}_t=(u_t-l_t)+\frac{2}{1-c}\{(l_t-y_t)_+ +(y_t-u_t)_+\},
+\end{equation}
+where only the violated side contributes~\cite{gneiting2007}. For cross-case summaries, width and interval score are divided by the mean absolute lag-$m$ difference in that case's initial prefix. This is the same fixed information set used for scaling one-step absolute error; final targets do not determine the scale.
 
-The calibration result is limited in several ways. First, there are only 15 deliberately varied
-cases, and the four real-data examples do not establish broad real-world generalization. Second,
-the experiment evaluates a one-step horizon, one nominal coverage, one base forecaster and one
-fixed parameter setting per controller; no sensitivity or repeated-seed study is present. Third,
-the base interval is a Gaussian approximation using in-sample residual dispersion, and Theta is
-re-fit by full-history replay at every cutoff. Fourth, the committed aggregate trajectories do not
-by themselves preserve per-time forecasts, scores, controller states, or timing environment
-metadata, so they permit the reported aggregate calculations but not an independent replay of
-every online update from the artifact alone. Finally, finite-run calibration and the two controls
-do not prove distribution-free coverage, rule out every form of leakage, or establish a general
-advantage over other forecasting methods. The exact rationale for the hard-coded ACI/PID gains and
-the complete source-data revision identifiers are not recorded in the streaming artifacts; those
-provenance gaps remain open.
+At levels $q\in\{.1,.5,.9\}$, the archived WQL is $2\sum_q\rho_q(y_t-Q_{tq})/|y_t|$, where $\rho_q(v)=v(q-\mathbf1\{v<0\})$. It is unavailable when $y_t=0$. This per-cutoff ratio is not a pooled all-time denominator or a CRPS estimate. Its archive comparison averages available cutoff values. We do not optimize or headline this ratio, whose denominator can be unstable near zero.
 
-% =====================================================================
+The reconstruction exports 21,296 method-cutoff rows, each containing the target, three forecast columns, normalized score, multiplier, effective level before and after update, integral, derivative and buffer size. Previous score rows determine the entire FIFO contents. All fifteen archived coverage trajectories and final WQL summaries agree at their saved precision. Unit checks compare controller forecasts and levels directly with \texttt{preqts==0.3.0} and verify that changing a future target cannot alter an earlier forecast. A separate clean-process recomputation checks the complete numerical payload. The reconstruction is not an independent statistical replication, and it does not recover historical hardware or per-call latency.
+
 \section{Results}
-\label{sec:results}
-% =====================================================================
+\input{../tables/coverage.tex}
+\input{../tables/efficiency.tex}
+At nominal 80\%, raw S+D has $E_{\rm roll}=.0830$, compared with $.0656$ for the ACI-style rule and $.0645$ for the PID-style rule. This is a descriptive reduction of roughly 21\% and 22\% on these cases. By contrast, $E_{\rm avg}$ falls from $.0416$ to $.0057$ and $.0060$. The sevenfold ratio for the latter statistic does not describe local rolling error. Reporting these quantities under a single heading of calibration error would conceal their different interpretations.
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{fig-coverage-summary.pdf}
-\caption{Mean absolute coverage error at nominal $80\%$ over the fifteen cases (bar) with the
-worst-case per-case error (whisker). Online conformal cuts the error seven-to-tenfold. Data: the
-per-case \texttt{streaming.json} artifacts.}
-\label{fig:summary}
-\end{figure}
+\begin{figure}[htbp]\centering\includegraphics[width=.8\linewidth]{fig-coverage-summary.pdf}
+\caption{Two coverage-error summaries on the same fifteen streams. Time-averaging before taking absolute deviations permits cancellation; averaging rolling absolute deviations measures a different property. Both remain descriptive finite-stream measurements.}\label{fig:summary}\end{figure}
+\begin{figure}[htbp]\centering\includegraphics[width=.8\linewidth]{fig-coverage-percase.pdf}
+\caption{Final empirical coverage at nominal 80\%, one point per case. The spread across cases is not a confidence interval or evidence of conditional coverage at each time.}\label{fig:percase}\end{figure}
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{fig-coverage-percase.pdf}
-\caption{Final empirical coverage, one point per case. The calibrated methods cluster tightly at
-the nominal level (across-case span $0.04$) while the raw and naive intervals spread widely (span
-$0.19$ and $0.40$). Data: \texttt{streaming.json}.}
-\label{fig:percase}
-\end{figure}
+The median forecast is identical across the three S+D interval rules by construction. Thus changes in interval quality do not demonstrate improved point forecasting. Scaled interval widths and scores quantify the accompanying concentration tradeoff, rather than treating coverage alone as sufficient.
 
-The headline is Fig.~\ref{fig:summary}. Averaged over the fifteen cases, the raw Theta intervals
-miss the nominal $80\%$ target by a mean absolute coverage error of $0.0416$ and the seasonal-naive
-floor by $0.0599$, with worst-case per-case errors of $0.1124$ and $0.3071$. Wrapping the \emph{same}
-Theta point forecaster in ACI or Conformal-PID cuts the mean coverage error to $0.0057$ and
-$0.0060$, a sevenfold reduction over raw Theta and tenfold over seasonal-naive. The across-case
-view (Fig.~\ref{fig:percase}) shows the same effect as a collapse of dispersion: the final
-coverage of the calibrated methods clusters within a $0.04$ span at nominal, while raw Theta
-spreads over $0.19$ and seasonal-naive over $0.40$. The point forecast is unchanged (the MASE of
-Theta, Theta+ACI and Theta+PID is identical per case); only the interval is adjusted. In the selected cases, where raw intervals drift most, the calibrators pull the time-averaged coverage
-back (intermittent demand from $0.91$ raw to $0.81$ with ACI; chaotic Mackey--Glass from $0.77$
-raw to $0.80$; real UCI electricity from $0.76$ raw to $0.80$). On the white-noise and
-near-random-walk controls, observed coverage summaries are also near nominal after calibration.
-These two examples are limited checks against simple confounds; they do not establish that the
-harness is free of leakage.
+\input{../tables/sensitivity.tex}
+\input{../tables/seeds.tex}
+Sensitivity retains all 630 case-setting rows. At nominal 90\% on the S+D base, one ACI-style gain setting has slightly higher rolling absolute error than the raw interval, so improvement is not uniform across settings. A further calculation regenerates each of the eleven synthetic mechanisms at seeds 43 and 44, keeping its definition and controller settings fixed. Together with the original seed 42, these give three realizations per generated mechanism, not 33 independent real-world datasets. The four real excerpts have no artificial repeated seed and are not counted in the generated-only table. These analyses assess numerical sensitivity of the specified design; they are not prospective validation on an independently selected collection.
 
-% =====================================================================
-\section{Discussion and scope}
-% =====================================================================
+\section{Limitations and interpretation}
+The study has one-step forecasts, short selected streams, two lightweight base constructions, three nominal levels and three gain multipliers. The bases share Gaussian dispersion approximations. There is no native stateful forecasting comparison, faithful published Conformal PID comparator, population sampling design, dependence-aware significance claim or operational cost study. A parameter range explored on these same cases cannot establish robustness outside it.
 
-Online calibration is designed to adapt interval coverage, and the measurements here concern one
-specific replay-based implementation and selected set of cases. The prequential protocol scores
-each forecast before revealing its target, while the full-history replay makes the base Theta
-forecast and its timing depend on the accumulated context. The identical median forecasts across
-raw and calibrated variants isolate interval adjustment in this experiment; the negative controls
-provide only two limited checks and do not rule out leakage. The atlas combines generated regimes
-with four real-data cases, so its real-data coverage evidence remains narrow. Results are shown at
-horizon one and nominal $80\%$; the package interface accepts other horizons and coverage levels,
-but those settings are not evaluated here. This work does not propose a new calibrator or establish
-a general advantage over alternative forecasting methods.
+The numerical reproduction closes the missing per-update forecast and controller-state gap for the reconstructed experiment. It cannot retroactively supply a rationale for the original gains, the original machine's environment, or unavailable upstream acquisition revisions. Input hashes identify the exact redistributed values; they do not establish that those values represent all source-dataset populations. Historical measured latencies are therefore excluded from numerical-performance conclusions.
 
-% =====================================================================
-\section{Conclusion}
-% =====================================================================
+Improved empirical coverage in this construction is compatible with substantial local error, wider intervals or other unmeasured failure modes. The selected negative controls and information-order tests support bounded checks; they do not prove freedom from every possible leak. The appropriate conclusion is lower measured rolling coverage error for these particular controllers and streams, with interval efficiency and sensitivity reported alongside it.
 
-We describe \texttt{preqts}, a prequential evaluation harness with an explicit covariate-arrival
-policy, and report an artifact-backed interval-calibration comparison on 15 selected cases. Under
-the stated one-step protocol, the mean absolute deviation of each case's rolling coverage summary
-from the nominal level is lower for ACI and Conformal-PID than for the uncalibrated Theta and
-seasonal-naive intervals. The median forecast is unchanged by the wrappers. These finite-case
-results do not establish distribution-free coverage or generalization to other horizons, base
-forecasters, controller settings, or data populations.
-
-% =====================================================================
 \section*{Data and code availability}
-% =====================================================================
+The source, full numerical replay, sensitivity rows, input hashes and deterministic figure/table generators are at \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope}. In a declared product environment, use Python to run \path{scripts/manuscript_replay.py} with \texttt{--check}, then run \path{scripts/make_manuscript_tables.py}. The streaming manuscript directory contains the numerical replay as \path{evidence/replay.json}. Source values are included for each case; raw upstream acquisition histories and original timing metadata are not reconstructed. The separately published \texttt{preqts==0.3.0} package supplies the checked historical controller implementation. Code and redistributed data retain their stated licences; prose uses the licence in the header.
 
-{\raggedright
-The harness is the open-source package \texttt{preqts} (\url{https://pypi.org/project/preqts/}). The
-atlas code, the per-case artifacts (trace, analysis, and streaming trajectories) and the workbench
-are at \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope} under the MIT license; an
-interactive workbench is available at \url{https://chronoscope.fasl-work.com}. Real datasets (UCI
-Electricity, Beijing PM2.5, M4 excerpts) are distributed under CC-BY-4.0 with attribution;
-streaming artifacts carry aggregate trajectories only. The figures are regenerated
-deterministically from these artifacts by
-\path{manuscripts/prequential-streaming-conformal/figures/make_figs.py}.\par}
-
-\appendices
-\section{The atlas roster}
-The ten diagnostic families and their principal methods are listed in Section~\ref{sec:atlas}; each
-is a verified implementation with its own theory page (equations, DOIs, and a theme-aware figure) in
-the repository \path{docs/analysis/}. The nineteen-method forecast ladder spans classical
-(seasonal-naive, SES, Holt, Holt--Winters, Theta), statistical (AutoARIMA, AutoETS, AutoTheta),
-gradient-boosted (LightGBM), deep, and stateful foundation models (Chronos, TimesFM). The streaming
-roster reported here is the naive floor (seasonal-naive), a strong classical live method (Theta)
-with raw intervals, and that same Theta wrapped in ACI and in Conformal-PID; all four are evaluated
-by the prequential harness of Section~\ref{sec:harness} at nominal coverage $80\%$, horizon one, and
-a per-case warmup of twice the seasonal period floored at 20 steps (20, 24 or 48 across the cases), on all fifteen cases.
-
-% =====================================================================
-\begin{thebibliography}{99}
-\itemsep 1pt
-
-\bibitem{dawid1984} A.~P. Dawid, ``Present position and potential developments: Some personal views.
-Statistical theory. The prequential approach,'' \emph{J. R. Stat. Soc. A}, vol.~147, no.~2,
-pp.~278--292, 1984, doi:10.2307/2981683.
-\bibitem{gibbs2021} I.~Gibbs and E.~Cand\`es, ``Adaptive conformal inference under distribution
-shift,'' in \emph{Adv. Neural Inf. Process. Syst. (NeurIPS)}, 2021, arXiv:2106.00170.
-\bibitem{angelopoulos2023} A.~N. Angelopoulos, E.~J. Cand\`es, and R.~J. Tibshirani, ``Conformal PID
-control for time series prediction,'' in \emph{Adv. Neural Inf. Process. Syst. (NeurIPS)}, 2023,
-arXiv:2307.16895.
-\bibitem{shchur2025} O.~Shchur \emph{et al.}, ``fev-bench: A realistic benchmark for time series
-forecasting,'' 2025, arXiv:2509.26468.
-\bibitem{hyndman2006} R.~J. Hyndman and A.~B. Koehler, ``Another look at measures of forecast
-accuracy,'' \emph{Int. J. Forecast.}, vol.~22, no.~4, pp.~679--688, 2006,
-doi:10.1016/j.ijforecast.2006.03.001.
-\bibitem{makridakis2020} S.~Makridakis, E.~Spiliotis, and V.~Assimakopoulos, ``The M4 competition:
-100,000 time series and 61 forecasting methods,'' \emph{Int. J. Forecast.}, vol.~36, no.~1,
-pp.~54--74, 2020, doi:10.1016/j.ijforecast.2019.04.014.
-\bibitem{gneiting2007} T.~Gneiting and A.~E. Raftery, ``Strictly proper scoring rules, prediction,
-and estimation,'' \emph{J. Amer. Statist. Assoc.}, vol.~102, no.~477, pp.~359--378, 2007,
-doi:10.1198/016214506000001437.
-\bibitem{assimakopoulos2000} V.~Assimakopoulos and K.~Nikolopoulos, ``The theta model: A
-decomposition approach to forecasting,'' \emph{Int. J. Forecast.}, vol.~16, no.~4, pp.~521--530,
-2000, doi:10.1016/S0169-2070(00)00066-2.
-\bibitem{lubba2019} C.~H. Lubba \emph{et al.}, ``catch22: CAnonical Time-series CHaracteristics,''
-\emph{Data Min. Knowl. Discov.}, vol.~33, pp.~1821--1852, 2019, doi:10.1007/s10618-019-00647-x.
-\bibitem{ansari2024} A.~F. Ansari \emph{et al.}, ``Chronos: Learning the language of time series,''
-\emph{Trans. Mach. Learn. Res.}, 2024, arXiv:2403.07815.
-\bibitem{das2024} A.~Das, W.~Kong, R.~Sen, and Y.~Zhou, ``A decoder-only foundation model for
-time-series forecasting,'' in \emph{Proc. Int. Conf. Mach. Learn. (ICML)}, 2024, arXiv:2310.10688.
-
+\begin{thebibliography}{9}
+\bibitem{dawid1984} A. P. Dawid, ``Statistical theory: The prequential approach,'' \emph{JRSS A}, vol. 147, no. 2, pp. 278--292, 1984, doi:10.2307/2981683.
+\bibitem{gibbs2021} I. Gibbs and E. Cand\`es, ``Adaptive conformal inference under distribution shift,'' \emph{NeurIPS}, 2021, \url{https://arxiv.org/abs/2106.00170}.
+\bibitem{angelopoulos2023} A. N. Angelopoulos, E. Cand\`es and R. J. Tibshirani, ``Conformal PID control for time series prediction,'' \emph{NeurIPS}, 2023, \url{https://arxiv.org/abs/2307.16895}.
+\bibitem{hyndman2003} R. J. Hyndman and B. Billah, ``Unmasking the Theta method,'' \emph{International Journal of Forecasting}, vol. 19, no. 2, pp. 287--290, 2003, \url{https://robjhyndman.com/papers/Theta.pdf}.
+\bibitem{gneiting2007} T. Gneiting and A. E. Raftery, ``Strictly proper scoring rules, prediction, and estimation,'' \emph{JASA}, vol. 102, no. 477, pp. 359--378, 2007, doi:10.1198/016214506000001437.
 \end{thebibliography}
-
 \end{document}

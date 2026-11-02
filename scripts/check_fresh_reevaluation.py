@@ -1,6 +1,7 @@
 """Admit a complete fresh comparison: exact sources, original targets and independently recomputed scores."""
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import math
@@ -17,6 +18,53 @@ def read(path):
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def implementation_dependencies(root):
+    """Conservatively follow local imports, including imports inside engine functions.
+
+    The frozen experiment also recorded unrelated modules. Those bindings remain
+    immutable, but adding an independent experiment must not invalidate this one.
+    A newly imported dependency must be present in the recorded inventory.
+    """
+    package = root / "data-pipeline"
+    modules = {}
+    for path in (package / "chronoscopelab").rglob("*.py"):
+        parts = list(path.relative_to(package).with_suffix("").parts)
+        if parts[-1] == "__init__":
+            parts.pop()
+        modules[".".join(parts)] = path
+    entry = root / "scripts/reevaluate_fresh.py"
+    pending = [("", entry)]
+    visited = set()
+    while pending:
+        module, path = pending.pop()
+        rel = path.relative_to(root).as_posix()
+        if rel in visited:
+            continue
+        visited.add(rel)
+        # Importing a module executes all enclosing package initializers.
+        parts = module.split(".")
+        for length in range(1, len(parts)):
+            parent = ".".join(parts[:length])
+            if parent in modules:
+                pending.append((parent, modules[parent]))
+        namespace = module if path.name == "__init__.py" else module.rpartition(".")[0]
+        for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"), filename=str(path))):
+            names = []
+            if isinstance(node, ast.Import):
+                names = [alias.name for alias in node.names]
+            elif isinstance(node, ast.ImportFrom):
+                if node.level:
+                    prefix = namespace.split(".")[:len(namespace.split(".")) - node.level + 1]
+                    base = ".".join([*prefix, *([node.module] if node.module else [])])
+                else:
+                    base = node.module or ""
+                names = [base, *(f"{base}.{alias.name}" for alias in node.names)]
+            for name in names:
+                if name in modules:
+                    pending.append((name, modules[name]))
+    return visited
 
 
 def recompute(history, actual, lower, point, upper, lag):
@@ -52,10 +100,9 @@ def validate(document, root=ROOT, artifact_root=None):
         raise ValueError("Fresh scoring protocol differs")
     if document["source_comparison_sha256"] != digest(artifact_root / "data/derived/reevaluation.json"):
         raise ValueError("Fresh comparison source artifact is stale")
-    expected = {p.relative_to(root).as_posix() for p in (root / "data-pipeline/chronoscopelab").rglob("*.py")}
-    expected.add("scripts/reevaluate_fresh.py")
-    if set(document["code_sha256"]) != expected:
-        raise ValueError("Fresh implementation binding inventory is incomplete")
+    missing = implementation_dependencies(root) - set(document["code_sha256"])
+    if missing:
+        raise ValueError(f"Fresh implementation binding inventory is incomplete: {sorted(missing)}")
     for key in ("trace_sha256", "input_sha256"):
         if document[key] != baseline[key]:
             raise ValueError("Fresh source inventory differs from the admitted comparison")

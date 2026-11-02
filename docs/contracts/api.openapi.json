@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ChronoScope static artifact contracts",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "Artifact shapes for code generation. The product has no active HTTP inference API."
   },
   "paths": {},
@@ -34,6 +34,12 @@
       },
       "ForecastabilityStudy": {
         "$ref": "./schemas/forecastability.schema.json"
+      },
+      "CombinationIndex": {
+        "$ref": "./schemas/combination-index.schema.json"
+      },
+      "CombinationCase": {
+        "$ref": "./schemas/combination-case.schema.json"
       }
     }
   }

@@ -1,0 +1,383 @@
+{
+  "ok": true,
+  "checked_utc": "2026-11-02T06:53:03.603253+00:00",
+  "origin": "https://chronoscope.fasl-work.com",
+  "source_sha": "a74cb19364010d7d7acfcdb03a6eb5d5ee907cbb",
+  "version": "0.24.000",
+  "dns_addresses": [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153"
+  ],
+  "tls": {
+    "verified": true,
+    "protocol": "TLSv1.3",
+    "subject_alt_names": [
+      [
+        "DNS",
+        "chronoscope.fasl-work.com"
+      ]
+    ],
+    "not_after": "Jan 31 01:05:17 2027 GMT"
+  },
+  "build": {
+    "version": "0.24.000",
+    "sha": "a74cb19364010d7d7acfcdb03a6eb5d5ee907cbb",
+    "built": "2026-11-02T06:51:44.750Z"
+  },
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/?verify=20261102065303"
+    },
+    {
+      "route": "/app/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/app/?verify=20261102065303"
+    },
+    {
+      "route": "/methodology/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/methodology/?verify=20261102065303"
+    },
+    {
+      "route": "/implementation/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/implementation/?verify=20261102065303"
+    },
+    {
+      "route": "/experiments/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/experiments/?verify=20261102065303"
+    },
+    {
+      "route": "/benchmark/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/benchmark/?verify=20261102065303"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/data/BRKV_level_shift/analysis.json",
+      "bytes": 113077,
+      "sha256": "7b1ad6ee72fe2be02a0a78d18b3804dbc6c06a782ebe6f3208048ed911966108"
+    },
+    {
+      "path": "/data/BRKV_level_shift/streaming.json",
+      "bytes": 35635,
+      "sha256": "75380ff5986120699549e11e320adc4a70f09431cc82d109b7258044194873ae"
+    },
+    {
+      "path": "/data/BRKV_level_shift/trace.json",
+      "bytes": 15236,
+      "sha256": "c7dbc32d4cbc10c871aeaab630c8dadb82d140582c2ff8ef21483b1dddf5e406"
+    },
+    {
+      "path": "/data/CHAO_mackey/analysis.json",
+      "bytes": 179213,
+      "sha256": "4f28f61728e55a25aa5cf059121a1ce53d8f76fd11a32465947583c206baac91"
+    },
+    {
+      "path": "/data/CHAO_mackey/streaming.json",
+      "bytes": 61755,
+      "sha256": "09884f746e947350645568a84cecfe78640fdbb8c74e0ea3152292591813a511"
+    },
+    {
+      "path": "/data/CHAO_mackey/trace.json",
+      "bytes": 15386,
+      "sha256": "b25fe7a3c5fcca5a41d8ee50eb5c7721370e5e27515962da5f9d899684f4df99"
+    },
+    {
+      "path": "/data/CTRL_white_noise/analysis.json",
+      "bytes": 70091,
+      "sha256": "5257ff0a23d3dbd5bc6439dd8db8704aff7c072614fabf37f4592304ffcf8367"
+    },
+    {
+      "path": "/data/CTRL_white_noise/streaming.json",
+      "bytes": 18545,
+      "sha256": "8a4cda46d8ac75957982eea6b1e88d92bc33f7ed059993c297c3a32e89d4221a"
+    },
+    {
+      "path": "/data/CTRL_white_noise/trace.json",
+      "bytes": 13543,
+      "sha256": "f59510fa7816955e4a65a1e9df822fc9d63d0b642a8fddae59f43aaa269d690a"
+    },
+    {
+      "path": "/data/EXOG_promo/analysis.json",
+      "bytes": 97374,
+      "sha256": "069de568733491a70147f782ef343f16aac9d2e5ca9c6fec770b3b341655329c"
+    },
+    {
+      "path": "/data/EXOG_promo/streaming.json",
+      "bytes": 43703,
+      "sha256": "a0b19671e7dd43bab811ffe196ae33b1410e03e55e180a7931a63c034b3236b4"
+    },
+    {
+      "path": "/data/EXOG_promo/trace.json",
+      "bytes": 15689,
+      "sha256": "b30156d4c4c08eadd64e2a45be7c2cce415d9986c295e10ae8803be9d556764e"
+    },
+    {
+      "path": "/data/HETV_garch/analysis.json",
+      "bytes": 183070,
+      "sha256": "5a5b53ef97e4d2035dcc4fdebd260e1ae844e4a6f0cc084aaf851cac8693325a"
+    },
+    {
+      "path": "/data/HETV_garch/streaming.json",
+      "bytes": 62524,
+      "sha256": "ddedf961479d94ff33d3101b5cd5545adea558ab57270ba962a6994cfa5a8daa"
+    },
+    {
+      "path": "/data/HETV_garch/trace.json",
+      "bytes": 15594,
+      "sha256": "51b9499cc9c812870f5b5e53db8936a3f19e7da4ac664cafc5288bb4a9fe1c1b"
+    },
+    {
+      "path": "/data/INTM_demand/analysis.json",
+      "bytes": 78223,
+      "sha256": "329a747d94828ed0971ba93bdcdb36ca436dce027b294d06a00bcc25fc47c18a"
+    },
+    {
+      "path": "/data/INTM_demand/streaming.json",
+      "bytes": 23329,
+      "sha256": "a39f52e0d9e6dcbe097f19324786a8be4fcac57e5b4a6c21cc9b9f2e87f31d91"
+    },
+    {
+      "path": "/data/INTM_demand/trace.json",
+      "bytes": 12983,
+      "sha256": "1e80005f25808c76058d635e0d8409811fba9a64a9640fee7e75a5a70e58030a"
+    },
+    {
+      "path": "/data/LMEM_fractional/analysis.json",
+      "bytes": 188880,
+      "sha256": "68f709c3df54d514a257ce66716bca801ab36e440bfa388cdd64909b44897b0f"
+    },
+    {
+      "path": "/data/LMEM_fractional/streaming.json",
+      "bytes": 61937,
+      "sha256": "b335a3d3b748c0f49583a258b540562e487fe3053ce20d9b1457f25f0ddda962"
+    },
+    {
+      "path": "/data/LMEM_fractional/trace.json",
+      "bytes": 15416,
+      "sha256": "3d647a76ea78642a91d786384dd119fa066494b4f584c600f2585261d3ee7fe9"
+    },
+    {
+      "path": "/data/MSEA_daily_weekly/analysis.json",
+      "bytes": 230144,
+      "sha256": "b0337e1c2690c82d835ccd3d732c70d372b39e1713e08f76e21169ae024b8602"
+    },
+    {
+      "path": "/data/MSEA_daily_weekly/streaming.json",
+      "bytes": 81602,
+      "sha256": "d662feeeb32ca9e2d99fa4d5d6cada1c9154987a8165670723a8d3c6946bf6b1"
+    },
+    {
+      "path": "/data/MSEA_daily_weekly/trace.json",
+      "bytes": 22809,
+      "sha256": "f70f2c0fa9f35fd557e137acee7e652492e1d9eb6743cbd9233099b0623dd766"
+    },
+    {
+      "path": "/data/REAL_electricity/analysis.json",
+      "bytes": 173376,
+      "sha256": "e177a8a58bac067742b67fae727e051a3a71c72072e1d474df7d5651bf514089"
+    },
+    {
+      "path": "/data/REAL_electricity/streaming.json",
+      "bytes": 55961,
+      "sha256": "5c950778b4fb6bf5ba2b5e9ca030fb252231cecb689140f44c7575fad92b0f51"
+    },
+    {
+      "path": "/data/REAL_electricity/trace.json",
+      "bytes": 24420,
+      "sha256": "7117d1aca2e122b68d83554bc44f0e98d3ee8e286981c6d3481cf58d41193842"
+    },
+    {
+      "path": "/data/REAL_m4_daily/analysis.json",
+      "bytes": 135796,
+      "sha256": "6ec8e420051ed52874ee20c96cdfa09f7ef4658e45c90f806cb52ecca1453ac9"
+    },
+    {
+      "path": "/data/REAL_m4_daily/streaming.json",
+      "bytes": 49417,
+      "sha256": "9063961fa8baf8db7fa494600c8e984381633fc5d4fa3bbb7a5a5694035b03e9"
+    },
+    {
+      "path": "/data/REAL_m4_daily/trace.json",
+      "bytes": 17863,
+      "sha256": "a03d117cbf84eee5c07e1d4f6e8a2b85362abd977e494b53a5605b9b895f3d27"
+    },
+    {
+      "path": "/data/REAL_m4_hourly/analysis.json",
+      "bytes": 145783,
+      "sha256": "69ed277458a2734e27a729ba71ffc740eb3b877e12ecf451edc75d335e5f7c13"
+    },
+    {
+      "path": "/data/REAL_m4_hourly/streaming.json",
+      "bytes": 55555,
+      "sha256": "cefeb80abdd2bf502d7e4deff1d2355684086fcb27a12168e5c0adc23c58f77f"
+    },
+    {
+      "path": "/data/REAL_m4_hourly/trace.json",
+      "bytes": 23456,
+      "sha256": "152eeaa379b52d3530746baadf5d3497ce22e668e8b9944a1640fe2bf7da583c"
+    },
+    {
+      "path": "/data/REAL_pm25/analysis.json",
+      "bytes": 163564,
+      "sha256": "c92850a2e651fdb8e87cecf5f18d7b246a68670b63c04519383e0c7603528e0c"
+    },
+    {
+      "path": "/data/REAL_pm25/streaming.json",
+      "bytes": 55493,
+      "sha256": "55bcdf7b4f88fe15e54afc4bafcbfd8ab7f2db75e567f2a44b76d993f6e596f2"
+    },
+    {
+      "path": "/data/REAL_pm25/trace.json",
+      "bytes": 21963,
+      "sha256": "60aa953aa56a4e706ce45fc039fd8f97efc2d5991527bd45e4031ac8222343f8"
+    },
+    {
+      "path": "/data/RWLK_noise/analysis.json",
+      "bytes": 85136,
+      "sha256": "5737266350fc0b6f62bafc33393aab20a2c69f6c09f67c317f3b3304b8a65991"
+    },
+    {
+      "path": "/data/RWLK_noise/streaming.json",
+      "bytes": 23386,
+      "sha256": "91ef03bbb9a828576b063cc8c7465828fc78245c7cdf4b5c8f7c0ed0d08aacbf"
+    },
+    {
+      "path": "/data/RWLK_noise/trace.json",
+      "bytes": 14048,
+      "sha256": "e8ea8eea9a42ac49e6b4693d2fb97ca6d4b505aa7a659d5dbccedbeeaefd7b6a"
+    },
+    {
+      "path": "/data/SEAS_hourly/analysis.json",
+      "bytes": 171404,
+      "sha256": "2c6c1d78ac2d0ebf173a8579309ae6d90e6cfc3bab562f4b466881ba9a70bdf8"
+    },
+    {
+      "path": "/data/SEAS_hourly/streaming.json",
+      "bytes": 56385,
+      "sha256": "a22b8eb9ce40dfb396018c553b0895504ecc486460ace299464872c32ccc3dad"
+    },
+    {
+      "path": "/data/SEAS_hourly/trace.json",
+      "bytes": 23625,
+      "sha256": "f7c5218e1901120f595a38f66ea50bb14abf9adb62e978d8d8fef7daea5125fd"
+    },
+    {
+      "path": "/data/TRND_seasonal/analysis.json",
+      "bytes": 70890,
+      "sha256": "cae7dc812f765e12d38956d0147913f3c78981a2edba181a2bd6e364d9359d11"
+    },
+    {
+      "path": "/data/TRND_seasonal/streaming.json",
+      "bytes": 20478,
+      "sha256": "9c6ff56555f00753f0c6219d572c403a7ed4e4e126fb592db9c8b68fe14f26a4"
+    },
+    {
+      "path": "/data/TRND_seasonal/trace.json",
+      "bytes": 14496,
+      "sha256": "efa0106cc9db75da694a972d160c3dcaf03ed4eb009b1c09ebd89b046d1d4244"
+    },
+    {
+      "path": "/data/forecastability.json",
+      "bytes": 9354521,
+      "sha256": "183d9023a86e8449c567615389dda7e6909b6d68bbb46eb2ea46f9d3aad7b5ce"
+    },
+    {
+      "path": "/data/fresh-reevaluation.json",
+      "bytes": 894579,
+      "sha256": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1"
+    },
+    {
+      "path": "/data/manifests/BRKV_level_shift.json",
+      "bytes": 1617,
+      "sha256": "2f6eec3db452f7d4d824acd244cc77d04a42b6ab00428d427060fd223f44e1a6"
+    },
+    {
+      "path": "/data/manifests/CHAO_mackey.json",
+      "bytes": 1604,
+      "sha256": "c99ea243ae1c7c8022cad4631ed19e5b18ab806e818fdf71d79623fb64598a77"
+    },
+    {
+      "path": "/data/manifests/CTRL_white_noise.json",
+      "bytes": 1576,
+      "sha256": "22db8dad588794fe56322e4d70ed7e1f1308fb43637f64607bd0746f689fdbbe"
+    },
+    {
+      "path": "/data/manifests/EXOG_promo.json",
+      "bytes": 1707,
+      "sha256": "9cdc06293ad6b81fec394a0d35fd976380009d3f54e6d02a517fa85b25b805a0"
+    },
+    {
+      "path": "/data/manifests/HETV_garch.json",
+      "bytes": 1593,
+      "sha256": "33b6e9d34f627575e282b86aaafeddd00d472861278ab9f981899af7584f9db2"
+    },
+    {
+      "path": "/data/manifests/INTM_demand.json",
+      "bytes": 1589,
+      "sha256": "480c31ce91b81a92eb43c90e9a69547aa8dd54ca26b073277e830f806945b5dd"
+    },
+    {
+      "path": "/data/manifests/LMEM_fractional.json",
+      "bytes": 1624,
+      "sha256": "8092301352694733f2c3962f13e1b778b175e06ed20d70e1cfe9a911a40786bd"
+    },
+    {
+      "path": "/data/manifests/MSEA_daily_weekly.json",
+      "bytes": 1629,
+      "sha256": "8e029bd43f377ae142bf5af74911d1a4d6dc8b9c0baeab386b65561daf7d1a4e"
+    },
+    {
+      "path": "/data/manifests/REAL_electricity.json",
+      "bytes": 1626,
+      "sha256": "46d9ca9db01a838c483bda92be760e8db0f43d63bf706f20bd3d7a4b234b71d2"
+    },
+    {
+      "path": "/data/manifests/REAL_m4_daily.json",
+      "bytes": 1612,
+      "sha256": "faee0d78460bd554cb3d59ab178ccbe2e8fa7f1830e584f5df01cd9ab83c5b9b"
+    },
+    {
+      "path": "/data/manifests/REAL_m4_hourly.json",
+      "bytes": 1602,
+      "sha256": "ae5bfabf5fe155e77ac1d44d94c8df2661e9012e3e373440ee0d717511e4cdd9"
+    },
+    {
+      "path": "/data/manifests/REAL_pm25.json",
+      "bytes": 1595,
+      "sha256": "7510eb80c0ccdeae45fd0b9a2182164693258ce2d34c558a30c3cd6370d6714a"
+    },
+    {
+      "path": "/data/manifests/RWLK_noise.json",
+      "bytes": 1545,
+      "sha256": "2c455bb010fa8dc0f7c1ad6797b5696b940664c5f5a857a344b7d998f8ccef3f"
+    },
+    {
+      "path": "/data/manifests/SEAS_hourly.json",
+      "bytes": 1553,
+      "sha256": "0d57c7ded7d8985136b947ab39d42e1684df8ece2950a2a1747eb6ea07c519dd"
+    },
+    {
+      "path": "/data/manifests/TRND_seasonal.json",
+      "bytes": 1572,
+      "sha256": "18233b4006dd7365f466a14606165d6bea66c43cb9b7a111dec8032cd574fb31"
+    },
+    {
+      "path": "/data/manifests/index.json",
+      "bytes": 1785,
+      "sha256": "205590188d62b347afa1b3bb146b82054c74159966cc5bdbb897032066638c86"
+    },
+    {
+      "path": "/data/reevaluation.json",
+      "bytes": 752607,
+      "sha256": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c"
+    }
+  ]
+}

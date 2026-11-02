@@ -366,6 +366,112 @@ export interface components {
                 cache_identity: string;
             };
         };
+        /** CombinationIndex */
+        CombinationIndex: {
+            /** @constant */
+            schema: "chronoscope.combination-index/v1";
+            /** @constant */
+            complete: true;
+            identity: string;
+            protocol: Record<string, never>;
+            code_sha256: {
+                [key: string]: string;
+            };
+            export_code_sha256: string;
+            packages: {
+                [key: string]: string;
+            };
+            selected_case_source_sha256: string;
+            cohorts: {
+                id: string;
+                name: string;
+                inventory: number;
+                admitted: number;
+                excluded: number;
+                exclusion_reasons: {
+                    [key: string]: number;
+                };
+                origins: number;
+                summary: {
+                    name: string;
+                    series: number;
+                    mase: number;
+                    mae: number;
+                    coverage: number;
+                    mean_width: number;
+                    msis: number;
+                }[];
+                selection_counts: {
+                    [key: string]: number;
+                };
+            }[];
+            cases: {
+                id: string;
+                dataset: string;
+                source_n: number;
+                path: string;
+                origins: number;
+                excluded?: string;
+            }[];
+            sources: {
+                [key: string]: {
+                    doi: string;
+                    /** @constant */
+                    license: "CC-BY-4.0";
+                    tsf_sha256: string;
+                    zip_sha256: string;
+                    horizon: number;
+                    seasonality: number;
+                };
+            };
+            /** @constant */
+            browser_forecast_decimals: 8;
+            audit: {
+                path: string;
+                sha256: string;
+                uncompressed_sha256: string;
+                scope: string;
+            };
+        };
+        /** CombinationCase */
+        CombinationCase: {
+            /** @constant */
+            schema: "chronoscope.combination-case/v1";
+            id: string;
+            /** @enum {unknown} */
+            dataset: "m4_weekly" | "m3_monthly" | "selected_cases";
+            source_n: number;
+            sequence_sha256: string;
+            origins: {
+                origin: number;
+                prefix_start: number;
+                prefix_length: number;
+                prefix_sha256: string;
+                scale: number;
+                actual: number[];
+                methods: {
+                    name: string;
+                    quantiles: number[][];
+                    metrics: {
+                        mae: number;
+                        rmse: number;
+                        mase: number | null;
+                        coverage: number;
+                        mean_width: number;
+                        msis: number | null;
+                        wql: number | null;
+                    };
+                    weights?: number[];
+                    memory_origins?: number[];
+                    selected?: (string | number)[];
+                    validation_blocks?: number;
+                }[];
+            }[];
+            excluded?: string;
+            representative?: string;
+            seasonality?: number;
+            horizon?: number;
+        };
         MethodBacktest: {
             mase: number | null;
             wql: number | null;

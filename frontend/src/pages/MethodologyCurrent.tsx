@@ -90,6 +90,24 @@ function flowLines(text: string): string[] {
   return lines;
 }
 
+const validationTopics: Topic[] = [{
+  id: 'validated-combinations', name: 'ContextMemoryCV and ValidationMix', nameEs: 'ContextMemoryCV y ValidationMix', kind: 'learned', refs: ['context-memory', 'fforma', 'ade', 'mase'],
+  paragraphs: [
+    bi('The fixed ContextMemory configuration remains an unsuccessful aggregate comparison against its matching recency-only control on the original fifteen blocks. The new variants ask whether temporal validation can choose better parameters using only outcomes already available inside a forecast prefix. They retain separate identities so a later improvement does not rewrite the earlier result.', 'La configuración fija ContextMemory conserva su resultado agregado desfavorable frente al control de recencia sobre los quince bloques originales. Las variantes nuevas preguntan si la validación temporal puede elegir parámetros mejores usando resultados disponibles dentro del prefijo. Sus identidades separadas impiden que una mejora posterior reescriba el resultado anterior.'),
+    bi('At an inner validation origin, a training block is eligible only after its entire forecast horizon has arrived. At least three completed earlier blocks are needed. Each candidate fits those blocks and is scored on the later historical block using that origin’s prefix scale. No outer target participates in choosing the rule. Without eligible validation, the exact recency-only rule is used.', 'En un origen interno de validación, un bloque de entrenamiento es elegible solo cuando llegó todo su horizonte. Se exigen tres bloques anteriores completos. Cada candidato se ajusta con ellos y se puntúa en el bloque histórico posterior usando su escala de prefijo. El objetivo externo no participa en la selección. Sin validación elegible se usa la regla exacta de recencia.'),
+    bi('ContextMemoryCV searches shrinkages 0, 0.5 and 1 and temperatures 0.15, 0.5 and 1, with the original recency and equal averages as candidates. Shrinkage one suppresses the context kernel. ValidationMix also considers convex squared-error stacking, regularized toward equal weights with penalties 0.01, 0.1, 1 and 10. A five-percent uniform floor follows fitting. The lowest historical absolute-error score selects a candidate; stable configuration order breaks ties.', 'ContextMemoryCV compara contracciones 0, 0,5 y 1 y temperaturas 0,15, 0,5 y 1, junto con los promedios originales de recencia y uniforme. Contracción uno elimina el núcleo contextual. ValidationMix considera además apilamiento convexo de error cuadrático, regularizado hacia pesos iguales con penalizaciones 0,01, 0,1, 1 y 10. Tras el ajuste se aplica un piso uniforme del cinco por ciento. El menor error absoluto histórico selecciona al candidato y el orden fijo resuelve empates.'),
+    bi('All candidates use SeasonalNaive, SES, Holt, HoltWinters and finite-history Theta. Current expert paths are combined with the selected nonnegative weights. Gaussian quantile-column averaging preserves order, but it does not produce a calibrated mixture. A reduction in point error can coexist with a worse interval score.', 'Todos los candidatos usan SeasonalNaive, SES, Holt, HoltWinters y Theta de historia finita. Las trayectorias actuales se combinan con pesos no negativos. Promediar columnas gaussianas conserva su orden, pero no produce una mezcla calibrada. Menor error puntual puede coexistir con peor puntuación de intervalos.'),
+    bi('The external study evaluates twelve methods on the complete source inventories, with explicit exclusions, common prefixes and up to three origins per series. The new combinations improve on RecencyMean in both admitted collections; AutoTheta retains lower monthly point error and lower interval scores in both. No neural, pretrained or globally trained ensemble was freshly fitted on these new collections.', 'El estudio externo evalúa doce métodos sobre inventarios completos, con exclusiones explícitas, prefijos comunes y hasta tres orígenes por serie. Las nuevas combinaciones mejoran a RecencyMean en ambas colecciones admitidas; AutoTheta mantiene menor error puntual mensual y mejores puntuaciones de intervalos en ambas. No se ajustaron de nuevo redes, modelos preentrenados ni ensambles globales sobre estas colecciones.'),
+  ],
+  equations: [
+    [String.raw`o+H\leq v`,bi('A training target block must be complete at the validation query.', 'Un bloque objetivo de entrenamiento debe estar completo al consultar la validación.')],
+    [String.raw`\min_{w\ge0,\;\mathbf1^Tw=1}\frac1{JH}\sum_{j,h}(E_{jh}^Tw)^2+\lambda\|w-\mathbf1/5\|_2^2`,bi('Normalized historical errors define a convex stacking fit; five experts allow active-set enumeration.', 'Los errores históricos normalizados definen un ajuste convexo; cinco expertos permiten enumerar conjuntos activos.')],
+    [String.raw`w_k^{final}=0.95w_k+0.05/5`,bi('The allocation floor is applied after fitting and is also present during validation scoring.', 'El piso se aplica después del ajuste y también está presente al puntuar la validación.')],
+  ],
+  flow:[bi('Observed prefix','Prefijo observado'),bi('Temporal validation','Validación temporal'),bi('Combined forecast','Pronóstico combinado')],
+  caveat:bi('The parameter family was fixed before external scoring. These finite-collection results do not prove a causal benefit of the context kernel, calibrated uncertainty, official competition rank or superiority to every forecasting family.', 'La familia de parámetros se fijó antes de puntuar datos externos. Los resultados no prueban beneficio causal del núcleo contextual, incertidumbre calibrada, posición oficial en competiciones ni superioridad frente a toda familia de modelos.'),
+}];
+
 export default function MethodologyCurrent() {
   const lang = useShellLang();
   const show = (v: Bi) => v[lang];
@@ -114,6 +132,7 @@ export default function MethodologyCurrent() {
     <TabGroups ariaLabel={lang === 'es' ? 'Métodos y diagnósticos' : 'Methods and diagnostics'} groups={[
       {id:'forecast-methods',label:show(bi('Forecasting methods','Métodos de pronóstico')),tabs:topics.map(renderTopic)},
       {id:'sequence-methods',label:show(bi('Sequence and corpus','Secuencias y corpus')),tabs:RESEARCH_TOPICS.map(renderTopic)},
+      {id:'validation-methods',label:show(bi('Temporal combination','Combinación temporal')),tabs:validationTopics.map(renderTopic)},
     ]} />
   </DocPage>;
 }

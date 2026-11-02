@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="pytest tests">
+  <testsuite name="pytest" errors="0" failures="0" skipped="6" tests="227" time="805.544" timestamp="2026-11-02T10:58:00.427955-03:00">
+    <testcase classname="" name="tests.test_engine_neural" time="0.000">
+      <skipped message="collection skipped">('REDACTED_LOCAL_PATH', 10, "Skipped: could not import 'torch': No module named 'torch'")</skipped>
+    </testcase>
+    <testcase classname="" name="tests.test_engine_neuralforecast" time="0.000">
+      <skipped message="collection skipped">('REDACTED_LOCAL_PATH', 10, "Skipped: could not import 'neuralforecast': No module named 'neuralforecast'")</skipped>
+    </testcase>
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_bartlett_band_matches_196_over_sqrt_n" time="0.225" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_acf_lag0_is_one" time="0.664" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_white_noise_has_few_significant_spikes" time="0.125" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_ar1_shows_in_acf_and_pacf_cut_at_one" time="0.152" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_ma1_shows_in_acf_cut_after_one" time="0.117" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_durbin_watson_near_two_for_white_noise" time="0.115" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_durbin_watson_low_for_positive_serial_correlation" time="0.126" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_lag_plot_pairs_shapes" time="0.113" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_report_is_json_ready_and_complete" time="0.071" />
+    <testcase classname="tests.test_analysis_autocorrelation" name="test_nan_safe" time="0.131" />
+    <testcase classname="tests.test_analysis_causality" name="test_ccf_finds_the_lead" time="0.150" />
+    <testcase classname="tests.test_analysis_causality" name="test_granger_is_directional" time="0.299" />
+    <testcase classname="tests.test_analysis_causality" name="test_cointegration_detects_shared_trend" time="0.143" />
+    <testcase classname="tests.test_analysis_causality" name="test_independent_walks_not_cointegrated" time="0.242" />
+    <testcase classname="tests.test_analysis_causality" name="test_report_is_json_ready_and_complete" time="0.342" />
+    <testcase classname="tests.test_analysis_causality" name="test_cointegration_invalid_on_stationary_series" time="0.279" />
+    <testcase classname="tests.test_analysis_causality" name="test_nan_safe" time="0.274" />
+    <testcase classname="tests.test_analysis_changepoints" name="test_pelt_finds_the_two_level_shifts" time="0.225" />
+    <testcase classname="tests.test_analysis_changepoints" name="test_pelt_reports_no_breaks_on_a_stable_series" time="0.104" />
+    <testcase classname="tests.test_analysis_changepoints" name="test_binseg_with_known_break_count" time="0.161" />
+    <testcase classname="tests.test_analysis_changepoints" name="test_cusum_flags_the_unstable_series_and_passes_the_stable_one" time="0.124" />
+    <testcase classname="tests.test_analysis_changepoints" name="test_markov_two_regimes_separate_means" time="0.714" />
+    <testcase classname="tests.test_analysis_changepoints" name="test_report_is_json_ready_and_honest" time="0.603" />
+    <testcase classname="tests.test_analysis_changepoints" name="test_nan_safe" time="0.533" />
+    <testcase classname="tests.test_analysis_distribution" name="test_summary_flags_normal_and_rejects_heavy_tailed" time="0.747" />
+    <testcase classname="tests.test_analysis_distribution" name="test_summary_detects_skew" time="0.163" />
+    <testcase classname="tests.test_analysis_distribution" name="test_kde_and_qq_payloads" time="0.111" />
+    <testcase classname="tests.test_analysis_distribution" name="test_entropy_orders_regular_below_random" time="21.503" />
+    <testcase classname="tests.test_analysis_distribution" name="test_permutation_and_spectral_entropy_are_normalized" time="0.111" />
+    <testcase classname="tests.test_analysis_distribution" name="test_bds_flags_iid_noise_and_rejects_structure" time="0.109" />
+    <testcase classname="tests.test_analysis_distribution" name="test_catch22_is_honest_when_unavailable" time="0.052" />
+    <testcase classname="tests.test_analysis_distribution" name="test_report_is_json_ready_and_complete" time="0.143" />
+    <testcase classname="tests.test_analysis_distribution" name="test_nan_safe" time="0.127" />
+    <testcase classname="tests.test_analysis_filters" name="test_hp_recovers_the_smooth_trend" time="0.024" />
+    <testcase classname="tests.test_analysis_filters" name="test_bk_bandpass_extracts_the_cycle_band" time="0.010" />
+    <testcase classname="tests.test_analysis_filters" name="test_cf_keeps_full_length_and_finds_the_cycle" time="0.023" />
+    <testcase classname="tests.test_analysis_filters" name="test_emd_reconstruction_is_complete" time="1.735" />
+    <testcase classname="tests.test_analysis_filters" name="test_emd_first_imf_is_the_fastest" time="0.033" />
+    <testcase classname="tests.test_analysis_filters" name="test_scalogram_finds_the_cycle_period" time="0.151" />
+    <testcase classname="tests.test_analysis_filters" name="test_report_is_json_ready_and_complete" time="0.058" />
+    <testcase classname="tests.test_analysis_filters" name="test_nan_safe" time="0.053" />
+    <testcase classname="tests.test_analysis_fractal" name="test_hurst_orders_noise_below_random_walk" time="0.681" />
+    <testcase classname="tests.test_analysis_fractal" name="test_hurst_short_series_flagged_unreliable" time="0.018" />
+    <testcase classname="tests.test_analysis_fractal" name="test_fractal_dimension_rougher_for_noise" time="0.005" />
+    <testcase classname="tests.test_analysis_fractal" name="test_mfdfa_returns_a_spectrum" time="0.030" />
+    <testcase classname="tests.test_analysis_fractal" name="test_mfdfa_needs_length" time="0.005" />
+    <testcase classname="tests.test_analysis_fractal" name="test_dcca_positive_for_coupled_series" time="0.234" />
+    <testcase classname="tests.test_analysis_fractal" name="test_dcca_near_zero_for_independent_series" time="0.207" />
+    <testcase classname="tests.test_analysis_fractal" name="test_report_is_json_ready_and_complete" time="0.532" />
+    <testcase classname="tests.test_analysis_fractal" name="test_nan_safe" time="0.480" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_embedding_shape" time="0.010" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_lyapunov_positive_for_chaos_and_lower_for_regular" time="5.558" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_zero_one_test_separates_chaos_from_regular" time="2.017" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_rqa_determinism_high_for_regular_low_for_noise" time="0.310" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_iaaft_surrogate_preserves_spectrum_and_distribution" time="0.077" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_surrogate_gate_flags_chaos_only_for_the_map" time="56.138" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_report_is_json_ready_and_complete" time="16.254" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_embed_too_short_raises" time="0.007" />
+    <testcase classname="tests.test_analysis_nonlinear" name="test_nan_safe" time="10.106" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_periodogram_finds_the_dominant_period" time="0.004" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_welch_agrees_with_periodogram_on_the_period" time="0.055" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_seasonal_strength_separates_seasonal_from_noise" time="0.218" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_seasonal_strength_zero_when_too_short" time="0.005" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_stl_decomposes_into_three_additive_components" time="0.058" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_mstl_handles_two_seasonal_periods" time="1.427" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_seasonal_subseries_means_match_the_pattern" time="0.013" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_report_is_json_ready_and_complete" time="0.165" />
+    <testcase classname="tests.test_analysis_seasonality" name="test_nan_safe_periodogram" time="0.054" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_opposite_nulls_are_labelled" time="0.016" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_white_noise_is_stationary" time="0.023" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_random_walk_has_a_unit_root" time="0.027" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_differencing_recovers_stationarity" time="0.033" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_phillips_perron_and_dfgls_agree_on_the_random_walk" time="0.220" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_combined_verdict_matches_the_quadrant" time="0.133" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_seasonal_strength_separates_seasonal_from_noise" time="0.368" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_nsdiffs_flags_strong_seasonality" time="0.152" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_report_is_json_ready_and_complete" time="0.553" />
+    <testcase classname="tests.test_analysis_stationarity" name="test_nan_safe" time="0.035" />
+    <testcase classname="tests.test_analysis_volatility" name="test_arch_lm_detects_clustering_and_clears_homoscedastic" time="0.162" />
+    <testcase classname="tests.test_analysis_volatility" name="test_garch_recovers_high_persistence" time="0.148" />
+    <testcase classname="tests.test_analysis_volatility" name="test_boxcox_mle_stabilizes_variance" time="0.056" />
+    <testcase classname="tests.test_analysis_volatility" name="test_boxcox_guerrero_needs_and_uses_season" time="0.160" />
+    <testcase classname="tests.test_analysis_volatility" name="test_boxcox_handles_nonpositive_with_a_recorded_shift" time="0.013" />
+    <testcase classname="tests.test_analysis_volatility" name="test_report_skips_garch_when_no_arch" time="0.194" />
+    <testcase classname="tests.test_analysis_volatility" name="test_report_fits_garch_when_arch_present" time="0.187" />
+    <testcase classname="tests.test_analysis_volatility" name="test_nan_safe" time="0.290" />
+    <testcase classname="tests.test_combination_admission" name="test_adversarial_eligible_series_cannot_be_excluded_as_short_or_unscaled" time="0.031" />
+    <testcase classname="tests.test_combination_admission" name="test_adversarial_origin_cannot_be_dropped_or_borrowed_from_the_future" time="0.043" />
+    <testcase classname="tests.test_combination_admission" name="test_short_and_constant_sources_have_independently_valid_exclusions" time="0.028" />
+    <testcase classname="tests.test_combination_contract" name="test_index_validates_and_accounts_for_every_source_identity" time="0.283" />
+    <testcase classname="tests.test_combination_contract" name="test_adversarial_index_rejects_a_traversal_path_and_unlicensed_source" time="0.471" />
+    <testcase classname="tests.test_combination_contract" name="test_adversarial_case_rejects_missing_quantile_columns_and_retains_parameters" time="0.256" />
+    <testcase classname="tests.test_contract" name="test_good_series_accepted" time="0.250" />
+    <testcase classname="tests.test_contract" name="test_missing_required_column_rejected" time="0.092" />
+    <testcase classname="tests.test_contract" name="test_too_short_rejected" time="0.320" />
+    <testcase classname="tests.test_contract" name="test_non_numeric_rejected_not_coerced" time="0.291" />
+    <testcase classname="tests.test_contract" name="test_outlier_flagged_but_accepted" time="0.075" />
+    <testcase classname="tests.test_contract" name="test_unsorted_timestamps_flagged_and_sorted" time="0.131" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[trace-data/derived/*/trace.json]" time="0.725" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[manifest-data/derived/manifests/[!i]*.json]" time="0.299" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[index-data/derived/manifests/index.json]" time="0.017" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[analysis-data/derived/*/analysis.json]" time="0.564" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[streaming-data/derived/*/streaming.json]" time="1.041" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[nlinear-model-frontend/public/models/nlinear.json]" time="0.040" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[selector-models/selector.json]" time="0.020" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[reevaluation-data/derived/reevaluation.json]" time="0.355" />
+    <testcase classname="tests.test_contract_documents" name="test_every_committed_boundary_document_matches_its_schema[reevaluation-data/derived/fresh-reevaluation.json]" time="0.378" />
+    <testcase classname="tests.test_contract_documents" name="test_adversarial_numeric_type_and_missing_required_field_are_rejected" time="0.289" />
+    <testcase classname="tests.test_contract_documents" name="test_selector_is_training_metadata_with_a_valid_default" time="0.046" />
+    <testcase classname="tests.test_data_export_guard" name="test_public_case_ships_the_full_trace" time="63.417" />
+    <testcase classname="tests.test_data_export_guard" name="test_local_only_case_redacts_the_raw_series" time="32.290" />
+    <testcase classname="tests.test_data_export_guard" name="test_redaction_keeps_scalar_verdicts_for_the_benchmark" time="28.291" />
+    <testcase classname="tests.test_data_loaders" name="test_electricity_sample_is_a_valid_contract1_series" time="0.034" />
+    <testcase classname="tests.test_data_loaders" name="test_beijing_pm25_sample_is_a_valid_contract1_series" time="0.038" />
+    <testcase classname="tests.test_data_loaders" name="test_m4_hourly_sample_is_a_valid_seasonal_contract1_series" time="0.006" />
+    <testcase classname="tests.test_data_loaders" name="test_m4_daily_sample_is_a_valid_seasonal_contract1_series" time="0.015" />
+    <testcase classname="tests.test_data_loaders" name="test_real_cases_reference_public_safe_sources" time="0.019" />
+    <testcase classname="tests.test_data_loaders" name="test_real_pm25_case_builds_and_is_heavy_tailed" time="0.008" />
+    <testcase classname="tests.test_data_provenance" name="test_every_source_has_a_license_and_citation" time="0.025" />
+    <testcase classname="tests.test_data_provenance" name="test_public_safe_set_matches_the_license_dossier" time="0.003" />
+    <testcase classname="tests.test_data_provenance" name="test_local_only_set_matches_the_license_dossier" time="0.030" />
+    <testcase classname="tests.test_data_provenance" name="test_public_safe_sources_are_cc_by_or_owned" time="0.004" />
+    <testcase classname="tests.test_data_provenance" name="test_kaggle_competition_data_is_local_only" time="0.027" />
+    <testcase classname="tests.test_data_provenance" name="test_unverified_licenses_default_to_local_only" time="0.004" />
+    <testcase classname="tests.test_data_provenance" name="test_ett_nd_clause_blocks_public_derivatives" time="0.040" />
+    <testcase classname="tests.test_data_provenance" name="test_unknown_source_is_not_public_and_raises_on_get" time="0.004" />
+    <testcase classname="tests.test_engine_foundation" name="test_registries_gated_by_env" time="0.028" />
+    <testcase classname="tests.test_engine_foundation" name="test_chronos_tiers_zero_shot" time="0.001">
+      <skipped type="pytest.skip" message="chronos deps/checkpoints absent">REPOSITORY_OR_EXTERNAL_SCRATCH\tests\test_engine_foundation.py:25: chronos deps/checkpoints absent</skipped>
+    </testcase>
+    <testcase classname="tests.test_engine_foundation" name="test_timesfm_zero_shot" time="0.000">
+      <skipped type="pytest.skip" message="timesfm package/checkpoint absent">REPOSITORY_OR_EXTERNAL_SCRATCH\tests\test_engine_foundation.py:39: timesfm package/checkpoint absent</skipped>
+    </testcase>
+    <testcase classname="tests.test_engine_foundation" name="test_timesfm_median_tracks_a_clean_seasonal" time="0.000">
+      <skipped type="pytest.skip" message="timesfm package/checkpoint absent">REPOSITORY_OR_EXTERNAL_SCRATCH\tests\test_engine_foundation.py:50: timesfm package/checkpoint absent</skipped>
+    </testcase>
+    <testcase classname="tests.test_engine_tirex2_wsl" name="test_disabled_by_default" time="0.030" />
+    <testcase classname="tests.test_engine_tirex2_wsl" name="test_merge_is_noop_when_unavailable" time="0.004" />
+    <testcase classname="tests.test_engine_tirex2_wsl" name="test_wsl_path_translation" time="0.040" />
+    <testcase classname="tests.test_engines" name="test_classical_ladder_always_present" time="0.005" />
+    <testcase classname="tests.test_engines" name="test_all_forecasters_superset_of_classical" time="0.017" />
+    <testcase classname="tests.test_engines" name="test_statistical_engines_forecast_valid_quantiles" time="0.601" />
+    <testcase classname="tests.test_engines" name="test_foundation_tier_opt_in_by_default" time="0.006" />
+    <testcase classname="tests.test_engines" name="test_chronos_foundation_forecasts" time="0.000">
+      <skipped type="pytest.skip" message="foundation deps/checkpoints not available">REPOSITORY_OR_EXTERNAL_SCRATCH\tests\test_engines.py:59: foundation deps/checkpoints not available</skipped>
+    </testcase>
+    <testcase classname="tests.test_engines" name="test_lightgbm_ml_engine_forecasts" time="0.084" />
+    <testcase classname="tests.test_expert_acceleration" name="test_all_experts_match_reference_before_and_after_compilation" time="3.271" />
+    <testcase classname="tests.test_forecastability" name="test_by_matches_manual_harmonic_step_up_oracle" time="0.005" />
+    <testcase classname="tests.test_forecastability" name="test_duplicate_identity_always_stays_in_the_same_partition" time="0.004" />
+    <testcase classname="tests.test_forecastability" name="test_adversarial_future_changes_do_not_change_origin_features" time="2.511" />
+    <testcase classname="tests.test_forecastability" name="test_confirmation_targets_cannot_choose_the_constant_or_fit_imputation" time="1.215" />
+    <testcase classname="tests.test_forecasters" name="test_normal_ppf_known_values" time="0.006" />
+    <testcase classname="tests.test_forecasters" name="test_seasonal_naive_repeats_last_season" time="0.004" />
+    <testcase classname="tests.test_forecasters" name="test_all_methods_finite_point_and_sigma" time="0.029" />
+    <testcase classname="tests.test_forecasters" name="test_forecast_all_intervals_ordered_and_widen" time="0.022" />
+    <testcase classname="tests.test_forecasters" name="test_holt_winters_beats_naive_on_clean_seasonal" time="0.032" />
+    <testcase classname="tests.test_forecasters" name="test_adversarial_holt_winters_preserves_an_incomplete_seasons_phase" time="0.008" />
+    <testcase classname="tests.test_forecasters" name="test_adversarial_theta_matches_the_two_theta_lines_with_finite_history" time="0.016" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_complete_fresh_execution_has_independently_matching_scores" time="0.179" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_inventory_cannot_omit_a_transitive_engine" time="0.080" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_independent_module_does_not_relabel_frozen_experiment" time="2.076" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_new_transitive_import_requires_its_own_binding" time="0.082" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[trial]" time="0.041" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[case]" time="0.139" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[method]" time="0.146" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[frozen]" time="0.151" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[metric]" time="0.149" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[target]" time="0.165" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[source]" time="0.062" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[checkpoint]" time="0.177" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_fresh_admission_refutes_corrupted_candidate[duration]" time="0.127" />
+    <testcase classname="tests.test_fresh_reevaluation" name="test_adversarial_native_tirex_cannot_map_arbitrary_levels_to_deciles" time="0.005" />
+    <testcase classname="tests.test_gpu" name="test_device_is_cuda_or_cpu" time="0.023" />
+    <testcase classname="tests.test_gpu" name="test_prefer_gpu_false_is_always_cpu" time="0.004" />
+    <testcase classname="tests.test_gpu" name="test_gpu_info_is_consistent" time="0.039" />
+    <testcase classname="tests.test_gpu" name="test_cuda_available_matches_device" time="0.007" />
+    <testcase classname="tests.test_gpu" name="test_summary_is_a_nonempty_string" time="0.036" />
+    <testcase classname="tests.test_manifest" name="test_manifest_matches_artifact_and_gate" time="37.973" />
+    <testcase classname="tests.test_manuscript_replay" name="test_exported_updates_match_package[ACI]" time="0.027" />
+    <testcase classname="tests.test_manuscript_replay" name="test_exported_updates_match_package[PID]" time="0.044" />
+    <testcase classname="tests.test_manuscript_replay" name="test_future_targets_cannot_change_earlier_intervals" time="0.011" />
+    <testcase classname="tests.test_manuscript_replay" name="test_local_coverage_error_is_not_cancelled_by_time_averaging" time="0.017" />
+    <testcase classname="tests.test_manuscript_replay" name="test_zero_target_wql_is_unavailable" time="0.005" />
+    <testcase classname="tests.test_pipeline_smoke" name="test_case_deterministic_same_seed" time="69.537" />
+    <testcase classname="tests.test_pipeline_smoke" name="test_trace_shape_and_methods" time="33.393" />
+    <testcase classname="tests.test_pipeline_smoke" name="test_real_case_ingests_and_scores" time="33.977" />
+    <testcase classname="tests.test_pipeline_smoke" name="test_control_case_runs" time="13.198" />
+    <testcase classname="tests.test_pipeline_smoke" name="test_run_all_writes_index" time="288.132" />
+    <testcase classname="tests.test_reevaluation" name="test_adversarial_context_memory_uses_only_completed_training_targets" time="0.146" />
+    <testcase classname="tests.test_reevaluation" name="test_adversarial_context_memory_is_equivariant_to_positive_scale_and_location" time="0.204" />
+    <testcase classname="tests.test_reevaluation" name="test_adversarial_invalid_forecast_shapes_and_crossed_intervals_are_rejected" time="0.011" />
+    <testcase classname="tests.test_reevaluation" name="test_holdout_metrics_have_known_values" time="0.005" />
+    <testcase classname="tests.test_reevaluation" name="test_adversarial_display_decimation_cannot_become_a_fitting_series" time="0.050" />
+    <testcase classname="tests.test_reevaluation" name="test_reconstruction_matches_all_released_observation_positions" time="0.076" />
+    <testcase classname="tests.test_research_extensions" name="test_all_original_case_diagnostics_are_admitted" time="0.059" />
+    <testcase classname="tests.test_research_extensions" name="test_source_restrictions_do_not_leak_even_a_short_sequence" time="0.001" />
+    <testcase classname="tests.test_seeded_nonlinear" name="test_seeded_fit_preserves_global_rng_and_repeats_after_unrelated_random_draws" time="0.117" />
+    <testcase classname="tests.test_seeded_nonlinear" name="test_adversarial_independent_processes_reproduce_identical_robust_estimates" time="4.774" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_adversarial_profile_matches_exhaustive_z_normalized_distance_oracle" time="1.195" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_repeated_motif_and_planted_discord_are_identified" time="2.477" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_fluss_detects_a_planted_shape_transition_without_its_location_as_input" time="1.263" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_lempel_ziv_binary_mapping_and_known_periodic_sequence" time="1.850" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_adversarial_multiscale_entropy_uses_original_tolerance_and_independent_pair_counts" time="0.137" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_reversal_flips_asymmetry_and_constant_entropy_is_zero" time="0.011" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_invalid_sequences_are_rejected_instead_of_compacted[x0]" time="0.018" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_invalid_sequences_are_rejected_instead_of_compacted[x1]" time="0.021" />
+    <testcase classname="tests.test_sequence_diagnostics" name="test_invalid_sequences_are_rejected_instead_of_compacted[x2]" time="0.005" />
+    <testcase classname="tests.test_stage_analyze" name="test_analyze_runs_all_panels_on_a_seasonal_case" time="3.749" />
+    <testcase classname="tests.test_stage_analyze" name="test_seasonal_case_recovers_its_period" time="3.745" />
+    <testcase classname="tests.test_stage_analyze" name="test_changepoints_deseasonalized_when_seasonality_strong" time="3.837" />
+    <testcase classname="tests.test_stage_analyze" name="test_univariate_case_skips_causality" time="3.744" />
+    <testcase classname="tests.test_stage_analyze" name="test_short_series_skips_nonlinear_panel" time="1.884" />
+    <testcase classname="tests.test_stage_analyze" name="test_every_panel_records_error_not_crash_on_degenerate_input" time="0.070" />
+    <testcase classname="tests.test_stage_analyze" name="test_analyze_never_crashes_across_case_regimes[SEAS_hourly]" time="3.670" />
+    <testcase classname="tests.test_stage_analyze" name="test_analyze_never_crashes_across_case_regimes[TRND_seasonal]" time="1.949" />
+    <testcase classname="tests.test_stage_analyze" name="test_analyze_never_crashes_across_case_regimes[RWLK_noise]" time="1.339" />
+    <testcase classname="tests.test_stage_analyze" name="test_analyze_never_crashes_across_case_regimes[CTRL_white_noise]" time="1.326" />
+    <testcase classname="tests.test_stage_evaluate" name="test_evaluate_carries_the_extended_metric_block" time="0.111" />
+    <testcase classname="tests.test_stage_evaluate" name="test_per_horizon_curve_is_the_star_readout_shape" time="0.122" />
+    <testcase classname="tests.test_stage_evaluate" name="test_trace_v2_ships_the_metric_block_even_when_redacted" time="3.059" />
+    <testcase classname="tests.test_stage_streaming" name="test_streaming_bench_runs_the_roster" time="1.976" />
+    <testcase classname="tests.test_stage_streaming" name="test_calibration_improves_or_matches_coverage_error" time="3.122" />
+    <testcase classname="tests.test_stage_streaming" name="test_cost_trajectories_are_monotone" time="2.008" />
+    <testcase classname="tests.test_stage_streaming" name="test_block_is_json_ready_and_referenced" time="2.109" />
+    <testcase classname="tests.test_stage_streaming" name="test_exog_case_demonstrates_the_covariate_policy" time="2.003" />
+    <testcase classname="tests.test_stage_streaming" name="test_univariate_case_has_no_covariate_block_or_ridge_roster" time="2.033" />
+    <testcase classname="tests.test_validated_combination" name="test_adversarial_temporal_validation_excludes_incomplete_target_blocks" time="0.136" />
+    <testcase classname="tests.test_validated_combination" name="test_adversarial_convex_stacking_finds_perfect_expert_and_obeys_simplex" time="0.080" />
+    <testcase classname="tests.test_validated_combination" name="test_deterministic_ordered_predictions_with_causally_complete_memory[True]" time="0.502" />
+    <testcase classname="tests.test_validated_combination" name="test_deterministic_ordered_predictions_with_causally_complete_memory[False]" time="0.135" />
+    <testcase classname="tests.test_validated_combination" name="test_insufficient_validation_uses_exact_matching_recency_control" time="0.107" />
+    <testcase classname="tests.test_validated_combination" name="test_adversarial_stacking_rejects_unavailable_training_values" time="0.167" />
+  </testsuite>
+</testsuites>

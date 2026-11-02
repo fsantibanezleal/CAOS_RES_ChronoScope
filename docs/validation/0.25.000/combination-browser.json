@@ -1,0 +1,4689 @@
+{
+  "ok": true,
+  "base": "http://127.0.0.1:4199",
+  "started": "2026-11-02T14:03:04.017Z",
+  "states": [
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "en",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "light",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 390,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2153,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2166,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T1",
+      "origin": 2179,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2257,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2270,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m4_weekly",
+      "series": "T99",
+      "origin": 2283,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoETS"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "AutoTheta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T1",
+      "origin": 50,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 80,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 98,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "m3_monthly",
+      "series": "T999",
+      "origin": 116,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SeasonalNaive"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "SES"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Holt"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "HoltWinters"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "Theta"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemory"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "RecencyMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "EqualMean"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ContextMemoryCV"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "BRKV_level_shift",
+      "origin": 288,
+      "method": "ValidationMix"
+    },
+    {
+      "lang": "es",
+      "theme": "dark",
+      "width": 1280,
+      "dataset": "selected_cases",
+      "series": "TRND_seasonal",
+      "origin": 168,
+      "method": "ValidationMix"
+    }
+  ],
+  "page_errors": [],
+  "completed": "2026-11-02T14:03:46.222Z"
+}

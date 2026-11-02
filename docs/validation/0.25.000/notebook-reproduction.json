@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "execution": "All sixteen lessons executed and compared byte-for-byte in separate fresh kernels with the official runner.",
+  "command": ".venv-notebooks/Scripts/python.exe scripts/run_notebooks.py --check --tmp <external-scratch>",
+  "exit_code": 0,
+  "executed_and_compared": 16,
+  "notebooks": {
+    "notebooks/en/01-forecast-decisions/01-baseline.ipynb": "f96fb76da34401a8426d5d826044370c5f092442bacb45b0d40e241550a63fdd",
+    "notebooks/en/01-forecast-decisions/02-seasonal-phase.ipynb": "e303df1d8b595a4f89a822efd1812aaaab325f7a4ff79ac1e247619637a168e7",
+    "notebooks/en/01-forecast-decisions/03-model-comparison.ipynb": "192d1dcde10f3f9b88e1948b61c2c6d705b7fb00562b789434a5a0b0859dcf51",
+    "notebooks/en/01-forecast-decisions/04-context-memory.ipynb": "9c639fc05a850ab6959a348de079991d98960a430163c553cc2db8d9027fbef5",
+    "notebooks/en/01-forecast-decisions/05-temporal-validation.ipynb": "3d94706e54866457901de66e3d2944d7cef39cccc73240a32b93adcbd624e062",
+    "notebooks/en/02-sequence-evidence/01-shape-patterns.ipynb": "8660ad0a5087088775d788f14f78bc012cdcd4bc1bdaa678b148cc8056fa0507",
+    "notebooks/en/02-sequence-evidence/02-complexity.ipynb": "97e9a18b5582595a76ae70103d0beecdebee654011210cda4641b84f8087d245",
+    "notebooks/en/02-sequence-evidence/03-corpus-confirmation.ipynb": "83a1290c5ff03e55db1bb8bc0addf5115fa14017ea7a611847ecb0713c50ca6b",
+    "notebooks/es/01-forecast-decisions/01-baseline.ipynb": "cd263dd519652a2279344105406e9d110e49c5b7f222cc8e48909b9fbd07cde2",
+    "notebooks/es/01-forecast-decisions/02-seasonal-phase.ipynb": "8d999a99b65b3e084ea2f87bccdc2106d8634b947f7cf80136c5a6061fa2f913",
+    "notebooks/es/01-forecast-decisions/03-model-comparison.ipynb": "abc537846b44133fd770b894d547b160919244f8b54a8ea6b7215570cdcefaf5",
+    "notebooks/es/01-forecast-decisions/04-context-memory.ipynb": "07689cbc9e9dd41d360486b0b2fa988ee2282c0c8e0e410b5c2cb27c0b15603a",
+    "notebooks/es/01-forecast-decisions/05-temporal-validation.ipynb": "0d5884b7135ac6635cabf715a2ba060018a28425732817a43b0eedc0a5ea295f",
+    "notebooks/es/02-sequence-evidence/01-shape-patterns.ipynb": "086134b0071cfba6a594a579c6b6f9138a620f4aa3f88fb374e7c460940f202d",
+    "notebooks/es/02-sequence-evidence/02-complexity.ipynb": "f396af33dabc5895965967bae7899127f677413536213351c54e2b787a442d19",
+    "notebooks/es/02-sequence-evidence/03-corpus-confirmation.ipynb": "eded5c1fa266174b179e4031559d25bf13c280ec17f86cb36f60b95205bae035"
+  }
+}

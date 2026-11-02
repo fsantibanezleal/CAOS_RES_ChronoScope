@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "origins_checked": 4429,
+  "method_forecasts_checked": 53148,
+  "datasets": {
+    "m4_weekly": {
+      "inventory": 359,
+      "admitted": 294,
+      "exclusions": {
+        "nonfinite observations or no eligible origin": 65
+      }
+    },
+    "m3_monthly": {
+      "inventory": 1428,
+      "admitted": 1422,
+      "exclusions": {
+        "exact duplicate": 6
+      }
+    }
+  },
+  "index_sha256": "a2cbce54e080d1938b32b9232bd6a721159ed3cd347bffb4b144e8089dc265da",
+  "admission_code_sha256": "fa669f2818acadff96da673d81fdce231a0f554bbeb8d4407afb8762426196eb",
+  "consumer_forecasts_checked": 53298,
+  "consumer_test": "frontend/src/test/combinations.test.ts",
+  "normalized_documents": 1869,
+  "contracts": 12,
+  "original_results_preserved": true,
+  "exclusion_reasons_independently_reconstructed": true,
+  "weekly_excluded_length": 93,
+  "weekly_exclusions_all_finite": true
+}

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="pytest tests">
+  <testsuite name="pytest" errors="0" failures="0" skipped="0" tests="4" time="149.154" timestamp="2026-11-02T11:12:05.728829-03:00">
+    <testcase classname="tests.test_publication_bindings" name="test_adversarial_publication_rejects_changed_or_noncanonical_source[pdf]" time="48.702" />
+    <testcase classname="tests.test_publication_bindings" name="test_adversarial_publication_rejects_changed_or_noncanonical_source[source]" time="47.503" />
+    <testcase classname="tests.test_publication_bindings" name="test_adversarial_publication_rejects_changed_or_noncanonical_source[line-endings]" time="25.736" />
+    <testcase classname="tests.test_publication_bindings" name="test_adversarial_publication_rejects_changed_or_noncanonical_source[reviewed-hash]" time="27.011" />
+  </testsuite>
+</testsuites>

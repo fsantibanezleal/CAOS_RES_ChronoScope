@@ -1,0 +1,169 @@
+{
+  "ok": true,
+  "base": "http://127.0.0.1:55462/",
+  "expectBrand": "ChronoScope",
+  "sizes": "390x844,768x1024,1280x800,1600x900,2560x1440",
+  "themes": "light,dark",
+  "langs": "en,es",
+  "wideFontSizes": "390x844,1280x800",
+  "states": 1232,
+  "minima": {
+    "drawnShare": null,
+    "stageFill": null
+  },
+  "waivers": [],
+  "checks": {},
+  "captures": 157,
+  "failures": [],
+  "artifactChecks": [
+    {
+      "path": "/data/manifests/index.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/fresh-reevaluation.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/BRKV_level_shift.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/analysis.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/streaming.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CHAO_mackey.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CTRL_white_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/EXOG_promo.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/HETV_garch.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/INTM_demand.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/MSEA_daily_weekly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/LMEM_fractional.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_electricity.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_daily.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_pm25.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/RWLK_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/SEAS_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/TRND_seasonal.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/forecastability.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/validated-combinations.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/combinations/m4_weekly/T1.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/REAL_electricity/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    }
+  ],
+  "tested_build": {
+    "version": "0.25.000",
+    "sha": "6642791f75d3b2ea807396eaa40d631e4788876b",
+    "built": "2026-11-02T14:01:28.468Z"
+  }
+}

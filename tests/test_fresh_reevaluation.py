@@ -2,6 +2,7 @@
 import copy
 import importlib.util
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -19,6 +20,42 @@ def candidate():
 
 def test_complete_fresh_execution_has_independently_matching_scores(candidate):
     assert admission.validate(candidate) == (15, 22)
+
+
+def test_adversarial_fresh_inventory_cannot_omit_a_transitive_engine(candidate):
+    candidate["code_sha256"].pop("data-pipeline/chronoscopelab/engines/tirex2_engine.py")
+    with pytest.raises(ValueError, match="inventory is incomplete"):
+        admission.validate(candidate)
+
+
+def test_adversarial_independent_module_does_not_relabel_frozen_experiment(candidate, tmp_path):
+    shutil.copytree(ROOT / "data-pipeline/chronoscopelab", tmp_path / "data-pipeline/chronoscopelab",
+                    ignore=shutil.ignore_patterns("__pycache__"))
+    (tmp_path / "scripts").mkdir()
+    shutil.copyfile(ROOT / "scripts/reevaluate_fresh.py", tmp_path / "scripts/reevaluate_fresh.py")
+    extra = tmp_path / "data-pipeline/chronoscopelab/model/independent_trial.py"
+    extra.write_text("def trial():\n    return 7\n", encoding="utf-8")
+    assert admission.validate(candidate, root=tmp_path, artifact_root=ROOT) == (15, 22)
+    # Even a recorded module outside the import closure cannot change unnoticed.
+    recorded = tmp_path / "data-pipeline/chronoscopelab/live.py"
+    recorded.write_text(recorded.read_text(encoding="utf-8") + "\n# changed\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="source binding differs"):
+        admission.validate(candidate, root=tmp_path, artifact_root=ROOT)
+
+
+def test_adversarial_new_transitive_import_requires_its_own_binding(tmp_path):
+    package = tmp_path / "data-pipeline/chronoscopelab"
+    (package / "model").mkdir(parents=True)
+    (tmp_path / "scripts").mkdir()
+    (tmp_path / "scripts/reevaluate_fresh.py").write_text("from chronoscopelab.model import first\n", encoding="utf-8")
+    (package / "__init__.py").write_text("", encoding="utf-8")
+    (package / "model/__init__.py").write_text("", encoding="utf-8")
+    first = package / "model/first.py"
+    first.write_text("from . import second\n", encoding="utf-8")
+    (package / "model/second.py").write_text("from .. import third\n", encoding="utf-8")
+    (package / "third.py").write_text("", encoding="utf-8")
+    expected = {p.relative_to(tmp_path).as_posix() for p in tmp_path.rglob("*.py")}
+    assert admission.implementation_dependencies(tmp_path) == expected
 
 
 @pytest.mark.parametrize("defect", ["trial", "case", "method", "frozen", "metric", "target", "source", "checkpoint", "duration"])

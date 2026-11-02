@@ -1,0 +1,53 @@
+{
+  "ok": true,
+  "tests": {
+    "science025": {
+      "tests": 227,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "passed": 221
+    },
+    "focused025": {
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 31
+    },
+    "publication-bindings025": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4
+    }
+  },
+  "optional_runtime_skips": "Two neural test modules and four foundation/checkpoint tests unavailable in this local CPU environment; the separate previously admitted 22-variant execution retains exact source/checkpoint hashes.",
+  "external_forecasts_independently_rescored": 53148,
+  "displayed_forecasts_independently_rescored": 53298,
+  "external_source_identities": 1787,
+  "notebooks_fresh_kernel_byte_comparison": 16,
+  "frontend_tests": 51,
+  "compatibility_tests": 17,
+  "browser_controls": 520,
+  "guard_tests_passed": 593,
+  "guard_platform_skips": 17,
+  "committed_scientific_source_bindings": {
+    "fresh_experiment": 56,
+    "combination_experiment": 6,
+    "all_hashes_match_git_blobs": true
+  },
+  "publication_binding_tests": 4,
+  "raw_junit_sha256": {
+    "science-tests.xml": "d5badf45450a6e473f56c1c3ac5f1442bf314f79763a8b43ad6faa34c0cedd15",
+    "guard-tests.xml": "a1b2f0846e87251fada40ea654094ade9d8f681d214c1fe031623f2ad82c5806",
+    "focused-tests.xml": "42926a022a36f83edce10c9cfd558d9fd8c66ee42c92e7a946ea62e781ab3f64",
+    "publication-binding-tests.xml": "b6fff44370306a0d60fed0c2061dae5d732058ea5067d428430f21817356b72a"
+  },
+  "junit_redactions": [
+    "local runner hostname omitted",
+    "local absolute prefixes replaced; test outcomes and counts unchanged",
+    "Synthetic machine-path parameter labels replaced with unique portable labels; original function names/counts/outcomes retained."
+  ]
+}

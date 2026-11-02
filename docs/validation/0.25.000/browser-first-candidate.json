@@ -1,0 +1,421 @@
+{
+  "ok": false,
+  "base": "http://127.0.0.1:51877/",
+  "expectBrand": "ChronoScope",
+  "sizes": "390x844,768x1024,1280x800,1600x900,2560x1440",
+  "themes": "light,dark",
+  "langs": "en,es",
+  "wideFontSizes": "390x844,1280x800",
+  "states": 1232,
+  "minima": {
+    "drawnShare": null,
+    "stageFill": null
+  },
+  "waivers": [],
+  "checks": {
+    "G11": 12,
+    "ADR-0017.2": 4,
+    "G13": 20
+  },
+  "captures": 170,
+  "failures": [
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "390x844 light es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "390x844 dark es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "768x1024 light es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "768x1024 dark es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "ADR-0017.2",
+      "route": "/implementation",
+      "mode": "1280x800 light en",
+      "trail": "Computation > Combinations",
+      "message": "Implementation, topic \"Computation > Combinations\" (EN): section \"Source-bound temporal combination study\" declares the unknown area \"implementation\" (this page knows: architecture, reproducibility, engine, lanes, contract, deployment)"
+    },
+    {
+      "check": "ADR-0017.2",
+      "route": "/experiments",
+      "mode": "1280x800 light en",
+      "trail": "Questions > Validated combinations",
+      "message": "Experiments, question area, topic \"Questions > Validated combinations\" (EN): 0 dense paragraphs, the floor is 2"
+    },
+    {
+      "check": "ADR-0017.2",
+      "route": "/implementation",
+      "mode": "1280x800 light es",
+      "trail": "Cómputo > Combinaciones",
+      "message": "Implementation, topic \"Cómputo > Combinaciones\" (ES): section \"Estudio de combinaciones con validación temporal\" declares the unknown area \"implementation\" (this page knows: architecture, reproducibility, engine, lanes, contract, deployment)"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "1280x800 light es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "ADR-0017.2",
+      "route": "/experiments",
+      "mode": "1280x800 light es",
+      "trail": "Preguntas > Combinaciones validadas",
+      "message": "Experiments, question area, topic \"Preguntas > Combinaciones validadas\" (ES): 1 dense paragraph, the floor is 2"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"ContextMemoryCV\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"ValidationMix\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"AutoTheta\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"ContextMemory\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"RecencyMean\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"AutoETS\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"Theta\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"SES\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"EqualMean\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark en",
+      "trail": "questions > combinations",
+      "message": "button \"Holt\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"ContextMemoryCV\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"ValidationMix\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"AutoTheta\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"ContextMemory\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"RecencyMean\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"AutoETS\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"Theta\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"SES\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"EqualMean\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G13",
+      "route": "/experiments",
+      "mode": "1280x800 dark es",
+      "trail": "questions > combinations",
+      "message": "button \"Holt\": contrast 3.45:1, below 4.5:1 (rgb(201, 209, 217) on rgb(107, 107, 107))"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "1600x900 light es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "1600x900 dark es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "2560x1440 light es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "2560x1440 dark es",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "390x844 light es wide-font",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    },
+    {
+      "check": "G11",
+      "route": "/experiments",
+      "mode": "1280x800 light es wide-font",
+      "trail": "questions > combinations",
+      "message": "\"context, 0, 0.5\" writes 0.5 with a decimal point (p \"Regla seleccionada: context, 0, \")"
+    }
+  ],
+  "artifactChecks": [
+    {
+      "path": "/data/manifests/index.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/fresh-reevaluation.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/BRKV_level_shift.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/analysis.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/streaming.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CHAO_mackey.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CTRL_white_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/EXOG_promo.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/HETV_garch.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/INTM_demand.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/MSEA_daily_weekly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_electricity.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/LMEM_fractional.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_daily.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_pm25.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/RWLK_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/SEAS_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/TRND_seasonal.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/forecastability.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/validated-combinations.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/combinations/m4_weekly/T1.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/REAL_electricity/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    }
+  ]
+}

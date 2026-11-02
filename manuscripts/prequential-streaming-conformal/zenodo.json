@@ -2,7 +2,7 @@
   "metadata": {
     "upload_type": "publication",
     "publication_type": "preprint",
-    "title": "Prequential Streaming Evaluation of Stateful Time-Series Forecasters with Online Conformal Calibration: A Diagnostic Atlas and the preqts Harness",
+    "title": "Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study",
     "creators": [
       {
         "name": "Santibáñez-Leal, Felipe",
@@ -10,18 +10,17 @@
         "affiliation": "CAOS open-research programme, Santiago, Chile"
       }
     ],
-    "description": "<p>Forecasting may be deployed as a stream: observations arrive one by one, the model updates, and its prediction intervals are expected to remain useful as the series changes. We provide a prequential streaming evaluation harness, released as the open-source package preqts: it implements Dawid's predict-then-observe-then-update protocol behind a StatefulForecaster interface with an explicit covariate-arrival policy, and records four trajectories per method: rolling scaled error, rolling empirical coverage, rolling weighted quantile loss, and cumulative measured compute time. The package supports stateful and replay-based forecasters; the experiment reported here uses replay-based Theta wrappers and does not compare constant-cost native state updates. The harness is embedded in an atlas that characterizes each series with ten diagnostic families (stationarity, autocorrelation, seasonality, filters, change points, volatility, distribution and complexity, fractal structure, nonlinear dynamics, and cross-series causality) and then forecasts it with a method catalogue spanning classical, statistical, gradient-boosted, deep, and foundation-model methods. Using the harness we test a concrete claim: that online conformal calibration keeps streaming intervals at nominal under distribution shift. On fifteen series that span distinct regimes and include white-noise and random-walk negative controls, wrapping a Theta point forecaster in Adaptive Conformal Inference or Conformal-PID control reduces the mean absolute coverage error at the nominal 80% level from 0.0416 (raw Theta) and 0.0599 (seasonal-naive) to 0.0057 and 0.0060, a seven-to-tenfold reduction, and shrinks the across-case span of the final coverage from 0.19-0.40 to 0.04, without changing the point forecast. Calibrated coverage is also near target on the two generated negative controls, which provide limited checks against simple predictable-versus-unpredictable confounds but cannot rule out all leakage. The contribution is the reusable prequential harness and an artifact-backed comparison under the protocol defined below.</p><p>Source code, admitted inputs and computational records: https://github.com/fsantibanezleal/CAOS_RES_ChronoScope . Research atlas: https://chronoscope.fasl-work.com . Not peer reviewed.</p>",
+    "description": "<p>Adaptive prediction intervals can have accurate average coverage while retaining substantial local coverage error. We examine this distinction in a one-step prequential study of fifteen selected time series: eleven generated mechanisms and four real excerpts. The point forecaster is a full-history smoothing-plus-drift adaptation, rather than a native stateful forecaster or the standard finite-history Theta method. Two scale-normalized score-buffer controllers use ACI-style and PID-style updates of an effective miscoverage level. At nominal 80% coverage, their mean rolling absolute coverage errors are 0.0656 and 0.0645, compared with 0.0830 for unadjusted intervals. The substantially smaller errors obtained by first averaging signed coverage deviations over time describe a different statistic and do not establish uniformly accurate local coverage. Every numerical forecast, target, score and controller update is reconstructed and checked against the archived coverage trajectories and final weighted quantile losses. Sensitivity calculations vary nominal coverage, base forecaster, controller gains and generated-series seeds. These selected finite-stream results characterize the evaluated implementations; they provide neither a new coverage theorem nor a general forecasting advantage.</p><p>Source code, admitted inputs and computational records: https://github.com/fsantibanezleal/CAOS_RES_ChronoScope . Research atlas: https://chronoscope.fasl-work.com . Not peer reviewed.</p>",
     "keywords": [
       "time-series forecasting",
       "prequential evaluation",
-      "streaming",
-      "conformal prediction",
+      "adaptive prediction intervals",
       "coverage",
       "reproducibility"
     ],
     "license": "cc-by-4.0",
     "language": "eng",
-    "version": "2.4",
+    "version": "2.5",
     "related_identifiers": [
       {
         "relation": "isSupplementedBy",
@@ -35,6 +34,6 @@
       }
     ],
     "publication_date": "2026-11-02",
-    "version_notes": "Clarifies the historical smoothing-plus-drift adapter, replay costs and finite-case evidence boundaries; original streaming measurements are retained."
+    "version_notes": "Corrects the stateful-evaluation title and historical algorithm identities; reconstructs all 21,296 online rows; separates time-averaged coverage error from local rolling error; adds interval efficiency, 630 sensitivity rows and generated-seed checks; removes unsupported framework comparison and unclamps the per-case figure."
   }
 }
