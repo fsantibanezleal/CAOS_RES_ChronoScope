@@ -47,6 +47,7 @@
   },
   "junit_redactions": [
     "local runner hostname omitted",
-    "local absolute prefixes replaced; test outcomes and counts unchanged"
+    "local absolute prefixes replaced; test outcomes and counts unchanged",
+    "Synthetic machine-path parameter labels replaced with unique portable labels; original function names/counts/outcomes retained."
   ]
 }

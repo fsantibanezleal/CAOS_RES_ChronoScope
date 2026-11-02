@@ -2,10 +2,10 @@
 <testsuites name="pytest tests">
   <testsuite name="pytest" errors="0" failures="0" skipped="6" tests="227" time="805.544" timestamp="2026-11-02T10:58:00.427955-03:00">
     <testcase classname="" name="tests.test_engine_neural" time="0.000">
-      <skipped message="collection skipped">('D:\\_Repos\\Research_Caos\\CAOS_RES_ChronoScope\\tests\\test_engine_neural.py', 10, "Skipped: could not import 'torch': No module named 'torch'")</skipped>
+      <skipped message="collection skipped">('REDACTED_LOCAL_PATH', 10, "Skipped: could not import 'torch': No module named 'torch'")</skipped>
     </testcase>
     <testcase classname="" name="tests.test_engine_neuralforecast" time="0.000">
-      <skipped message="collection skipped">('D:\\_Repos\\Research_Caos\\CAOS_RES_ChronoScope\\tests\\test_engine_neuralforecast.py', 10, "Skipped: could not import 'neuralforecast': No module named 'neuralforecast'")</skipped>
+      <skipped message="collection skipped">('REDACTED_LOCAL_PATH', 10, "Skipped: could not import 'neuralforecast': No module named 'neuralforecast'")</skipped>
     </testcase>
     <testcase classname="tests.test_analysis_autocorrelation" name="test_bartlett_band_matches_196_over_sqrt_n" time="0.225" />
     <testcase classname="tests.test_analysis_autocorrelation" name="test_acf_lag0_is_one" time="0.664" />

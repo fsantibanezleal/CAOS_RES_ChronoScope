@@ -163,11 +163,11 @@
     <testcase classname="tests.test_spec_guards" name="test_view_a_figure_citing_an_unknown_source_fails" time="0.510" />
     <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_nothing_cites_fails" time="0.646" />
     <testcase classname="tests.test_spec_guards" name="test_view_two_sources_with_one_id_fail" time="0.443" />
-    <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_is_not_an_https_link_fails[http://example.org/insecure]" time="0.450" />
+    <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_is_not_an_https_link_fails[redacted-path-parameter-1]" time="0.450" />
     <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_is_not_an_https_link_fails[report.pdf]" time="0.563" />
     <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_is_not_an_https_link_fails[file 7]" time="0.691" />
     <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_is_not_an_https_link_fails[]" time="0.594" />
-    <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_is_not_an_https_link_fails[ftp://example.org/x]" time="0.448" />
+    <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_is_not_an_https_link_fails[redacted-path-parameter-2]" time="0.448" />
     <testcase classname="tests.test_spec_guards" name="test_view_a_source_without_a_url_fails" time="0.498" />
     <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_cites_a_file_in_place_of_its_link_fails[Annex file 7 of the report]" time="0.450" />
     <testcase classname="tests.test_spec_guards" name="test_view_a_source_that_cites_a_file_in_place_of_its_link_fails[Archivo 3 del informe]" time="0.664" />
@@ -237,17 +237,17 @@
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10_the_allowance_in_other_yaml_forms_passes[a literal block nine spaces deep, install then allowance]" time="0.129" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10_the_allowance_in_other_yaml_forms_passes[a plain scalar continued into exactly the allowance]" time="0.162" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10_the_allowance_in_other_yaml_forms_passes[a step after the block is not part of it]" time="0.182" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/adversarial-      - name: s\n        env:\n          PYTEST_ADDOPTS: &quot;tests --override-ini=addopts=&quot;\n        run: python -m pytest tests/adversarial\n-]" time="0.208" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/adversarial-      - name: s\n        run: python -m pytest tests/adversarial\n-env:\n  PYTEST_ADDOPTS: tests\n]" time="0.185" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/adversarial-      - name: s\n        env:\n          PYTEST_PLUGINS: x\n        run: python -m pytest tests/adversarial\n-]" time="0.218" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/adversarial-      - name: s\n        env:\n          PYTEST_CONFIG: x\n        run: python -m pytest tests/adversarial\n-]" time="0.194" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-3]" time="0.208" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-4]" time="0.185" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-5]" time="0.218" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-6]" time="0.194" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/adversarial-      - name: s\n        run: export PYTEST_ADDOPTS=tests &amp;&amp; python -m pytest tests/adversarial\n-]" time="0.196" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/adversarial-      - name: s\n        run: PYTEST_ADDOPTS=tests python -m pytest tests/adversarial\n-]" time="0.185" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/adversarial-      - name: s\n        run: |\n          export PYTEST_ADDOPTS=tests\n          python -m pytest tests/adversarial\n-]" time="0.112" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/template/adversarial-      - name: s\n        env:\n          PYTEST_ADDOPTS: &quot;tests --override-ini=addopts=&quot;\n        run: python -m pytest tests/adversarial\n-]" time="0.107" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/template/adversarial-      - name: s\n        run: python -m pytest tests/adversarial\n-env:\n  PYTEST_ADDOPTS: tests\n]" time="0.111" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/template/adversarial-      - name: s\n        env:\n          PYTEST_PLUGINS: x\n        run: python -m pytest tests/adversarial\n-]" time="0.112" />
-    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/template/adversarial-      - name: s\n        env:\n          PYTEST_CONFIG: x\n        run: python -m pytest tests/adversarial\n-]" time="0.114" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-7]" time="0.107" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-8]" time="0.111" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-9]" time="0.112" />
+    <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[redacted-path-parameter-10]" time="0.114" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/template/adversarial-      - name: s\n        run: export PYTEST_ADDOPTS=tests &amp;&amp; python -m pytest tests/adversarial\n-]" time="0.118" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/template/adversarial-      - name: s\n        run: PYTEST_ADDOPTS=tests python -m pytest tests/adversarial\n-]" time="0.137" />
     <testcase classname="tests.test_spec_guards" name="test_rereview_m10d_a_pytest_environment_variable_widens_the_allowance[tests/template/adversarial-      - name: s\n        run: |\n          export PYTEST_ADDOPTS=tests\n          python -m pytest tests/adversarial\n-]" time="0.225" />
@@ -260,10 +260,10 @@
     <testcase classname="tests.test_spec_guards" name="test_tech_matrix_a_missing_table_fails" time="0.144" />
     <testcase classname="tests.test_spec_guards" name="test_tech_t1_every_requirements_file_at_the_root_and_pyproject_are_read" time="0.274" />
     <testcase classname="tests.test_spec_guards" name="test_tech_t2_the_same_package_pinned_twice_with_different_versions_fails" time="0.254" />
-    <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[-e git+https://example.org/u.git#egg=unpinned]" time="0.155" />
+    <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[redacted-path-parameter-11]" time="0.155" />
     <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[--editable ./local]" time="0.143" />
-    <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[https://example.org/u.zip]" time="0.162" />
-    <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[git+https://example.org/u.git]" time="0.206" />
+    <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[redacted-path-parameter-12]" time="0.162" />
+    <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[redacted-path-parameter-13]" time="0.206" />
     <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[numpy==2.*]" time="0.138" />
     <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[numpy==2.4.*]" time="0.148" />
     <testcase classname="tests.test_spec_guards" name="test_tech_t3_editable_url_and_wildcard_requirements_fail[numpy==2.4.6,&lt;3]" time="0.156" />
@@ -483,8 +483,8 @@
     <testcase classname="tests.test_check_notebooks" name="test_extra_metadata_is_found" time="0.320" />
     <testcase classname="tests.test_check_notebooks" name="test_execution_counts_must_run_in_order" time="0.388" />
     <testcase classname="tests.test_check_notebooks" name="test_an_error_output_and_a_stderr_stream_are_found" time="0.282" />
-    <testcase classname="tests.test_check_notebooks" name="test_a_machine_path_and_a_token_are_found[C:\\Users\\someone\\data.csv]" time="0.511" />
-    <testcase classname="tests.test_check_notebooks" name="test_a_machine_path_and_a_token_are_found[D:/_Repos/x]" time="0.231" />
+    <testcase classname="tests.test_check_notebooks" name="test_a_machine_path_and_a_token_are_found[redacted-path-parameter-14]" time="0.511" />
+    <testcase classname="tests.test_check_notebooks" name="test_a_machine_path_and_a_token_are_found[redacted-path-parameter-15]" time="0.231" />
     <testcase classname="tests.test_check_notebooks" name="test_a_machine_path_and_a_token_are_found[/home/someone/x]" time="0.346" />
     <testcase classname="tests.test_check_notebooks" name="test_a_machine_path_and_a_token_are_found[/Users/someone/x]" time="0.320" />
     <testcase classname="tests.test_check_notebooks" name="test_a_machine_path_and_a_token_are_found[\\Users\\x]" time="0.241" />
@@ -506,14 +506,14 @@
     <testcase classname="tests.test_check_notebooks" name="test_a_package_installed_from_its_release_tag_passes_in_its_exact_form" time="0.459" />
     <testcase classname="tests.test_check_notebooks" name="test_a_release_tag_package_needs_its_sentence" time="0.351" />
     <testcase classname="tests.test_check_notebooks" name="test_a_release_tag_package_needs_the_install_line" time="0.441" />
-    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[riskvalidation @ https://example.org/riskvalidation-0.8.0.zip]" time="0.206" />
-    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[riskvalidation @ git+https://gitlab.com/o/riskvalidation.git@v0.8.0]" time="0.264" />
-    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[riskvalidation @ git+https://github.com/o/riskvalidation.git@main]" time="0.224" />
-    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[riskvalidation @ git+https://github.com/o/riskvalidation.git]" time="0.210" />
+    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[redacted-path-parameter-16]" time="0.206" />
+    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[redacted-path-parameter-17]" time="0.264" />
+    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[redacted-path-parameter-18]" time="0.224" />
+    <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[redacted-path-parameter-19]" time="0.210" />
     <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[riskvalidation&gt;=0.8.0]" time="0.189" />
     <testcase classname="tests.test_check_notebooks" name="test_any_other_requirement_form_is_refused[riskvalidation==v0.8.0 extra]" time="0.221" />
     <testcase classname="tests.test_check_notebooks" name="test_a_package_entry_that_is_not_an_exact_requirements_line_is_refused[riskvalidation==v0.8.0]" time="0.369" />
-    <testcase classname="tests.test_check_notebooks" name="test_a_package_entry_that_is_not_an_exact_requirements_line_is_refused[riskvalidation @ git+https://github.com/fsantibanezleal/CAOS_RiskValidation.git@v0.9.0]" time="0.420" />
+    <testcase classname="tests.test_check_notebooks" name="test_a_package_entry_that_is_not_an_exact_requirements_line_is_refused[redacted-path-parameter-20]" time="0.420" />
     <testcase classname="tests.test_check_notebooks" name="test_a_package_entry_that_is_not_an_exact_requirements_line_is_refused[riskvalidation]" time="0.412" />
     <testcase classname="tests.test_check_notebooks" name="test_a_notebook_never_runs_pip[%pip install numpy==2.4.6]" time="0.246" />
     <testcase classname="tests.test_check_notebooks" name="test_a_notebook_never_runs_pip[!pip install numpy]" time="0.240" />
@@ -524,10 +524,10 @@
     <testcase classname="tests.test_check_notebooks" name="test_a_notebook_never_runs_pip[import os\nos.system('python -m pip install numpy')]" time="0.339" />
     <testcase classname="tests.test_check_notebooks" name="test_a_notebook_never_runs_pip[import os\nos.system(&quot;pip install numpy&quot;)]" time="0.226" />
     <testcase classname="tests.test_check_notebooks" name="test_a_comment_that_names_pip_is_not_running_it" time="0.138" />
-    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[p = 'D:\\\\_Datos\\\\sir']" time="0.281" />
-    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[WindowsPath('D:\\\\_Temp\\\\x')]" time="0.336" />
-    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[c:\\\\Users\\\\someone]" time="0.180" />
-    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[E:/_Datos/sir]" time="0.232" />
+    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[redacted-path-parameter-21]" time="0.281" />
+    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[redacted-path-parameter-22]" time="0.336" />
+    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[redacted-path-parameter-23]" time="0.180" />
+    <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[redacted-path-parameter-24]" time="0.232" />
     <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[/opt/runner/work/repo/x]" time="0.213" />
     <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[/tmp/x.json]" time="0.209" />
     <testcase classname="tests.test_check_notebooks" name="test_a_drive_path_literal_and_the_posix_roots_are_found[/root/.cache/x]" time="0.262" />
