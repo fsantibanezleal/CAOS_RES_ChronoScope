@@ -154,3 +154,5 @@ html { contain: layout; }
 .cs-table-scroll { max-width: 100%; overflow-x: auto; }
 .cs-corpus-controls .cs-ctl { min-width: 0; max-width: 100%; flex: 1 1 12rem; }
 .cs-corpus-controls .cs-sel { min-width: 0; max-width: 100%; width: 100%; box-sizing: border-box; }
+.cs-association-table td:first-child { min-width: 10rem; max-width: 14rem; white-space: normal; overflow-wrap: anywhere; }
+.cs-association-table caption { text-align: left; max-width: 22rem; }

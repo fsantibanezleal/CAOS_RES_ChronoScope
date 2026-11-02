@@ -125,6 +125,7 @@ The offline pipeline creates forecast, analysis, and streaming artifacts. The br
 | ST-2 | sota | LightGBM with lag features | Fresh fits and archived predictions retain distinct provenance and share the same targets and historical scale. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
 | ST-3 | sota | NLinear, DLinear and NHITS via neuralforecast, plus documented direct-torch adaptations | Reference and adapted implementations keep distinct method identities; quantile-head adaptations do not count as exact paper replication. | `tests/test_reevaluation.py`, `frontend/src/test/reevaluation.test.ts` |
 | ST-4 | sota | Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex-2 | Fresh inference records all four checkpoint revisions and runtime versions; archived provenance stays selectable; no absence of pretraining overlap is asserted. | `frontend/src/test/reevaluation.test.ts` |
+| ST-5 | sota | Exact Matrix Profile/FLUSS and dependent feature filtering via STUMPY and SciPy | Exhaustive distance and entropy oracles, prefix-only features, independent BY/Kendall confirmation and discovery-only selection; original-axis consumer. | `tests/test_sequence_diagnostics.py`, `tests/test_forecastability.py`, `scripts/check_research_extensions.py` |
 | BS-1 | beyond | ContextMemory within-series forecast combination | On fixed final holdouts compare against identical-expert EqualMean and RecencyMean ablations; preserve negative results. | `tests/test_reevaluation.py`, `scripts/reevaluate.py` |
 
 ## Beyond the state of the art

@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "corpus_exports_byte_identical": true,
+  "study_sha256": "183d9023a86e8449c567615389dda7e6909b6d68bbb46eb2ea46f9d3aad7b5ce",
+  "source_tsf_sha256": "d4d70b66ab4685a493f201bfff311c5495bf34972c206a1add0027d6d2a57d38",
+  "scientific_partition": {
+    "collected": 204,
+    "passed": 200,
+    "runtime_skips": 4,
+    "exit_code": 0
+  },
+  "guard_partition": {
+    "collected": 610,
+    "passed": 593,
+    "platform_skips": 17,
+    "resolved_failure": "Committed notebook static check rerun after all fourteen executed lessons were present"
+  },
+  "adversarial_partition": {
+    "passed": 195,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "notebook_execution": 14,
+  "report_pages_rendered_and_reviewed": 16,
+  "report_sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
+  "publication_gates_passed": 33
+}

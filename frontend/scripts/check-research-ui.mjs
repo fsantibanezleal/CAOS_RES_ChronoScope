@@ -62,8 +62,8 @@ try {
       await page.getByRole('button',{name:lang === 'es'?'Página anterior':'Previous page',exact:true}).click();
       const firstId = source.series[0].id;
       await page.getByRole('textbox',{name:lang === 'es'?'Buscar serie':'Find series'}).fill(firstId);
-      await page.locator('[data-forecastability-study] table').nth(1).getByRole('button',{name:firstId,exact:true}).click();
-      assert.ok((await page.locator('[data-forecastability-study] [aria-live]').innerText()).includes(firstId));
+      await page.getByRole('table',{name:lang === 'es'?'Auditoría por serie, 25 filas por página':'Series-level audit, 25 rows per page',exact:true}).getByRole('button',{name:firstId,exact:true}).click();
+      assert.ok((await page.locator('[data-forecastability-study] > p[aria-live]').innerText()).includes(firstId));
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1),'Corpus overflows the viewport');
       await page.screenshot({path:resolve(output,`corpus-${lang}-${theme}-${width}.png`),fullPage:true});
       states.push({lang,theme,width,view:'corpus',series:source.included_n,partition_filters:3,method:'AutoETS'});

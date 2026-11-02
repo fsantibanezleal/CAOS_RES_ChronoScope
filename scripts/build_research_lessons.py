@@ -185,6 +185,7 @@ differences = [abs(reproduced["selection_mean_mase"][n]-study["summary"]["select
                for n in reproduced["selection_mean_mase"]]
 print("Maximum reproduced selection-score difference:", f"{max(differences):.8f}")
 """
+CODES["refit_selector"] += CODES["checks"]
 CODES["selection_plot"] = CODES["selection_plot"].replace(
     'study["summary"]["selection_mean_mase"]', 'reproduced["selection_mean_mase"]'
 )
@@ -311,6 +312,7 @@ def main():
                             *(["data/derived/forecastability.json"] if level == 3 else []),
                         ],
                         "sources": LESSON_SOURCES[level],
+                        "methods": ["ST-5"] if level == 3 else [],
                         "beyond": [],
                     },
                 },

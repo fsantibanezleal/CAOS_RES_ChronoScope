@@ -76,7 +76,6 @@ The confirmation partition evaluates rules and hypotheses fixed elsewhere. Keep 
 
 ### Reproduce
 
-<!-- code: checks -->
 
 Run all cells and compare the reference corrections, reproduced selector scores and partition checks. Full forecasting reproduction additionally requires the licensed TSF and the external evaluator; the repository documents its source checksum, cache identity and independent path scoring. The compact notebook reproduces the inferential and selection layer and states that boundary explicitly.
 

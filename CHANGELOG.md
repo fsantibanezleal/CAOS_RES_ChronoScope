@@ -10,7 +10,9 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 - Isolate nonlinear robust-fit random states and require two identical diagnostic bakes for every case.
 - Add a fixed-protocol M4 Daily corpus evaluator with prefix-only features, dependent-test correction, disjoint-series confirmation and held-out method selection.
 - Execute the full 22-variant GPU comparison again against current source bindings; preserve the ContextMemory negative aggregate result.
-- Add normative corpus contracts, independent admission checks, a corpus explorer and bilingual methodological lessons.
+- Add normative corpus contracts, independent admission checks, a corpus explorer and six new executed bilingual lessons (fourteen total).
+- Admit 4,226 of 4,227 M4 Daily identities and 21 corrected confirmations; retain the worse selector MASE 3.3501 versus AutoETS constant 3.2570.
+- Publish the revised sixteen-page technical report as DOI 10.5281/zenodo.23876442.
 
 ## [0.23.000] - 2026-11-02
 

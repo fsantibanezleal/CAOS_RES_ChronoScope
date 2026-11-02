@@ -13,4 +13,5 @@
 |---|---|
 | 1 | [Which local shapes repeat in the break case?](02-sequence-evidence/01-shape-patterns.ipynb) |
 | 2 | [Does coarse-graining change the ordering evidence?](02-sequence-evidence/02-complexity.ipynb) |
+| 3 | [Do prefix associations survive a separate series partition?](02-sequence-evidence/03-corpus-confirmation.ipynb) |
 <!-- sequence-lessons:end -->

@@ -44,8 +44,8 @@
     {
       "kind": "technical-report",
       "concept_doi": "10.5281/zenodo.23874816",
-      "title": "ChronoScope: Forecasting Implementations, Contiguous-History Evaluation and Context-Dependent Combination",
-      "version": "0.23.000",
+      "title": "ChronoScope: Forecasting Methods, Sequence Diagnostics and Corpus Forecastability",
+      "version": "0.24.000",
       "covers": [
         "BS-1"
       ]

@@ -13,4 +13,5 @@
 |---|---|
 | 1 | [¿Qué formas locales se repiten en el caso con quiebres?](02-sequence-evidence/01-shape-patterns.ipynb) |
 | 2 | [¿Cambiar la escala modifica la evidencia sobre el orden?](02-sequence-evidence/02-complexity.ipynb) |
+| 3 | [¿Se conservan las asociaciones en otra partición de series?](02-sequence-evidence/03-corpus-confirmation.ipynb) |
 <!-- sequence-lessons:end -->

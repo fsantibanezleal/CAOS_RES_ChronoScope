@@ -76,7 +76,6 @@ La partición de confirmación evalúa reglas e hipótesis fijadas previamente. 
 
 ### Reproducir
 
-<!-- code: checks -->
 
 Ejecute las celdas y compare correcciones de referencia, medidas reproducidas del selector y comprobaciones de partición. Reproducir los pronósticos completos requiere además el TSF licenciado y el evaluador externo; el repositorio documenta su suma de verificación, caché y puntuación independiente de trayectorias. Este cuaderno reproduce la capa inferencial y de selección y declara expresamente ese límite.
 
