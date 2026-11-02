@@ -17,12 +17,11 @@ everything (see [docs/analysis/volatility.md](../analysis/volatility.md)):
   method that appears to win on the point is fitting noise.
 - The **analysis panel** flags it precisely: ARCH-LM fires (variance clusters), the fitted GARCH recovers the
   ~0.95 persistence, and the rolling-std band shows the calm/turbulent regimes.
-- The **streaming bench** is the payoff: a fixed-width interval under-covers in turbulent stretches and
-  over-covers in calm ones, while the ACI / Conformal-PID calibrated intervals breathe with the regime and
-  hold the 80% target - the clearest demonstration in the whole atlas of why online conformal calibration
-  (our preqts package) matters.
+- The **streaming bench** compares rolling coverage under raw, ACI and Conformal-PID intervals. The stored
+  artifact does not include interval-width trajectories, so it cannot establish how interval size changes
+  between calm and turbulent stretches or identify a uniquely clearest case.
 
 ## Expected honest outcome
 
-Best-point-method is noise; report it without narrative. The meaningful comparison is rolling COVERAGE
-(raw vs calibrated) and interval width, where the calibrated variants should visibly track the target.
+Best-point-method is noise; report it without narrative. The stored comparison covers rolling MASE,
+coverage and WQL. It does not contain an interval-width trajectory.

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "nlinear-model",
+  "type": "object",
+  "required": [
+    "name",
+    "lookback",
+    "horizon",
+    "normalization",
+    "sigma_norm",
+    "trained_windows"
+  ],
+  "properties": {
+    "name": {
+      "const": "NLinear"
+    },
+    "lookback": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "horizon": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "normalization": {
+      "const": "subtract_last_then_divide_std"
+    },
+    "sigma_norm": {
+      "type": "number",
+      "minimum": 0
+    },
+    "trained_windows": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": false
+}

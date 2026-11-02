@@ -6,7 +6,7 @@ This folder is governed by the two data contracts of ADR-0057.
 
 | Path | What | Git |
 |---|---|---|
-| `raw/` | private/large source inputs | git-ignored (never committed; staged via `scripts/fetch-data`) |
+| `raw/` | private/large source inputs | git-ignored (never committed; obtain through the documented source-specific pipeline workflow) |
 | `examples/` | small real sample series that PASS Contract 1 (clone-verify) | committed |
 | `derived/<case>/` | the compact artifacts the web replays | committed |
 | `derived/manifests/` | per-case `<case>.json` (Contract 2) + the flat `index.json` inventory | committed |

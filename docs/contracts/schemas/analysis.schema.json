@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "analysis",
+  "type": "object",
+  "required": [
+    "n",
+    "seasonality_period",
+    "stationarity",
+    "autocorrelation",
+    "seasonality",
+    "filters",
+    "changepoints",
+    "volatility",
+    "distribution",
+    "fractal",
+    "nonlinear",
+    "causality"
+  ],
+  "properties": {
+    "n": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "seasonality_period": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "stationarity": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "autocorrelation": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "seasonality": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "changepoints": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "volatility": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "distribution": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "fractal": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "nonlinear": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "causality": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

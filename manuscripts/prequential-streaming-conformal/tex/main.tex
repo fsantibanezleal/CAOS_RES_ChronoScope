@@ -31,9 +31,9 @@
 % Page-1 header block (conventions/manuscript-header-standard.md). The four document
 % macros are set by the publishing tool when the version DOI is reserved.
 \newcommand{\doctype}{Preprint}
-\newcommand{\docversion}{v2.3}
-\newcommand{\docdate}{18 September 2026}
-\newcommand{\versiondoi}{10.5281/zenodo.22825217}
+\newcommand{\docversion}{v2.4}
+\newcommand{\docdate}{2 November 2026}
+\newcommand{\versiondoi}{10.5281/zenodo.23874824}
 \newcommand{\conceptdoi}{10.5281/zenodo.21508920}
 \newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
 \newcommand{\headerblock}{%
@@ -41,7 +41,7 @@
 \fbox{\parbox{0.94\textwidth}{\small\raggedright
 \textbf{\doctype} \quad$\cdot$\quad \docversion, \docdate \quad$\cdot$\quad Licence CC BY 4.0\\[2pt]
 CAOS open-research programme \quad$\cdot$\quad CAOS\_RES\_ChronoScope, time-series forecasting method atlas\\[2pt]
-Version DOI \href{https://doi.org/\versiondoi}{\texttt{\versiondoi}} \quad$\cdot$\quad
+Version DOI: \versiondoi \quad$\cdot$\quad
 concept DOI (always latest) \href{https://doi.org/\conceptdoi}{\texttt{\conceptdoi}}\\[2pt]
 Not peer reviewed. Source code, data and computational records: \href{https://\docrepo}{\texttt{\docrepo}}
 }}
@@ -69,32 +69,31 @@ Prequential Streaming Evaluation of Stateful Forecasters with Online Conformal C
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Real forecasting is streaming: observations arrive one by one, the model updates, and its
-prediction intervals must stay calibrated as the series drifts. Yet every widely used
-forecasting benchmark harness evaluates models statelessly on rolling windows, carrying no
-state across windows and never running a test-then-train loop. We address this gap
-with a prequential streaming evaluation harness for \emph{stateful} forecasters, released as
+Forecasting may be deployed as a stream: observations arrive one by one, the model updates, and
+its prediction intervals are expected to remain useful as the series changes. We provide a
+prequential streaming evaluation harness, released as
 the open-source package \texttt{preqts}: it implements Dawid's predict-then-observe-then-update
 protocol behind a \texttt{StatefulForecaster} interface with an explicit covariate-arrival
-policy, and records four trajectories per method, rolling scaled error, rolling empirical
-coverage, the rolling weighted quantile loss (a quantile-based probabilistic score), and cumulative compute cost, the
-last of which separates a stateful constant-cost model from a replay-everything wrapper. The
+policy, and records four trajectories per method: rolling scaled error, rolling empirical
+coverage, rolling weighted quantile loss, and cumulative measured compute time. The package
+supports stateful and replay-based forecasters; the experiment reported here uses replay-based
+Theta wrappers and does not compare constant-cost native state updates. The
 harness is embedded in an
-atlas that first \emph{understands} each series with ten diagnostic families (stationarity,
+atlas that characterizes each series with ten diagnostic families (stationarity,
 autocorrelation, seasonality, filters, change points, volatility, distribution and complexity,
 fractal structure, nonlinear dynamics, and cross-series causality) and then forecasts it with a
-nineteen-method ladder (classical, statistical, gradient-boosted, deep, and stateful foundation
-models), so that the diagnosis explains the no-free-lunch leaderboard. Using the harness we test
+method catalogue spanning classical, statistical, gradient-boosted, deep, and foundation-model
+methods. Using the harness we test
 a concrete claim: that online conformal calibration keeps streaming intervals at nominal under
 distribution shift. On fifteen series that span distinct regimes and include white-noise and
 random-walk negative controls, wrapping a Theta point forecaster in Adaptive Conformal Inference
 or Conformal-PID control reduces the mean absolute coverage error at the nominal $80\%$ level
-from $0.042$ (raw Theta) and $0.060$ (seasonal-naive) to $0.0057$ and $0.0060$, a seven-to-tenfold
+from $0.0416$ (raw Theta) and $0.0599$ (seasonal-naive) to $0.0057$ and $0.0060$, a seven-to-tenfold
 reduction, and shrinks the across-case span of the final coverage from $0.19$--$0.40$ to $0.04$,
-without changing the point forecast. The calibration holds on the negative controls, where a
-spurious skill gap would flag harness leakage. The contribution is the reusable stateful-streaming
-harness, evaluated under the protocol forecasters are actually deployed under, and a
-leakage-guarded, reproducible demonstration of where online conformal calibration earns its keep.
+without changing the point forecast. Calibrated coverage is also near target on the two generated
+negative controls, which provide limited checks against simple predictable-versus-unpredictable
+confounds but cannot rule out all leakage. The contribution is the reusable prequential harness
+and an artifact-backed comparison under the protocol defined below.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -111,29 +110,26 @@ diagnostics, benchmark, reproducibility.
 \section{Introduction}
 % =====================================================================
 
-\IEEEPARstart{F}{orecasting} in production is a streaming problem: a datum arrives, the model
-issues a prediction for the next horizon, the truth is later revealed, and the model updates
-its state before the next step; the prediction interval must remain calibrated throughout, even
-as the series drifts across regimes. This is not how forecasting models are usually evaluated.
-The widely used harnesses, including the rolling-window backtests of GluonTS and Darts and the
-window-based fev-bench~\cite{shchur2025}, score forecasters \emph{statelessly}: each window is
-independent, no learned state carries across windows, and there is no test-then-train loop. None
-of these harnesses evaluates a \emph{stateful} streaming forecaster
-prequentially with an explicit policy for when covariates arrive.
+\IEEEPARstart{F}{orecasting} deployed as a stream has a sequential information constraint: at
+each cutoff, a forecast must be made from information available then, scored after the target
+arrives, and followed by an update. Rolling-origin evaluations are useful for other questions;
+their treatment of model state depends on the evaluated method and adapter. We do not claim that
+existing benchmark harnesses universally omit stateful or prequential evaluation. We instead
+describe and release \texttt{preqts}, which makes the predict-score-ingest order and covariate
+arrival policy explicit, and use it to evaluate an artifact-backed interval-calibration study.
 
-We fill it with \texttt{preqts}, an open-source harness implementing the prequential principle,
-Dawid's ``predictive sequential'' test-then-train protocol~\cite{dawid1984}: at each step the
-model predicts, the truth is revealed and scored, and only then does the model update. Skill
-becomes a trajectory over the stream rather than a single number. The harness is embedded in an
-atlas (Section~\ref{sec:atlas}) that pairs the forecast with a diagnostic layer, so that the
-character of a series explains why one method family wins and another fails, the no-free-lunch
-principle, made legible. We then use the harness to answer a specific question
+The harness implements the prequential principle, Dawid's ``predictive sequential''
+protocol~\cite{dawid1984}: at each step the model predicts, the truth is revealed and scored, and
+only then does the model update. Metrics can therefore be inspected along the stream rather than
+only as one aggregate. The harness is embedded in an
+atlas (Section~\ref{sec:atlas}) that pairs forecasts with a diagnostic layer. We then use the
+harness to measure
 (Section~\ref{sec:results}): does online conformal calibration keep streaming intervals
-calibrated under distribution shift? Our contributions are: (i) the reusable prequential
-streaming harness \texttt{preqts} for stateful forecasters with a covariate-arrival policy;
-(ii) a reproducible, control-guarded demonstration that online conformal calibration
-reduces streaming coverage error seven-to-tenfold and collapses its across-case spread, without
-changing the point forecast.
+near the nominal level on this selected set of changing and control series? Our contributions
+are: (i) the reusable prequential streaming harness \texttt{preqts}, with a covariate-arrival
+policy; and (ii) an artifact-backed comparison showing lower descriptive coverage error for
+online calibration than for raw intervals in these 15 cases, while retaining the same Theta
+median forecast.
 
 % =====================================================================
 \section{The atlas: understand, then forecast}
@@ -167,7 +163,7 @@ universal winner: the diagnosis explains the leaderboard, which is exactly the s
 leakage-free scoring matters most.
 
 % =====================================================================
-\section{The prequential streaming harness}
+\section{The prequential streaming protocol}
 \label{sec:harness}
 % =====================================================================
 
@@ -182,48 +178,133 @@ test-then-train loop, so they cannot see a calibrator recover coverage after a s
 \label{fig:prequential}
 \end{figure*}
 
-Let a stream deliver observations $y_1,y_2,\dots$ At step $t$ a stateful forecaster $f$ with state
-$s_t$ issues a horizon-$h$ prediction and an interval at nominal level $1-\alpha$; the truth
-$y_{t+h}$ is then revealed, the prediction scored, and the state updated (Fig.~\ref{fig:prequential}),
+Let the stored target series be $y_0,\ldots,y_{T-1}$, let $m$ denote its case-specific seasonal
+period, and let $h$ denote the forecast horizon. In the experiment reported here $h=1$ and the
+cutoff step is one observation. At cutoff $t$, the forecaster receives only the initial context
+$y_{0:t-1}$ and observations subsequently revealed at earlier cutoffs. It returns quantiles at
+$q\in\{0.1,0.5,0.9\}$. The prediction is recorded and scored against the next observation before
+that observation is passed to the forecaster:
 \begin{equation}
-(\hat y_{t+h},\hat I_t)=f_\text{predict}(s_t),\qquad s_{t+1}=f_\text{update}(s_t,y_{t+h}).
+(\hat Q_{t,0.1},\hat Q_{t,0.5},\hat Q_{t,0.9})=f_\text{predict}(s_t),\quad
+s_{t+1}=f_\text{ingest}(s_t,y_t).
 \end{equation}
-The update strictly follows scoring, so no point is used to predict itself; a covariate-arrival
-policy declares, per exogenous channel, whether its value at $t+h$ is known at prediction time (a
-planned promotion) or revealed with the target (a realized driver). After a warmup the harness
-records, as functions of stream position, four trajectories: the rolling scaled error, the rolling
-empirical coverage, the rolling weighted quantile loss, and the cumulative compute cost, the constant-cost-per-step
-signature that separates a stateful model from a replay-everything wrapper. Point accuracy uses the
-mean absolute scaled error (MASE)~\cite{hyndman2006}; interval quality is read two ways that cannot
-be gamed independently, empirical coverage versus the nominal level, and the weighted quantile loss
-(WQL), the quantile (pinball) loss summed over the levels $0.1$, $0.5$ and $0.9$ and normalized by
-the sum of absolute target values, which penalizes both interval width and misses. The quantile
-loss is a proper scoring rule for quantile forecasts~\cite{gneiting2007}, and its average over
-quantile levels approximates the continuous ranked probability score (CRPS)~\cite{ansari2024}. The
-harness sits behind a
-\texttt{StatefulForecaster} interface so classical methods, gradient-boosted models, and stateful
-foundation models are evaluated identically, and it is published as the package \texttt{preqts};
-because the streaming artifact carries only aggregate metric trajectories (no raw series values are
-recoverable), the demonstration can be released even for real datasets licensed for local use only.
+The initial context length is $w=\min(\max(2m,20),\max(1,\lfloor T/3\rfloor))$. The harness
+initializes each forecaster once with $y_{0:w-1}$ and evaluates cutoffs $t=w,\ldots,T-h$;
+after scoring at $t$, it ingests $y_t$ and advances by one. Thus the target being scored is not
+available to either the point forecaster or the interval controller when the forecast is made.
+For a covariate channel, the stream contract distinguishes past-only values (optionally delayed by
+their declared lag) from known-future values. The conformal experiment has no covariates, so this
+policy does not affect its results.
+
+The evaluated point method is the archived NumPy smoothing-plus-drift adaptation labelled Theta,
+not a streaming-native state update or the finite-history Theta equation used in the current final-block experiment. At every cutoff, a \texttt{ReplayAdapter} calls the batch forecaster on the full
+history then available. For a context $x_0,\ldots,x_{n-1}$, the implementation estimates an OLS
+slope $b$ against integer time, selects the SES coefficient $a$ from
+$\{0.05,0.10,\ldots,0.95\}$ by minimum in-sample one-step squared error, and updates the level
+$\ell_i=a x_i+(1-a)\ell_{i-1}$ from $\ell_0=x_0$. Its one-step fitted values are the prior
+levels; $\hat\sigma$ is the population standard deviation of the resulting one-step residuals.
+For lead $j=1,\ldots,h$, the point path is $\hat y_{t+j}=\ell_{n-1}+0.5 b j$. The base quantiles
+are $\hat Q_{t,j,q}=\hat y_{t+j}+\Phi^{-1}(q)\hat\sigma\sqrt{j}$, using the implementation's
+Acklam approximation to the normal quantile. This Gaussian widening is an implementation choice,
+not a distribution-free interval guarantee. In the reported one-step experiment, this reduces to
+the evaluated adaptation's point forecast plus or minus $\Phi^{-1}(0.9)\hat\sigma$.
+
+At each forecast the harness records one-step MASE, empirical coverage of the inclusive interval
+$[\hat Q_{0.1},\hat Q_{0.9}]$, WQL at the three requested quantiles, and prediction and ingestion
+latency. MASE divides absolute error by a single scale fixed from the warmup context,
+$S_w=(T_w-m)^{-1}\sum_{i=m}^{w-1}|y_i-y_{i-m}|$ (with the package's documented fallback for a
+short or constant context). WQL follows the implementation's GluonTS-style normalization:
+$2\sum_q\rho_q(y-\hat Q_q)/\sum_i|y_i|$, where $\rho_q(u)=u(q-\mathbf1\{u<0\})$ is pinball
+loss. Each displayed rolling trajectory is the trailing arithmetic mean over at most 25 cutoff
+values, including the current cutoff. Cumulative cost is the running sum of measured prediction
+and ingestion latencies; it is a machine- and run-dependent timing observation, not an asymptotic
+complexity proof. The package also computes other metrics, but they are not used for the headline
+plots in this work. The three-quantile WQL summary is not treated as a CRPS estimate.
+
+The experiment uses the package API \texttt{run\_prequential} from \texttt{preqts==0.3.0};
+the series, case-specific seasonal periods and generated artifacts are those committed under
+\path{data/derived/}. Each method starts from the same case prefix and receives the same target
+sequence. The four methods are seasonal-naive, uncalibrated Theta, Theta with ACI, and Theta with
+Conformal-PID. Only the two wrappers change the interval; they retain the same Theta median
+forecast. The adapters recompute each batch forecast from its accumulated history, so this
+experiment compares their interval behavior under a common replay protocol and does not measure
+the benefit of persistent internal model state.
 
 % =====================================================================
-\section{Online conformal calibration}
+\section{Interval calibration and experimental design}
 \label{sec:conformal}
 % =====================================================================
 
-Split-conformal prediction issues an interval whose width is a quantile of past nonconformity
-scores (here absolute residuals); under exchangeability its coverage is $1-\alpha$. Streams are
-not exchangeable, so the effective level must adapt. \textbf{Adaptive Conformal
-Inference}~\cite{gibbs2021} updates the level each step by the observed miss,
+The wrappers recalibrate the outer interval of the same Theta forecast. For a one-step base
+forecast, write its median as $m_t$ and its half-width as
+$r_t=\max\{(\hat Q_{t,0.9}-\hat Q_{t,0.1})/2,10^{-8}\}$. Once $y_t$ arrives, the nonconformity
+score is the scale-normalized absolute error
+$z_t=|y_t-m_t|/r_t$. This is not raw-residual split conformal: it is a sequential score buffer
+and a multiplicative correction to the base interval. Each horizon has a separate state in the
+package; the experiment uses only horizon one. For either method, the calibrated outer endpoints
+are $m_t\pm \hat q_t r_t$, where $\hat q_t$ is the empirical quantile of the previous scores in
+that horizon's buffer at level $1-\alpha_t$. The buffer is a FIFO deque capped at 200 scores and
+the quantile is NumPy's default linearly interpolated sample quantile. Before any score is
+available, $\hat q_t=1$. The current prediction is therefore formed from past state only; its
+score enters the buffer after that prediction has been scored.
+
+\textbf{Adaptive Conformal Inference} (ACI)~\cite{gibbs2021} begins with target miscoverage
+$\alpha_0=1-c=0.2$, where $c=0.8$. After the current miss indicator
+$e_t=\mathbf1\{|y_t-m_t|>\hat q_t r_t\}$ is evaluated using the multiplier that generated the
+forecast, it updates
 \begin{equation}
-\alpha_{t+1}=\alpha_t+\gamma\,(\alpha-\text{err}_t),\qquad \text{err}_t=\mathbf 1\{y_{t+h}\notin\hat I_t\},
+\alpha_{t+1}=\operatorname{clip}\!\left(\alpha_t+\gamma\bigl((1-c)-e_t\bigr),10^{-4},1-10^{-4}\right),
 \label{eq:aci}
 \end{equation}
-so long-run coverage converges to the target under arbitrary distribution shift.
-\textbf{Conformal-PID control}~\cite{angelopoulos2023} generalizes this to a
-proportional-integral-derivative controller on the coverage error, with ACI as the integral-only
-special case; the proportional and derivative terms buy faster coverage recovery after a regime
-change. Both wrap any point forecaster and change only the interval, never the point prediction.
+with $\gamma=0.02$. A miss reduces $\alpha_t$, raising the next quantile level and generally
+expanding the interval; a covered observation increases $\alpha_t$ and generally contracts it.
+Clipping bounds the effective level. These implementation details do not establish the
+an unconditional convergence theorem: the empirical rolling-quantile buffer,
+level clipping, and this particular base interval define the evaluated procedure, and the results
+below are finite-stream measurements rather than a new coverage guarantee.
+
+\textbf{Conformal-PID}~\cite{angelopoulos2023} uses the same score buffer and quantile rule. With
+target miscoverage $\alpha^*=0.2$, its error is $u_t=\alpha^*-e_t$, its integral is
+$I_t=I_{t-1}+u_t$ (initialized at zero), and its derivative is $d_t=u_t-u_{t-1}$ (initialized
+to zero on the first update). The controller computes
+\begin{align}
+v_t &= k_pu_t+k_iI_t+k_dd_t,\\
+\alpha_{t+1}&=\operatorname{clip}(\alpha^*+v_t,10^{-4},1-10^{-4}),
+\end{align}
+with $k_p=0.05$, $k_i=0.02$, and $k_d=0.02$. The cumulative integral itself is not separately
+clipped in the implementation. These gains are hard-coded in the bake; the repository does not
+record a parameter-selection or sensitivity-analysis procedure. The wrapper changes only the
+outer quantiles, leaving the median column and hence the point forecast unchanged.
+
+The comparison is a fixed artifact-based study of 15 repository cases: 11 generated regimes and
+four redistributed real-data cases, with two generated cases designated as negative controls
+(white noise and near-random walk). The checked-in artifacts identify the cases and preserve
+their streaming metric trajectories. The current admitted corpus also contains source values for all fifteen cases. The streaming predictions and timings retain their original computation provenance; they are not regenerated by rescoring the corrected final-block comparison.
+The streaming stage sets $c=0.8$, $h=1$, levels $(0.1,0.5,0.9)$, step one, and the
+warmup formula in Section~III. The main figures give equal weight to each case. For case $i$ and
+method $a$, let $C_{i,a,k}$ be the stored trailing-25 coverage at cutoff $k$. The plotted summary
+is $\frac1{15}\sum_i|K_i^{-1}\sum_{k\in K_i}C_{i,a,k}-0.8|$; the whisker reaches the largest
+case-level absolute deviation. The per-case figure instead plots each artifact's final full-run
+coverage, with its across-case range. From the committed trajectories, the rolling-trajectory
+summary is 0.0599 for seasonal-naive, 0.0416 for raw Theta, 0.0057 for Theta+ACI and 0.0060 for
+Theta+PID; the largest case-level deviations are 0.3071, 0.1124, 0.0225 and 0.0224,
+respectively. The final-coverage spans are 0.3964, 0.1912, 0.0444 and 0.0444, respectively. These
+are descriptive summaries of this selected set, not inferential estimates for a population of
+forecasting tasks.
+
+The calibration result is limited in several ways. First, there are only 15 deliberately varied
+cases, and the four real-data examples do not establish broad real-world generalization. Second,
+the experiment evaluates a one-step horizon, one nominal coverage, one base forecaster and one
+fixed parameter setting per controller; no sensitivity or repeated-seed study is present. Third,
+the base interval is a Gaussian approximation using in-sample residual dispersion, and Theta is
+re-fit by full-history replay at every cutoff. Fourth, the committed aggregate trajectories do not
+by themselves preserve per-time forecasts, scores, controller states, or timing environment
+metadata, so they permit the reported aggregate calculations but not an independent replay of
+every online update from the artifact alone. Finally, finite-run calibration and the two controls
+do not prove distribution-free coverage, rule out every form of leakage, or establish a general
+advantage over other forecasting methods. The exact rationale for the hard-coded ACI/PID gains and
+the complete source-data revision identifiers are not recorded in the streaming artifacts; those
+provenance gaps remain open.
 
 % =====================================================================
 \section{Results}
@@ -249,53 +330,46 @@ $0.19$ and $0.40$). Data: \texttt{streaming.json}.}
 \end{figure}
 
 The headline is Fig.~\ref{fig:summary}. Averaged over the fifteen cases, the raw Theta intervals
-miss the nominal $80\%$ target by a mean absolute coverage error of $0.042$ and the seasonal-naive
-floor by $0.060$, with worst-case per-case errors of $0.11$ and $0.31$. Wrapping the \emph{same}
+miss the nominal $80\%$ target by a mean absolute coverage error of $0.0416$ and the seasonal-naive
+floor by $0.0599$, with worst-case per-case errors of $0.1124$ and $0.3071$. Wrapping the \emph{same}
 Theta point forecaster in ACI or Conformal-PID cuts the mean coverage error to $0.0057$ and
 $0.0060$, a sevenfold reduction over raw Theta and tenfold over seasonal-naive. The across-case
 view (Fig.~\ref{fig:percase}) shows the same effect as a collapse of dispersion: the final
 coverage of the calibrated methods clusters within a $0.04$ span at nominal, while raw Theta
 spreads over $0.19$ and seasonal-naive over $0.40$. The point forecast is unchanged (the MASE of
-Theta, Theta+ACI and Theta+PID is identical per case); only the interval self-corrects. The effect
-is regime-robust: where raw intervals drift most, the calibrators pull the time-averaged coverage
+Theta, Theta+ACI and Theta+PID is identical per case); only the interval is adjusted. In the selected cases, where raw intervals drift most, the calibrators pull the time-averaged coverage
 back (intermittent demand from $0.91$ raw to $0.81$ with ACI; chaotic Mackey--Glass from $0.77$
-raw to $0.80$; real UCI electricity from $0.76$ raw to $0.80$); and on the negative controls
-calibration lifts the white-noise coverage from $0.75$ (raw) to $0.79$ while the near-random-walk
-control is already at $\approx0.80$ raw and calibration leaves it there ($0.78$), so the harness
-does not manufacture skill on unpredictable series, exactly the leakage guard the controls exist to enforce.
+raw to $0.80$; real UCI electricity from $0.76$ raw to $0.80$). On the white-noise and
+near-random-walk controls, observed coverage summaries are also near nominal after calibration.
+These two examples are limited checks against simple confounds; they do not establish that the
+harness is free of leakage.
 
 % =====================================================================
 \section{Discussion and scope}
 % =====================================================================
 
-That online conformal calibration keeps streaming intervals near nominal under shift is not by
-itself surprising, it is what ACI and Conformal-PID were designed to do. The contribution is that
-it is measured under the correct protocol. A stateless rolling-window harness cannot see a
-calibrator recover coverage after a regime change, because it does not carry the calibrator's state
-across windows; the prequential harness does, and it charges the compute cost that distinguishes a
-constant-cost stateful method from a replay wrapper. The negative controls and the identical point
-forecasts across raw and calibrated variants rule out the two easy ways such a result could be an
-artifact, harness leakage and a point-accuracy confound. Scope: the demonstration uses a Theta base
-forecaster because it is a strong classical method that runs live; the calibration is method-agnostic
-and wraps any forecaster. The atlas mixes seeded synthetic
-regimes with a few real CC-BY series; the synthetic cases isolate regimes and the controls guard
-against leakage, but the real-data coverage is reported on a handful of public series, not a large
-corpus. Results are shown at horizon one and nominal $80\%$; the harness supports other horizons and
-levels. The value we claim is the reusable stateful-streaming harness and the leakage-guarded
-measurement, not a new calibrator.
+Online calibration is designed to adapt interval coverage, and the measurements here concern one
+specific replay-based implementation and selected set of cases. The prequential protocol scores
+each forecast before revealing its target, while the full-history replay makes the base Theta
+forecast and its timing depend on the accumulated context. The identical median forecasts across
+raw and calibrated variants isolate interval adjustment in this experiment; the negative controls
+provide only two limited checks and do not rule out leakage. The atlas combines generated regimes
+with four real-data cases, so its real-data coverage evidence remains narrow. Results are shown at
+horizon one and nominal $80\%$; the package interface accepts other horizons and coverage levels,
+but those settings are not evaluated here. This work does not propose a new calibrator or establish
+a general advantage over alternative forecasting methods.
 
 % =====================================================================
 \section{Conclusion}
 % =====================================================================
 
-We built and released \texttt{preqts}, a prequential streaming evaluation harness for stateful
-time-series forecasters with an explicit covariate-arrival policy, embedded in an atlas that pairs
-ten diagnostic families with a nineteen-method ladder so the diagnosis explains the leaderboard, and
-used it to show, reproducibly and against negative controls, that online conformal calibration
-reduces streaming interval coverage error seven-to-tenfold and collapses its across-case spread while
-leaving the point forecast unchanged. Evaluating forecasters the way they are deployed, as a stream
-with state, is what makes the calibration behavior visible; the harness and the released atlas make
-it reproducible.
+We describe \texttt{preqts}, a prequential evaluation harness with an explicit covariate-arrival
+policy, and report an artifact-backed interval-calibration comparison on 15 selected cases. Under
+the stated one-step protocol, the mean absolute deviation of each case's rolling coverage summary
+from the nominal level is lower for ACI and Conformal-PID than for the uncalibrated Theta and
+seasonal-naive intervals. The median forecast is unchanged by the wrappers. These finite-case
+results do not establish distribution-free coverage or generalization to other horizons, base
+forecasters, controller settings, or data populations.
 
 % =====================================================================
 \section*{Data and code availability}

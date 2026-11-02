@@ -5,7 +5,8 @@ from __future__ import annotations
 
 from .engines import heavy_forecasters
 from .model.forecasters import Forecaster, classical_forecasters
+from .model.context_memory import ContextMemoryForecaster
 
 
 def all_forecasters() -> list[Forecaster]:
-    return [*classical_forecasters(), *heavy_forecasters()]
+    return [*classical_forecasters(), *heavy_forecasters(), ContextMemoryForecaster()]

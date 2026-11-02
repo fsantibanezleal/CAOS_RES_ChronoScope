@@ -54,7 +54,7 @@ class LightGBMForecaster(Forecaster):
 
         df = pd.DataFrame({"unique_id": "s", "ds": np.arange(yy.shape[0]), "y": yy})
         model = LGBMRegressor(n_estimators=100, num_leaves=31, min_child_samples=5,
-                              learning_rate=0.05, verbosity=-1)
+                              learning_rate=0.05, verbosity=-1, n_jobs=1)
         mlf = MLForecast(models={"lgb": model}, freq=1, lags=lags)
         mlf.fit(df, fitted=True, static_features=[])
 

@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "results": [
+    {
+      "case_id": "REAL_electricity",
+      "displayed_score": "Mean absolute error: 35.72"
+    },
+    {
+      "case_id": "REAL_m4_daily",
+      "displayed_score": "Mean absolute error: 9.759"
+    },
+    {
+      "case_id": "REAL_m4_hourly",
+      "displayed_score": "Mean absolute error: 91.72"
+    },
+    {
+      "case_id": "REAL_pm25",
+      "displayed_score": "Mean absolute error: 2.772"
+    }
+  ],
+  "page_errors": []
+}

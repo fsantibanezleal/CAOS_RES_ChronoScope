@@ -1,0 +1,16 @@
+{
+  "id": 23874821,
+  "doi": "10.5281/zenodo.23874821",
+  "concept_doi": "10.5281/zenodo.23874820",
+  "version": "0.1",
+  "state": "published",
+  "filename": "chronoscope-context-memory-v0.1.pdf",
+  "bytes": 302883,
+  "md5": "bb7341058bd80d0477d12017d64ae4dd",
+  "sha256": "6f5e83d18df28c3ac96f90858f27c3da18df512bba25cf14b55e67db597d7d3a",
+  "publication_date": "2026-11-02",
+  "published_utc": "2026-11-02T03:04:13Z",
+  "record_url": "https://zenodo.org/records/23874821",
+  "source": "manuscripts/context-memory/tex/main.tex",
+  "source_sha256": "31354ae6c6f725cf2db8383d0b81f94881de5454be5e45ac56d3737f216ddcdb"
+}

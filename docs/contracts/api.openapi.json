@@ -1,0 +1,37 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ChronoScope static artifact contracts",
+    "version": "2.0.0",
+    "description": "Artifact shapes for code generation. The product has no active HTTP inference API."
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Trace": {
+        "$ref": "./schemas/trace.schema.json"
+      },
+      "CaseManifest": {
+        "$ref": "./schemas/manifest.schema.json"
+      },
+      "CaseIndex": {
+        "$ref": "./schemas/index.schema.json"
+      },
+      "Analysis": {
+        "$ref": "./schemas/analysis.schema.json"
+      },
+      "Streaming": {
+        "$ref": "./schemas/streaming.schema.json"
+      },
+      "NLinearMetadata": {
+        "$ref": "./schemas/nlinear-model.schema.json"
+      },
+      "Selector": {
+        "$ref": "./schemas/selector.schema.json"
+      },
+      "Reevaluation": {
+        "$ref": "./schemas/reevaluation.schema.json"
+      }
+    }
+  }
+}

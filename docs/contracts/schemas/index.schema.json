@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "index",
+  "type": "object",
+  "required": [
+    "schema",
+    "engine_version",
+    "n_cases",
+    "cases"
+  ],
+  "properties": {
+    "schema": {
+      "const": "chronoscope.index/v1"
+    },
+    "engine_version": {
+      "type": "string"
+    },
+    "n_cases": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CaseIndexEntry"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "CaseIndexEntry": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "category",
+        "manifest_path"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "manifest_path": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

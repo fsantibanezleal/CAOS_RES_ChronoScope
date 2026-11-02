@@ -9,4 +9,4 @@
 
 # torch is installed separately from the CPU index (see the command above); pinned here for the record.
 # torch==2.12.1+cpu
-chronos-forecasting>=1.5
+chronos-forecasting==2.3.1

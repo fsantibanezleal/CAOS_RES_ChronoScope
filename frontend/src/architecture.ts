@@ -1,8 +1,8 @@
 // In-app Architecture / "How it works" modal (ADR-0058). Five hand-authored, theme-aware SVG diagrams
-// meeting the ADR FLOOR: a <style> class vocabulary (not per-element inline attrs), type-coded boxes with
+// meeting the ADR floor: a <style> class vocabulary (not per-element inline attrs), type-coded boxes with
 // real code/module paths in monospace, labeled flows, bands/lanes with nested boxes, ~880 wide. Every
-// colour is a CSS-variable token (the shell --color-* + ChronoScope's --cs-* diagram tokens), so the
-// diagrams follow light/dark. Content is the CURRENT system (10-tab workbench, 19-method ladder, preqts
+// colour is a CSS-variable token from the shell, so the
+// diagrams follow light/dark. Content is the current system (grouped workbench views, model roster, preqts
 // streaming, the real pipeline stages + two data contracts). Inlined via dangerouslySetInnerHTML by the
 // shell's ArchitectureModal, so SVG var() colours resolve.
 import type { ArchitectureConfig } from '@fasl-work/caos-app-shell';
@@ -13,10 +13,10 @@ const STYLE = `
   .arch-svg .mono { font-family: ui-monospace, Consolas, monospace; }
   .arch-svg .bx { fill: var(--color-surface-2); stroke: var(--color-border); stroke-width: 1.2; }
   .arch-svg .bx-hi { stroke: var(--color-accent); stroke-width: 1.7; }
-  .arch-svg .bx-web { stroke: var(--cs-web); stroke-width: 1.7; }
-  .arch-svg .bx-compute { stroke: var(--cs-compute); stroke-width: 1.7; }
-  .arch-svg .bx-store { stroke: var(--cs-store); stroke-width: 1.7; }
-  .arch-svg .bx-pkg { stroke: var(--cs-pkg); stroke-width: 1.7; }
+  .arch-svg .bx-web { stroke: var(--color-accent); stroke-width: 1.7; }
+  .arch-svg .bx-compute { stroke: var(--color-warn); stroke-width: 1.7; }
+  .arch-svg .bx-store { stroke: var(--color-good); stroke-width: 1.7; }
+  .arch-svg .bx-pkg { stroke: var(--color-accent); stroke-width: 1.7; }
   .arch-svg .bx-warn { stroke: var(--color-warn); stroke-width: 1.7; }
   .arch-svg .grp { fill: none; stroke: var(--color-border); stroke-dasharray: 5 4; }
   .arch-svg .ttl { fill: var(--color-fg); font-size: 12.5px; font-weight: 600; }
@@ -38,9 +38,9 @@ const svg = (id: string, h: number, inner: string) =>
 
 // ---- Tab 1: what the app IS + the design-build lifecycle ----
 const APP = svg('cs-a1', 470, `
-  <text class="hd" x="20" y="30">ChronoScope &#8212; understand a series, then forecast it, honestly</text>
+  <text class="hd" x="20" y="30">ChronoScope · understand a series, then forecast it, honestly</text>
   <rect class="grp" x="14" y="46" width="852" height="196" rx="10"/>
-  <text class="sub" x="28" y="66" style="font-weight:600;">WHAT IT IS &#183; the two pillars, per case</text>
+  <text class="sub" x="28" y="66" style="font-weight:600;">WHAT IT IS · the two pillars, per case</text>
   <rect class="bx" x="28" y="78" width="120" height="120" rx="9"/>
   <text class="ttl" x="40" y="100">series in</text>
   <text class="cd mono" x="40" y="118">cases/forecast_cases.py</text>
@@ -54,12 +54,12 @@ const APP = svg('cs-a1', 470, `
   <text class="mu" x="198" y="123" style="font-size:9px;">10 families: ADF/STL/PELT/GARCH/DFA</text>
   <rect class="bx bx-hi" x="186" y="146" width="196" height="46" rx="8"/>
   <text class="ttl" x="198" y="165" style="fill:var(--color-accent);">FORECAST</text>
-  <text class="mu" x="198" y="183" style="font-size:9px;">19 methods: naive &#8594; ARIMA &#8594; NHITS &#8594; Chronos</text>
+  <text class="mu" x="198" y="183" style="font-size:9px;">22 variants: baselines, models, combinations</text>
   <path class="flow" d="M384,138 L418,138" marker-end="url(#cs-a1)"/>
   <text class="lbl" x="388" y="130">score</text>
   <rect class="bx bx-store" x="420" y="86" width="196" height="106" rx="9"/>
   <text class="ttl" x="432" y="106">honest evaluation</text>
-  <text class="cd mono" x="432" y="124">stages/evaluate.py &#183; preqts</text>
+  <text class="cd mono" x="432" y="124">stages/evaluate.py · preqts</text>
   <text class="it" x="432" y="144">rolling-origin backtest,</text>
   <text class="it" x="432" y="160">leakage-safe; + prequential</text>
   <text class="mu" x="432" y="178">MASE/WQL/coverage/MSIS + per-horizon</text>
@@ -67,14 +67,14 @@ const APP = svg('cs-a1', 470, `
   <rect class="bx" x="652" y="86" width="200" height="106" rx="9"/>
   <text class="ttl" x="664" y="106">where each family wins</text>
   <text class="mu" x="664" y="126">and why: the diagnosis</text>
-  <text class="mu" x="664" y="142">explains the leaderboard</text>
+  <text class="mu" x="664" y="142">describes each case</text>
   <text class="mu" x="664" y="162">(forecastability atlas);</text>
-  <text class="mu" x="664" y="178">calibrated intervals (ACI/PID)</text>
+  <text class="mu" x="664" y="178">adaptive intervals (ACI/PID)</text>
 
   <rect class="grp" x="14" y="256" width="852" height="196" rx="10"/>
-  <text class="sub" x="28" y="276" style="font-weight:600;">DESIGN-BUILD LIFECYCLE &#183; how it was built (deep-research first, no shortcuts)</text>
+  <text class="sub" x="28" y="276" style="font-weight:600;">DESIGN-BUILD LIFECYCLE · how it was built (deep-research first, no shortcuts)</text>
   ${[
-    ['1 research', 'wip/*.md dossiers', 'SOTA, papers,', 'datasets, licenses'],
+    ['1 research', 'wip/*.md dossiers', 'papers, methods,', 'datasets, licenses'],
     ['2 implement', 'chronoscopelab/', 'engines + the', '10-family toolkit'],
     ['3 train + validate', 'stages/train.py', 'GPU deep + foundation;', 'ONNX export + parity'],
     ['4 bake artifact', 'stages/export.py', 'trace v2 + manifest', '+ streaming, seeded'],
@@ -93,11 +93,11 @@ const APP = svg('cs-a1', 470, `
 
 // ---- Tab 2: the lanes (web / offline / compute) ----
 const LANES = svg('cs-a2', 450, `
-  <text class="hd" x="20" y="30">Three lanes &#8212; what runs WHERE (the core split)</text>
+  <text class="hd" x="20" y="30">Three lanes · what runs WHERE (the core split)</text>
 
   <rect class="grp" x="14" y="46" width="852" height="120" rx="10"/>
-  <rect x="24" y="52" width="9" height="9" rx="2" fill="var(--cs-web)"/>
-  <text class="sub" x="40" y="61" style="fill:var(--cs-web);font-weight:600;">WEB &#183; live in your browser (no server)</text>
+  <rect x="24" y="52" width="9" height="9" rx="2" fill="var(--color-accent)"/>
+  <text class="sub" x="40" y="61" style="fill:var(--color-accent);font-weight:600;">WEB · live in your browser (no server)</text>
   <rect class="bx bx-web" x="28" y="74" width="196" height="80" rx="9"/>
   <text class="ttl" x="40" y="94">classical engine</text>
   <text class="cd mono" x="40" y="112">lib/liveEngine.ts</text>
@@ -117,13 +117,13 @@ const LANES = svg('cs-a2', 450, `
   <text class="ttl" x="664" y="94">uPlot workbench</text>
   <text class="cd mono" x="664" y="112">render/UPlotChart.tsx</text>
   <text class="mu" x="664" y="130">interactive charts: zoom, crosshair,</text>
-  <text class="mu" x="664" y="146">solo a curve, forecast&#8596;errors</text>
+  <text class="mu" x="664" y="146">solo a curve, forecast↔errors</text>
 
   <rect class="grp" x="14" y="180" width="852" height="86" rx="10"/>
-  <rect x="24" y="186" width="9" height="9" rx="2" fill="var(--cs-store)"/>
-  <text class="sub" x="40" y="195" style="fill:var(--cs-store);font-weight:600;">REPLAY &#183; committed artifacts the SPA animates (too heavy for the browser)</text>
+  <rect x="24" y="186" width="9" height="9" rx="2" fill="var(--color-good)"/>
+  <text class="sub" x="40" y="195" style="fill:var(--color-good);font-weight:600;">REPLAY · committed artifacts the SPA animates (too heavy for the browser)</text>
   <rect class="bx bx-store" x="28" y="208" width="266" height="48" rx="9"/>
-  <text class="it" x="40" y="228">trace <tspan class="cd mono">data/derived/&lt;case&gt;/trace.json</tspan></text>
+  <text class="it" x="40" y="228">trace <tspan class="cd mono">data/derived/<case>/trace.json</tspan></text>
   <text class="mu" x="40" y="246">history + every method's forecast + backtest metrics</text>
   <rect class="bx bx-store" x="304" y="208" width="266" height="48" rx="9"/>
   <text class="it" x="316" y="228">analysis <tspan class="cd mono">analysis.json</tspan></text>
@@ -133,8 +133,8 @@ const LANES = svg('cs-a2', 450, `
   <text class="mu" x="592" y="246">preqts prequential trajectories (raw vs ACI vs PID)</text>
 
   <rect class="grp" x="14" y="280" width="852" height="150" rx="10"/>
-  <rect x="24" y="286" width="9" height="9" rx="2" fill="var(--cs-compute)"/>
-  <text class="sub" x="40" y="295" style="fill:var(--cs-compute);font-weight:600;">OFFLINE / COMPUTE &#183; the .venv pipeline (never deployed) bakes the artifacts</text>
+  <rect x="24" y="286" width="9" height="9" rx="2" fill="var(--color-warn)"/>
+  <text class="sub" x="40" y="295" style="fill:var(--color-warn);font-weight:600;">OFFLINE / COMPUTE · the .venv pipeline (never deployed) bakes the artifacts</text>
   <rect class="bx bx-compute" x="28" y="308" width="180" height="106" rx="9"/>
   <text class="ttl" x="40" y="328">statistical + ML</text>
   <text class="cd mono" x="40" y="346">engines/statsforecast_*</text>
@@ -142,30 +142,30 @@ const LANES = svg('cs-a2', 450, `
   <text class="mu" x="40" y="382">LightGBM (mlforecast)</text>
   <text class="mu" x="40" y="404">CPU, numba</text>
   <rect class="bx bx-compute" x="220" y="308" width="180" height="106" rx="9"/>
-  <text class="ttl" x="232" y="328">deep (GPU)</text>
+  <text class="ttl" x="232" y="328">deep (offline)</text>
   <text class="cd mono" x="232" y="346">engines/neuralforecast_*</text>
   <text class="mu" x="232" y="366">NHITS/DLinear/NLinear,</text>
   <text class="mu" x="232" y="382">MQLoss; + direct-torch</text>
   <text class="mu" x="232" y="404">parity reference</text>
   <rect class="bx bx-compute" x="412" y="308" width="180" height="106" rx="9"/>
-  <text class="ttl" x="424" y="328">foundation (GPU)</text>
+  <text class="ttl" x="424" y="328">foundation (offline)</text>
   <text class="cd mono" x="424" y="346">engines/chronos_*, timesfm_*</text>
   <text class="mu" x="424" y="366">Chronos-Bolt + Chronos-2</text>
   <text class="mu" x="424" y="382">+ TimesFM-2.5, zero-shot</text>
   <text class="mu" x="424" y="404">from local checkpoints</text>
   <rect class="bx bx-pkg" x="604" y="308" width="248" height="106" rx="9"/>
-  <text class="ttl" x="616" y="328" style="fill:var(--cs-pkg);">preqts (our PyPI package)</text>
-  <text class="cd mono" x="616" y="346">preqts 0.3 &#183; ADR-0061 extraction</text>
+  <text class="ttl" x="616" y="328" style="fill:var(--color-accent);">preqts (our PyPI package)</text>
+  <text class="cd mono" x="616" y="346">preqts 0.3 · ADR-0061 extraction</text>
   <text class="mu" x="616" y="366">prequential eval + ACI/Conformal-PID;</text>
   <text class="mu" x="616" y="382">MSIS + per-horizon curves; the</text>
   <text class="mu" x="616" y="404">streaming bench's spine</text>
   <path class="flow" d="M300,266 L300,306" marker-end="url(#cs-a2)"/>
-  <text class="lbl" x="306" y="290">bake &#8593; commit</text>
+  <text class="lbl" x="306" y="290">bake ↑ commit</text>
 `);
 
 // ---- Tab 3: the web-app flow ----
 const FLOW = svg('cs-a3', 430, `
-  <text class="hd" x="20" y="30">Web-app flow &#8212; source &#8594; engines &#8594; the 10-tab workbench</text>
+  <text class="hd" x="20" y="30">Web-app flow · source → engines → the grouped eight-view workbench</text>
   <rect class="bx" x="20" y="58" width="150" height="92" rx="9"/>
   <text class="ttl" x="32" y="78">source selector</text>
   <text class="cd mono" x="32" y="96">pages/AppPage.tsx</text>
@@ -180,11 +180,11 @@ const FLOW = svg('cs-a3', 430, `
   <text class="mu" x="220" y="132">replay: fetch the trace</text>
   <path class="flow" d="M372,104 L408,104" marker-end="url(#cs-a3)"/>
   <rect class="bx bx-hi" x="410" y="52" width="442" height="150" rx="10"/>
-  <text class="ttl" x="424" y="72" style="fill:var(--color-accent);">the workbench &#183; 10 interactive tabs (uPlot)</text>
+  <text class="ttl" x="424" y="72" style="fill:var(--color-accent);">the workbench · grouped interactive views (uPlot)</text>
   <text class="sub" x="424" y="92">UNDERSTAND</text>
-  <text class="mu" x="424" y="110">Series &#183; Structure (ACF/PACF/spectrum) &#183; Decompose &#183; Verdicts</text>
+  <text class="mu" x="424" y="110">Series · Structure (ACF/PACF/spectrum) · Decompose · Verdicts</text>
   <text class="sub" x="424" y="134">FORECAST</text>
-  <text class="mu" x="424" y="152">Forecast (&#8596; Errors) &#183; Zoom &#183; Horizon &#183; Residuals &#183; Leaderboard &#183; Streaming</text>
+  <text class="mu" x="424" y="152">Forecast (↔ Errors) · Zoom · Horizon · Residuals · Leaderboard · Streaming</text>
   <text class="mu" x="424" y="180">every chart: zoom/pan/crosshair/brush; the legend rail solos a curve; theme-aware</text>
 
   <rect class="grp" x="20" y="222" width="832" height="184" rx="10"/>
@@ -216,14 +216,14 @@ const FLOW = svg('cs-a3', 430, `
 
 // ---- Tab 4: the science ----
 const SCIENCE = svg('cs-a4', 470, `
-  <text class="hd" x="20" y="30">The science &#8212; the 19-method ladder, scored by one honest protocol</text>
+  <text class="hd" x="20" y="30">Forecast methods and their evaluation protocols</text>
   <rect class="grp" x="14" y="46" width="852" height="150" rx="10"/>
-  <text class="sub" x="28" y="66" style="font-weight:600;">THE LADDER &#183; transparent baseline &#8594; SOTA, each emitting a point path + a prediction interval</text>
+  <text class="sub" x="28" y="66" style="font-weight:600;">THE LADDER · transparent baselines through pretrained models, each emitting a point path + a prediction interval</text>
   ${[
-    ['classical', 'baselines', 'SeasonalNaive (MASE=1),', 'SES/Holt/HoltWinters, Theta'],
+    ['smoothing', 'references', 'SeasonalNaive reference,', 'SES/Holt/HoltWinters, Theta'],
     ['statistical', 'auto-tuned', 'AutoARIMA / AutoETS /', 'AutoTheta (statsforecast)'],
     ['ml', 'boosting', 'LightGBM on lag/date', 'features (mlforecast)'],
-    ['deep', 'neural', 'NHITS/DLinear/NLinear', '(neuralforecast, GPU)'],
+    ['deep', 'neural', 'NHITS/DLinear/NLinear', '(neuralforecast)'],
     ['foundation', 'zero-shot', 'Chronos-Bolt, Chronos-2,', 'TimesFM-2.5 (pretrained)'],
   ].map((b, i) => {
     const x = 28 + i * 167;
@@ -237,41 +237,41 @@ const SCIENCE = svg('cs-a4', 470, `
   }).join('')}
 
   <rect class="grp" x="14" y="210" width="418" height="242" rx="10"/>
-  <text class="sub" x="28" y="230" style="font-weight:600;">DIAGNOSIS &#183; the 10-family toolkit (analysis/*.py)</text>
-  <text class="it" x="28" y="252">stationarity &#183; autocorrelation &#183; seasonality</text>
-  <text class="it" x="28" y="270">filters/decomposition &#183; change-points</text>
-  <text class="it" x="28" y="288">volatility (GARCH) &#183; distribution</text>
+  <text class="sub" x="28" y="230" style="font-weight:600;">DIAGNOSIS · the 10-family toolkit (analysis/*.py)</text>
+  <text class="it" x="28" y="252">stationarity · autocorrelation · seasonality</text>
+  <text class="it" x="28" y="270">filters/decomposition · change-points</text>
+  <text class="it" x="28" y="288">volatility (GARCH) · distribution</text>
   <text class="it" x="28" y="306">fractal/memory (Hurst, DFA, MF-DFA)</text>
-  <text class="it" x="28" y="324">nonlinear/chaos (Lyapunov, 0-1, RQA) &#183; causality</text>
+  <text class="it" x="28" y="324">nonlinear/chaos (Lyapunov, 0-1, RQA) · causality</text>
   <text class="mu" x="28" y="350" style="fill:var(--color-accent);">each honesty-gated:</text>
   <text class="mu" x="28" y="368">surrogate test before claiming chaos;</text>
   <text class="mu" x="28" y="386">length gate for nonlinear stats;</text>
   <text class="mu" x="28" y="404">I(1) gate before cointegration.</text>
-  <text class="mu" x="28" y="430">The diagnosis explains which family wins.</text>
+  <text class="mu" x="28" y="430">Diagnostics describe case structure.</text>
 
   <rect class="grp" x="446" y="210" width="420" height="242" rx="10"/>
-  <text class="sub" x="460" y="230" style="font-weight:600;">EVALUATION &#183; leakage-safe, and the novel piece</text>
+  <text class="sub" x="460" y="230" style="font-weight:600;">EVALUATION · rolling-origin and prequential protocols</text>
   <rect class="bx" x="460" y="242" width="392" height="74" rx="9"/>
   <text class="ttl" x="472" y="262">rolling-origin backtest</text>
   <text class="mu" x="472" y="282">each cutoff fits only on history up to it, predicts</text>
   <text class="mu" x="472" y="298">the full horizon out-of-sample; the cutoff advances</text>
   <rect class="bx bx-pkg" x="460" y="326" width="392" height="60" rx="9"/>
-  <text class="ttl" x="472" y="346" style="fill:var(--cs-pkg);">streaming (prequential) &#183; preqts</text>
-  <text class="mu" x="472" y="366">predict &#8594; observe &#8594; update, state carried; ACI + Conformal-PID</text>
-  <text class="mu" x="472" y="380" style="font-size:9px;">recalibrate the interval online, per horizon (the atlas's novel piece)</text>
+  <text class="ttl" x="472" y="346" style="fill:var(--color-accent);">streaming (prequential) · preqts</text>
+  <text class="mu" x="472" y="366">predict → observe → update, state carried; ACI + Conformal-PID</text>
+  <text class="mu" x="472" y="380" style="font-size:9px;">recalibrate the interval online, per horizon (the atlas's prequential comparison)</text>
   <text class="mu" x="460" y="408" style="fill:var(--color-accent);">metrics:</text>
-  <text class="mu" x="502" y="408">MASE &#183; WQL &#183; coverage &#183; MSIS &#183; per-horizon curve</text>
+  <text class="mu" x="502" y="408">MASE · WQL · coverage · MSIS · per-horizon curve</text>
   <text class="mu" x="460" y="428">a control that beats the naive by a lot is a red flag,</text>
-  <text class="mu" x="460" y="444">not a triumph &#8212; the negative controls stay visible.</text>
+  <text class="mu" x="460" y="444">not a triumph; the negative controls stay visible.</text>
 `);
 
 // ---- Tab 5: the data contracts / design ----
 const CONTRACTS = svg('cs-a5', 430, `
-  <text class="hd" x="20" y="30">Data contracts &#8212; two validated boundaries bracket a seeded pipeline</text>
+  <text class="hd" x="20" y="30">Data contracts · two validated boundaries bracket a seeded pipeline</text>
 
   <rect class="bx bx-store" x="20" y="56" width="200" height="120" rx="9"/>
-  <text class="ttl" x="32" y="76" style="fill:var(--cs-store);">CONTRACT 1 &#183; ingestion</text>
-  <text class="cd mono" x="32" y="94">io/contract.py &#183; io/schema.py</text>
+  <text class="ttl" x="32" y="76" style="fill:var(--color-good);">CONTRACT 1 · ingestion</text>
+  <text class="cd mono" x="32" y="94">io/contract.py · io/schema.py</text>
   <text class="mu" x="32" y="114">a valid series: long-format</text>
   <text class="mu" x="32" y="130">id/timestamp/value + an explicit</text>
   <text class="mu" x="32" y="146">missing/outlier policy, so the tool</text>
@@ -280,45 +280,45 @@ const CONTRACTS = svg('cs-a5', 430, `
   <text class="lbl" x="224" y="108">valid obs</text>
 
   <rect class="bx bx-hi" x="258" y="56" width="340" height="120" rx="10"/>
-  <text class="ttl" x="270" y="76" style="fill:var(--color-accent);">the staged pipeline &#183; pure function of (case, seed)</text>
+  <text class="ttl" x="270" y="76" style="fill:var(--color-accent);">the staged pipeline · pure function of (case, seed)</text>
   <text class="cd mono" x="270" y="94">chronoscopelab/pipeline.py</text>
-  <text class="mu" x="270" y="116">preprocess &#8594; feature_extraction &#8594; train &#8594; infer</text>
-  <text class="mu" x="270" y="134">&#8594; evaluate &#8594; export &#8212; deterministic, seeded (42)</text>
-  <text class="mu" x="270" y="158">same (case, seed) &#8594; byte-identical artifacts; no network,</text>
+  <text class="mu" x="270" y="116">preprocess → feature_extraction → train → infer</text>
+  <text class="mu" x="270" y="134">→ evaluate → export · deterministic, seeded (42)</text>
+  <text class="mu" x="270" y="158">same (case, seed) → byte-identical artifacts; no network,</text>
   <text class="mu" x="270" y="172" style="font-size:9px;">no wall-clock branching. CHRONOSCOPE_DERIVED_DIR sandboxes test writes.</text>
   <path class="flow" d="M598,116 L634,116" marker-end="url(#cs-a5)"/>
   <text class="lbl" x="602" y="108">baked</text>
 
   <rect class="bx bx-store" x="636" y="56" width="220" height="120" rx="9"/>
-  <text class="ttl" x="648" y="76" style="fill:var(--cs-store);">CONTRACT 2 &#183; artifact</text>
+  <text class="ttl" x="648" y="76" style="fill:var(--color-good);">CONTRACT 2 · artifact</text>
   <text class="it" x="648" y="98">trace <tspan class="cd mono">chronoscope.trace/v2</tspan></text>
   <text class="it" x="648" y="116">manifest <tspan class="cd mono">.manifest/v1</tspan></text>
   <text class="it" x="648" y="134">analysis, streaming, index</text>
-  <text class="cd mono" x="648" y="154">core/trace.py &#183; core/manifest.py</text>
-  <text class="mu" x="648" y="170">mirrored in TS &#8594; tsc gate</text>
+  <text class="cd mono" x="648" y="154">core/trace.py · core/manifest.py</text>
+  <text class="mu" x="648" y="170">mirrored in TS → tsc gate</text>
 
   <rect class="grp" x="20" y="200" width="411" height="206" rx="10"/>
-  <text class="sub" x="34" y="220" style="font-weight:600;">THE LANE GATE &#183; core/gate.py</text>
+  <text class="sub" x="34" y="220" style="font-weight:600;">THE LANE GATE · core/gate.py</text>
   <rect class="bx bx-web" x="34" y="234" width="180" height="72" rx="9"/>
-  <text class="ttl" x="46" y="254" style="fill:var(--cs-web);">LIVE</text>
+  <text class="ttl" x="46" y="254" style="fill:var(--color-accent);">LIVE</text>
   <text class="mu" x="46" y="274">cheap + pure-numpy/ONNX:</text>
   <text class="mu" x="46" y="290">safe to recompute in the browser</text>
   <rect class="bx bx-compute" x="228" y="234" width="188" height="72" rx="9"/>
-  <text class="ttl" x="240" y="254" style="fill:var(--cs-compute);">PRECOMPUTE</text>
-  <text class="mu" x="240" y="274">heavy (GPU/foundation/AutoARIMA):</text>
+  <text class="ttl" x="240" y="254" style="fill:var(--color-warn);">PRECOMPUTE</text>
+  <text class="mu" x="240" y="274">heavy offline (models/AutoARIMA):</text>
   <text class="mu" x="240" y="290">baked offline, replayed as artifact</text>
   <text class="mu" x="34" y="332">a measured verdict per method, recorded in the manifest;</text>
   <text class="mu" x="34" y="350">the manifest lane must match the gate lane (checked in CI).</text>
-  <text class="mu" x="34" y="376" style="fill:var(--cs-store);">license guard:</text>
+  <text class="mu" x="34" y="376" style="fill:var(--color-good);">license guard:</text>
   <text class="mu" x="112" y="376">a local-only-licensed source ships</text>
   <text class="mu" x="34" y="394">aggregate metrics only (the raw excerpt is redacted).</text>
 
   <rect class="grp" x="443" y="200" width="413" height="206" rx="10"/>
-  <text class="sub" x="457" y="220" style="font-weight:600;">DRIFT GATE (CI) &#183; scripts/check_artifacts.py</text>
+  <text class="sub" x="457" y="220" style="font-weight:600;">DRIFT GATE (CI) · scripts/check_artifacts.py</text>
   <text class="it" x="457" y="244">the index references every case;</text>
-  <text class="it" x="457" y="262">each manifest &#8596; artifact byte-size matches;</text>
+  <text class="it" x="457" y="262">each manifest ↔ artifact byte-size matches;</text>
   <text class="it" x="457" y="280">the lane matches the gate verdict;</text>
-  <text class="it" x="457" y="298">the ladder is complete (&#8805; 15 methods/trace).</text>
+  <text class="it" x="457" y="298">the ladder is complete (≥ 15 methods/trace).</text>
   <text class="mu" x="457" y="324" style="fill:var(--color-warn);">why the last one:</text>
   <text class="mu" x="457" y="342">a test that regenerated artifacts on a lighter engine</text>
   <text class="mu" x="457" y="358">set once downgraded the committed bake to 9 methods</text>
@@ -332,23 +332,23 @@ export const architecture: ArchitectureConfig = {
   tabs: [
     {
       id: 'app', en: 'The app', es: 'La app', svg: APP,
-      body_en: 'ChronoScope is an interactive atlas of time-series forecasting. For each case it runs two pillars: Understand (a 10-family analysis toolkit that diagnoses the series) and Forecast (a 19-method ladder from the seasonal-naive baseline up to zero-shot foundation models). Every method is scored by a leakage-safe rolling-origin backtest and the prequential streaming bench, so the diagnosis explains which family wins and the intervals are honestly calibrated. The lower band is the design-build lifecycle: deep research persisted to dossiers, then implement, train + validate on GPU, bake the deterministic artifact, build the SPA over it, and deploy.',
-      body_es: 'ChronoScope es un atlas interactivo del pronóstico de series de tiempo. Por cada caso ejecuta dos pilares: Entender (un kit de 10 familias de análisis que diagnostica la serie) y Pronosticar (una escalera de 19 métodos (18 nativos + TiRex-2 por el carril WSL2), del naive-estacional hasta modelos fundacionales zero-shot). Cada método se evalúa con un backtest de origen móvil sin fuga y el banco de streaming prequential, de modo que el diagnóstico explica qué familia gana y los intervalos quedan calibrados honestamente. La banda inferior es el ciclo diseño-construcción: investigación profunda persistida en dossiers, luego implementar, entrenar + validar en GPU, precalcular el artefacto determinista, construir la SPA sobre él y desplegar.',
+      body_en: 'ChronoScope combines ten diagnostic families with a common final-holdout comparison of 22 forecasting variants. Fourteen heavy paths remain frozen evidence, while five light methods and three combinations were recomputed. The ContextMemory proposal and both ablations retain their negative result. A separately dated streaming study reports online interval trajectories. Diagnostics describe case structure without establishing a causal explanation of rankings.',
+      body_es: 'ChronoScope combina diez familias diagnósticas con una comparación común de 22 variantes. Catorce trayectorias pesadas son evidencia congelada; cinco métodos ligeros y tres combinaciones fueron recalculados. ContextMemory y ambas ablaciones conservan el resultado negativo. Un estudio de streaming separado informa trayectorias de intervalos. Los diagnósticos describen los casos sin establecer una explicación causal de los rankings.',
     },
     {
       id: 'lanes', en: 'Lanes', es: 'Carriles', svg: LANES,
-      body_en: 'The split is the point. Web (live, in the browser): the classical ladder recomputes on every control via a TypeScript engine parity-checked against the Python core, a small NLinear model runs client-side via onnxruntime-web, the light analysis recomputes instantly, and every chart is an interactive uPlot view. Replay: the statistical, ML, deep and foundation tiers are too heavy for the browser, so their baked backtest (trace + analysis + streaming) is shown. Offline / compute: the .venv pipeline runs the real engines (statsforecast, LightGBM, neuralforecast on GPU, Chronos/TimesFM from local checkpoints) and preqts, and bakes the committed artifacts.',
-      body_es: 'La división es lo central. Web (en vivo, en el navegador): la escalera clásica recalcula con cada control vía un motor TypeScript verificado por paridad contra el núcleo Python, un pequeño modelo NLinear se ejecuta en el cliente vía onnxruntime-web, el análisis ligero recalcula al instante, y cada gráfico es una vista interactiva uPlot. Replay: los niveles estadístico, ML, profundo y fundacional son demasiado pesados para el navegador, así que se muestra su backtest precalculado (trace + análisis + streaming). Offline / cómputo: el pipeline en .venv ejecuta los motores reales (statsforecast, LightGBM, neuralforecast en GPU, Chronos/TimesFM desde checkpoints locales) y preqts, y precalcula los artefactos versionados.',
+      body_en: 'The split is the point. Web (live, in the browser): the classical ladder recomputes on every control via a TypeScript engine parity-checked against the Python core, a small NLinear model runs client-side via onnxruntime-web, the light analysis recomputes instantly, and every chart is an interactive uPlot view. Replay: statistical, ML, neural and pretrained model paths retain their released provenance. The common comparison rescores fourteen frozen paths and recomputes eight light variants on identical final holdouts. Offline / compute: the .venv pipeline runs the real engines (statsforecast, LightGBM, neuralforecast on GPU, Chronos/TimesFM from local checkpoints) and preqts, and bakes the committed artifacts.',
+      body_es: 'La división es lo central. Web (en vivo, en el navegador): la escalera clásica recalcula con cada control vía un motor TypeScript verificado por paridad contra el núcleo Python, un pequeño modelo NLinear se ejecuta en el cliente vía onnxruntime-web, el análisis ligero recalcula al instante, y cada gráfico es una vista interactiva uPlot. Replay: las trayectorias estadísticas, ML, neuronales y preentrenadas conservan su procedencia. La comparación común reevalúa catorce rutas congeladas y recalcula ocho variantes ligeras sobre bloques finales idénticos. Offline / cómputo: el pipeline en .venv ejecuta los motores reales (statsforecast, LightGBM, neuralforecast en GPU, Chronos/TimesFM desde checkpoints locales) y preqts, y precalcula los artefactos versionados.',
     },
     {
       id: 'flow', en: 'Web flow', es: 'Flujo web', svg: FLOW,
-      body_en: 'The App page is a per-case workbench. A source selector chooses a baked case (replay) or a synthetic pattern with live knobs; the engines produce forecasts (live for classical + ONNX, replay for the heavy tiers); and the case is presented across 10 interactive tabs, split Understand (Series, Structure, Decompose, Verdicts) and Forecast (Forecast with a Forecast/Errors toggle, Zoom, Horizon, Residuals, Leaderboard, Streaming). Two mechanisms keep it honest: copy-data.mjs overlays the committed artifacts (never hand-typed), and the TypeScript contract mirror fails the build on any schema drift; a CI drift-gate runs before deploy.',
+      body_en: 'The App page is a per-case workbench. A source selector chooses a baked case or a synthetic pattern with live controls; forecasts run in the browser or replay from artifacts. Eight views are grouped into Understand (Series, Structure, Decompose, Verdicts) and Forecast (Forecast, Residuals, Leaderboard, Streaming). The TypeScript contract mirror fails the build when artifact shapes drift; CI checks artifact consistency before deployment.',
       body_es: 'La página App es un entorno de trabajo por caso. Un selector de fuente elige un caso precalculado (replay) o un patrón sintético con perillas en vivo; los motores producen pronósticos (en vivo para clásicos + ONNX, replay para los niveles pesados); y el caso se presenta en 10 pestañas interactivas, divididas en Entender (Serie, Estructura, Descomponer, Veredictos) y Pronosticar (Pronóstico con un toggle Pronóstico/Errores, Zoom, Horizonte, Residuos, Tabla, Streaming). Dos mecanismos lo mantienen honesto: copy-data.mjs superpone los artefactos versionados (nunca tipeados a mano) y el espejo de contrato en TypeScript rompe el build ante cualquier divergencia de esquema; un drift-gate de CI se ejecuta antes de desplegar.',
     },
     {
       id: 'science', en: 'The science', es: 'La ciencia', svg: SCIENCE,
-      body_en: 'The ladder runs from a transparent baseline upward: seasonal-naive (the MASE denominator), exponential smoothing (SES, Holt, Holt-Winters), Theta, auto-tuned statistical models (AutoARIMA/AutoETS/AutoTheta), LightGBM on lag features, deep nets (NHITS/DLinear/NLinear), and zero-shot foundation transformers (Chronos-Bolt, Chronos-2, TimesFM-2.5). The 10-family analysis toolkit diagnoses the series (each family honesty-gated). Evaluation is a leakage-safe rolling-origin backtest plus the novel prequential streaming bench (preqts: predict, observe, update, with ACI + Conformal-PID recalibrating the interval online). Metrics: MASE, WQL, coverage, MSIS, and the per-horizon error curve; the negative controls stay visible so a "no" is as clear as a "yes".',
-      body_es: 'La escalera va de un baseline transparente hacia arriba: naive-estacional (el denominador de MASE), suavizamiento exponencial (SES, Holt, Holt-Winters), Theta, modelos estadísticos auto-ajustados (AutoARIMA/AutoETS/AutoTheta), LightGBM sobre rezagos, redes profundas (NHITS/DLinear/NLinear) y transformers fundacionales zero-shot (Chronos-Bolt, Chronos-2, TimesFM-2.5). El kit de 10 familias diagnostica la serie (cada familia con su compuerta de honestidad). La evaluación es un backtest de origen móvil sin fuga más el novedoso banco de streaming prequential (preqts: predecir, observar, actualizar, con ACI + Conformal-PID recalibrando el intervalo en línea). Métricas: MASE, WQL, cobertura, MSIS y la curva de error por horizonte; los controles negativos quedan visibles para que un "no" sea tan claro como un "sí".',
+      body_en: 'The roster includes seasonal-naive, exponential smoothing, Theta, auto-tuned statistical models, LightGBM, neural models, and pretrained models. The ten-family analysis toolkit reports case diagnostics. Evaluation combines rolling-origin backtests with a prequential streaming study through preqts, using ACI and Conformal-PID interval calibration. Metrics include MASE, WQL, coverage, MSIS, and per-horizon error; negative controls remain visible.',
+      body_es: 'El conjunto incluye referencias estacionales, suavizamiento, Theta, modelos estadísticos, LightGBM, redes y modelos preentrenados. Diez familias de análisis describen los casos. La evaluación distingue bloques finales comunes y trayectorias históricas de streaming con preqts, ACI y Conformal-PID. Las medidas incluyen MASE, pérdida de cuantiles, cobertura, amplitud y MSIS. ContextMemory se compara con ablaciones de recencia y promedio uniforme; el componente contextual no mejora el criterio medio en los casos seleccionados.',
     },
     {
       id: 'contracts', en: 'Data contracts', es: 'Contratos de datos', svg: CONTRACTS,

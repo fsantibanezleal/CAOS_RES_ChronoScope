@@ -1,17 +1,17 @@
 """Deep forecasting tier (direct-torch reference): NLinear, DLinear, NHITS trained per case on the GPU.
 
-These are the REAL published architectures implemented directly against their papers - genuinely faithful
-(DLinear/NLinear are single linear layers on a decomposition; NHITS is a documented multi-rate MLP stack),
-running on the torch cu126 GPU build with a CPU fallback via ``chronoscopelab.gpu``.
+These are direct-torch adaptations motivated by the papers. NLinear/DLinear have project-specific
+quantile heads and NHITS is a documented multi-rate MLP adaptation. They are kept distinct from the
+maintained neuralforecast implementations; exact paper replication and numerical parity are not claimed.
 
 ROLE (revised 2026-07-10): with the pipeline's Python base on 3.12, neuralforecast IS installable (ray ships
 cp312 win_amd64 wheels; the earlier "uninstallable" verdict was py3.13-on-Windows-specific) and becomes the
-canonical deep tier. THIS module is kept as the independent PARITY REFERENCE and CI-friendly fallback: same
-architectures, no framework, so the two implementations cross-check each other. Decision + revision:
+canonical reference-library implementation. This module remains a separately identified implementation
+for comparison; agreement or disagreement must be measured rather than assumed. Decision + revision:
 wip/chronoscope/deep-engine-decision-2026-07-04.md.
 
 Each model is trained per case, with a windowed (input -> horizon) dataset drawn from the history and a
-multi-quantile (pinball) loss so the forecast carries a calibrated interval, not just a point. Training is
+multi-quantile (pinball) loss so the forecast carries estimated quantiles. Calibration must be measured. Training is
 seeded for determinism. The engines degrade gracefully: if torch is absent, ``neural_forecasters()`` returns
 [] and the rest of the ladder runs. Like the foundation tier they are OPT-IN via CHRONOSCOPE_ENABLE_NEURAL=1
 (off in the fast unit-test path; the engine has its own direct GPU-gated test).

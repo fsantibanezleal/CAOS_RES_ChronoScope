@@ -1,0 +1,644 @@
+{
+  "title": {
+    "en": "Forecasting demand when conditions change",
+    "es": "Pronosticar la demanda cuando cambian las condiciones"
+  },
+  "key_statement": {
+    "en": "Demand forecasts guide commitments before outcomes are known, while changing conditions and human adjustments can undermine their accuracy. Comparable forecasts, explicit uncertainty and reviewed decisions make those commitments easier to challenge and revise.",
+    "es": "Los pronósticos guían compromisos antes de conocer los resultados, mientras los cambios y ajustes humanos pueden deteriorar su precisión. Comparaciones, incertidumbre explícita y decisiones revisadas permiten cuestionar y actualizar esos compromisos."
+  },
+  "headline_figures": [
+    {
+      "heading": {
+        "en": "Forecast adjustments studied",
+        "es": "Ajustes de pronóstico estudiados"
+      },
+      "value": {
+        "en": "About 147,000",
+        "es": "Unos 147.000"
+      },
+      "unit": {
+        "en": "forecasts across six published demand-planning studies",
+        "es": "pronósticos en seis estudios publicados de planificación de demanda"
+      },
+      "source": "fva2025"
+    },
+    {
+      "heading": {
+        "en": "A demanding comparison",
+        "es": "Una comparación exigente"
+      },
+      "value": {
+        "en": "100,000",
+        "es": "100.000"
+      },
+      "unit": {
+        "en": "time series in the M4 forecasting competition",
+        "es": "series temporales en la competencia de pronósticos M4"
+      },
+      "source": "m4"
+    }
+  ],
+  "pain": {
+    "key_message": {
+      "en": "A forecast can look credible while giving operations the wrong basis for a commitment.",
+      "es": "Un pronóstico puede parecer creíble y dar a operaciones una base equivocada para comprometer recursos."
+    },
+    "paragraphs": [
+      {
+        "en": "Demand planners must commit stock, capacity and staff before demand arrives. A forecast error can leave material unused or customers waiting, while the consequences depend on the decision and its lead time.",
+        "es": "Los planificadores comprometen existencias, capacidad y personal antes de recibir la demanda. Un error puede dejar materiales sin uso o clientes esperando, según la decisión y su plazo de ejecución."
+      },
+      {
+        "en": "Human adjustments do not reliably improve a model forecast. A six-study analysis found improvements in accuracy and bias for only just over half of the products, with substantial differences between datasets.",
+        "es": "Los ajustes humanos no mejoran de forma fiable el pronóstico de un modelo. Un análisis de seis estudios encontró mejoras para poco más de la mitad de los productos, con diferencias entre conjuntos."
+      }
+    ],
+    "bearers": [
+      {
+        "who": {
+          "en": "Demand planners",
+          "es": "Planificadores de demanda"
+        },
+        "cost": {
+          "en": "Time spent reconciling conflicting forecasts and explaining revisions.",
+          "es": "Tiempo dedicado a conciliar pronósticos contradictorios y explicar revisiones."
+        },
+        "measure": {
+          "en": "Review hours and forecast changes per planning cycle.",
+          "es": "Horas de revisión y cambios por ciclo de planificación."
+        }
+      },
+      {
+        "who": {
+          "en": "Operations teams",
+          "es": "Equipos de operaciones"
+        },
+        "cost": {
+          "en": "Capacity committed too early, too late or at the wrong level.",
+          "es": "Capacidad comprometida antes, después o en una magnitud inadecuada."
+        },
+        "measure": {
+          "en": "Unused capacity, shortages and schedule changes.",
+          "es": "Capacidad ociosa, faltantes y cambios de programación."
+        }
+      },
+      {
+        "who": {
+          "en": "Customers",
+          "es": "Clientes"
+        },
+        "cost": {
+          "en": "Waiting and unreliable availability when plans miss demand.",
+          "es": "Espera y disponibilidad incierta cuando los planes no corresponden a la demanda."
+        },
+        "measure": {
+          "en": "Waiting time and fulfilled demand within the promised period.",
+          "es": "Tiempo de espera y demanda atendida dentro del plazo prometido."
+        }
+      }
+    ],
+    "figures": [
+      {
+        "heading": {
+          "en": "Evidence across organisations",
+          "es": "Evidencia entre organizaciones"
+        },
+        "value": {
+          "en": "6",
+          "es": "6"
+        },
+        "unit": {
+          "en": "company-based studies in a common forecast-adjustment analysis",
+          "es": "estudios empresariales en un análisis común de ajustes de pronóstico"
+        },
+        "source": "fva2025"
+      },
+      {
+        "heading": {
+          "en": "Forecasting practice surveyed",
+          "es": "Prácticas de pronóstico encuestadas"
+        },
+        "value": {
+          "en": "149",
+          "es": "149"
+        },
+        "unit": {
+          "en": "forecasters in a study of management judgment and forecasting procedures",
+          "es": "pronosticadores en un estudio sobre juicio gerencial y procedimientos de pronóstico"
+        },
+        "source": "judgment2007"
+      }
+    ],
+    "causes": [
+      {
+        "cause": {
+          "en": "Adjustments without evidence of added value",
+          "es": "Ajustes sin evidencia de valor añadido"
+        },
+        "weight": 40
+      },
+      {
+        "cause": {
+          "en": "Comparisons that miss the operating decision",
+          "es": "Comparaciones que omiten la decisión operativa"
+        },
+        "weight": 35
+      },
+      {
+        "cause": {
+          "en": "Changing conditions that weaken historical relationships",
+          "es": "Condiciones cambiantes que debilitan relaciones históricas"
+        },
+        "weight": 25
+      }
+    ]
+  },
+  "context": {
+    "key_message": {
+      "en": "The useful forecast depends on the decision horizon, available information and consequences of an error.",
+      "es": "El pronóstico útil depende del horizonte, la información disponible y las consecuencias del error."
+    },
+    "paragraphs": [
+      {
+        "en": "Organisations combine software forecasts, commercial information and operational judgment within recurring planning cycles. Each participant sees different information, so a shared number needs a recorded cutoff, an owner and a reason for revision.",
+        "es": "Las organizaciones combinan pronósticos de software, información comercial y juicio operativo en ciclos recurrentes. Cada participante observa información distinta, por lo que una cifra compartida necesita fecha de corte, responsable y justificación."
+      }
+    ],
+    "setting": {
+      "en": "Organisations planning inventory, service capacity or staffing from regularly arriving demand observations.",
+      "es": "Organizaciones que planifican inventario, capacidad de servicio o personal a partir de observaciones periódicas de demanda."
+    },
+    "forces": [
+      {
+        "force": {
+          "en": "More model choices to evaluate and maintain",
+          "es": "Más modelos que evaluar y mantener"
+        },
+        "direction": "rising"
+      },
+      {
+        "force": {
+          "en": "Pressure to justify human forecast adjustments",
+          "es": "Presión para justificar ajustes humanos"
+        },
+        "direction": "rising"
+      },
+      {
+        "force": {
+          "en": "Dependence on information available before the decision",
+          "es": "Dependencia de información disponible antes de decidir"
+        },
+        "direction": "steady"
+      }
+    ],
+    "evidence": [
+      {
+        "statement": {
+          "en": "A 2025 cross-study analysis found that positive adjustments were more likely to worsen forecast performance.",
+          "es": "Un análisis de 2025 encontró que los ajustes positivos tenían mayor probabilidad de empeorar el desempeño."
+        },
+        "source": "fva2025"
+      },
+      {
+        "statement": {
+          "en": "Forecast accuracy measures can behave differently across series, requiring careful selection of comparison measures.",
+          "es": "Las medidas de precisión pueden comportarse de forma distinta entre series y requieren una selección cuidadosa."
+        },
+        "source": "accuracy2006"
+      },
+      {
+        "statement": {
+          "en": "Forecasting estimates possible futures; goals describe desired outcomes, and planning determines actions informed by forecasts.",
+          "es": "El pronóstico estima futuros posibles; los objetivos describen resultados deseados y la planificación determina acciones informadas por pronósticos."
+        },
+        "source": "planning-fpp3"
+      },
+      {
+        "statement": {
+          "en": "A point forecast alone does not describe uncertainty; prediction intervals communicate a range under the forecasting assumptions.",
+          "es": "Un pronóstico puntual no describe por sí solo la incertidumbre; los intervalos comunican un rango bajo los supuestos del pronóstico."
+        },
+        "source": "intervals-fpp3"
+      }
+    ]
+  },
+  "situation": {
+    "key_message": {
+      "en": "Planners, operations and analysts need the same evidence while owning different decisions.",
+      "es": "Planificación, operaciones y analítica necesitan la misma evidencia para decisiones diferentes."
+    },
+    "roles": [
+      {
+        "role": {
+          "en": "Demand planner",
+          "es": "Planificador de demanda"
+        },
+        "decides": {
+          "en": "Which demand forecast enters the planning cycle.",
+          "es": "Qué pronóstico entra al ciclo de planificación."
+        },
+        "needs": {
+          "en": "Comparable errors, relevant context and reasons for adjustments.",
+          "es": "Errores comparables, contexto relevante y motivos de ajuste."
+        }
+      },
+      {
+        "role": {
+          "en": "Operations manager",
+          "es": "Responsable de operaciones"
+        },
+        "decides": {
+          "en": "Which capacity and inventory commitments can be revised.",
+          "es": "Qué compromisos de capacidad e inventario pueden revisarse."
+        },
+        "needs": {
+          "en": "Decision deadlines, uncertainty and the cost of a shortfall.",
+          "es": "Plazos de decisión, incertidumbre y costo de un faltante."
+        }
+      },
+      {
+        "role": {
+          "en": "Analytics lead",
+          "es": "Responsable de analítica"
+        },
+        "decides": {
+          "en": "Which models and evaluation procedures enter regular use.",
+          "es": "Qué modelos y procedimientos de evaluación se utilizan regularmente."
+        },
+        "needs": {
+          "en": "Reproducible comparisons, source provenance and model limitations.",
+          "es": "Comparaciones reproducibles, procedencia y limitaciones de los modelos."
+        }
+      }
+    ],
+    "interaction": {
+      "en": "The planner proposes demand, operations checks its consequences, and analytics verifies whether the evidence supports revising the forecast.",
+      "es": "Planificación propone la demanda, operaciones revisa sus consecuencias y analítica verifica si la evidencia respalda modificar el pronóstico."
+    },
+    "state_of_the_art": [
+      {
+        "approach": {
+          "en": "Statistical forecasting and combinations",
+          "es": "Pronósticos estadísticos y combinaciones"
+        },
+        "achieves": {
+          "en": "Strong reference forecasts across diverse series.",
+          "es": "Pronósticos de referencia sólidos en series diversas."
+        },
+        "falls_short": {
+          "en": "Competition rankings do not establish a winner for every local decision.",
+          "es": "Los rankings no establecen un ganador para cada decisión local."
+        },
+        "source": "m4"
+      },
+      {
+        "approach": {
+          "en": "Pretrained forecasting models",
+          "es": "Modelos de pronóstico preentrenados"
+        },
+        "achieves": {
+          "en": "Forecasts from supplied histories with optional covariates.",
+          "es": "Pronósticos desde historias proporcionadas y covariables opcionales."
+        },
+        "falls_short": {
+          "en": "Local usefulness still needs evaluation at the intended horizon and information cutoff.",
+          "es": "La utilidad local requiere evaluación al horizonte y corte de información previstos."
+        },
+        "source": "chronos2"
+      },
+      {
+        "approach": {
+          "en": "Adaptive prediction intervals",
+          "es": "Intervalos de predicción adaptativos"
+        },
+        "achieves": {
+          "en": "Updates uncertainty using newly observed prediction errors.",
+          "es": "Actualiza la incertidumbre usando errores recién observados."
+        },
+        "falls_short": {
+          "en": "Adaptation does not remove the need to inspect interval width and local coverage.",
+          "es": "La adaptación no elimina la revisión de amplitud y cobertura local."
+        },
+        "source": "aci"
+      }
+    ],
+    "status": {
+      "heading": {
+        "en": "Demand-planning evidence synthesis",
+        "es": "Síntesis de evidencia de planificación"
+      },
+      "value": {
+        "en": "6",
+        "es": "6"
+      },
+      "unit": {
+        "en": "studies analysed together",
+        "es": "estudios analizados conjuntamente"
+      },
+      "date": {
+        "en": "2025",
+        "es": "2025"
+      },
+      "source": "fva2025"
+    }
+  },
+  "trends": {
+    "key_message": {
+      "en": "Model capability is expanding faster than organisations can assume that every new model improves their decisions.",
+      "es": "La capacidad de los modelos crece más rápido que la certeza sobre su aporte a las decisiones."
+    },
+    "items": [
+      {
+        "trend": {
+          "en": "Forecasting from pretrained models",
+          "es": "Pronósticos con modelos preentrenados"
+        },
+        "kind": "technological",
+        "direction": "rising",
+        "horizon": "now",
+        "signal": {
+          "statement": {
+            "en": "Chronos-2 provides multivariate forecasting with covariate support.",
+            "es": "Chronos-2 proporciona pronósticos multivariados con covariables."
+          },
+          "source": "chronos2"
+        },
+        "effect": {
+          "en": "Analytics teams must compare model capability with the information actually available at each decision.",
+          "es": "Analítica debe contrastar la capacidad del modelo con la información disponible al decidir."
+        },
+        "confidence": "high"
+      },
+      {
+        "trend": {
+          "en": "Reviewing the value of adjustments",
+          "es": "Revisión del valor de los ajustes"
+        },
+        "kind": "practice",
+        "direction": "rising",
+        "horizon": "now",
+        "signal": {
+          "statement": {
+            "en": "Recent evidence evaluates both accuracy and bias before and after human adjustments.",
+            "es": "La evidencia reciente evalúa precisión y sesgo antes y después de ajustes humanos."
+          },
+          "source": "fva2025"
+        },
+        "effect": {
+          "en": "Planners need an adjustment log that can be checked against later outcomes.",
+          "es": "Planificación necesita registrar ajustes y contrastarlos con resultados posteriores."
+        },
+        "confidence": "medium"
+      },
+      {
+        "trend": {
+          "en": "Updating uncertainty as observations arrive",
+          "es": "Actualización de incertidumbre al recibir observaciones"
+        },
+        "kind": "technological",
+        "direction": "rising",
+        "horizon": "now",
+        "signal": {
+          "statement": {
+            "en": "Adaptive conformal inference addresses prediction under distribution shift.",
+            "es": "La inferencia conforme adaptativa aborda la predicción bajo cambios de distribución."
+          },
+          "source": "aci"
+        },
+        "effect": {
+          "en": "Operations can review changing risk alongside point forecasts rather than relying on a fixed error band.",
+          "es": "Operaciones puede revisar riesgos cambiantes junto al pronóstico puntual y sus intervalos."
+        },
+        "confidence": "medium"
+      }
+    ]
+  },
+  "proposal": {
+    "key_message": {
+      "en": "Use a repeatable decision cycle that compares forecasts, records uncertainty and checks the value of each intervention.",
+      "es": "Usar un ciclo repetible que compare pronósticos, registre incertidumbre y revise el valor de cada intervención."
+    },
+    "paragraphs": [
+      {
+        "en": "Begin with the operating decision and its deadline, then compare feasible forecasts on earlier decisions with the same information cutoff. Record human revisions and review their accuracy, uncertainty and operational consequences after outcomes arrive.",
+        "es": "Comenzar por la decisión y su plazo, y comparar pronósticos sobre decisiones anteriores con el mismo corte de información. Registrar revisiones humanas y revisar precisión, incertidumbre y consecuencias tras observar los resultados."
+      }
+    ],
+    "four_cs": [
+      {
+        "c": {
+          "en": "Choice",
+          "es": "Elección"
+        },
+        "applies": {
+          "en": "Keep comparable open and proprietary forecasting options available before choosing a model for each decision.",
+          "es": "Mantener opciones abiertas y propietarias comparables antes de elegir un modelo para cada decisión."
+        }
+      },
+      {
+        "c": {
+          "en": "Context",
+          "es": "Contexto"
+        },
+        "applies": {
+          "en": "Ground model inputs and evaluation measures in the operating horizon, available information and consequences of forecast error.",
+          "es": "Vincular entradas y evaluación con el horizonte operativo, la información disponible y las consecuencias del error."
+        }
+      },
+      {
+        "c": {
+          "en": "Cost",
+          "es": "Costo"
+        },
+        "applies": {
+          "en": "Record computation, maintenance and review effort alongside the consequences of overestimating or underestimating demand.",
+          "es": "Registrar cómputo, mantenimiento y revisión junto a las consecuencias de sobreestimar o subestimar la demanda."
+        }
+      },
+      {
+        "c": {
+          "en": "Control",
+          "es": "Control"
+        },
+        "applies": {
+          "en": "Assign owners for data, model changes and human overrides, with an auditable record of every forecast revision.",
+          "es": "Asignar responsables de datos, cambios de modelo y ajustes humanos, con un registro auditable de cada revisión."
+        }
+      }
+    ],
+    "actions": [
+      {
+        "action": {
+          "en": "Define the decision, horizon and information cutoff before comparing models.",
+          "es": "Definir decisión, horizonte y corte de información antes de comparar modelos."
+        },
+        "owner": {
+          "en": "Operations manager",
+          "es": "Responsable de operaciones"
+        },
+        "horizon": {
+          "en": "Next planning cycle",
+          "es": "Próximo ciclo de planificación"
+        },
+        "check": {
+          "en": "Every comparison states the decision deadline and the information available then.",
+          "es": "Cada comparación declara el plazo y la información disponible en ese momento."
+        }
+      },
+      {
+        "action": {
+          "en": "Replay earlier decisions with common cases, horizons and accuracy measures.",
+          "es": "Reproducir decisiones anteriores con casos, horizontes y medidas comunes."
+        },
+        "owner": {
+          "en": "Analytics lead",
+          "es": "Responsable de analítica"
+        },
+        "horizon": {
+          "en": "Before model adoption",
+          "es": "Antes de adoptar el modelo"
+        },
+        "check": {
+          "en": "Every admitted forecast can be traced to its inputs and evaluation protocol.",
+          "es": "Cada pronóstico admitido puede trazarse a sus entradas y protocolo de evaluación."
+        }
+      },
+      {
+        "action": {
+          "en": "Record the reason for every human adjustment and review its realised effect.",
+          "es": "Registrar el motivo de cada ajuste humano y revisar su efecto observado."
+        },
+        "owner": {
+          "en": "Demand planner",
+          "es": "Planificador de demanda"
+        },
+        "horizon": {
+          "en": "Every planning cycle",
+          "es": "Cada ciclo de planificación"
+        },
+        "check": {
+          "en": "Adjusted and original forecasts are compared after outcomes become available.",
+          "es": "Los pronósticos ajustados y originales se comparan cuando llegan los resultados."
+        }
+      }
+    ],
+    "risks": [
+      {
+        "en": "An aggregate improvement may conceal costly failures in a particular series or horizon.",
+        "es": "Una mejora agregada puede ocultar fallas costosas en una serie u horizonte particular."
+      },
+      {
+        "en": "Information revised after the decision can make a historical comparison look better than operational use.",
+        "es": "La información revisada después de decidir puede mejorar artificialmente una comparación histórica."
+      }
+    ],
+    "unknowns": [
+      {
+        "en": "Cause weights are author estimates of relative importance, not measured industry shares, and need replacement with local evidence.",
+        "es": "Los pesos causales son estimaciones del autor de importancia relativa, no proporciones industriales medidas, y requieren evidencia local."
+      },
+      {
+        "en": "The operational value of any forecasting change depends on local costs, constraints and decision lead times.",
+        "es": "El valor operativo de un cambio depende de costos, restricciones y plazos locales."
+      }
+    ],
+    "handoff": {
+      "en": "The research atlas explores how series structure, forecast choice and changing uncertainty interact on explicitly bounded cases.",
+      "es": "El atlas explora cómo interactúan la estructura de las series, la elección del pronóstico y la incertidumbre en casos delimitados."
+    }
+  },
+  "illustrations": {
+    "pain": {
+      "file": "executive/pain.svg",
+      "caption": {
+        "en": "Forecast disagreements reach the same loading bay as excess stock and unmet demand.",
+        "es": "Las diferencias entre pronósticos llegan al mismo andén como excesos y demanda sin atender."
+      }
+    },
+    "situation": {
+      "file": "executive/situation.svg",
+      "caption": {
+        "en": "Planning, operations and analytics contribute different information to the same commitment.",
+        "es": "Planificación, operaciones y analítica aportan información distinta al mismo compromiso."
+      }
+    },
+    "proposal": {
+      "file": "executive/proposal.svg",
+      "caption": {
+        "en": "A shared planning cycle makes uncertainty visible before resources are committed.",
+        "es": "Un ciclo compartido hace visible la incertidumbre antes de comprometer recursos."
+      }
+    }
+  },
+  "sources": [
+    {
+      "id": "fva2025",
+      "title": {
+        "en": "Forecast value added in demand planning",
+        "es": "Valor añadido del pronóstico en la planificación de demanda"
+      },
+      "url": "https://doi.org/10.1016/j.ijforecast.2024.07.006",
+      "note": {
+        "en": "Published in 2025; six studies with approximately 147,000 forecasts.",
+        "es": "Publicado en 2025; seis estudios con aproximadamente 147.000 pronósticos."
+      }
+    },
+    {
+      "id": "m4",
+      "title": {
+        "en": "The M4 Competition: Results, findings, conclusion and way forward",
+        "es": "Competencia M4: resultados, hallazgos, conclusiones y próximos pasos"
+      },
+      "url": "https://doi.org/10.1016/j.ijforecast.2019.04.014"
+    },
+    {
+      "id": "judgment2007",
+      "title": {
+        "en": "Against Your Better Judgment? How Organizations Can Improve Their Use of Management Judgment in Forecasting",
+        "es": "Cómo mejorar el uso del juicio gerencial en los pronósticos"
+      },
+      "url": "https://doi.org/10.1287/inte.1070.0309"
+    },
+    {
+      "id": "accuracy2006",
+      "title": {
+        "en": "Another look at measures of forecast accuracy",
+        "es": "Otra mirada a las medidas de precisión de pronósticos"
+      },
+      "url": "https://doi.org/10.1016/j.ijforecast.2006.03.001"
+    },
+    {
+      "id": "chronos2",
+      "title": {
+        "en": "Chronos-2: From Univariate to Universal Forecasting",
+        "es": "Chronos-2: del pronóstico univariado al universal"
+      },
+      "url": "https://arxiv.org/abs/2510.15821"
+    },
+    {
+      "id": "aci",
+      "title": {
+        "en": "Adaptive Conformal Inference Under Distribution Shift",
+        "es": "Inferencia conforme adaptativa bajo cambios de distribución"
+      },
+      "url": "https://arxiv.org/abs/2106.00170"
+    },
+    {
+      "id": "planning-fpp3",
+      "title": {
+        "en": "Forecasting, goals and planning",
+        "es": "Pronósticos, objetivos y planificación"
+      },
+      "url": "https://otexts.com/fpp3/intro.html#forecasting-goals-and-planning"
+    },
+    {
+      "id": "intervals-fpp3",
+      "title": {
+        "en": "Distributional forecasts and prediction intervals",
+        "es": "Distribuciones predictivas e intervalos de pronóstico"
+      },
+      "url": "https://otexts.com/fpp3/toolbox.html#distributional-forecasts-and-prediction-intervals"
+    }
+  ]
+}
