@@ -1,7 +1,7 @@
 {
   "ok": true,
   "execution": "All sixteen lessons executed and compared byte-for-byte in separate fresh kernels with the official runner.",
-  "command": ".venv-notebooks/Scripts/python.exe scripts/run_notebooks.py --check --tmp E:/_Temp/chronoscope/notebook-review-025",
+  "command": ".venv-notebooks/Scripts/python.exe scripts/run_notebooks.py --check --tmp <external-scratch>",
   "exit_code": 0,
   "executed_and_compared": 16,
   "notebooks": {

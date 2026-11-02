@@ -11,13 +11,14 @@
       "pdf": "manuscripts/product-report/main.pdf",
       "sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
       "source": "manuscripts/product-report/tex/main.tex",
-      "source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea",
+      "source_sha256": "df4fb231e008470b05a8f6452358603917f6fe61cb9656a43793af4951822f7c",
       "version_doi": "10.5281/zenodo.23884372",
       "concept_doi": "10.5281/zenodo.23874816",
       "doi": "10.5281/zenodo.23884372",
       "record_url": "https://zenodo.org/records/23884372",
       "reviewed_pdf_sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
-      "reviewed_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea"
+      "reviewed_source_sha256": "df4fb231e008470b05a8f6452358603917f6fe61cb9656a43793af4951822f7c",
+      "publication_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea"
     },
     {
       "kind": "manuscript",
