@@ -7,28 +7,44 @@
       "lang": "es",
       "theme": "light",
       "width": 390,
-      "height": 844
+      "height": 844,
+      "observed": {
+        "lang": "es",
+        "theme": "light"
+      }
     },
     {
       "route": "benchmark",
       "lang": "en",
       "theme": "dark",
       "width": 1280,
-      "height": 800
+      "height": 800,
+      "observed": {
+        "lang": "en",
+        "theme": "dark"
+      }
     },
     {
       "route": "implementation",
       "lang": "en",
       "theme": "dark",
       "width": 390,
-      "height": 844
+      "height": 844,
+      "observed": {
+        "lang": "en",
+        "theme": "dark"
+      }
     },
     {
       "route": "app",
       "lang": "es",
       "theme": "dark",
       "width": 1280,
-      "height": 800
+      "height": 800,
+      "observed": {
+        "lang": "es",
+        "theme": "dark"
+      }
     }
   ],
   "page_errors": []
