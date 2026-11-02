@@ -1,16 +1,16 @@
 {
-  "id": 23874821,
-  "doi": "10.5281/zenodo.23874821",
+  "id": 23884371,
+  "doi": "10.5281/zenodo.23884371",
   "concept_doi": "10.5281/zenodo.23874820",
-  "version": "0.1",
+  "version": "0.2",
   "state": "published",
-  "filename": "chronoscope-context-memory-v0.1.pdf",
-  "bytes": 302883,
-  "md5": "bb7341058bd80d0477d12017d64ae4dd",
-  "sha256": "6f5e83d18df28c3ac96f90858f27c3da18df512bba25cf14b55e67db597d7d3a",
+  "filename": "chronoscope-context-memory-v0.2.pdf",
+  "bytes": 371218,
+  "md5": "8d86d27a27ee240a7ff63fbe15eaa347",
+  "sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
   "publication_date": "2026-11-02",
-  "published_utc": "2026-11-02T03:04:13Z",
-  "record_url": "https://zenodo.org/records/23874821",
+  "published_utc": "2026-11-02T13:50:31Z",
+  "record_url": "https://zenodo.org/records/23884371",
   "source": "manuscripts/context-memory/tex/main.tex",
-  "source_sha256": "31354ae6c6f725cf2db8383d0b81f94881de5454be5e45ac56d3737f216ddcdb"
+  "source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3"
 }

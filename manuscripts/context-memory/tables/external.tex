@@ -1,0 +1,16 @@
+\begin{table}[htbp]\centering\small
+\caption{Complete external comparison. W denotes 294 eligible M4 Weekly series; M denotes 1,422 unique M3 Monthly series. MASE and MSIS average origins within series and then series equally; Cov is empirical interval coverage. These are descriptive summaries, not confidence intervals.}
+\begin{tabular}{lrrrrrr}\toprule Method & W MASE & W MSIS & W Cov & M MASE & M MSIS & M Cov\\\midrule
+SeasonalNaive & 0.8446 & 8.1670 & 0.9326 & 1.0864 & 8.8123 & 0.9342\\
+SES & 0.3533 & 2.3404 & 0.8926 & 1.0456 & 7.1945 & 0.8534\\
+Holt & 0.3806 & 2.4611 & 0.8844 & 1.8040 & 10.8472 & 0.8005\\
+HoltWinters & 0.5396 & 3.0778 & 0.8413 & 0.9375 & 6.7112 & 0.9160\\
+Theta & 0.3469 & 2.3237 & 0.9041 & 1.0021 & 7.0453 & 0.8700\\
+AutoETS & 0.3413 & 1.8490 & 0.8713 & 0.8514 & 4.1518 & 0.7324\\
+AutoTheta & 0.3076 & 1.7125 & 0.8511 & 0.8472 & 4.2994 & 0.7279\\
+ContextMemory & 0.3079 & 2.9468 & 0.9751 & 0.9086 & 6.8846 & 0.9348\\
+RecencyMean & 0.3109 & 2.9315 & 0.9742 & 0.9085 & 6.8846 & 0.9348\\
+EqualMean & 0.3548 & 3.3233 & 0.9702 & 0.9962 & 7.2131 & 0.9333\\
+ContextMemoryCV & 0.2848 & 2.5538 & 0.9511 & 0.8996 & 6.7999 & 0.9329\\
+ValidationMix & 0.2855 & 2.5477 & 0.9503 & 0.8993 & 6.8208 & 0.9326\\
+\bottomrule\end{tabular}\end{table}

@@ -1,16 +1,16 @@
 {
-  "id": 23876442,
-  "doi": "10.5281/zenodo.23876442",
+  "id": 23884372,
+  "doi": "10.5281/zenodo.23884372",
   "concept_doi": "10.5281/zenodo.23874816",
-  "version": "0.24.000",
+  "version": "0.25.000",
   "state": "published",
-  "filename": "chronoscope-product-report-v0.24.000.pdf",
-  "bytes": 483020,
-  "md5": "924807813e96263895555845b87de55d",
-  "sha256": "8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b",
+  "filename": "chronoscope-product-report-v0.25.000.pdf",
+  "bytes": 505376,
+  "md5": "daf2b7adeb1450b49f99defc648574a2",
+  "sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
   "publication_date": "2026-11-02",
-  "published_utc": "2026-11-02T06:09:29Z",
-  "record_url": "https://zenodo.org/records/23876442",
+  "published_utc": "2026-11-02T13:51:33Z",
+  "record_url": "https://zenodo.org/records/23884372",
   "source": "manuscripts/product-report/tex/main.tex",
-  "source_sha256": "a0eb706053f553bd75ee4551f6765a936a8a8155a1b1a5150f3b8903f0fb1b95"
+  "source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea"
 }

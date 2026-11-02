@@ -7,15 +7,17 @@
       "covers": [
         "BS-1"
       ],
-      "state": "revision-in-progress",
+      "state": "published",
       "pdf": "manuscripts/product-report/main.pdf",
-      "sha256": "2b90b1a3c5d0d0f135d537ccd22261ef078fe951b82c5e892e4a420522047848",
+      "sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
       "source": "manuscripts/product-report/tex/main.tex",
-      "source_sha256": "afbe671ea7edbb148587ff627e7a705507d56035b96a9980f4f102bcfe95c142",
+      "source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea",
       "version_doi": "10.5281/zenodo.23884372",
       "concept_doi": "10.5281/zenodo.23874816",
       "doi": "10.5281/zenodo.23884372",
-      "record_url": "https://zenodo.org/records/23884372"
+      "record_url": "https://zenodo.org/records/23884372",
+      "reviewed_pdf_sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
+      "reviewed_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea"
     },
     {
       "kind": "manuscript",
@@ -23,15 +25,17 @@
       "covers": [
         "BS-1"
       ],
-      "state": "revision-in-progress",
+      "state": "published",
       "pdf": "manuscripts/context-memory/main.pdf",
-      "sha256": "0053127e947a9ef77a7e47f0400625cd843f2e628869e3dc7e1db476e85bafc4",
+      "sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
       "source": "manuscripts/context-memory/tex/main.tex",
-      "source_sha256": "0120dffe182f1fe334d479c3668709ac2467a0f6e9a037b94770b58a021d8a4d",
+      "source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3",
       "version_doi": "10.5281/zenodo.23884371",
       "concept_doi": "10.5281/zenodo.23874820",
       "doi": "10.5281/zenodo.23884371",
-      "record_url": "https://zenodo.org/records/23884371"
+      "record_url": "https://zenodo.org/records/23884371",
+      "reviewed_pdf_sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
+      "reviewed_source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3"
     },
     {
       "kind": "companion-study-revision",
