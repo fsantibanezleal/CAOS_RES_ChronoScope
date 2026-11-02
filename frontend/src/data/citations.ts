@@ -4,7 +4,13 @@
 import type { Citation } from '@fasl-work/caos-app-shell';
 
 export const CITATIONS: Citation[] = [
-  { id: 'chronoscope-report', label: 'ChronoScope technical report', citation: 'Santibáñez-Leal, F. (2026). ChronoScope: Forecasting Implementations, Contiguous-History Evaluation and Context-Dependent Combination. Technical report. Not peer reviewed.', doi: '10.5281/zenodo.23874817' },
+  { id: 'matrix-profile', label: 'Yeh et al. 2016', citation: 'Yeh et al. Matrix Profile I: All Pairs Similarity Joins for Time Series. ICDM 2016.', doi: '10.1109/ICDM.2016.0179' },
+  { id: 'fluss', label: 'Gharghabi et al. 2017', citation: 'Gharghabi et al. Matrix Profile VIII: Domain Agnostic Online Semantic Segmentation at Superhuman Performance Levels. ICDM 2017.', doi: '10.1109/ICDM.2017.21' },
+  { id: 'multiscale-entropy', label: 'Costa et al. 2002', citation: 'Costa, Goldberger and Peng. Multiscale Entropy Analysis of Complex Physiologic Time Series. Physical Review Letters 89, 068102.', doi: '10.1103/PhysRevLett.89.068102' },
+  { id: 'lempel-ziv', label: 'Lempel and Ziv 1976', citation: 'Lempel and Ziv. On the Complexity of Finite Sequences. IEEE Transactions on Information Theory 22(1), 75-81.', doi: '10.1109/TIT.1976.1055501' },
+  { id: 'fresh-filtering', label: 'Dependent-test feature filtering', citation: 'tsfresh documentation: feature significance testing and Benjamini-Yekutieli filtering under dependent hypotheses.', url: 'https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html' },
+  { id: 'm4-daily', label: 'Monash M4 Daily corpus', citation: 'Godahewa et al. M4 Daily Dataset: 4,227 daily series, Monash Forecasting Repository, CC BY 4.0.', doi: '10.5281/zenodo.4656548' },
+  { id: 'chronoscope-report', label: 'ChronoScope technical report', citation: 'Santibáñez-Leal, F. (2026). ChronoScope: Forecasting Methods, Sequence Diagnostics and Corpus Forecastability. Technical report v0.24.000. Not peer reviewed.', doi: '10.5281/zenodo.23876442' },
   { id: 'context-memory', label: 'ContextMemory experiment', citation: 'Santibáñez-Leal, F. (2026). Within-Series Context Memory for Forecast Combination: A Fixed-Configuration Experiment with a Negative Aggregate Result. Preprint v0.1. Not peer reviewed.', doi: '10.5281/zenodo.23874821' },
   { id: 'statsforecast', label: 'Nixtla StatsForecast', citation: 'Nixtla. StatsForecast model reference: AutoARIMA, AutoETS and AutoTheta.', url: 'https://nixtlaverse.nixtla.io/statsforecast/src/core/models.html' },
   { id: 'fforma', label: 'Montero-Manso et al. 2020', citation: 'Montero-Manso, P., Athanasopoulos, G., Hyndman, R. J., and Talagala, T. S. (2020). FFORMA: Feature-based Forecast Model Averaging. International Journal of Forecasting, 36(1), 86-92.', doi: '10.1016/j.ijforecast.2019.02.011' },

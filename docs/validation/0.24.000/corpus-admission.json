@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checked_utc": "2026-11-02T06:01:58.762111+00:00",
+  "study_sha256": "183d9023a86e8449c567615389dda7e6909b6d68bbb46eb2ea46f9d3aad7b5ce",
+  "diagnostic_cases": 15,
+  "source_n": 4227,
+  "included_n": 4226,
+  "excluded_n": 1,
+  "statistics_recomputed": true,
+  "independently_scored_origin_paths": 101424,
+  "discovery_n": 2946,
+  "confirmation_n": 1280,
+  "confirmed_features": 21,
+  "constant_method": "AutoETS",
+  "selection_mean_mase": {
+    "selected": 3.3501251242814787,
+    "discovery_constant": 3.256976977719282,
+    "oracle": 3.0004783920690405
+  }
+}

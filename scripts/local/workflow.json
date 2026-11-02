@@ -68,7 +68,8 @@
     "data/examples/m4_daily_sample.csv",
     "data/examples/m4_hourly_sample.csv",
     "data/derived/fresh-reevaluation.json",
-    "models/.gitkeep"
+    "models/.gitkeep",
+    "data/derived/forecastability.json"
   ],
   "primary_environment": ".venv",
   "generation_environments": [
@@ -95,7 +96,8 @@
     "data/derived/manifests/index.json",
     "data/derived/reevaluation.json",
     "models/selector.json",
-    "data/derived/fresh-reevaluation.json"
+    "data/derived/fresh-reevaluation.json",
+    "data/derived/forecastability.json"
   ],
   "promote": [
     "data/derived",

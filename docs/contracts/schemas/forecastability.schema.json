@@ -1,0 +1,348 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ForecastabilityStudy",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "chronoscope.forecastability/v1"
+    },
+    "complete": {
+      "const": true
+    },
+    "protocol": {
+      "type": "object"
+    },
+    "packages": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "code_sha256": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source": {
+      "type": "object"
+    },
+    "source_n": {
+      "const": 4227
+    },
+    "included_n": {
+      "type": "integer",
+      "minimum": 3000
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "excluded": {
+            "type": "string"
+          },
+          "sequence_sha256": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "excluded",
+          "sequence_sha256"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "model_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "discovery_n": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "confirmation_n": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "associations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "feature": {
+                "type": "string"
+              },
+              "discovery": {
+                "type": "object",
+                "properties": {
+                  "feature": {
+                    "type": "string"
+                  },
+                  "n": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "tau": {
+                    "type": "number",
+                    "minimum": -1,
+                    "maximum": 1
+                  },
+                  "p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "q": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "rejected": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "feature",
+                  "n",
+                  "tau",
+                  "p",
+                  "q",
+                  "rejected"
+                ],
+                "additionalProperties": false
+              },
+              "confirmation": {
+                "type": "object",
+                "properties": {
+                  "feature": {
+                    "type": "string"
+                  },
+                  "n": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "tau": {
+                    "type": "number",
+                    "minimum": -1,
+                    "maximum": 1
+                  },
+                  "p": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "q": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "rejected": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "feature",
+                  "n",
+                  "tau",
+                  "p",
+                  "q",
+                  "rejected"
+                ],
+                "additionalProperties": false
+              },
+              "confirmed": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "feature",
+              "discovery",
+              "confirmation",
+              "confirmed"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "constant_method": {
+          "type": "string"
+        },
+        "selection_mean_mase": {
+          "type": "object",
+          "properties": {
+            "selected": {
+              "type": "number"
+            },
+            "discovery_constant": {
+              "type": "number"
+            },
+            "oracle": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "selected",
+            "discovery_constant",
+            "oracle"
+          ],
+          "additionalProperties": false
+        },
+        "model_mean_mase": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "selector_features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "discovery_medians": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "discovery_n",
+        "confirmation_n",
+        "associations",
+        "constant_method",
+        "selection_mean_mase",
+        "model_mean_mase",
+        "selector_features",
+        "discovery_medians",
+        "limitations"
+      ],
+      "additionalProperties": false
+    },
+    "series": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "start_timestamp": {
+            "type": "string"
+          },
+          "source_n": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sequence_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "partition": {
+            "enum": [
+              "discovery",
+              "confirmation"
+            ]
+          },
+          "features": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "mase": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "selected_method": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "start_timestamp",
+          "source_n",
+          "sequence_sha256",
+          "partition",
+          "features",
+          "mase",
+          "origins"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 3000
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "verified_origin_scores": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "selector_sha256": {
+          "type": "string"
+        },
+        "cache_identity": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verified_origin_scores",
+        "selector_sha256",
+        "cache_identity"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "complete",
+    "protocol",
+    "packages",
+    "code_sha256",
+    "source_sha256",
+    "source",
+    "source_n",
+    "included_n",
+    "excluded",
+    "model_names",
+    "summary",
+    "series",
+    "audit"
+  ],
+  "additionalProperties": false
+}

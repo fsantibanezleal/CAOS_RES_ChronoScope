@@ -1,0 +1,15 @@
+The complete source contains 4,227 identities; 4,226 are admitted and 1 is explicitly excluded. The deterministic partitions contain 2,946 discovery and 1,280 confirmation series. Of forty tested features, 21 meet the fixed two-partition confirmation rule. The discovery-selected constant is AutoETS. On confirmation series, the fixed selector has mean MASE 3.3501, the constant 3.2570, and the future-informed oracle 3.0005. The selector's error is 0.0931 higher than the constant on this fixed split. This descriptive outcome is not a significance test of selection benefit. The oracle uses future outcomes and cannot be deployed as a selection policy.
+
+Exclusions by reason: zero or unavailable MASE scale: 1.
+
+\begin{center}\begin{tabular}{lr}
+\toprule Confirmation method & Mean MASE\\\midrule
+AutoTheta & 3.2195 \\
+Naive & 3.2216 \\
+SeasonalNaive & 3.2216 \\
+Theta & 3.2228 \\
+SES & 3.2263 \\
+AutoETS & 3.2570 \\
+Holt & 3.6217 \\
+HoltWinters & 3.6217 \\
+\bottomrule\end{tabular}\end{center}

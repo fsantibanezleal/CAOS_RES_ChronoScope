@@ -1,0 +1,8 @@
+{
+  "checked_utc": "2026-11-02T03:37:07.120833+00:00",
+  "record_id": 23875115,
+  "doi": "10.5281/zenodo.23875115",
+  "correction": "Release-note metric label corrected from MAE to mean MASE; values and scientific PDFs unchanged.",
+  "archive_md5": "md5:f05c87b712cc04cdbad7c568f8bab1b6",
+  "metadata_only": true
+}

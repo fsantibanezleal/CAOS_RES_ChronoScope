@@ -78,6 +78,7 @@ jobs:
         run: |
           python scripts/local/producer_bridge.py validate .
           python scripts/check_fresh_reevaluation.py
+          python scripts/check_research_extensions.py
       - name: Every committed document valid against its schema file (ADR-0080)
         run: pip install jsonschema==4.26.0 && python scripts/check_documents.py
       - name: Rows still served by a provider (listed while building; none on main)

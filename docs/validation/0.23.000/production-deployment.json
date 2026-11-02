@@ -1,0 +1,378 @@
+{
+  "ok": true,
+  "checked_utc": "2026-11-02T03:28:26.221189+00:00",
+  "origin": "https://chronoscope.fasl-work.com",
+  "source_sha": "5e4128b972da24a9686b4a44ba570b401ae7b257",
+  "version": "0.23.000",
+  "dns_addresses": [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153"
+  ],
+  "tls": {
+    "verified": true,
+    "protocol": "TLSv1.3",
+    "subject_alt_names": [
+      [
+        "DNS",
+        "chronoscope.fasl-work.com"
+      ]
+    ],
+    "not_after": "Jan 31 01:05:17 2027 GMT"
+  },
+  "build": {
+    "version": "0.23.000",
+    "sha": "5e4128b972da24a9686b4a44ba570b401ae7b257",
+    "built": "2026-11-02T03:20:53.017Z"
+  },
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/?verify=20261102032826"
+    },
+    {
+      "route": "/app/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/app/?verify=20261102032826"
+    },
+    {
+      "route": "/methodology/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/methodology/?verify=20261102032826"
+    },
+    {
+      "route": "/implementation/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/implementation/?verify=20261102032826"
+    },
+    {
+      "route": "/experiments/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/experiments/?verify=20261102032826"
+    },
+    {
+      "route": "/benchmark/",
+      "status": 200,
+      "final_url": "https://chronoscope.fasl-work.com/benchmark/?verify=20261102032826"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/data/BRKV_level_shift/analysis.json",
+      "bytes": 96047,
+      "sha256": "d4891b385ee4d49c427a2179adff153e3e23203afcdeb67b2fd1bfd00f265090"
+    },
+    {
+      "path": "/data/BRKV_level_shift/streaming.json",
+      "bytes": 35635,
+      "sha256": "75380ff5986120699549e11e320adc4a70f09431cc82d109b7258044194873ae"
+    },
+    {
+      "path": "/data/BRKV_level_shift/trace.json",
+      "bytes": 15236,
+      "sha256": "c7dbc32d4cbc10c871aeaab630c8dadb82d140582c2ff8ef21483b1dddf5e406"
+    },
+    {
+      "path": "/data/CHAO_mackey/analysis.json",
+      "bytes": 147634,
+      "sha256": "c09a334f54393ed20f8d8ab4eeadef102608791b92b0c8b6789e70edba59846e"
+    },
+    {
+      "path": "/data/CHAO_mackey/streaming.json",
+      "bytes": 61755,
+      "sha256": "09884f746e947350645568a84cecfe78640fdbb8c74e0ea3152292591813a511"
+    },
+    {
+      "path": "/data/CHAO_mackey/trace.json",
+      "bytes": 15386,
+      "sha256": "b25fe7a3c5fcca5a41d8ee50eb5c7721370e5e27515962da5f9d899684f4df99"
+    },
+    {
+      "path": "/data/CTRL_white_noise/analysis.json",
+      "bytes": 58390,
+      "sha256": "bcba923a6273f52b5559cb49fd62663821b9d0c433e5a878ff3caadec8eed687"
+    },
+    {
+      "path": "/data/CTRL_white_noise/streaming.json",
+      "bytes": 18545,
+      "sha256": "8a4cda46d8ac75957982eea6b1e88d92bc33f7ed059993c297c3a32e89d4221a"
+    },
+    {
+      "path": "/data/CTRL_white_noise/trace.json",
+      "bytes": 13543,
+      "sha256": "f59510fa7816955e4a65a1e9df822fc9d63d0b642a8fddae59f43aaa269d690a"
+    },
+    {
+      "path": "/data/EXOG_promo/analysis.json",
+      "bytes": 81477,
+      "sha256": "0010e7823e5cb42f8985e6764b3552cc42dc6f80bd06082ef42181a42d9ad60b"
+    },
+    {
+      "path": "/data/EXOG_promo/streaming.json",
+      "bytes": 43703,
+      "sha256": "a0b19671e7dd43bab811ffe196ae33b1410e03e55e180a7931a63c034b3236b4"
+    },
+    {
+      "path": "/data/EXOG_promo/trace.json",
+      "bytes": 15689,
+      "sha256": "b30156d4c4c08eadd64e2a45be7c2cce415d9986c295e10ae8803be9d556764e"
+    },
+    {
+      "path": "/data/HETV_garch/analysis.json",
+      "bytes": 153744,
+      "sha256": "a32fabe0cc579457064dbf48ffc2cee05551444ed6990294df028e70fa479ad9"
+    },
+    {
+      "path": "/data/HETV_garch/streaming.json",
+      "bytes": 62524,
+      "sha256": "ddedf961479d94ff33d3101b5cd5545adea558ab57270ba962a6994cfa5a8daa"
+    },
+    {
+      "path": "/data/HETV_garch/trace.json",
+      "bytes": 15594,
+      "sha256": "51b9499cc9c812870f5b5e53db8936a3f19e7da4ac664cafc5288bb4a9fe1c1b"
+    },
+    {
+      "path": "/data/INTM_demand/analysis.json",
+      "bytes": 67288,
+      "sha256": "51604be445380c0cf1380ea4ce609dce9108eb5f6202d7a7bfde9a96320b99f6"
+    },
+    {
+      "path": "/data/INTM_demand/streaming.json",
+      "bytes": 23329,
+      "sha256": "a39f52e0d9e6dcbe097f19324786a8be4fcac57e5b4a6c21cc9b9f2e87f31d91"
+    },
+    {
+      "path": "/data/INTM_demand/trace.json",
+      "bytes": 12983,
+      "sha256": "1e80005f25808c76058d635e0d8409811fba9a64a9640fee7e75a5a70e58030a"
+    },
+    {
+      "path": "/data/LMEM_fractional/analysis.json",
+      "bytes": 161056,
+      "sha256": "068c1df6a553c2bab2f2a90c4124340fc370eb22407ed001091712522230a8a5"
+    },
+    {
+      "path": "/data/LMEM_fractional/streaming.json",
+      "bytes": 61937,
+      "sha256": "b335a3d3b748c0f49583a258b540562e487fe3053ce20d9b1457f25f0ddda962"
+    },
+    {
+      "path": "/data/LMEM_fractional/trace.json",
+      "bytes": 15416,
+      "sha256": "3d647a76ea78642a91d786384dd119fa066494b4f584c600f2585261d3ee7fe9"
+    },
+    {
+      "path": "/data/MSEA_daily_weekly/analysis.json",
+      "bytes": 196082,
+      "sha256": "2c7985641c8256c9c4ab58523aee870271f79e73c578c7ecc6c51f5ad336c6bc"
+    },
+    {
+      "path": "/data/MSEA_daily_weekly/streaming.json",
+      "bytes": 81602,
+      "sha256": "d662feeeb32ca9e2d99fa4d5d6cada1c9154987a8165670723a8d3c6946bf6b1"
+    },
+    {
+      "path": "/data/MSEA_daily_weekly/trace.json",
+      "bytes": 22809,
+      "sha256": "f70f2c0fa9f35fd557e137acee7e652492e1d9eb6743cbd9233099b0623dd766"
+    },
+    {
+      "path": "/data/REAL_electricity/analysis.json",
+      "bytes": 150125,
+      "sha256": "4d4eae820f1195a56b51537213c0b852ab891f76025fab7c0b4d3c720bba20fc"
+    },
+    {
+      "path": "/data/REAL_electricity/streaming.json",
+      "bytes": 55961,
+      "sha256": "5c950778b4fb6bf5ba2b5e9ca030fb252231cecb689140f44c7575fad92b0f51"
+    },
+    {
+      "path": "/data/REAL_electricity/trace.json",
+      "bytes": 24420,
+      "sha256": "7117d1aca2e122b68d83554bc44f0e98d3ee8e286981c6d3481cf58d41193842"
+    },
+    {
+      "path": "/data/REAL_m4_daily/analysis.json",
+      "bytes": 116797,
+      "sha256": "45bd772b336955eaef65344de25963ab0fda26518acf685da761e3440d98ff5e"
+    },
+    {
+      "path": "/data/REAL_m4_daily/streaming.json",
+      "bytes": 49417,
+      "sha256": "9063961fa8baf8db7fa494600c8e984381633fc5d4fa3bbb7a5a5694035b03e9"
+    },
+    {
+      "path": "/data/REAL_m4_daily/trace.json",
+      "bytes": 17863,
+      "sha256": "a03d117cbf84eee5c07e1d4f6e8a2b85362abd977e494b53a5605b9b895f3d27"
+    },
+    {
+      "path": "/data/REAL_m4_hourly/analysis.json",
+      "bytes": 124407,
+      "sha256": "fe80e2831bccec115697bc84864528a6a2f9b8771d808a2874ecbde49df455ba"
+    },
+    {
+      "path": "/data/REAL_m4_hourly/streaming.json",
+      "bytes": 55555,
+      "sha256": "cefeb80abdd2bf502d7e4deff1d2355684086fcb27a12168e5c0adc23c58f77f"
+    },
+    {
+      "path": "/data/REAL_m4_hourly/trace.json",
+      "bytes": 23456,
+      "sha256": "152eeaa379b52d3530746baadf5d3497ce22e668e8b9944a1640fe2bf7da583c"
+    },
+    {
+      "path": "/data/REAL_pm25/analysis.json",
+      "bytes": 142843,
+      "sha256": "cc8ae67116c3215c8cdbf50a5d95e955dd74dc09f670f208fdc4588bbb7ab273"
+    },
+    {
+      "path": "/data/REAL_pm25/streaming.json",
+      "bytes": 55493,
+      "sha256": "55bcdf7b4f88fe15e54afc4bafcbfd8ab7f2db75e567f2a44b76d993f6e596f2"
+    },
+    {
+      "path": "/data/REAL_pm25/trace.json",
+      "bytes": 21963,
+      "sha256": "60aa953aa56a4e706ce45fc039fd8f97efc2d5991527bd45e4031ac8222343f8"
+    },
+    {
+      "path": "/data/RWLK_noise/analysis.json",
+      "bytes": 70627,
+      "sha256": "f0b1a5e14e80c1df924f4f761884aa5f2ef74913ed021081a9de1499efc8dc54"
+    },
+    {
+      "path": "/data/RWLK_noise/streaming.json",
+      "bytes": 23386,
+      "sha256": "91ef03bbb9a828576b063cc8c7465828fc78245c7cdf4b5c8f7c0ed0d08aacbf"
+    },
+    {
+      "path": "/data/RWLK_noise/trace.json",
+      "bytes": 14048,
+      "sha256": "e8ea8eea9a42ac49e6b4693d2fb97ca6d4b505aa7a659d5dbccedbeeaefd7b6a"
+    },
+    {
+      "path": "/data/SEAS_hourly/analysis.json",
+      "bytes": 144634,
+      "sha256": "631e3fc252b46b915b03ed2337efffd7ad65b68cb79aa204389136d30fcf3747"
+    },
+    {
+      "path": "/data/SEAS_hourly/streaming.json",
+      "bytes": 56385,
+      "sha256": "a22b8eb9ce40dfb396018c553b0895504ecc486460ace299464872c32ccc3dad"
+    },
+    {
+      "path": "/data/SEAS_hourly/trace.json",
+      "bytes": 23625,
+      "sha256": "f7c5218e1901120f595a38f66ea50bb14abf9adb62e978d8d8fef7daea5125fd"
+    },
+    {
+      "path": "/data/TRND_seasonal/analysis.json",
+      "bytes": 58768,
+      "sha256": "c3d980a2e643262eb55c8492d92300ea3cf1fb6201f42c2bfffa481fd6a2029d"
+    },
+    {
+      "path": "/data/TRND_seasonal/streaming.json",
+      "bytes": 20478,
+      "sha256": "9c6ff56555f00753f0c6219d572c403a7ed4e4e126fb592db9c8b68fe14f26a4"
+    },
+    {
+      "path": "/data/TRND_seasonal/trace.json",
+      "bytes": 14496,
+      "sha256": "efa0106cc9db75da694a972d160c3dcaf03ed4eb009b1c09ebd89b046d1d4244"
+    },
+    {
+      "path": "/data/fresh-reevaluation.json",
+      "bytes": 894249,
+      "sha256": "0cf8d99c8239e58f4f0bced22fe6ac644081f8ab5f867dfbdd5dbc52b5414662"
+    },
+    {
+      "path": "/data/manifests/BRKV_level_shift.json",
+      "bytes": 1616,
+      "sha256": "cff15469fc57abc461da8e742b1acfc62d2242f5ef699198ca2605f2e3bcfff1"
+    },
+    {
+      "path": "/data/manifests/CHAO_mackey.json",
+      "bytes": 1604,
+      "sha256": "ba3026874e197b5f15ef11238a2c1742ecfc6b605dbd42ac2591f73cecfb8336"
+    },
+    {
+      "path": "/data/manifests/CTRL_white_noise.json",
+      "bytes": 1576,
+      "sha256": "6e475288770da97d3ddae392ccf1c1c82a84396c63bdb4b5f33a7e497b35719b"
+    },
+    {
+      "path": "/data/manifests/EXOG_promo.json",
+      "bytes": 1707,
+      "sha256": "64fc0c2e9742d42e4c36aa2f9cd75d06350d199c1c1bfe5a76e1a985170bd7e8"
+    },
+    {
+      "path": "/data/manifests/HETV_garch.json",
+      "bytes": 1593,
+      "sha256": "c91c521339c01140ae94e33cb4b14b239e147e8311123fa11119ebfed879bc4d"
+    },
+    {
+      "path": "/data/manifests/INTM_demand.json",
+      "bytes": 1589,
+      "sha256": "7c1a3ab3d49ae53c4d2ba3ba5c5f03cf7c288a362b29d0ebf72b0603e0ccb1ce"
+    },
+    {
+      "path": "/data/manifests/LMEM_fractional.json",
+      "bytes": 1624,
+      "sha256": "49c261b947d79367586e6d8760e5ac9b0c24f2db045ea82b11f6c3c5f3ce5e41"
+    },
+    {
+      "path": "/data/manifests/MSEA_daily_weekly.json",
+      "bytes": 1629,
+      "sha256": "535df50745019e6640d03ce55f97b82fe375237b98159bdb10033ccae7d989b2"
+    },
+    {
+      "path": "/data/manifests/REAL_electricity.json",
+      "bytes": 1626,
+      "sha256": "fb80ac55356fd26fd652247b355b5fc2994c699a1770082da2410cb3ad0f6e9f"
+    },
+    {
+      "path": "/data/manifests/REAL_m4_daily.json",
+      "bytes": 1612,
+      "sha256": "5c3cf174236c53f76baa8062031beedb349968ab46a2f9e3594d014bc5f9c497"
+    },
+    {
+      "path": "/data/manifests/REAL_m4_hourly.json",
+      "bytes": 1602,
+      "sha256": "2372d5eeba5b2d7dd560fcb817f630d521865656139e74824220978150e350e1"
+    },
+    {
+      "path": "/data/manifests/REAL_pm25.json",
+      "bytes": 1595,
+      "sha256": "72ed4035d5a0d1973d5ae9740ec796fa73e98fed8b792d3702719167aae15480"
+    },
+    {
+      "path": "/data/manifests/RWLK_noise.json",
+      "bytes": 1545,
+      "sha256": "96bc44844cb7c2605891738e131a88d4c0347335610024e1b1c64dd5f4f53d21"
+    },
+    {
+      "path": "/data/manifests/SEAS_hourly.json",
+      "bytes": 1553,
+      "sha256": "a4f647fb357fa615d1bbcfc250c1ae2423ec6081cc2e9cba48c076e83919eccd"
+    },
+    {
+      "path": "/data/manifests/TRND_seasonal.json",
+      "bytes": 1572,
+      "sha256": "eb3e15bab3ee79a4788482e3ba6690c5fbf95702aa992a42fa676d5469b011db"
+    },
+    {
+      "path": "/data/manifests/index.json",
+      "bytes": 1785,
+      "sha256": "205590188d62b347afa1b3bb146b82054c74159966cc5bdbb897032066638c86"
+    },
+    {
+      "path": "/data/reevaluation.json",
+      "bytes": 752607,
+      "sha256": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ length so precompute stays tractable. Nothing here is decimated beyond what each
 """
 from __future__ import annotations
 
+import hashlib
 from typing import Any, Callable
 
 from ..analysis import (
@@ -24,6 +25,7 @@ from ..analysis import (
     filters,
     nonlinear,
     seasonality,
+    sequence,
     stationarity,
     volatility,
 )
@@ -61,7 +63,7 @@ def _changepoints_series(y: list, m: int) -> tuple[list, bool]:
     return (y, False)
 
 
-def run(spec: Any) -> dict:
+def run(spec: Any, seed: int = 42) -> dict:
     """Run the analysis panel for one case's series and return the JSON-ready ``analysis`` dict.
 
     ``spec`` is a SeriesSpec (``.y`` the series, ``.seasonality`` the period, ``.case_id``). The seasonality
@@ -83,11 +85,13 @@ def run(spec: Any) -> dict:
         "volatility": _safe("volatility", lambda: volatility.volatility_report(y, season_length=m or None)),
         "distribution": _safe("distribution", lambda: distribution.distribution_report(y)),
         "fractal": _safe("fractal", lambda: fractal.fractal_report(y)),
+        "sequence": _safe("sequence", lambda: sequence.sequence_report(y, seasonality=m or 1)),
     }
 
     # Heavy nonlinear panel only for long enough series (the surrogate loop is O(n^2) x surrogates).
     if n >= MIN_FOR_NONLINEAR:
-        analysis["nonlinear"] = _safe("nonlinear", lambda: nonlinear.nonlinear_report(y, n_surrogates=9))
+        case_seed = int.from_bytes(hashlib.sha256(f"{spec.case_id}:{seed}".encode()).digest()[:4], 'big')
+        analysis["nonlinear"] = _safe("nonlinear", lambda: nonlinear.nonlinear_report(y, n_surrogates=9, seed=case_seed))
     else:
         analysis["nonlinear"] = {"skipped": f"series too short (n={n} < {MIN_FOR_NONLINEAR}) for the chaos panel"}
 

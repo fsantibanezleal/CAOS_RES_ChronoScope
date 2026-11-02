@@ -1,0 +1,39 @@
+PASS S10 release record is complete
+PASS S10 release record is frozen
+PASS S01 zenodo.json version equals the release version
+PASS S20 local metadata holds a publication with exactly the expected PDF
+PASS S09 local metadata: creators come from the metadata
+PASS S23 every zenodo.json key is carried or named in --allow-dropped-keys
+PASS S06 PDF exists and starts with %PDF- (main.pdf)
+PASS S07 frozen PDF size and sha256 equal the record
+PASS S08 frozen PDF md5 equals the record
+PASS S11 slug is in the ledger
+PASS S11 ledger entry is the published source
+PASS S11 ledger entry equals the pinned source (id, DOI, version)
+PASS S04 source is still the concept's public latest
+PASS S12 reserved draft exists, has the record id and is a draft
+PASS S10 record DOI equals the draft DOI
+PASS S13 draft holds at most one file
+PASS S13 draft holds no file: it will be uploaded
+DO PUT draft metadata (all creators, publication date 2026-11-02)
+DO upload chronoscope-product-report-v0.24.000.pdf (create, content, commit)
+DO verify the draft (S14 S15 S16), then POST actions/publish
+DO verify the published record, write the release record, update the ledger, verify publicly
+PASS S14 draft holds exactly one committed PDF with the expected name
+PASS S15 uploaded file key, size and md5 equal the frozen values
+PASS S16 draft id, identity and every metadata field equal what was sent
+PASS S17 published response has the reserved id, DOI, concept DOI, version and creators
+PASS S22 record and ledger written atomically
+PASS S17 published record is live with the release version
+PASS S20 published record holds a publication with exactly the expected PDF
+PASS S15 published file key, size and md5 equal the frozen values
+PASS S22 public record and versions/latest are this record
+PASS S22 public DOI and parent concept equal the record
+PASS S22 public title, version and description equal the metadata
+PASS S22 public creators equal the expected identities
+PASS S22 public license equals the metadata license
+PASS S22 public access of the record and its files is public
+PASS S22 public file set is exactly the frozen file with its size and md5
+PASS S22 a fresh unauthenticated download equals the frozen file
+INFO v0.24.000 PUBLISHED: id=23876442 doi=10.5281/zenodo.23876442 concept=10.5281/zenodo.23874816 bytes=483020 md5=924807813e96263895555845b87de55d sha256=8bbff5e3bd5b91c2df57a0f5bc9f9c889f58f269fc3bb36830dc1a4fdeb44d6b
+SUMMARY publish: 33 gates passed, 0 failed, applied

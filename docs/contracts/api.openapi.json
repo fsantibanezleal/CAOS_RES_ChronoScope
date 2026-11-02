@@ -31,6 +31,9 @@
       },
       "Reevaluation": {
         "$ref": "./schemas/reevaluation.schema.json"
+      },
+      "ForecastabilityStudy": {
+        "$ref": "./schemas/forecastability.schema.json"
       }
     }
   }
