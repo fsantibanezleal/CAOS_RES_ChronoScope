@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -17,7 +17,7 @@ test('adversarial: prebuild removes orphaned public cases and copies the canonic
     mkdirSync(obsolete, { recursive: true });
     writeFileSync(join(source, 'trace.json'), '{"current":true}\n');
     writeFileSync(join(obsolete, 'trace.json'), '{"obsolete":true}\n');
-    copyFileSync(join(dirname(fileURLToPath(import.meta.url)), '../copy-data.mjs'), join(front, 'copy-data.mjs'));
+    copyFileSync(join(dirname(fileURLToPath(import.meta.url)), '../../copy-data.mjs'), join(front, 'copy-data.mjs'));
     execFileSync(process.execPath, [join(front, 'copy-data.mjs')], { cwd: front });
     assert.equal(existsSync(obsolete), false);
     assert.equal(readFileSync(join(front, 'public/data/current/trace.json'), 'utf8'), '{"current":true}\n');
@@ -36,9 +36,10 @@ test('adversarial: prebuild refuses missing canonical inputs instead of publishi
     const cached = join(front, 'public/data/cached.json');
     mkdirSync(dirname(cached), { recursive: true });
     writeFileSync(cached, '{"old":true}');
-    copyFileSync(join(dirname(fileURLToPath(import.meta.url)), '../copy-data.mjs'), join(front, 'copy-data.mjs'));
+    copyFileSync(join(dirname(fileURLToPath(import.meta.url)), '../../copy-data.mjs'), join(front, 'copy-data.mjs'));
     assert.throws(() => execFileSync(process.execPath, [join(front, 'copy-data.mjs')], { cwd: front, stdio: 'pipe' }),
-      error => error.status !== 0 && String(error.stderr).includes('Canonical data/derived is missing'));
+      error => typeof error === 'object' && error !== null && 'status' in error && error.status !== 0
+        && 'stderr' in error && String(error.stderr).includes('Canonical data/derived is missing'));
     assert.equal(readFileSync(cached, 'utf8'), '{"old":true}');
   } finally {
     const rel = relative(tempBase, resolve(root));

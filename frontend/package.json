@@ -10,7 +10,7 @@
     "prebuild": "node copy-data.mjs",
     "build": "node scripts/gen-contract-types.mjs --check && tsc --noEmit && vite build && node scripts/materialize-routes.mjs",
     "preview": "vite preview",
-    "test": "node --test scripts/codegen-compatibility.test.mjs scripts/copy-data.test.mjs && vitest run",
+    "test": "node --test scripts/codegen-compatibility.test.mjs && vitest run",
     "gate": "node scripts/gate.mjs",
     "contracts:types": "node scripts/gen-contract-types.mjs"
   },
