@@ -1,0 +1,35 @@
+{
+  "archive_sha256": "2a54f7c8ebf6eb048344b7245242f24b1464c1186a48d739df80b3447793e4c0",
+  "paired_sha256": "4cfb2065d08aa555c84c63651e24487cec9197d5d54e572ad3e74d092b45e5a2",
+  "collections": {
+    "m4_weekly": {
+      "source": 359,
+      "admitted": 294,
+      "excluded": 65,
+      "origins": 882,
+      "horizon": 13,
+      "methods": 12,
+      "method_paths": 10584,
+      "point_values": 137592
+    },
+    "m3_monthly": {
+      "source": 1428,
+      "admitted": 1422,
+      "excluded": 6,
+      "origins": 3547,
+      "horizon": 18,
+      "methods": 12,
+      "method_paths": 42564,
+      "point_values": 766152
+    }
+  },
+  "total": {
+    "source": 1787,
+    "admitted": 1716,
+    "excluded": 71,
+    "origins": 4429,
+    "method_paths": 53148,
+    "point_values": 903744
+  },
+  "unit": "one scalar point prediction per method-origin-lead"
+}

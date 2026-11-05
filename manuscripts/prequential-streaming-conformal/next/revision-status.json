@@ -5,13 +5,15 @@
   "full_content_bar": "pending",
   "published_predecessor_preserved": true,
   "measured_content": {
-    "words": 1906,
-    "equations": 7,
-    "figures": 3,
-    "tables": 4,
-    "references": 5,
-    "algorithms": 0,
-    "sections": 8
+    "words": 7387,
+    "equations": 14,
+    "figures": 6,
+    "tables": 7,
+    "references": 28,
+    "algorithms": 1,
+    "sections": 11
   },
-  "compiled_pages": 7
+  "compiled_pages": 22,
+  "draft_content_check": "pass for working title, declared evaluation contribution and result support; not publication acceptance",
+  "content_revision": "Full controller derivation, causality and clipping analysis, primary literature comparison, source curation, and source-bound retrospective paired case uncertainty"
 }

@@ -12,3 +12,4 @@ antropy==0.2.2
 nolds==0.6.3
 pycatch22==0.4.5
 scikit-learn==1.9.1
+preqts==0.3.0

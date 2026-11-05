@@ -1,0 +1,14 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the selector contract, catalog version 1.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-selector}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{kind} & fixed value & metadata & const="method-selector" & yes\\
+\texttt{metric} & fixed value & metadata & const="mean\_\allowbreak{}mase\_\allowbreak{}over\_\allowbreak{}training\_\allowbreak{}cases" & yes\\
+\texttt{scope} & fixed value & metadata & const="classical" & yes\\
+\texttt{ranking} & array & mixed; see text & Nested content follows the normative schema & yes\\
+\texttt{default\_\allowbreak{}method} & string & metadata & No additional root-field range & yes\\
+\texttt{n\_\allowbreak{}train\_\allowbreak{}cases} & integer & counts & minimum=1 & yes\\
+\bottomrule
+\end{longtable}
+\endgroup

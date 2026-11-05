@@ -1,0 +1,20 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the trace contract, catalog version 2.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-trace}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.trace/v2" & yes\\
+\texttt{case\_\allowbreak{}id} & string & metadata & No additional root-field range & yes\\
+\texttt{seasonality} & integer & observations & minimum=1 & yes\\
+\texttt{horizon} & integer & observations & minimum=1 & yes\\
+\texttt{quantile\_\allowbreak{}levels} & array & probabilities & Nested content follows the normative schema & yes\\
+\texttt{redacted} & boolean & metadata & No additional root-field range & yes\\
+\texttt{history\_\allowbreak{}len} & integer & observations & minimum=0 & yes\\
+\texttt{history\_\allowbreak{}index} & array & indices & Nested content follows the normative schema & yes\\
+\texttt{history} & array & source U & Nested content follows the normative schema & yes\\
+\texttt{actual} & array & source U & Nested content follows the normative schema & yes\\
+\texttt{methods} & array & mixed; see text & Nested content follows the normative schema & yes\\
+\texttt{summary} & object reference & mixed; see text & No additional root-field range & yes\\
+\bottomrule
+\end{longtable}
+\endgroup

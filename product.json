@@ -12,7 +12,9 @@
   "year": 2026,
   "app": "surface",
   "focus": true,
-  "method_packages": [],
+  "method_packages": [
+    "preqts"
+  ],
   "method_entrypoints": [
     "chronoscopelab.stages.streaming.run",
     "chronoscopelab.model.forecasters.theta",
@@ -39,7 +41,11 @@
     "chronoscopelab.analysis.atlas.associations",
     "chronoscopelab.analysis.atlas.by_adjust",
     "chronoscopelab.analysis.atlas.study_summary",
-    "chronoscopelab.model.validated_combination.fit_validated"
+    "chronoscopelab.model.validated_combination.fit_validated",
+    "preqts.SeasonalNaive",
+    "preqts.Stream",
+    "preqts.run_prequential",
+    "preqts.metrics.seasonal_naive_mae"
   ],
   "manuscripts": [
     {
@@ -48,7 +54,8 @@
       "title": "ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation",
       "version": "0.25.000",
       "covers": [
-        "BS-1"
+        "BS-1",
+        "NC-1"
       ]
     },
     {
@@ -58,6 +65,15 @@
       "version": "0.2",
       "covers": [
         "BS-1"
+      ]
+    },
+    {
+      "kind": "manuscript",
+      "concept_doi": "10.5281/zenodo.21508920",
+      "title": "Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study",
+      "version": "2.5",
+      "covers": [
+        "NC-1"
       ]
     }
   ]

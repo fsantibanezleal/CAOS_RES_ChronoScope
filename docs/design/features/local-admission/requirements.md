@@ -15,3 +15,10 @@ The local workflow does not train models during startup or deployment. Generated
 candidates remain outside the checkout until explicitly promoted. A copied
 artifact is historical evidence, not newly executed model inference. Existing
 environments are never moved, deleted or redirected by initialization.
+
+The 0.14.006 template patch supplies non-method contribution declarations and external notebook runtime resolution. The product retains its existing checked temporary-directory cleanup. The custom product admission bridge remains authoritative; the template's example readiness writer is not substituted for that bridge.
+
+| ID | Requirement | Verification |
+|---|---|---|
+| LA-6 | Notebook execution SHALL resolve the declared external notebook role, refuse a missing root or ambiguous role and reject an inner invocation using an unrelated interpreter. | `tests/test_notebook_environment.py` |
+| LA-7 | A paper about a reusable empirical protocol SHALL use an explicitly declared non-method contribution; unknown, fenced or misplaced identifiers SHALL be refused. | `tests/test_novel_contribution_manuscripts.py` |

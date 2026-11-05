@@ -9,6 +9,7 @@
 | RX-5 | Plant future changes, split changes and corrupted metrics, probabilities, confirmation flags, imputation and source identity. | `tests/test_forecastability.py::test_adversarial_future_changes_do_not_change_origin_features` |
 | RX-6 | Reject partial corpus inventories and traverse actual corpus controls. | `frontend/src/test/research-extensions.test.tsx::adversarial: rejects trials, missing inventories and the unrelated fifteen-case experiment` |
 | RX-7 | Reject stale notebook outputs, manuscript registrations and deployed source identities. | `tests/test_fresh_reevaluation.py::test_adversarial_fresh_admission_refutes_corrupted_candidate` |
+| RX-8 | A real typed exogenous case reaches the bivariate backend; shortening its covariate refuses before that backend can truncate. | `tests/test_stage_analyze.py::test_adversarial_typed_covariate_reaches_bivariate_panel_without_silent_truncation` |
 
 The release receipts under `docs/validation/0.24.000/` distinguish local computation, manuscript
 publication, remote CI and canonical deployment. Partial corpus caches and incomplete runtime trials

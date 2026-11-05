@@ -9,6 +9,8 @@ import json
 import re
 from pathlib import Path
 
+from build_baseline_lesson import build as build_baseline
+
 ROOT = Path(__file__).resolve().parents[1]
 TOPIC = "01-forecast-decisions"
 NAMES = ("01-baseline", "02-seasonal-phase", "03-model-comparison", "04-context-memory")
@@ -240,6 +242,10 @@ def main():
     for lang in ("en", "es"):
         index = []
         for level, name in enumerate(NAMES, 1):
+            if name == "01-baseline":
+                title = build_baseline(lang)
+                index.append(f"| {level} | [{title}]({TOPIC}/{name}.ipynb) |")
+                continue
             text = (ROOT / f"docs/lessons/{lang}/{name}.md").read_text(encoding="utf-8")
             text = text.replace("{{PINS}}", "\n".join(f"pip install {pin}" for pin in pins))
             cells = []

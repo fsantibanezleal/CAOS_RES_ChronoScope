@@ -9,7 +9,7 @@ export interface USeries {
 }
 export interface RefLine { x?: number; y?: number; color?: string; label?: string; dash?: number[]; }
 export interface UPlotChartProps {
-  xs: number[]; series: USeries[]; height?: number; yLabel?: string; xLabel?: string;
+  xs: number[]; series: USeries[]; height?: number | 'fill'; yLabel?: string; xLabel?: string;
   refLines?: RefLine[]; precision?: number; xPrecision?: number; ariaSummary?: string;
   readout?: (index: number) => string;
   onPick?: (index: number) => void;
@@ -28,7 +28,7 @@ export function UPlotChart({ xs, series, height = 340, yLabel, xLabel, refLines 
   const lang = useShellLang();
   const es = lang === 'es';
   const title = ariaSummary ?? yLabel ?? (es ? 'Valores de la serie' : 'Series values');
-  if (series.length === 1 && series[0].bars && refLines.length === 0) {
+  if (height !== 'fill' && series.length === 1 && series[0].bars && refLines.length === 0) {
     return <BarChart title={title} orientation="horizontal" height={height} values={false}
       axis={{ label: yLabel ?? (es ? 'Cantidad' : 'Count'), format: { decimals: precision } }}
       data={xs.map((x, i) => ({ id: String(i), label: formatNumber(x, lang, { digits: 4 }), value: series[0].values[i] }))} />;

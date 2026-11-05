@@ -1,0 +1,12 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the index contract, catalog version 1.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-index}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.index/v1" & yes\\
+\texttt{engine\_\allowbreak{}version} & string & metadata & No additional root-field range & yes\\
+\texttt{n\_\allowbreak{}cases} & integer & counts & minimum=0 & yes\\
+\texttt{cases} & array & metadata & Nested content follows the normative schema & yes\\
+\bottomrule
+\end{longtable}
+\endgroup

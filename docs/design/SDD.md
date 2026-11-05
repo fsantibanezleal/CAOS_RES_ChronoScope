@@ -1,6 +1,6 @@
 # ChronoScope software design description
 
-Status: current product design; reviewed 2026-11-01 against repository source and committed artifacts.
+Status: current product design; reviewed 2026-11-05 against repository source and committed artifacts.
 
 ## Problem and non-goals
 
@@ -15,6 +15,10 @@ Data file: content/executive.json
 The executive view frames demand-planning decisions, forecasting adjustments, uncertainty, roles and review actions. Its source trail and the distinction between measured figures and author-estimated cause weights are recorded in `docs/research/2026-11-01-executive-evidence.md`.
 
 ## Research basis
+
+- The electricity lesson preserves the UCI source convention and explicitly labels the hourly sum: https://doi.org/10.24432/C58C86
+- Seasonal-copy forecasting and the distinction between fitted residuals and future errors follow the forecasting toolbox: https://otexts.com/fpp3/toolbox.html
+- The electricity lesson executes the published PreqTS 0.3.0 start/predict/ingest API; its empirical residual intervals are distinct from the atlas Gaussian intervals: https://pypi.org/project/preqts/0.3.0/
 
 - Dawid's prequential approach motivates predict-then-observe evaluation: https://doi.org/10.2307/2981683
 - Gibbs and Candès specify adaptive conformal inference under distribution shift: https://arxiv.org/abs/2106.00170
@@ -60,7 +64,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | notebooks/requirements.txt | matplotlib | 3.10.8 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbclient | 0.11.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbformat | 5.11.1 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
-| frontend | @fasl-work/caos-app-shell | 0.19.12 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | @fasl-work/caos-app-shell | 0.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @testing-library/react | 16.3.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/katex | 0.16.8 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/node | 22.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
@@ -135,11 +139,15 @@ The offline pipeline creates forecast, analysis, and streaming artifacts. The br
 
 ## Beyond the state of the art
 
-BS-1 proposes ContextMemory, a causal within-series combination of SeasonalNaive, SES, Holt, HoltWinters and Theta. Its hypothesis is that similar historical contexts give more useful expert-loss estimates than recency alone. At each completed historical origin it records normalized slope, level shift, volatility change, seasonal correlation and the experts' realised multi-step absolute errors. A distance kernel and fixed recency weights estimate the query-context loss; shrinkage toward the global recency estimate and a uniform floor determine convex forecast weights.
+BS-1 proposes ContextMemory, a causal within-series combination of SeasonalNaive, SES, Holt, HoltWinters and Theta. Its hypothesis is that similar historical contexts give more useful expert-loss estimates than recency alone. At each completed historical origin it records a normalized half-window mean contrast, level shift, volatility change, seasonal correlation and the experts' realised multi-step absolute errors. A distance kernel and fixed recency weights estimate the query-context loss; shrinkage toward the global recency estimate and a uniform floor determine convex forecast weights.
 
 The method is implemented in `data-pipeline/chronoscopelab/model/context_memory.py`, integrated in the offline method registry, and compared in `data/derived/reevaluation.json`. FFORMA and arbitrated dynamic ensembles already establish context-dependent combinations. This proposal makes no priority claim; it tests a particular low-data, within-series recurrence rule. A calibration wrapper or the preqts harness is not represented as this forecasting proposal.
 
 Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.4504 for ContextMemory and 1.4489 for RecencyMean; EqualMean gives 1.8970. This is a negative finite-sample result, not a claim about all recurrence models. The archived comparison rescores frozen heavy paths. The separate fresh experiment executes all 22 variants on the same original histories and targets, binds package/checkpoint/source identities and independently verifies all metrics.
+
+## Novel contributions
+
+NC-1 is the admitted fifteen-series replay protocol and empirical adaptive-interval comparison, implemented with preqts. Its paper is **Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study**, version 2.5, concept DOI 10.5281/zenodo.21508920. This is an evaluation contribution, not a new forecasting method or a comparison of native state updates. The v0.25 reconstruction preserves per-step states and sensitivity outcomes; historical runtime provenance remains unavailable. The separate working v2.6 revision has not been published or independently reviewed.
 
 ## Cases
 
@@ -196,3 +204,9 @@ Its source hashes bind documentation to code. An inventory count establishes
 implementation scope; scientific validity, teaching depth and publication
 coverage require their own evidence. Requirements MI-1 through MI-3 are in
 `features/method-inventory/requirements.md`.
+
+## Source-bound walkthrough
+
+The six visualization kinds, source/geometry derivations and their scientific boundaries are specified in `docs/design/showcase-catalog.md`. StoryFrame, measured annotations, linked-view state, motion and chart rendering use published shell 0.20.0. The URL-bound source survives step navigation; cross-case responses and mismatched fresh targets cannot acquire the selected identity. Combination weights additionally require a complete little-endian float64 prefix digest. The existing Explore atlas remains available.
+
+`frontend/scripts/check-showcase.mjs` verifies the actual rendered theme and language, six steps, three primary annotations, desktop viewport share, annotation bounds and nonoverlap across 72 states. The shared shell G21 and full repository/browser/release gates remain separately required. Neither this implementation nor a custom matrix establishes manuscript, notebook, package-publication, unit-review or full product acceptance.

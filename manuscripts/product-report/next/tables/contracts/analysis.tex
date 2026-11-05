@@ -1,0 +1,21 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the analysis contract, catalog version 2.1.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-analysis}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{n} & integer & observations & minimum=1 & yes\\
+\texttt{seasonality\_\allowbreak{}period} & integer & observations & minimum=1 & yes\\
+\texttt{stationarity} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{autocorrelation} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{seasonality} & object & observations & Nested content follows the normative schema & yes\\
+\texttt{filters} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{changepoints} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{volatility} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{distribution} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{fractal} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{nonlinear} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{causality} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{sequence} & declared union & metadata & No additional root-field range & no\\
+\bottomrule
+\end{longtable}
+\endgroup

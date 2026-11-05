@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import sys
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,7 +21,7 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def implementation_dependencies(root):
+def implementation_dependencies(root, sources=None):
     """Conservatively follow local imports, including imports inside engine functions.
 
     The frozen experiment also recorded unrelated modules. Those bindings remain
@@ -29,7 +30,9 @@ def implementation_dependencies(root):
     """
     package = root / "data-pipeline"
     modules = {}
-    for path in (package / "chronoscopelab").rglob("*.py"):
+    paths = ((package / "chronoscopelab").rglob("*.py") if sources is None else
+             (root / rel for rel in sources if rel.startswith("data-pipeline/chronoscopelab/")))
+    for path in paths:
         parts = list(path.relative_to(package).with_suffix("").parts)
         if parts[-1] == "__init__":
             parts.pop()
@@ -50,7 +53,8 @@ def implementation_dependencies(root):
             if parent in modules:
                 pending.append((parent, modules[parent]))
         namespace = module if path.name == "__init__.py" else module.rpartition(".")[0]
-        for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"), filename=str(path))):
+        source = path.read_text(encoding="utf-8") if sources is None else sources[rel]
+        for node in ast.walk(ast.parse(source, filename=str(path))):
             names = []
             if isinstance(node, ast.Import):
                 names = [alias.name for alias in node.names]
@@ -65,6 +69,41 @@ def implementation_dependencies(root):
                 if name in modules:
                     pending.append((name, modules[name]))
     return visited
+
+
+def frozen_implementation(document, root, artifact_root):
+    """Resolve only the exact archived experiment's original, source-bound bytes.
+
+    The recovery receipt does not assert a historical execution commit. New
+    binding inventories continue to require the current implementation below.
+    No archive entry is extracted or imported.
+    """
+    receipt_path = root / "docs/research/fresh-source-archive.json"
+    if not receipt_path.is_file():
+        return None
+    receipt = read(receipt_path)
+    fingerprint = hashlib.sha256(json.dumps(document["code_sha256"], sort_keys=True,
+                                            separators=(",", ":")).encode()).hexdigest()
+    if fingerprint != receipt["code_binding_sha256"]:
+        return None
+    for field in ("archive", "artifact"):
+        base = root if field == "archive" else artifact_root
+        path = (base / receipt[field]).resolve()
+        if not path.is_relative_to(base.resolve()) or digest(path) != receipt[field + "_sha256"]:
+            raise ValueError(f"Frozen source {field} differs from its recovery receipt")
+    with zipfile.ZipFile(root / receipt["archive"]) as archive:
+        names = archive.namelist()
+        if len(names) != len(set(names)) or set(names) != set(document["code_sha256"]) or len(names) != receipt["files"]:
+            raise ValueError("Frozen source archive inventory differs")
+        sources = {}
+        for rel, expected in document["code_sha256"].items():
+            if Path(rel).is_absolute() or ".." in Path(rel).parts:
+                raise ValueError("Unsafe frozen source path")
+            raw = archive.read(rel)
+            if hashlib.sha256(raw).hexdigest() != expected:
+                raise ValueError(f"Frozen implementation binding differs: {rel}")
+            sources[rel] = raw.decode("utf-8")
+    return sources
 
 
 def recompute(history, actual, lower, point, upper, lag):
@@ -100,14 +139,17 @@ def validate(document, root=ROOT, artifact_root=None):
         raise ValueError("Fresh scoring protocol differs")
     if document["source_comparison_sha256"] != digest(artifact_root / "data/derived/reevaluation.json"):
         raise ValueError("Fresh comparison source artifact is stale")
-    missing = implementation_dependencies(root) - set(document["code_sha256"])
+    sources = frozen_implementation(document, root, artifact_root)
+    missing = implementation_dependencies(root, sources) - set(document["code_sha256"])
     if missing:
         raise ValueError(f"Fresh implementation binding inventory is incomplete: {sorted(missing)}")
     for key in ("trace_sha256", "input_sha256"):
         if document[key] != baseline[key]:
             raise ValueError("Fresh source inventory differs from the admitted comparison")
-    for bindings, base in ((document["code_sha256"], root),
-                           ({**document["trace_sha256"], **document["input_sha256"]}, artifact_root)):
+    inventories = [({**document["trace_sha256"], **document["input_sha256"]}, artifact_root)]
+    if sources is None:
+        inventories.insert(0, (document["code_sha256"], root))
+    for bindings, base in inventories:
         for rel, value in bindings.items():
             path = (base / rel).resolve()
             if not path.is_relative_to(base.resolve()) or digest(path) != value:
@@ -159,4 +201,5 @@ def validate(document, root=ROOT, artifact_root=None):
 if __name__ == "__main__":
     path = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "data/derived/fresh-reevaluation.json"
     counts = validate(read(path))
-    print(f"Fresh comparison: {counts[0]} cases, {counts[1]} freshly executed variants; all metrics independently match")
+    print(f"Historical fresh-fit experiment: {counts[0]} cases, {counts[1]} variants; "
+          "original sources bound and all metrics independently match")

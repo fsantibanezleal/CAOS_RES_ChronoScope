@@ -40,6 +40,24 @@ def test_univariate_case_skips_causality():
     assert "skipped" in a["causality"]                    # no covariate -> honestly skipped, not faked
 
 
+def test_adversarial_typed_covariate_reaches_bivariate_panel_without_silent_truncation(monkeypatch):
+    from dataclasses import replace
+
+    spec = registry.build_series(registry.get_case("EXOG_promo"), seed=42)
+    captured = []
+    monkeypatch.setattr(analyze, "_safe", lambda name, call: call() if name == "causality" else {})
+    monkeypatch.setattr(analyze.causality, "causality_report",
+                        lambda target, reference: captured.append((target, reference)) or {"n": len(target)})
+    result = analyze.run(spec)
+    assert captured == [(list(spec.y), list(spec.covariates[0].values))]
+    assert result["causality"]["reference_covariate"] == spec.covariates[0].name
+    assert "skipped" not in result["causality"]
+    shortened = replace(spec.covariates[0], values=spec.covariates[0].values[:-1])
+    bad = analyze.run(replace(spec, covariates=(shortened,)))
+    assert "lengths differ" in bad["causality"]["error"]
+    assert len(captured) == 1
+
+
 def test_short_series_skips_nonlinear_panel():
     class _Spec:
         y = tuple(np.sin(np.arange(120) * 2 * np.pi / 12))

@@ -54,6 +54,8 @@ def test_actual_product_generates_and_admits_a_complete_external_candidate(workf
             shutil.copy2(source, root / source.name)
     for name in ("VERSION", "product.json"):
         shutil.copy2(ROOT / name, root / name)
+    for name in ("fresh-source-archive.json", "fresh-source-2026-11-01.zip"):
+        shutil.copy2(ROOT / "docs/research" / name, root / "docs/research" / name)
     shutil.copytree(ROOT / "app", root / "app", ignore=ignored)
     config = workflow.settings(root)
     monkeypatch.setattr(workflow, "generation_python", lambda *_: Path(sys.executable))
