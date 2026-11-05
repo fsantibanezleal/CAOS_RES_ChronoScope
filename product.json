@@ -12,7 +12,9 @@
   "year": 2026,
   "app": "surface",
   "focus": true,
-  "method_packages": [],
+  "method_packages": [
+    "preqts"
+  ],
   "method_entrypoints": [
     "chronoscopelab.stages.streaming.run",
     "chronoscopelab.model.forecasters.theta",
@@ -39,7 +41,11 @@
     "chronoscopelab.analysis.atlas.associations",
     "chronoscopelab.analysis.atlas.by_adjust",
     "chronoscopelab.analysis.atlas.study_summary",
-    "chronoscopelab.model.validated_combination.fit_validated"
+    "chronoscopelab.model.validated_combination.fit_validated",
+    "preqts.SeasonalNaive",
+    "preqts.Stream",
+    "preqts.run_prequential",
+    "preqts.metrics.seasonal_naive_mae"
   ],
   "manuscripts": [
     {

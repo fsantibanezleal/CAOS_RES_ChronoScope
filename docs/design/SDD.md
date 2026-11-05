@@ -16,6 +16,10 @@ The executive view frames demand-planning decisions, forecasting adjustments, un
 
 ## Research basis
 
+- The electricity lesson preserves the UCI source convention and explicitly labels the hourly sum: https://doi.org/10.24432/C58C86
+- Seasonal-copy forecasting and the distinction between fitted residuals and future errors follow the forecasting toolbox: https://otexts.com/fpp3/toolbox.html
+- The electricity lesson executes the published PreqTS 0.3.0 start/predict/ingest API; its empirical residual intervals are distinct from the atlas Gaussian intervals: https://pypi.org/project/preqts/0.3.0/
+
 - Dawid's prequential approach motivates predict-then-observe evaluation: https://doi.org/10.2307/2981683
 - Gibbs and Candès specify adaptive conformal inference under distribution shift: https://arxiv.org/abs/2106.00170
 - Angelopoulos, Candès, and Tibshirani describe conformal PID control for time-series prediction: https://arxiv.org/abs/2307.16895
