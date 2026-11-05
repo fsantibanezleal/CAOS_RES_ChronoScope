@@ -4,18 +4,13 @@
 //  - FORECAST: the ladder views (forecast + interval, ZOOM on the predicted zone, leaderboard, streaming
 //    bench trajectories from the preqts prequential bake).
 // Synthetic (LIVE): knobs regenerate the series; the TS classical engine + NLinear ONNX re-forecast
-// instantly. Baked case (REPLAY): the full 19-method ladder + analysis + streaming artifacts, baked offline.
-import { useEffect, useMemo, useState } from 'react';
+// instantly. Baked case (REPLAY): the admitted fresh comparison + analysis + streaming artifacts, baked offline.
+import { useEffect, useState } from 'react';
 import { formatNumber, TabGroups, useShellLang } from '@fasl-work/caos-app-shell';
-import { loadAnalysis, loadIndex, loadManifest, loadReevaluation, loadStreaming, loadTrace } from '../api/artifacts';
-import type { CaseIndex, CaseManifest, Trace } from '../lib/contract.types';
-import type { Reevaluation } from '../lib/reevaluation.types';
 import { methodColor } from '../lib/methodColors';
-import { forecastAllLive } from '../lib/liveEngine';
-import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
-import { useNLinearForecast } from '../lib/useNLinearForecast';
-import { BROWSER_LINEAR_NAME } from '../lib/calibratedLinearIntervals';
-import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
+import { seasonalNaiveMae } from '../lib/liveMetrics';
+import type { SyntheticKind, SyntheticKnobs } from '../lib/synthetic';
+import { useAtlasSource } from '../state/AtlasSource';
 import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 import { PanelBoundary } from '../render/PanelBoundary';
 import { SeriesLegend, type LegendItem, type LegendMetric } from '../render/SeriesLegend';
@@ -23,10 +18,7 @@ import { UPlotChart, type RefLine, type USeries } from '../render/UPlotChart';
 import { SequenceDiagnostics, type SequenceData } from '../render/SequenceDiagnostics';
 
 // a method's forecast (point + interval), shared by synthetic (live) + baked (replay)
-interface ChartSeries { name: string; color: string; point: number[]; lower: number[]; upper: number[]; }
 
-const LEVELS = [0.1, 0.5, 0.9];
-const ONNX_NAME = BROWSER_LINEAR_NAME;
 const ATLAS_NAV_KEY = 'chronoscope-atlas-nav';
 type AtlasNav = { group: 'understand' | 'forecast'; tab: string };
 const ATLAS_TABS: Record<AtlasNav['group'], string[]> = {
@@ -50,7 +42,6 @@ function caseGroup(id: string): 'Real' | 'Control' | 'Synthetic' {
   return 'Synthetic';
 }
 
-interface Row { name: string; family: string; mase: number; coverage: number; wql?: number; msis?: number; }
 
 // ---------- interactive chart panels (uPlot: zoom/pan/crosshair/brush/reset, per-series readout) ----------
 
@@ -106,108 +97,16 @@ export default function AppPage() {
   useEffect(() => {
     try { sessionStorage.setItem(ATLAS_NAV_KEY, JSON.stringify(nav)); } catch { /* navigation still works without storage */ }
   }, [nav]);
-  const [mode, setMode] = useState<'synthetic' | 'baked'>('baked');
-  const [knobs, setKnobs] = useState<SyntheticKnobs>(DEFAULT_KNOBS);
-  const [index, setIndex] = useState<CaseIndex | null>(null);
-  const [caseId, setCaseId] = useState('');
-  const [manifest, setManifest] = useState<CaseManifest | null>(null);
-  const [trace, setTrace] = useState<Trace | null>(null);
-  const [reevaluation, setReevaluation] = useState<Reevaluation | null>(null);
-  const [indexLoading, setIndexLoading] = useState(true);
-  const [analysis, setAnalysis] = useState<Record<string, any> | null>(null);
-  const [streaming, setStreaming] = useState<Record<string, any> | null>(null);
-  const [artifactsLoading, setArtifactsLoading] = useState(false);
+  const { mode, setMode, knobs, setKnobs, index, caseId, setCaseId, manifest, trace,
+    analysis, streaming, indexLoading, artifactsLoading, err, activeData, allMethods, allRows,
+    onnx, onnxLoading } = useAtlasSource();
   const [hidden, setHidden] = useState<Set<string>>(new Set());
-  const [err, setErr] = useState('');
   // one Forecast tab, four on-graph views: Full (whole context), Zoom (predicted zone), Horizon
   // (per-lead error growth), Errors (per-lead residuals). Was three separate tabs + a toggle.
   const [fcView, setFcView] = useState<'full' | 'zoom' | 'horizon' | 'errors'>('full');
   // the metric the Methods legend displays (all lower-is-better); WQL/MSIS are baked-only
   const [legendMetric, setLegendMetric] = useState<LegendMetric>('mase');
 
-  useEffect(() => {
-    let cancelled = false;
-    Promise.all([loadIndex(), loadReevaluation()]).then(([ix, comparison]) => {
-      if (cancelled) return;
-      setIndex(ix); setReevaluation(comparison); setCaseId(ix.cases[0]?.case_id ?? '');
-    }).catch((e) => { if (!cancelled) setErr(String(e)); })
-      .finally(() => { if (!cancelled) setIndexLoading(false); });
-    return () => { cancelled = true; };
-  }, []);
-
-  useEffect(() => {
-    if (mode !== 'baked' || !caseId) { setArtifactsLoading(false); return; }
-    let cancelled = false;
-    setAnalysis(null); setStreaming(null); setTrace(null); setManifest(null);
-    setErr('');
-    setArtifactsLoading(true);
-    (async () => {
-      try {
-        const m = await loadManifest(caseId);
-        const [nextTrace, nextAnalysis, nextStreaming] = await Promise.all([
-          loadTrace(m.artifact.path),
-          m.analysis_artifact ? loadAnalysis(m.analysis_artifact.path) : Promise.resolve(null),
-          m.streaming_artifact ? loadStreaming(m.streaming_artifact.path) : Promise.resolve(null),
-        ]);
-        if (cancelled) return;
-        setManifest(m);
-        setTrace(nextTrace);
-        setAnalysis(nextAnalysis);
-        setStreaming(nextStreaming);
-      } catch (e) {
-        if (!cancelled) setErr(String(e));
-      } finally {
-        if (!cancelled) setArtifactsLoading(false);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [mode, caseId]);
-
-  const synthetic = useMemo(() => {
-    if (mode !== 'synthetic') return null;
-    const y = generateSeries(knobs);
-    const cut = Math.max(1, y.length - knobs.horizon);
-    const history = y.slice(0, cut);
-    const actual = y.slice(cut);
-    const forecasts = forecastAllLive(history, knobs.seasonality, knobs.horizon, LEVELS);
-    const scale = seasonalNaiveMae(history, knobs.seasonality);
-    const rows: Row[] = forecasts.map((f) => ({
-      name: f.name, family: 'classical',
-      mase: mase(actual, f.point, scale), coverage: coverage(actual, f.lower, f.upper),
-    }));
-    const methods: ChartSeries[] = forecasts.map((f) => ({ name: f.name, color: colorFor(f.name), point: f.point, lower: f.lower, upper: f.upper }));
-    return { history, actual, horizon: knobs.horizon, m: knobs.seasonality, methods, rows };
-  }, [mode, knobs]);
-
-  const baked = useMemo(() => {
-    if (mode !== 'baked' || !trace) return null;
-    const comparison = reevaluation?.cases.find(c => c.case_id === trace.case_id);
-    if (!comparison) return null;
-    const methods: ChartSeries[] = comparison.methods.map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
-    const rows: Row[] = comparison.methods.map((m) => ({
-      name: m.name, family: m.family,
-      mase: m.metrics.mase ?? NaN, coverage: m.metrics.coverage ?? NaN,
-      wql: m.metrics.wql ?? NaN, msis: m.metrics.msis ?? NaN,
-    }));
-    return { history: comparison.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
-  }, [mode, trace, reevaluation]);
-
-  const activeData = mode === 'synthetic' ? synthetic : baked;
-
-  const learned = useNLinearForecast(activeData);
-  const onnxLoading = learned.status === 'loading';
-  const onnx = useMemo(() => {
-    if (learned.status !== 'ready' || !activeData) return null;
-    const { point, lower, upper } = learned.forecast;
-    const scale = seasonalNaiveMae(activeData.history, activeData.m);
-    return { name: ONNX_NAME, color: colorFor(ONNX_NAME), point, lower, upper,
-      mase: mase(activeData.actual, point, scale), coverage: coverage(activeData.actual, lower, upper) };
-  }, [learned, activeData]);
-
-  const allMethods = activeData ? (onnx ? [...activeData.methods, onnx] : activeData.methods) : [];
-  const allRows: Row[] = activeData
-    ? (onnx ? [...activeData.rows, { name: onnx.name, family: 'linear (live)', mase: onnx.mase, coverage: onnx.coverage }] : activeData.rows)
-    : [];
   const visibleMethods = allMethods.filter((mm) => !hidden.has(mm.name));
   const rankedRows = [...allRows].sort((a, b) => (Number.isFinite(a.mase) ? a.mase : Infinity) - (Number.isFinite(b.mase) ? b.mase : Infinity));
   const best = rankedRows.find((r) => Number.isFinite(r.mase))?.name;

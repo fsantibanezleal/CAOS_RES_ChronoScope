@@ -6,6 +6,7 @@ import { architecture } from './architecture';
 import { EXTERNAL_LINKS } from './lib/links';
 import product from '../../product.json';
 import AppPage from './pages/AppPage';
+import { AtlasSourceProvider } from './state/AtlasSource';
 import Introduction from './pages/Introduction';
 import Methodology from './pages/Methodology';
 import Implementation from './pages/Implementation';
@@ -54,6 +55,10 @@ export default function App() {
 }
 
 function AtlasSurface() {
+  return <AtlasSourceProvider><AtlasSurfaceBody /></AtlasSourceProvider>;
+}
+
+function AtlasSurfaceBody() {
   const lang = useShellLang();
   return (
     <SurfacePage
