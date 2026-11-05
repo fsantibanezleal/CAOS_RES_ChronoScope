@@ -5,6 +5,7 @@ import { useAtlasSource } from '../state/AtlasSource';
 import { completedMemory, delayCoordinates, EXPERTS, projectDelay, SHOWCASE_KINDS, type ShowcaseKind } from '../lib/showcase';
 import { UPlotChart } from '../render/UPlotChart';
 const bi = (en: string, es: string) => ({ en, es });
+const methodLabel = (name: string) => name.replace('TimesFM-2.5', 'TimesFM v2.5');
 function LinkedButton({ id, side, children }: { id: string; side: 'scene' | 'panel'; children: ReactNode }) {
   const linked = useLinkedItem(id, side), { scrub } = useLinkedCursor();
   return <button type="button" {...linked} onClick={() => { linked.onClick(); if (id.startsWith('observation:')) scrub(Number(id.split(':')[1])); }}>{children}</button>;
@@ -87,16 +88,24 @@ function DelayScene() {
 }
 function MemoryScene({ query }: { query: number }) {
   const { combinationOrigin, activeData } = useAtlasSource(); const es = useShellLang() === 'es';
+  const selected = useLinkedView(state => state.selectedId);
   const origins = combinationOrigin?.methods.find(v => v.name === 'ValidationMix')?.memory_origins ?? [];
   const n = activeData?.history.length ?? 1, h = activeData?.horizon ?? 1, complete = completedMemory(origins, h, query);
   const x = (value: number) => 75 + 840 * value / n;
+  const selectedOrigin = origins.find(origin => `origin:${origin}` === selected) ?? origins[0];
+  const rowY = (i: number) => 110 + i * Math.min(32, 350 / Math.max(1, origins.length));
   return <ResponsiveSvg label={es ? 'Disponibilidad de objetivos históricos' : 'Historical target availability'}>
     <title>{es ? 'Sólo objetivos completos antes de la consulta' : 'Only complete targets before the query'}</title>
     <line x1="75" y1="540" x2="915" y2="540" className="cs-flow-line" /><text x="75" y="575">0</text><text x="915" y="575" textAnchor="end">{n} {es ? 'observaciones' : 'observations'}</text>
     <line data-subject="query completed horizon" x1={x(query)} y1="90" x2={x(query)} y2="540" stroke="var(--color-warn)" strokeDasharray="6 5" />
-    {origins.map((origin, i) => <Glyph key={origin} id={`origin:${origin}`} label={`${es ? 'Origen' : 'Origin'} ${origin}`}>
-      <rect data-subject={`origin:${origin}`} x={x(origin)} y={100 + i * Math.min(32, 390 / Math.max(1, origins.length))} width={Math.max(3, x(origin + h) - x(origin))} height="18" className={complete.includes(origin) ? 'cs-memory-complete' : 'cs-memory-pending'} />
-      <text x={x(origin) - 8} y={114 + i * Math.min(32, 390 / Math.max(1, origins.length))} textAnchor="end">{origin}</text></Glyph>)}
+    {origins.map((origin, i) => <g key={origin} pointerEvents="none" aria-hidden="true">
+      <rect x={x(origin)} y={rowY(i)} width={Math.max(3, x(origin + h) - x(origin))} height="18" className={complete.includes(origin) ? 'cs-memory-complete' : 'cs-memory-pending'} />
+    </g>)}
+    {selectedOrigin != null && <Glyph id={`origin:${selectedOrigin}`} label={`${es ? 'Origen' : 'Origin'} ${selectedOrigin}`}>
+      <circle cx={x(selectedOrigin + h / 2)} cy={rowY(origins.indexOf(selectedOrigin)) + 9} r="30" fill="transparent" />
+      <circle data-subject={`origin:${selectedOrigin}`} cx={x(selectedOrigin + h / 2)} cy={rowY(origins.indexOf(selectedOrigin)) + 9} r="7" />
+    </Glyph>}
+    {selectedOrigin != null && <text x="500" y="510" textAnchor="middle">{es ? 'Origen seleccionado' : 'Selected origin'} {selectedOrigin} → {selectedOrigin + h}</text>}
     {!origins.length && <text x="500" y="300" textAnchor="middle">{es ? 'Sin memoria validada para este origen' : 'No verified memory for this origin'}</text>}
     <text x="500" y="620" textAnchor="middle">{es ? 'Verde: observable · gris: pendiente' : 'Green: observable · grey: pending'}</text>
   </ResponsiveSvg>;
@@ -131,7 +140,7 @@ export default function AtlasStory() {
     <small>{mode === 'synthetic' ? (es ? `Datos generados; semilla ${source.knobs.seed}. Modifica parámetros en Explorar.` : `Generated data; seed ${source.knobs.seed}. Edit parameters in Explore.`) : `${source.manifest?.real_or_synthetic ?? ''} · ${caseId}`}</small></div>;
   function methodRows(names = allMethods.map(v => v.name)) {
     return <div className="cs-story-methods">{names.map(name => { const row = allRows.find(v => v.name === name), weight = mix?.weights?.[EXPERTS.indexOf(name)];
-      return <LinkedButton key={name} id={name} side="panel"><span>{name}</span><span>{active === 'component' && weight != null ? `${fmt(100 * weight, 1)}%` : `MASE ${fmt(row?.mase)}`}</span></LinkedButton>; })}</div>;
+      return <LinkedButton key={name} id={name} side="panel"><span>{methodLabel(name)}</span><span>{active === 'component' && weight != null ? `${fmt(100 * weight, 1)}%` : `MASE ${fmt(row?.mase)}`}</span></LinkedButton>; })}</div>;
   }
   function panel(kind: ShowcaseKind) {
     return <div className="cs-story-evidence">{sourceControls}<p className="cs-story-provenance">{mode === 'synthetic' ? (es ? 'Cálculo local con historia generada; no es evidencia de precisión en datos reales.' : 'Local computation on generated history; not authentic-data accuracy evidence.') : (es ? 'Reproducción de resultados admitidos; selección descriptiva, no decisión operativa automática.' : 'Replay of admitted results; descriptive selection, not an automatic operational decision.')}</p>
@@ -155,11 +164,11 @@ export default function AtlasStory() {
     const quantities = kind === 'component' ? experts.slice(0, 3).map(v => ({ label: v.name, value: v.point[lead] }))
       : kind === 'dynamics' ? [{ label: es ? 'Pronóstico' : 'Forecast', value: selectedMethod?.point[lead] }, { label: es ? 'Objetivo' : 'Target', value: data.actual[lead] }, { label: es ? 'Error firmado' : 'Signed error', value: selectedMethod ? selectedMethod.point[lead] - data.actual[lead] : NaN }]
       : [{ label: 'q0.1', value: selectedMethod?.lower[lead] }, { label: 'q0.5', value: selectedMethod?.point[lead] }, { label: 'q0.9', value: selectedMethod?.upper[lead] }];
-    const annotationItems: SceneCalloutDef[] = quantities.map((quantity, i) => ({ id: `snapshot-${i}`, eyebrow: bi(quantity.label, quantity.label), value: fmt(quantity.value), unit: bi(mode === 'synthetic' ? 'generated units' : 'source units', mode === 'synthetic' ? 'unidades generadas' : 'unidades de origen'), state: 'normal', anchor: { x: .5, y: .9 }, source: bi(`${kind === 'component' ? quantity.label : selectedMethod?.name ?? ''} · lead ${lead + 1}`, `${kind === 'component' ? quantity.label : selectedMethod?.name ?? ''} · paso ${lead + 1}`) }));
-    return <AnnotatedScene items={annotationItems}><div className="cs-story-chart"><div className="cs-story-scene-choices">{(kind === 'component' ? experts : selectedMethod ? [selectedMethod] : []).map(v => <LinkedButton key={v.name} id={v.name} side="scene">{v.name}</LinkedButton>)}</div>
+    const annotationItems: SceneCalloutDef[] = quantities.map((quantity, i) => ({ id: `snapshot-${i}`, eyebrow: bi(methodLabel(quantity.label), methodLabel(quantity.label)), value: fmt(quantity.value), unit: bi(mode === 'synthetic' ? 'generated units' : 'source units', mode === 'synthetic' ? 'unidades generadas' : 'unidades de origen'), state: 'normal', anchor: { x: .5, y: .9 }, source: bi(`${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · lead ${lead + 1}`, `${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · paso ${lead + 1}`) }));
+    return <AnnotatedScene items={annotationItems}><div className="cs-story-chart"><div className="cs-story-scene-choices">{(kind === 'component' ? experts : selectedMethod ? [selectedMethod] : []).map(v => <LinkedButton key={v.name} id={v.name} side="scene">{methodLabel(v.name)}</LinkedButton>)}</div>
       <Stage label={bi('Forecast paths on reserved targets', 'Pronósticos sobre objetivos reservados')}>{() => <UPlotChart xs={xs} series={series} height="fill" xPrecision={0} yLabel={`${kind === 'dynamics' ? (es ? 'Error firmado' : 'Signed error') : (es ? 'Valor' : 'Value')} · ${units}`} xLabel={es ? 'Índice de observación' : 'Observation index'} ariaSummary={kind === 'dynamics' ? (es ? 'Pronóstico menos objetivo; cero como referencia' : 'Forecast minus target; zero reference') : (es ? 'Trayectorias sobre el mismo bloque reservado' : 'Forecast paths on the same reserved block')}
         refLines={[...(kind === 'dynamics' ? [{ y: 0, label: '0' }] : []), ...(cursor != null && cursor >= n && cursor < n + h ? [{ x: cursor, label: es ? 'Objetivo seleccionado' : 'Selected target' }] : [])]} onPick={i => scrub(n + i)} />}</Stage>
-      <p className="cs-story-chart-caption">{kind === 'decision' ? `${selectedMethod?.name ?? ''} · MASE ${fmt(selectedRow?.mase)} · ${es ? 'cobertura del bloque' : 'block coverage'} ${fmt((selectedRow?.coverage ?? NaN) * 100, 1)}%` : kind === 'dynamics' ? (es ? 'Cada error conserva signo y posición temporal.' : 'Each error retains its sign and temporal position.') : (es ? 'Mismo prefijo; objetivos visibles sólo para evaluar.' : 'Same prefix; targets visible only for evaluation.')}</p><div className="cs-story-leads">{quantities.map((quantity, i) => <button type="button" data-subject={`snapshot-${i}`} key={i} onClick={() => { scrub(n + lead); if (kind === 'component') select(quantity.label, 'scene'); }}>{quantity.label} · {es ? 'paso' : 'lead'} {lead + 1}</button>)}</div></div></AnnotatedScene>;
+      <p className="cs-story-chart-caption">{kind === 'decision' ? `${methodLabel(selectedMethod?.name ?? '')} · MASE ${fmt(selectedRow?.mase)} · ${es ? 'cobertura del bloque' : 'block coverage'} ${fmt((selectedRow?.coverage ?? NaN) * 100, 1)}%` : kind === 'dynamics' ? (es ? 'Cada error conserva signo y posición temporal.' : 'Each error retains its sign and temporal position.') : (es ? 'Mismo prefijo; objetivos visibles sólo para evaluar.' : 'Same prefix; targets visible only for evaluation.')}</p><div className="cs-story-leads">{quantities.map((quantity, i) => <output data-subject={`snapshot-${i}`} key={i}>{methodLabel(quantity.label)}: {fmt(quantity.value)}</output>)}</div></div></AnnotatedScene>;
   }
   const definitions: { id: ShowcaseKind; verb: ReturnType<typeof bi>; headline: ReturnType<typeof bi>; summary: ReturnType<typeof bi>; stage: ReactNode }[] = [
     { id: 'system', verb: bi('Trace the system', 'Seguir el sistema'), headline: bi(`${n} observations precede ${h} reserved targets`, `${n} observaciones preceden ${h} objetivos reservados`), summary: bi('Follow the same observed prefix into every forecast.', 'Sigue el mismo prefijo observado hasta cada pronóstico.'), stage: <AnnotatedScene items={[
@@ -178,5 +187,5 @@ export default function AtlasStory() {
     { id: 'decision', verb: bi('Compare the evidence', 'Comparar evidencia'), headline: bi(`${allRows.length} forecasts share 1 reserved block`, `${allRows.length} pronósticos comparten 1 bloque reservado`), summary: bi('Compare a selected path, interval and held-out score.', 'Compara trayectoria, intervalo y puntuación reservada.'), stage: plot('decision') },
   ];
   const steps: StoryStep[] = definitions.map((definition, i) => ({ ...definition, number: i + 1, href: href(definition.id), accent: (i % 5 + 1) as StoryStep['accent'], panel: panel(definition.id) }));
-  return <StoryFrame steps={steps} activeId={active} onStepChange={id => { move(id); select(id === 'system' ? 'prefix' : id === 'method' ? `origin:${memory[0]}` : selectedMethod?.name ?? null, 'external'); }} onExit={() => { const next = new URLSearchParams(params); next.delete('story'); next.delete('focus'); next.set('view', 'explore'); navigate(`/app?${next}`); }} />;
+  return <StoryFrame steps={steps} activeId={active} onStepChange={id => { move(id); select(id === 'system' ? 'prefix' : id === 'method' ? (memory.length ? `origin:${memory[0]}` : null) : selectedMethod?.name ?? null, 'external'); }} onExit={() => { const next = new URLSearchParams(params); next.delete('story'); next.delete('focus'); next.set('view', 'explore'); navigate(`/app?${next}`); }} />;
 }

@@ -170,8 +170,8 @@ html { contain: layout; }
 .cs-story-svg [data-linked-selected="true"] rect,.cs-story-svg [role="button"]:focus rect { stroke: var(--color-accent); stroke-width: 4; }
 .cs-story-svg [data-linked-selected="true"] circle:not([fill="transparent"]),.cs-story-svg [role="button"]:focus circle:not([fill="transparent"]) { fill: var(--color-warn); r: 7; }
 .cs-flow-line { stroke: var(--color-fg-faint); stroke-width: 2; fill: none; }
-.cs-story-svg [role="button"] .cs-memory-complete { fill: var(--color-good); }
-.cs-story-svg [role="button"] .cs-memory-pending { fill: var(--color-fg-faint); opacity: .4; }
+.cs-story-svg .cs-memory-complete { fill: var(--color-good); }
+.cs-story-svg .cs-memory-pending { fill: var(--color-fg-faint); opacity: .4; }
 .cs-story-chart { display: flex; flex-direction: column; min-height: 0; padding: .6rem; gap: .3rem; }
 .cs-story-chart > [data-stage] { flex: 1 1 auto; min-height: 180px; }
 .cs-story-scene-choices { display: flex; gap: .25rem; flex-wrap: wrap; }
@@ -189,7 +189,7 @@ html { contain: layout; }
 .cs-annotated-scene { position: relative; width: 100%; height: 100%; min-height: 0; }
 .cs-annotated-scene > .cs-story-chart { width: 100%; height: 100%; padding-top: 88px; }
 .cs-story-leads { display: flex; justify-content: space-around; gap: .3rem; flex: 0 0 auto; }
-.cs-story-leads > button { flex: 1 1 0; font-size: .78rem; }
+.cs-story-leads > output { flex: 1 1 0; min-width: 0; font-size: .75rem; overflow-wrap: anywhere; }
 @media (max-width: 640px) { .cs-annotated-scene > .cs-story-chart { padding-top: 132px; } }
 
 .cs-story-flow { height: 100%; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2rem; align-content: center; padding: 150px 2rem 80px; }
