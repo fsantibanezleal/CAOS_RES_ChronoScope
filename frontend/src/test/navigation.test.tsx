@@ -52,6 +52,12 @@ describe('Actual product routing and document shell', () => {
       cleanup();
     }
   });
+  it('adversarial: the atlas entry links directly to the source-preserving story without embedding another tab tree', () => {
+    const view = mount('/app?source=synthetic&case=A&focus=0');
+    const link = screen.getByRole('link', { name: 'Guided evidence walkthrough' });
+    expect(link.getAttribute('href')).toBe('/story/system?source=synthetic&case=A');
+    expect(view.container.querySelector('[data-story]')).toBeNull();
+  });
   it('adversarial: story keyboard navigation preserves the selected generator and exits to the actual atlas', async () => {
     const view = mount('/story/system?source=synthetic');
     const story = view.container.querySelector('[data-story]')!;

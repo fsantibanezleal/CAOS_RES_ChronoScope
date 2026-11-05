@@ -113,8 +113,12 @@ const targetPath = join(root, 'deploy', 'TARGET');
 const deploy = existsSync(targetPath) ? readFileSync(targetPath, 'utf8').trim() : '';
 const require = createRequire(import.meta.url);
 const bin = join(dirname(require.resolve('@fasl-work/caos-app-shell/package.json')), 'bin', 'caos-shell-gate.mjs');
+const extra = process.argv.slice(2);
+// The product's released walkthrough is part of the measured surface, including G21.
+if (!extra.includes('--routes')) extra.push('--routes', '/app,/introduction,/methodology,/implementation,/experiments,/benchmark,/story/system,/story/component,/story/domain,/story/dynamics,/story/method,/story/decision');
+if (!extra.includes('--require-showcase')) extra.push('--require-showcase');
 const args = gateArguments({
-  doc: product, deploy, extra: process.argv.slice(2), dist: join(here, '..', 'dist'), base: process.env.VITE_BASE, out: join(here, '..', 'gate-output'),
+  doc: product, deploy, extra, dist: join(here, '..', 'dist'), base: process.env.VITE_BASE, out: join(here, '..', 'gate-output'),
 });
 const run = spawnSync(process.execPath, [bin, ...args], { stdio: 'inherit' });
 process.exit(run.status ?? 1);

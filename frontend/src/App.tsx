@@ -1,4 +1,4 @@
-import { Route, Routes, useParams } from 'react-router';
+import { Link, Route, Routes, useParams, useSearchParams } from 'react-router';
 import { Activity } from 'lucide-react';
 import { AppShell, CitationsProvider, Landing, LinkedViewProvider, STANDARD_ROUTES, SurfacePage, useShellLang, type ShellConfig } from '@fasl-work/caos-app-shell';
 import { CITATIONS } from './data/citations';
@@ -63,6 +63,8 @@ function AtlasSurface() {
 function AtlasSurfaceBody() {
   const lang = useShellLang();
   const { step } = useParams();
+  const [params] = useSearchParams();
+  const storyParams = new URLSearchParams(params); storyParams.delete('view'); storyParams.delete('focus');
   if (step) return <AtlasStory />;
   return (
     <SurfacePage
@@ -70,6 +72,7 @@ function AtlasSurfaceBody() {
       lede={lang === 'es'
         ? 'Inspecciona una serie, compara pronósticos y sigue sus errores y sus intervalos.'
         : 'Inspect a series, compare forecasts, and follow their error and interval behavior.'}
+      actions={<Link className="cs-story-entry" to={`/story/system?${storyParams}`}>{lang === 'es' ? 'Recorrido de evidencia' : 'Guided evidence walkthrough'}</Link>}
       tabs={[
         {
           id: 'explore',
@@ -80,7 +83,6 @@ function AtlasSurfaceBody() {
           },
           content: <AppPage />,
         },
-        { id: 'story', label: lang === 'es' ? 'Recorrido' : 'Story', focus: { title: { en: 'Evidence walkthrough', es: 'Recorrido de evidencia' }, description: { en: 'Six linked views of the same source', es: 'Seis vistas enlazadas de la misma fuente' } }, content: <AtlasStory /> },
       ]}
       instrument
       focus

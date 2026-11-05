@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { Scene3DFrame, SceneCallouts, Stage, StoryFrame, formatNumber, useLinkedCursor, useLinkedItem, useLinkedView, useShellLang, type SceneCalloutDef, type StoryStep } from '@fasl-work/caos-app-shell';
 import { useAtlasSource } from '../state/AtlasSource';
@@ -20,21 +20,24 @@ function Glyph({ id, children, label }: { id: string; children: ReactNode; label
 function AnnotatedScene({ items, children }: { items: SceneCalloutDef[]; children: ReactNode }) {
   const host = useRef<HTMLDivElement>(null);
   const [anchors, setAnchors] = useState<Record<string, { x: number; y: number }>>({});
-  useLayoutEffect(() => {
+  const measure = useCallback(() => {
     const root = host.current; if (!root) return;
-    const measure = () => {
-      const box = root.getBoundingClientRect(); if (!box.width || !box.height) return;
-      const next: typeof anchors = {};
-      for (const element of root.querySelectorAll('[data-subject]')) {
-        const rect = element.getBoundingClientRect();
-        const anchor = { x: Math.max(0, Math.min(1, (rect.left + rect.width / 2 - box.left) / box.width)), y: Math.max(0, Math.min(1, (rect.top + rect.height / 2 - box.top) / box.height)) };
-        for (const id of element.getAttribute('data-subject')!.split(' ')) next[id] = anchor;
-      }
-      setAnchors(previous => JSON.stringify(previous) === JSON.stringify(next) ? previous : next);
-    };
-    measure(); const observer = new ResizeObserver(measure); observer.observe(root);
+    const box = root.getBoundingClientRect(); if (!box.width || !box.height) return;
+    const next: Record<string, { x: number; y: number }> = {};
+    const normalized = (value: number) => Math.round(Math.max(0, Math.min(1, value)) * 1e6) / 1e6;
+    for (const element of root.querySelectorAll('[data-subject]')) {
+      const rect = element.getBoundingClientRect();
+      const anchor = { x: normalized((rect.left + rect.width / 2 - box.left) / box.width), y: normalized((rect.top + rect.height / 2 - box.top) / box.height) };
+      for (const id of element.getAttribute('data-subject')!.split(' ')) next[id] = anchor;
+    }
+    setAnchors(previous => JSON.stringify(previous) === JSON.stringify(next) ? previous : next);
+  }, []);
+  useLayoutEffect(measure);
+  useLayoutEffect(() => {
+    if (!host.current) return;
+    const observer = new ResizeObserver(measure); observer.observe(host.current);
     return () => observer.disconnect();
-  });
+  }, [measure]);
   return <div ref={host} className="cs-annotated-scene">{children}<SceneCallouts placement="header" items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))} /></div>;
 }
 function ResponsiveSvg({ label, children }: { label: string; children: ReactNode }) {
@@ -55,7 +58,7 @@ function DelayScene() {
   const { activeData } = useAtlasSource();
   const es = useShellLang() === 'es';
   const [angle, setAngle] = useState(.65);
-  const { cursor, scrub, markerProps } = useLinkedCursor();
+  const { cursor, markerProps } = useLinkedCursor();
   const points = useMemo(() => delayCoordinates(activeData?.history ?? []), [activeData?.history]);
   if (!activeData || !points.length) return <p>{es ? 'Faltan tres observaciones finitas.' : 'Three finite observations are required.'}</p>;
   const low = Math.min(...activeData.history), high = Math.max(...activeData.history), center = (low + high) / 2, span = high - low || 1;
@@ -73,9 +76,12 @@ function DelayScene() {
       {[0, 1, 2].map(axis => { const end = [center, center, center]; end[axis] = center + span * .57; const [x, y] = project(end); const start = project([center, center, center]);
         return <g key={axis}><line x1={start[0]} y1={start[1]} x2={x} y2={y} className="cs-flow-line" /><text x={x} y={y - 12}>{`y[t+${axis}]`}</text></g>; })}
       <polyline points={coordinates.map(v => v.join(',')).join(' ')} fill="none" stroke="var(--color-accent)" strokeWidth="2" opacity=".6" />
-      {points.map((point, i) => <Glyph key={point.index} id={`observation:${point.index}`} label={`${es ? 'Observación' : 'Observation'} ${point.index}`}>
-        <circle cx={coordinates[i][0]} cy={coordinates[i][1]} r={point.index === current.index ? 7 : 3} onClick={() => scrub(point.index)} /></Glyph>)}
-      <circle data-subject="coordinate-0 coordinate-1 coordinate-2" {...markerProps} cx={anchor[0]} cy={anchor[1]} r="11" fill="none" stroke="var(--color-warn)" strokeWidth="2" />
+      {points.map((point, i) => <circle key={point.index} cx={coordinates[i][0]} cy={coordinates[i][1]} r="3" fill="var(--color-accent)" pointerEvents="none" aria-hidden="true" />)}
+      <Glyph id={`observation:${current.index}`} label={`${es ? 'Observación' : 'Observation'} ${current.index}`}>
+        <circle cx={anchor[0]} cy={anchor[1]} r="14" fill="transparent" />
+        <circle cx={anchor[0]} cy={anchor[1]} r="7" />
+      </Glyph>
+      <circle data-subject="coordinate-0 coordinate-1 coordinate-2" {...markerProps} cx={anchor[0]} cy={anchor[1]} r="11" fill="none" stroke="var(--color-warn)" strokeWidth="2" pointerEvents="none" />
     </ResponsiveSvg></AnnotatedScene>
   </Scene3DFrame>;
 }
@@ -105,6 +111,13 @@ export default function AtlasStory() {
   const { cursor, scrub, inputProps, markerProps } = useLinkedCursor();
   const n = data?.history.length ?? 0, h = data?.horizon ?? 0;
   const namedQuery = Number(params.get('q') ?? n), query = Number.isInteger(namedQuery) ? Math.max(0, Math.min(n, namedQuery)) : n;
+  useEffect(() => {
+    if (!n || !h || active === 'method') return;
+    const min = active === 'system' || active === 'domain' ? 0 : n;
+    const max = active === 'domain' ? Math.max(0, n - 3) : active === 'system' ? n - 1 : n + h - 1;
+    const next = Math.max(min, Math.min(max, cursor ?? min));
+    if (cursor !== next) scrub(next);
+  }, [active, n, h, cursor, scrub]);
   const selectedMethod = allMethods.find(v => v.name === selected) ?? allMethods[0], selectedRow = allRows.find(v => v.name === selectedMethod?.name);
   const experts = allMethods.filter(v => EXPERTS.includes(v.name)), mix = combinationOrigin?.methods.find(v => v.name === 'ValidationMix');
   const memory = mix?.memory_origins ?? [], complete = completedMemory(memory, h, query);

@@ -166,9 +166,9 @@ html { contain: layout; }
 .cs-story-svg .cs-scene-value { font: 600 38px var(--font-mono); }
 .cs-story-svg [role="button"] { cursor: pointer; outline: none; }
 .cs-story-svg [role="button"] rect { fill: var(--color-bg); stroke: var(--color-border); stroke-width: 2; }
-.cs-story-svg [role="button"] circle { fill: var(--color-accent); }
+.cs-story-svg [role="button"] circle:not([fill="transparent"]) { fill: var(--color-accent); }
 .cs-story-svg [data-linked-selected="true"] rect,.cs-story-svg [role="button"]:focus rect { stroke: var(--color-accent); stroke-width: 4; }
-.cs-story-svg [data-linked-selected="true"] circle,.cs-story-svg [role="button"]:focus circle { fill: var(--color-warn); r: 7; }
+.cs-story-svg [data-linked-selected="true"] circle:not([fill="transparent"]),.cs-story-svg [role="button"]:focus circle:not([fill="transparent"]) { fill: var(--color-warn); r: 7; }
 .cs-flow-line { stroke: var(--color-fg-faint); stroke-width: 2; fill: none; }
 .cs-story-svg [role="button"] .cs-memory-complete { fill: var(--color-good); }
 .cs-story-svg [role="button"] .cs-memory-pending { fill: var(--color-fg-faint); opacity: .4; }
