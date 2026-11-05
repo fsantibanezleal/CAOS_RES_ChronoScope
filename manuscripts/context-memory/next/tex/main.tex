@@ -5,7 +5,8 @@
 \usepackage[margin=25mm]{geometry}
 \usepackage{amsmath,amssymb,graphicx,booktabs,longtable,array,microtype}
 \usepackage[hidelinks]{hyperref}
-\graphicspath{{../../../product-report/next/figures/}}
+\usepackage{algorithm,algpseudocode}
+\graphicspath{{../figures/}{../../../product-report/next/figures/}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt}
 \setlength{\LTcapwidth}{\textwidth}
@@ -30,7 +31,7 @@ Not peer reviewed. Source, inputs and computational records: \url{https://github
 \begin{center}\textbf{Working revision; not a new published version.}\end{center}
 \headerblock
 \begin{abstract}
-A forecast combination must decide how much historical expert performance remains relevant at a new origin. We study a fixed context-weighted rule and two variants that select their parameters using completed historical target blocks. ContextMemoryCV selects context shrinkage and temperature; ValidationMix also considers regularized convex stacking. Each inner fit excludes outcomes not yet observed at its validation origin. The original fifteen-case experiment remains negative for fixed ContextMemory, with mean MASE 1.4504 versus 1.4489 for its recency-only ablation. In a separate external evaluation, 294 of 359 M4 Weekly series satisfy the fixed history criterion, and 1,422 of 1,428 M3 Monthly series remain after exact deduplication. ValidationMix has mean series MASE 0.2855 versus 0.3109 for RecencyMean on M4 Weekly, and 0.8993 versus 0.9085 on M3 Monthly. AutoTheta gives 0.3076 and 0.8472, respectively: improvement over the recency control does not establish superiority on both collections. Interval scores also retain unfavorable outcomes. Full forecast paths, scales, weights, validation decisions and source hashes support independent recomputation of 53,148 external forecasts. These results concern the configured algorithms and admitted series; they neither establish priority for context weighting nor prove population-wide superiority or calibrated uncertainty.
+Forecast combinations estimate which past expert errors remain relevant at a new origin. We compare a fixed context-weighted rule with two variants whose parameters are selected using causally completed historical validation blocks. The original fifteen-case result remains unfavorable for fixed ContextMemory. In a separate external comparison, ValidationMix has mean series MASE 0.2855 versus RecencyMean's 0.3109 on 294 eligible M4 Weekly series, and 0.8993 versus 0.9085 on 1,422 unique M3 Monthly series. Exploratory paired-series bootstrap intervals for the respective differences are [-0.033914,-0.017227] and [-0.013176,-0.005173]. The monthly mean gain does not imply that most series improve: only 589 of 1,422 have strictly lower MASE than RecencyMean. AutoTheta retains lower monthly point error and lower interval score in both collections. Full-precision paths, source identities, weights and validation decisions support independent recomputation of 53,148 method-origin forecast paths. The uncertainty analysis preserves series as the resampling unit and is explicitly post hoc, unadjusted and conditional on the admitted collections. These bounded results support temporally validated combinations relative to their recency control; they do not establish priority for contextual weighting, an isolated causal benefit of its kernel, calibrated prediction intervals or population-wide superiority.
 \end{abstract}
 
 \section{Question and relation to prior work}
@@ -102,14 +103,14 @@ The primary metric is MAE divided by the in-prefix mean absolute seasonal differ
 \input{../../../product-report/next/tables/proposal.tex}
 
 \begin{figure}[htbp]\centering\includegraphics[width=0.88\textwidth]{proposal-comparison.pdf}
-\caption{Mean MASE of the fixed combinations on all selected final blocks. ContextMemory is slightly worse than RecencyMean at the declared primary criterion. Bar heights are point summaries; no sampling uncertainty is shown because one selected origin per case does not supply a justified population interval.}\end{figure}
+\caption{Mean MASE of the fixed combinations on all selected final blocks. ContextMemory is slightly worse than RecencyMean at the declared primary criterion. Bar heights are point summaries; no sampling uncertainty is shown because one selected origin per case does not supply a justified population interval.}\label{fig:fixed-means}\end{figure}
 
-ContextMemory has mean MASE 1.4504, compared with 1.4489 for RecencyMean and 1.8970 for EqualMean. The contextual component fails its aggregate improvement criterion. The estimated recent-loss combinations perform better than the equal average on this collection, but that difference does not establish a benefit from the additional context kernel.
+Figure~\ref{fig:fixed-means} summarizes the matching ablation in Table~\ref{tab:fixed-ablations}. ContextMemory has mean MASE 1.4504, compared with 1.4489 for RecencyMean and 1.8970 for EqualMean. The contextual component fails its aggregate improvement criterion. The estimated recent-loss combinations perform better than the equal average on this collection, but that difference does not establish a benefit from the additional context kernel.
 
 \begin{figure}[htbp]\centering\includegraphics[width=\textwidth]{case-differences.pdf}
-\caption{Per-case MASE difference between contextual and recency-only weighting. Each bar is one final block. Both signs are retained; selecting only negative bars would replace the declared aggregate question with a post hoc favorable subset.}\end{figure}
+\caption{Per-case MASE difference between contextual and recency-only weighting. Each bar is one final block. Both signs are retained; selecting only negative bars would replace the declared aggregate question with a post hoc favorable subset.}\label{fig:fixed-series}\end{figure}
 
-The aggregate difference is small relative to variation across selected mechanisms. It is still unfavorable at the criterion that was actually declared. Rounding both means to two decimal places would conceal that outcome. No significance claim, equivalence conclusion or general impossibility result is attached to the difference. Full-precision prediction paths and expert weights remain available so the cases that help and hurt can be inspected without reconstructing an aggregate from a selected table.
+Figure~\ref{fig:fixed-series} retains the individual directions. The aggregate difference is small relative to variation across selected mechanisms. It is still unfavorable at the criterion that was actually declared. Rounding both means to two decimal places would conceal that outcome. No significance claim, equivalence conclusion or general impossibility result is attached to the difference. Full-precision prediction paths and expert weights remain available so the cases that help and hurt can be inspected without reconstructing an aggregate from a selected table.
 
 \section{Forecast combination with temporal validation}
 The fixed context-versus-recency comparison tests one particular parameter setting. Two additional methods allow a historical validation calculation to choose a setting before an outer forecast. They retain the same five experts, four context features, completed-origin memory and quantile-column combination. Their improvements must not be attributed exclusively to the context kernel, because temperature, shrinkage and selection also change.
@@ -131,9 +132,10 @@ Sixty-five weekly identities have no eligible origin under that fixed criterion.
 
 Twelve methods are evaluated at every admitted origin: five individual experts, AutoETS and AutoTheta from StatsForecast, three fixed combinations, ContextMemoryCV and ValidationMix. Automatic statistical methods use the same available prefix and configured seasonal lag. Their library point forecast supplies the central column and their requested analytic 80\% interval supplies the endpoints. This roster contains no freshly evaluated neural, pretrained or globally trained ensemble on the external collections. A method failure stops the calculation rather than deleting a difficult comparator.
 
+Table~\ref{tab:external-combinations} and Figure~\ref{fig:external-means} summarize both external collections.
 \input{../tables/external.tex}
 \begin{figure}[htbp]\centering\includegraphics[width=.98\textwidth]{validated-combinations.pdf}
-\caption{Fixed and temporally selected combinations alongside AutoTheta on each external collection. Bars are mean series MASE without sampling-error bars. The complete twelve-method table retains all individual-expert and automatic-statistical outcomes.}\end{figure}
+\caption{Fixed and temporally selected combinations alongside AutoTheta on each external collection. Bars are mean series MASE without sampling-error bars. The complete twelve-method table retains all individual-expert and automatic-statistical outcomes.}\label{fig:external-means}\end{figure}
 
 ValidationMix has mean MASE .2855 versus .3109 for RecencyMean on weekly series, and .8993 versus .9085 on monthly series. ContextMemoryCV gives .2848 and .8996. AutoTheta gives .3076 and .8472: the temporally selected combinations have lower point error on the admitted weekly collection, while AutoTheta has lower point error on monthly series. These are finite-collection comparisons without an inferential or population-superiority claim.
 
@@ -172,6 +174,8 @@ The nonseasonal Theta expert uses the SES coefficient and level, OLS slope $b$ a
 p_j=\ell_n+\tfrac12 b\left[j-1+\frac{1-(1-a)^n}{a}\right].
 \end{equation}
 Its residual dispersion is the SES residual dispersion. This is distinct from the smoothing-plus-half-drift replay adaptation used in the separate streaming study. The source implementation fixes update ordering and first-minimum tie breaking in all grids; the same experts are used for every combination and ablation.
+
+\input{paired-uncertainty.tex}
 
 \begin{thebibliography}{9}
 \small\setlength{\itemsep}{0pt}

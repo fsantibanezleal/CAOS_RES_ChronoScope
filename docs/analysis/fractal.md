@@ -66,11 +66,11 @@ detrended-covariance analogue of Pearson correlation, valid where ordinary corre
 
 ## What this is, and is NOT (the honesty gate)
 
-- **DFA always returns a positive $\alpha$**, even for data with no genuine scaling - the log-log plot must be
+- **A positive estimated DFA slope does not establish genuine scaling**: the log-log relation must be
   visibly linear for the exponent to mean anything. ChronoScope reports the value with a **reliability flag**
   ($n \ge 100$) and defers to the [nonlinear-dynamics](#) page's surrogate tests before any "this is
   structured / forecastable" claim.
-- $H \ne 0.5$ signals exploitable structure but **does not guarantee practical predictability** (the
+- $H \ne 0.5$ can indicate departure from an ideal short-memory reference under the estimator assumptions, but **does not guarantee exploitable predictability** (the
   theory/practice gap): the edge can be tiny and swamped by noise. Multifractality that survives *shuffling*
   is distributional (fat tails), not genuine temporal structure - always compare against a shuffled surrogate.
 - R/S is biased on short series; MF-DFA needs a few hundred points for a stable spectrum (the report records

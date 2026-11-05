@@ -22,7 +22,7 @@ $$\rho_{xy}(k) = \frac{\sum_t (x_t - \bar x)(y_{t+k} - \bar y)}{\sqrt{\sum_t (x_
 
 over signed lags $k$. A peak at $k > 0$ means a future value of $y$ correlates with the present of $x$ -
 $x$ **leads** $y$; at $k < 0$, $y$ leads $x$. ChronoScope computes it directly on shifted overlaps so the
-lead/lag sign is unambiguous, with the $\pm 1.96/\sqrt{n}$ significance band.
+lead/lag sign is explicit, with a $\pm 1.96/\sqrt{n}$ independent-observation reference band. Serial dependence and searching multiple lags can invalidate a literal 95% inferential reading of that band; the displayed reference is not a corrected significance test.
 
 ## Granger causality: predictive precedence
 
@@ -39,10 +39,9 @@ causal effect faster than the sampling interval can be missed.
 
 ## Cointegration: a stationary spread between nonstationary series
 
-Two series can each be a random walk (individually unforecastable, unit roots) yet move together so their
+Two series can each have a unit root and unpredictable innovations, yet their nonstationary levels can move together so their
 **spread is stationary** - they are **cointegrated**, sharing a long-run equilibrium. This is powerful for
-forecasting: a joint error-correction (VECM) model forecasts the mean-reverting spread even when neither level
-can be forecast. Two tests:
+forecasting: a joint error-correction (VECM) model forecasts the mean-reverting spread without making either level stationary. Two tests:
 
 - **Engle-Granger** (1987, DOI [10.2307/1913236](https://doi.org/10.2307/1913236)): regress one series on the
   other and ADF-test the residuals for a unit root; a stationary residual means one cointegrating vector.

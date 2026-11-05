@@ -4,10 +4,19 @@
   "independent_reader_review": "pending",
   "full_content_bar": "pending",
   "published_predecessor_preserved": true,
-  "compiled_pages": 25,
-  "source_words_measured": 7213,
+  "compiled_pages": 26,
+  "source_words_measured": 7315,
   "content_revision": "Adds independent held-out calibration derivation, group-conditional limits, full results and four computed figures",
   "figures": 10,
   "equations": 17,
-  "algorithms": 1
+  "algorithms": 1,
+  "measured_content": {
+    "words": 7315,
+    "equations": 17,
+    "figures": 10,
+    "tables": 8,
+    "references": 16,
+    "algorithms": 1,
+    "sections": 16
+  }
 }

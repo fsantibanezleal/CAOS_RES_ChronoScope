@@ -81,6 +81,7 @@ Heavy statistical, neural and pretrained calculations run offline. GPU availabil
 \section{Data provenance and temporal reconstruction}
 The corpus contains eleven generated cases and four real excerpts. Generated mechanisms cover seasonality, trend, intermittent arrivals, a level shift, multiple seasonalities, heteroscedasticity, long memory, a delayed nonlinear system and a known-future exogenous driver. White noise and a near-random walk remain visible as controls. The exogenous-driver comparison requires a declared arrival policy; univariate forecasts do not gain access to future covariates automatically.
 
+Table~\ref{tab:cases} distinguishes eleven generated mechanisms from four real excerpts and fixes the history, horizon and seasonal-lag choices used by each case.
 \input{../tables/cases.tex}
 
 The source manifest records provenance, redistribution permission, seed, original series descriptors, artifact paths and byte counts. Real-data CSVs are committed as compact admitted excerpts. A source's redistribution status is an explicit field; a restricted source must not expose its raw path merely because aggregate metrics are publishable. The current comparison uses only available, non-redacted inputs.
@@ -125,6 +126,7 @@ RecencyMean removes context similarity while retaining the experts, historical o
 \caption{Fixed matching-expert combinations on the corrected fifteen-case protocol. Lower mean MASE is preferable. The contextual component does not improve on the recency-only ablation. Bars summarize selected final blocks, not independent population replications.}\end{figure}
 
 \section{Archived-path final-block results}
+Table~\ref{tab:archived-results} scores every admitted method on the same fifteen reserved blocks, without giving longer histories more weight in the case mean.
 \input{../tables/overall.tex}
 
 Chronos-Bolt has the smallest mean MASE in this selected, mixed-provenance comparison, followed by TimesFM 2.5 and TiRex-2. Their paths were not freshly refitted or regenerated for this experiment. No statistical significance, resource-normalized superiority or independence from pretraining data follows from that order. Method-specific training budgets and context limits remain part of the compared configurations.
@@ -142,6 +144,7 @@ A second experiment fits or infers all twenty-two configurations again from the 
 
 The execution uses Python 3.12, NumPy 2.1.3, PyTorch 2.9.1 with CUDA 12.8, StatsForecast 2.0.3, LightGBM 4.6.0, MLForecast 1.0.31, NeuralForecast 3.1.9, Chronos forecasting 2.3.2, TimesFM 2.0.2 and TiRex-2 0.1.1. Its GPU is an NVIDIA GeForce RTX 4070 Laptop GPU. NumPy follows the TiRex-compatible line in this isolated Linux environment; notebook/parity computations use their separately pinned environment. Direct and reference neural models retain their declared 300-step budgets. LightGBM uses one worker; BLAS/OpenMP threads and compiler workers are bounded, and torch CPU operations use four threads. These resource choices are part of the recorded configuration.
 
+Table~\ref{tab:fresh-results} pairs new executions with archived paths on the same outcomes; matching values describe recomputation rather than independent statistical replication.
 \input{../tables/fresh.tex}
 
 The two experiments use the same final targets, so rerunning an implementation is not another independent statistical test. Differences can reflect runtime, precision or training implementation rather than a changed data population. ContextMemory still fails its aggregate comparison with RecencyMean; the selected settings are not retuned after that outcome. Warning categories remain visible even when predictions are finite. Durations include fitting, inference, imports and first-use loading and cannot be interpreted as a normalized warm-inference leaderboard.
@@ -155,6 +158,7 @@ ContextMemoryCV selects among context shrinkages $\{0,.5,1\}$ and temperatures $
 
 The external sources are complete Monash M4 Weekly and M3 Monthly inventories~\cite{m4weekly,m3monthly}. Horizons and seasonal periods are $(13,52)$ and $(18,12)$, respectively. Every method receives at most the final 512 contiguous observations at an origin. Up to three nonoverlapping final blocks are used, with a minimum available prefix of $\max(2m,2H+8,24)$. Sixty-five weekly identities have no eligible origin, leaving 294 series and 882 origins. Six exact duplicate monthly identities are excluded, leaving 1,422 series and 3,547 origins. Every source identity and exclusion remains available. Origins are averaged within series, then series equally within each collection. This is not the original forecasting-competition protocol or an official competition ranking.
 
+Table~\ref{tab:validated-combinations} keeps point error, coverage and interval score together, making the collection-specific interval weaknesses visible alongside the point-error gains.
 \input{../tables/validated-combinations.tex}
 \begin{figure}[htbp]\centering\includegraphics[width=.98\textwidth]{validated-combinations.pdf}
 \caption{The new temporally selected combinations and fixed controls on each external collection, with AutoTheta as an automatic-statistical comparator. The complete twelve-method table retains the other individual experts and AutoETS. Bars are descriptive mean MASE without population confidence intervals.}\end{figure}
@@ -240,6 +244,7 @@ A fixed random forest predicts the best model identity from discovery features, 
 
 \input{../tables/corpus-summary.tex}
 \clearpage
+Table~\ref{tab:corpus-associations} retains all forty tested prefix features and the adjusted probabilities in both partitions, rather than showing only the twenty-one confirmations.
 \input{../tables/corpus-associations.tex}
 
 \begin{samepage}
