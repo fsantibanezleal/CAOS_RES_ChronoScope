@@ -49,6 +49,8 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 
 | component | package | version | use | alternative considered |
 |---|---|---|---|---|
+| requirements-browser-model.txt | onnx | 1.23.2 | Check and export the held-out CPU linear model; IR 9, opset 13 retained for browser compatibility. | Handwritten protobuf export would omit ONNX structural validation. |
+| requirements-browser-model.txt | onnxruntime | 1.27.0 | Verify actual float32 execution against NumPy before admitting new held-out results. | NumPy alone would not verify the deployed graph backend. |
 | requirements-combinations.txt | numba | 0.68.1 | Compile unchanged recursive expert loops for the CPU-only combination study; fastmath disabled. | Reference execution retained with independent parity checks. |
 | requirements-precompute.txt | stumpy | 1.14.1 | Exact Matrix Profile and FLUSS; primary API verified 2026-11-02. | Exhaustive normalized-distance oracle retained in tests. |
 | requirements-precompute.txt | scikit-learn | 1.9.1 | Explicitly seeded robust slopes and discovery-only corpus selector. | Unseeded nolds fitting rejected by determinism tests. |
