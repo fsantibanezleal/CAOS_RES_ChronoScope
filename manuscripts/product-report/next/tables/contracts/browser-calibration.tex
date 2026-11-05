@@ -1,0 +1,18 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the browser-calibration contract, catalog version 1.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-browser-calibration}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.browser-calib\allowbreak{}ration/v1" & yes\\
+\texttt{point\_\allowbreak{}model\_\allowbreak{}sha256} & fixed value & metadata & const="621265165\allowbreak{}211f756cff537ade\allowbreak{}e364b9790c34ced5\allowbreak{}67bc2a5087513360\allowbreak{}e1f69f6" & yes\\
+\texttt{lookback} & fixed value & observations & const=48 & yes\\
+\texttt{horizon} & fixed value & observations & const=12 & yes\\
+\texttt{alpha} & fixed value & probabilities & const=0.2 & yes\\
+\texttt{normalization} & fixed value & metadata & const="subtract\_\allowbreak{}last\_\allowbreak{}then\_\allowbreak{}divide\_\allowbreak{}population\_\allowbreak{}std" & yes\\
+\texttt{roughness\_\allowbreak{}boundaries} & fixed value & dimensionless & const=[0.5,1.25] & yes\\
+\texttt{calibration\_\allowbreak{}bin\_\allowbreak{}counts} & array & counts & minItems=3; maxItems=3 & yes\\
+\texttt{absolute\_\allowbreak{}residual\_\allowbreak{}radii} & array & dimensionless & minItems=3; maxItems=3 & yes\\
+\texttt{global\_\allowbreak{}radii} & array & dimensionless & minItems=12; maxItems=12 & yes\\
+\bottomrule
+\end{longtable}
+\endgroup

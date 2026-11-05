@@ -1,0 +1,50 @@
+\section{Problem formulation and notation}
+\label{sec:problem}
+An admitted univariate case supplies a finite ordered sequence, an observation-index convention, a seasonal lag and a forecast horizon. The measurement unit is denoted by $U$ when provenance does not supply a physical unit. An index increment means one supplied observation, not necessarily one second, day or month. At origin $n$, the fitting information is $\mathcal F_n=\sigma(y_1,\ldots,y_n)$ together with declared fixed configuration. The reserved values $a_j=y_{n+j}$, $1\le j\le H$, become evaluation outcomes. A valid forecasting procedure produces its path from the fitting information, not from retrospective diagnostics computed using the reserved block.
+
+The interface's mathematical output is a finite matrix
+\begin{equation}\label{eq:report-output}
+ \widehat Q_n\in\mathbb R^{H\times3},\qquad
+ \widehat Q_{nj1}\le\widehat Q_{nj2}\le\widehat Q_{nj3},
+ \qquad Q=\{0.1,0.5,0.9\}.
+\end{equation}
+The canonical probabilities identify requested output columns. A library point mean placed in the central column remains that library's point forecast; the label alone does not prove a conditional median. Ordered endpoints do not establish their nominal coverage. Missing forecasts, invalid dimensions and nonfinite values are therefore distinct from a valid wide interval or a large but finite error. The report records unavailable quantities instead of constructing an apparently successful forecast from incomplete data.
+
+There are several objectives rather than one universal optimization target. A point forecast can minimize a fitting loss, a temporal selector can rank candidates by historical scaled absolute error, and an interval procedure can be evaluated by coverage together with a width-sensitive proper score. The final scientific quantity is the study-specific out-of-sample loss, not the smallest training objective. For example,
+\begin{equation}\label{eq:report-estimand}
+ \widehat R_A=\frac1N\sum_{i=1}^{N}\frac1{J_i}
+       \sum_{o\in\mathcal O_i} L(A;i,o)
+\end{equation}
+defines equal-series aggregation after equal weighting of the admitted origins within each series. Other studies in this report explicitly use one final block or one-step trajectories. Their $N$, origin sets and loss definitions must not be interchanged.
+
+The assumptions needed for an inference are stronger than those needed to compute a score. Source reconstruction requires correct ordering and identity; a seasonal scale requires enough finite observations and a positive denominator; a population interval additionally requires a sampling or exchangeability argument. Exact deduplication removes identical sequences, while related-source dependence may remain. A source-bound artifact makes these assumptions auditable but cannot make them true by construction. The problem solved by the application is thus evidence inspection and finite empirical comparison. An operational policy would require an additional loss function, deployment population, information-arrival policy and prospective acceptance study.
+
+\subsection{Notation and dimensional conventions}
+Table~\ref{tab:notation} gives the shared combination and evaluation notation. Table~\ref{tab:report-symbols} adds diagnostic, adapter and browser symbols. Several conventional letters have local meanings: the backshift operator in ARIMA is unrelated to a minibatch count, and an attention query matrix is unrelated to a requested forecast probability. These meanings are stated at the defining equation. Units apply to the numerical quantity, rather than its JSON representation or plotted pixel coordinate.
+
+Positive affine changes $y'_t=c+d y_t$, $d>0$, provide useful structural checks. A source-unit error or interval width scales by $d$; squared error scales by $d^2$; coverage and correctly normalized MASE remain unchanged when their denominators exist. Normalized context features and delay geometry should also remain unchanged away from explicitly disclosed degeneracy thresholds. These properties do not replace a complete dimensional audit of every numerical literal. Constant and near-constant prefixes need particular care because an arbitrary unit-sized denominator can violate the expected transformation. The browser normalized map refuses a zero standard deviation; historical offline adapters retain their separately described fallback behavior.
+
+\input{../../../context-memory/next/tex/notation.tex}
+\begin{longtable}{>{\raggedright\arraybackslash}p{.20\textwidth}>{\raggedright\arraybackslash}p{.53\textwidth}>{\raggedright\arraybackslash}p{.18\textwidth}}
+\caption{Additional notation for diagnostic estimates, forecast adapters and browser calibration, distinguishing source measurements from normalized variables and counts.}\label{tab:report-symbols}\\
+\toprule Symbol & Meaning & Unit\\\midrule\endfirsthead
+\toprule Symbol & Meaning & Unit\\\midrule\endhead
+$t,j,h,L,C$ & Observation index, lead index, input length and context cap in their local equations. & indices; observations\\
+$\ell_t,b_t,s_t$ & Smoothing level, trend and additive seasonal state. & $U$; $U$/observation; $U$\\
+$\alpha,\beta,\gamma$ & Smoothing coefficients; $\alpha$ separately denotes interval miscoverage where stated. & dimensionless\\
+$B,d,D,\phi,\Phi,\theta,\Theta$ & ARIMA backshift, differencing orders and polynomial coefficients. & operator; counts; dimensionless\\
+$\epsilon_t$ & Model innovation or residual in the stated observation equation. & $U$\\
+$\mathcal L,F_\theta$ & Lag-index set and fitted recursive tree mapping. & indices; output $U$\\
+$\mu,\sigma,z$ & Prefix mean, prefix population standard deviation and normalized values. & $U$; $U$; dimensionless\\
+$\widehat Q,Q$ & Forecast-column matrix and requested probability set. & $U$; dimensionless\\
+$Q_a,K_a,V_a,d$ & Attention matrices and their internal feature dimension. & latent coordinates; count\\
+$W,X,Y,\lambda$ & Browser linear weights, normalized fitting arrays and ridge coefficient. & dimensionless\\
+$\bar x,s(x),\widehat u_h,\widehat a_h$ & Browser window mean, scale, normalized and reconstructed forecast. & $U$; $U$; 1; $U$\\
+$r_{ih},q_h,k$ & Absolute normalized calibration error, retained rank value and rank index. & 1; 1; count\\
+$g(x),\mathcal C_b,n_b$ & Prefix roughness, stratum calibration set and its size. & 1; set; count\\
+$P_i,I_i$ & Matrix Profile distance and nearest nontrivial subsequence index. & dimensionless; index\\
+$m,r,A,B$ & Entropy embedding length, matching tolerance and match counts. & observations; $U$; counts\\
+$p_{(i)},q_{(i)},H_K$ & Raw and adjusted test probabilities and harmonic correction factor. & dimensionless\\
+$IS,MSIS,\mathrm{MASE}$ & Interval score, its seasonal normalization and scaled absolute error. & $U$; 1; 1\\
+\bottomrule
+\end{longtable}

@@ -1,0 +1,22 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the forecastability contract, catalog version 1.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-forecastability}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.forecastabili\allowbreak{}ty/v1" & yes\\
+\texttt{complete} & fixed value & metadata & const=true & yes\\
+\texttt{protocol} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{packages} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{code\_\allowbreak{}sha256} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{source\_\allowbreak{}sha256} & string & metadata & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{source} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{source\_\allowbreak{}n} & fixed value & series & const=4227 & yes\\
+\texttt{included\_\allowbreak{}n} & integer & counts & minimum=3000 & yes\\
+\texttt{excluded} & array & metadata & Nested content follows the normative schema & yes\\
+\texttt{model\_\allowbreak{}names} & array & metadata & Nested content follows the normative schema & yes\\
+\texttt{summary} & object & mixed; see text & Nested content follows the normative schema & yes\\
+\texttt{series} & array & mixed; see text & minItems=3000 & yes\\
+\texttt{audit} & object & metadata & Nested content follows the normative schema & yes\\
+\bottomrule
+\end{longtable}
+\endgroup

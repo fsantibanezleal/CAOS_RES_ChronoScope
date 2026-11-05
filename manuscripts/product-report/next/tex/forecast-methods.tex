@@ -1,0 +1,145 @@
+\section{Forecasting equations and execution policies}
+\label{sec:forecast-methods}
+
+The following descriptions identify the fitted computation, its observation units and its actual execution policy. A library's ability to update a latent state does not mean the current adapter exercises that ability. All outer targets remain reserved; prefix caps, parameter search and numerical postprocessing belong to the compared configuration. Reference package versions and checkpoint revisions are retained with the corresponding experiment rather than inferred from a method's display name.
+
+\subsection{Seasonal continuation and local smoothing experts}
+\label{sec:method-local-experts}
+The five local experts share a finite observed prefix and a requested observation-count horizon. They supply the matching inputs to the fixed and temporally selected combinations, and the browser implements the same point equations for generated examples. This parity does not imply that every browser score equals an offline score when the supplied history or scale differs. The pipeline first requires the experiment's admitted sequence. Interpreting decimated samples as consecutive observations would change the model, even if its implementation passed an arithmetic fixture.
+
+SeasonalNaive continues the last observed seasonal cycle. With one-based lead $j$ and a zero-based sequence index, the future seasonal phase is $(n+j-1)\bmod m$. It therefore remains correct when the prefix ends partway through a cycle. The computational work for the point path is linear in the requested horizon after the relevant tail has been identified. Residual dispersion comes from observed lag-$m$ differences. A Gaussian interval constructed from those differences is an uncertainty approximation, not a distribution-free property of seasonal copying.
+
+Simple exponential smoothing keeps a level and minimizes the implemented in-prefix one-step squared error over its fixed coefficient grid. With level $\ell_t$ and observation $y_t$, its update and point forecast are
+\begin{equation}\label{eq:report-ses}
+\ell_t=\alpha y_t+(1-\alpha)\ell_{t-1},\qquad \widehat y_{n+j}=\ell_n.
+\end{equation}
+The initial level is the first observation. The coefficient grid runs from .05 to .95 in increments of .05, with deterministic first-minimum selection. This is a finite search, not a claim of global continuous-parameter optimality. For a fixed grid its fitting cost grows linearly with prefix length. The level has source unit $U$ and the coefficient is dimensionless. Residual variance and final interval width still depend on how well a level-only description represents the supplied sequence.
+
+Holt introduces an additive trend $b_t$ with units $U$ per observation. Its equations are
+\begin{align}\label{eq:report-holt}
+\ell_t&=\alpha y_t+(1-\alpha)(\ell_{t-1}+b_{t-1}),\\
+b_t&=\beta(\ell_t-\ell_{t-1})+(1-\beta)b_{t-1},\qquad
+\widehat y_{n+j}=\ell_n+j b_n.
+\end{align}
+The initial trend is the first observed difference. The implementation searches nine level coefficients from .1 to .9 and six trend coefficients from .05 to .5. It does not use a damped trend or select an arbitrary damping parameter. Extrapolation can therefore continue a recent trend too far after a break. Fitting every coefficient pair on the same prefix makes the finite objective reproducible but cannot ensure that its in-prefix preference remains appropriate for the reserved block.
+
+Additive HoltWinters adds seasonal offsets $s_t$ in source units~\cite{fpp}. The implemented component updates are
+\begin{align}\label{eq:report-hw}
+\ell_t&=\alpha(y_t-s_{t-m})+(1-\alpha)(\ell_{t-1}+b_{t-1}),\\
+b_t&=\beta(\ell_t-\ell_{t-1})+(1-\beta)b_{t-1},\\
+s_t&=\gamma(y_t-\ell_t)+(1-\gamma)s_{t-m}.
+\end{align}
+The first cycle initializes level and offsets; the first two cycle means initialize trend. Four level coefficients, two trend coefficients and three seasonal coefficients form the fixed search. The residual objective begins after the first cycle, and a short or nonseasonal history falls back to Holt. A particular seasonal lag is supplied, not inferred by this expert. A wrong lag can therefore harm both the forecast and its residual-based interval.
+
+The finite-history Theta equation given earlier uses the selected SES level and a fitted linear slope~\cite{theta}. Its correction term matters on short prefixes; replacing it by an arbitrary half-drift continuation changes the method. The five experts retain Gaussian residual endpoints on the specified probability grid. Ordered endpoints follow the implemented construction, while calibration remains an empirical question. Degenerate residuals, finite parameter grids and positive affine unit changes deserve explicit checks. These local experts provide transparent baselines and combination components; they do not establish that a short observed series admits an identifiable trend, stable seasonality or a calibrated future distribution.
+
+For a fixed seasonal lag, evaluating a single SES or Holt coefficient tuple takes one pass through the prefix and a linear pass through the requested horizon. HoltWinters additionally retains one cycle of seasonal state. The finite coefficient grids multiply this cost by their recorded candidate counts; they are not continuous optimizers. Forecasting with an incorrect seasonal lag, a near-zero residual scale or an abrupt trend reversal can still fail despite an exact implementation. In particular, a zero residual history is not evidence that all future observations are known. The interval approximation and the point recurrence must therefore be evaluated separately, and a numerical parity fixture cannot establish distributional correctness.
+
+\subsection{Automatic ARIMA, exponential smoothing and Theta selection}
+\label{sec:method-automatic-statistical}
+The automatic statistical adapter calls StatsForecast's AutoARIMA, AutoETS and AutoTheta implementations~\cite{statsforecast}. These are separate methods from the local finite-grid experts. The package owns its candidate models, optimization and interval construction. Passing the same seasonal count does not make the local Theta equation an equivalent implementation of AutoTheta, nor does an automatic label establish that every plausible forecasting model was searched. The published forecasting literature supplies the model families and selection motivation; the installed package and experiment records define the executed configuration~\cite{autoarima,etsstate}.
+
+A seasonal ARIMA family can be expressed using a backshift operator $B$ as
+\begin{equation}\label{eq:report-arima}
+\phi(B)\Phi(B^m)(1-B)^d(1-B^m)^D y_t
+=c+\theta(B)\Theta(B^m)\epsilon_t.
+\end{equation}
+Here $d,D$ are differencing orders, lower- and upper-case polynomials describe ordinary and seasonal autoregressive or moving-average terms, and innovations $\epsilon_t$ have source units. Model identification, stationarity constraints, root locations and innovation assumptions matter to forecasts and intervals. Differencing removes specified low-frequency components; it is not proof that the transformed future process will remain stationary. An estimated linear stochastic model also does not inherit coverage guarantees when its innovation distribution or stability assumptions fail.
+
+The current AutoARIMA adapter requests stepwise search and approximate selection calculations. It caps the supplied history at the final 360 observations and uses a smaller historical backtest-window budget than the cheaper automatic methods. Those settings bound its cost; they can also alter its fitted result. A stepwise search is not exhaustive minimization over all order tuples. The common final-block experiment aligns reserved outcomes, but does not erase the context-cap difference or convert historical rolling aggregates with different origin counts into a common experimental budget.
+
+Exponential smoothing can be written as an innovations state-space family. An additive level-and-trend member illustrates its form:
+\begin{align}\label{eq:report-ets-state}
+y_t&=\ell_{t-1}+b_{t-1}+\epsilon_t,\\
+\ell_t&=\ell_{t-1}+b_{t-1}+\alpha\epsilon_t,\qquad
+b_t=b_{t-1}+\beta\epsilon_t.
+\end{align}
+AutoETS selects among the package's admissible error, trend and seasonal structures; the equations above do not assert that every case selected this particular additive member. Multiplicative structures have additional positivity and distributional implications. The package's available model family and numerical fit determine whether a candidate is admissible. Automated selection can be useful when manual specification across many series is impractical, while remaining sensitive to sample size, initialization, objective choice and a structural break near the forecast origin.
+
+For all three methods, the adapter fits a new model on each supplied prefix. It obtains the library's central point output from its mean field. For the canonical .1 and .9 columns it requests the corresponding central eighty-percent band. Calling the central output a median quantile would require assumptions beyond the field name; the report treats it as the package point forecast placed in the central column. The final cumulative maximum enforces column order. That repair is numerical postprocessing, not evidence that the columns equal the true conditional quantiles of an unknown data-generating process.
+
+The library may support efficient state updates in other applications, but the evaluated adapter's interface uses a new fit and predict call. Its timings therefore cannot establish the performance of a native online state-update service. Computational work includes candidate search and parameter optimization as well as the recurrence associated with the selected model. JIT initialization, cached code, hardware and process policy can affect recorded latency. The shared targets and independently rescored paths support the finite accuracy comparison; they do not supply resource-normalized superiority, exhaustive search optimality or a universal forecast ranking.
+
+Reproduction should record the supplied observations and the package version rather than attempting to infer an automatic configuration from its displayed score. A finite point path can survive an optimization warning; the warning is retained so the reader can distinguish a returned forecast from evidence of a well-converged fit. Conversely, a failed fit cannot become a successful experiment by copying another method's output. Short prefixes, multiplicative positivity restrictions and a seasonal period large relative to history are specific stress cases. The current selected-case result does not quantify how frequently these conditions occur in an operational population. Those frequencies and the cost of refitting at each arrival would have to be measured in a separate deployment study.
+
+\subsection{Recursive lag-tree regression and approximate intervals}
+\label{sec:method-lag-trees}
+The lag-tree adapter uses LightGBM through MLForecast to fit a point regressor to one observed series~\cite{lightgbm,mlforecast}. The transformation is explicit: earlier values become input columns and the current observed value becomes the training target. It does not use the final reserved outcomes during fitting. The adapter constructs integer observation indices rather than genuine calendar features, and declares no static regressors. Consequently, its label should not imply that holidays, promotions, weather or future exogenous variables were supplied merely because the surrounding application can discuss those factors.
+
+Let $\mathcal L$ be the selected lag set. The fitted one-step mapping and recursive multi-step use can be represented as
+\begin{equation}\label{eq:report-lag-map}
+\widehat y_t=F_\theta((y_{t-\ell})_{\ell\in\mathcal L}),\qquad
+\widehat y_{n+j}=F_\theta((\widetilde y_{n+j-\ell})_{\ell\in\mathcal L}),
+\end{equation}
+where $\widetilde y_t$ is an observed prefix value when $t\le n$ and a previously generated prediction otherwise. This definition makes the origin's information boundary clear. It also exposes error propagation: after the first lead, some inputs are model outputs, not newly observed truth. An unusually accurate one-step fit does not establish stability of that recursion over a longer horizon or under a regime not represented in the supplied prefix.
+
+The candidate lags begin with one, two and three. When the seasonal period is at least two, the candidates also include $m$, $m+1$ and $2m$. Duplicates are removed, and lags too close to the available prefix length are excluded using the implemented training-row allowance. The context cap is five hundred observations. Thus the number of retained lag columns and usable rows can differ across cases. A seasonal lag is a count of observations, while the lag values and regression target have the same source unit $U$. This adapter does not estimate a new seasonal frequency from the reserved targets.
+
+The configured regressor has one hundred trees, at most thirty-one leaves, a learning rate of .05, a minimum child sample count of five and one worker thread. A generic squared-error boosting description is
+\begin{equation}\label{eq:report-boosting}
+F_T(x)=F_0(x)+\eta\sum_{r=1}^{T}f_r(x),\qquad \eta=.05,\quad T=100.
+\end{equation}
+Each fitted tree approximates an improvement to the current loss under the package's split and regularization policy. The LightGBM paper describes efficient implementation techniques, but this application does not separately reproduce the paper's speed comparisons or assert that every optional optimization is enabled. Fixing a tree count is a computational budget, not proof that the fitted function reached a global minimum or that a more expensive fit would improve the held-out criterion.
+
+MLForecast is asked to retain fitted values. The adapter computes the population standard deviation of its in-sample one-step residuals, then applies the shared Gaussian horizon-widening rule around the recursive point path. Those residuals have already participated in fitting. Their dispersion can therefore be optimistic as an estimate of future uncertainty, and the recursive multi-step error distribution need not have the same shape. No native quantile-objective models are fitted by this adapter. The separate browser calibration experiment does not calibrate these tree intervals or alter their source identity.
+
+A prediction call traverses the fitted trees at each future lead; a useful descriptive bound is proportional to horizon, tree count and visited tree depth. Training additionally depends on available rows, bins, feature count and the split search. The result is not constant-time forecasting in the observed history. The complete comparison retains both point and interval scores so that an apparent point improvement cannot conceal poor uncertainty quality. A faithful future change could evaluate direct quantile objectives or a separately calibrated residual procedure, but it would require its own method identity and held-out evaluation rather than rewriting the outcomes of this configured regression model.
+
+The regressor's interval is consequently a separate approximation layered on a deterministic recursive mapping. Its training residuals are fitted residuals rather than errors from a held-out calibration sample, and their empirical scale may be optimistic. Heteroscedasticity, a changing level or accumulating recursive error can invalidate a common Gaussian shape even when its endpoints remain ordered. Increasing the number of trees would change the point model but would not by itself repair this uncertainty construction. A fair extension would compare a declared residual-calibration or quantile procedure on an untouched future block, retaining its information cutoff, resource budget and source units. That extension has not been substituted for the admitted tree result.
+
+\subsection{Quantile-head neural adaptations and reference implementations}
+\label{sec:method-neural}
+The neural roster distinguishes three direct PyTorch adaptations from three NeuralForecast implementations. The source papers motivate NLinear, DLinear and N-HiTS~\cite{zeng,challu}; the package supplies its maintained model classes~\cite{neuralforecast}. Matching a name does not prove matching architecture, optimization, preprocessing or training budget. The report therefore retains the direct and library paths as separate experiment identities. Neither a favorable direct adaptation nor an unfavorable short-budget library fit is a replication of every result in the original paper.
+
+The direct adapter standardizes its supplied observed prefix using the prefix mean $\mu$ and population standard deviation $s$. For $s>0$, the normalized sequence and inverse transform are
+\begin{equation}\label{eq:report-neural-scale}
+z_t=(y_t-\mu)/s,\qquad \widehat y=\mu+s\widehat z.
+\end{equation}
+Only prefix observations enter those quantities. The implementation uses a unit denominator when the standard deviation is exactly zero; that is a numerical fallback, not an empirically calibrated uncertainty model for constant series. It must not be confused with the browser linear consumer, which refuses a constant required lookback. Sliding training inputs and their future blocks are drawn entirely inside the supplied prefix. The final reserved outer block is not a training window.
+
+A direct NLinear head subtracts the last value of each input window, applies one affine map and adds that value back to every lead and quantile:
+\begin{equation}\label{eq:report-nlinear}
+\widehat Z=\operatorname{reshape}_{H\times |Q|}\{W(x-x_L\mathbf1)+b\}+x_L.
+\end{equation}
+The output dimension is horizon times probability count, rather than the original single point path. DLinear instead forms a moving-average trend and a remainder, applies one affine map to each and sums their outputs. Its moving-average kernel is at most twenty-five and is adjusted to an available odd length; replicated edge padding remains inside the input window. The branch called seasonal in the implementation is the remainder after this moving average. It is not an estimated physical seasonal component with guaranteed period $m$.
+
+The direct method labelled NHITS is a compact multi-rate MLP adaptation. It pools the input at rates four, two and one, sends each pooled vector through two hidden layers of width 128 with ReLU activations, and sums their horizon-by-quantile outputs. Its forward computation does not contain the full paper's hierarchical interpolation or an explicit residual-backcast chain. Accordingly, the description treats it as a separately documented adaptation, not a faithful reproduction of that architecture. This distinction also explains why the maintained library variant remains an independent comparator.
+
+All three direct adaptations minimize the implemented multi-quantile pinball objective,
+\begin{equation}\label{eq:report-neural-pinball}
+\mathcal L(\theta)=\frac{1}{B H |Q|}\sum_{i=1}^{B}\sum_{j=1}^{H}\sum_{q\in Q}
+\max\{q e_{ijq},(q-1)e_{ijq}\},\qquad e_{ijq}=z_{ij}-\widehat z_{ijq}.
+\end{equation}
+The supplied probabilities are .1, .5 and .9. The direct optimizer is Adam with learning rate .001 and a three-hundred-step budget. Each minibatch draws at most sixty-four training windows with replacement using a local seeded generator. Initial model weights are seeded separately through PyTorch. Those settings define the fit; they do not guarantee a global optimum, training convergence or bitwise equality across devices and library versions. The lookback prefers the larger of twice the horizon and three seasonal periods, capped to leave the required in-prefix training allowance. An insufficient lookback is an error rather than an invented fit.
+
+The reference adapter instantiates NeuralForecast's corresponding classes with its multi-quantile loss, the declared input length, seed and three-hundred-step budget. It uses artificial hourly timestamps to supply regular index spacing, not real calendar semantics. GPU selection depends on the recorded runtime; CPU fallback is a distinct execution environment. The adapter resolves the package's output-column naming conventions for each requested probability and fails if a column cannot be identified. It then applies the same nondecreasing column repair used by other adapters:
+\begin{equation}\label{eq:report-quantile-repair}
+\widetilde q_j^{(r)}=\max_{a\le r}\widehat q_j^{(a)}.
+\end{equation}
+This cumulative maximum can change a central or upper column when raw heads cross. It preserves order but is not an isotonic least-squares projection and does not prove probabilistic calibration. The separate browser ONNX map has a global generated-window least-squares training identity and an independently studied residual calibration; it is neither one of these per-prefix neural fits nor a replacement for their empirical interval results.
+
+Computational cost depends on the implementation as well as the architecture name. The direct affine models have parameter counts proportional to input length times horizon times the number of probability heads; the pooled MLP adaptation adds hidden-layer products at each pooling rate. Training multiplies per-minibatch work by the fixed three-hundred-step budget. The maintained library can use different internal batching and device policies. None of these finite budgets constitutes a convergence certificate. Reporting them makes a repeated experiment interpretable and avoids attributing a budget-specific failure to an entire model family.
+
+\subsection{Pretrained checkpoint adapters and their information limits}
+\label{sec:method-pretrained}
+The pretrained roster contains Chronos-Bolt, Chronos-2, TimesFM 2.5 and TiRex-2. The local adapters load existing checkpoints and request forecasts; they do not fine-tune those weights on each selected case. Primary model descriptions explain the originating model families, while repository APIs and exact checkpoint revisions identify the executed variants~\cite{chronospaper,chronos,timesfmpaper,timesfm,tirex}. A paper about an earlier family does not by itself establish the architecture, licence or numerical identity of a later checkpoint. The admitted runtime records therefore retain checkpoint provenance separately from the human-readable method name.
+
+At an outer origin, the adapter supplies a capped contiguous suffix of the observed prefix. A schematic description is
+\begin{equation}\label{eq:report-checkpoint-map}
+\widehat Q=\mathcal M_{\theta^*}(y_{n-C+1:n};H,Q),\qquad C\le n,
+\end{equation}
+where $\theta^*$ is a retained pretrained parameter set, $H$ is the requested horizon and $Q$ is the canonical probability grid. The prefix cap is part of the configuration. The expression is an interface definition, not an assertion that every checkpoint uses the same normalization, distribution head or internal computation. A common reserved block can align evaluation outcomes while the models consume different context lengths and possess very different external training histories.
+
+Transformer-family attention is commonly represented as
+\begin{equation}\label{eq:report-attention}
+\operatorname{Attention}(Q_a,K_a,V_a)=\operatorname{softmax}(Q_aK_a^\top/\sqrt d)V_a.
+\end{equation}
+Here the subscript distinguishes attention matrices from the forecast probability set, and $d$ is an internal feature dimension. This equation describes a model component, not every operation in the Chronos or TimesFM checkpoint. Original Chronos uses scaling, quantization and language-model training; later family APIs and output heads must be identified separately~\cite{chronospaper,chronos}. TimesFM's originating description uses a patched decoder, while the evaluated 2.5 release has its own package interface and continuous quantile head~\cite{timesfmpaper,timesfm}. The report does not transplant benchmark scores from those papers into the selected ChronoScope cases.
+
+TiRex-2 instead uses a recurrent xLSTM-based design~\cite{tirex}. Its originating paper reports streaming and multivariate capabilities, including covariate handling. Those capabilities must not be denied merely because the present adapter evaluates a univariate prefix interface. Conversely, loading that checkpoint for a full-prefix forecast does not mean this experiment exercised or timed its native incremental state update. The separate historical ACI/PID-style replay is also not a test of TiRex-2's streaming architecture. The mathematical distinction between a recurrent state and an external repeated-fit wrapper remains essential to interpreting the app's method names and timing plots.
+
+The Chronos adapter maps requested quantile outputs from the package's supported tensor forms into a horizon-by-probability matrix. The TimesFM adapter maps the evaluated deciles to the corresponding output columns; the canonical .1, .5 and .9 requests are exact deciles. General non-decile behavior is not established by this experiment. The TiRex adapter explicitly rejects unsupported probability levels. A common final cumulative maximum enforces nondecreasing columns where applicable. None of these shape or ordering operations establishes that reported marginal probabilities are calibrated on the selected sources.
+
+Checkpoint loading is cached within the relevant process so repeated windows can reuse a model. That cache changes loading cost, not the observations available at an origin. A timing comparison would need to distinguish cold loading, warm inference, process bridges, host memory and device transfers. The WSL/CUDA path for TiRex is an execution policy and cannot be treated as equivalent hardware to a native CPU call without measurement. The complete fresh comparison records package, checkpoint and source identities, but it is still a finite collection with one reserved block per selected series. Undocumented pretraining overlap, domain shift, training-corpus differences and configuration-specific context limits remain unresolved. The observed ranking therefore describes the admitted paths and targets; it does not certify universal zero-shot superiority or operational suitability.
+
+For authentic sources, a further concern is information that entered the checkpoint before this experiment began. Hashing the input prefix proves the local inference input and cannot prove that the source was absent from pretraining. Likewise, a permissive software licence does not determine the terms of every weight release. The report retains the admitted checkpoint identity and its evaluated interface instead of silently upgrading to a newer family member. Any replacement would require new licence and configuration review, fresh matched-target execution and new evidence bindings before its score could replace the current result.

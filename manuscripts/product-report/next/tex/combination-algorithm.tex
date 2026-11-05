@@ -1,0 +1,24 @@
+Algorithm~\ref{alg:report-temporal-selection} summarizes the same completed-target selection procedure used by the implemented combinations. The outer reserved targets never enter candidate fitting.
+
+\begin{algorithm}[htbp]
+\caption{Temporally completed candidate selection. Every expert forecast and
+validation target used to choose a combination is available before the current
+reserved target block begins.}
+\label{alg:report-temporal-selection}
+\begin{algorithmic}[1]
+\Require Observed prefix $y_{1:n}$, horizon $H$, fixed candidates $\mathcal C$
+\State Construct the fixed historical origin schedule and cache expert paths
+\For{each historical query origin $q$}
+\State Retain earlier origins $o$ satisfying $o+H\leq q$
+\State Use the query only when at least three completed origins are available
+\For{each candidate $c\in\mathcal C$}
+\State Fit its weights from the completed historical memories only
+\State Score its combined path on the query block using the query's prefix scale
+\EndFor
+\EndFor
+\State Select minimum mean validation loss; break ties by the fixed grid order
+\State With no eligible query, use the explicitly defined recency-only fallback
+\State Fit the selected rule's current weights from all completed prefix memories
+\State Return the weighted current expert path without observing $y_{n+1:n+H}$
+\end{algorithmic}
+\end{algorithm}

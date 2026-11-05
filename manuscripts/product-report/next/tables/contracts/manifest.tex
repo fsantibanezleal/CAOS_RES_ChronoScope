@@ -1,0 +1,25 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the manifest contract, catalog version 2.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-manifest}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.manifest/v1" & yes\\
+\texttt{case\_\allowbreak{}id} & string & metadata & No additional root-field range & yes\\
+\texttt{category} & string & metadata & No additional root-field range & yes\\
+\texttt{real\_\allowbreak{}or\_\allowbreak{}synthetic} & string & metadata & No additional root-field range & yes\\
+\texttt{expected\_\allowbreak{}band} & string & metadata & No additional root-field range & yes\\
+\texttt{engine} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{provenance} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{analysis\_\allowbreak{}artifact} & declared union & metadata & No additional root-field range & yes\\
+\texttt{streaming\_\allowbreak{}artifact} & declared union & metadata & No additional root-field range & yes\\
+\texttt{series} & object reference & mixed; see text & No additional root-field range & yes\\
+\texttt{seed} & integer & metadata & minimum=0 & yes\\
+\texttt{artifact} & object reference & metadata & No additional root-field range & yes\\
+\texttt{lane} & fixed value & metadata & enum=["live","pr\allowbreak{}ecompute"] & yes\\
+\texttt{gate} & object reference & metadata & No additional root-field range & yes\\
+\texttt{flags} & array & metadata & Nested content follows the normative schema & yes\\
+\texttt{best\_\allowbreak{}method} & string/null & metadata & No additional root-field range & yes\\
+\texttt{metrics} & object & mixed; see text & Nested content follows the normative schema & yes\\
+\bottomrule
+\end{longtable}
+\endgroup

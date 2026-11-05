@@ -1,0 +1,14 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the nlinear-model contract, catalog version 2.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-nlinear-model}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{name} & fixed value & metadata & const="NLinear" & yes\\
+\texttt{lookback} & integer & observations & minimum=1 & yes\\
+\texttt{horizon} & integer & observations & minimum=1 & yes\\
+\texttt{normalization} & fixed value & metadata & const="subtract\_\allowbreak{}last\_\allowbreak{}then\_\allowbreak{}divide\_\allowbreak{}std" & yes\\
+\texttt{sigma\_\allowbreak{}norm} & number & dimensionless & minimum=0 & yes\\
+\texttt{trained\_\allowbreak{}windows} & integer & counts & minimum=1 & yes\\
+\bottomrule
+\end{longtable}
+\endgroup
