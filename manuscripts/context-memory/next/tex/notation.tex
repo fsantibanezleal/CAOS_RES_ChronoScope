@@ -1,0 +1,41 @@
+Table~\ref{tab:notation} collects the mathematical symbols and their units. The generic unit $U$ means the admitted series' measurement unit; the paper does not infer a physical SI unit when source provenance does not specify one. Observation counts and positions describe the supplied sequence's sampling grid.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{.18\textwidth}>{\raggedright\arraybackslash}p{.57\textwidth}>{\raggedright\arraybackslash}p{.16\textwidth}}
+\caption{Notation for observed data, context features, causal selection, convex fitting and paired-series evaluation, with measurement units distinguished from dimensionless quantities.}\label{tab:notation}\\
+\toprule Symbol & Meaning & Unit\\\midrule\endfirsthead
+\toprule Symbol & Meaning & Unit\\\midrule\endhead
+$y_t$ & Observation at sequence position $t$. & $U$\\
+$n,H,m$ & Prefix length, horizon length and seasonal lag. & observations\\
+$a_j,p_{okj}$ & Reserved target and expert point forecast at a stated lead. & $U$\\
+$\mathcal O_n,o_{\min}$ & Outer-prefix memory grid and its first permitted origin. & index set; index\\
+$o,v,q$ & Historical origin, inner validation origin and generic information cutoff. & index\\
+$J,K$ & Number of remembered origins and number of experts; $K=5$. & counts\\
+$R,P,w$ & Recent window, preceding window and their shared length. & $U$; observations\\
+$d$ & Half-window length used by the context mean contrast. & observations\\
+$s,\widehat\sigma$ & Context-window standard deviation and expert residual standard deviation. & $U$\\
+$f_a$ & Context feature coordinate, including normalized contrasts and cycle correlation. & dimensionless\\
+$s_o,s_m$ & In-prefix training normalization and final seasonal error scale. & $U$\\
+$L_{ok}$ & Mean absolute expert error at a remembered origin after normalization. & dimensionless\\
+$r_j,a_j^{\rm loc}$ & Recency weight and context-and-recency kernel weight. & dimensionless\\
+$D_j,b_D$ & Context distance and kernel bandwidth. & dimensionless\\
+$c_k,g_k,\ell_k$ & Competence estimate, recency loss and local-context loss. & dimensionless\\
+$\rho,\tau,\varepsilon$ & Shrinkage, softmax temperature and uniform-floor fraction. & dimensionless\\
+$v_k,w_k,\widetilde w_k$ & Unfloored allocation, fitted simplex allocation and post-fit floored allocation. & dimensionless\\
+$\mathcal F_q$ & Information supplied by observations through $q$. & information set\\
+$\mathcal T_v,\mathcal V_n$ & Completed training-origin set and eligible validation-query set. & index sets\\
+$S_n(c)$ & Mean scaled absolute validation error for candidate $c$. & dimensionless\\
+$E_{vhk},A$ & Normalized signed expert error and its row-stacked matrix. & dimensionless\\
+$N_e$ & Number of error rows in a stacking fit, equal to $JH$. & rows\\
+$G,\lambda$ & Error Gram matrix and positive quadratic regularization coefficient. & dimensionless\\
+$u,\Delta_K$ & Uniform allocation and the nonnegative unit-sum simplex. & dimensionless\\
+$B,M_B$ & Active expert set and its regularized Gram matrix. & set; dimensionless\\
+$x,z$ & Solutions of the two linear systems used on an active face. & dimensionless\\
+$F(w)$ & Regularized squared-error fitting objective. & dimensionless\\
+$\ell_n,a,b$ & SES terminal level, SES coefficient and Theta linear slope. & $U$; 1; $U$/observation\\
+$\Phi^{-1}(q)$ & Standard-normal quantile at probability $q$. & dimensionless\\
+$i,N$ & External-series identity and number of admitted series in one collection. & index; count\\
+$\overline L_{i,A}$ & Within-series mean loss for method $A$ over its admitted outer origins. & dimensionless\\
+$d_i(A,B)$ & Paired series loss difference for methods $A$ and $B$. & dimensionless\\
+$\widehat\Delta,\widehat\Delta^*$ & Collection mean difference and its paired-series resampled counterpart. & dimensionless\\
+\bottomrule
+\end{longtable}

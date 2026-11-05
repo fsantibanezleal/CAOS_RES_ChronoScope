@@ -31,7 +31,7 @@ v_k=\frac{\exp\{\operatorname{clip}[-(c_k-\min_jc_j)/\tau,-700,0]\}}
 Subtracting the minimum does not change exact softmax ratios and ensures that at least one unnormalized term is one. Clipping bounds numerical underflow in the remaining terms. Temperature changes concentration; shrinkage changes which loss estimate is concentrated. At $\rho=1$, the context distance has no effect. Thus selecting a configuration whose name belongs to the contextual family is not evidence that its kernel contributed to prediction quality.
 
 \subsection{Regularized stacking on a simplex}
-For stacking, arrange all completed training errors into a matrix $A$ with $N=JH$ rows and $K=5$ columns. Let $u=\mathbf1/K$ and $G=A^\top A/N$. The unfloored objective can be written
+For stacking, arrange all completed training errors into a matrix $A$ with $N_e=JH$ rows and $K=5$ columns. Let $u=\mathbf1/K$ and $G=A^\top A/N_e$. The unfloored objective can be written
 \begin{equation}\label{eq:quadratic-stacking}
 F(w)=w^\top G w+\lambda(w-u)^\top(w-u),\qquad
 w\in\Delta_K=\{w\ge0:\mathbf1^\top w=1\}.
@@ -44,9 +44,9 @@ Because $G$ is positive semidefinite and $\lambda>0$, the Hessian is
 \end{equation}
 The objective is strictly convex, and the nonempty compact simplex supplies a unique exact minimizer. This follows from standard convex optimization~\cite{boyd}; it is not a new statistical generalization theorem. Strict convexity does not imply good future forecasts, well-estimated covariances or correct interval coverage. It gives a well-defined fitting problem whose numerical answer can be checked independently of those empirical questions.
 
-Five columns make exhaustive face enumeration practical. For a nonempty active set $B$, define $M_B=G_{BB}+\lambda I$, $x=M_B^{-1}\lambda u_B$ and $d=M_B^{-1}\mathbf1$. The equality-constrained stationary point on that face is
+Five columns make exhaustive face enumeration practical. For a nonempty active set $B$, define $M_B=G_{BB}+\lambda I$, $x=M_B^{-1}\lambda u_B$ and $z=M_B^{-1}\mathbf1$. The equality-constrained stationary point on that face is
 \begin{equation}\label{eq:face-solution}
-w_B=x+\frac{1-\mathbf1^\top x}{\mathbf1^\top d}d,\qquad w_{B^c}=0.
+w_B=x+\frac{1-\mathbf1^\top x}{\mathbf1^\top z}z,\qquad w_{B^c}=0.
 \end{equation}
 Positive definiteness makes the denominator positive in exact arithmetic. The implementation solves the two right-hand sides together, rather than explicitly forming an inverse. A face with a coefficient below $-10^{-10}$ or a nonfinite answer is rejected. Accepted coefficients are clipped only within the stated numerical feasibility tolerance and normalized before evaluating the original objective. All 31 nonempty faces are considered, including single-expert vertices, and a feasible equal allocation initializes the objective comparison.
 

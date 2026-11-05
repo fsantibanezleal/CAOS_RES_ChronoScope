@@ -5,15 +5,15 @@
   "full_content_bar": "pending",
   "published_predecessor_preserved": true,
   "measured_content": {
-    "words": 7917,
+    "words": 8009,
     "equations": 19,
     "figures": 6,
-    "tables": 4,
+    "tables": 5,
     "references": 28,
     "algorithms": 1,
     "sections": 11
   },
-  "compiled_pages": 23,
+  "compiled_pages": 24,
   "current_revision_note": "The draft passes numeric, section, caption, source-claim region and title-support checks under its explicit working title. Published declarations are preserved; publication and independent reader review remain pending.",
   "draft_content_check": {
     "status": "passed",
@@ -21,5 +21,5 @@
     "declaration_scope": "working revision title only; no published declaration replaced",
     "findings": []
   },
-  "visual_review": "23 rendered pages inspected; method derivation and bibliography inspected at full page size; independent reader pending"
+  "visual_review": "Prior 23-page layout inspected; final notation and abstract expansion rendered separately; independent reader pending"
 }
