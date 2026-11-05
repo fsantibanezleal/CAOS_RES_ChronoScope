@@ -31,7 +31,9 @@ describe('combination consumer contract', () => {
         if (method.metrics.mase == null || !Number.isFinite(computed) || Math.abs(computed - method.metrics.mase) > 0.00001) throw new Error(`Displayed score mismatch: ${entry.path}, ${method.name}`);
       }
     }
-  });
+  // This integration check reads all 1,802 documents and scores over 53,000
+  // forecasts. Keep every assertion; Windows file scanning can exceed 5 seconds.
+  }, 120_000);
   it('adversarial: rejects traversal paths before making a request', async () => {
     const fetch = vi.fn(); vi.stubGlobal('fetch', fetch);
     await expect(loadCombinationCase('combinations/../../private.json')).rejects.toThrow('Invalid combination');

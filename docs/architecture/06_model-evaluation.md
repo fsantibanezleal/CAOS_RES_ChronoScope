@@ -21,5 +21,9 @@ shown next to each forecast, so the displayed forecast is genuinely out-of-sampl
 
 This is where the honesty lives: the near-random-walk and white-noise control cases exist precisely so that a
 suspiciously large skill gap would flag a leak. The `train` stage learns the global method ranking on the
-synthetic training cases only; each case still reports its own held-out metrics. Later slices add the streaming
-(constant-cost, stateful) evaluation lane that preqts is built for.
+synthetic training cases only; each case still reports its own held-out metrics. The separate adaptive-interval
+study replays each available prefix before predicting the next observation. Its
+Theta wrappers are replay adapters: the measured study does not compare native
+stateful updates or establish constant-cost execution. The published replay
+paper reconstructs the controller trajectories and distinguishes absolute error
+of time-averaged coverage from time-averaged absolute rolling coverage error.

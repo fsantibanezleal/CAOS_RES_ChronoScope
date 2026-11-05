@@ -16,7 +16,7 @@ from planting import add_control_contract, add_schema, make_tree
 ROOT = Path(__file__).resolve().parents[2]
 SKIP = shutil.ignore_patterns("node_modules", "dist", "gate-output", "__pycache__", ".venv*", ".git", ".pytest_cache",
                               ".ruff_cache", "*.pyc", "build")
-COPIED = ("scripts", "docs", "data", "data-pipeline", "models", "frontend", "tests", ".github", "deploy", "app", "notebooks")
+COPIED = ("scripts", "docs", "data", "data-pipeline", "models", "frontend", "tests", ".github", "deploy", "app", "notebooks", "manuscripts")
 FILES = ("VERSION", "product.json", "CHANGELOG.md", "requirements-precompute.txt", "requirements-dev.txt",
          "requirements-gpu.txt", "requirements-api.txt", ".template-source", "pyproject.toml")
 

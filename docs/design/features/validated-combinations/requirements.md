@@ -13,6 +13,11 @@ That outcome is retained; new configurations receive their own identities and ev
 | VC-3 | Every outer forecast SHALL retain its method, expert paths, weights, selected configuration, validation origins and scores. No outer target may select a candidate or change its settings. | `scripts/check_combination_study.py` |
 | VC-4 | The evaluation SHALL account for every M4 Weekly and M3 Monthly source identity, explicitly retaining exclusions, duplicates and all model failures. | `scripts/check_combination_study.py`, `tests/test_combination_contract.py` |
 | VC-5 | The app, notebooks, report and method manuscript SHALL expose the new methods and measured results without rewriting earlier negative results or assigning novelty by implementation alone. | `scripts/run_notebooks.py`, `scripts/check_manuscripts.py`, `frontend/scripts/gate.mjs` |
+| VC-6 | Exploratory uncertainty summaries SHALL resample paired series after averaging their origins, keep collections separate, retain every admitted identity, use a local seeded generator and identify the analysis as post hoc with unadjusted intervals. No model may be refitted or selected by this analysis. | `tests/test_combination_uncertainty.py`, `scripts/summarize_combination_uncertainty.py` |
+
+VC-6 is an exploratory analysis added on 5 November after the original outcomes.
+It is not part of the pre-outcome design below and does not retroactively alter
+its hypotheses, candidates, exclusions or acceptance criteria.
 
 ## Fixed protocol before new external outcomes
 

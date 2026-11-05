@@ -3,6 +3,17 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## Unreleased
+
+- Adopt template 0.14.005 bootstrap safety: external namespaced environments,
+  immutable admission receipts, late-mutation rollback and legacy entrypoint forwarding.
+- Admit the complete external combination study, all 1,802 series documents and
+  full audit archive during local promotion; refuse missing, changed or extra payloads.
+- Add paired series-level resampling for the frozen external comparison, with
+  explicit exploratory interpretation, full provenance and deterministic tests.
+- Correct the remaining architecture prose that implied native stateful or
+  constant-cost execution in the adaptive-interval replay study.
+
 ## [0.25.000] - 2026-11-02
 
 - Add ContextMemoryCV and ValidationMix with causal historical validation and regularized convex stacking; compare complete M4 Weekly and M3 Monthly inventories.
