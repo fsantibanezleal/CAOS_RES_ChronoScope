@@ -1,0 +1,72 @@
+
+This section gives a complete mathematical interpretation of the implemented selection procedure. The proposal is the finite configuration tested in this paper, not a new general principle of stacking. Its input is one contiguous observed prefix, a positive seasonal lag and a positive forecast horizon. Its output includes three quantile columns, an expert allocation, the selected configuration, historical origins and validation records. There is no argument through which the caller can supply the outer reserved targets. Rejecting invalid or nonfinite input is part of the computation, rather than a reason to omit a difficult case after seeing its score.
+
+\subsection{Three distinct information boundaries}
+Write $\mathcal F_q=\sigma(y_1,\ldots,y_q)$ for the information supplied by the series through query $q$. The memory grid $\mathcal O_n$ is fixed from the length of the outer prefix and the declared lag and horizon. A validation query $v\in\mathcal O_n$ may use only the completed subset
+\begin{equation}\label{eq:completed-set}
+\mathcal T_v=\{o\in\mathcal O_n:o+H\le v\}.
+\end{equation}
+The rule requires at least three members before scoring that query. The validation origin's own context is computed from its prefix; its expert forecasts are computed from that same prefix. Historical loss rows and normalized signed errors used to fit its candidate weights come only from $\mathcal T_v$. The candidate's validation outcome is then formed from the block after $v$. That block is a target at this inner stage, although it is already observed at the final outer origin $n$.
+
+Consequently, the whole inner validation calculation is available when the outer fit is issued. Provided the expert implementations are deterministic functions of their supplied prefixes and fixed configuration, the final weights are $\mathcal F_n$-measurable. This is an information-order statement. It does not assert that historical targets are statistically independent of their prefixes or of each other. Nor does it assert that a chronological split makes a changing process stationary. It simply specifies which observations can participate in each role and rules out use of the outer reserved block in fitting or selection.
+
+There is a subtle limitation to the grid that must remain explicit. The origin grid is constructed from the supplied outer-prefix length. We then filter that grid at each historical query; we do not claim to recreate a historical service that would have selected its own independent grid knowing only its then-current length. The selected errors are chronologically available, but their sampling schedule is an offline evaluation design. A deployment requiring exact historical service reconstruction should issue and retain each prediction prospectively instead of interpreting this capped grid as such a log.
+
+\subsection{Candidate scores and deterministic selection}
+Let $\mathcal V_n$ be the validation queries with at least three completed training blocks. For a candidate $c$, let $w^{(c,v)}$ be its allocation fitted using those blocks, and let $E_{vhk}$ be expert $k$'s signed error at query $v$, lead $h$, divided by the query-prefix training scale. The recorded criterion is
+\begin{equation}\label{eq:nested-score}
+S_n(c)=\frac{1}{|\mathcal V_n|}\sum_{v\in\mathcal V_n}
+\frac{1}{H}\sum_{h=1}^{H}\left|\sum_{k=1}^{K}E_{vhk}w^{(c,v)}_k\right|.
+\end{equation}
+Every candidate is scored on the same eligible queries. The selected configuration is the first configured minimizer of this criterion. Selection is then followed by a new weight fit using every completed memory block in the outer prefix. Historical validation estimates the performance of the allocation rule; its particular inner coefficient vector is not copied as if it were necessarily the correct final vector.
+
+If no validation query qualifies, there is no historical selection estimate to minimize. The implementation records unavailable candidate means and explicitly selects the original recency-only candidate. That fallback can still allocate weights from any completed outer memory that exists. If the memory itself is empty, the allocation is uniform. Distinguishing these two cases matters: absence of an eligible validation split is not identical to absence of historical expert losses. Neither case justifies inventing a favorable validation score or replacing the fallback with the best outer-test method.
+
+For a contextual candidate, let $g_k$ and $\ell_k$ be recency-weighted and context-and-recency-weighted normalized losses. Its shrinkage $\rho$ and temperature $\tau$ determine
+\begin{equation}\label{eq:candidate-competence}
+c_k=(1-\rho)\ell_k+\rho g_k,\qquad
+v_k=\frac{\exp\{\operatorname{clip}[-(c_k-\min_jc_j)/\tau,-700,0]\}}
+{\sum_l\exp\{\operatorname{clip}[-(c_l-\min_jc_j)/\tau,-700,0]\}}.
+\end{equation}
+Subtracting the minimum does not change exact softmax ratios and ensures that at least one unnormalized term is one. Clipping bounds numerical underflow in the remaining terms. Temperature changes concentration; shrinkage changes which loss estimate is concentrated. At $\rho=1$, the context distance has no effect. Thus selecting a configuration whose name belongs to the contextual family is not evidence that its kernel contributed to prediction quality.
+
+\subsection{Regularized stacking on a simplex}
+For stacking, arrange all completed training errors into a matrix $A$ with $N=JH$ rows and $K=5$ columns. Let $u=\mathbf1/K$ and $G=A^\top A/N$. The unfloored objective can be written
+\begin{equation}\label{eq:quadratic-stacking}
+F(w)=w^\top G w+\lambda(w-u)^\top(w-u),\qquad
+w\in\Delta_K=\{w\ge0:\mathbf1^\top w=1\}.
+\end{equation}
+The Gram term preserves correlations and relative signs of expert errors. A candidate can therefore benefit from cancellation even when no single expert has uniformly small absolute loss. The penalty trades that fitted cancellation against proximity to equal allocation. Its fixed positive grid is part of the evaluated algorithm. Changing the penalty grid, expert set, memory schedule or error normalization produces another configuration, even if the public method label were left unchanged.
+
+Because $G$ is positive semidefinite and $\lambda>0$, the Hessian is
+\begin{equation}\label{eq:positive-hessian}
+\nabla^2F=2(G+\lambda I)\succeq2\lambda I.
+\end{equation}
+The objective is strictly convex, and the nonempty compact simplex supplies a unique exact minimizer. This follows from standard convex optimization~\cite{boyd}; it is not a new statistical generalization theorem. Strict convexity does not imply good future forecasts, well-estimated covariances or correct interval coverage. It gives a well-defined fitting problem whose numerical answer can be checked independently of those empirical questions.
+
+Five columns make exhaustive face enumeration practical. For a nonempty active set $B$, define $M_B=G_{BB}+\lambda I$, $x=M_B^{-1}\lambda u_B$ and $d=M_B^{-1}\mathbf1$. The equality-constrained stationary point on that face is
+\begin{equation}\label{eq:face-solution}
+w_B=x+\frac{1-\mathbf1^\top x}{\mathbf1^\top d}d,\qquad w_{B^c}=0.
+\end{equation}
+Positive definiteness makes the denominator positive in exact arithmetic. The implementation solves the two right-hand sides together, rather than explicitly forming an inverse. A face with a coefficient below $-10^{-10}$ or a nonfinite answer is rejected. Accepted coefficients are clipped only within the stated numerical feasibility tolerance and normalized before evaluating the original objective. All 31 nonempty faces are considered, including single-expert vertices, and a feasible equal allocation initializes the objective comparison.
+
+Any simplex minimizer has a nonempty support. Its restriction to the relative interior of that support satisfies the corresponding equality-constrained first-order condition, while a boundary optimum appears on a smaller enumerated face. Therefore evaluating all feasible face solutions recovers the exact constrained optimum under exact arithmetic. In floating-point execution, tolerances and linear-system failures remain numerical concerns. Retaining feasibility, objective and independent reference checks is more informative than treating the absence of an iterative optimizer as an automatic certificate of numerical correctness.
+
+The common uniform floor is applied after fitting:
+\begin{equation}\label{eq:postfit-floor}
+\widetilde w=.95w+.05u.
+\end{equation}
+The final allocation lies inside the simplex and each expert receives at least .01. It generally does not minimize $F$; the objective was solved for $w$, not for its floored transform. Likewise, the candidate is selected by scaled absolute validation error, not by $F$. These are two separate layers: a squared-error regularized fitting rule within a candidate and an absolute-error historical selection rule across candidates. Reporting both prevents the word optimal from obscuring which optimization was actually performed.
+
+\subsection{What convex allocation guarantees}
+At a fixed observation, convexity of absolute value yields
+\begin{equation}\label{eq:jensen-error}
+\left|y-\sum_kw_kp_k\right|\le\sum_kw_k|y-p_k|.
+\end{equation}
+The right side is a weighted average of component losses. It is not their minimum, and the inequality does not establish that the combination beats the best expert. The error may still be larger than that of an individual method or an equal average. Averaging over a horizon preserves the inequality for fixed weights, but does not turn historical weight estimation into an oracle for future errors. This limited consequence is useful for interpreting the algorithm without promising an empirical ranking.
+
+For the same reason, positive expert weights preserve the order of already ordered quantile columns, but do not make their weighted columns a calibrated predictive distribution. Our experts' Gaussian residual approximations can be too wide, asymmetric relative to actual errors, or poorly adapted to horizon-specific uncertainty. A weight rule selected for absolute point error has no direct objective encouraging nominal marginal coverage. The observed high coverage and poor MSIS of several combinations are therefore substantive evidence about this construction, rather than a contradiction of convexity.
+
+Finally, normalized features and errors explain why the allocation aims to be stable under a positive affine unit conversion. Away from degeneracy thresholds, translating the series cancels from mean contrasts and errors, while multiplication by a positive scale cancels from the corresponding standard deviations and seasonal error denominators. The expert equations must also transform consistently. The implemented absolute tolerances and finite precision require explicit exceptions near zero scales; we do not infer universal unit invariance from symbolic cancellation alone. Final evaluation retains unavailable MASE for a zero denominator instead of silently using the training fallback.
+
+The mathematical properties above support deterministic, inspectable fitting. They do not supply the missing independent comparator experiments, prospective confirmation on a deployment population, or an isolated attribution of gains to context. Those remain empirical questions. Complete validation records and retained adverse comparisons make the next experiment more precise: one can change a single allocation ingredient, preserve its information contract, and evaluate whether the previously observed point gains survive without reusing the new target block for selection.

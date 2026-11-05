@@ -5,13 +5,21 @@
   "full_content_bar": "pending",
   "published_predecessor_preserved": true,
   "measured_content": {
-    "words": 4431,
-    "equations": 12,
+    "words": 7917,
+    "equations": 19,
     "figures": 6,
     "tables": 4,
-    "references": 6,
+    "references": 28,
     "algorithms": 1,
-    "sections": 12
+    "sections": 11
   },
-  "compiled_pages": 15
+  "compiled_pages": 23,
+  "current_revision_note": "The draft passes numeric, section, caption, source-claim region and title-support checks under its explicit working title. Published declarations are preserved; publication and independent reader review remain pending.",
+  "draft_content_check": {
+    "status": "passed",
+    "checker": "CAOS_MANAGE tools/zenodo/check_manuscript_depth.py",
+    "declaration_scope": "working revision title only; no published declaration replaced",
+    "findings": []
+  },
+  "visual_review": "23 rendered pages inspected; method derivation and bibliography inspected at full page size; independent reader pending"
 }
