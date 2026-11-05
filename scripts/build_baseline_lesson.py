@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 from preqts import SeasonalNaive, Stream, run_prequential
 from preqts.metrics import seasonal_naive_mae
 root = next(p for p in (Path.cwd(), *Path.cwd().parents) if (p / "VERSION").is_file())
-plt.rcParams.update({"figure.figsize": (9, 3), "figure.dpi": 95, "font.size": 10})
+plt.rcParams.update({"figure.figsize": (9, 3.5), "figure.dpi": 95, "font.size": 10})
 for package in ("numpy", "matplotlib", "preqts"):
     print(package, importlib.metadata.version(package))
 ''',
@@ -50,10 +50,11 @@ print("first / last:", times[0].isoformat(), times[-1].isoformat())
 fig, ax = plt.subplots()
 ax.plot(times, y, color="0.3")
 ax.axvline(times[cut], color="tab:red", linestyle="--", label=words["cut"])
-ax.set(xlabel=words["time"], ylabel=words["value"])
+ax.set(xlabel=words["time"], ylabel=words["value"], title=words["title_raw"])
 ax.legend()
 fig.autofmt_xdate()
 fig.tight_layout()
+fig.subplots_adjust(left=.13)
 plt.show()
 ''',
     "fit": '''# Start from the prefix, then request all three quantile columns together.
@@ -79,10 +80,11 @@ ax.plot(times[cut-72:cut], history[-72:], label=words["history"])
 ax.plot(times[cut:], actual, color="black", label=words["actual"])
 ax.plot(times[cut:], q[:, 1], label=words["forecast"])
 ax.fill_between(times[cut:], q[:, 0], q[:, 2], alpha=.2, label=words["interval"])
-ax.set(xlabel=words["time"], ylabel=words["value"])
+ax.set(xlabel=words["time"], ylabel=words["value"], title=words["title_block"])
 ax.legend(ncol=2, fontsize=8)
 fig.autofmt_xdate()
 fig.tight_layout()
+fig.subplots_adjust(left=.13)
 plt.show()
 ''',
     "sensitivity": '''# Change only the model period, keeping the stream and metric period fixed.
@@ -95,7 +97,7 @@ for p, r in zip(periods, results, strict=True):
           f"{np.mean(r.mase):.6f}", f"{np.mean(r.coverage):.6f}")
 fig, ax = plt.subplots()
 ax.bar([str(p) for p in periods], [np.mean(r.mase) for r in results])
-ax.set(xlabel=words["period"], ylabel="MASE")
+ax.set(xlabel=words["period"], ylabel="MASE", title=words["title_period"])
 fig.tight_layout()
 plt.show()
 ''',
@@ -116,7 +118,7 @@ fig, ax = plt.subplots()
 ax.plot(np.arange(1, horizon+1), original_errors, label=words["original"])
 ax.plot(np.arange(1, horizon+1), changed_errors, label=words["shift"])
 ax.axvline(m, color="0.5", linestyle="--")
-ax.set(xlabel=words["arrival"], ylabel=words["absolute"])
+ax.set(xlabel=words["arrival"], ylabel=words["absolute"], title=words["title_shift"])
 ax.legend()
 fig.tight_layout()
 plt.show()
@@ -128,14 +130,22 @@ print("post-cycle error-path difference:",
 ''',
 }
 WORDS = {
-    "en": {"cut": "Forecast origin", "time": "Recorded local time", "value": "Hourly sum (source readings in kW)",
+    "en": {"cut": "Forecast origin", "time": "Recorded local time", "value": "Sum of kW readings",
            "history": "Available history", "actual": "Later observations", "forecast": "Repeated daily cycle",
            "interval": "Empirical 10–90% band", "period": "Model period (hours)", "original": "Original excerpt",
-           "shift": "Synthetic level shift", "arrival": "Arrivals after intervention", "absolute": "Absolute one-step error"},
-    "es": {"cut": "Origen del pronóstico", "time": "Hora local registrada", "value": "Suma horaria (lecturas originales en kW)",
+           "shift": "Synthetic level shift", "arrival": "Arrivals after intervention", "absolute": "Absolute error\n(sum of source kW readings)",
+           "title_raw": "Electricity excerpt and reserved final block",
+           "title_block": "A daily copy over the next 48 hours",
+           "title_period": "One-step error with a fixed historical scale",
+           "title_shift": "Adaptation after a synthetic level change"},
+    "es": {"cut": "Origen del pronóstico", "time": "Hora local registrada", "value": "Suma de lecturas en kW",
            "history": "Historia disponible", "actual": "Observaciones posteriores", "forecast": "Ciclo diario repetido",
            "interval": "Banda empírica de 10–90%", "period": "Período del modelo (horas)", "original": "Extracto original",
-           "shift": "Cambio de nivel sintético", "arrival": "Llegadas desde la intervención", "absolute": "Error absoluto a un paso"},
+           "shift": "Cambio de nivel sintético", "arrival": "Llegadas desde la intervención", "absolute": "Error absoluto\n(suma de lecturas en kW)",
+           "title_raw": "Extracto eléctrico y bloque final reservado",
+           "title_block": "Una copia diaria para las próximas 48 horas",
+           "title_period": "Error a un paso con escala histórica fija",
+           "title_shift": "Adaptación tras un cambio de nivel sintético"},
 }
 
 

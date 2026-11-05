@@ -55,10 +55,11 @@
   },
   "sha256": {
     "data/examples/electricity_sample.csv": "856a9c2030517c29931787f26753a1f54894f5daa9c4bbb9db2108a501e2d863",
-    "scripts/build_baseline_lesson.py": "f8efd53090b4b603d14506e0527e607db7ca75b053ac74d3e2dd486ac500c5c3",
+    "scripts/build_baseline_lesson.py": "0e6be9a5b369e48398e81902f83c78f58ea938eac9092349c08c523697f86b90",
     "docs/lessons/en/01-baseline.md": "a19abe538e28cb75dc2914277eccf70d7c8a646163e4705f34d5c2b91210c6c8",
     "docs/lessons/es/01-baseline.md": "8d2775aa00b2e9fc17f152865b70f27fea1e2dedf9a2f3009b61f146712d5bd6",
-    "notebooks/en/01-forecast-decisions/01-baseline.ipynb": "97e2521048750cf5617282a202a460ed94c0b84fe167e12bbd75fd704321a37b",
-    "notebooks/es/01-forecast-decisions/01-baseline.ipynb": "920c9fcdb33ba5a636ad5c7cb8988953780e359611045f92fb4b2164c452648f"
-  }
+    "notebooks/en/01-forecast-decisions/01-baseline.ipynb": "8426b99c505863ec9cf5e1abb30858d80e7aca26035afa887d7465504b5b5ccd",
+    "notebooks/es/01-forecast-decisions/01-baseline.ipynb": "720f2a2fc1e08d6d6f82a544853d99a0522b3005548509487f2c8406744e7e23"
+  },
+  "independent_reader_review": "initial scientific and bilingual checks passed; figure-title/unit/label corrections implemented, follow-up pending"
 }
