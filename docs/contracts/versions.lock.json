@@ -30,9 +30,9 @@
     "sha256": "b192c822b6ff88b61fdf735a5800efb411c08f161623dd93064f0afa9e899b3b"
   },
   "browser-ridge-study": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "schema": "docs/contracts/schemas/browser-ridge-study.schema.json",
-    "sha256": "39de51643a3f52b995bec43cc964912f599579c94d1498eaa9eff80583bd008a"
+    "sha256": "70d369d4d0d1d67c015fe67672e163bf0fca9609dec952087c3074967ecf2175"
   },
   "reevaluation": {
     "version": "2.1.0",

@@ -65,6 +65,9 @@
           }
         }
       }
+    },
+    "normalization": {
+      "const": "subtract_last_then_divide_population_std"
     }
   }
 }
