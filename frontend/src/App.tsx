@@ -72,7 +72,7 @@ function AtlasSurfaceBody() {
       lede={lang === 'es'
         ? 'Inspecciona una serie, compara pronósticos y sigue sus errores y sus intervalos.'
         : 'Inspect a series, compare forecasts, and follow their error and interval behavior.'}
-      actions={<Link className="cs-story-entry" to={`/story/system?${storyParams}`}>{lang === 'es' ? 'Recorrido de evidencia' : 'Guided evidence walkthrough'}</Link>}
+      actions={<Link to={`/story/system?${storyParams}`}>{lang === 'es' ? 'Recorrido de evidencia' : 'Guided evidence walkthrough'}</Link>}
       tabs={[
         {
           id: 'explore',
