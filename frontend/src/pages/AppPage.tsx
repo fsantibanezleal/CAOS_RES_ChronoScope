@@ -14,6 +14,7 @@ import { methodColor } from '../lib/methodColors';
 import { forecastAllLive } from '../lib/liveEngine';
 import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
 import { useNLinearForecast } from '../lib/useNLinearForecast';
+import { BROWSER_LINEAR_NAME } from '../lib/calibratedLinearIntervals';
 import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
 import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 import { PanelBoundary } from '../render/PanelBoundary';
@@ -25,7 +26,7 @@ import { SequenceDiagnostics, type SequenceData } from '../render/SequenceDiagno
 interface ChartSeries { name: string; color: string; point: number[]; lower: number[]; upper: number[]; }
 
 const LEVELS = [0.1, 0.5, 0.9];
-const ONNX_NAME = 'NLinear (ONNX)';
+const ONNX_NAME = BROWSER_LINEAR_NAME;
 const ATLAS_NAV_KEY = 'chronoscope-atlas-nav';
 type AtlasNav = { group: 'understand' | 'forecast'; tab: string };
 const ATLAS_TABS: Record<AtlasNav['group'], string[]> = {
@@ -205,7 +206,7 @@ export default function AppPage() {
 
   const allMethods = activeData ? (onnx ? [...activeData.methods, onnx] : activeData.methods) : [];
   const allRows: Row[] = activeData
-    ? (onnx ? [...activeData.rows, { name: onnx.name, family: 'deep (live)', mase: onnx.mase, coverage: onnx.coverage }] : activeData.rows)
+    ? (onnx ? [...activeData.rows, { name: onnx.name, family: 'linear (live)', mase: onnx.mase, coverage: onnx.coverage }] : activeData.rows)
     : [];
   const visibleMethods = allMethods.filter((mm) => !hidden.has(mm.name));
   const rankedRows = [...allRows].sort((a, b) => (Number.isFinite(a.mase) ? a.mase : Infinity) - (Number.isFinite(b.mase) ? b.mase : Infinity));
@@ -657,6 +658,9 @@ export default function AppPage() {
         )}
       </div>
       <p className="cs-panel-sub">{fcNotes[fcView]}</p>
+      {onnx && <p className="cs-panel-sub">{es
+        ? 'Lineal: intervalos marginales nominales del 80 %, calibrados por rugosidad de historias sintéticas. La cobertura en datos reales no está confirmada.'
+        : 'Linear: nominal 80% marginal intervals, calibrated by synthetic-prefix roughness. Coverage on real data is unconfirmed.'}</p>}
     </div>
   );
 

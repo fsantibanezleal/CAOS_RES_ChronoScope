@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { normalPpf } from './liveEngine';
+import { calibratedLinearIntervals } from './calibratedLinearIntervals';
 import { loadNLinearMeta, runNLinear } from './onnxRunner';
 
 export interface LiveModelInput { history: number[]; horizon: number; }
@@ -32,11 +32,10 @@ export function useNLinearForecast(input: LiveModelInput | null): State {
         }
         const { point, scale } = await runNLinear(history);
         if (cancelled) return;
-        if (point.length !== horizon || !point.every(Number.isFinite) || !Number.isFinite(scale) || scale <= 0
-            || !Number.isFinite(meta.sigma_norm) || meta.sigma_norm < 0) throw new Error('Invalid model output or scale');
-        const sigma = meta.sigma_norm * scale;
-        const lower = point.map((value, i) => value + normalPpf(.1) * sigma * Math.sqrt(i + 1));
-        const upper = point.map((value, i) => value + normalPpf(.9) * sigma * Math.sqrt(i + 1));
+        if (point.length !== horizon || !point.every(Number.isFinite) || !Number.isFinite(scale) || scale <= 0) {
+          throw new Error('Invalid model output or scale');
+        }
+        const { lower, upper } = calibratedLinearIntervals(history, point, scale);
         if (!lower.every(Number.isFinite) || !upper.every(Number.isFinite)) throw new Error('Nonfinite model interval');
         setState({ status: 'ready', forecast: { point, lower, upper }, history, horizon });
       } catch (error) {

@@ -33,7 +33,7 @@ def roughness_group(history):
     return 0 if roughness < .5 else 1 if roughness < 1.25 else 2
 
 
-def validate_directory(directory: Path, seen: set[str]) -> dict:
+def validate_directory(directory: Path, seen: set[str], source_root=ROOT) -> dict:
     result = json.loads((directory / "results.json").read_text(encoding="utf-8"))
     confirmation = directory.name == "confirmation-v1"
     expected_schema = ("chronoscope.browser-calibration-confirmation/v1" if confirmation else
@@ -54,8 +54,8 @@ def validate_directory(directory: Path, seen: set[str]) -> dict:
         if sha(directory / name) != expected:
             raise ValueError(f"Artifact hash differs: {name}")
     for name, expected in result["sources"].items():
-        path = (ROOT / name).resolve()
-        if not path.is_relative_to(ROOT) or sha(path) != expected:
+        path = (source_root / name).resolve()
+        if not path.is_relative_to(source_root.resolve()) or sha(path) != expected:
             raise ValueError(f"Source hash differs: {name}")
     partitions = json.loads(gzip.decompress((directory / "series.json.gz").read_bytes()))
     expected_splits = ({"calibration": (400, 20261109), "test": (800, 20261110)} if confirmation else
@@ -220,9 +220,13 @@ def validate_runtime(directory: Path):
     return {"study": directory.name, "independent_max_runtime_error": maximum, "calibration_radii_reconstructed": True}
 
 
-def validate(root=EVIDENCE):
+def validate(root=ROOT):
     seen = set()
-    return [validate_directory(root / name, seen) for name in ("v1", "confirmation-v1")]
+    evidence = root / "docs/research/browser-linear"
+    calibration = evidence / "confirmation-v1/calibration.json"
+    if (root / "frontend/src/lib/browserCalibration.json").read_bytes() != calibration.read_bytes():
+        raise ValueError("Browser calibration differs from admitted evidence")
+    return [validate_directory(evidence / name, seen, root) for name in ("v1", "confirmation-v1")]
 
 
 if __name__ == "__main__":

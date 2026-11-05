@@ -1,6 +1,5 @@
-// The ONNX live deep tier: run the NLinear model (a one-layer LTSF-linear, trained offline by least squares
-// and exported to a 2 KB ONNX) in the browser with onnxruntime-web. This is a genuinely LEARNED method
-// running LIVE client-side, next to the classical live tier and the replayed heavy tiers.
+// Instance-normalized global least-squares map, exported to ONNX for browser inference.
+// This is distinct from the per-prefix NLinear neural fits in the offline study.
 //
 // Single-threaded WASM (numThreads=1) so no COOP/COEP cross-origin-isolation headers are needed on GitHub
 // Pages; assets are self-hosted under <base>/ort (copied by copy-data.mjs). Everything degrades gracefully:
@@ -9,6 +8,7 @@
 // which copy-data.mjs deliberately does not ship).
 import * as ort from 'onnxruntime-web/wasm';
 import modelMeta from './nlinearMeta.json';
+import { BROWSER_CALIBRATION } from './calibratedLinearIntervals';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -28,7 +28,15 @@ export const loadNLinearMeta = (): Promise<NLinearMeta> => Promise.resolve(NLINE
 
 function getSession(): Promise<ort.InferenceSession> {
   if (!sessionPromise) {
-    sessionPromise = ort.InferenceSession.create(`${BASE}models/nlinear.onnx`);
+    sessionPromise = (async () => {
+      const response = await fetch(`${BASE}models/nlinear.onnx`);
+      if (!response.ok) throw new Error(`Browser model request failed: ${response.status}`);
+      const bytes = await response.arrayBuffer();
+      const digest = await crypto.subtle.digest('SHA-256', bytes);
+      const actual = Array.from(new Uint8Array(digest), value => value.toString(16).padStart(2, '0')).join('');
+      if (actual !== BROWSER_CALIBRATION.point_model_sha256) throw new Error('Browser model differs from its calibration');
+      return ort.InferenceSession.create(new Uint8Array(bytes));
+    })().catch(error => { sessionPromise = null; throw error; });
   }
   return sessionPromise;
 }
@@ -41,15 +49,21 @@ function std(a: number[]): number {
 /** Point forecast (length = meta.horizon) for the given series, or throws if the series is too short. */
 export async function runNLinear(series: number[]): Promise<{ point: number[]; scale: number }> {
   const meta = await loadNLinearMeta();
-  if (series.length < meta.lookback) throw new Error('series shorter than the model lookback');
+  if (series.length < meta.lookback || !series.every(Number.isFinite)) throw new Error('Invalid finite model lookback');
   const window = series.slice(series.length - meta.lookback);
   const last = window[window.length - 1];
-  const s = std(window) || 1;
+  const s = std(window);
+  if (!Number.isFinite(s) || s <= 0) throw new Error('Unavailable observed model scale');
   const xn = Float32Array.from(window.map((v) => (v - last) / s));
 
   const sess = await getSession();
   const input = new ort.Tensor('float32', xn, [1, meta.lookback]);
   const out = await sess.run({ x: input });
+  if (!out.y || out.y.type !== 'float32' || out.y.dims.length !== 2 || out.y.dims[0] !== 1 || out.y.dims[1] !== meta.horizon) {
+    throw new Error('Unexpected browser model output shape or type');
+  }
   const yn = Array.from(out.y.data as Float32Array);
-  return { point: yn.map((v) => v * s + last), scale: s };
+  const point = yn.map((v) => v * s + last);
+  if (yn.length !== meta.horizon || !point.every(Number.isFinite)) throw new Error('Invalid browser model output');
+  return { point, scale: s };
 }

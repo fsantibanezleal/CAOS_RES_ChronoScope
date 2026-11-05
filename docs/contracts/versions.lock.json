@@ -24,6 +24,16 @@
     "schema": "docs/contracts/schemas/nlinear-model.schema.json",
     "sha256": "9773a75a2f5277ed999f34574b7b8fd0ee671f9314b9e76e0ab87c9d8ada48fe"
   },
+  "browser-calibration": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/browser-calibration.schema.json",
+    "sha256": "b192c822b6ff88b61fdf735a5800efb411c08f161623dd93064f0afa9e899b3b"
+  },
+  "browser-ridge-study": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/browser-ridge-study.schema.json",
+    "sha256": "39de51643a3f52b995bec43cc964912f599579c94d1498eaa9eff80583bd008a"
+  },
   "reevaluation": {
     "version": "2.1.0",
     "schema": "docs/contracts/schemas/reevaluation.schema.json",

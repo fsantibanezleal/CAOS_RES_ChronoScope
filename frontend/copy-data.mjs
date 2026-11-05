@@ -16,6 +16,8 @@ if (existsSync(modelMeta)) {
   cpSync(modelMeta, join(PUB, 'models', 'nlinear.json'));
   console.log('[copy-data] embedded NLinear metadata -> public/models/nlinear.json');
 }
+mkdirSync(join(PUB, 'models'), { recursive: true });
+cpSync(join(HERE, 'src', 'lib', 'browserCalibration.json'), join(PUB, 'models', 'browser-calibration.json'));
 
 // 1) data/derived -> public/data (traces under <case>/trace.json + manifests/ subdir incl. index.json)
 const derived = join(ROOT, 'data', 'derived');

@@ -15,7 +15,7 @@ try {
   await page.goto(`${base}/benchmark?theme=dark&lang=en`);
   await page.getByRole('tab', { name: 'Live real inference', exact: true }).click();
   const choose = page.getByRole('combobox', { name: /^Case/ });
-  const run = page.getByRole('button', { name: 'Run NLinear on this real case', exact: true });
+  const run = page.getByRole('button', { name: 'Run linear model on this real case', exact: true });
   await choose.waitFor({ state: 'visible' });
   const caseIds = await choose.locator('option').evaluateAll(options => options.map(option => option.value));
   if (caseIds.length !== 4 || caseIds.some(id => !id.startsWith('REAL_'))) throw new Error('Incomplete real-case inventory');

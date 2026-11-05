@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "browser-calibration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "point_model_sha256",
+    "lookback",
+    "horizon",
+    "alpha",
+    "normalization",
+    "roughness_boundaries",
+    "calibration_bin_counts",
+    "absolute_residual_radii",
+    "global_radii"
+  ],
+  "properties": {
+    "schema": {
+      "const": "chronoscope.browser-calibration/v1"
+    },
+    "point_model_sha256": {
+      "const": "621265165211f756cff537adee364b9790c34ced567bc2a5087513360e1f69f6"
+    },
+    "lookback": {
+      "const": 48
+    },
+    "horizon": {
+      "const": 12
+    },
+    "alpha": {
+      "const": 0.2
+    },
+    "normalization": {
+      "const": "subtract_last_then_divide_population_std"
+    },
+    "roughness_boundaries": {
+      "const": [
+        0.5,
+        1.25
+      ]
+    },
+    "calibration_bin_counts": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "integer",
+        "minimum": 20
+      }
+    },
+    "absolute_residual_radii": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "array",
+        "minItems": 12,
+        "maxItems": 12,
+        "items": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "global_radii": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    }
+  }
+}

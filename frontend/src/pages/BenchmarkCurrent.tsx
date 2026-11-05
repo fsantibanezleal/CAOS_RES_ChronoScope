@@ -43,13 +43,13 @@ function LiveRealInference({ cases }: { cases: ReevaluatedCase[] }) {
   };
   return <div className="cs-main" data-state={busy || (!trace && !err) ? 'loading' : 'ready'}>
     <CaseSelect cases={real} value={caseId} onChange={setCaseId} />
-    <p>{es ? 'Este panel ejecuta el pequeño modelo NLinear en el navegador sobre una historia real reservada. El modelo fue entrenado con ventanas sintéticas; aquí se comparan doce predicciones nuevas con las primeras doce observaciones del bloque final, sin actualizar el ajuste con ellas.' : 'This panel executes the small NLinear model in the browser on a real held-out history. The model was trained on synthetic windows; twelve new predictions are compared with the first twelve observations of the final block, without updating the fit from those outcomes.'}</p>
-    <button type="button" data-control="run-real-nlinear" className="cs-mini" disabled={!trace || busy} onClick={execute}>{es ? 'Ejecutar NLinear en este caso real' : 'Run NLinear on this real case'}</button>
+    <p>{es ? 'Este panel ejecuta el modelo lineal con normalización por ventana en el navegador sobre una historia real reservada. El modelo fue entrenado con ventanas sintéticas; aquí se comparan doce predicciones nuevas con las primeras doce observaciones del bloque final, sin actualizar el ajuste con ellas.' : 'This panel executes the instance-normalized linear model in the browser on a real held-out history. The model was trained on synthetic windows; twelve new predictions are compared with the first twelve observations of the final block, without updating the fit from those outcomes.'}</p>
+    <button type="button" data-control="run-real-nlinear" className="cs-mini" disabled={!trace || busy} onClick={execute}>{es ? 'Ejecutar modelo lineal en este caso real' : 'Run linear model on this real case'}</button>
     {err && <p role="alert">{err}</p>}
     {point && trace && <>
       <UPlotChart xs={point.map((_, i) => i + 1)} series={[
         { label: es ? 'Observado' : 'Observed', values: trace.actual.slice(0, point.length), color: 'var(--color-good)' },
-        { label: 'NLinear (ONNX)', values: point, color: 'var(--color-accent)' },
+        { label: 'Normalized linear (ONNX)', values: point, color: 'var(--color-accent)' },
       ]} height={320} xLabel={es ? 'Paso reservado' : 'Held-out lead'} yLabel={es ? 'Unidades del caso' : 'Case value units'} ariaSummary={es ? 'Inferencia real en el navegador' : 'Live browser inference on real data'} />
       <p>{es ? 'Error absoluto medio' : 'Mean absolute error'}: {formatNumber(point.reduce((s, p, i) => s + Math.abs(p - trace.actual[i]), 0) / point.length, lang, { digits: 4 })}</p>
     </>}

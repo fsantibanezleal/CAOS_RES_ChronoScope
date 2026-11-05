@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "browser-ridge-study",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "lookback",
+    "horizon",
+    "alpha",
+    "absolute_residual_radii",
+    "selection"
+  ],
+  "properties": {
+    "name": {
+      "const": "Held-out normalized ridge"
+    },
+    "lookback": {
+      "const": 48
+    },
+    "horizon": {
+      "const": 12
+    },
+    "alpha": {
+      "const": 0.2
+    },
+    "absolute_residual_radii": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "selection": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "penalty",
+          "normalized_mse"
+        ],
+        "properties": {
+          "penalty": {
+            "enum": [
+              0,
+              1e-06,
+              0.0001,
+              0.01,
+              0.1,
+              1,
+              10
+            ]
+          },
+          "normalized_mse": {
+            "type": "number",
+            "minimum": 0
+          },
+          "selected": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

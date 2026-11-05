@@ -7,6 +7,7 @@
 | BR-3 | The evaluation SHALL calibrate each lead on independent series using the finite-sample absolute-residual rank; compute interval scores with explicit tail penalties and resample paired series. | `tests/test_browser_linear.py` |
 | BR-4 | Prefix-stratified confirmation SHALL use only observed-prefix roughness, preserve unit invariance and fixed point forecasts, refuse undersized calibration groups, and enforce every prospectively specified admission criterion. | `tests/test_browser_calibration.py` |
 | BR-5 | Scientific evidence admission SHALL independently recompute stored scores, refuse partition overlap or missing provenance, and reject changed point forecasts or false engineering acceptance even if payload hashes are resealed. | `tests/test_browser_linear_evidence.py` |
+| BR-6 | The browser SHALL reproduce all confirmed interval paths, preserve positive affine unit changes, refuse inconsistent scales or calibration, and verify the exact point-graph digest before executing it. | `frontend/src/test/browser-calibration.test.ts` |
 
 The prospectively committed procedure is in
 `docs/guides/browser-linear-protocol.md`. Synthetic validation is not authentic

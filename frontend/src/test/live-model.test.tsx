@@ -5,6 +5,8 @@ import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
 import { useNLinearForecast } from '../lib/useNLinearForecast';
 
 vi.mock('../lib/onnxRunner', () => ({ loadNLinearMeta: vi.fn(), runNLinear: vi.fn() }));
+vi.mock('../lib/calibratedLinearIntervals', () => ({ calibratedLinearIntervals: (_history: number[], point: number[]) =>
+  ({ lower: point.map(value => value - 1), upper: point.map(value => value + 1) }) }));
 afterEach(cleanup);
 beforeEach(() => {
   vi.resetAllMocks();
