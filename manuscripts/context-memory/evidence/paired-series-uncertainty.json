@@ -1,0 +1,673 @@
+{
+  "schema": "chronoscope-paired-series-uncertainty-v1",
+  "analysis": "exploratory",
+  "protocol": {
+    "seed": 20261105,
+    "resamples": 10000,
+    "generator": "numpy.PCG64",
+    "unit": "series after averaging its available origins",
+    "interval": "paired empirical percentile 0.025/0.975, linear quantiles",
+    "direction": "method minus control; lower favors method for MASE and MSIS",
+    "coverage": "signed coverage difference, not an improvement score",
+    "multiplicity": "unadjusted exploratory intervals; no familywise claim",
+    "scope": "conditional on admitted collections and exchangeable series; related series may violate this",
+    "selection": "no refit, no tuning, no new external data; analysis specified after original outcomes"
+  },
+  "comparisons": [
+    {
+      "difference": -0.008897308866893118,
+      "percentile_95": [
+        -0.012468613726780887,
+        -0.0054494064101035895
+      ],
+      "series": 1422,
+      "negative": 582,
+      "zero": 367,
+      "positive": 473,
+      "median_difference": 0.0,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "RecencyMean",
+      "metric": "mase",
+      "method_mean": 0.899590931270234,
+      "control_mean": 0.9084882401371271
+    },
+    {
+      "difference": -0.08464906489460619,
+      "percentile_95": [
+        -0.10744296746046351,
+        -0.06265831755272387
+      ],
+      "series": 1422,
+      "negative": 623,
+      "zero": 373,
+      "positive": 426,
+      "median_difference": 0.0,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "RecencyMean",
+      "metric": "msis",
+      "method_mean": 6.799918841338959,
+      "control_mean": 6.884567906233564
+    },
+    {
+      "difference": -0.0018752930145335208,
+      "percentile_95": [
+        -0.004050111996666145,
+        0.00033859457206855226
+      ],
+      "series": 1422,
+      "negative": 169,
+      "zero": 1105,
+      "positive": 148,
+      "median_difference": 0.0,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "RecencyMean",
+      "metric": "coverage",
+      "method_mean": 0.9328996718237226,
+      "control_mean": 0.934774964838256
+    },
+    {
+      "difference": 0.052410712257039825,
+      "percentile_95": [
+        0.03276406829355196,
+        0.07321450140273812
+      ],
+      "series": 1422,
+      "negative": 687,
+      "zero": 0,
+      "positive": 735,
+      "median_difference": 0.006409760551016774,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "AutoTheta",
+      "metric": "mase",
+      "method_mean": 0.899590931270234,
+      "control_mean": 0.8471802190131941
+    },
+    {
+      "difference": 2.500517319636469,
+      "percentile_95": [
+        2.3423877015785406,
+        2.6535302440680386
+      ],
+      "series": 1422,
+      "negative": 272,
+      "zero": 0,
+      "positive": 1150,
+      "median_difference": 2.4045737773930336,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "AutoTheta",
+      "metric": "msis",
+      "method_mean": 6.799918841338959,
+      "control_mean": 4.299401521702489
+    },
+    {
+      "difference": 0.20495389904672606,
+      "percentile_95": [
+        0.1966119380632391,
+        0.2136466635411783
+      ],
+      "series": 1422,
+      "negative": 28,
+      "zero": 103,
+      "positive": 1291,
+      "median_difference": 0.16666666666666674,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "AutoTheta",
+      "metric": "coverage",
+      "method_mean": 0.9328996718237226,
+      "control_mean": 0.7279457727769962
+    },
+    {
+      "difference": 0.04817455209983935,
+      "percentile_95": [
+        0.027358925321549526,
+        0.07023215276270328
+      ],
+      "series": 1422,
+      "negative": 660,
+      "zero": 0,
+      "positive": 762,
+      "median_difference": 0.01288744842120454,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "AutoETS",
+      "metric": "mase",
+      "method_mean": 0.899590931270234,
+      "control_mean": 0.8514163791703947
+    },
+    {
+      "difference": 2.648069009681047,
+      "percentile_95": [
+        2.486508809842799,
+        2.8057174105988905
+      ],
+      "series": 1422,
+      "negative": 254,
+      "zero": 0,
+      "positive": 1168,
+      "median_difference": 2.632715367045731,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "AutoETS",
+      "metric": "msis",
+      "method_mean": 6.799918841338959,
+      "control_mean": 4.151849831657912
+    },
+    {
+      "difference": 0.20045449809866125,
+      "percentile_95": [
+        0.19148825337292286,
+        0.209700897275616
+      ],
+      "series": 1422,
+      "negative": 65,
+      "zero": 113,
+      "positive": 1244,
+      "median_difference": 0.18518518518518512,
+      "dataset": "m3_monthly",
+      "method": "ContextMemoryCV",
+      "control": "AutoETS",
+      "metric": "coverage",
+      "method_mean": 0.9328996718237226,
+      "control_mean": 0.7324451737250611
+    },
+    {
+      "difference": -0.009154192814580154,
+      "percentile_95": [
+        -0.013175557790633145,
+        -0.0051730663479052546
+      ],
+      "series": 1422,
+      "negative": 589,
+      "zero": 364,
+      "positive": 469,
+      "median_difference": 0.0,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "RecencyMean",
+      "metric": "mase",
+      "method_mean": 0.8993340473225471,
+      "control_mean": 0.9084882401371271
+    },
+    {
+      "difference": -0.0637878740908499,
+      "percentile_95": [
+        -0.08869182317314214,
+        -0.04025528257269388
+      ],
+      "series": 1422,
+      "negative": 589,
+      "zero": 370,
+      "positive": 463,
+      "median_difference": 0.0,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "RecencyMean",
+      "metric": "msis",
+      "method_mean": 6.820780032142715,
+      "control_mean": 6.884567906233564
+    },
+    {
+      "difference": -0.002187841850289108,
+      "percentile_95": [
+        -0.004518935250299526,
+        0.00013022868156482763
+      ],
+      "series": 1422,
+      "negative": 193,
+      "zero": 1064,
+      "positive": 165,
+      "median_difference": 0.0,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "RecencyMean",
+      "metric": "coverage",
+      "method_mean": 0.9325871229879668,
+      "control_mean": 0.934774964838256
+    },
+    {
+      "difference": 0.052153828309352786,
+      "percentile_95": [
+        0.03243722062043346,
+        0.07311159777993699
+      ],
+      "series": 1422,
+      "negative": 689,
+      "zero": 0,
+      "positive": 733,
+      "median_difference": 0.005518710809587601,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "AutoTheta",
+      "metric": "mase",
+      "method_mean": 0.8993340473225471,
+      "control_mean": 0.8471802190131941
+    },
+    {
+      "difference": 2.5213785104402255,
+      "percentile_95": [
+        2.364503582218792,
+        2.6734532408313134
+      ],
+      "series": 1422,
+      "negative": 267,
+      "zero": 0,
+      "positive": 1155,
+      "median_difference": 2.4704678223533447,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "AutoTheta",
+      "metric": "msis",
+      "method_mean": 6.820780032142715,
+      "control_mean": 4.299401521702489
+    },
+    {
+      "difference": 0.20464135021097046,
+      "percentile_95": [
+        0.19642375761837788,
+        0.2132691631504923
+      ],
+      "series": 1422,
+      "negative": 28,
+      "zero": 99,
+      "positive": 1295,
+      "median_difference": 0.1759259259259259,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "AutoTheta",
+      "metric": "coverage",
+      "method_mean": 0.9325871229879668,
+      "control_mean": 0.7279457727769962
+    },
+    {
+      "difference": 0.04791766815215232,
+      "percentile_95": [
+        0.02708542679911371,
+        0.07007624707191218
+      ],
+      "series": 1422,
+      "negative": 662,
+      "zero": 0,
+      "positive": 760,
+      "median_difference": 0.012534756608385933,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "AutoETS",
+      "metric": "mase",
+      "method_mean": 0.8993340473225471,
+      "control_mean": 0.8514163791703947
+    },
+    {
+      "difference": 2.6689302004848034,
+      "percentile_95": [
+        2.5085005266659164,
+        2.826347657785635
+      ],
+      "series": 1422,
+      "negative": 251,
+      "zero": 0,
+      "positive": 1171,
+      "median_difference": 2.6758974854010797,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "AutoETS",
+      "metric": "msis",
+      "method_mean": 6.820780032142715,
+      "control_mean": 4.151849831657912
+    },
+    {
+      "difference": 0.20014194926290566,
+      "percentile_95": [
+        0.19111059019638485,
+        0.20934260561546078
+      ],
+      "series": 1422,
+      "negative": 67,
+      "zero": 114,
+      "positive": 1241,
+      "median_difference": 0.18518518518518512,
+      "dataset": "m3_monthly",
+      "method": "ValidationMix",
+      "control": "AutoETS",
+      "metric": "coverage",
+      "method_mean": 0.9325871229879668,
+      "control_mean": 0.7324451737250611
+    },
+    {
+      "difference": -0.026091464711115116,
+      "percentile_95": [
+        -0.03485370576987698,
+        -0.01781315509009268
+      ],
+      "series": 294,
+      "negative": 189,
+      "zero": 0,
+      "positive": 105,
+      "median_difference": -0.012575151833218806,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "RecencyMean",
+      "metric": "mase",
+      "method_mean": 0.28477468161923875,
+      "control_mean": 0.31086614633035387
+    },
+    {
+      "difference": -0.3777214675880221,
+      "percentile_95": [
+        -0.42647493139931103,
+        -0.3255408480527919
+      ],
+      "series": 294,
+      "negative": 256,
+      "zero": 0,
+      "positive": 38,
+      "median_difference": -0.36474375593337227,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "RecencyMean",
+      "metric": "msis",
+      "method_mean": 2.553813918409117,
+      "control_mean": 2.9315353859971394
+    },
+    {
+      "difference": -0.023111808826094538,
+      "percentile_95": [
+        -0.03226931798360369,
+        -0.014477585906157334
+      ],
+      "series": 294,
+      "negative": 83,
+      "zero": 192,
+      "positive": 19,
+      "median_difference": 0.0,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "RecencyMean",
+      "metric": "coverage",
+      "method_mean": 0.9510727367870224,
+      "control_mean": 0.9741845456131171
+    },
+    {
+      "difference": -0.022819354615478207,
+      "percentile_95": [
+        -0.03929811291347693,
+        -0.008817513759243778
+      ],
+      "series": 294,
+      "negative": 142,
+      "zero": 0,
+      "positive": 152,
+      "median_difference": 0.0009884946157970448,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "AutoTheta",
+      "metric": "mase",
+      "method_mean": 0.28477468161923875,
+      "control_mean": 0.3075940362347169
+    },
+    {
+      "difference": 0.8413160174523117,
+      "percentile_95": [
+        0.6513710591738835,
+        1.0539259774975844
+      ],
+      "series": 294,
+      "negative": 49,
+      "zero": 0,
+      "positive": 245,
+      "median_difference": 0.3941638783002898,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "AutoTheta",
+      "metric": "msis",
+      "method_mean": 2.553813918409117,
+      "control_mean": 1.7124979009568055
+    },
+    {
+      "difference": 0.09994767137624279,
+      "percentile_95": [
+        0.08337476016047443,
+        0.11704386882958308
+      ],
+      "series": 294,
+      "negative": 10,
+      "zero": 103,
+      "positive": 181,
+      "median_difference": 0.05128205128205121,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "AutoTheta",
+      "metric": "coverage",
+      "method_mean": 0.9510727367870224,
+      "control_mean": 0.8511250654107797
+    },
+    {
+      "difference": -0.05650445066730258,
+      "percentile_95": [
+        -0.07709871408584043,
+        -0.03782857529218978
+      ],
+      "series": 294,
+      "negative": 158,
+      "zero": 0,
+      "positive": 136,
+      "median_difference": -0.0034236612313152115,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "AutoETS",
+      "metric": "mase",
+      "method_mean": 0.28477468161923875,
+      "control_mean": 0.34127913228654133
+    },
+    {
+      "difference": 0.7047846404695995,
+      "percentile_95": [
+        0.5055830255602326,
+        0.9161916423467784
+      ],
+      "series": 294,
+      "negative": 51,
+      "zero": 0,
+      "positive": 243,
+      "median_difference": 0.43531056044352257,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "AutoETS",
+      "metric": "msis",
+      "method_mean": 2.553813918409117,
+      "control_mean": 1.8490292779395177
+    },
+    {
+      "difference": 0.07980115122972266,
+      "percentile_95": [
+        0.06497252747252748,
+        0.09488923774638061
+      ],
+      "series": 294,
+      "negative": 30,
+      "zero": 83,
+      "positive": 181,
+      "median_difference": 0.025641025641025772,
+      "dataset": "m4_weekly",
+      "method": "ContextMemoryCV",
+      "control": "AutoETS",
+      "metric": "coverage",
+      "method_mean": 0.9510727367870224,
+      "control_mean": 0.8712715855573
+    },
+    {
+      "difference": -0.025337087442148597,
+      "percentile_95": [
+        -0.033914102153675595,
+        -0.017227196581507984
+      ],
+      "series": 294,
+      "negative": 190,
+      "zero": 0,
+      "positive": 104,
+      "median_difference": -0.015648869925599218,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "RecencyMean",
+      "metric": "mase",
+      "method_mean": 0.2855290588882053,
+      "control_mean": 0.31086614633035387
+    },
+    {
+      "difference": -0.3838077465763892,
+      "percentile_95": [
+        -0.4311602732068957,
+        -0.33437398561451404
+      ],
+      "series": 294,
+      "negative": 252,
+      "zero": 0,
+      "positive": 42,
+      "median_difference": -0.3815435305296895,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "RecencyMean",
+      "metric": "msis",
+      "method_mean": 2.54772763942075,
+      "control_mean": 2.9315353859971394
+    },
+    {
+      "difference": -0.023896738182452467,
+      "percentile_95": [
+        -0.03366474795046224,
+        -0.014564800279085993
+      ],
+      "series": 294,
+      "negative": 83,
+      "zero": 190,
+      "positive": 21,
+      "median_difference": 0.0,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "RecencyMean",
+      "metric": "coverage",
+      "method_mean": 0.9502878074306647,
+      "control_mean": 0.9741845456131171
+    },
+    {
+      "difference": -0.022064977346511683,
+      "percentile_95": [
+        -0.037521053058087,
+        -0.008271620843834473
+      ],
+      "series": 294,
+      "negative": 155,
+      "zero": 0,
+      "positive": 139,
+      "median_difference": -0.0015075689590408892,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "AutoTheta",
+      "metric": "mase",
+      "method_mean": 0.2855290588882053,
+      "control_mean": 0.3075940362347169
+    },
+    {
+      "difference": 0.8352297384639447,
+      "percentile_95": [
+        0.6508531743855419,
+        1.0381148580719672
+      ],
+      "series": 294,
+      "negative": 49,
+      "zero": 0,
+      "positive": 245,
+      "median_difference": 0.420589903729283,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "AutoTheta",
+      "metric": "msis",
+      "method_mean": 2.54772763942075,
+      "control_mean": 1.7124979009568055
+    },
+    {
+      "difference": 0.09916274201988487,
+      "percentile_95": [
+        0.08267922553636839,
+        0.11651840223268795
+      ],
+      "series": 294,
+      "negative": 14,
+      "zero": 102,
+      "positive": 178,
+      "median_difference": 0.05128205128205121,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "AutoTheta",
+      "metric": "coverage",
+      "method_mean": 0.9502878074306647,
+      "control_mean": 0.8511250654107797
+    },
+    {
+      "difference": -0.055750073398336056,
+      "percentile_95": [
+        -0.07593878143625397,
+        -0.03717359048351824
+      ],
+      "series": 294,
+      "negative": 158,
+      "zero": 0,
+      "positive": 136,
+      "median_difference": -0.003191307923420039,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "AutoETS",
+      "metric": "mase",
+      "method_mean": 0.2855290588882053,
+      "control_mean": 0.34127913228654133
+    },
+    {
+      "difference": 0.6986983614812324,
+      "percentile_95": [
+        0.5090715237658732,
+        0.8999659585778091
+      ],
+      "series": 294,
+      "negative": 48,
+      "zero": 0,
+      "positive": 246,
+      "median_difference": 0.4270923102153804,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "AutoETS",
+      "metric": "msis",
+      "method_mean": 2.54772763942075,
+      "control_mean": 1.8490292779395177
+    },
+    {
+      "difference": 0.07901622187336473,
+      "percentile_95": [
+        0.06410256410256411,
+        0.09410430839002268
+      ],
+      "series": 294,
+      "negative": 32,
+      "zero": 80,
+      "positive": 182,
+      "median_difference": 0.025641025641025772,
+      "dataset": "m4_weekly",
+      "method": "ValidationMix",
+      "control": "AutoETS",
+      "metric": "coverage",
+      "method_mean": 0.9502878074306647,
+      "control_mean": 0.8712715855573
+    }
+  ],
+  "sources": [
+    "https://doi.org/10.1214/aos/1176344552",
+    "https://www.jmlr.org/papers/v7/demsar06a.html"
+  ],
+  "input_sha256": "2a54f7c8ebf6eb048344b7245242f24b1464c1186a48d739df80b3447793e4c0",
+  "code_sha256": "e35dbd85c2d5e702b87afb7f9260f4c6b3659867985dab6aeca2f89cf0bb852f",
+  "numpy": "2.4.6"
+}
