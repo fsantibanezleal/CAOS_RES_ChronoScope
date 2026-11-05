@@ -5,6 +5,16 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 
 ## Unreleased
 
+- Add six source-bound walkthrough views with direct story routes, measured
+  annotations, linked selection/scrubbing and shared-shell keyboard/motion controls.
+  Keep delay geometry prefix-only and show historical block availability without
+  claiming a refit. Refuse cross-case and mismatched fresh-comparison identities.
+- Adopt released template 0.14.006 manuscript declarations and the declared
+  external notebook runtime; preserve checked cleanup and existing environments.
+  Register the replay paper as a non-method empirical contribution.
+- Refuse undefined seasonal scales and incomplete live forecast scores rather
+  than inventing MASE denominators or silently dropping observations.
+
 - Recompute live learned forecasts for changed histories even when their length
   and sum match; reject stale asynchronous results, unsupported horizons,
   constant lookbacks and malformed outputs.

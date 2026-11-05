@@ -118,8 +118,8 @@
 /* segmented view toggle (Forecast | Errors, surface selector) */
 .cs-seg { display: inline-flex; border: 1px solid var(--color-border); border-radius: 7px; overflow: hidden; }
 .cs-seg button { background: transparent; border: none; padding: 0.28rem 0.7rem; font-size: 0.78rem; color: var(--color-fg-subtle); cursor: pointer; }
-.cs-seg button.is-active { background: var(--color-accent); color: var(--color-accent-fg); font-weight: 600; }
-.cs-seg button:not(.is-active):hover { color: var(--color-fg); background: color-mix(in oklab, var(--color-fg-subtle) 10%, transparent); }
+.cs-seg-btn.is-active { background: var(--color-accent); color: var(--color-accent-fg); font-weight: 600; }
+.cs-seg-btn:not(.is-active):hover { color: var(--color-fg); background: color-mix(in oklab, var(--color-fg-subtle) 10%, transparent); }
 
 /* screen-reader-only data-table fallback for each chart */
 .cs-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -159,3 +159,46 @@ html { contain: layout; }
 .cs-corpus-button { color: var(--color-fg); background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: 0.3rem; padding: 0.3rem 0.6rem; cursor: pointer; }
 .cs-corpus-button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 .cs-corpus-button:disabled { cursor: default; opacity: 0.5; }
+
+/* Product source diagrams and geometry inside shared StoryFrame and Stage. */
+.cs-story-svg { display: block; width: 100%; height: 100%; color: var(--color-fg); }
+.cs-story-svg text { fill: currentColor; font-size: inherit; font-family: var(--font-sans); }
+.cs-story-svg .cs-scene-value { font: 600 38px var(--font-mono); }
+.cs-story-svg [role="button"] { cursor: pointer; outline: none; }
+.cs-story-svg [role="button"] rect { fill: var(--color-bg); stroke: var(--color-border); stroke-width: 2; }
+.cs-story-svg [role="button"] circle { fill: var(--color-accent); }
+.cs-story-svg [data-linked-selected="true"] rect,.cs-story-svg [role="button"]:focus rect { stroke: var(--color-accent); stroke-width: 4; }
+.cs-story-svg [data-linked-selected="true"] circle,.cs-story-svg [role="button"]:focus circle { fill: var(--color-warn); r: 7; }
+.cs-flow-line { stroke: var(--color-fg-faint); stroke-width: 2; fill: none; }
+.cs-story-svg [role="button"] .cs-memory-complete { fill: var(--color-good); }
+.cs-story-svg [role="button"] .cs-memory-pending { fill: var(--color-fg-faint); opacity: .4; }
+.cs-story-chart { display: flex; flex-direction: column; min-height: 0; padding: .6rem; gap: .3rem; }
+.cs-story-chart > [data-stage] { flex: 1 1 auto; min-height: 180px; }
+.cs-story-scene-choices { display: flex; gap: .25rem; flex-wrap: wrap; }
+.cs-story-chart-caption { flex: 0 0 auto; margin: .2rem; font-size: .78rem; color: var(--color-fg-subtle); }
+.cs-story-evidence { display: flex; flex-direction: column; gap: .55rem; font-size: .84rem; }
+.cs-story-evidence p { margin: .2rem 0; }
+.cs-story-evidence label,.cs-story-source { display: grid; gap: .25rem; }
+.cs-story-evidence input[type="range"] { width: 100%; }
+.cs-story-evidence select { width: 100%; background: var(--color-bg); color: var(--color-fg); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: .4rem; }
+.cs-story-provenance,.cs-story-evidence small { font-size: .75rem; color: var(--color-fg-subtle); }
+.cs-story-methods { display: grid; gap: .25rem; }
+.cs-story-methods button { display: flex; justify-content: space-between; gap: .5rem; text-align: left; }
+.caos-story button[data-linked-selected="true"] { border-color: var(--color-accent); box-shadow: inset 3px 0 var(--color-accent); }
+
+.cs-annotated-scene { position: relative; width: 100%; height: 100%; min-height: 0; }
+.cs-annotated-scene > .cs-story-chart { width: 100%; height: 100%; padding-top: 88px; }
+.cs-story-leads { display: flex; justify-content: space-around; gap: .3rem; flex: 0 0 auto; }
+.cs-story-leads > button { flex: 1 1 0; font-size: .78rem; }
+@media (max-width: 640px) { .cs-annotated-scene > .cs-story-chart { padding-top: 132px; } }
+
+.cs-story-flow { height: 100%; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2rem; align-content: center; padding: 150px 2rem 80px; }
+.cs-story-flow > div { min-width: 0; }
+.cs-story-flow button { display: flex; flex-direction: column; justify-content: center; gap: .7rem; width: 100%; min-height: 150px; border-radius: var(--radius-lg); }
+.cs-story-flow strong { font: 700 2.5rem var(--font-mono); }
+.cs-story-flow span { font-size: .9rem; }
+@media (max-width: 640px) {
+ .cs-story-flow { grid-template-columns: minmax(0,1fr); gap: .5rem; padding: 138px 1rem .5rem; }
+ .cs-story-flow button { flex-direction: row; align-items: center; min-height: 65px; gap: 1rem; }
+ .cs-story-flow strong { font-size: 1.5rem; }
+}

@@ -56,7 +56,7 @@ function useSource() {
   const [failure, setFailure] = useState({ owner: '', message: '' });
   const caseId = params.get('case') ?? index?.cases[0]?.case_id ?? '';
   const owned = mode === 'baked' && snapshot?.owner === caseId ? snapshot : null;
-  const err = mode === 'synthetic' ? parsed.error : failure.owner === caseId ? failure.message : '';
+  const loadError = mode === 'synthetic' ? parsed.error : failure.owner === caseId ? failure.message : '';
   const setCaseId = (id: string) => setParams(previous => { const next = new URLSearchParams(previous); next.set('case', id); return next; }, { replace: true });
   const setMode = (nextMode: 'synthetic' | 'baked') => setParams(previous => { const next = new URLSearchParams(previous); next.set('source', nextMode); return next; }, { replace: true });
   const setKnobs: Dispatch<SetStateAction<SyntheticKnobs>> = value => {
@@ -108,14 +108,26 @@ function useSource() {
       methods: forecasts.map(value => ({ name: value.name, color: methodColor(value.name), point: value.point, lower: value.lower, upper: value.upper })),
       rows: forecasts.map(value => ({ name: value.name, family: 'classical', mase: mase(actual, value.point, scale), coverage: coverage(actual, value.lower, value.upper) })) };
   }, [mode, knobs, parsed.error]);
+  const comparisonProblem = useMemo(() => {
+    if (!owned || !reevaluation) return '';
+    const comparison = reevaluation.cases.find(item => item.case_id === owned.trace.case_id);
+    if (!comparison) return 'The selected case has no admitted fresh comparison';
+    if (comparison.horizon !== owned.trace.horizon || comparison.seasonality !== owned.trace.seasonality
+        || comparison.history.length !== comparison.history_length || !comparison.history.every(Number.isFinite)
+        || comparison.actual.length !== owned.trace.actual.length || comparison.actual.length !== comparison.horizon
+        || !comparison.actual.every((value, i) => Number.isFinite(value) && Math.abs(value - owned.trace.actual[i]) <= .000051))
+      return 'The fresh comparison does not match the selected trace';
+    return '';
+  }, [owned, reevaluation]);
+  const err = loadError || comparisonProblem;
   const baked = useMemo<AtlasData | null>(() => {
     const comparison = owned && reevaluation?.cases.find(item => item.case_id === owned.trace.case_id);
-    if (!owned || !comparison) return null;
-    return { history: comparison.history, actual: owned.trace.actual, horizon: owned.trace.horizon, m: owned.trace.seasonality,
+    if (!owned || !comparison || comparisonProblem) return null;
+    return { history: comparison.history, actual: comparison.actual, horizon: owned.trace.horizon, m: owned.trace.seasonality,
       methods: comparison.methods.map(value => ({ name: value.name, color: methodColor(value.name), point: value.point, lower: value.lower, upper: value.upper })),
       rows: comparison.methods.map(value => ({ name: value.name, family: value.family, mase: value.metrics.mase ?? NaN,
         coverage: value.metrics.coverage ?? NaN, wql: value.metrics.wql ?? NaN, msis: value.metrics.msis ?? NaN })) };
-  }, [owned, reevaluation]);
+  }, [owned, reevaluation, comparisonProblem]);
   const activeData = mode === 'synthetic' ? synthetic : baked;
   const [prefixBinding, setPrefixBinding] = useState<{ history: number[]; sha256: string } | null>(null);
   useEffect(() => {

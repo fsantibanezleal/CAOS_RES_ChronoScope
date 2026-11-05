@@ -1,0 +1,16 @@
+# Walkthrough visualization catalog
+
+The walkthrough consumes the same URL-bound source as the atlas. Each step has a stable `/story/<step>` route; source, case, generator parameters and historical query remain in its query string. Explore remains the existing atlas landing. The six header destinations remain unchanged.
+
+| kind | route | subject and derivation | decision boundary |
+|---|---|---|---|
+| V1 system | /story/system | Observed prefix, admitted method paths and reserved block; counts come from the active comparison. Linked scrubbing reads the observed prefix. | Reserved targets are excluded from fitting. Full-series exploratory diagnostics are distinguished from prefix-only forecasts. |
+| V2 component | /story/component | Five actual local expert paths on the same reserved horizon. ValidationMix weights are available only after complete-prefix SHA-256, origin, seasonal lag, horizon and target binding. | The independent combination study does not become the fresh fitted experiment. Missing weights remain unavailable. |
+| V3 domain | /story/domain | Rotatable projection of consecutive observed-prefix triples `(y[t], y[t+1], y[t+2])`, with one common display scale and no more than 500 trajectory vertices. The selected triple is read from the complete prefix. | Delay geometry is not evidence of an attractor, embedding validity or deterministic chaos. No held-out values enter geometry. |
+| V4 dynamics | /story/dynamics | Selected forecast minus reserved target by lead, with a zero reference, shared target cursor and signed-error annotations. | These are held-out error dynamics, not measurements of native state-update performance or an online controller. |
+| V5 method/process | /story/method | Admitted ValidationMix memory origins and their target intervals. A block is observable at query q only when origin + horizon <= q. | Scrubbing shows retrospective information availability, without claiming a refit or showing invented weights. |
+| V6 decision | /story/decision | Selected forecast, lower and upper quantile paths, held-out targets, MASE and block coverage. | Scores describe one block. They do not establish general superiority, real-data coverage or automatic operational suitability. |
+
+Shared implementation: published `@fasl-work/caos-app-shell` 0.20.0 StoryFrame, Stage, Scene3DFrame, SceneCallouts and linked-view store. The product supplies source diagrams and sequence geometry; common navigation, themes, motion, annotation placement and plots use the published package. Callout anchors are measured from their actual subjects. Units absent from the admitted provenance are explicitly labelled unspecified rather than inferred from a dataset name. This does not close the separate full runtime-unit and literal-unit review.
+
+Implementation: `frontend/src/pages/AtlasStory.tsx`, `frontend/src/lib/showcase.ts`, `frontend/src/state/AtlasSource.tsx`. There are three primary annotations per scene, short numeric findings, reciprocal object selection, shared scrubbing, keyboard navigation, play/pause, reduced-motion support and a single docked evidence panel. Native source diagrams reflow on mobile. The published shell owns motion; the product does not run an independent animation loop.

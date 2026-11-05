@@ -1,6 +1,6 @@
 # ChronoScope software design description
 
-Status: current product design; reviewed 2026-11-01 against repository source and committed artifacts.
+Status: current product design; reviewed 2026-11-05 against repository source and committed artifacts.
 
 ## Problem and non-goals
 
@@ -200,3 +200,9 @@ Its source hashes bind documentation to code. An inventory count establishes
 implementation scope; scientific validity, teaching depth and publication
 coverage require their own evidence. Requirements MI-1 through MI-3 are in
 `features/method-inventory/requirements.md`.
+
+## Source-bound walkthrough
+
+The six visualization kinds, source/geometry derivations and their scientific boundaries are specified in `docs/design/showcase-catalog.md`. StoryFrame, measured annotations, linked-view state, motion and chart rendering use published shell 0.20.0. The URL-bound source survives step navigation; cross-case responses and mismatched fresh targets cannot acquire the selected identity. Combination weights additionally require a complete little-endian float64 prefix digest. The existing Explore atlas remains available.
+
+`frontend/scripts/check-showcase.mjs` verifies the actual rendered theme and language, six steps, three primary annotations, desktop viewport share, annotation bounds and nonoverlap across 72 states. The shared shell G21 and full repository/browser/release gates remain separately required. Neither this implementation nor a custom matrix establishes manuscript, notebook, package-publication, unit-review or full product acceptance.

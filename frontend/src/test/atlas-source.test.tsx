@@ -22,7 +22,7 @@ function mount(path = '/app?case=A') {
 beforeEach(() => {
   vi.resetAllMocks();
   vi.mocked(api.loadIndex).mockResolvedValue({ cases: ['A', 'B'].map(case_id => ({ case_id })) } as CaseIndex);
-  vi.mocked(api.loadReevaluation).mockResolvedValue({ cases: ['A', 'B'].map(case_id => ({ case_id, history: [1, 2, 3, 4], methods: [] })) } as unknown as Reevaluation);
+  vi.mocked(api.loadReevaluation).mockResolvedValue({ cases: ['A', 'B'].map(case_id => ({ case_id, history: [1, 2, 3, 4], history_length: 4, actual: [5, 6], horizon: 2, seasonality: 1, methods: [] })) } as unknown as Reevaluation);
   vi.mocked(api.loadManifest).mockImplementation(async id => manifest(id));
   vi.mocked(api.loadTrace).mockImplementation(async id => trace(id));
   vi.mocked(api.loadCombinationCase).mockRejectedValue(new Error('No combination evidence'));
@@ -61,6 +61,12 @@ describe('Shared atlas source ownership', () => {
     const { result } = mount('/app?case=unknown');
     await waitFor(() => expect(result.current.source.err).toContain('not in the admitted inventory'));
     expect(api.loadManifest).not.toHaveBeenCalled();
+    expect(result.current.source.activeData).toBeNull();
+  });
+  it('adversarial: a fresh comparison with another target cannot borrow the selected trace identity', async () => {
+    vi.mocked(api.loadReevaluation).mockResolvedValue({ cases: [{ case_id: 'A', history: [1, 2, 3, 4], history_length: 4, actual: [5, 99], horizon: 2, seasonality: 1, methods: [] }] } as unknown as Reevaluation);
+    const { result } = mount();
+    await waitFor(() => expect(result.current.source.err).toContain('does not match the selected trace'));
     expect(result.current.source.activeData).toBeNull();
   });
   it('adversarial: wrong-subject trace cannot become visible', async () => {

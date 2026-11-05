@@ -527,10 +527,10 @@ export default function AppPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', gap: '0.6rem', flexWrap: 'wrap' }}>
           <div className="cs-panel-t" style={{ marginBottom: 0 }}>{fcTitles[fcView]}</div>
           <div className="cs-seg" role="tablist" aria-label={es ? 'vista' : 'view'}>
-            <button className={fcView === 'full' ? 'is-active' : ''} onClick={() => setFcView('full')} role="tab" aria-selected={fcView === 'full'}>{es ? 'Completo' : 'Full'}</button>
-            <button className={fcView === 'zoom' ? 'is-active' : ''} onClick={() => setFcView('zoom')} role="tab" aria-selected={fcView === 'zoom'}>Zoom</button>
-            <button className={fcView === 'horizon' ? 'is-active' : ''} onClick={() => setFcView('horizon')} role="tab" aria-selected={fcView === 'horizon'}>{es ? 'Horizonte' : 'Horizon'}</button>
-            <button className={fcView === 'errors' ? 'is-active' : ''} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
+            <button className={fcView === 'full' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('full')} role="tab" aria-selected={fcView === 'full'}>{es ? 'Completo' : 'Full'}</button>
+            <button className={fcView === 'zoom' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('zoom')} role="tab" aria-selected={fcView === 'zoom'}>Zoom</button>
+            <button className={fcView === 'horizon' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('horizon')} role="tab" aria-selected={fcView === 'horizon'}>{es ? 'Horizonte' : 'Horizon'}</button>
+            <button className={fcView === 'errors' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
           </div>
         </div>
         {fcView === 'horizon' ? (
@@ -679,8 +679,8 @@ export default function AppPage() {
         <div className="cs-bar-group">
           <span className="cs-bar-label">{es ? 'Fuente' : 'Source'}</span>
           <div className="cs-seg" role="tablist" aria-label={es ? 'fuente' : 'source'}>
-            <button className={mode === 'baked' ? 'is-active' : ''} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso precalculado' : 'Baked case'}</button>
-            <button className={mode === 'synthetic' ? 'is-active' : ''} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
+            <button className={mode === 'baked' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso precalculado' : 'Baked case'}</button>
+            <button className={mode === 'synthetic' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
           </div>
         </div>
         {mode === 'baked' ? (

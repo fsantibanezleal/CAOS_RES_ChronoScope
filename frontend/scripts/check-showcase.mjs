@@ -1,0 +1,17 @@
+import { createRequire } from 'node:module';import {mkdirSync,writeFileSync} from 'node:fs';
+const require=createRequire(import.meta.url);const{chromium}=require('playwright');
+const out=process.argv[2]; if(!out) throw new Error('Pass an explicit external output directory'); const base=process.env.GATE_URL || 'http://127.0.0.1:4189';mkdirSync(out,{recursive:true});const browser=await chromium.launch({headless:true});const failures=[],states=[];
+for(const [width,height] of [[1440,1000],[1280,800],[390,844]])for(const theme of ['light','dark'])for(const lang of ['en','es']){
+ const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});await context.addInitScript(({theme,lang})=>{localStorage.setItem('caos.theme',theme);localStorage.setItem('caos.lang',lang)},{theme,lang});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ for(const step of ['system','component','domain','dynamics','method','decision']){
+  await page.goto(`${base}/story/${step}?case=REAL_electricity`);await page.waitForFunction(()=>document.querySelector('[data-story-headline]')&&document.querySelector('.cs-story-evidence small')?.textContent?.includes('REAL_electricity'));await page.waitForTimeout(450);
+  const facts=await page.evaluate(()=>{const stage=document.querySelector('.caos-story-stage').getBoundingClientRect(),layout=document.querySelector('[data-stage-layout]').getBoundingClientRect(),panel=document.querySelector('.caos-story-panel').getBoundingClientRect();const calls=[...document.querySelectorAll('[data-caos-callout]')].map(e=>({id:e.dataset.caosCallout,value:e.dataset.calloutValue,box:e.getBoundingClientRect().toJSON()}));return {lang:document.documentElement.lang,theme:document.documentElement.dataset.theme,step:document.querySelector('[data-story]').dataset.storyStep,calls,stage:stage.toJSON(),layout:layout.toJSON(),panel:panel.toJSON(),scroll:document.documentElement.scrollWidth,viewport:innerWidth,share:layout.width*layout.height/(innerWidth*innerHeight),alert:document.querySelector('[role=alert]')?.textContent,chart:!!document.querySelector('.uplot'),text:document.querySelector('[data-story-headline]').textContent}});
+  const at=`${width}x${height}/${theme}/${lang}/${step}`;states.push({at,...facts});if(facts.lang!==lang||facts.theme!==theme||facts.step!==step||facts.calls.length!==3||facts.scroll>width+1||facts.alert)failures.push({at,reason:'identity/callouts/overflow/alert',facts});
+  if(width>=900&&facts.share<.8)failures.push({at,reason:'viewport share',share:facts.share});
+  for(const c of facts.calls){if(c.box.left<facts.stage.left-1||c.box.right>facts.stage.right+1||c.box.top<facts.stage.top-1||c.box.bottom>facts.stage.bottom+1)failures.push({at,reason:'escaped callout',id:c.id});}
+  for(let i=0;i<facts.calls.length;i++)for(let j=i+1;j<facts.calls.length;j++){const a=facts.calls[i].box,b=facts.calls[j].box;if(a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top)failures.push({at,reason:'overlap',ids:[facts.calls[i].id,facts.calls[j].id]});}
+  if(theme==='light'&&lang==='en')await page.screenshot({path:`${out}/${width}-${step}.png`,fullPage:true});
+ }
+ if(errors.length)failures.push({at:`${width}/${theme}/${lang}`,errors});await context.close();
+}
+await browser.close();writeFileSync(out+'/report.json',JSON.stringify({base,states,failures},null,2));console.log(JSON.stringify({states:states.length,failures},null,2));if(failures.length)process.exitCode=1;

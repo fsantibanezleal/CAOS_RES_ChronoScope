@@ -1,11 +1,12 @@
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useParams } from 'react-router';
 import { Activity } from 'lucide-react';
-import { AppShell, CitationsProvider, Landing, STANDARD_ROUTES, SurfacePage, useShellLang, type ShellConfig } from '@fasl-work/caos-app-shell';
+import { AppShell, CitationsProvider, Landing, LinkedViewProvider, STANDARD_ROUTES, SurfacePage, useShellLang, type ShellConfig } from '@fasl-work/caos-app-shell';
 import { CITATIONS } from './data/citations';
 import { architecture } from './architecture';
 import { EXTERNAL_LINKS } from './lib/links';
 import product from '../../product.json';
 import AppPage from './pages/AppPage';
+import AtlasStory from './pages/AtlasStory';
 import { AtlasSourceProvider } from './state/AtlasSource';
 import Introduction from './pages/Introduction';
 import Methodology from './pages/Methodology';
@@ -44,6 +45,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/app" element={<AtlasSurface />} />
+            <Route path="/story/:step" element={<AtlasSurface />} />
             <Route path="/introduction" element={<Introduction />} />
             <Route path="/methodology" element={<Methodology />} />
             <Route path="/implementation" element={<Implementation />} />
@@ -55,11 +57,13 @@ export default function App() {
 }
 
 function AtlasSurface() {
-  return <AtlasSourceProvider><AtlasSurfaceBody /></AtlasSourceProvider>;
+  return <AtlasSourceProvider><LinkedViewProvider><AtlasSurfaceBody /></LinkedViewProvider></AtlasSourceProvider>;
 }
 
 function AtlasSurfaceBody() {
   const lang = useShellLang();
+  const { step } = useParams();
+  if (step) return <AtlasStory />;
   return (
     <SurfacePage
       title={{ en: 'Forecasting atlas', es: 'Atlas de pronósticos' }}
@@ -76,6 +80,7 @@ function AtlasSurfaceBody() {
           },
           content: <AppPage />,
         },
+        { id: 'story', label: lang === 'es' ? 'Recorrido' : 'Story', focus: { title: { en: 'Evidence walkthrough', es: 'Recorrido de evidencia' }, description: { en: 'Six linked views of the same source', es: 'Seis vistas enlazadas de la misma fuente' } }, content: <AtlasStory /> },
       ]}
       instrument
       focus
