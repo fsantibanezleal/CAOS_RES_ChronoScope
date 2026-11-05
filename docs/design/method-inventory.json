@@ -243,6 +243,33 @@
       "implementation_relation": "global synthetic-window least-squares fit exported to ONNX; distinct from per-prefix neural fits"
     },
     {
+      "id": "experimental-browser/normalized-ridge",
+      "name": "Held-out instance-normalized ridge reference",
+      "scope": "experimental-browser",
+      "implementation": "scripts/evaluate_browser_linear.py::fit_ridge",
+      "validation": "tests/test_browser_linear.py",
+      "artifact_name": null,
+      "implementation_relation": "synthetic held-out reference; not the deployed point model"
+    },
+    {
+      "id": "experimental-browser/split-calibration",
+      "name": "Per-lead absolute-residual split calibration",
+      "scope": "experimental-interval",
+      "implementation": "scripts/evaluate_browser_linear.py::calibration_radii",
+      "validation": "tests/test_browser_linear.py",
+      "artifact_name": null,
+      "implementation_relation": "finite-sample marginal calibration under exchangeable series"
+    },
+    {
+      "id": "experimental-browser/roughness-stratification",
+      "name": "Prefix-roughness stratified residual calibration",
+      "scope": "experimental-interval",
+      "implementation": "scripts/confirm_browser_calibration.py::group_radii",
+      "validation": "tests/test_browser_calibration.py",
+      "artifact_name": null,
+      "implementation_relation": "fixed prefix-only strata; independent synthetic confirmation"
+    },
+    {
       "id": "selection/training-case-ranking",
       "name": "Training-case mean-MASE method ranking",
       "scope": "selection",
@@ -1022,6 +1049,8 @@
     "data-pipeline/chronoscopelab/model/validated_combination.py": "dfbf1940dd6bd4832e234cc2f1efb28b06d5b4f72f6006e9b49f551918c88c95",
     "data-pipeline/chronoscopelab/stages/streaming.py": "bd3c4746476afd7346da51f6d2f8284ac9cb68353f3572c00adc603a88633bc8",
     "data-pipeline/chronoscopelab/stages/train.py": "6e72e60b03da95fb164bd6939d1f79c41af7fe2464906f17b52bd250c3fe49ae",
+    "scripts/confirm_browser_calibration.py": "2e75e8de5d2a1fa06f508b5e33bf2a23612d04307edecf9a4e6f403517adf284",
+    "scripts/evaluate_browser_linear.py": "b206fb7c6f9a61b85707c65cc3b9c695e6e60d513169139644483fdc79c1dc5e",
     "scripts/manuscript_replay.py": "cf28b109e09186be9b05386b280851ae56a8f218f38058d1b788a25549393172",
     "scripts/run_forecastability_study.py": "584c720c40167d1fe30d902475be44f04cc55f53429d746053ec7c21814fc7ef",
     "scripts/train_nlinear_onnx.py": "d5e4c95273385f41f190fa0794f0ed0ec486ba4fcb22fd0b45053ff3ff54e235"
