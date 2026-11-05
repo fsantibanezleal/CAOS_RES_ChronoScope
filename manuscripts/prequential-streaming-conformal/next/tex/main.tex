@@ -4,6 +4,7 @@
 \usepackage{lmodern}
 \usepackage[margin=25mm]{geometry}
 \usepackage{amsmath,amssymb,amsfonts,graphicx,booktabs,array,microtype}
+\usepackage{algorithm,algpseudocode,longtable}
 \usepackage[hidelinks]{hyperref}
 \usepackage{orcidlink}
 \graphicspath{{../figures/}}
@@ -36,18 +37,32 @@ Not peer reviewed. Source code, data and computational records: \href{https://\d
 \headerblock
 \begin{abstract}
 
-Adaptive prediction intervals can have accurate average coverage while retaining substantial local coverage error. We examine this distinction in a one-step prequential study of fifteen selected time series: eleven generated mechanisms and four real excerpts. The point forecaster is a full-history smoothing-plus-drift adaptation, rather than a native stateful forecaster or the standard finite-history Theta method. Two scale-normalized score-buffer controllers use ACI-style and PID-style updates of an effective miscoverage level. At nominal 80\% coverage, their mean rolling absolute coverage errors are 0.0656 and 0.0645, compared with 0.0830 for unadjusted intervals. The substantially smaller errors obtained by first averaging signed coverage deviations over time describe a different statistic and do not establish uniformly accurate local coverage. Every numerical forecast, target, score and controller update is reconstructed and checked against the archived coverage trajectories and final weighted quantile losses. Sensitivity calculations vary nominal coverage, base forecaster, controller gains and generated-series seeds. These selected finite-stream results characterize the evaluated implementations; they provide neither a new coverage theorem nor a general forecasting advantage.
+Adaptive prediction intervals can have accurate average coverage while retaining substantial local coverage error. We examine this distinction in a one-step prequential study of fifteen selected time series: eleven generated mechanisms and four real excerpts. The point forecaster is a full-history smoothing-plus-drift adaptation, rather than a native stateful forecaster or the standard finite-history Theta method. Two scale-normalized score-buffer controllers use ACI-style and PID-style updates of an effective miscoverage level. At nominal 80\% coverage, their mean rolling absolute coverage errors are 0.0656 and 0.0645, compared with 0.0830 for unadjusted intervals. The substantially smaller errors obtained by first averaging signed coverage deviations over time describe a different statistic and do not establish uniformly accurate local coverage. Retrospective paired case resampling gives rolling-error differences of -0.01737 and -0.01851, with exploratory ninety-five-percent intervals [-0.02657,-0.00871] and [-0.02714,-0.01074]. Interval-score differences are small and their intervals include zero. These endpoints describe sensitivity to the weighting of selected cases, not population-wide confidence. Every numerical forecast, target, score and controller update is reconstructed and checked against the archived coverage trajectories and final weighted quantile losses. Sensitivity calculations vary nominal coverage, base forecaster, controller gains and generated-series seeds. These selected finite-stream results characterize the evaluated implementations; they provide neither a new coverage theorem nor a general forecasting advantage.
 \end{abstract}
 
-\section{Question and relation to prior work}
+\section{Introduction}
 A sequential interval forecast must use information available before its target arrives. Its quality has at least two dimensions: coverage and concentration. An interval can obtain high coverage by becoming excessively wide; a long-run coverage average can also conceal sustained local deviations. We ask how two particular adaptive interval controllers behave on a selected collection when these distinctions are made explicit.
 
 Prequential evaluation scores predictions before incorporating their outcomes~\cite{dawid1984}. Adaptive Conformal Inference (ACI) adapts an effective miscoverage level~\cite{gibbs2021}. Conformal PID Control combines control-theoretic ideas with prospective conformal score forecasting~\cite{angelopoulos2023}. The evaluated algorithms build on these precedents. The PID-style controller evaluated here acts on a bounded effective miscoverage level and uses an empirical score buffer. It is not a faithful implementation or comparative evaluation of the published Conformal PID algorithm, and that algorithm's guarantees are not assigned to it.
 
 The contribution is a reproducible, implementation-specific comparison of global and local empirical coverage measures, interval efficiency, and sensitivity on the same streams. The software package \texttt{preqts} supplies the replay interface and archived controllers. The experiment compares interval rules; it does not compare native model-state updates or establish a capability gap in other evaluation frameworks.
 
-\section{Data and sequential information}
+The distinction matters when a displayed coverage average is used to assess whether uncertainty is reliable. A controller could cover too few outcomes during one regime and too many during another, yet finish near its nominal frequency. The appropriate evidence must reveal the temporal statistic being summarized and the width needed to obtain that coverage. A selected example can explain the mechanism, but it cannot identify the expected performance of a future operational population.
+
+This paper contributes a complete numerical reconstruction of the archived procedure, a derivation of the relation between its coverage summaries, an explicit account of clipping in the feedback equation, and a matched comparison with efficiency and sensitivity. Its new paired analysis is retrospective case-weighting sensitivity, not an independently selected confirmation study. In particular, a smaller coverage error is kept separate from a point-forecast improvement or a guarantee at every time. The title is restricted to adaptive prediction intervals and a fifteen-series replay because those are the objects actually evaluated. The following sections separate prior methods, mathematical properties, experimental reconstruction and the finite comparisons needed to interpret that scope.
+
+\input{related-work.tex}
+
+\section{Problem formulation, data and sequential information}
 The collection contains fifteen deliberately selected cases: eleven generated mechanisms and four real excerpts. Generated mechanisms include daily seasonality, trend with seasonality, intermittent demand, a near-random walk, white noise, level changes, multiple seasonalities, heteroskedasticity, long memory, nonlinear Mackey--Glass dynamics and a promotion covariate example. Real excerpts comprise UCI electricity, Beijing PM2.5, M4 hourly and M4 daily. They do not constitute random draws from a forecasting population. White noise and the near-random walk are negative controls, not proofs that every form of leakage is absent.
+
+Table~\ref{tab:replay-cases} gives every stream length, warmup, seasonal setting and scored-arrival count. The authentic inputs are admitted excerpts rather than complete benchmark inventories: UCI ElectricityLoadDiagrams20112014~\cite{electricitydata}, UCI Beijing PM2.5~\cite{pmdata}, and the Monash archive's M4 daily and hourly collections~\cite{monashdata}. The UCI records and the admitted provenance specify CC BY 4.0. Generator definitions and exact numerical source bindings remain part of the replay evidence.
+
+\input{../tables/cases.tex}
+
+The historical electricity loader sums four quarter-hour power readings for each delivered hour. That sum is four times their arithmetic mean, not a conversion to hourly energy. The replay preserves those admitted numbers and treats their source unit explicitly; it does not infer an energy balance or operational capacity from them. The PM2.5 loader forward-fills missing values in its selected window, with an initial fallback of zero if the first retained value is missing. Those are preprocessing policies, not newly measured observations. The current dataset record attributes Beijing PM2.5 to Song Chen; the historical manifest's Liang citation refers to associated work and is not used as a replacement for the dataset citation here.
+
+The historical M4 excerpt loader chooses the first sufficiently long cached series with nontrivial variance and a lag correlation of at least .2 over the candidate excerpt. This is deliberate retrospective case selection using the excerpt, including outcomes later scored by the stream. It does not give those future values to an earlier point fit, but it does limit any claim that the cases were independently or prospectively selected. The paper preserves that distinction rather than treating these curated examples as a random benchmark sample.
 
 Let $y_0,\ldots,y_{T-1}$ be the complete stream and $m$ its configured seasonal lag. The initial prefix has length
 \begin{equation}
@@ -55,6 +70,7 @@ w=\min\{\max(2m,20),\max(1,\lfloor T/3\rfloor)\}.
 \end{equation}
 At $t=w,\ldots,T-1$, every method predicts $y_t$ using $y_{0:t-1}$. The target is then revealed, the forecast is scored, and the prefix and controller are updated. Horizon and advance are both one. This streaming experiment includes the full case sequence; its targets must not be pooled with the separate final-block experiment in the surrounding atlas.
 
+Figure~\ref{fig:prequential} distinguishes the prefix-only fit, interval issuance, target revelation and the two subsequent updates; its arrows encode information availability rather than a claim about native state-update performance.
 \begin{figure}[htbp]\centering
 \includegraphics[width=.86\textwidth]{fig-prequential.pdf}
 \caption{Information order in the evaluated replay implementation. The point method is recomputed on the observed prefix; an interval controller carries its own scores and level between arrivals. The next target enters either update only after scoring. This diagram makes no comparison with other forecasting frameworks or native state-update costs.}
@@ -62,7 +78,11 @@ At $t=w,\ldots,T-1$, every method predicts $y_t$ using $y_{0:t-1}$. The target i
 
 The numerical reconstruction retains the full-precision source values, generator definitions and seeds, case identities, seasonal lags and initial-prefix lengths. SHA-256 values bind each source array, admitted real-data CSV, generator implementation, case manifest, display trace and archived streaming artifact. Every displayed sample and reserved final-block target is matched to the original indexed source within its four-decimal export tolerance. These bindings identify the actual experimental inputs, even where a historical upstream download revision or timing environment is unavailable. Covariates are not supplied to the four interval methods, including for the promotion case; no covariate-availability result is inferred here.
 
-\section{Point forecasts and base intervals}
+\input{notation.tex}
+
+\section{Replay method and controller derivation}
+\label{sec:replay-method}
+\subsection{Point forecasts and base intervals}
 We call the archived adaptation smoothing plus drift (S+D). The historical artifact key \texttt{Theta} identifies this implementation, but it lacks the finite-history correction of the standard nonseasonal Theta representation~\cite{hyndman2003}. For the observed prefix $x_0,\ldots,x_{n-1}$, an OLS line against integer time gives slope $b$. A smoothing coefficient $a$ is selected from $\{.05,.10,\ldots,.95\}$ by minimum in-sample one-step squared error. With $\ell_0=x_0$,
 \begin{equation}
 \ell_i=a x_i+(1-a)\ell_{i-1},\qquad
@@ -72,8 +92,12 @@ The fitted value for $x_i$ is $\ell_{i-1}$; $\hat\sigma_t$ is the population sta
 
 A second base is seasonal naive, $p_t=y_{t-m}$, with dispersion equal to the population standard deviation of observed lag-$m$ differences. The historical comparison contains seasonal naive and raw S+D, plus two calibrated versions of S+D. The sensitivity comparison applies the same controllers to both bases. Both are full-prefix replay calculations; the point forecasts do not become streaming-native merely because the interval controller has persistent state.
 
-\section{Adaptive interval rules}
-For a base median $p_t$ and half-width $r_t=\max(\Phi^{-1}((1+c)/2)\hat\sigma_t,10^{-8})$, a FIFO buffer retains at most 200 past scores
+Simple exponential smoothing supplies a level recurrence, while an added fitted drift changes its extrapolation~\cite{fpp3}. Selecting a coefficient on fitted residual error is a deterministic in-prefix optimization over nineteen candidates. It is not selection on an independent validation set, and its residual dispersion can be optimistic. The historical coefficient grid and drift term are kept unchanged so that a numerical discrepancy cannot be disguised as a methodological improvement. The corrected finite-history Theta used elsewhere in the application has a different expression and is not substituted here under the same artifact key.
+
+The base-interval construction assumes that fitted residual dispersion gives a useful future scale. Serial dependence, an abrupt level change and heteroskedasticity can violate that assumption. A seasonal-naive dispersion estimates differences at the configured lag rather than the same smoothing residual distribution. These choices explain why the sensitivity design includes both bases. They also bound the scientific conclusion: a controller's performance around one inaccurate scale approximation does not establish its behavior around every possible point and dispersion model.
+
+\subsection{Adaptive interval rules}
+For a base point forecast $p_t$ and half-width $r_t=\max(\Phi^{-1}((1+c)/2)\hat\sigma_t,10^{-8})$, a FIFO buffer retains at most 200 past scores
 \begin{equation}
 z_j=|y_j-p_j|/r_j,\qquad j<t.
 \end{equation}
@@ -85,15 +109,17 @@ Let $e_t=\mathbf1\{z_t>q_t\}$, $\alpha^*=1-c$, and initialize $\alpha_w=\alpha^*
 \end{equation}
 with $\gamma=.02$. Level clipping and the interpolated finite score buffer are part of this evaluated variant; the ACI paper's theoretical guarantee is not claimed for it without further argument.
 
-For the PID-style rule, set $u_t=\alpha^*-e_t$, $I_t=I_{t-1}+u_t$ with initial integral zero, and $d_t=u_t-u_{t-1}$, using zero derivative on the first update. Then
+For the PID-style rule, set $g_t=\alpha^*-e_t$, $I_t=I_{t-1}+g_t$ with initial integral zero, and $d_t=g_t-g_{t-1}$, using zero derivative on the first update. Then
 \begin{equation}
-\alpha_{t+1}=\operatorname{clip}(\alpha^*+k_pu_t+k_iI_t+k_dd_t,10^{-4},1-10^{-4}),
+\alpha_{t+1}=\operatorname{clip}(\alpha^*+k_pg_t+k_iI_t+k_dd_t,10^{-4},1-10^{-4}),
 \end{equation}
 where $(k_p,k_i,k_d)=(.05,.02,.02)$. The integral is not separately clipped. Unlike the ACI recursion, this rule recomputes the level around $\alpha^*$ from all three terms. The median is unchanged by either controller.
 
 The gains are inherited fixed software settings. No historical parameter-selection rationale, optimality study or independent tuning set is available. Sensitivity uses all multipliers $g\in\{.5,1,2\}$, multiplying $\gamma$ or all three PID gains together. It does not choose and re-evaluate the best multiplier. Nominal coverages are $.7,.8,.9$. The full design gives $15\times2\times3\times(1+3+3)=630$ case-setting rows, including raw references.
 
-\section{Metrics and numerical reconstruction}
+\input{replay-derivation.tex}
+
+\section{Experimental design, metrics and numerical reconstruction}
 For case $i$, write $B_{it}=\mathbf1\{l_{it}\le y_{it}\le u_{it}\}$ and let $C_{it}$ be its trailing coverage mean over at most 25 cutoffs, including $t$. With $N=15$ cases and $K_i$ cutoffs, three different errors are
 \begin{align}
 E_{\rm avg}&=N^{-1}\sum_i\left|K_i^{-1}\sum_t C_{it}-c\right|,\\
@@ -112,11 +138,16 @@ At levels $q\in\{.1,.5,.9\}$, the archived WQL is $2\sum_q\rho_q(y_t-Q_{tq})/|y_
 
 The reconstruction exports 21,296 method-cutoff rows, each containing the target, three forecast columns, normalized score, multiplier, effective level before and after update, integral, derivative and buffer size. Previous score rows determine the entire FIFO contents. All fifteen archived coverage trajectories and final WQL summaries agree at their saved precision. Unit checks compare controller forecasts and levels directly with \texttt{preqts==0.3.0} and verify that changing a future target cannot alter an earlier forecast. A separate clean-process recomputation checks the complete numerical payload. The reconstruction is not an independent statistical replication, and it does not recover historical hardware or per-call latency.
 
+\input{experimental-design.tex}
+\input{replay-audit.tex}
+
 \section{Results}
+Table~\ref{tab:coverage} compares all three coverage summaries; Table~\ref{tab:efficiency} retains width and the proper interval score on the same streams.
 \input{../tables/coverage.tex}
 \input{../tables/efficiency.tex}
 At nominal 80\%, raw S+D has $E_{\rm roll}=.0830$, compared with $.0656$ for the ACI-style rule and $.0645$ for the PID-style rule. This is a descriptive reduction of roughly 21\% and 22\% on these cases. By contrast, $E_{\rm avg}$ falls from $.0416$ to $.0057$ and $.0060$. The sevenfold ratio for the latter statistic does not describe local rolling error. Reporting these quantities under a single heading of calibration error would conceal their different interpretations.
 
+Figure~\ref{fig:summary} displays the two differently ordered averaging operations, while Figure~\ref{fig:percase} shows the range of final empirical frequencies across cases.
 \begin{figure}[htbp]\centering\includegraphics[width=.8\linewidth]{fig-coverage-summary.pdf}
 \caption{Two coverage-error summaries on the same fifteen streams. Time-averaging before taking absolute deviations permits cancellation; averaging rolling absolute deviations measures a different property. Both remain descriptive finite-stream measurements.}\label{fig:summary}\end{figure}
 \begin{figure}[htbp]\centering\includegraphics[width=.8\linewidth]{fig-coverage-percase.pdf}
@@ -124,9 +155,17 @@ At nominal 80\%, raw S+D has $E_{\rm roll}=.0830$, compared with $.0656$ for the
 
 The median forecast is identical across the three S+D interval rules by construction. Thus changes in interval quality do not demonstrate improved point forecasting. Scaled interval widths and scores quantify the accompanying concentration tradeoff, rather than treating coverage alone as sufficient.
 
+\input{paired-results.tex}
+
+\section{Ablation and sensitivity}
+Table~\ref{tab:sensitivity} retains the full fixed gain range, and Table~\ref{tab:seeds} keeps generated realizations separate from real excerpts.
 \input{../tables/sensitivity.tex}
 \input{../tables/seeds.tex}
 Sensitivity retains all 630 case-setting rows. At nominal 90\% on the S+D base, one ACI-style gain setting has slightly higher rolling absolute error than the raw interval, so improvement is not uniform across settings. A further calculation regenerates each of the eleven synthetic mechanisms at seeds 43 and 44, keeping its definition and controller settings fixed. Together with the original seed 42, these give three realizations per generated mechanism, not 33 independent real-world datasets. The four real excerpts have no artificial repeated seed and are not counted in the generated-only table. These analyses assess numerical sensitivity of the specified design; they are not prospective validation on an independently selected collection.
+
+\input{sensitivity-reading.tex}
+
+\input{discussion.tex}
 
 \section{Limitations and interpretation}
 The study has one-step forecasts, short selected streams, two lightweight base constructions, three nominal levels and three gain multipliers. The bases share Gaussian dispersion approximations. There is no native stateful forecasting comparison, faithful published Conformal PID comparator, population sampling design, dependence-aware significance claim or operational cost study. A parameter range explored on these same cases cannot establish robustness outside it.
@@ -135,10 +174,19 @@ The numerical reproduction closes the missing per-update forecast and controller
 
 Improved empirical coverage in this construction is compatible with substantial local error, wider intervals or other unmeasured failure modes. The selected negative controls and information-order tests support bounded checks; they do not prove freedom from every possible leak. The appropriate conclusion is lower measured rolling coverage error for these particular controllers and streams, with interval efficiency and sensitivity reported alongside it.
 
-\section*{Data and code availability}
+Internal validity is limited by reconstruction rather than original prospective instrumentation. The procedure rederives every prediction and update using source-bound values and verifies archived outputs, but original per-call process state and acquisition metadata were not fully retained. The replay's exact numerical matches do not establish a recovered historical software environment in every respect. Realistic delayed observations, revised measurements and missing targets would require an explicit arrival policy beyond the immediate one-target update used here.
+
+External validity is limited by the deliberate selection of mechanisms and excerpts. The additional generated seeds exercise random variability within those definitions. They do not test new source populations, multivariate models, long-horizon joint events or the pretrained forecasters available elsewhere in the application. The study also lacks a faithful comparison with the published adaptive methods reviewed above. Its title and conclusions consequently remain tied to fifteen-series replay, while independent reader review of this working revision remains pending. Publication acceptance is not inferred from successful compilation or numerical reconstruction. These engineering checks and scientific limitations must remain separately visible in any later release description.
+
+\section{Reproducibility and availability}
 The source, full numerical replay, sensitivity rows, input hashes and deterministic figure/table generators are at \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope}. In a declared product environment, use Python to run \path{scripts/manuscript_replay.py} with \texttt{--check}, then run \path{scripts/make_manuscript_tables.py}. The streaming manuscript directory contains the numerical replay as \path{evidence/replay.json}. Source values are included for each case; raw upstream acquisition histories and original timing metadata are not reconstructed. The separately published \texttt{preqts==0.3.0} package supplies the checked historical controller implementation. Code and redistributed data retain their stated licences; prose uses the licence in the header.
 
-\begin{thebibliography}{9}
+The additional analysis is generated with \path{scripts/analyze_replay_cases.py}; its \texttt{--check} option verifies the committed numerical extension and \texttt{--render} rebuilds its three figures and paired table. Its source digest is fixed in \path{next/evidence/analysis-plan.json}. This analysis does not overwrite the published replay or its original tables. The working manuscript retains a separate revision status, coverage map and unpublished designation until its numerical, content and independent-review requirements are satisfied.
+
+\input{conclusions.tex}
+
+\begin{thebibliography}{99}
+\input{references.tex}
 \bibitem{dawid1984} A. P. Dawid, ``Statistical theory: The prequential approach,'' \emph{JRSS A}, vol. 147, no. 2, pp. 278--292, 1984, doi:10.2307/2981683.
 \bibitem{gibbs2021} I. Gibbs and E. Cand\`es, ``Adaptive conformal inference under distribution shift,'' \emph{NeurIPS}, 2021, \url{https://arxiv.org/abs/2106.00170}.
 \bibitem{angelopoulos2023} A. N. Angelopoulos, E. Cand\`es and R. J. Tibshirani, ``Conformal PID control for time series prediction,'' \emph{NeurIPS}, 2023, \url{https://arxiv.org/abs/2307.16895}.

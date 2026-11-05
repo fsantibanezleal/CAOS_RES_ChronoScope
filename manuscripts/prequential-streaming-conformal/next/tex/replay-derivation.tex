@@ -1,0 +1,75 @@
+\subsection{Algorithm, information ownership and computational cost}
+Algorithm~\ref{alg:replay} specifies the reconstructed order. The point fit and its residual dispersion are recomputed from the entire observed prefix. The controller alone keeps a bounded score buffer and its feedback state. Two implementations that generate the same point sequence can therefore have very different fitting costs. With nineteen smoothing candidates, a prefix of length $n$ costs $O(19n)$ arithmetic operations for the candidate recurrences plus a linear regression for drift. Repeating that calculation over an expanding stream costs quadratically in its length. No native state-update advantage is inferred from this replay implementation.
+
+The controller's numerical work is bounded by a two-hundred-entry buffer. Computing an interpolated empirical quantile requires processing that buffer; a straightforward sorted implementation costs $O(B\log B)$, while a selection-based routine can differ. The constant bound $B=200$ prevents this part from growing with stream length. These operation counts explain implementation structure and do not replace measured cold-start, fitting or inference latency. Original timing-environment details are missing, and numerical reconstruction time on a new machine is a separate measurement.
+
+\begin{algorithm}[htbp]
+\caption{Reconstruct one adaptive interval stream while keeping its target outside the prediction and score-buffer quantile until the observation step.}
+\label{alg:replay}
+\begin{algorithmic}[1]
+\Require Source sequence, seasonal lag, warmup, nominal coverage, base and fixed gains
+\State Initialize empty score buffer, effective miscoverage, integral and previous error
+\For{each cutoff after warmup}
+  \State Fit the declared point base and dispersion on the observed prefix only
+  \State Form the base half-width and the past-buffer quantile at the current level
+  \State Fix and record the point forecast and interval endpoints
+  \State Reveal the next target; compute hit, normalized score and proper interval score
+  \State Append the score, removing the oldest entry when capacity is exceeded
+  \State Apply the declared ACI-style or PID-style update and record clipping and state
+  \State Extend the observed prefix with this target
+\EndFor
+\State Retain every row, source identity and setting before computing case summaries
+\end{algorithmic}
+\end{algorithm}
+
+The first forecast uses an empty buffer and multiplier one. This is an initialization policy, not a calibrated prediction set obtained from two hundred previous errors. Early rolling coverage also averages fewer than twenty-five arrivals. Both initialization effects remain in the reported stream rather than being removed after inspecting their performance. A different burn-in rule could change the numerical comparison and would have to be stated as another experiment. Likewise, retaining the most recent two hundred scores favors adaptation to recent history while discarding older outcomes; it is not an independently selected optimal memory length.
+
+\subsection{Causality and invariance of the point forecast}
+Let $\mathcal F_{t-1}$ contain the observed prefix and the fixed configuration. Assume the initial controller state is fixed, the base-fitting routine is deterministic for its declared inputs, and the buffer contains only scores from cutoffs before $t$. Then the point, dispersion, current level and buffered quantile are functions of $\mathcal F_{t-1}$. Therefore
+\begin{equation}\label{eq:replay-causal}
+ (p_t,l_t,g_t,\alpha_t,\mathcal B_t)\text{ are }\mathcal F_{t-1}\text{-measurable}.
+\end{equation}
+After the observation arrives, its score and miss indicator become functions of $\mathcal F_t$. Appending that score and applying either stated controller makes the next state a function of $\mathcal F_t$. Induction from the fixed initial state proves the information-order property at every cutoff. The argument establishes absence of look-ahead in this specified procedure; it does not establish that a different data-loading or preprocessing pipeline respects the same information boundary.
+
+The normalization divides the absolute point error by the base half-width before buffering it. The point fit does not consume the buffer or controller level. For a fixed base and prefix, it follows directly that
+\begin{equation}\label{eq:replay-point-identity}
+ p_t^{\rm raw}=p_t^{\rm ACI}=p_t^{\rm PID}.
+\end{equation}
+Thus every point-error statistic is identical across these interval rules, apart from an implementation defect. The additional analysis checks this identity over every retained row before resampling cases. A reduction in rolling coverage error is therefore an improvement in the interval procedure's measured behavior, not evidence of a more accurate point model. Seasonal naive is a different point base and is interpreted separately.
+
+Positive affine changes of the source also clarify what is normalized. Away from the absolute half-width floor, replacing $y$ by $a+b y$, $b>0$, transforms the point and base width to $a+b p$ and $b r$. The score remains $|b(y-p)|/(br)$, so the controller's score sequence, hits and levels remain unchanged. Interval score scales by $b$, and dividing it by a positive warmup difference scale cancels that factor. The floor of $10^{-8}$ has source units and breaks exact scale equivariance when active. It is retained as a historical numerical choice, not described as dimensionless or silently removed from the reconstruction.
+
+\subsection{What the two coverage averages measure}
+Write $C_{it}$ for a case's trailing empirical coverage and use the same fixed nominal coverage $c$ at all its cutoffs. The absolute value is convex. Applying the triangle inequality within each case and then averaging gives the deterministic relation
+\begin{equation}\label{eq:replay-jensen}
+ E_{\rm avg}=\frac1N\sum_i\left|\frac1{K_i}\sum_t(C_{it}-c)\right|
+ \le \frac1N\sum_i\frac1{K_i}\sum_t|C_{it}-c|=E_{\rm roll}.
+\end{equation}
+This inequality needs no independence assumption and holds for every finite realized set of streams. It explains why the smaller statistic cannot substitute for local absolute error. Opposite-signed deviations can cancel before the absolute value is taken. The inequality does not guarantee that either statistic is small, and a small finite rolling error does not imply conditional validity under an unknown future distribution.
+
+Even the average of rolling coverages is not exactly the ordinary final empirical coverage. Index a case's scored arrivals by $s=1,\ldots,K$ and let $W=25$. Then
+\begin{align}\label{eq:replay-rolling-weights}
+ \frac1K\sum_{t=1}^K C_t &=\sum_{s=1}^{K}\omega_s B_s,\\
+ \omega_s&=\frac1K\sum_{t=s}^{\min(K,s+W-1)}\frac1{\min(W,t)},
+ \qquad\sum_s\omega_s=1.
+\end{align}
+To verify the formula, expand each rolling mean and interchange the two finite sums. An arrival appears only in subsequent windows that still include it. Initial windows have shorter denominators, while final arrivals appear in fewer windows before the stream ends. The resulting boundary weights differ from $1/K$. Consequently, $E_{\rm avg}$ and $E_{\rm final}$ can differ even before considering the outer absolute value. The reconstruction retains the archive's five-decimal rolling values; the algebra describes the corresponding unrounded quantity, with export rounding supplying a small separate numerical discrepancy.
+
+These results identify precisely the source of the earlier headline ambiguity. They do not identify a universally preferable coverage measure. Final coverage answers a whole-stream frequency question; rolling absolute error describes a chosen local window; a strongly adaptive or conditional criterion addresses another question under its own definitions. This paper uses the first two descriptively and does not claim the latter from a favorable average.
+
+\subsection{Clipping and the limits of a cumulative feedback argument}
+The unprojected ACI-style recursion has an elementary telescoping identity. Let $g_t=\alpha^*-e_t=B_t-c$. Define the projection residual
+\begin{equation}\label{eq:replay-projection}
+ \delta_t=\alpha_{t+1}-\alpha_t-\gamma g_t.
+\end{equation}
+Summing over $K$ scored arrivals gives
+\begin{equation}\label{eq:replay-telescope}
+ \frac1K\sum_t(B_t-c)
+ =\frac{\alpha_{\rm end}-\alpha_{\rm start}}{\gamma K}
+  -\frac1{\gamma K}\sum_t\delta_t.
+\end{equation}
+This is an exact algebraic identity for the stated update. If no clipping occurs, every projection residual is zero. Bounded levels then bound the first term by a constant divided by $\gamma K$. When clipping does occur, the second term is present. A bound on the level's range alone cannot remove it. This distinction prevents the paper from importing a long-run result proved for a different update or for a construction that permits empty or unbounded prediction sets outside the usual probability range.
+
+A simple limiting example makes the issue concrete. Suppose a base predicts a constant stream exactly, its positive numerical half-width is retained, and all normalized errors are zero. After the first observation the empirical quantile is zero, the interval equals the target, and every arrival is covered. The effective level increases until it reaches the upper clipping boundary. At that boundary the projection residual cancels the proposed positive increment. The coverage frequency remains one rather than converging to $c<1$. This is a counterexample to an unconditional arbitrary-sequence coverage claim for the clipped finite-buffer construction. It is not a claim that this degeneracy occurred in the fifteen admitted cases, and its zero warmup difference scale would make the cross-case scaled score unavailable.
+
+The PID-style recursion has an accumulated error but a different state equation: it recomputes the level around $\alpha^*$ instead of adding a correction to the previous level. Its unconstrained integral can grow while the effective level is clipped. The ACI telescoping argument therefore cannot be transferred to it by replacing the gain. Proving stability, efficiency or conditional coverage would require assumptions and analysis of that actual coupled system. The empirical sensitivity grid measures behavior at three gain multipliers; it does not supply such a proof. The defensible theoretical claims here are the information-order property, point identity, deterministic coverage inequality and explicit feedback identity, each with its stated conditions.
