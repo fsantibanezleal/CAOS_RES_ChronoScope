@@ -96,9 +96,19 @@ def run(spec: Any, seed: int = 42) -> dict:
         analysis["nonlinear"] = {"skipped": f"series too short (n={n} < {MIN_FOR_NONLINEAR}) for the chaos panel"}
 
     # Causality is bivariate: only run it when the case carries a covariate/second series.
-    covar = getattr(spec, "covariate", None)
-    if covar is not None and len(covar) >= 2:
-        analysis["causality"] = _safe("causality", lambda: causality.causality_report(y, list(covar)))
+    covariates = getattr(spec, "covariates", ())
+    if covariates:
+        # The artifact has one bivariate panel; its explicit reference is the
+        # first typed covariate. Do not silently truncate unequal time axes.
+        reference = covariates[0]
+        values = list(reference.values)
+        if len(values) != n:
+            analysis["causality"] = {"error": "covariate and target lengths differ"}
+        else:
+            analysis["causality"] = _safe("causality", lambda: causality.causality_report(y, values))
+            analysis["causality"]["target_case"] = spec.case_id
+            analysis["causality"]["reference_covariate"] = reference.name
+            analysis["causality"]["scope"] = "descriptive full-series association, not an intervention effect or forecast input"
     else:
         analysis["causality"] = {"skipped": "univariate case (no covariate series to relate)"}
 
