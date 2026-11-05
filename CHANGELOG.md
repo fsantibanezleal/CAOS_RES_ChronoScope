@@ -5,6 +5,9 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 
 ## Unreleased
 
+- Recompute live learned forecasts for changed histories even when their length
+  and sum match; reject stale asynchronous results, unsupported horizons,
+  constant lookbacks and malformed outputs.
 - Inventory 107 numerical procedures and execution identities, including bundled
   diagnostics, direct/package neural distinctions, the browser least-squares
   export and the archived streaming reconstruction.
