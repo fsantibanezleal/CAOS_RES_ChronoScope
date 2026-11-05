@@ -40,6 +40,9 @@
       },
       "CombinationCase": {
         "$ref": "./schemas/combination-case.schema.json"
+      },
+      "BrowserCalibration": {
+        "$ref": "./schemas/browser-calibration.schema.json"
       }
     }
   }

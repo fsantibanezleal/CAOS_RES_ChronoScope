@@ -1,0 +1,4 @@
+# Optional CPU-only held-out model evaluation and ONNX parity.
+numpy==2.4.6
+onnx==1.23.2
+onnxruntime==1.27.0

@@ -128,7 +128,10 @@ def validate(stage):
     validate_diagnostics(root=stage)
     validate_study(read(stage / "data/derived/forecastability.json"), root=ROOT)
     count = validate_combination_release(stage)
-    print(f"Product admission: diagnostics, fresh comparison, M4 corpus and {count} combination cases")
+    from check_browser_linear_evidence import validate as validate_browser_evidence
+
+    validate_browser_evidence(stage)
+    print(f"Product admission: diagnostics, fresh comparison, M4 corpus, {count} combination cases and held-out browser calibration")
 
 
 def main():

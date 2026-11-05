@@ -1,0 +1,1058 @@
+{
+  "schema": "chronoscope-method-inventory-v1",
+  "scope": "Numerical procedures and execution identities; inventory counts do not establish novelty or teaching depth",
+  "methods": [
+    {
+      "id": "forecast/SeasonalNaive",
+      "name": "SeasonalNaive",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::seasonal_naive",
+      "validation": "tests/test_forecasters.py",
+      "artifact_name": "SeasonalNaive",
+      "implementation_relation": "local finite-history forecast"
+    },
+    {
+      "id": "forecast/SES",
+      "name": "SES",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::ses",
+      "validation": "tests/test_forecasters.py",
+      "artifact_name": "SES",
+      "implementation_relation": "local finite-history forecast"
+    },
+    {
+      "id": "forecast/Holt",
+      "name": "Holt",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::holt",
+      "validation": "tests/test_forecasters.py",
+      "artifact_name": "Holt",
+      "implementation_relation": "local finite-history forecast"
+    },
+    {
+      "id": "forecast/HoltWinters",
+      "name": "HoltWinters",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::holt_winters",
+      "validation": "tests/test_forecasters.py",
+      "artifact_name": "HoltWinters",
+      "implementation_relation": "local finite-history forecast"
+    },
+    {
+      "id": "forecast/Theta",
+      "name": "Theta",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::theta",
+      "validation": "tests/test_forecasters.py",
+      "artifact_name": "Theta",
+      "implementation_relation": "local finite-history forecast"
+    },
+    {
+      "id": "forecast/ContextMemory",
+      "name": "ContextMemory",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory",
+      "validation": "tests/test_reevaluation.py",
+      "artifact_name": "ContextMemory",
+      "implementation_relation": "fixed combination",
+      "configuration": {
+        "mode": "context"
+      }
+    },
+    {
+      "id": "forecast/RecencyMean",
+      "name": "RecencyMean",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory",
+      "validation": "tests/test_reevaluation.py",
+      "artifact_name": "RecencyMean",
+      "implementation_relation": "matching combination control",
+      "configuration": {
+        "mode": "recency"
+      }
+    },
+    {
+      "id": "forecast/EqualMean",
+      "name": "EqualMean",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory",
+      "validation": "tests/test_reevaluation.py",
+      "artifact_name": "EqualMean",
+      "implementation_relation": "matching combination control",
+      "configuration": {
+        "mode": "uniform"
+      }
+    },
+    {
+      "id": "forecast/ContextMemoryCV",
+      "name": "ContextMemoryCV",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated",
+      "validation": "tests/test_validated_combination.py",
+      "artifact_name": "ContextMemoryCV",
+      "implementation_relation": "temporally selected combination",
+      "configuration": {
+        "stacking": false
+      }
+    },
+    {
+      "id": "forecast/ValidationMix",
+      "name": "ValidationMix",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated",
+      "validation": "tests/test_validated_combination.py",
+      "artifact_name": "ValidationMix",
+      "implementation_relation": "temporally selected combination",
+      "configuration": {
+        "stacking": true
+      }
+    },
+    {
+      "id": "forecast/AutoETS",
+      "name": "AutoETS",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster",
+      "validation": "tests/test_engines.py",
+      "artifact_name": "AutoETS",
+      "implementation_relation": "StatsForecast model"
+    },
+    {
+      "id": "forecast/AutoTheta",
+      "name": "AutoTheta",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster",
+      "validation": "tests/test_engines.py",
+      "artifact_name": "AutoTheta",
+      "implementation_relation": "StatsForecast model"
+    },
+    {
+      "id": "forecast/AutoARIMA",
+      "name": "AutoARIMA",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster",
+      "validation": "tests/test_engines.py",
+      "artifact_name": "AutoARIMA",
+      "implementation_relation": "StatsForecast model"
+    },
+    {
+      "id": "forecast/LightGBM",
+      "name": "LightGBM",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/lightgbm_engine.py::LightGBMForecaster",
+      "validation": "tests/test_engines.py",
+      "artifact_name": "LightGBM",
+      "implementation_relation": "lag-feature regression"
+    },
+    {
+      "id": "forecast/NLinear",
+      "name": "NLinear with a local quantile head",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster",
+      "validation": "tests/test_engine_neural.py",
+      "artifact_name": "NLinear",
+      "implementation_relation": "direct local adaptation, distinct from the package implementation"
+    },
+    {
+      "id": "forecast/NLinear-nf",
+      "name": "NLinear from NeuralForecast",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster",
+      "validation": "tests/test_engine_neuralforecast.py",
+      "artifact_name": "NLinear (nf)",
+      "implementation_relation": "NeuralForecast package model"
+    },
+    {
+      "id": "forecast/DLinear",
+      "name": "DLinear with a local quantile head",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster",
+      "validation": "tests/test_engine_neural.py",
+      "artifact_name": "DLinear",
+      "implementation_relation": "direct local adaptation, distinct from the package implementation"
+    },
+    {
+      "id": "forecast/DLinear-nf",
+      "name": "DLinear from NeuralForecast",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster",
+      "validation": "tests/test_engine_neuralforecast.py",
+      "artifact_name": "DLinear (nf)",
+      "implementation_relation": "NeuralForecast package model"
+    },
+    {
+      "id": "forecast/NHITS",
+      "name": "NHITS with a local quantile head",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster",
+      "validation": "tests/test_engine_neural.py",
+      "artifact_name": "NHITS",
+      "implementation_relation": "direct local adaptation, distinct from the package implementation"
+    },
+    {
+      "id": "forecast/NHITS-nf",
+      "name": "NHITS from NeuralForecast",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster",
+      "validation": "tests/test_engine_neuralforecast.py",
+      "artifact_name": "NHITS (nf)",
+      "implementation_relation": "NeuralForecast package model"
+    },
+    {
+      "id": "forecast/Chronos-Bolt",
+      "name": "Chronos-Bolt",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster",
+      "validation": "tests/test_engine_foundation.py",
+      "artifact_name": "Chronos-Bolt",
+      "implementation_relation": "pretrained checkpoint inference"
+    },
+    {
+      "id": "forecast/Chronos-2",
+      "name": "Chronos-2",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster",
+      "validation": "tests/test_engine_foundation.py",
+      "artifact_name": "Chronos-2",
+      "implementation_relation": "pretrained checkpoint inference"
+    },
+    {
+      "id": "forecast/TimesFM-2.5",
+      "name": "TimesFM-2.5",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/timesfm_engine.py::TimesFmForecaster",
+      "validation": "tests/test_engine_foundation.py",
+      "artifact_name": "TimesFM-2.5",
+      "implementation_relation": "pretrained checkpoint inference"
+    },
+    {
+      "id": "forecast/TiRex-2",
+      "name": "TiRex-2",
+      "scope": "forecast",
+      "implementation": "data-pipeline/chronoscopelab/engines/tirex2_engine.py::Tirex2Forecaster",
+      "validation": "tests/test_engine_tirex2_wsl.py",
+      "artifact_name": "TiRex-2",
+      "implementation_relation": "pretrained checkpoint inference"
+    },
+    {
+      "id": "browser/normalized-linear-least-squares",
+      "name": "Instance-normalized linear least-squares browser model",
+      "scope": "browser-export",
+      "implementation": "scripts/train_nlinear_onnx.py::main",
+      "validation": "frontend/scripts/check-live-real.mjs",
+      "artifact_name": "NLinear",
+      "implementation_relation": "global synthetic-window least-squares fit exported to ONNX; distinct from per-prefix neural fits"
+    },
+    {
+      "id": "experimental-browser/normalized-ridge",
+      "name": "Held-out instance-normalized ridge reference",
+      "scope": "experimental-browser",
+      "implementation": "scripts/evaluate_browser_linear.py::fit_ridge",
+      "validation": "tests/test_browser_linear.py",
+      "artifact_name": null,
+      "implementation_relation": "synthetic held-out reference; not the deployed point model"
+    },
+    {
+      "id": "experimental-browser/split-calibration",
+      "name": "Per-lead absolute-residual split calibration",
+      "scope": "experimental-interval",
+      "implementation": "scripts/evaluate_browser_linear.py::calibration_radii",
+      "validation": "tests/test_browser_linear.py",
+      "artifact_name": null,
+      "implementation_relation": "finite-sample marginal calibration under exchangeable series"
+    },
+    {
+      "id": "experimental-browser/roughness-stratification",
+      "name": "Prefix-roughness stratified residual calibration",
+      "scope": "experimental-interval",
+      "implementation": "scripts/confirm_browser_calibration.py::group_radii",
+      "validation": "tests/test_browser_calibration.py",
+      "artifact_name": null,
+      "implementation_relation": "fixed prefix-only strata; independent synthetic confirmation"
+    },
+    {
+      "id": "selection/training-case-ranking",
+      "name": "Training-case mean-MASE method ranking",
+      "scope": "selection",
+      "implementation": "data-pipeline/chronoscopelab/stages/train.py::run",
+      "validation": "tests/test_pipeline_smoke.py",
+      "artifact_name": null,
+      "implementation_relation": "legacy global ranking; separate from corpus selector"
+    },
+    {
+      "id": "forecast/Naive",
+      "name": "Last-observation forecast",
+      "scope": "forecast",
+      "implementation": "scripts/run_forecastability_study.py::evaluate",
+      "validation": "tests/test_forecastability.py",
+      "artifact_name": "Naive",
+      "implementation_relation": "corpus control"
+    },
+    {
+      "id": "interval/gaussian",
+      "name": "Gaussian marginal quantiles",
+      "scope": "interval",
+      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::gaussian_quantiles",
+      "validation": "tests/test_forecasters.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "historical/streaming-smoothing-drift",
+      "name": "Archived smoothing-plus-drift predictor",
+      "scope": "historical-reconstruction",
+      "implementation": "scripts/manuscript_replay.py::legacy_point",
+      "validation": "tests/test_manuscript_replay.py",
+      "artifact_name": "Theta",
+      "implementation_relation": "reconstructs the archived streaming predictor; separate from current finite-history Theta"
+    },
+    {
+      "id": "interval/aci-style",
+      "name": "Adaptive miscoverage-level feedback",
+      "scope": "interval",
+      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::run",
+      "validation": "tests/test_stage_streaming.py",
+      "artifact_name": "Theta+ACI",
+      "implementation_relation": "preqts AdaptiveConformal wrapper; replay base"
+    },
+    {
+      "id": "interval/pid-style",
+      "name": "Proportional-integral-derivative miscoverage feedback",
+      "scope": "interval",
+      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::run",
+      "validation": "tests/test_stage_streaming.py",
+      "artifact_name": "Theta+PID",
+      "implementation_relation": "preqts ConformalPID wrapper; no published Conformal PID theorem is claimed"
+    },
+    {
+      "id": "forecast/ridge-blind",
+      "name": "Ridge with observed target lags",
+      "scope": "covariate-protocol",
+      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch",
+      "validation": "tests/test_stage_streaming.py",
+      "artifact_name": "Ridge (blind)",
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "forecast/ridge-aware",
+      "name": "Ridge with admissible known-future covariates",
+      "scope": "covariate-protocol",
+      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch",
+      "validation": "tests/test_stage_streaming.py",
+      "artifact_name": "Ridge+exog (aware)",
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/adf",
+      "name": "Augmented Dickey-Fuller unit-root test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::adf",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/kpss",
+      "name": "KPSS stationarity test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::kpss",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/pp",
+      "name": "Phillips-Perron unit-root test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::phillips_perron",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/dfgls",
+      "name": "GLS-detrended unit-root test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::dfgls",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/zivot-andrews",
+      "name": "Unit-root test with an endogenous structural break",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::zivot_andrews",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/differencing",
+      "name": "Sequential KPSS differencing-order selection",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::ndiffs",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/seasonal-differencing",
+      "name": "STL-strength seasonal differencing selection",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::nsdiffs",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/stationarity/joint-verdict",
+      "name": "Joint ADF and KPSS interpretation",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::combined_verdict",
+      "validation": "tests/test_analysis_stationarity.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/autocorrelation/bartlett",
+      "name": "Bartlett lag-dependent autocorrelation uncertainty band",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::bartlett_band",
+      "validation": "tests/test_analysis_autocorrelation.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/autocorrelation/acf",
+      "name": "Autocorrelation function with lag uncertainty",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::acf",
+      "validation": "tests/test_analysis_autocorrelation.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/autocorrelation/pacf",
+      "name": "Partial autocorrelation by Durbin-Levinson recursion",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::pacf",
+      "validation": "tests/test_analysis_autocorrelation.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/autocorrelation/ljung-box",
+      "name": "Ljung-Box portmanteau statistic",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::ljung_box",
+      "validation": "tests/test_analysis_autocorrelation.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/autocorrelation/box-pierce",
+      "name": "Box-Pierce portmanteau statistic",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::box_pierce",
+      "validation": "tests/test_analysis_autocorrelation.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/autocorrelation/durbin-watson",
+      "name": "Durbin-Watson serial-correlation statistic",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::durbin_watson",
+      "validation": "tests/test_analysis_autocorrelation.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/autocorrelation/lag-pairs",
+      "name": "Lagged state-pair representation",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::lag_plot_pairs",
+      "validation": "tests/test_analysis_autocorrelation.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/seasonality/periodogram",
+      "name": "Fourier periodogram",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::periodogram",
+      "validation": "tests/test_analysis_seasonality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/seasonality/welch",
+      "name": "Welch spectral-density estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::welch",
+      "validation": "tests/test_analysis_seasonality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/seasonality/strength",
+      "name": "Seasonal variance strength",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_strength",
+      "validation": "tests/test_analysis_seasonality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure",
+      "implementation_aliases": [
+        "data-pipeline/chronoscopelab/analysis/stationarity.py::seasonal_strength"
+      ]
+    },
+    {
+      "id": "analysis/seasonality/stl",
+      "name": "STL decomposition",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::stl_decompose",
+      "validation": "tests/test_analysis_seasonality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/seasonality/mstl",
+      "name": "Multiple-seasonal STL decomposition",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::mstl_decompose",
+      "validation": "tests/test_analysis_seasonality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/seasonality/subseries",
+      "name": "Seasonal subseries comparison",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_subseries",
+      "validation": "tests/test_analysis_seasonality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/filters/hp",
+      "name": "Hodrick-Prescott trend-cycle filter",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::hodrick_prescott",
+      "validation": "tests/test_analysis_filters.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/filters/bk",
+      "name": "Baxter-King band-pass filter",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::baxter_king",
+      "validation": "tests/test_analysis_filters.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/filters/cf",
+      "name": "Christiano-Fitzgerald band-pass filter",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::christiano_fitzgerald",
+      "validation": "tests/test_analysis_filters.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/filters/emd",
+      "name": "Empirical mode decomposition",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::emd",
+      "validation": "tests/test_analysis_filters.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/filters/ceemdan",
+      "name": "Complete ensemble empirical mode decomposition",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::ceemdan",
+      "validation": "tests/test_analysis_filters.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/filters/cwt",
+      "name": "Continuous-wavelet scalogram",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::cwt_scalogram",
+      "validation": "tests/test_analysis_filters.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/changepoints/pelt",
+      "name": "PELT segmentation",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::pelt",
+      "validation": "tests/test_analysis_changepoints.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/changepoints/binseg",
+      "name": "Binary segmentation",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::binseg",
+      "validation": "tests/test_analysis_changepoints.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/changepoints/cusum",
+      "name": "OLS residual cumulative-sum stability test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::cusum_stability",
+      "validation": "tests/test_analysis_changepoints.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/changepoints/markov",
+      "name": "Markov-switching regime model",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::markov_regimes",
+      "validation": "tests/test_analysis_changepoints.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/volatility/arch",
+      "name": "ARCH Lagrange-multiplier test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::arch_lm",
+      "validation": "tests/test_analysis_volatility.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/volatility/garch",
+      "name": "GARCH conditional-variance model",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::garch",
+      "validation": "tests/test_analysis_volatility.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/volatility/box-cox-mle",
+      "name": "Box-Cox profile-likelihood transform selection",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::box_cox",
+      "validation": "tests/test_analysis_volatility.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/volatility/box-cox-guerrero",
+      "name": "Guerrero seasonal variance stabilization",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::box_cox",
+      "validation": "tests/test_analysis_volatility.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/volatility/rolling",
+      "name": "Rolling dispersion estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::rolling_volatility",
+      "validation": "tests/test_analysis_volatility.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/moments",
+      "name": "Empirical moments",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::summary",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/jarque-bera",
+      "name": "Jarque-Bera normality test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::summary",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/shapiro-wilk",
+      "name": "Shapiro-Wilk normality test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::summary",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/kde",
+      "name": "Kernel density estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::kde_curve",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/qq",
+      "name": "Normal quantile-quantile representation",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::qq_points",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/sample-entropy",
+      "name": "Sample entropy",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/permutation-entropy",
+      "name": "Normalized permutation entropy",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/spectral-entropy",
+      "name": "Normalized spectral entropy",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/bds",
+      "name": "BDS independence statistic",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/distribution/catch22",
+      "name": "Canonical catch22 feature vector",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::catch22_features",
+      "validation": "tests/test_analysis_distribution.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/fractal/hurst-rs",
+      "name": "Rescaled-range Hurst estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::hurst",
+      "validation": "tests/test_analysis_fractal.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/fractal/dfa",
+      "name": "Detrended fluctuation scaling estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::hurst",
+      "validation": "tests/test_analysis_fractal.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/fractal/mfdfa",
+      "name": "Multifractal detrended fluctuation analysis",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::mfdfa",
+      "validation": "tests/test_analysis_fractal.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/fractal/higuchi",
+      "name": "Higuchi graph-dimension estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension",
+      "validation": "tests/test_analysis_fractal.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/fractal/katz",
+      "name": "Katz graph-dimension estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension",
+      "validation": "tests/test_analysis_fractal.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/fractal/petrosian",
+      "name": "Petrosian graph-dimension estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension",
+      "validation": "tests/test_analysis_fractal.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/fractal/dcca",
+      "name": "Detrended cross-correlation coefficient",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::dcca_coefficient",
+      "validation": "tests/test_analysis_fractal.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/nonlinear/embedding",
+      "name": "Time-delay state-space embedding",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::time_delay_embed",
+      "validation": "tests/test_analysis_nonlinear.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/nonlinear/correlation-dimension",
+      "name": "Grassberger-Procaccia correlation dimension",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures",
+      "validation": "tests/test_analysis_nonlinear.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/nonlinear/lyapunov",
+      "name": "Rosenstein largest Lyapunov estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures",
+      "validation": "tests/test_analysis_nonlinear.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/nonlinear/rqa",
+      "name": "Recurrence quantification analysis",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::recurrence_quantification",
+      "validation": "tests/test_analysis_nonlinear.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/nonlinear/iaaft",
+      "name": "Iterative amplitude-adjusted Fourier surrogate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::iaaft_surrogate",
+      "validation": "tests/test_analysis_nonlinear.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/nonlinear/zero-one",
+      "name": "Zero-one chaos diagnostic",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::zero_one_test",
+      "validation": "tests/test_analysis_nonlinear.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/causality/cross-correlation",
+      "name": "Cross-correlation lead-lag estimate",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::cross_correlation",
+      "validation": "tests/test_analysis_causality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/causality/granger",
+      "name": "Granger predictive-causality test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::granger_causality",
+      "validation": "tests/test_analysis_causality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/causality/engle-granger",
+      "name": "Engle-Granger residual cointegration test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::cointegration",
+      "validation": "tests/test_analysis_causality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/causality/johansen",
+      "name": "Johansen trace-rank cointegration test",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::cointegration",
+      "validation": "tests/test_analysis_causality.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/sequence/matrix-profile",
+      "name": "Exact z-normalized Matrix Profile self-join",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile",
+      "validation": "tests/test_sequence_diagnostics.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/sequence/fluss",
+      "name": "FLUSS candidate regime boundaries",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile",
+      "validation": "tests/test_sequence_diagnostics.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/sequence/multiscale-entropy",
+      "name": "Fixed-tolerance multiscale sample entropy",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::multiscale_entropy",
+      "validation": "tests/test_sequence_diagnostics.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/sequence/lempel-ziv",
+      "name": "Binary Lempel-Ziv complexity with an explicit finite-length reference",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::sequence_report",
+      "validation": "tests/test_sequence_diagnostics.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/sequence/time-reversal-raw",
+      "name": "Raw third-order lag-reversal statistic",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal",
+      "validation": "tests/test_sequence_diagnostics.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/sequence/time-reversal-standardized",
+      "name": "Standardized third-order lag-reversal statistic",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal",
+      "validation": "tests/test_sequence_diagnostics.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/atlas/partition",
+      "name": "Deterministic disjoint-series partition assignment",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::partition",
+      "validation": "tests/test_forecastability.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/atlas/prefix-features",
+      "name": "Prefix-only forecastability feature extraction",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::prefix_features",
+      "validation": "tests/test_forecastability.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/atlas/by",
+      "name": "Benjamini-Yekutieli dependent-test adjustment",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::by_adjust",
+      "validation": "tests/test_forecastability.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/atlas/kendall",
+      "name": "Kendall rank association with disjoint-series confirmation",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::associations",
+      "validation": "tests/test_forecastability.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    },
+    {
+      "id": "analysis/atlas/selector",
+      "name": "Discovery-trained random-forest method selector",
+      "scope": "analysis",
+      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::study_summary",
+      "validation": "tests/test_forecastability.py",
+      "artifact_name": null,
+      "implementation_relation": "numerical procedure"
+    }
+  ],
+  "non_method_analysis_apis": {
+    "stationarity.stationarity_report": "Assembles the stationarity tests, differencing recommendations and combined verdict.",
+    "autocorrelation.autocorrelation_report": "Assembles correlograms, portmanteau statistics and lag pairs.",
+    "causality.causality_report": "Assembles cross-correlation, Granger and cointegration outputs.",
+    "changepoints.changepoints_report": "Assembles segmentation, stability and regime-fit outputs.",
+    "distribution.distribution_report": "Assembles distributional summaries, density, quantile and complexity outputs.",
+    "filters.filters_report": "Assembles trend-cycle, empirical-mode and wavelet outputs.",
+    "fractal.fractal_report": "Assembles scaling, multifractal and graph-dimension outputs.",
+    "nonlinear.nonlinear_report": "Assembles embedded-state, recurrence, chaos and surrogate diagnostics.",
+    "seasonality.seasonality_report": "Assembles spectral, decomposition and seasonal-subseries outputs.",
+    "sequence.finite_sequence": "Enforces the finite contiguous input contract; it estimates no numerical property.",
+    "volatility.volatility_report": "Assembles conditional-variance, transformation and rolling-dispersion outputs."
+  },
+  "source_sha256": {
+    "data-pipeline/chronoscopelab/analysis/atlas.py": "0c038b33f39110ca257cb6888a31d8fa8764ac4a38018ffe9e73af6ef1dc7719",
+    "data-pipeline/chronoscopelab/analysis/autocorrelation.py": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552",
+    "data-pipeline/chronoscopelab/analysis/causality.py": "e9b8fe8bc9b64a5cadf0e7accc2fae0b322fa1511958c375828f8ffede840c01",
+    "data-pipeline/chronoscopelab/analysis/changepoints.py": "dc0ce4fcb0eae8ca1b58bcf12046d09298d9807ce83e3d9344528a583b8e1466",
+    "data-pipeline/chronoscopelab/analysis/distribution.py": "36d79880747d2cef9c715e84e23586014988b77eadb78acac33edf6cf3d07f42",
+    "data-pipeline/chronoscopelab/analysis/filters.py": "227301d30878b6379d9588e8baa204a03a1d8d8dd4a329f90df8ac65db87741f",
+    "data-pipeline/chronoscopelab/analysis/fractal.py": "f1fa42f4c0676a97cde5a07ca79e9a832ae356c13451a7d46ee3859c107f3b1e",
+    "data-pipeline/chronoscopelab/analysis/nonlinear.py": "fcbc4a473636d1dd8a6c13b5170d1d6ee977fd6dc78beb56bd2d12f2caa6f593",
+    "data-pipeline/chronoscopelab/analysis/seasonality.py": "99c328fdb6b792b73485928146313e613f9c3ba354b1760e82e8bdd7e50b7cbb",
+    "data-pipeline/chronoscopelab/analysis/sequence.py": "63cf6a21ba110d08fd5bde2c9e4df2ec53a75b29ab03fba151b83be35c7420b9",
+    "data-pipeline/chronoscopelab/analysis/stationarity.py": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029",
+    "data-pipeline/chronoscopelab/analysis/volatility.py": "38685dc0684377d816ead19cff357c75caef68c5db7038fb9c5c96ad213978c0",
+    "data-pipeline/chronoscopelab/engines/chronos_engine.py": "dbbbca3f4567007e98feaf4409a4660520b3bbe9890b7c46f930adb9ad7924c4",
+    "data-pipeline/chronoscopelab/engines/lightgbm_engine.py": "7ce55fa309d5072c9a44751d8d06aac52f7e823950cda3a14154c0b3267a467c",
+    "data-pipeline/chronoscopelab/engines/neural_engine.py": "91776da3315fc850fa51fe3911ae9e25b93b7c11364363be982d7b8d2e72d341",
+    "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py": "c0b2386012a1c53f61d58ce03dd37c4b4579f14053db8b30ade61f696d72d235",
+    "data-pipeline/chronoscopelab/engines/statsforecast_engine.py": "2277da5ffc93ea2543b43239d4b0f334fd440d0fdfc67c627a253e2a9cab7a34",
+    "data-pipeline/chronoscopelab/engines/timesfm_engine.py": "343d3557395ce904530525bb69ed9c0b8bcf16c3595239181c5fe69ef7a99780",
+    "data-pipeline/chronoscopelab/engines/tirex2_engine.py": "b81e7b32deaacde94ee358ba0e58a086525c37eb1c8b5869af96d54c9c34bd92",
+    "data-pipeline/chronoscopelab/model/context_memory.py": "dbafac6c79f05a562718e217113c170aac6a968ddbae6bf723e8e5e7292fc5ad",
+    "data-pipeline/chronoscopelab/model/forecasters.py": "940c194ab85fe9d2ccbd58b89b986c1e0bb580298954f06a8793117b6469e664",
+    "data-pipeline/chronoscopelab/model/validated_combination.py": "dfbf1940dd6bd4832e234cc2f1efb28b06d5b4f72f6006e9b49f551918c88c95",
+    "data-pipeline/chronoscopelab/stages/streaming.py": "bd3c4746476afd7346da51f6d2f8284ac9cb68353f3572c00adc603a88633bc8",
+    "data-pipeline/chronoscopelab/stages/train.py": "6e72e60b03da95fb164bd6939d1f79c41af7fe2464906f17b52bd250c3fe49ae",
+    "scripts/confirm_browser_calibration.py": "2e75e8de5d2a1fa06f508b5e33bf2a23612d04307edecf9a4e6f403517adf284",
+    "scripts/evaluate_browser_linear.py": "b206fb7c6f9a61b85707c65cc3b9c695e6e60d513169139644483fdc79c1dc5e",
+    "scripts/manuscript_replay.py": "cf28b109e09186be9b05386b280851ae56a8f218f38058d1b788a25549393172",
+    "scripts/run_forecastability_study.py": "584c720c40167d1fe30d902475be44f04cc55f53429d746053ec7c21814fc7ef",
+    "scripts/train_nlinear_onnx.py": "d5e4c95273385f41f190fa0794f0ed0ec486ba4fcb22fd0b45053ff3ff54e235"
+  }
+}

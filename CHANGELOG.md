@@ -5,6 +5,19 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 
 ## Unreleased
 
+- Recompute live learned forecasts for changed histories even when their length
+  and sum match; reject stale asynchronous results, unsupported horizons,
+  constant lookbacks and malformed outputs.
+- Inventory 110 numerical procedures and execution identities, including bundled
+  diagnostics, direct/package neural distinctions, the browser least-squares
+  export and the archived streaming reconstruction.
+- Evaluate held-out linear selection and interval calibration under committed
+  protocols. Preserve the ridge point-error regression; confirm a 49.60% lower
+  interval score with prefix-stratified intervals around unchanged browser
+  points on 800 independent synthetic series, with full subgroup outcomes.
+- Use confirmed prefix-stratified marginal bands in the live linear panel,
+  bind calibration to the exact ONNX digest, refuse invalid output scales and
+  distinguish the global least-squares map from per-prefix neural models.
 - Adopt template 0.14.005 bootstrap safety: external namespaced environments,
   immutable admission receipts, late-mutation rollback and legacy entrypoint forwarding.
 - Admit the complete external combination study, all 1,802 series documents and

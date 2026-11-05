@@ -1,0 +1,17 @@
+{
+  "state": "working-revision",
+  "published": false,
+  "independent_reader_review": "pending",
+  "full_content_bar": "pending",
+  "published_predecessor_preserved": true,
+  "measured_content": {
+    "words": 1906,
+    "equations": 7,
+    "figures": 3,
+    "tables": 4,
+    "references": 5,
+    "algorithms": 0,
+    "sections": 8
+  },
+  "compiled_pages": 7
+}

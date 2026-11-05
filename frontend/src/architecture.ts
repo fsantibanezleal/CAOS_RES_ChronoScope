@@ -104,7 +104,7 @@ const LANES = svg('cs-a2', 450, `
   <text class="mu" x="40" y="130">SES/Holt/HW/Theta, recomputed</text>
   <text class="mu" x="40" y="146">on every knob; parity vs Python</text>
   <rect class="bx bx-web" x="236" y="74" width="196" height="80" rx="9"/>
-  <text class="ttl" x="248" y="94">NLinear ONNX</text>
+  <text class="ttl" x="248" y="94">Normalized linear</text>
   <text class="cd mono" x="248" y="112">lib/onnxRunner.ts</text>
   <text class="mu" x="248" y="130">a learned model, client-side via</text>
   <text class="mu" x="248" y="146">onnxruntime-web (wasm, 1 thread)</text>

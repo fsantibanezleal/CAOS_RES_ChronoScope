@@ -11,9 +11,10 @@ import { loadAnalysis, loadIndex, loadManifest, loadReevaluation, loadStreaming,
 import type { CaseIndex, CaseManifest, Trace } from '../lib/contract.types';
 import type { Reevaluation } from '../lib/reevaluation.types';
 import { methodColor } from '../lib/methodColors';
-import { forecastAllLive, normalPpf } from '../lib/liveEngine';
+import { forecastAllLive } from '../lib/liveEngine';
 import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
-import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
+import { useNLinearForecast } from '../lib/useNLinearForecast';
+import { BROWSER_LINEAR_NAME } from '../lib/calibratedLinearIntervals';
 import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
 import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 import { PanelBoundary } from '../render/PanelBoundary';
@@ -25,7 +26,7 @@ import { SequenceDiagnostics, type SequenceData } from '../render/SequenceDiagno
 interface ChartSeries { name: string; color: string; point: number[]; lower: number[]; upper: number[]; }
 
 const LEVELS = [0.1, 0.5, 0.9];
-const ONNX_NAME = 'NLinear (ONNX)';
+const ONNX_NAME = BROWSER_LINEAR_NAME;
 const ATLAS_NAV_KEY = 'chronoscope-atlas-nav';
 type AtlasNav = { group: 'understand' | 'forecast'; tab: string };
 const ATLAS_TABS: Record<AtlasNav['group'], string[]> = {
@@ -118,8 +119,6 @@ export default function AppPage() {
   const [artifactsLoading, setArtifactsLoading] = useState(false);
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [err, setErr] = useState('');
-  const [onnx, setOnnx] = useState<(ChartSeries & { mase: number; coverage: number }) | null>(null);
-  const [onnxLoading, setOnnxLoading] = useState(false);
   // one Forecast tab, four on-graph views: Full (whole context), Zoom (predicted zone), Horizon
   // (per-lead error growth), Errors (per-lead residuals). Was three separate tabs + a toggle.
   const [fcView, setFcView] = useState<'full' | 'zoom' | 'horizon' | 'errors'>('full');
@@ -195,33 +194,19 @@ export default function AppPage() {
 
   const activeData = mode === 'synthetic' ? synthetic : baked;
 
-  // ONNX live deep tier on the active history (the LIVE learned model).
-  const sig = activeData ? `${mode}:${activeData.horizon}:${activeData.m}:${activeData.history.length}:${Math.round(activeData.history.reduce((a, v) => a + v, 0) * 10) / 10}` : '';
-  useEffect(() => {
-    let cancelled = false;
-    setOnnx(null);
-    if (!activeData || !activeData.history.length) { setOnnxLoading(false); return; }
-    setOnnxLoading(true);
-    const { history, actual, horizon, m } = activeData;
-    (async () => {
-      try {
-        const meta = await loadNLinearMeta();
-        if (horizon !== meta.horizon || history.length < meta.lookback) return;
-        const { point, scale } = await runNLinear(history);
-        const sigma = meta.sigma_norm * scale;
-        const lower = point.map((p, i) => p + normalPpf(0.1) * sigma * Math.sqrt(i + 1));
-        const upper = point.map((p, i) => p + normalPpf(0.9) * sigma * Math.sqrt(i + 1));
-        const sc = seasonalNaiveMae(history, m);
-        if (!cancelled) setOnnx({ name: ONNX_NAME, color: colorFor(ONNX_NAME), point, lower, upper, mase: mase(actual, point, sc), coverage: coverage(actual, lower, upper) });
-      } catch { /* graceful: the live ONNX method simply does not appear */ }
-      finally { if (!cancelled) setOnnxLoading(false); }
-    })();
-    return () => { cancelled = true; };
-  }, [sig]); // eslint-disable-line react-hooks/exhaustive-deps
+  const learned = useNLinearForecast(activeData);
+  const onnxLoading = learned.status === 'loading';
+  const onnx = useMemo(() => {
+    if (learned.status !== 'ready' || !activeData) return null;
+    const { point, lower, upper } = learned.forecast;
+    const scale = seasonalNaiveMae(activeData.history, activeData.m);
+    return { name: ONNX_NAME, color: colorFor(ONNX_NAME), point, lower, upper,
+      mase: mase(activeData.actual, point, scale), coverage: coverage(activeData.actual, lower, upper) };
+  }, [learned, activeData]);
 
   const allMethods = activeData ? (onnx ? [...activeData.methods, onnx] : activeData.methods) : [];
   const allRows: Row[] = activeData
-    ? (onnx ? [...activeData.rows, { name: onnx.name, family: 'deep (live)', mase: onnx.mase, coverage: onnx.coverage }] : activeData.rows)
+    ? (onnx ? [...activeData.rows, { name: onnx.name, family: 'linear (live)', mase: onnx.mase, coverage: onnx.coverage }] : activeData.rows)
     : [];
   const visibleMethods = allMethods.filter((mm) => !hidden.has(mm.name));
   const rankedRows = [...allRows].sort((a, b) => (Number.isFinite(a.mase) ? a.mase : Infinity) - (Number.isFinite(b.mase) ? b.mase : Infinity));
@@ -673,6 +658,9 @@ export default function AppPage() {
         )}
       </div>
       <p className="cs-panel-sub">{fcNotes[fcView]}</p>
+      {onnx && <p className="cs-panel-sub">{es
+        ? 'Lineal: intervalos marginales nominales del 80 %, calibrados por rugosidad de historias sintéticas. La cobertura en datos reales no está confirmada.'
+        : 'Linear: nominal 80% marginal intervals, calibrated by synthetic-prefix roughness. Coverage on real data is unconfirmed.'}</p>}
     </div>
   );
 

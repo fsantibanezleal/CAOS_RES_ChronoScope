@@ -36,6 +36,10 @@ def base_copy(tmp_path_factory: pytest.TempPathFactory) -> Path:
     for name in FILES:
         if (ROOT / name).exists():
             shutil.copy2(ROOT / name, base / name)
+    # Optional role requirements are frozen admission inputs too. Discover them
+    # rather than leaving each new role absent from the positive-control copy.
+    for source in ROOT.glob("requirements*.txt"):
+        shutil.copy2(source, base / source.name)
     shutil.copytree(ROOT / "content", base / "content")
     return add_control_contract(add_schema(base))
 

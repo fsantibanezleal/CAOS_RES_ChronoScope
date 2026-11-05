@@ -30,7 +30,9 @@ The refreshed implementation audit and sources are in `docs/research/2026-11-01-
 
 The implementation details in Sections III and IV of the manuscript were checked against `data-pipeline/chronoscopelab/stages/streaming.py`, the installed `preqts==0.3.0` package behavior, and `data/derived/*/streaming.json`.
 
-UNVERIFIED: Stored trajectories do not contain per-step controller state, complete execution-environment identifiers, or repeated-seed replications; the released data therefore cannot establish exact state replay, runtime generalization, or sensitivity to controller gains.
+The original aggregate trajectories did not retain every controller state or the complete historical execution environment. The v0.25 reconstruction now retains 21,296 per-step updates, independently matches archived coverage and final weighted quantile loss, and includes 630 sensitivity settings plus 66 additional-seed results. Those calculations support finite-stream replay and sensitivity analysis; they do not restore the missing historical timing environment or establish native state-update performance. The separate external combination study retains favorable ValidationMix point-error comparisons against RecencyMean on two admitted collections, alongside unfavorable comparisons against AutoTheta. The new independent synthetic browser confirmation improves interval score by 49.60 percent around unchanged points, with full prefix-bin, family and lead outcomes in `docs/research/browser-linear/README.md`. These are measured gains with explicit population boundaries, not a record containing only negative outcomes.
+
+UNVERIFIED: the exact historical timing environment, native state-update performance, and coverage of the synthetic browser calibration on arbitrary authentic series remain unconfirmed. These limits do not negate the independently reproduced finite-study results above.
 
 - Sequence/corpus extension primary reference: https://cschoel.github.io/nolds/nolds.html
 - Sequence/corpus extension primary reference: https://doi.org/10.1103/PhysRevLett.89.068102
@@ -49,6 +51,8 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 
 | component | package | version | use | alternative considered |
 |---|---|---|---|---|
+| requirements-browser-model.txt | onnx | 1.23.2 | Check and export the held-out CPU linear model; IR 9, opset 13 retained for browser compatibility. | Handwritten protobuf export would omit ONNX structural validation. |
+| requirements-browser-model.txt | onnxruntime | 1.27.0 | Verify actual float32 execution against NumPy before admitting new held-out results. | NumPy alone would not verify the deployed graph backend. |
 | requirements-combinations.txt | numba | 0.68.1 | Compile unchanged recursive expert loops for the CPU-only combination study; fastmath disabled. | Reference execution retained with independent parity checks. |
 | requirements-precompute.txt | stumpy | 1.14.1 | Exact Matrix Profile and FLUSS; primary API verified 2026-11-02. | Exhaustive normalized-distance oracle retained in tests. |
 | requirements-precompute.txt | scikit-learn | 1.9.1 | Explicitly seeded robust slopes and discovery-only corpus selector. | Unseeded nolds fitting rejected by determinism tests. |
@@ -175,3 +179,20 @@ hashes, explicit exclusions, common prefixes, up to three origins and independen
 bind the browser index and per-series records to their computation. The empirical point
 improvements are collection-specific; interval quality and attribution to the context kernel
 remain separate questions. The second bilingual combination lesson executes both variants.
+
+## Numerical procedure inventory
+
+The [source-bound procedure inventory](method-inventory.json) expands the family
+rows above into individual numerical procedures and execution identities.
+It distinguishes each measured forecast, components returned by combined
+diagnostic APIs, the browser least-squares export, the per-prefix neural fits,
+the historical streaming reconstruction and the two different selection rules.
+The technical report and teaching set must account for these individual
+procedures; a family label alone does not establish complete coverage.
+
+`python scripts/method_inventory.py` verifies the inventory, its implementation
+symbols, validation locations and the names in both measured forecast studies.
+Its source hashes bind documentation to code. An inventory count establishes
+implementation scope; scientific validity, teaching depth and publication
+coverage require their own evidence. Requirements MI-1 through MI-3 are in
+`features/method-inventory/requirements.md`.

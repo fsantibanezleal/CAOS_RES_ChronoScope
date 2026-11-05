@@ -46,7 +46,8 @@ def test_adversarial_custom_validator_cannot_mutate_payload_after_checking(workf
 def test_actual_product_generates_and_admits_a_complete_external_candidate(workflow, tmp_path, monkeypatch):
     root = tmp_path / "actual product with spaces"
     ignored = shutil.ignore_patterns("__pycache__", "*.pyc", "node_modules", "dist")
-    for name in ("data-pipeline", "scripts", "docs/contracts", "data", "models", "manuscripts"):
+    for name in ("data-pipeline", "scripts", "docs/contracts", "data", "models", "manuscripts",
+                 "docs/research/browser-linear", "docs/guides", "frontend/src/lib", "frontend/public/models"):
         shutil.copytree(ROOT / name, root / name, ignore=ignored)
     for pattern in ("requirements*.txt",):
         for source in ROOT.glob(pattern):
@@ -73,6 +74,8 @@ def test_frontend_copies_only_the_admitted_canonical_corpus(tmp_path):
     root = tmp_path / "canonical frontend input"
     (root / "frontend").mkdir(parents=True)
     shutil.copy2(ROOT / "frontend/copy-data.mjs", root / "frontend/copy-data.mjs")
+    (root / "frontend/src/lib").mkdir(parents=True)
+    shutil.copy2(ROOT / "frontend/src/lib/browserCalibration.json", root / "frontend/src/lib/browserCalibration.json")
     derived = root / "data/derived"
     derived.mkdir(parents=True)
     (derived / "canonical.json").write_text('{"source":"admitted"}', encoding="utf-8")

@@ -1,71 +1,51 @@
-# Framework: Amazon Chronos (zero-shot foundation tier)
+# Chronos-Bolt and Chronos-2 adapters
 
-The SOTA zero-shot foundation-model tier of the ladder, run offline on local checkpoints. Used by
-`data-pipeline/chronoscopelab/engines/chronos_engine.py`.
+ChronoScope implements both Chronos-Bolt and Chronos-2 through
+`data-pipeline/chronoscopelab/engines/chronos_engine.py`; neither is a future
+placeholder. These are pretrained forecasting models, consumed from local
+checkpoint folders and evaluated without per-case weight fitting. They remain
+distinct variants in the fifteen-case fresh comparison. Their exact checkpoint
+revisions and runtime versions are retained with that study, rather than
+identified only by a mutable model-family name.
 
-## What and why
+## Input, output and availability
 
-[Chronos](https://github.com/amazon-science/chronos-forecasting) (Amazon, Apache-2.0) is a family of
-pretrained time-series foundation models: they forecast a series zero-shot, with no fitting, by treating
-forecasting as a sequence problem over scaled/quantized values. Chronos-Bolt is the fast T5
-encoder-decoder variant with direct multi-step quantile output. This is the "beyond the classical and
-statistical baselines" tier the atlas exists to compare against: a single pretrained model that, on the
-seasonal cases, already beats the auto-tuned statistical models.
+The adapter receives an observed univariate prefix, an explicit forecast
+horizon and requested quantile levels. A configured context cap can restrict
+how many of the available observations the model consumes. Available history
+and consumed context are different quantities and should both be recorded.
+The package pipeline returns quantile paths that the adapter maps to the
+product's forecast contract and makes monotone across levels. This monotonicity
+operation is not a calibration theorem.
 
-## The offline hard-processing lane
+Local model discovery uses `CHRONOSCOPE_MODEL_ROOT`, with the configured model
+vault as the default location. The legacy opt-in flag is
+`CHRONOSCOPE_ENABLE_FOUNDATION=1`. An absent dependency or checkpoint omits an
+optional engine from an ordinary run. A complete-roster scientific experiment
+instead requires every declared model and fails admission when one is missing;
+an omitted engine is never silently counted as an evaluated poor performer.
+Default application setup should not be confused with recreating that heavy
+experimental runtime.
 
-This is the ADR-0057 heavy lane. The model is a transformer that loads from a checkpoint and runs CPU
-inference; it is not Pyodide-safe, so it runs only in the offline `.venv-pipeline` and never in the browser
-live lane. Its forecasts are baked into the committed artifacts, and the web app **replays** them (the live
-lane runs the classical core, and in a later slice small ONNX-exported deep models). The loaded pipeline is
-cached at module level, so a checkpoint is read from disk once per process and reused across every backtest
-window and case.
+## Interpretation and reproducibility
 
-## Opt-in and graceful degradation
+The [fresh evaluation guide](../guides/fresh-reevaluation.md) distinguishes
+archived-path scoring from new execution. Both can be auditable, but they answer
+different questions. Original rolling-backtest aggregates also differ from the
+common final-block experiment when their origin counts or context budgets
+differ. A favorable result for one seasonal case does not establish an advantage
+across all series, forecast horizons or benchmark collections.
 
-The tier is heavy, so it is OPT-IN:
+The browser replays admitted pretrained forecast paths. Its small live linear
+ONNX model is a separately trained global regression map, not a browser export
+of Chronos-Bolt or Chronos-2. This separation prevents a client-side execution
+claim from being transferred to a model that only ran offline.
 
-- Deps live in `data-pipeline/requirements-foundation.txt` (torch CPU + chronos-forecasting), not installed
-  by default.
-- Checkpoints live in the model vault (`CHRONOSCOPE_MODEL_ROOT`, default `E:\_Models\chronoscope`), never
-  in git.
-- Set `CHRONOSCOPE_ENABLE_FOUNDATION=1` to include the tier when baking artifacts. Without it (and in CI,
-  which has neither the deps nor the checkpoints), the pipeline runs the classical + statistical + ML ladder
-  and the test suite stays fast.
-
-## Install and bake
-
-```bash
-.venv-pipeline/Scripts/python.exe -m pip install --index-url https://download.pytorch.org/whl/cpu torch
-.venv-pipeline/Scripts/python.exe -m pip install -r data-pipeline/requirements-foundation.txt
-# then bake the canonical artifacts with the tier on:
-CHRONOSCOPE_ENABLE_FOUNDATION=1 .venv-pipeline/Scripts/python.exe -m chronoscopelab.pipeline
-```
-
-## How ChronoScope uses it
-
-```python
-from chronos import BaseChronosPipeline
-import torch
-pipe = BaseChronosPipeline.from_pretrained(checkpoint_path, device_map="cpu")
-q, mean = pipe.predict_quantiles(torch.tensor(context, dtype=torch.float32),
-                                 prediction_length=h, quantile_levels=[0.1, 0.5, 0.9])
-# q: (1, h, len(levels)) -> take q[0], enforce monotone across levels
-```
-
-The forecast is wrapped into the same `MethodForecast` contract as every other method and scored by the
-`preqts` rolling backtest. Because the model is zero-shot, the backtest is pure inference per origin (no
-refit), given a small window budget and a context cap to keep the heavy lane practical.
-
-## Result (this slice)
-
-On the seasonal built-in case, Chronos-Bolt reaches the lowest MASE of the whole ladder (below the
-seasonal-naive baseline and below the auto-tuned AutoARIMA), which is exactly the point of the atlas: a
-transparent baseline, a strong classical/statistical tier, and a foundation model that pushes past them,
-all scored on the same held-out backtest.
-
-## Follow-ups
-
-Chronos-2, TimesFM 2.5, Granite TTM r2, FlowState r1 and TiRex-2 (all confirmed Apache-2.0, checkpoints in
-the vault) are wired in later slices with their own loaders; each is added to `_CHECKPOINTS` or its own
-engine module behind the same contract. See `_CAOS_MANAGE/wip/chronoscope/` and `docs/research/`.
+The primary implementation is maintained by
+[Amazon Science](https://github.com/amazon-science/chronos-forecasting).
+[Chronos](https://arxiv.org/abs/2403.07815) and
+[Chronos-2](https://arxiv.org/abs/2510.15821) describe the model families.
+Package licensing and checkpoint licensing must be checked for the exact
+revision consumed; a framework license is not a substitute for a model-card
+license. The [complete pretrained roster](foundation-models.md) records the
+additional TimesFM and TiRex execution boundaries.

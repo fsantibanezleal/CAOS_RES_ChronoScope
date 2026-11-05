@@ -13,7 +13,7 @@ $$\mathbb{E}[y_t] = \mu, \qquad \operatorname{Var}(y_t) = \sigma^2, \qquad \oper
 Most of the classical ladder assumes it. An ARMA model is only well-defined on a stationary series; the "I"
 in ARIMA is exactly the differencing $\nabla^d y_t = (1-B)^d y_t$ that removes a stochastic trend before an
 ARMA is fitted (here $B$ is the backshift operator, $B y_t = y_{t-1}$). Fitting a stationary model to a
-**non-stationary** series produces spurious regression: apparent structure and significance that vanish out
+**non-stationary** series can yield misleading regression significance when the model does not represent its stochastic trends: apparent structure can vanish out
 of sample. So "is this series stationary, and if not how many differences make it so?" is the first question
 this toolkit answers, and it feeds the differencing order $d$ (and seasonal $D$) that AutoARIMA searches over.
 
@@ -23,7 +23,7 @@ $$y_t = \phi\, y_{t-1} + \varepsilon_t .$$
 
 If $|\phi| < 1$ the series is stationary (shocks decay); if $\phi = 1$ it is a **random walk**
 $y_t = y_{t-1} + \varepsilon_t$, whose variance $\operatorname{Var}(y_t) = t\,\sigma^2$ grows without bound
-and whose shocks are permanent. The tests below decide, from a finite sample, which regime we are in.
+and whose shocks are permanent. The tests below provide finite-sample evidence under their own trend, lag and error assumptions. A rejection or nonrejection does not prove the true generating regime.
 
 ## The tests (and the one insight that ties them together)
 
