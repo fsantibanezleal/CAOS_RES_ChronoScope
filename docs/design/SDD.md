@@ -175,3 +175,20 @@ hashes, explicit exclusions, common prefixes, up to three origins and independen
 bind the browser index and per-series records to their computation. The empirical point
 improvements are collection-specific; interval quality and attribution to the context kernel
 remain separate questions. The second bilingual combination lesson executes both variants.
+
+## Numerical procedure inventory
+
+The [source-bound procedure inventory](method-inventory.json) expands the family
+rows above into individual numerical procedures and execution identities.
+It distinguishes each measured forecast, components returned by combined
+diagnostic APIs, the browser least-squares export, the per-prefix neural fits,
+the historical streaming reconstruction and the two different selection rules.
+The technical report and teaching set must account for these individual
+procedures; a family label alone does not establish complete coverage.
+
+`python scripts/method_inventory.py` verifies the inventory, its implementation
+symbols, validation locations and the names in both measured forecast studies.
+Its source hashes bind documentation to code. An inventory count establishes
+implementation scope; scientific validity, teaching depth and publication
+coverage require their own evidence. Requirements MI-1 through MI-3 are in
+`features/method-inventory/requirements.md`.

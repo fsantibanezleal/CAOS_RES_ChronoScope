@@ -5,6 +5,9 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
 
 ## Unreleased
 
+- Inventory 107 numerical procedures and execution identities, including bundled
+  diagnostics, direct/package neural distinctions, the browser least-squares
+  export and the archived streaming reconstruction.
 - Adopt template 0.14.005 bootstrap safety: external namespaced environments,
   immutable admission receipts, late-mutation rollback and legacy entrypoint forwarding.
 - Admit the complete external combination study, all 1,802 series documents and
