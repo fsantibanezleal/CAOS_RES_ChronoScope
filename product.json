@@ -48,7 +48,8 @@
       "title": "ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation",
       "version": "0.25.000",
       "covers": [
-        "BS-1"
+        "BS-1",
+        "NC-1"
       ]
     },
     {
@@ -58,6 +59,15 @@
       "version": "0.2",
       "covers": [
         "BS-1"
+      ]
+    },
+    {
+      "kind": "manuscript",
+      "concept_doi": "10.5281/zenodo.21508920",
+      "title": "Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study",
+      "version": "2.5",
+      "covers": [
+        "NC-1"
       ]
     }
   ]
