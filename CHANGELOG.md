@@ -13,6 +13,9 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `chronosc
   explicit exploratory interpretation, full provenance and deterministic tests.
 - Correct the remaining architecture prose that implied native stateful or
   constant-cost execution in the adaptive-interval replay study.
+- Record bounded retries for transient deployment-verification HTTP failures;
+  retain default TLS, exact commit identity, every artifact hash and fail-closed
+  behavior for persistent or nonretryable errors.
 
 ## [0.25.000] - 2026-11-02
 
