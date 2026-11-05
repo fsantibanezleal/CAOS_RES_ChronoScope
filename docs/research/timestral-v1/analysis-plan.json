@@ -8,7 +8,18 @@
     "distribution": "timestral",
     "version": "1.0.0",
     "code_license": "Apache-2.0",
-    "weight_license": "Modified MIT; separate from code license"
+    "weight_license": "Modified MIT; separate from code license",
+    "module_sha256": {
+      "__init__.py": "67578087e5880be4f3d8c8e94b50437ed73c06e7041898fbcf4f2731525ec108",
+      "config.py": "2d899dda9b231401ca16ec628a80251090dfdc1be1270e83a4da827b7065a826",
+      "covariate_encoding.py": "6382802bc4eba59b378f65f795c3a6c2bf025ccd634f116ddf66a1f37f61cf5f",
+      "forecaster.py": "1a1bb654fef37d6a0ed4288084825aae0512f7dcb5a367340b7a012f921785b0",
+      "layers.py": "ae32e894f3b722eb6a869d57ae94a72bacc2bfb74bf1448e2b7f39fc0033708c",
+      "loading.py": "dee8a5aa96c9ea10664bd51fdcf561da9461e89ce933be046a922bfbed336c5d",
+      "masks.py": "dd48729c132abfa857467ab61c57345305fe571b07eff1cdc619a243bdcab8a0",
+      "model.py": "885f80332e5ce72be1e9dfcd3ef0f1b0298769911420d308e7de993a5754a994",
+      "scaler.py": "d702caad06865790a59e2a361f38f8a410d412254b151b5847654279e5f4a1bd"
+    }
   },
   "models": [
     {
