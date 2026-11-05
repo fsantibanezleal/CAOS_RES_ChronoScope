@@ -3,7 +3,7 @@
 
 An external benchmark collection contains many forecast origins but not an
 equal number of independent replications. Several origins of one series share
-most fitting observations, and twelve forecast leads belong to one jointly
+most fitting observations, and the forecast leads belong to one jointly
 generated future block. Treating every lead or origin as an independent
 replication would make the reported precision depend on how densely the same
 series was evaluated. We therefore first average the available origins within
@@ -41,21 +41,11 @@ from successful forecasts alone. A comparison conditioned on eligibility does
 not describe source series for which the specified fitting protocol could not
 produce an origin.
 
-\begin{table}[htbp]\centering
-\caption{Complete source inventories and admitted external evaluation units.
-Each origin contains twelve methods and twelve future leads; series, forecast
-paths and individual predicted values are distinct counting units.}
-\label{tab:collection-inventory}
-\begin{tabular}{lrrrr}\toprule
-Collection & Source series & Admitted series & Excluded & Origins\\\midrule
-M4 Weekly & 359 & 294 & 65 & 882\\
-M3 Monthly & 1428 & 1422 & 6 & 3547\\
-Total & 1787 & 1716 & 71 & 4429\\\bottomrule
-\end{tabular}\end{table}
+\input{../tables/collection-inventory.tex}
 
 The external comparison contains 4,429 origins and twelve methods, yielding
-53,148 method-origin forecast paths. Each path contains twelve point predictions,
-or 637,776 individual predicted values across the roster. The same future targets
+\externalpathcount{} method-origin forecast paths: 10,584 weekly paths with thirteen leads and
+42,564 monthly paths with eighteen leads, or \externalpointcount{} individual point predictions. The same future targets
 are scored for every method at an origin. Counting those repeated method-target
 pairs as independent experimental outcomes would confuse computational volume
 with inferential sample size. The series-level mean in
@@ -108,22 +98,7 @@ recency ablation cannot be presented as superiority over the complete roster.
 The complete numerical file additionally retains ContextMemoryCV and AutoETS,
 all signed coverage comparisons, means, medians and loss-direction counts.
 
-\begin{table}[htbp]\centering\small
-\caption{ValidationMix minus each control after averaging available origins
-within each series. The unadjusted exploratory 95\% paired-series intervals
-describe the admitted collection, not population-wide superiority.}
-\label{tab:paired-main}
-\begin{tabular}{lllrrr}\toprule
-Collection & Control & Loss & Difference & 95\% interval & Lower loss\\\midrule
-Weekly & RecencyMean & MASE & $-0.025337$ & $[-0.033914,-0.017227]$ & 190/294\\
-Monthly & RecencyMean & MASE & $-0.009154$ & $[-0.013176,-0.005173]$ & 589/1422\\
-Weekly & AutoTheta & MASE & $-0.022065$ & $[-0.037521,-0.008272]$ & 155/294\\
-Monthly & AutoTheta & MASE & $0.052154$ & $[0.032437,0.073112]$ & 689/1422\\
-Weekly & RecencyMean & MSIS & $-0.383808$ & $[-0.431160,-0.334374]$ & 252/294\\
-Monthly & RecencyMean & MSIS & $-0.063788$ & $[-0.088692,-0.040255]$ & 589/1422\\
-Weekly & AutoTheta & MSIS & $0.835230$ & $[0.650853,1.038115]$ & 49/294\\
-Monthly & AutoTheta & MSIS & $2.521379$ & $[2.364504,2.673453]$ & 267/1422\\\bottomrule
-\end{tabular}\end{table}
+\input{../tables/paired-main.tex}
 
 The MASE differences favor ValidationMix over RecencyMean in both collections,
 and their paired intervals exclude zero under the stated resampling procedure.

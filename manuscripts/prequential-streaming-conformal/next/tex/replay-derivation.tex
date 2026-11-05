@@ -27,7 +27,7 @@ The first forecast uses an empty buffer and multiplier one. This is an initializ
 \subsection{Causality and invariance of the point forecast}
 Let $\mathcal F_{t-1}$ contain the observed prefix and the fixed configuration. Assume the initial controller state is fixed, the base-fitting routine is deterministic for its declared inputs, and the buffer contains only scores from cutoffs before $t$. Then the point, dispersion, current level and buffered quantile are functions of $\mathcal F_{t-1}$. Therefore
 \begin{equation}\label{eq:replay-causal}
- (p_t,l_t,g_t,\alpha_t,\mathcal B_t)\text{ are }\mathcal F_{t-1}\text{-measurable}.
+ (p_t,l_t,u_t,\alpha_t,\mathcal B_t)\text{ are }\mathcal F_{t-1}\text{-measurable}.
 \end{equation}
 After the observation arrives, its score and miss indicator become functions of $\mathcal F_t$. Appending that score and applying either stated controller makes the next state a function of $\mathcal F_t$. Induction from the fixed initial state proves the information-order property at every cutoff. The argument establishes absence of look-ahead in this specified procedure; it does not establish that a different data-loading or preprocessing pipeline respects the same information boundary.
 

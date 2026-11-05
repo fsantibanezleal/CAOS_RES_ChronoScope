@@ -221,8 +221,9 @@ observed prefix $x$, supported horizon $H=12$
 \State Compute $\hat u=z^\top W$ using the verified float32 ONNX graph
 \For{$h=1,\ldots,H$}
 \State Set $\hat a_h=x_L+s(x)\hat u_h$
-\State Return $[\hat a_h-s(x)q_{bh},\hat a_h+s(x)q_{bh}]$
+\State Store $I_h=[\hat a_h-s(x)q_{bh},\hat a_h+s(x)q_{bh}]$
 \EndFor
+\State \textbf{return} $(I_1,\ldots,I_H)$
 \end{algorithmic}
 \end{algorithm}
 

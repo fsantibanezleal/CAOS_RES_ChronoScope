@@ -95,7 +95,8 @@ def render(source: dict, result: dict) -> None:
             ax = axes[i, j]
             ax.axhline(np.mean(groups[base, coverage, "raw", 1.]), color=colors[0], ls=":", label="Raw")
             for k, control in enumerate(("ACI", "PID"), 1):
-                ax.plot([.5, 1, 2], [np.mean(groups[base, coverage, control, g]) for g in (.5, 1., 2.)], marker="o", color=colors[k], label=control + "-style")
+                ax.plot([.5, 1, 2], [np.mean(groups[base, coverage, control, g]) for g in (.5, 1., 2.)], marker="o" if control == "ACI" else "s",
+                        linestyle="-" if control == "ACI" else "--", color=colors[k], label=control + "-style")
             ax.set_title(f"{'Seasonal naive' if i == 0 else 'S+D'}; nominal {coverage:.0%}")
             ax.set_xticks([.5, 1, 2])
             if j == 0:

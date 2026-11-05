@@ -1,0 +1,20 @@
+\subsection{Final-block scoring and missing scales}
+\label{sec:scoring}
+Let $a_j$ be the reserved target, $p_j$ the median forecast, and $l_j,u_j$ the outer quantiles for lead $j=1,\ldots,H$. For the supplied prefix of length $n$, set $m'=\max(1,\min(m,n-1))$ and
+\begin{equation}
+ s_n={1\over n-m'}\sum_{t=m'+1}^{n}|y_t-y_{t-m'}|,
+ \quad \mathrm{MAE}=H^{-1}\sum_j|a_j-p_j|,
+ \quad \mathrm{MASE}=\mathrm{MAE}/s_n.
+\end{equation}
+The reference scale uses only the observed prefix, not the held-out block. It is recomputed for each origin, shared across methods at that origin, and then each method's origin scores are averaged within its series. Thus series with more eligible origins do not automatically receive greater weight in a collection summary. MASE compares future error to a historical seasonal-difference scale; it does not by itself establish superiority over a future seasonal-naive forecast~\cite{mase}.
+
+For miscoverage $\alpha=.2$, the central interval score and its scaled form are~\cite{proper}
+\begin{align}
+ \mathrm{IS}_{\alpha,j}&=(u_j-l_j)+{2\over\alpha}[l_j-a_j]_+
+                         +{2\over\alpha}[a_j-u_j]_+,\\
+ \mathrm{MSIS}&={1\over Hs_n}\sum_j\mathrm{IS}_{\alpha,j},\qquad
+ \mathrm{Cov}=H^{-1}\sum_j\mathbf1\{l_j\le a_j\le u_j\}.
+\end{align}
+Here $[x]_+=\max(x,0)$. Interval score retains the source unit, while MSIS is dimensionless and penalizes both width and missed observations. Greater empirical coverage is not automatically better: a wide interval can improve coverage while worsening its score. Endpoints include equality in the coverage event.
+
+The implemented final scoring rule reports unavailable scaled scores when $s_n\le10^{-12}$ or the required values are nonfinite. The external study excludes origins without a positive finite scale above that threshold. The absolute threshold has source units and breaks exact affine scale invariance when active; it is not a universal dimensionless criterion for a constant series. This rule differs from the training-loss fallback to prefix standard deviation. The admitted experiment retains this distinction rather than replacing the denominator after observing a result.

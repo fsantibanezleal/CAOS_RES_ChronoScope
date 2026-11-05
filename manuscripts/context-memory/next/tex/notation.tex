@@ -33,9 +33,12 @@ $x,z$ & Solutions of the two linear systems used on an active face. & dimensionl
 $F(w)$ & Regularized squared-error fitting objective. & dimensionless\\
 $\ell_n,a,b$ & SES terminal level, SES coefficient and Theta linear slope. & $U$; 1; $U$/observation\\
 $\Phi^{-1}(q)$ & Standard-normal quantile at probability $q$. & dimensionless\\
-$i,N$ & External-series identity and number of admitted series in one collection. & index; count\\
-$\overline L_{i,A}$ & Within-series mean loss for method $A$ over its admitted outer origins. & dimensionless\\
-$d_i(A,B)$ & Paired series loss difference for methods $A$ and $B$. & dimensionless\\
-$\widehat\Delta,\widehat\Delta^*$ & Collection mean difference and its paired-series resampled counterpart. & dimensionless\\
+$s,N$ & External-series identity and number of admitted series in one collection. & index; count\\
+$\bar L_s(A)$ & Within-series mean loss for method $A$ over its admitted outer origins. & dimensionless\\
+$d_s(A,B)$ & Paired series loss difference for methods $A$ and $B$. & dimensionless\\
+$\bar d,\bar d^*$ & Collection mean difference and its paired-series resampled counterpart. & dimensionless\\
+$S_i^*,Q_p$ & Resampled series identity and empirical quantile at probability $p$. & index; same unit as argument\\
+$\alpha$ & Interval miscoverage, fixed at $0.2$ for the reported MSIS. & dimensionless\\
+$[x]_+$ & Positive part, $\max(x,0)$. & same unit as $x$\\
 \bottomrule
 \end{longtable}

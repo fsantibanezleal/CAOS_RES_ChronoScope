@@ -26,6 +26,7 @@ Not peer reviewed. Source, inputs and computational records: \url{https://github
 \author{Felipe Santib\'a\~nez-Leal\\CAOS open-research programme, Santiago, Chile\\\small ORCID: 0000-0002-0150-3246}
 \date{}
 \hypersetup{pdftitle={Temporally Validated Forecast Combinations on Two Benchmark Collections},pdfauthor={Felipe Santibáñez-Leal}}
+\input{protocol-counts.tex}
 \begin{document}
 \maketitle
 \begin{center}\textbf{Working revision; not a new published version.}\end{center}
@@ -44,6 +45,8 @@ The primary comparison is mean final-block MASE of ContextMemory against Recency
 The paper separates two questions that would otherwise be easy to conflate. The fixed rule asks whether context matching helps when the experts, memory and competence transformation are held constant. The later selection rules ask whether a finite historical comparison can choose a useful allocation before an outer target is exposed. A favorable answer to the second question cannot repair an unfavorable answer to the first. It also cannot identify which selected component caused the change.
 
 The reported units of evidence are equally explicit. The original selected cases are development examples with one final block each. The external collections contain multiple eligible origins, summarized first within a series. An origin is a location at which a forecast is issued, a lead is a position in its future block, and a method-origin path contains all of those leads. These are different denominators. Complete paths permit detailed error inspection, but their individual values are not interchangeable independent replications. The resulting claim is about the stated finite comparisons and their paired series summaries.
+
+The contributions are threefold: (i) an explicit five-expert finite-memory construction with source-resolved context and error definitions; (ii) temporally validated configuration selection and an exhaustively solved regularized simplex fit with declared information boundaries; and (iii) complete two-collection forecast paths and retrospective paired-series uncertainty that retain unfavorable component and comparator results. These are contributions of specification and bounded evaluation, not claims of priority for contextual weighting or stacking.
 
 \input{related-work.tex}
 
@@ -78,7 +81,7 @@ For each remembered origin $o$ and expert $k$, the competence target is a normal
 \begin{equation}
 L_{ok}=\frac{H^{-1}\sum_{j=1}^H|y_{o+j}-p_{okj}|}{s_o},
 \end{equation}
-Here $s_o$ is the mean absolute lag-$m\prime$ difference in the prefix, with $m\prime=\max(1,\min(m,o-1))$. If that mean is at most $10^{-12}$, the training-loss scale is $\max(\operatorname{sd}(y_{1:o}),10^{-12})$. This training fallback differs from the final evaluation rule, which reports unavailable MASE for an exactly zero denominator. No scale is estimated from the final held-out block. The loss array and historical contexts are cached for a fitting history; caching changes runtime rather than the available information.
+Here $s_o$ is the mean absolute lag-$m\prime$ difference in the prefix, with $m\prime=\max(1,\min(m,o-1))$. If that mean is at most $10^{-12}$, the training-loss scale is $\max(\operatorname{sd}(y_{1:o}),10^{-12})$. This training fallback differs from the final evaluation rule, which reports unavailable MASE when the final scale is at most $10^{-12}$ in source units. No scale is estimated from the final held-out block. The loss array and historical contexts are cached for a fitting history; caching changes runtime rather than the available information.
 
 For remembered origins indexed $j=1,\ldots,J$, recency weights are $r_j=2^{-(J-j)/6}$. Distance to the query is $D_j=\sqrt{\frac14\sum_{a=1}^4(f_{ja}-f_{\mathrm{query},a})^2}$, bandwidth is $b_D=\max(\operatorname{median}_jD_j,.25)$, and local weights are $a_j^{\rm loc}=r_j\exp(-D_j^2/(2b_D^2))$. Expert competence is
 \begin{equation}
@@ -140,6 +143,8 @@ ValidationMix adds four regularized convex stacking candidates with penalties $\
 
 \input{selection-derivation.tex}
 
+\input{scoring-definitions.tex}
+
 \section{External evaluation and results on weekly and monthly collections}
 The sources are the complete Monash M4 Weekly inventory of 359 identities~\cite{weekly} and M3 Monthly inventory of 1,428 identities~\cite{monthly}, both redistributed under CC BY 4.0. ZIP, extracted TSF and exact sequence SHA-256 values identify their bytes. Forecast horizon and seasonal lag are $(13,52)$ for weekly and $(18,12)$ for monthly. Each series supplies up to three nonoverlapping final target blocks, provided that the prefix has at least $\max(2m,2H+8,24)$ observations. Every method receives the same final 512 contiguous prefix observations, or all observations if fewer are available. The scale uses this supplied prefix, and never the future block.
 
@@ -174,11 +179,13 @@ The latest related work also changes what an adequate next comparator would look
 \section{Reproducibility and conclusions}
 Implementations and admitted numerical outputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/d702831a7660f9fb8123798a2e3bbf5e47887bce}{frozen source and data snapshot}.
 
-The later paired-series analysis has its own retained numerical file and source identity. Its script and independent reproduction inputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/8b7d89b9df1cfd9e627fd29a598873de94e95a6e}{paired-analysis source snapshot}. The preprint's working revision does not replace the published predecessor's PDF or source receipt. A new publication will need to bind its own compiled document and complete source archive; the predecessor DOI is identified as historical, not presented as the identifier of these unpublished pages.
+The later paired-series analysis has its own retained numerical file and source identity. Its script and independent reproduction inputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/8b7d89b9df1cfd9e627fd29a598873de94e95a6e}{paired-analysis source snapshot}. The complete numerical archive retains each horizon explicitly. Its 10,584 weekly paths contain 137,592 scalar point predictions, and its 42,564 monthly paths contain 766,152. The distinct method-path and scalar counts describe computation volume; the paired analysis uses series as its resampling unit.
+
+The recorded numerical environment uses NumPy 2.4.6, SciPy 1.15.3, StatsForecast 2.0.3 and Numba 0.68.1. Per-series elapsed seconds are retained, but the historical machine identity and an end-to-end parallel makespan are unavailable; summing worker durations would not recover wall time. The executable reconstruction and build commands, including explicit source, cache and output arguments, are in \path{next/REPRODUCING.md}. Numerical rescoring is distinct from a fresh expert fit.
 
 The fixed rule is implemented in \path{data-pipeline/chronoscopelab/model/context_memory.py}; the temporally validated variants are in \path{data-pipeline/chronoscopelab/model/validated_combination.py}. Tests check complete historical eligibility, deterministic selection, convex constraints, quantile order and the fallback identity. Recursive expert loops are optionally compiled with Numba without fast-math transformations; independent reference comparisons protect their forecast equations.
 
-The external runner accepts explicit source, cache and output directories. Its cache binds source bytes, protocol, implementations and package versions. The full compressed numerical file is \path{manuscripts/context-memory/evidence/external-evaluation.json.gz}; it contains every outer forecast, target, scale, expert allocation, candidate validation score and temporal split. A separate checker reconstructs all source prefixes and independently recomputes all 53,148 external method forecasts and aggregate scores. Browser documents retain eight decimal places for forecast paths; the full numerical file retains the original floating-point outputs. The selected-case comparison is reproduced separately from its original contiguous histories. The new bilingual lesson executes the proposed variants and checks their admitted values.
+The external runner accepts explicit source, cache and output directories. Its cache binds source bytes, protocol, implementations and package versions. The full compressed numerical file is \path{manuscripts/context-memory/evidence/external-evaluation.json.gz}; it contains every outer forecast, target, scale, expert allocation, candidate validation score and temporal split. A separate checker reconstructs all source prefixes and independently rescores all \externalpathcount{} retained method-origin forecast paths and reconstructs weighted combinations from their stored expert paths. Browser documents retain eight decimal places for forecast paths; the full numerical file retains the original floating-point outputs. The selected-case comparison is reproduced separately from its original contiguous histories. The worked temporal-validation example executes the proposed variants on their declared prefixes.
 
 The fixed contextual rule did not improve its recency-only ablation on the original selected blocks. Temporal selection and convex stacking produce lower measured point error than that control on the admitted weekly and monthly collections. AutoTheta remains stronger on monthly point error and both collections' interval score. These outcomes support a qualified improvement in the evaluated combinations, with explicit remaining limits on component attribution, uncertainty and generalization.
 
