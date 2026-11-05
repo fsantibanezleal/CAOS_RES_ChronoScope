@@ -28,6 +28,52 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def combination_path(root, name):
+    if Path(name).is_absolute() or ".." in Path(name).parts:
+        raise ValueError(f"Missing or redirected combination input: {name}")
+    path = root / name
+    if not path.resolve().is_relative_to(root.resolve()) or not path.is_file():
+        raise ValueError(f"Missing or redirected combination input: {name}")
+    for component in (path, *path.parents):
+        if component == root:
+            break
+        if component.is_symlink() or getattr(component, "is_junction", lambda: False)():
+            raise ValueError(f"Missing or redirected combination input: {name}")
+    return path
+
+
+def validate_combination_release(stage, source=ROOT):
+    """Carry the complete independently scored study; never silently regenerate it."""
+    name = "data/derived/validated-combinations.json"
+    canonical = combination_path(source, name)
+    candidate = combination_path(stage, name)
+    if digest(candidate) != digest(canonical):
+        raise ValueError("Frozen combination index changed")
+    index = read(canonical)
+    names = {"data/derived/" + entry["path"] for entry in index["cases"]}
+    if len(names) != len(index["cases"]):
+        raise ValueError("Combination inventory contains duplicate paths")
+    actual = {p.relative_to(stage).as_posix()
+              for p in (stage / "data/derived/combinations").rglob("*.json")}
+    if actual != names:
+        raise ValueError("Combination payload differs from the complete indexed inventory")
+    for name in sorted(names):
+        if digest(combination_path(stage, name)) != digest(combination_path(source, name)):
+            raise ValueError(f"Frozen combination case changed: {name}")
+    for name, expected in index["code_sha256"].items():
+        if digest(combination_path(source, name)) != expected:
+            raise ValueError(f"Combination implementation binding changed: {name}")
+    if digest(combination_path(source, "scripts/export_combination_study.py")) != index["export_code_sha256"]:
+        raise ValueError("Combination export implementation binding changed")
+    selected = combination_path(stage, "data/derived/reevaluation.json")
+    if digest(selected) != index["selected_case_source_sha256"]:
+        raise ValueError("Combination development-case source binding changed")
+    audit = combination_path(stage, index["audit"]["path"])
+    if digest(audit) != index["audit"]["sha256"]:
+        raise ValueError("Combination full audit archive binding changed")
+    return len(names)
+
+
 def validate(stage):
     cfg = read(ROOT / "scripts/local/workflow.json")
     for name in cfg["stage_inputs"]:
@@ -81,7 +127,8 @@ def validate(stage):
 
     validate_diagnostics(root=stage)
     validate_study(read(stage / "data/derived/forecastability.json"), root=ROOT)
-    print("Product admission: complete case diagnostics, fresh comparison and source-bound M4 corpus")
+    count = validate_combination_release(stage)
+    print(f"Product admission: diagnostics, fresh comparison, M4 corpus and {count} combination cases")
 
 
 def main():
