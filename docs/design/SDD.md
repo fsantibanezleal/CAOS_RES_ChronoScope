@@ -30,7 +30,9 @@ The refreshed implementation audit and sources are in `docs/research/2026-11-01-
 
 The implementation details in Sections III and IV of the manuscript were checked against `data-pipeline/chronoscopelab/stages/streaming.py`, the installed `preqts==0.3.0` package behavior, and `data/derived/*/streaming.json`.
 
-UNVERIFIED: Stored trajectories do not contain per-step controller state, complete execution-environment identifiers, or repeated-seed replications; the released data therefore cannot establish exact state replay, runtime generalization, or sensitivity to controller gains.
+The original aggregate trajectories did not retain every controller state or the complete historical execution environment. The v0.25 reconstruction now retains 21,296 per-step updates, independently matches archived coverage and final weighted quantile loss, and includes 630 sensitivity settings plus 66 additional-seed results. Those calculations support finite-stream replay and sensitivity analysis; they do not restore the missing historical timing environment or establish native state-update performance. The separate external combination study retains favorable ValidationMix point-error comparisons against RecencyMean on two admitted collections, alongside unfavorable comparisons against AutoTheta. The new independent synthetic browser confirmation improves interval score by 49.60 percent around unchanged points, with full prefix-bin, family and lead outcomes in `docs/research/browser-linear/README.md`. These are measured gains with explicit population boundaries, not a record containing only negative outcomes.
+
+UNVERIFIED: the exact historical timing environment, native state-update performance, and coverage of the synthetic browser calibration on arbitrary authentic series remain unconfirmed. These limits do not negate the independently reproduced finite-study results above.
 
 - Sequence/corpus extension primary reference: https://cschoel.github.io/nolds/nolds.html
 - Sequence/corpus extension primary reference: https://doi.org/10.1103/PhysRevLett.89.068102
