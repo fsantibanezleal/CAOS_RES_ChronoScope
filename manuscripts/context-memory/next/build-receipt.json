@@ -1,0 +1,24 @@
+{
+  "state": "working-revision",
+  "published": false,
+  "independent_reader_review": "pending",
+  "scope": "Compiled PDF and local input identity only; not publication acceptance",
+  "latex_engine": "MiKTeX-pdfTeX 4.19 (MiKTeX 24.4)",
+  "pdf_sha256": "13bf92c8024c6fb8dd2175c29b0ab0c1d87354a988f672cafd7a1cf925b3f62f",
+  "pdf_bytes": 532293,
+  "source_files": {
+    "manuscripts/context-memory/next/figures/causal-validation-order.pdf": "36dc3e515e9c701587e7340f841af91db2bc9fc9043fb7572b8f3e7851ef6be9",
+    "manuscripts/context-memory/next/figures/paired-series-directions.pdf": "3efba468e6881b332d9335ed5742461645bbf7637465cfd1123604361f120cb6",
+    "manuscripts/context-memory/next/figures/paired-series-intervals.pdf": "a586afb2c42f054c5cbe71d3e5419daff3181d72ea6cebff5db860258ffce448",
+    "manuscripts/context-memory/next/tables/external.tex": "f33a98a3ff6745ad4212c207b0e192b62973bcb9849b699ba1971ae6c7e6981e",
+    "manuscripts/context-memory/next/tex/main.tex": "8fd6f824d7d4c0a092484deafa4eda8a47d756ec330c398b3126527a43aa10ac",
+    "manuscripts/context-memory/next/tex/notation.tex": "b9a78d36d592fe168e2d3b0c9cdd3c0c68a98ce17325d1513dd70f3a3c6be07d",
+    "manuscripts/context-memory/next/tex/paired-uncertainty.tex": "9a86ba33504747516f3f035fed62717d6078c073d8c2390dd9c772abb41ac5b9",
+    "manuscripts/context-memory/next/tex/related-work.tex": "e6c93664d108b1bc9a7fda582adabe766fa1d0cab9e4db93da7f64b6ccee552d",
+    "manuscripts/context-memory/next/tex/selection-derivation.tex": "ae78b847aa00d8bb3b55f2fce86b1ecf57cc742b318d86f4be65ba0be2a88352",
+    "manuscripts/product-report/next/figures/case-differences.pdf": "4b4cbc91d5f7161ba812212b9eb21698c5a69d61419598a7b97c733ca5c3d99f",
+    "manuscripts/product-report/next/figures/proposal-comparison.pdf": "b4f9f86000edb471adb8c48a219cfd0dc42ec995bfe67a6157a84a276c57885a",
+    "manuscripts/product-report/next/figures/validated-combinations.pdf": "513164ae8bccb22f69f2206117b0fee743b7f35690c0c72033341ffb1eb3110c",
+    "manuscripts/product-report/next/tables/proposal.tex": "0dc7fd812f62421eb55a26510fbd28398d6edcf52ba2725882db58338787f797"
+  }
+}

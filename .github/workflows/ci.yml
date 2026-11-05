@@ -56,6 +56,8 @@ jobs:
         run: python scripts/check_manuscripts.py
       - name: Every published PDF and reviewed canonical source matches its receipt
         run: python scripts/check_publication_bindings.py
+      - name: Working review PDFs match their compiled local source and figure inputs
+        run: python scripts/check_working_draft_bindings.py
       - name: Every numerical procedure resolves to source and retains measured model identities
         run: python scripts/method_inventory.py
       - name: Independently rescore every held-out browser forecast and retain partition provenance
