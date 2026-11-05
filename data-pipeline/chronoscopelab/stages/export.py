@@ -11,6 +11,7 @@ from ..core.trace import build_trace
 from ..data.provenance import public_artifact_ok
 from ..io.formats import write_json
 from ..io.schema import ForecastResult
+from ..io.units import require_forecast_units
 
 # Keys inside an analysis panel that are point-wise ARRAYS reconstructing (a transform of) the source series.
 # For a local-only-licensed source these are dropped; scalar verdicts (test stats, exponents) still ship.
@@ -54,6 +55,13 @@ def run(
     analysis: dict | None = None,
     streaming_bench: dict | None = None,
 ) -> dict:
+    # Check even a source that will be redacted, before any artifact is written.
+    unit_advisories = require_forecast_units(
+        [*result.history, *actual],
+        [{"name": m.name, "point": m.point, "lower": m.lower, "upper": m.upper} for m in result.methods],
+    )
+    flags = [*flags, *({"code": "forecast-unit-advisory", "method": p["method"], "reason": p["detail"]}
+                       for p in unit_advisories)]
     # License guard: for a source whose license forbids public redistribution, the raw series excerpt and the
     # per-step forecast/analysis paths are omitted from the committed artifacts - only aggregate metrics ship.
     source_id = getattr(case, "source", "synthetic")
