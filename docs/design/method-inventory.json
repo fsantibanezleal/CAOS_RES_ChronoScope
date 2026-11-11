@@ -1032,7 +1032,7 @@
     "data-pipeline/chronoscopelab/analysis/distribution.py": "36d79880747d2cef9c715e84e23586014988b77eadb78acac33edf6cf3d07f42",
     "data-pipeline/chronoscopelab/analysis/filters.py": "227301d30878b6379d9588e8baa204a03a1d8d8dd4a329f90df8ac65db87741f",
     "data-pipeline/chronoscopelab/analysis/fractal.py": "f1fa42f4c0676a97cde5a07ca79e9a832ae356c13451a7d46ee3859c107f3b1e",
-    "data-pipeline/chronoscopelab/analysis/nonlinear.py": "fcbc4a473636d1dd8a6c13b5170d1d6ee977fd6dc78beb56bd2d12f2caa6f593",
+    "data-pipeline/chronoscopelab/analysis/nonlinear.py": "96d6649f484514fd27704c10f5cea9ed390d85d6caffdbd8df530271fe1ac9ba",
     "data-pipeline/chronoscopelab/analysis/seasonality.py": "99c328fdb6b792b73485928146313e613f9c3ba354b1760e82e8bdd7e50b7cbb",
     "data-pipeline/chronoscopelab/analysis/sequence.py": "63cf6a21ba110d08fd5bde2c9e4df2ec53a75b29ab03fba151b83be35c7420b9",
     "data-pipeline/chronoscopelab/analysis/stationarity.py": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029",
