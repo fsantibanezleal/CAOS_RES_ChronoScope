@@ -174,8 +174,10 @@ print("Duplicate, partition and corrected-probability checks passed")
 """,
 }
 CODES["seeded"] = """from chronoscopelab.analysis.nonlinear import chaos_measures
-first_fit = chaos_measures(values, seed=42)
-second_fit = chaos_measures(values, seed=42)
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", category=SyntaxWarning, message="invalid escape sequence.*")
+    first_fit = chaos_measures(values, seed=42)
+    second_fit = chaos_measures(values, seed=42)
 print("Repeated robust estimates identical:", first_fit == second_fit)
 print("Correlation dimension:", round(first_fit.corr_dim, 6))
 """
@@ -194,6 +196,43 @@ CODES["selection_plot"] = CODES["selection_plot"].replace(
 CODES["sensitivity"] = """short_profile = matrix_profile(values, window=12)
 print("Short-window motif pair:", short_profile["motifs"])
 print("Short-window candidate boundaries:", short_profile["regime_boundaries"])
+"""
+
+CODES["profile_scale_plot"] = """fig, ax = plt.subplots()
+for result in (short_profile, profile):
+    window = result["window"]
+    rms = np.asarray(result["profile"]) / np.sqrt(window)
+    ax.plot(np.arange(len(rms)), rms, label=f"{window}-observation window")
+ax.set(xlabel="Original window start", ylabel="Normalized RMS distance")
+ax.legend()
+fig.tight_layout()
+plt.show()
+"""
+
+CODES["tolerance_plot"] = """fig, axes = plt.subplots(1, 2, figsize=(8, 3.4))
+for ratio in (0.10, 0.15, 0.20):
+    rows = multiscale_entropy(values, scales=(1, 2, 4, 8), tolerance_ratio=ratio)["scales"]
+    scales = [row["scale"] for row in rows]
+    axes[0].plot(scales, [row["entropy"] for row in rows], marker="o", label=f"r / SD = {ratio:.2f}")
+    axes[1].plot(scales, [row["matching_m_plus_one"] for row in rows], marker="o")
+axes[0].set(xlabel="Coarse-graining scale", ylabel="Sample entropy")
+axes[1].set(xlabel="Coarse-graining scale", ylabel="Matching extended pairs")
+axes[0].legend(fontsize=8)
+fig.tight_layout()
+plt.show()
+"""
+
+CODES["paired_selector_plot"] = """constant_name = reproduced["constant_method"]
+paired = np.sort([row["mase"][row["selected_method"]] - row["mase"][constant_name]
+                  for row in confirmation])
+fig, ax = plt.subplots()
+ax.step(paired, np.arange(1, len(paired) + 1) / len(paired), where="post")
+ax.axvline(0, color="black", linewidth=0.8)
+ax.set(xlabel="Selector minus discovery constant MASE", ylabel="Fraction of confirmation series")
+fig.tight_layout()
+plt.show()
+print("Lower, tied, higher:", int(sum(paired < 0)), int(sum(paired == 0)), int(sum(paired > 0)))
+print("Mean paired difference:", round(float(paired.mean()), 6))
 """
 
 COMMENTS = {
@@ -222,15 +261,20 @@ COMMENTS = {
     "checks": "Check exact deduplication, partition separation and corrected probabilities.",
     "seeded": "Repeat robust nonlinear estimates with an explicit local seed.",
     "refit_selector": "Train the fixed selector again using discovery rows and discovery-only imputation.",
+    "profile_scale_plot": "Compare window distances after dividing each by the square root of its length.",
+    "tolerance_plot": "Track entropy and matching-pair counts under three declared tolerances.",
+    "paired_selector_plot": "Inspect confirmation-series differences behind the aggregate selector score.",
 }
 
 
 LESSON_SOURCES = {
-    1: ["https://doi.org/10.1109/ICDM.2016.0179", "https://doi.org/10.1109/ICDM.2017.21"],
+    1: ["https://doi.org/10.1109/ICDM.2016.0179", "https://doi.org/10.1109/ICDM.2017.21",
+        "https://stumpy.readthedocs.io/en/latest/Tutorial_STUMPY_Basics.html"],
     2: [
         "https://doi.org/10.1103/PhysRevLett.89.068102",
         "https://doi.org/10.1109/TIT.1976.1055501",
         "https://cschoel.github.io/nolds/nolds.html",
+        "https://doi.org/10.1152/ajpheart.2000.278.6.H2039",
     ],
     3: [
         "https://doi.org/10.5281/zenodo.4656548",

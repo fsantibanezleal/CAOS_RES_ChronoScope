@@ -1,6 +1,6 @@
 # Comparar adaptadores ejecutados con trayectorias archivadas
 
-**Pregunta:** ¿Qué permite concluir un bloque final compartido cuando los adaptadores estadísticos y de árboles se ejecutan ahora, mientras los pronósticos neuronales y preentrenados provienen de artefactos publicados identificables?
+**Pregunta:** ¿Cuánto cambia la clasificación de los métodos entre pasos tempranos y tardíos de un mismo bloque reservado, y cómo influye la procedencia de cada trayectoria en su interpretación?
 
 ## Objetivos
 
@@ -59,6 +59,34 @@ Precisión puntual y amplitud responden preguntas diferentes. La segunda figura 
 <!-- code: frozen_plot -->
 
 La dispersión revela intercambios que desaparecen en una clasificación única. Dos métodos con errores puntuales semejantes pueden expresar incertidumbres muy diferentes. Un intervalo amplio puede aumentar la cobertura y resultar poco preciso para decidir. Además, tres cuantiles ofrecen una descripción limitada de la distribución. La pérdida ponderada del artefacto promedia esas tres medidas; no integra una distribución completa ni demuestra que todas las probabilidades de las colas sean confiables.
+
+### Sensibilidad al paso de pronóstico
+
+Sea $y_1,\ldots,y_n$ la historia de ajuste y sea $m$ el rezago estacional declarado. La escala de referencia usa diferencias calculadas íntegramente dentro de esa historia.
+
+$$
+s_m=\frac{1}{n-m}\sum_{i=m+1}^{n}|y_i-y_{i-m}|.
+$$
+
+Con una escala común para todos los métodos, el error absoluto escalado de un conjunto $G$ de pasos es
+
+$$
+E_G(f)=\frac{1}{|G|s_m}\sum_{j\in G}|y_{n+j}-\widehat y_{n+j}^{(f)}|.
+$$
+
+El conjunto completo da el MASE del bloque reservado. Divida los pasos en dos grupos iguales después de generar las trayectorias originales para el horizonte fijo. La celda aplica esa operación a cada trayectoria puntual recién ejecutada y a la referencia estacional. Conserva el ajuste, el origen, el horizonte y la escala. Un cambio de orden relativo refleja qué observaciones y posiciones entran en la puntuación. Reajustar en un origen posterior incorporaría información nueva y respondería otra pregunta. Cambiar el horizonte también podría modificar el ajuste del adaptador o la forma de construir su trayectoria.
+
+<!-- code: lead_sensitivity -->
+
+Lea juntas las dos barras de cada método. Las diferencias al final pueden reflejar la recursión, un desacuerdo de tendencia que se acumula o la posición de un máximo difícil. La figura por sí sola no identifica cuál de esas explicaciones corresponde. Revise los pasos exactos en el gráfico anterior de trayectorias antes de atribuirles una causa. Los dos puntajes son dependientes porque las predicciones se emitieron juntas y los objetivos provienen de una serie. Repetir el ejercicio en orígenes con bloques futuros disjuntos aportaría evidencia más sólida. Conserve ambos resultados para cada método, incluso cuando cambie el que obtiene el menor error. Una decisión que actúa solo durante seis pasos puede dar más peso al primer grupo. Declare esa prioridad antes de examinar los puntajes.
+
+### Adapta el análisis a tus propios datos
+
+Elija una serie regularmente espaciada y conserve las marcas temporales, las unidades y los indicadores de valores faltantes. Determine el horizonte a partir de la acción que utilizará el pronóstico. Use la frecuencia de medición para fijar un rezago estacional o declare una escala de un paso cuando falte evidencia de periodicidad. Elija la última fecha de ajuste antes de leer los valores reservados. Guarde la historia contigua completa, los objetivos en orden cronológico y el origen. Compruebe que todos los métodos reciban esa historia y devuelvan el mismo número de pasos en las unidades originales de la variable.
+
+Inspeccione el denominador antes de calcular el MASE. Una recurrencia estacional constante puede dar escala cero. En ese caso informe error absoluto en unidades originales y declare indefinido el error escalado. Omitir esos casos para un solo candidato puede producir una ventaja aparente al cambiar la muestra. Registre las excepciones, los avisos de convergencia y las revisiones de pesos junto a las trayectorias. Si se desconoce el solapamiento con el entrenamiento de un modelo preentrenado, consérvelo como incertidumbre asociada a sus puntajes. Aplique las mismas decisiones a los próximos bloques reservados antes de cambiar el conjunto de métodos. Con ese registro, otro lector puede determinar si una mejora aparente corresponde al método, al diseño de evaluación o a la información disponible en su momento.
+
+Si la variable representa energía por intervalo, sume pronósticos de un bloque de decisión solo después de comprobar la regla de agregación. Sumar cuantiles inferiores marginales generalmente produce un valor distinto al cuantil inferior del total. Para una compra agregada, evalúe la distribución pronosticada del total en bloques históricos definidos para esa decisión.
 
 ## Resultados
 

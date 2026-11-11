@@ -40,6 +40,23 @@ Una ventana de doce observaciones permite examinar sensibilidad a la escala loca
 
 <!-- code: sensitivity -->
 
+### Sensibilidad a la longitud de ventana
+
+Sea $z_i(k)$ la observación $k$ de la ventana que empieza en $i$, centrada y escalada con los valores de esa ventana. Para ventanas no constantes, el perfil en el inicio $i$ es
+
+$$
+P_m(i)=\min_{|i-j|>\lceil m/4\rceil}
+\sqrt{\sum_{k=0}^{m-1}(z_i(k)-z_j(k))^2}.
+$$
+
+Cada distancia suma $m$ diferencias al cuadrado. La figura divide $P_m$ por $\sqrt m$, de modo que el eje vertical mide la raíz cuadrática media del desacuerdo por observación normalizada. Ambas curvas usan los índices originales de inicio. Los vecinos elegibles cambian, porque otra ventana modifica la forma observada, el radio de exclusión y el número de ventanas completas que caben hasta el final.
+
+<!-- code: profile_scale_plot -->
+
+Interprete diferencias grandes entre curvas como sensibilidad a la representación. Cuando un mínimo cambia de posición, inspeccione los dos intervalos originales emparejados y pregunte si un fragmento de un patrón largo se repite en otro tramo. Cuando cambia un máximo, examine si la ventana larga cruza un cambio de nivel. Ese movimiento no decide cuál ventana conviene. En datos operativos, elija una duración a partir de la acción, por ejemplo detectar una hora recurrente de funcionamiento. Fije la escala, la segmentación y la política de faltantes antes de evaluar en una serie reservada. Para detectar en línea, en cada instante utilice solo ventanas ya disponibles. Un patrón retrospectivo puede confirmarse después del evento que interesa, por lo que es necesario registrar el límite de información.
+
+Guarde el índice del vecino junto con la distancia. Una distancia numérica pequeña por sí sola no identifica los dos intervalos originales que el lector debe comparar.
+
 ## Resultados
 
 **Respuesta:** Las ventanas del par de motivos comienzan en 112 y 232 sobre el eje original. FLUSS propone límites en 104 y 239 para los tres regímenes solicitados. Los candidatos describen formas observadas; sus posiciones no establecen rupturas conocidas del generador ni una alarma prospectiva.
@@ -63,5 +80,7 @@ Una ventana es un intervalo con normalización y exclusión declaradas. Posicion
 Ejecute el cuaderno completo en el entorno fijado. Compare los inicios impresos con el artefacto admitido y revise las pruebas de distancias exhaustivas y transición plantada. No sustituya las observaciones originales por una trayectoria diezmada: hacerlo cambiaría las formas locales y las unidades de la longitud de ventana.
 
 ## Referencias
+
+[Tutorial de perfil exacto de STUMPY](https://stumpy.readthedocs.io/en/latest/Tutorial_STUMPY_Basics.html).
 
 Yeh y colaboradores, Matrix Profile I, DOI 10.1109/ICDM.2016.0179. Gharghabi y colaboradores, Matrix Profile VIII, DOI 10.1109/ICDM.2017.21. Los tutoriales STUMPY documentan normalización, exclusión y segmentación candidata.

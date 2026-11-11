@@ -16,3 +16,12 @@
 | 2 | [¿Cambiar la escala modifica la evidencia sobre el orden?](02-sequence-evidence/02-complexity.ipynb) |
 | 3 | [¿Se conservan las asociaciones en otra partición de series?](02-sequence-evidence/03-corpus-confirmation.ipynb) |
 <!-- sequence-lessons:end -->
+
+<!-- workflow-lesson:start -->
+
+## Flujo de pronóstico
+
+| Nivel | Lección |
+|---|---|
+| 3 | [¿Qué información corresponde a un pronóstico al momento de emitirlo?](02-sequence-evidence/04-information-boundaries.ipynb) |
+<!-- workflow-lesson:end -->

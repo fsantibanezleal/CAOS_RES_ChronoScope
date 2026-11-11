@@ -18,7 +18,13 @@ function Glyph({ id, children, label }: { id: string; children: ReactNode; label
   }}>{children}</g>;
 }
 /** Anchor annotations to the measured subject, including SVG and chart controls. */
-function AnnotatedScene({ items, children }: { items: SceneCalloutDef[]; children: ReactNode }) {
+function AnnotatedScene({ items, children, onBand, calloutClass }: {
+  items: SceneCalloutDef[];
+  children: ReactNode;
+  onBand: (band: number) => void;
+  calloutClass?: string;
+}) {
+  const [band, setBand] = useState(0);
   const host = useRef<HTMLDivElement>(null);
   const [anchors, setAnchors] = useState<Record<string, { x: number; y: number }>>({});
   const measure = useCallback(() => {
@@ -33,13 +39,20 @@ function AnnotatedScene({ items, children }: { items: SceneCalloutDef[]; childre
     }
     setAnchors(previous => JSON.stringify(previous) === JSON.stringify(next) ? previous : next);
   }, []);
-  useLayoutEffect(measure);
+  useLayoutEffect(measure, [band, children, measure]);
   useLayoutEffect(() => {
     if (!host.current) return;
     const observer = new ResizeObserver(measure); observer.observe(host.current);
     return () => observer.disconnect();
   }, [measure]);
-  return <div ref={host} className="cs-annotated-scene">{children}<SceneCallouts placement="header" items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))} /></div>;
+  const loading = items.length > 0 && band <= 0;
+  return <div ref={host} className="cs-annotated-scene" data-state={loading ? 'loading' : 'ready'} aria-busy={loading}>
+    <div className="cs-story-drawing" style={{ paddingTop: band }}>{children}</div>
+    <div className="cs-story-callout-layout" aria-hidden={loading || undefined}>
+      <SceneCallouts placement="header" className={calloutClass} items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))}
+        onLayout={({ bandHeight }) => { setBand(bandHeight); onBand(bandHeight); }} />
+    </div>
+  </div>;
 }
 function ResponsiveSvg({ label, children }: { label: string; children: ReactNode }) {
   return <Stage label={bi(label, label)}>{size => <svg viewBox="0 0 1000 650" className="cs-story-svg" role="img" aria-label={label} style={{ fontSize: Math.max(17, 12 / Math.min(size.width / 1000, size.height / 650)) }}>{children}</svg>}</Stage>;
@@ -55,29 +68,43 @@ function FlowScene() {
     {boxes.map(box => <div key={box.id} data-subject={box.id}><LinkedButton id={box.id} side="scene"><strong>{box.value}</strong><span>{box.label}</span>{box.id === 'prefix' && <output {...markerProps}>t={Math.max(0, Math.min((data?.history.length ?? 1) - 1, cursor ?? 0))} · {formatNumber(data?.history[Math.max(0, Math.min((data?.history.length ?? 1) - 1, cursor ?? 0))], es ? 'es' : 'en', { digits: 2 })}</output>}</LinkedButton></div>)}
   </div>;
 }
-function DelayScene() {
-  const { activeData } = useAtlasSource();
+function DelayScene({ onBand }: { onBand: (band: number) => void }) {
+  const { activeData, err } = useAtlasSource();
   const es = useShellLang() === 'es';
   const [angle, setAngle] = useState(.65);
   const { cursor, markerProps } = useLinkedCursor();
-  const points = useMemo(() => delayCoordinates(activeData?.history ?? []), [activeData?.history]);
-  if (!activeData || !points.length) return <p>{es ? 'Faltan tres observaciones finitas.' : 'Three finite observations are required.'}</p>;
-  const low = Math.min(...activeData.history), high = Math.max(...activeData.history), center = (low + high) / 2, span = high - low || 1;
+  const history = activeData?.history;
+  const trace = useMemo(() => {
+    const points = delayCoordinates(history ?? []);
+    if (!history || !points.length) return null;
+    const low = Math.min(...history), high = Math.max(...history);
+    const center = (low + high) / 2, span = high - low || 1;
+    const coordinates = points.map(({ value }) => projectDelay(value, center, span, angle));
+    return {
+      center,
+      span,
+      line: coordinates.map(point => point.join(',')).join(' '),
+      markers: coordinates.map(([x, y]) => 'M' + (x - 3) + ' ' + y + 'a3 3 0 1 0 6 0a3 3 0 1 0 -6 0Z').join(' '),
+      count: coordinates.length,
+    };
+  }, [history, angle]);
+  if (!history) return <p role={err ? 'alert' : 'status'} data-state={err ? 'unavailable' : 'loading'}>{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
+  if (!trace) return <p>{es ? 'Faltan tres observaciones finitas.' : 'Three finite observations are required.'}</p>;
+  const { center, span } = trace;
   const project = (value: number[]) => projectDelay(value, center, span, angle);
-  const coordinates = points.map(point => project(point.value));
-  const currentIndex = Math.max(0, Math.min(activeData.history.length - 3, cursor ?? 0));
-  const current = { index: currentIndex, value: activeData.history.slice(currentIndex, currentIndex + 3) };
+  const currentIndex = Math.max(0, Math.min(history.length - 3, cursor ?? 0));
+  const current = { index: currentIndex, value: history.slice(currentIndex, currentIndex + 3) };
   const anchor = project(current.value);
   const callouts: SceneCalloutDef[] = current.value.map((value, i) => ({ id: `coordinate-${i}`, eyebrow: bi(`y[${current.index + i}]`, `y[${current.index + i}]`), value: formatNumber(value, es ? 'es' : 'en', { digits: 2 }), unit: bi('source units', 'unidades de origen'), state: 'selected', anchor: { x: anchor[0] / 1000, y: anchor[1] / 650 }, source: bi(`Observed prefix; delay ${i}`, `Historia observada; retardo ${i}`) }));
   return <Scene3DFrame label={es ? 'Trayectoria en tres coordenadas retardadas' : 'Trajectory in three delayed coordinates'}
     controls={<label>{es ? 'Rotar vista' : 'Rotate view'} <input aria-label={es ? 'Ángulo de la vista' : 'View angle'} type="range" min="-3.14" max="3.14" step="0.02" value={angle} onChange={event => setAngle(Number(event.target.value))} /></label>}
     status={es ? 'Sólo historia observada. Una trayectoria no demuestra caos.' : 'Observed history only. A trajectory does not establish chaos.'}>
-    <AnnotatedScene items={callouts}><ResponsiveSvg label={es ? 'Retardos de la historia observada' : 'Observed-prefix delay coordinates'}>
+    <AnnotatedScene items={callouts} onBand={onBand}><ResponsiveSvg label={es ? 'Retardos de la historia observada' : 'Observed-prefix delay coordinates'}>
       <title>{es ? 'Cada punto es (y[t], y[t+1], y[t+2])' : 'Each point is (y[t], y[t+1], y[t+2])'}</title>
       {[0, 1, 2].map(axis => { const end = [center, center, center]; end[axis] = center + span * .57; const [x, y] = project(end); const start = project([center, center, center]);
         return <g key={axis}><line x1={start[0]} y1={start[1]} x2={x} y2={y} className="cs-flow-line" /><text x={x} y={y - 12}>{`y[t+${axis}]`}</text></g>; })}
-      <polyline points={coordinates.map(v => v.join(',')).join(' ')} fill="none" stroke="var(--color-accent)" strokeWidth="2" opacity=".6" />
-      {points.map((point, i) => <circle key={point.index} cx={coordinates[i][0]} cy={coordinates[i][1]} r="3" fill="var(--color-accent)" pointerEvents="none" aria-hidden="true" />)}
+      <polyline points={trace.line} fill="none" stroke="var(--color-accent)" strokeWidth="2" opacity=".6" />
+      <path d={trace.markers} data-delay-samples={trace.count} fill="var(--color-accent)" pointerEvents="none" aria-hidden="true" />
       <Glyph id={`observation:${current.index}`} label={`${es ? 'Observación' : 'Observation'} ${current.index}`}>
         <circle cx={anchor[0]} cy={anchor[1]} r="14" fill="transparent" />
         <circle cx={anchor[0]} cy={anchor[1]} r="7" />
@@ -112,6 +139,13 @@ function MemoryScene({ query }: { query: number }) {
 }
 export default function AtlasStory() {
   const source = useAtlasSource();
+  const [mobileStageMinHeight, setMobileStageMinHeight] = useState(620);
+  const reportMobileBand = useCallback((band: number) => {
+    // The shell uses this height in its mobile layout at widths up to 760px.
+    if (window.matchMedia?.('(max-width: 760px)').matches) {
+      setMobileStageMinHeight(Math.min(900, Math.max(620, Math.round(band + 440))));
+    }
+  }, []);
   const { activeData: data, allMethods, allRows, mode, setMode, caseId, setCaseId, index, err, combinationOrigin } = source;
   const es = useShellLang() === 'es'; const [params, setParams] = useSearchParams();
   const navigate = useNavigate(), pathStep = useParams().step;
@@ -156,7 +190,7 @@ export default function AtlasStory() {
     </div>;
   }
   function plot(kind: 'component' | 'dynamics' | 'decision') {
-    if (!data) return <p role="status">{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
+    if (!data) return <p role={err ? 'alert' : 'status'} data-state={err ? 'unavailable' : 'loading'}>{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
     const methods = kind === 'component' ? experts : selectedMethod ? [selectedMethod] : [], xs = Array.from({ length: h }, (_, i) => n + i);
     const series = kind === 'dynamics' ? methods.map(v => ({ label: v.name, values: v.point.map((p, i) => p - data.actual[i]), color: v.color }))
       : [...methods.map(v => ({ label: v.name, values: v.point, color: v.color, width: v.name === selectedMethod?.name ? 3 : 1.2 })), ...(kind === 'decision' && selectedMethod ? [{ label: 'q0.1', values: selectedMethod.lower, color: selectedMethod.color, dash: [4, 3] }, { label: 'q0.9', values: selectedMethod.upper, color: selectedMethod.color, dash: [4, 3] }] : []), { label: es ? 'Objetivo reservado' : 'Reserved target', values: data.actual, color: 'var(--color-fg)' }];
@@ -164,28 +198,39 @@ export default function AtlasStory() {
     const quantities = kind === 'component' ? experts.slice(0, 3).map(v => ({ label: v.name, value: v.point[lead] }))
       : kind === 'dynamics' ? [{ label: es ? 'Pronóstico' : 'Forecast', value: selectedMethod?.point[lead] }, { label: es ? 'Objetivo' : 'Target', value: data.actual[lead] }, { label: es ? 'Error firmado' : 'Signed error', value: selectedMethod ? selectedMethod.point[lead] - data.actual[lead] : NaN }]
       : [{ label: 'q0.1', value: selectedMethod?.lower[lead] }, { label: 'q0.5', value: selectedMethod?.point[lead] }, { label: 'q0.9', value: selectedMethod?.upper[lead] }];
-    const annotationItems: SceneCalloutDef[] = quantities.map((quantity, i) => ({ id: `snapshot-${i}`, eyebrow: bi(methodLabel(quantity.label), methodLabel(quantity.label)), value: fmt(quantity.value), unit: bi(mode === 'synthetic' ? 'generated units' : 'source units', mode === 'synthetic' ? 'unidades generadas' : 'unidades de origen'), state: 'normal', anchor: { x: .5, y: .9 }, source: bi(`${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · lead ${lead + 1}`, `${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · paso ${lead + 1}`) }));
-    return <AnnotatedScene items={annotationItems}><div className="cs-story-chart"><div className="cs-story-scene-choices">{(kind === 'component' ? experts : selectedMethod ? [selectedMethod] : []).map(v => <LinkedButton key={v.name} id={v.name} side="scene">{methodLabel(v.name)}</LinkedButton>)}</div>
-      <Stage label={bi('Forecast paths on reserved targets', 'Pronósticos sobre objetivos reservados')}>{() => <UPlotChart xs={xs} series={series} height="fill" xPrecision={0} yLabel={`${kind === 'dynamics' ? (es ? 'Error firmado' : 'Signed error') : (es ? 'Valor' : 'Value')} · ${units}`} xLabel={es ? 'Índice de observación' : 'Observation index'} ariaSummary={kind === 'dynamics' ? (es ? 'Pronóstico menos objetivo; cero como referencia' : 'Forecast minus target; zero reference') : (es ? 'Trayectorias sobre el mismo bloque reservado' : 'Forecast paths on the same reserved block')}
-        refLines={[...(kind === 'dynamics' ? [{ y: 0, label: '0' }] : []), ...(cursor != null && cursor >= n && cursor < n + h ? [{ x: cursor, label: es ? 'Objetivo seleccionado' : 'Selected target' }] : [])]} onPick={i => scrub(n + i)} />}</Stage>
+    const calloutUnits = mode === 'synthetic' ? bi('gen. u.', 'u. gen.') : bi('src. u.', 'u. orig.');
+    const selectedValue = (kind === 'dynamics' ? quantities[2].value
+      : kind === 'decision' ? data.actual[lead] : selectedMethod?.point[lead]) ?? NaN;
+    // The shell can update data points without remounting the keyboard cursor as a vertical mark moves.
+    const plotted = [...series, {
+      label: es ? 'Paso seleccionado' : 'Selected lead',
+      values: xs.map((_, i) => i === lead && Number.isFinite(selectedValue) ? selectedValue : null),
+      color: 'var(--color-warn)',
+      scatter: true,
+    }];
+    const annotationItems: SceneCalloutDef[] = quantities.map((quantity, i) => ({ id: `snapshot-${i}`, eyebrow: bi(methodLabel(quantity.label), methodLabel(quantity.label)), value: fmt(quantity.value), unit: calloutUnits, state: 'normal', anchor: { x: .5, y: .9 }, source: bi(`${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · lead ${lead + 1}`, `${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · paso ${lead + 1}`) }));
+    return <AnnotatedScene items={annotationItems} onBand={reportMobileBand} calloutClass="cs-story-snapshot-callouts"><div className="cs-story-chart"><div className="cs-story-scene-choices">{(kind === 'component' ? experts : selectedMethod ? [selectedMethod] : []).map(v => <LinkedButton key={v.name} id={v.name} side="scene">{methodLabel(v.name)}</LinkedButton>)}</div>
+      <Stage label={bi('Forecast paths on reserved targets', 'Pronósticos sobre objetivos reservados')}>{() => <UPlotChart xs={xs} series={plotted} solo height="fill" xPrecision={0} yLabel={`${kind === 'dynamics' ? (es ? 'Error firmado' : 'Signed error') : (es ? 'Valor' : 'Value')} · ${units}`} xLabel={es ? 'Índice de observación' : 'Observation index'} ariaSummary={kind === 'dynamics' ? (es ? 'Pronóstico menos objetivo; cero como referencia' : 'Forecast minus target; zero reference') : (es ? 'Trayectorias sobre el mismo bloque reservado' : 'Forecast paths on the same reserved block')}
+        readout={index => `${es ? 'Paso' : 'Lead'} ${index + 1} · ${series.map(row => `${methodLabel(row.label)} ${fmt(row.values[index])}`).join(' · ')}`}
+        refLines={kind === 'dynamics' ? [{ y: 0, label: '0' }] : []} onPick={i => scrub(n + i)} />}</Stage>
       <p className="cs-story-chart-caption">{kind === 'decision' ? `${methodLabel(selectedMethod?.name ?? '')} · MASE ${fmt(selectedRow?.mase)} · ${es ? 'cobertura del bloque' : 'block coverage'} ${fmt((selectedRow?.coverage ?? NaN) * 100, 1)}%` : kind === 'dynamics' ? (es ? 'Cada error conserva signo y posición temporal.' : 'Each error retains its sign and temporal position.') : (es ? 'Mismo prefijo; objetivos visibles sólo para evaluar.' : 'Same prefix; targets visible only for evaluation.')}</p><div className="cs-story-leads">{quantities.map((quantity, i) => <output data-subject={`snapshot-${i}`} key={i}>{methodLabel(quantity.label)}: {fmt(quantity.value)}</output>)}</div></div></AnnotatedScene>;
   }
   const definitions: { id: ShowcaseKind; verb: ReturnType<typeof bi>; headline: ReturnType<typeof bi>; summary: ReturnType<typeof bi>; stage: ReactNode }[] = [
-    { id: 'system', verb: bi('Trace the system', 'Seguir el sistema'), headline: bi(`${n} observations precede ${h} reserved targets`, `${n} observaciones preceden ${h} objetivos reservados`), summary: bi('Follow the same observed prefix into every forecast.', 'Sigue el mismo prefijo observado hasta cada pronóstico.'), stage: <AnnotatedScene items={[
+    { id: 'system', verb: bi('Trace the system', 'Seguir el sistema'), headline: bi(`${n} observations precede ${h} reserved targets`, `${n} observaciones preceden ${h} objetivos reservados`), summary: bi('Follow the same observed prefix into every forecast.', 'Sigue el mismo prefijo observado hasta cada pronóstico.'), stage: <AnnotatedScene onBand={reportMobileBand} items={[
       { id: 'prefix', eyebrow: bi('Observed prefix', 'Historia observada'), value: String(n), unit: bi('observations', 'observaciones'), state: 'normal', anchor: { x: .175, y: .44 }, source: bi('Before forecast origin', 'Antes del pronóstico') },
       { id: 'experts', eyebrow: bi('Compared methods', 'Métodos comparados'), value: String(allMethods.length), unit: bi('forecasts', 'pronósticos'), state: 'normal', anchor: { x: .5, y: .44 }, source: bi('Admitted paths', 'Trayectorias admitidas') },
       { id: 'target', eyebrow: bi('Reserved block', 'Bloque reservado'), value: String(h), unit: bi('observations', 'observaciones'), state: 'warning', anchor: { x: .825, y: .44 }, source: bi('Excluded from fit', 'Fuera del ajuste') },
     ]}><FlowScene /></AnnotatedScene> },
     { id: 'component', verb: bi('Inspect the experts', 'Inspeccionar expertos'), headline: bi(`${experts.length} experts expose different extrapolations`, `${experts.length} expertos muestran extrapolaciones diferentes`), summary: bi('Inspect paths and verified combination weights.', 'Inspecciona trayectorias y pesos verificados.'), stage: plot('component') },
-    { id: 'domain', verb: bi('Rotate the history', 'Rotar la historia'), headline: bi('3 delayed coordinates use observed history only', '3 coordenadas retardadas usan sólo historia observada'), summary: bi('Explore sequence geometry without claiming an attractor.', 'Explora geometría sin afirmar un atractor.'), stage: <DelayScene /> },
+    { id: 'domain', verb: bi('Rotate the history', 'Rotar la historia'), headline: bi('3 delayed coordinates use observed history only', '3 coordenadas retardadas usan sólo historia observada'), summary: bi('Explore sequence geometry without claiming an attractor.', 'Explora geometría sin afirmar un atractor.'), stage: <DelayScene onBand={reportMobileBand} /> },
     { id: 'dynamics', verb: bi('Follow the errors', 'Seguir los errores'), headline: bi(`${h} leads expose signed forecast errors`, `${h} pasos muestran errores con signo`), summary: bi('Scrub held-out errors; not native state-update timing.', 'Recorre errores reservados; no mide actualizaciones nativas.'), stage: plot('dynamics') },
-    { id: 'method', verb: bi('Check information timing', 'Verificar disponibilidad'), headline: bi(`${complete.length} of ${memory.length} memory blocks are observable`, `${complete.length} de ${memory.length} bloques son observables`), summary: bi('Inspect which historical target blocks have completed.', 'Inspecciona qué bloques históricos terminaron.'), stage: <AnnotatedScene items={[
+    { id: 'method', verb: bi('Check information timing', 'Verificar disponibilidad'), headline: bi(`${complete.length} of ${memory.length} memory blocks are observable`, `${complete.length} de ${memory.length} bloques son observables`), summary: bi('Inspect which historical target blocks have completed.', 'Inspecciona qué bloques históricos terminaron.'), stage: <AnnotatedScene onBand={reportMobileBand} items={[
       { id: 'query', eyebrow: bi('Historical query', 'Consulta histórica'), value: String(query), unit: bi('index', 'índice'), state: 'selected', anchor: { x: .5, y: .5 }, source: bi('Chosen cutoff q', 'Corte elegido q') },
-      { id: 'completed', eyebrow: bi('Completed blocks', 'Bloques completos'), value: String(complete.length), unit: bi('target blocks', 'bloques objetivo'), state: memory.length ? 'normal' : 'inactive', anchor: { x: .3, y: .5 }, source: bi('origin + horizon ≤ query', 'origen + horizonte ≤ consulta') },
-      { id: 'horizon', eyebrow: bi('Reserved horizon', 'Horizonte reservado'), value: String(h), unit: bi('obs. / block', 'obs. / bloque'), state: 'warning', anchor: { x: .7, y: .5 }, source: bi('Case horizon', 'Horizonte del caso') },
+      { id: 'completed', eyebrow: bi('Completed', 'Completados'), value: String(complete.length), unit: bi('blocks', 'bloques'), state: memory.length ? 'normal' : 'inactive', anchor: { x: .3, y: .5 }, source: bi('origin + horizon ≤ query', 'origen + horizonte ≤ consulta') },
+      { id: 'horizon', eyebrow: bi('Horizon', 'Horizonte'), value: String(h), unit: bi('obs.', 'obs.'), state: 'warning', anchor: { x: .7, y: .5 }, source: bi('Case horizon', 'Horizonte del caso') },
     ]}><MemoryScene query={query} /></AnnotatedScene> },
     { id: 'decision', verb: bi('Compare the evidence', 'Comparar evidencia'), headline: bi(`${allRows.length} forecasts share 1 reserved block`, `${allRows.length} pronósticos comparten 1 bloque reservado`), summary: bi('Compare a selected path, interval and held-out score.', 'Compara trayectoria, intervalo y puntuación reservada.'), stage: plot('decision') },
   ];
   const steps: StoryStep[] = definitions.map((definition, i) => ({ ...definition, number: i + 1, href: href(definition.id), accent: (i % 5 + 1) as StoryStep['accent'], panel: panel(definition.id) }));
-  return <StoryFrame steps={steps} activeId={active} onStepChange={id => { move(id); select(id === 'system' ? 'prefix' : id === 'method' ? (memory.length ? `origin:${memory[0]}` : null) : selectedMethod?.name ?? null, 'external'); }} onExit={() => { const next = new URLSearchParams(params); next.delete('story'); next.delete('focus'); next.set('view', 'explore'); navigate(`/app?${next}`); }} />;
+  return <StoryFrame steps={steps} activeId={active} mobileStageMinHeight={mobileStageMinHeight} onStepChange={id => { move(id); select(id === 'system' ? 'prefix' : id === 'method' ? (memory.length ? `origin:${memory[0]}` : null) : selectedMethod?.name ?? null, 'external'); }} onExit={() => { const next = new URLSearchParams(params); next.delete('story'); next.delete('focus'); next.set('view', 'explore'); navigate(`/app?${next}`); }} />;
 }

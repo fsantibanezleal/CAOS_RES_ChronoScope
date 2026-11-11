@@ -8,12 +8,16 @@ from __future__ import annotations
 import argparse
 import ast
 import hashlib
+from importlib.metadata import distribution
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DESTINATION = Path("docs/design/method-inventory.json")
 ENGINE = "data-pipeline/chronoscopelab/"
+VOLATILITY_ADAPTER = ENGINE + "analysis/volatility.py"
+VOLATILITY_MODULE = "forecastscope.diagnostics.volatility"
+VOLATILITY_RECEIPT = Path("docs/validation/base-adoption-2026-11-10/forecastscope-volatility.json")
 NON_METHOD_APIS = {
     "stationarity.stationarity_report": "Assembles the stationarity tests, differencing recommendations and combined verdict.",
     "autocorrelation.autocorrelation_report": "Assembles correlograms, portmanteau statistics and lag pairs.",
@@ -235,6 +239,15 @@ def validate_analysis_api(rows, root=ROOT):
         raise ValueError("Uninventoried analysis API: " + ", ".join(sorted(actual - covered - excluded)))
 
 
+def volatility_provider(root):
+    provider = json.loads((root / VOLATILITY_RECEIPT).read_text(encoding="utf-8"))["provider"]
+    installed = distribution("forecastscope")
+    source = installed.locate_file(VOLATILITY_MODULE.replace(".", "/") + ".py").read_bytes()
+    if installed.version != provider["version"] or hashlib.sha256(source).hexdigest() != provider["source_sha256"]:
+        raise ValueError("Installed ForecastScope differs from the verified volatility provider")
+    return provider, ast.parse(source)
+
+
 def validate(rows, root=ROOT):
     ids = [row["id"] for row in rows]
     if len(ids) != len(set(ids)):
@@ -242,6 +255,7 @@ def validate(rows, root=ROOT):
     expected = {row["id"] for row in catalog()}
     if set(ids) != expected:
         raise ValueError("Numerical procedure inventory is incomplete or contains undeclared entries")
+    provider, volatility_tree = volatility_provider(root)
     for row in rows:
         source, symbol = row["implementation"].split("::", 1)
         path = root / source
@@ -251,6 +265,14 @@ def validate(rows, root=ROOT):
                 or not path.is_file() or not validation.is_file()):
             raise ValueError(f"Missing source or validation: {row['id']}")
         tree = ast.parse(path.read_text(encoding="utf-8"))
+        if source == VOLATILITY_ADAPTER:
+            aliases = {alias.asname or alias.name: alias.name for node in tree.body
+                       if isinstance(node, ast.ImportFrom) and node.module == VOLATILITY_MODULE and not node.level
+                       for alias in node.names}
+            if aliases.get(symbol) != symbol:
+                raise ValueError(f"Unexpected volatility binding: {row['implementation']}")
+            row["runtime_provider"] = provider
+            tree = volatility_tree
         if not any(isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name == symbol for node in tree.body):
             raise ValueError(f"Unimplemented callable: {row['implementation']}")
     covered = {row["artifact_name"] for row in rows if row["scope"] == "forecast"}

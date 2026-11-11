@@ -25,7 +25,12 @@ endpoint lies inside the observed range. Evaluation truths can enter this
 post-prediction diagnostic; they cannot influence fitting, clipping or selection.
 Observed values retain their source units, including undisclosed units in M4.
 
-The separate literal-unit review, external combination-origin sweep and complete
-browser runtime audit remain pending. Passing these 945 paths does not close the
-whole product's units requirement. Redacted public paths are reported as
+The November 11 combination check reconstructed 4,429 exact source prefixes and
+reserved targets from the two Zenodo collections. It checked 53,148 external
+forecast paths, with zero blocking findings and 5,736 flat-path advisories.
+The [receipt](../../../validation/base-adoption-2026-11-10/combination-units.json)
+binds the source archives, retained forecasts and unit boundary.
+
+The separate literal-unit review and complete browser runtime audit remain pending.
+Redacted public paths are reported as
 uncheckable and make the standalone sweep fail rather than count as inspected.

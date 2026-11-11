@@ -70,6 +70,33 @@ Respuesta: el selector reproducido tiene MASE medio de confirmación {{SELECTED}
 
 El corpus representa una frecuencia de benchmark con identidades de fuente anonimizadas. La deduplicación exacta no reconoce todos los sectores relacionados ni factores latentes compartidos. El conjunto excluye modelos profundos y preentrenados y no puede ordenarlos por implicación. El contexto limitado, los ajustes fijos y el oráculo de error escalado acotan el significado del objetivo. Ningún resultado modifica las características o parámetros del bosque. El otro experimento de veintidós variantes permanece disponible con sus propias identidades y procedencia.
 
+### Sensibilidad al resumen de rendimiento
+
+Sea $\overline E_{i,k}$ el MASE medio sobre los tres orígenes reservados de la serie $i$ con el método $k$. La asociación por rangos usa una transformación del oráculo dentro del conjunto de métodos.
+
+$$
+A_i=\log(1+\min_k \overline E_{i,k}).
+$$
+
+Para las series de confirmación, sea $k_i$ la elección del bosque a partir de las características del prefijo y $k_0$ el método elegido por MASE medio en descubrimiento. La comparación entre estas dos políticas aplicables utiliza
+
+$$
+\Delta_i=\overline E_{i,k_i}-\overline E_{i,k_0},
+\qquad \overline\Delta=\frac{1}{N}\sum_{i=1}^{N}\Delta_i.
+$$
+
+El oráculo toma el mínimo cuando ya se conocen todos los resultados. El selector y la regla constante eligen antes de usar los resultados de confirmación. Una asociación fuerte con $A_i$ puede aparecer porque varios métodos obtienen poco error en la misma serie. No indica al bosque cuál método concreto gana. La figura muestra la distribución acumulada empírica de las diferencias emparejadas en confirmación. Cada serie aporta un valor, independientemente de la longitud de su historia.
+
+<!-- code: paired_selector_plot -->
+
+Para leer la distribución, ubique el cero. A la izquierda se favorece al selector y a la derecha al método constante de descubrimiento. Un salto en cero puede deberse a que ambas reglas eligen el mismo método o a que sus puntajes empatan. Una cola de diferencias grandes puede mover la media, así que compárela con los conteos por dirección. Estas observaciones reutilizan la confirmación para describir el resultado fijo. No use las colas para retirar series difíciles, elegir otra característica o reajustar el bosque en confirmación.
+
+### Adapta el diseño a tus propios datos
+
+Identifique grupos que comparten un proceso antes de crear la partición. Varios canales de una instalación, por ejemplo, pueden ser secuencias distintas que revelan un régimen común. Mantenga los canales relacionados del mismo lado de la separación. Declare la regla para excluir secuencias cortas y escalas nulas y registre cada identidad excluida. Defina horizonte y corte de características de forma consistente, con información conocida antes de todos los objetivos que se puntúan.
+
+Ajuste la imputación, la elección de referencia y los parámetros del selector con descubrimiento. Para confirmar, use el flujo ajustado fijo y evalúe las dos reglas sobre las mismas series y orígenes. Compare diferencias emparejadas y conteos como en la figura. Si pocos errores extremos dominan el resultado, consérvelos y documente su procedencia. Use otro grupo intacto para evaluar una política revisada. Así puede estudiar la selección de métodos para un conjunto, frecuencia y población especificados, sin atribuir el resultado a un límite intrínseco de predictibilidad.
+
 ## Resumen
 
 La partición de confirmación evalúa reglas e hipótesis fijadas previamente. Conserve familia corregida completa, exclusiones y resultados negativos junto a cualquier coeficiente favorable.

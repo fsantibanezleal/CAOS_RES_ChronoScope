@@ -13,7 +13,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Felipe SantibÃ¡Ã±ez-Leal" }]
-dependencies = ["numpy==2.4.6"]
+dependencies = ["numpy==2.4.6", "forecastscope==0.1.1"]
 
 [tool.setuptools.packages.find]
 where = ["data-pipeline"]

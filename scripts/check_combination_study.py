@@ -35,6 +35,7 @@ def admit_eligibility(row, y, h, m):
 
 
 def validate(document, source_root):
+    from check_forecast_units import boundary
     from run_forecastability_study import series_from_tsf
 
     assert len(document["series"]) == 1787, "Incomplete source inventory"
@@ -50,6 +51,8 @@ def validate(document, source_root):
         assert len(source) == len(rows) == config["count"]
         assert {r["id"] for r in rows} == set(source)
         aggregated = {}
+        paths_checked = 0
+        flat_paths = Counter()
         h, m = config["horizon"], config["seasonality"]
         for row in rows:
             y = source[row["id"]]
@@ -126,6 +129,17 @@ def validate(document, source_root):
                         )
                         assert model["selected"] == list(selected)
                     methods_checked += 1
+                observed = [*prefix, *actual]
+                paths = [
+                    {"name": name, "lower": q[:, 0], "point": q[:, 1], "upper": q[:, 2]}
+                    for name, q in forecasts.items()
+                ]
+                try:
+                    advisories = boundary.require_forecast_units(observed, paths)
+                except ValueError as error:
+                    raise ValueError(f"{dataset}/{row['id']} origin {t}: {error}") from error
+                paths_checked += len(paths)
+                flat_paths.update(finding["method"] for finding in advisories)
             for name, values in per_series.items():
                 aggregated.setdefault(name, []).append(
                     {k: float(np.mean([v[k] for v in values])) for k in values[0]}
@@ -141,6 +155,8 @@ def validate(document, source_root):
             "inventory": len(rows),
             "admitted": len(next(iter(aggregated.values()))),
             "exclusions": dict(Counter(r["excluded"] for r in rows if r.get("excluded"))),
+            "observable_paths_checked": paths_checked,
+            "flat_path_advisories_by_method": dict(sorted(flat_paths.items())),
         }
     return {
         "ok": True,

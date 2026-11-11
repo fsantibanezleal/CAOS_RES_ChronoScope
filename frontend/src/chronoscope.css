@@ -187,18 +187,22 @@ html { contain: layout; }
 .caos-story button[data-linked-selected="true"] { border-color: var(--color-accent); box-shadow: inset 3px 0 var(--color-accent); }
 
 .cs-annotated-scene { position: relative; width: 100%; height: 100%; min-height: 0; }
-.cs-annotated-scene > .cs-story-chart { width: 100%; height: 100%; padding-top: 88px; }
+/* Isolate the callout backdrop from the moving chart during a story transition. */
+.cs-story-callout-layout { position: absolute; inset: 0; pointer-events: none; will-change: opacity; }
+.cs-annotated-scene[data-state="loading"] > .cs-story-callout-layout { visibility: hidden; }
+.cs-story-drawing { box-sizing: border-box; width: 100%; height: 100%; }
+.cs-story-drawing > .cs-story-chart { width: 100%; height: 100%; }
 .cs-story-leads { display: flex; justify-content: space-around; gap: .3rem; flex: 0 0 auto; }
 .cs-story-leads > output { flex: 1 1 0; min-width: 0; font-size: .75rem; overflow-wrap: anywhere; }
-@media (max-width: 640px) { .cs-annotated-scene > .cs-story-chart { padding-top: 132px; } }
+.cs-story-snapshot-callouts .caos-scene-callout > strong { grid-column: 1 / -1; grid-row: 2; }
 
-.cs-story-flow { height: 100%; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2rem; align-content: center; padding: 150px 2rem 80px; }
+.cs-story-flow { height: 100%; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2rem; align-content: center; padding: 1rem 2rem; }
 .cs-story-flow > div { min-width: 0; }
 .cs-story-flow button { display: flex; flex-direction: column; justify-content: center; gap: .7rem; width: 100%; min-height: 150px; border-radius: var(--radius-lg); }
 .cs-story-flow strong { font: 700 2.5rem var(--font-mono); }
 .cs-story-flow span { font-size: .9rem; }
 @media (max-width: 640px) {
- .cs-story-flow { grid-template-columns: minmax(0,1fr); gap: .5rem; padding: 138px 1rem .5rem; }
+ .cs-story-flow { grid-template-columns: minmax(0,1fr); gap: .5rem; padding: .5rem 1rem; }
  .cs-story-flow button { flex-direction: row; align-items: center; min-height: 65px; gap: 1rem; }
  .cs-story-flow strong { font-size: 1.5rem; }
 }

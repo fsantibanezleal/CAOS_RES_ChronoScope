@@ -1,12 +1,12 @@
 # ChronoScope software design description
 
-Status: current product design; reviewed 2026-11-05 against repository source and committed artifacts.
+Status: current product design, reviewed 2026-11-10 against repository source and committed artifacts.
 
 ## Problem and non-goals
 
 ChronoScope packages time-series diagnostics, point forecasting, interval forecasts, and prequential streaming evaluations in a reproducible research atlas. Its primary boundary is analysis and comparison of selected cases. It is not a production forecasting service, a universal model ranking, a guarantee of coverage under arbitrary drift, or evidence of a new forecasting method.
 
-The streaming study is finite: 15 selected cases, four real series, eleven generated series, one-step horizons, four forecasting/calibration configurations, and stored rolling trajectories. Runtime measurements are machine-dependent. The current artifact does not preserve individual online score-buffer states or complete execution provenance for an exact replay of each controller update.
+The streaming study covers 15 selected series, including four real excerpts and eleven generated series, at a one-step horizon. The published reconstruction binds individual forecast-before-update records and matches the archived aggregate trajectories. The original hardware and timing environment were not retained.
 
 ## Executive brief
 
@@ -42,6 +42,8 @@ UNVERIFIED: the exact historical timing environment, native state-update perform
 - Sequence/corpus extension primary reference: https://doi.org/10.1103/PhysRevLett.89.068102
 - Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2016.0179
 - Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2017.21
+- STUMPY exact-profile reference implementation: https://stumpy.readthedocs.io/en/latest/Tutorial_STUMPY_Basics.html
+- Sample entropy and finite template matches: https://doi.org/10.1152/ajpheart.2000.278.6.H2039
 - Sequence/corpus extension primary reference: https://doi.org/10.1109/TIT.1976.1055501
 - Sequence/corpus extension primary reference: https://doi.org/10.5281/zenodo.4656548
 - Sequence/corpus extension primary reference: https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html
@@ -64,7 +66,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | notebooks/requirements.txt | matplotlib | 3.10.8 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbclient | 0.11.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbformat | 5.11.1 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
-| frontend | @fasl-work/caos-app-shell | 0.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | @fasl-work/caos-app-shell | 0.25.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @testing-library/react | 16.3.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/katex | 0.16.8 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/node | 22.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
@@ -93,6 +95,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | requirements-precompute.txt | pandas | 2.3.3 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | playwright | 1.64.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | preqts | 0.3.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
+| requirements-precompute.txt | forecastscope | 0.1.1 | Published volatility diagnostics for the offline analysis stage. | The installed source is verified against the release receipt. |
 | requirements-precompute.txt | pycatch22 | 0.4.5 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-dev.txt | pytest | 9.1.1 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | pywavelets | 1.8.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
@@ -147,7 +150,7 @@ Evaluation fixes all hyperparameters before scoring the final blocks. The common
 
 ## Novel contributions
 
-NC-1 is the admitted fifteen-series replay protocol and empirical adaptive-interval comparison, implemented with preqts. Its paper is **Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study**, version 2.5, concept DOI 10.5281/zenodo.21508920. This is an evaluation contribution, not a new forecasting method or a comparison of native state updates. The v0.25 reconstruction preserves per-step states and sensitivity outcomes; historical runtime provenance remains unavailable. The separate working v2.6 revision has not been published or independently reviewed.
+NC-1 is the admitted fifteen-series replay protocol and empirical adaptive-interval comparison, implemented with preqts. Its independently reviewed preprint is **Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study**, version 2.6, DOI 10.5281/zenodo.24123073, concept DOI 10.5281/zenodo.21508920. The reconstruction preserves per-step states and sensitivity outcomes. The historical runtime environment remains unavailable, and the replay protocol measures forecasts made by refitting on available history.
 
 ## Cases
 
@@ -207,6 +210,21 @@ coverage require their own evidence. Requirements MI-1 through MI-3 are in
 
 ## Source-bound walkthrough
 
-The six visualization kinds, source/geometry derivations and their scientific boundaries are specified in `docs/design/showcase-catalog.md`. StoryFrame, measured annotations, linked-view state, motion and chart rendering use published shell 0.20.0. The URL-bound source survives step navigation; cross-case responses and mismatched fresh targets cannot acquire the selected identity. Combination weights additionally require a complete little-endian float64 prefix digest. The existing Explore atlas remains available.
+The six visualization kinds, source/geometry derivations and their scientific boundaries are specified in `docs/design/showcase-catalog.md`. StoryFrame, measured annotations, linked-view state, motion and chart rendering use published shell 0.25.0. The URL-bound source survives step navigation; cross-case responses and mismatched fresh targets cannot acquire the selected identity. Combination weights additionally require a complete little-endian float64 prefix digest. The existing Explore atlas remains available.
 
 `frontend/scripts/check-showcase.mjs` verifies the actual rendered theme and language, six steps, three primary annotations, desktop viewport share, annotation bounds and nonoverlap across 72 states. The shared shell G21 and full repository/browser/release gates remain separately required. Neither this implementation nor a custom matrix establishes manuscript, notebook, package-publication, unit-review or full product acceptance.
+
+## Visualization catalog
+
+| id | question | data contract | kind | interactions | linked views | placement |
+|---|---|---|---|---|---|---|
+| V1 | What was observed before the forecast origin? | fresh-reevaluation prefix, paths and reserved targets | system diagram | Select a block and scrub the observed prefix | Source selector, diagram marker and evidence panel | /story/system |
+| V2 | How do the local experts extrapolate one observed prefix? | fresh-reevaluation and prefix-bound combination-case | component chart | Select an expert and scrub the common horizon | Expert path, lead callouts and weights when admitted | /story/component |
+| V3 | How does the observed sequence move across consecutive delayed coordinates? | fresh-reevaluation observed prefix | rotatable delay projection | Rotate projection and select a retained observation | Trajectory, selected triple and evidence panel | /story/domain |
+| V4 | Where do the signed errors change across the forecast horizon? | fresh-reevaluation point and target arrays | error dynamics chart | Select a method and move the target cursor | Error trace, lead readout and panel | /story/dynamics |
+| V5 | Which target blocks were observable at the historical query? | combination-case completed origin records and horizon | method timeline | Move cutoff and select an origin | Completion status, memory interval and panel | /story/method |
+| V6 | How do selected forecasts and interval endpoints compare with the reserved block? | fresh-reevaluation paths and scores | decision chart | Change method and move the shared lead cursor | Forecast path, held-out values, quantile readout and scores | /story/decision |
+
+Shell 0.25.0 provides the measured header band used to reserve drawing space.
+The subjects are measured in the resized drawing, and the mobile stage floor
+preserves room for the chart or trajectory beneath the callouts.

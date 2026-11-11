@@ -248,7 +248,11 @@ def nonlinear_report(x, emb_dim: int = 4, lag: int = 1, n_surrogates: int = 19, 
         mu, sd = float(np.mean(surr_d2)), float(np.std(surr_d2))
         # data D2 significantly LOWER than surrogates => genuine (nonlinear) low-dim structure
         nonlinear_detected = bool(sd > 0 and cm.corr_dim < mu - 2 * sd)
-    likely_chaotic = bool((cm.lyap_r > 0.01) and (k01 > 0.5) and (nonlinear_detected is True))
+    lyapunov_threshold = 0.01
+    zero_one_threshold = 0.5
+    likely_chaotic = bool(
+        cm.lyap_r > lyapunov_threshold and k01 > zero_one_threshold and nonlinear_detected is True
+    )
     return {
         "n": int(len(a)),
         "seed": seed,
@@ -261,6 +265,9 @@ def nonlinear_report(x, emb_dim: int = 4, lag: int = 1, n_surrogates: int = 19, 
         "surrogate_test": {"n_surrogates": len(surr_d2), "nonlinear_detected": nonlinear_detected,
                            "reference": "Schreiber & Schmitz 1996, DOI 10.1103/PhysRevLett.77.635 (IAAFT); Theiler et al. 1992, DOI 10.1016/0167-2789(92)90102-S"},
         "likely_chaotic": likely_chaotic,
-        "verdict_note": "chaos claimed only when Lyapunov>0 AND 0-1 K>0.5 AND surrogate rejects linearity",
+        "verdict_note": (
+            f"Descriptive flag requires Lyapunov > {lyapunov_threshold:g}, "
+            f"0-1 K > {zero_one_threshold:g}, and the surrogate flag"
+        ),
         "reference": cm.reference,
     }

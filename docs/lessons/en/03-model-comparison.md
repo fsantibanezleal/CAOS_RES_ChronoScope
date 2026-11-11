@@ -60,6 +60,34 @@ Point accuracy and interval width answer different questions. The second figure 
 
 The scatter can expose tradeoffs that disappear in a single ranking. Two models with similar point error can express very different uncertainty, while a broad interval can produce high coverage without useful precision. Three available quantiles also provide a limited view of the predictive distribution. The artifact's weighted quantile loss averages those three quantile scores; it is not an integral over an entire distribution or a claim that every tail probability is reliable.
 
+### Sensitivity to forecast lead
+
+Let $y_1,\ldots,y_n$ be the fitting history and $m$ the declared seasonal lag. The seasonal reference scale uses differences entirely within that prefix.
+
+$$
+s_m=\frac{1}{n-m}\sum_{i=m+1}^{n}|y_i-y_{i-m}|.
+$$
+
+With the same scale for every method, a group $G$ of forecast leads has scaled absolute error
+
+$$
+E_G(f)=\frac{1}{|G|s_m}\sum_{j\in G}|y_{n+j}-\widehat y_{n+j}^{(f)}|.
+$$
+
+The full group gives MASE for the reserved block. Split the leads into two equal groups after producing the original fixed-horizon forecasts. The cell below applies the same operation to each newly executed point path and the seasonal reference. It holds the fit, forecast origin, horizon and scale constant. Any change in the relative ordering reflects which outcomes and forecast positions enter the score. A refit at a later origin would expose new information and answer a different question. A change of horizon could also change how an adapter fits or constructs its predictions.
+
+<!-- code: lead_sensitivity -->
+
+Read each pair of bars together. Differences in the later leads can reflect recursion, accumulating trend mismatch, or the position of a difficult peak. The plot alone cannot identify which explanation applies. Compare the exact leads in the earlier path plot before making an attribution. The early and late scores are dependent because the forecasts were issued together and the targets come from one series. Repeating the exercise across origins with nonoverlapping target blocks would support stronger evidence. Keep all models' early and late results, including cases where the preferred method changes. A decision that only acts on the next six steps may reasonably emphasize the first group. State that priority before checking the scores.
+
+### Try this with your own data
+
+Choose one regularly sampled series and retain the original timestamps, units and missing-value flags. Decide the forecasting horizon from the action that needs the predictions. Use the actual data frequency to specify a seasonal lag, or declare a one-step scale where seasonality is unsupported. Pick the last training timestamp before reading the reserved values. Save the complete contiguous history, the targets in chronological order and the forecast origin. Check that every method receives that history, that all paths have the same number of leads and that every reported point or quantile uses the original target units.
+
+Inspect the denominator before computing MASE. A constant seasonal recurrence can give zero scale. In that case report the absolute error in source units and declare scaled error undefined. Dropping these cases only for one candidate can produce an apparent advantage by changing the sample. Log exceptions, convergence notices and checkpoint revisions next to the paths. If a pretrained model has an uncertain training-data overlap, retain that uncertainty alongside its scores. Use the same decisions on the next independently reserved blocks before changing the roster. These records let another reader determine whether an apparent improvement belongs to the model, the evaluation design or the data available at the time.
+
+If the target represents energy per interval, sum forecasts across a decision block only after checking the aggregation rule. A sum of marginal lower quantiles generally differs from the lower quantile of the total. For a procurement total, validate the forecast distribution of that total on its own historical decision blocks.
+
 ## Results
 
 **Answer:** The fresh and archived paths are evaluated against the same 12 future observations, which supports a direct score comparison on this case. Four statistical/tree adapters execute here. The neural and pretrained entries are rescored frozen paths, so this lesson supplies no new fitting or current-checkpoint evidence for them. Their printed error and coverage values remain useful when interpreted with that provenance.

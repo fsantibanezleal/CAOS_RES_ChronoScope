@@ -1,4 +1,4 @@
-"""Generate the working report's root-field tables from the normative contract catalog and schemas."""
+"""Generate the working report's field tables from the normative catalog and schemas."""
 from __future__ import annotations
 
 import argparse
@@ -34,6 +34,11 @@ def field_type(field: dict) -> str:
 
 
 def unit(identifier: str, name: str) -> str:
+    if identifier == "analysis" and name in {
+        "stationarity", "autocorrelation", "seasonality", "filters", "changepoints",
+        "volatility", "distribution", "fractal", "nonlinear", "causality", "sequence",
+    }:
+        return "mixed; see text"
     if identifier == "forecastability" and name == "source_n":
         return "series"
     if name in {"history", "actual"}:
@@ -59,8 +64,45 @@ def constraints(field: dict) -> str:
         if key in field:
             values.append(f"{key}={json.dumps(field[key], ensure_ascii=True, separators=(',', ':'))}")
     if not values:
-        values.append("Nested content follows the normative schema" if field.get("type") in ("object", "array") else "No additional root-field range")
+        if field.get("additionalProperties") is True:
+            values.append("Open object")
+        elif field.get("type") not in ("object", "array"):
+            values.append("No explicit range")
     return "; ".join(values)
+
+
+def nested_fields(schema: dict) -> list[tuple[str, dict, str]]:
+    """Enumerate explicit nested members, retaining branch and required distinctions."""
+    rows = []
+
+    def visit(node, path, required, references=()):
+        if not isinstance(node, dict):
+            return
+        if "$ref" in node and node["$ref"].startswith("#/"):
+            ref = node["$ref"]
+            if ref in references:
+                return
+            target = schema
+            for component in ref[2:].split("/"):
+                target = target[component.replace("~1", "/").replace("~0", "~")]
+            visit(target, path, required, (*references, ref))
+        elif path and any(marker in path for marker in (".", "[", "{")):
+            rows.append((path, node, required))
+        for name, child in node.get("properties", {}).items():
+            child_path = f"{path}.{name}" if path else name
+            visit(child, child_path, "yes" if name in node.get("required", ()) else "no", references)
+        for i, child in enumerate(node.get("prefixItems", ())):
+            visit(child, f"{path}[{i}]", "tuple", references)
+        if isinstance(node.get("items"), dict):
+            visit(node["items"], f"{path}[]", "item", references)
+        if isinstance(node.get("additionalProperties"), dict):
+            visit(node["additionalProperties"], f"{path}{{key}}", "keyed", references)
+        for key in ("allOf", "oneOf", "anyOf"):
+            for i, child in enumerate(node.get(key, ()), start=1):
+                visit(child, f"{path}[{key} {i}]", "branch", references)
+
+    visit(schema, "", "")
+    return rows
 
 
 def generate() -> dict[str, str]:
@@ -72,11 +114,16 @@ def generate() -> dict[str, str]:
     if len({row[0] for row in rows}) != len(rows) or not rows:
         raise ValueError("The contract catalog is empty or has duplicate ids")
     result = {}
+    nested = [r"\begingroup\small",
+              r"\begin{longtable}{@{}p{.38\textwidth}p{.15\textwidth}p{.29\textwidth}p{.08\textwidth}@{}}",
+              r"\caption{Explicit nested JSON fields and schema constraints across the ChronoScope data interfaces. Requirement markers apply within the immediate parent record or branch.}\label{tab:nested-schema}\\",
+              r"\toprule Field path & JSON type & Explicit constraint & Req.\\\midrule\endfirsthead",
+              r"\toprule Field path & JSON type & Explicit constraint & Req.\\\midrule\endhead"]
     for row in rows:
         identifier, version, _, schema_path = row[:4]
         schema = json.loads((ROOT / schema_path).read_text(encoding="utf-8"))
         lines = [r"\begingroup\small", r"\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}",
-                 r"\caption{Root fields of the " + tex(identifier) + " contract, catalog version " + tex(version) + r". Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-" + identifier + r"}\\",
+                 r"\caption{Root fields of the " + tex(identifier) + r" contract, interface revision \texttt{" + tex(version) + r"}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-" + identifier + r"}\\",
                  r"\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead",
                  r"\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead"]
         required = set(schema.get("required", []))
@@ -84,6 +131,16 @@ def generate() -> dict[str, str]:
             lines.append(r"\texttt{" + tex(name) + "} & " + tex(field_type(field)) + " & " + tex(unit(identifier, name)) + " & " + tex(constraints(field)) + " & " + ("yes" if name in required else "no") + r"\\")
         lines.extend([r"\bottomrule", r"\end{longtable}", r"\endgroup", ""])
         result[identifier + ".tex"] = "\n".join(lines)
+        fields = nested_fields(schema)
+        if fields:
+            nested.append(r"\midrule\multicolumn{4}{@{}l}{\textbf{" + tex(identifier) + r"}}\\")
+            for path, field, required in fields:
+                # Line breaks at field boundaries keep long array paths legible.
+                field_path = r".\allowbreak{}".join(map(tex, path.split(".")))
+                nested.append(r"\texttt{" + field_path + "} & " + tex(field_type(field))
+                              + " & " + tex(constraints(field)) + " & " + required + r"\\")
+    nested.extend([r"\bottomrule\end{longtable}", r"\endgroup", ""])
+    result["nested.tex"] = "\n".join(nested)
     return result
 
 

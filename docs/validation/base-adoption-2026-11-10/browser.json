@@ -1,0 +1,2054 @@
+{
+  "scope": "Frozen local candidate builds. Production verification is a separate step.",
+  "shell": "0.25.0",
+  "template": "0.15.006",
+  "invalidated_run": "An initial run was stopped when its served directory changed.",
+  "two_width_shell_gate": [
+    {
+      "commit": "21a3174d39e1508fab43cb0c8fb426a82dccd83c",
+      "version": "0.25.000",
+      "states": 930,
+      "capture_count": 167,
+      "pass": false,
+      "failures": {
+        "G19": {
+          "count": 108,
+          "messages": [
+            "\"q0.1\" breaks across 4 lines (span.caos-callout-eyebrow \"q0.1\")",
+            "\"q0.5\" breaks across 4 lines (span.caos-callout-eyebrow \"q0.5\")",
+            "\"q0.9\" breaks across 4 lines (span.caos-callout-eyebrow \"q0.9\")"
+          ]
+        },
+        "G20": {
+          "count": 1,
+          "messages": [
+            "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+          ]
+        },
+        "G21": {
+          "count": 7,
+          "messages": [
+            "callouts completed and horizon overlap",
+            "story stage and docked panel cover 63.8% of the viewport (floor 80%, ADR-0082)"
+          ]
+        }
+      },
+      "widths": [
+        390,
+        1280
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "languages": [
+        "en",
+        "es"
+      ]
+    },
+    {
+      "commit": "9ee988daec9a180f938b6ec2a79dfcbb6e4e67b9",
+      "version": "0.25.000",
+      "states": 930,
+      "capture_count": 131,
+      "pass": false,
+      "failures": {
+        "G20": {
+          "count": 1,
+          "messages": [
+            "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+          ]
+        }
+      },
+      "widths": [
+        390,
+        1280
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "languages": [
+        "en",
+        "es"
+      ]
+    }
+  ],
+  "targeted_followup": {
+    "commit": "9ee988daec9a180f938b6ec2a79dfcbb6e4e67b9",
+    "callout_geometry_contexts": 24,
+    "callout_geometry_findings": 0,
+    "keyboard": [
+      {
+        "route": "component",
+        "failures": [],
+        "first": "Lead 1 · Holt 35.7 · HoltWinters 39.9 · SES 35.9 · SeasonalNaive 36.8 · Theta 35.8 · Reserved target 38.4",
+        "second": "Lead 2 · Holt 35.5 · HoltWinters 42.5 · SES 35.9 · SeasonalNaive 44.3 · Theta 35.8 · Reserved target 42.1"
+      },
+      {
+        "route": "dynamics",
+        "failures": [],
+        "first": "Lead 1 · AutoARIMA 1.97",
+        "second": "Lead 2 · AutoARIMA 1.66"
+      },
+      {
+        "route": "decision",
+        "failures": [],
+        "first": "Lead 1 · AutoARIMA 40.3 · q0.1 36.4 · q0.9 44.2 · Reserved target 38.4",
+        "second": "Lead 2 · AutoARIMA 43.7 · q0.1 39.2 · q0.9 48.2 · Reserved target 42.1"
+      },
+      {
+        "route": "component",
+        "failures": [],
+        "first": "Lead 1 · Holt 35.7 · HoltWinters 39.9 · SES 35.9 · SeasonalNaive 36.8 · Theta 35.8 · Reserved target 38.4",
+        "second": "Lead 2 · Holt 35.5 · HoltWinters 42.5 · SES 35.9 · SeasonalNaive 44.3 · Theta 35.8 · Reserved target 42.1"
+      },
+      {
+        "route": "component",
+        "failures": [],
+        "first": "Lead 1 · Holt 35.7 · HoltWinters 39.9 · SES 35.9 · SeasonalNaive 36.8 · Theta 35.8 · Reserved target 38.4",
+        "second": "Lead 2 · Holt 35.5 · HoltWinters 42.5 · SES 35.9 · SeasonalNaive 44.3 · Theta 35.8 · Reserved target 42.1"
+      }
+    ],
+    "declared_story_routes": 6,
+    "story_smoke": "Passed direct routes, numbered steps, all links, pause on input, and state-preserving exit"
+  },
+  "five_width_shell_gate": {
+    "commit": "b17776e5f99e8397214923e1703d187e78fee961",
+    "version": "0.25.000",
+    "states": 2046,
+    "capture_count": 315,
+    "pass": false,
+    "sizes": "390x844,768x1024,1280x800,1600x900,2560x1440",
+    "themes": "light,dark",
+    "languages": "en,es",
+    "wide_font_sizes": "390x844,1280x800",
+    "failures_by_check": {
+      "G20": 15,
+      "G19": 36,
+      "G21": 4
+    },
+    "findings": [
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "390x844 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "390x844 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence22 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence22 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence22 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 dark en",
+        "trail": "",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 dark en",
+        "trail": "",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 dark en",
+        "trail": "",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "1280x800 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Signed error · source units (uns\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "1280x800 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "1600x900 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "1600x900 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "2560x1440 light en",
+        "trail": "4Follow the errors12 leads expose signed",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/domain",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/domain",
+        "mode": "2560x1440 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/method",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "2560x1440 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1280x800 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1280x800 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1280x800 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/system",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+      }
+    ]
+  },
+  "five_width_story_followup": {
+    "commit": "11f82a6ac3a4a22aea7b66e5281bc8b72a4ec5db",
+    "version": "0.25.000",
+    "states": 2046,
+    "capture_count": 309,
+    "pass": false,
+    "sizes": "390x844,768x1024,1280x800,1600x900,2560x1440",
+    "themes": "light,dark",
+    "languages": "en,es",
+    "wide_font_sizes": "390x844,1280x800",
+    "failures_by_check": {
+      "G20": 20
+    },
+    "findings": [
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "390x844 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "390x844 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "390x844 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "1280x800 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Signed error · source units (uns\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "1280x800 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "1600x900 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "1600x900 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/system",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/system",
+        "mode": "2560x1440 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "2560x1440 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/domain",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/domain",
+        "mode": "2560x1440 light en",
+        "trail": "4Follow the errors12 leads expose signed",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/domain",
+        "mode": "2560x1440 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/method",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/method",
+        "mode": "2560x1440 light en",
+        "trail": "4Follow the errors12 leads expose signed",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "2560x1440 light en",
+        "trail": "4Follow the errors12 leads expose signed",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      }
+    ]
+  },
+  "g20_starting_position_regression": {
+    "product_commit": "11f82a6ac3a4a22aea7b66e5281bc8b72a4ec5db",
+    "shared_gate_patch": "bdec848007236cc7425efc004bab57e314678615",
+    "provider_pr": "https://github.com/fsantibanezleal/CAOS_APP_SHELL/pull/217",
+    "context": "390x844 English decision story with pointer over first plotted lead",
+    "released_evaluator": {
+      "hovered": "Lead 1 · AutoARIMA 40.3 · q0.1 36.4 · q0.9 44.2 · Reserved target 38.4",
+      "synthetic": [
+        "the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      ],
+      "first": "Lead 1 · AutoARIMA 40.3 · q0.1 36.4 · q0.9 44.2 · Reserved target 38.4",
+      "second": "Lead 2 · AutoARIMA 43.7 · q0.1 39.2 · q0.9 48.2 · Reserved target 42.1"
+    },
+    "patched_evaluator": {
+      "hovered": "Lead 1 · AutoARIMA 40.3 · q0.1 36.4 · q0.9 44.2 · Reserved target 38.4",
+      "synthetic": [],
+      "first": "Lead 1 · AutoARIMA 40.3 · q0.1 36.4 · q0.9 44.2 · Reserved target 38.4",
+      "second": "Lead 2 · AutoARIMA 43.7 · q0.1 39.2 · q0.9 48.2 · Reserved target 42.1"
+    },
+    "planted_unresponsive_right_key": "detected by focused shared-shell regression"
+  },
+  "five_width_story_only_patched_evaluator": {
+    "product_commit": "11f82a6ac3a4a22aea7b66e5281bc8b72a4ec5db",
+    "shared_gate_patch": "bdec848007236cc7425efc004bab57e314678615",
+    "routes": [
+      "/story/system",
+      "/story/component",
+      "/story/domain",
+      "/story/dynamics",
+      "/story/method",
+      "/story/decision"
+    ],
+    "scope": "Six direct story routes across five widths, two themes and two languages",
+    "states": 792,
+    "failure_counts": {
+      "G21": 1
+    },
+    "failures": [
+      {
+        "check": "G21",
+        "route": "/story/system",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+      }
+    ]
+  },
+  "story_animation_threshold_retests": {
+    "context": "1280x800 light English, with all six story routes",
+    "candidate_commit": "11f82a6ac3a4a22aea7b66e5281bc8b72a4ec5db",
+    "repeats": [
+      {
+        "states": 108,
+        "failures": []
+      },
+      {
+        "states": 108,
+        "failures": []
+      },
+      {
+        "states": 108,
+        "failures": []
+      }
+    ]
+  },
+  "five_width_full_candidate_with_patched_evaluator": {
+    "build": {
+      "version": "0.26.000",
+      "sha": "b2c9d51a16a39841c2e97a636d77a2d80f44ad49",
+      "built": "2026-11-11T04:51:46.028Z"
+    },
+    "shared_evaluator_commit": "bdec848007236cc7425efc004bab57e314678615",
+    "provider_ci": "https://github.com/fsantibanezleal/CAOS_APP_SHELL/actions/runs/42958434670",
+    "scope": "Product App with Focus, five documentation routes and all six direct stories, using the product wrapper's declared options",
+    "widths": [
+      "390x844",
+      "768x1024",
+      "1280x800",
+      "1600x900",
+      "2560x1440"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "states": 2046,
+    "captures": 289,
+    "pass": false,
+    "failure_counts": {
+      "G21": 25
+    },
+    "failures": [
+      {
+        "check": "G21",
+        "route": "/story/domain",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "callouts coordinate-0 and coordinate-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/domain",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "callouts coordinate-0 and coordinate-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/domain",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "callouts coordinate-1 and coordinate-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "390x844 light es story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "390x844 light es story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "390x844 light es story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1600x900 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1600x900 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1600x900 light en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "1600x900 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "1600x900 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "1600x900 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 light en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 light en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/system",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "story fifth-percentile frame rate is 20.0 fps; ADR-0082 floor is 30 fps"
+      }
+    ],
+    "sampled_artifact_checks": [
+      {
+        "path": "/data/manifests/index.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/fresh-reevaluation.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/BRKV_level_shift.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/BRKV_level_shift/trace.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/BRKV_level_shift/analysis.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/BRKV_level_shift/streaming.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/combinations/selected_cases/BRKV_level_shift.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/CHAO_mackey.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/CTRL_white_noise.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/EXOG_promo.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/HETV_garch.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/INTM_demand.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/LMEM_fractional.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/MSEA_daily_weekly.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/REAL_electricity.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/REAL_m4_daily.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/REAL_m4_hourly.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/REAL_pm25.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/RWLK_noise.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/SEAS_hourly.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/manifests/TRND_seasonal.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/forecastability.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/validated-combinations.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/combinations/m4_weekly/T1.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      },
+      {
+        "path": "/data/REAL_electricity/trace.json",
+        "ok": true,
+        "first": "{",
+        "transportRetry": false
+      }
+    ]
+  },
+  "callout_readiness_regression": {
+    "baseline": "b2c9d51a16a39841c2e97a636d77a2d80f44ad49",
+    "fix_build": {
+      "version": "0.26.000",
+      "sha": "bb0dc6a060aa2ba60bf70d7b3700919f7412aae2",
+      "built": "2026-11-11T05:51:01.414Z"
+    },
+    "method": "Hold real ResizeObserver deliveries for the shared callout layer until the initial paint is observed.",
+    "original_contexts": [
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "domain",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      },
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "theme": "light",
+        "lang": "es",
+        "route": "decision",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "light",
+        "lang": "en",
+        "route": "decision",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": null,
+          "visible": true,
+          "overlap": true,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        },
+        "after": {
+          "status": null,
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "noBackdropBlur": false
+        }
+      }
+    ],
+    "fixed_contexts": [
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "domain",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"Each point is (y[t], y[t+1], y[t\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "theme": "light",
+        "lang": "es",
+        "route": "decision",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMAGráfico de líneas, Tray\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "light",
+        "lang": "en",
+        "route": "decision",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast pa\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      }
+    ]
+  },
+  "five_width_story_only_after_callout_fix": {
+    "build": {
+      "version": "0.26.000",
+      "sha": "bb0dc6a060aa2ba60bf70d7b3700919f7412aae2",
+      "built": "2026-11-11T05:51:01.414Z"
+    },
+    "evaluator_commit": "bdec848007236cc7425efc004bab57e314678615",
+    "scope": "All six direct story routes. The App and Focus surfaces were measured in the earlier full matrix.",
+    "ci": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/42968316271",
+    "sizes": [
+      "390x844",
+      "768x1024",
+      "1280x800",
+      "1600x900",
+      "2560x1440"
+    ],
+    "languages": [
+      "en",
+      "es"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "states": 792,
+    "findings": {
+      "G21": 1
+    },
+    "failures": [
+      {
+        "check": "G21",
+        "route": "/story/system",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+      }
+    ]
+  },
+  "delay_trajectory_rendering": {
+    "build": {
+      "version": "0.26.000",
+      "sha": "917164cbb81c6d0434faba319330a98e8b0ccbbc",
+      "built": "2026-11-11T06:14:15.957Z"
+    },
+    "ci": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/42970877264",
+    "baseline": "b2c9d51a16a39841c2e97a636d77a2d80f44ad49",
+    "geometry_parity": [
+      {
+        "scenario": "baked",
+        "samples": 286,
+        "beforeMarkerNodes": 286,
+        "afterMarkerNodes": 1,
+        "projectedCoordinatesIdentical": true,
+        "rotatedCoordinatesIdentical": true
+      },
+      {
+        "scenario": "generated",
+        "samples": 497,
+        "beforeMarkerNodes": 497,
+        "afterMarkerNodes": 1,
+        "projectedCoordinatesIdentical": true,
+        "rotatedCoordinatesIdentical": true
+      }
+    ],
+    "repeated_callout_regression": [
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "domain",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"Each point is (y[t], y[t+1], y[t\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "theme": "light",
+        "lang": "es",
+        "route": "decision",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMAGráfico de líneas, Tray\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "light",
+        "lang": "en",
+        "route": "decision",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast pa\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "isolatedBackdrop": true
+        }
+      }
+    ],
+    "motion_context": "1280x800 light English, all six direct story routes",
+    "repeats": [
+      {
+        "states": 108,
+        "pass": false,
+        "failures": [
+          {
+            "check": "G21",
+            "route": "/story/system",
+            "mode": "1280x800 light en story",
+            "trail": "",
+            "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+          },
+          {
+            "check": "G21",
+            "route": "/story/system",
+            "mode": "1280x800 light en story",
+            "trail": "",
+            "message": "browser interaction latency was not measurable"
+          }
+        ]
+      },
+      {
+        "states": 108,
+        "pass": false,
+        "failures": [
+          {
+            "check": "G21",
+            "route": "/story/system",
+            "mode": "1280x800 light en story",
+            "trail": "",
+            "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+          }
+        ]
+      },
+      {
+        "states": 108,
+        "pass": false,
+        "failures": [
+          {
+            "check": "G21",
+            "route": "/story/system",
+            "mode": "1280x800 light en story",
+            "trail": "",
+            "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+          }
+        ]
+      }
+    ]
+  },
+  "responsive_story_band": {
+    "build": {
+      "version": "0.26.000",
+      "sha": "2453f7c498182c8a4677f30cd3dc49275cbacc0c",
+      "built": "2026-11-11T06:30:41.694Z"
+    },
+    "ci": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/42972809505",
+    "scope": "Measured callout band drives the shell's mobile minimum height only through the 760 px layout.",
+    "geometry_parity": [
+      {
+        "scenario": "baked",
+        "samples": 286,
+        "beforeMarkerNodes": 286,
+        "afterMarkerNodes": 1,
+        "projectedCoordinatesIdentical": true,
+        "rotatedCoordinatesIdentical": true
+      },
+      {
+        "scenario": "generated",
+        "samples": 497,
+        "beforeMarkerNodes": 497,
+        "afterMarkerNodes": 1,
+        "projectedCoordinatesIdentical": true,
+        "rotatedCoordinatesIdentical": true
+      }
+    ],
+    "controlled_layout_contexts": [
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "domain",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"Each point is (y[t], y[t+1], y[t\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 76,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1280,
+        "height": 800,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 84.2969,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "theme": "light",
+        "lang": "es",
+        "route": "decision",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMAGráfico de líneas, Tray\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 160.219,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 84.2969,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "light",
+        "lang": "en",
+        "route": "decision",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast pa\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 84.2969,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 1600,
+        "height": 900,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 84.2969,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "light",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 84.2969,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      },
+      {
+        "width": 2560,
+        "height": 1440,
+        "theme": "dark",
+        "lang": "en",
+        "route": "dynamics",
+        "before": {
+          "status": "loading",
+          "visible": false,
+          "overlap": true,
+          "gateReady": "1 element(s) still declare data-state=\"loading\": div.cs-annotated-scene \"AutoARIMALine chart, Forecast mi\"",
+          "cards": 3,
+          "bandHeight": 0,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        },
+        "after": {
+          "status": "ready",
+          "visible": true,
+          "overlap": false,
+          "gateReady": "",
+          "cards": 3,
+          "bandHeight": 84.2969,
+          "mobileMinimum": 620,
+          "isolatedBackdrop": true
+        }
+      }
+    ],
+    "motion_repeats": [
+      {
+        "states": 108,
+        "pass": false,
+        "failures": [
+          {
+            "check": "G21",
+            "route": "/story/system",
+            "mode": "1280x800 light en story",
+            "trail": "",
+            "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+          }
+        ]
+      },
+      {
+        "states": 108,
+        "pass": false,
+        "failures": [
+          {
+            "check": "G21",
+            "route": "/story/system",
+            "mode": "1280x800 light en story",
+            "trail": "",
+            "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+          }
+        ]
+      }
+    ]
+  }
+}

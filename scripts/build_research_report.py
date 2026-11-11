@@ -30,12 +30,46 @@ def save(name, fig):
     plt.close(fig)
 
 
+def render_sequence_profile(output: Path):
+    original = load("BRKV_level_shift/analysis.json")["sequence"]
+    profile = original["matrix_profile"]
+    fig, axes = plt.subplots(3, 1, figsize=(8, 7))
+    axes[0].plot(original["values"], color="#1264a3", linewidth=1)
+    motif_starts = [start for motif in profile["motifs"] for start in (motif["start"], motif["match"])]
+    for i, start in enumerate(motif_starts):
+        axes[0].axvspan(start, start + profile["window"] - 1, facecolor="#d8ead9",
+                        edgecolor="#315741", hatch="///", label="Motif windows" if i == 0 else None)
+    for i, discord in enumerate(profile["discords"]):
+        start = discord["start"]
+        axes[0].axvspan(start, start + profile["window"] - 1, facecolor="#f0ded2",
+                        edgecolor="#765022", hatch="...", label="Discord windows" if i == 0 else None)
+    axes[0].set(xlabel="Original observation index", ylabel="Value (generated units)")
+    axes[1].plot(profile["profile"], color="#06778b")
+    axes[1].set(xlabel="Window start", ylabel="Normalized distance")
+    axes[2].plot(profile["corrected_arc_curve"], color="#aa2678")
+    axes[2].set(xlabel="Window start", ylabel="Corrected arc fraction")
+    for axis in (axes[0], axes[2]):
+        for i, boundary in enumerate(profile["regime_boundaries"]):
+            axis.axvline(boundary, linestyle="--", color="#333333", linewidth=1,
+                         label="FLUSS candidates" if axis is axes[0] and i == 0 else None)
+    axes[0].legend(loc="upper left", ncol=3, fontsize=8)
+    fig.tight_layout()
+    fig.savefig(output, metadata={"CreationDate": None, "ModDate": None})
+    plt.close(fig)
+    return original
+
+
 def main():
     from check_research_extensions import validate_diagnostics, validate_study
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--study",type=Path,default=ROOT/"data/derived/forecastability.json")
+    parser.add_argument("--sequence-output", type=Path, help="Render only the sequence figure to a named working-draft path")
     args = parser.parse_args()
+    if args.sequence_output is not None:
+        validate_diagnostics()
+        render_sequence_profile(args.sequence_output)
+        return
     study = json.loads(args.study.read_text(encoding="utf-8"))
     validate_diagnostics()
     validate_study(study, statistics_check=True)
@@ -43,26 +77,7 @@ def main():
     scores = summary["selection_mean_mase"]
     plt.rcParams.update({"font.size": 10, "figure.figsize": (8, 3.6), "pdf.fonttype": 42})
 
-    original = load("BRKV_level_shift/analysis.json")["sequence"]
-    profile = original["matrix_profile"]
-    fig, axes = plt.subplots(3, 1, figsize=(8, 7))
-    axes[0].plot(original["values"], color="#1264a3", linewidth=1)
-    for motif in profile["motifs"]:
-        for start in (motif["start"], motif["match"]):
-            axes[0].axvspan(start, start + profile["window"] - 1, color="#16813d", alpha=0.3)
-    for discord in profile["discords"]:
-        axes[0].axvspan(
-            discord["start"], discord["start"] + profile["window"] - 1, color="#aa6a00", alpha=0.3
-        )
-    axes[0].set(xlabel="Original observation index", ylabel="Value")
-    axes[1].plot(profile["profile"], color="#06778b")
-    axes[1].set(xlabel="Window start", ylabel="Normalized distance")
-    axes[2].plot(profile["corrected_arc_curve"], color="#aa2678")
-    axes[2].set(xlabel="Window start", ylabel="Corrected arc fraction")
-    for axis in (axes[0], axes[2]):
-        for boundary in profile["regime_boundaries"]:
-            axis.axvline(boundary, linestyle="--", color="#855100", linewidth=1)
-    save("sequence-patterns.pdf", fig)
+    original = render_sequence_profile(REPORT / "figures/sequence-patterns.pdf")
 
     entropy = original["multiscale_entropy"]["scales"]
     fig, axis = plt.subplots()

@@ -66,6 +66,38 @@ The seeded nonlinear slope calculation addresses a different reproducibility iss
 
 The structural-break case contains changing levels and a finite observation budget. Global entropy and asymmetry summaries can combine several regimes rather than identify one stable mechanism. Binary symbolization hides amplitude distinctions and can be sensitive to ties. Matching counts depend on order, tolerance and length. The M4 study therefore treats these values as prefix features with a declared protocol, tests their association with subsequent error, and keeps negative findings rather than interpreting every irregular curve as predictive structure.
 
+### Sensitivity to the matching tolerance
+
+For scale $s$ the algorithm forms disjoint means, discarding any incomplete last group.
+
+$$
+x^{(s)}_j=\frac{1}{s}\sum_{k=0}^{s-1}x_{js+k},
+\qquad 0\le j<\lfloor n/s\rfloor .
+$$
+
+Let $B_m$ count unordered distinct pairs of length-$m$ templates whose maximum coordinatewise difference is at most $r$. Let $A_{m+1}$ count the same type of matches after extension by one observation. The implementation restricts both counts to start positions admitting the extension.
+
+$$
+\operatorname{SampEn}(m,r)=-\log\!\left(\frac{A_{m+1}}{B_m}\right),
+\qquad A_{m+1},B_m>0.
+$$
+
+The ratio is the fraction of matched templates that remain matched at the next observation. A positive threshold can admit equal values and nearby values. Increasing it cannot reduce either matching count for a fixed sequence and scale. The ratio can nevertheless rise or fall because the two counts need not grow proportionally. A larger threshold therefore does not necessarily move entropy in one direction.
+
+<!-- code: tolerance_plot -->
+
+The left panel shows how the reported entropy changes across the three declared thresholds. The right panel reveals how much evidence supports each estimate by counting extended matches. Compare the panels at the same coarse scale. A threshold with few extended matches makes the ratio sensitive to individual pairs and can yield an unavailable estimate when the count reaches zero. At higher coarse scales the available sequence is shorter. This reduces the number of possible pairs even though averaging can make values more similar. A plot of entropy alone would hide those countervailing changes.
+
+This sweep varies only a fraction of the original standard deviation. Each line still uses the same absolute tolerance throughout its four scales. If you instead recalibrate the threshold on each coarse sequence, label that as a different estimator and document its purpose. Examining these settings after observing a case can diagnose fragility. It cannot justify selecting whichever curve most resembles an anticipated mechanism.
+
+### Extend the experiment with your own data
+
+Choose a regularly sampled segment whose time span, frequency and measurement units are known. State whether missing readings break the sequence or receive an imputation, and record the locations and method before calculating lagged statistics. Define coarse scales in physical durations and ensure every displayed duration retains enough blocks. Do not count adjacent overlapping segments as independent data simply because they have different start times. Use a separate reserved period for comparison if the diagnostic will influence a decision.
+
+Include two controls. A constant segment exercises the boundary between zero and unavailable estimates. A positive unit conversion tests whether the tolerance and values scale together. If your question involves temporal ordering, reverse the original segment and compare the sign of the standardized lag moment while keeping every other setting fixed. Quantization and ties can change binary phrase counts even when two sensor calibrations appear nearly identical. Preserve the original values and record the threshold so this effect can be checked later.
+
+Compare the pair counts before comparing published entropy values from two studies. Differences in template order, the norm, or whether a template can match itself change the denominator. Report those settings alongside the tolerance ratio and sample count at each scale.
+
 ## Summary
 
 Entropy, phrase counts and lagged moments discard different information. Their units, unavailable values and reproducibility conditions are part of the result rather than optional annotations.
@@ -79,3 +111,5 @@ Execute each method call and both figures in order. Confirm the reported toleran
 Costa, Goldberger and Peng, DOI 10.1103/PhysRevLett.89.068102. Lempel and Ziv, DOI 10.1109/TIT.1976.1055501. The tsfresh feature definition specifies the lagged third-order reversal statistic, and nolds documents the correlation-dimension and Lyapunov fitting data used by the seeded adapter.
 
 [Nolds fitting documentation](https://cschoel.github.io/nolds/nolds.html).
+
+[Richman and Moorman on sample entropy](https://doi.org/10.1152/ajpheart.2000.278.6.H2039).

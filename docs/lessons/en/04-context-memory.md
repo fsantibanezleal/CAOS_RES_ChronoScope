@@ -64,6 +64,34 @@ The predeclared primary criterion is mean MASE across all fifteen common final b
 
 The aggregate bars show the small difference between the contextual and recency-only variants and the larger gap to EqualMean. Because the contextual mean is slightly higher, this experiment does not support the proposed component at the declared criterion. Rounding the bars to two decimal places would hide that result; the printed four-decimal values preserve it. A failed comparison remains evidence and should constrain the manuscript's claim rather than trigger unreported tuning.
 
+### Sensitivity across the selected cases
+
+At a query origin, let $u$ be the standardized context, $u_i$ a completed memory's context, $a_i$ its age in remembered origins, and $b$ the bandwidth derived from distances to available contexts. The relative weight for its loss is
+
+$$
+k_i=2^{-a_i/6}\exp\!\left(-\frac{\|u-u_i\|^2}{2b^2}\right).
+$$
+
+Let $L_j$ denote the resulting loss for expert $j$, after shrinking toward the recency-only estimate. With temperature $T=1$ and uniform floor $\eta=.05$, the final weight is
+
+$$
+w_j=(1-\eta)\frac{\exp[-(L_j-\min_k L_k)/T]}{\sum_r\exp[-(L_r-\min_k L_k)/T]}+\frac{\eta}{5}.
+$$
+
+Subtracting the minimum loss keeps the leading exponential at one and improves numerical stability. The recency ablation uses the same loss transformation and floor with the context kernel set to one. The fit needs enough completed memory to estimate a meaningful local loss. A close context may carry little weight if it is old, while a distant but recent context can remain influential when all observed distances are large. The weights can move even when the combined point forecast changes very little because different experts sometimes predict almost the same path.
+
+The next figure pairs the two scores inside each case. A negative bar means that ContextMemory had lower MASE on that case. The mean reflects magnitude, so a few relatively large losses can offset more numerous small improvements. The median and direction counts provide complementary descriptions of the same fifteen cases. Their ordering in the chart follows the published inventory and has no temporal meaning.
+
+<!-- code: case_differences -->
+
+These comparisons reuse the reserved outcomes. They diagnose variation in the fixed experiment and do not choose new settings. In particular, removing an adverse case because its bar is large would silently change the criterion. Future testing can predeclare distinct mechanism groups and suitable sample sizes, with each series supplying the resampling unit if it contributes multiple origins. The sensitivity of the historical mean to the case mix is a reason to retain the paired paths and their data provenance.
+
+### Apply the comparison to your own data
+
+Start with contiguous observations and a declared seasonal period. Choose a horizon and use the same five experts in all ablations. For each evaluation origin, admit only training memories whose full targets have already arrived. Save each memory's origin, endpoint, context and expert scores before computing weights. If histories come from multiple stores or instruments, keep each series identity and scale in the record. A common MASE scale within each case allows a dimensionless paired difference; comparing raw interval widths across incompatible units does not.
+
+Reserve a final set of origins before exploring alternative temperatures, bandwidths or floors. If a setting is tuned, select it on completed historical blocks within the fitting prefix and compare it once on the reserved targets. Record whether the recency-only control is included in that selection. The actual question is how much the extra context calculation contributes when the expert paths and evaluation design are held fixed. Keep the uniform reference to show the benefit of estimated preferences separately.
+
 ## Results
 
 **Answer:** ContextMemory has mean MASE 1.4504 and RecencyMean 1.4489. The contextual rule therefore fails its declared mean-error criterion on this selected collection. EqualMean has mean MASE 1.8970. Combining experts with estimated recent losses helped relative to that equal average here, but the additional context kernel did not improve the primary comparison.
