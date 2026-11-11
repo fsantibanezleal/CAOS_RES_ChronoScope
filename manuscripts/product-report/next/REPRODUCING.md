@@ -68,6 +68,11 @@ inventory measures serialized types and prevalence across the retained cases.
 The Catch24 dictionary maps the exact names emitted by `pycatch22==0.4.5` to
 their scientific quantities and axes using the original paper and the
 pinned feature implementation.
+The [pinned source distribution](https://pypi.org/project/pycatch22/0.4.5/)
+has SHA-256 `7ec844c659f22bedc66847ac866ef2bd86ffbbd4d8114b5e97f699f20a6f9f81`.
+Its two stretch features use boundary indices. Endpoint cases can differ
+from a literal run length by one. Two lag-based outputs retain the
+zero-based indices of the pinned implementation.
 
 Use `latexmk` and pdfTeX with the packages in `tex/main.tex`. The builder
 compiles outside the source tree and records every local TeX and figure input.

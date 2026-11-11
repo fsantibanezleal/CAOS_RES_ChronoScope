@@ -43,6 +43,40 @@ KPSS reverses the direction of the null. For residuals from the level model, wit
 \begin{equation}
  K=\frac{\sum_{t=1}^{n}S_t^2}{n^2\widehat\omega^2}.
 \end{equation}
+
+For the Phillips--Perron calculation, regress $y_t$ on an intercept and
+$y_{t-1}$ for the $N=n-1$ usable rows. Let $\widehat\rho$ be the lag
+coefficient, $b$ its OLS standard error and $u_t$ the regression residual.
+Compute $s^2=\sum u_t^2/(N-2)$ and $g_0=\sum u_t^2/N$. Let $L^2$ be the
+Bartlett-weighted Newey--West long-run variance on the undemeaned residuals,
+using $\lceil 12(n/100)^{1/4}\rceil$ lags. The backend's default tau statistic is
+\begin{equation}
+ Z_\tau=\frac{\sqrt{g_0}}{L}\frac{\widehat\rho-1}{b}
+       -\frac{L^2-g_0}{2L}\frac{Nb}{s}.
+\end{equation}
+The backend converts this value with its constant-specification MacKinnon
+reference. A zero coefficient standard error or too few residuals for the
+bandwidth refuses the test. The long-run covariance sum costs $O(Nk)$ for $k$
+included lags. DFGLS uses the constant-only local coefficient $1-7/n$ to
+quasi-difference $y$ and the constant, preserving their first rows. It fits
+the quasi-differenced level by least squares and subtracts that level from
+the original observations. The final lag count minimizes AIC on the
+OLS-demeaned series with no deterministic regressor, using the backend's
+sample-size lag cap. Fit a no-intercept augmented regression to the
+GLS-demeaned observations with that lag count and report its lagged-level
+$t$ statistic using the DFGLS reference. Both wrappers clean the input
+before fitting and retain the probability and decision at .05.
+
+Zivot--Andrews uses the Statsmodels approximation that selects lags once.
+Run ADF with constant and trend and choose the lag count by AIC, then
+hold that count fixed for all break candidates. Discard the first and last
+15 percent of the record from the candidate search using the backend's
+integer trim. Fit the intercept-break regression at each remaining
+position and retain the most negative lagged-level $t$ statistic. The
+library looks up the associated probability for that break specification
+and returns the zero-based minimizing index. This scan performs one
+regression per eligible candidate. Rank failure in the auxiliary design
+can leave the entire panel unavailable.
 The Statsmodels adapter selects bandwidth automatically~\cite{kpss}. Probability values at the ends of its tables can be bounds. At level .05 the differencing routine checks KPSS repeatedly after applying $(1-B)$, where $B y_t=y_{t-1}$. It stops at two differences, fewer than eight values, a constant, nonrejection or a numerical exception. Thus its returned order is a recommendation and may encode an early stop. Seasonal differencing uses robust STL strength $\max(0,1-\mathrm{Var}(R)/\mathrm{Var}(S+R))$ and applies $(1-B^m)$ once if strength reaches .64. Short histories and zero denominators return zero strength. The serialized \texttt{stationary} flag means rejection of the unit-root null for ADF, Phillips--Perron, DFGLS and Zivot--Andrews. For KPSS it means nonrejection of level stationarity. The ADF/KPSS panel labels the two true flags stationary and the two false flags nonstationary. A true ADF flag with a false KPSS flag gives its difference-stationary label. A false ADF flag with a true KPSS flag gives its trend-stationary label. These disagreement labels are heuristics from the two level specifications. The test probability and reference critical values are dimensionless. Only the Zivot--Andrews result includes \texttt{break\_index}, a zero-based position in the cleaned sequence serialized as a number. Phillips--Perron and DFGLS use the pinned \texttt{arch} defaults for their bandwidth and lag choices. Zivot--Andrews uses the pinned Statsmodels defaults for its trim and AIC lag selection. A failed backend call can leave the stationarity panel unavailable.
 
 \subsection{Correlation, periodicity and multi-seasonal decomposition}
@@ -56,7 +90,46 @@ The sample autocorrelation at lag $k$ divides the lagged centered cross-product 
 \end{align}
 The panel uses Box--Pierce and Ljung--Box at $K=10$, with zero fitted-model degrees of freedom supplied to the backend. A chi-square approximation addresses the specified serial correlations. It cannot certify independence. The Durbin--Watson formula is evaluated on the cleaned levels in this panel. The familiar residual interpretation around two requires the conditions of a regression residual calculation. The separate lag-pair API returns $(y_{t-k},y_t)$ for $1\le k<n$, which can be inspected in source units for direct analysis. The baked panel omits these paired values.
 
+Both correlograms store objects ordered by integer lag, including lag zero.
+Their significant-lag lists exclude zero and contain the lags for which
+the absolute coefficient strictly exceeds the common band. The portmanteau
+probabilities are in $[0,1]$, with \texttt{white\_noise} true on nonrejection
+at .05. For the stored \texttt{identification\_hint}, check Ljung--Box
+first. If it rejects and at least four nonzero ACF lags are available,
+average the absolute coefficients separately over the later half of
+each nonzero-lag array. An above-band ACF tail and below-band PACF tail
+suggests AR. The reverse suggests MA. Two above-band tails suggest
+ARMA. Equality or two below-band tails after rejection give a mixed
+reading. These labels summarize the arrays. The stage performs no model
+order search for this field.
+
 The SciPy 1.15.3 periodogram and Welch calls use one sample per observation step and choose the highest nonzero-frequency bin. A peak frequency $f$ gives period $1/f$ in observation steps. Welch averages windowed spectra over segments of length at most 256, reducing variance while coarsening frequency resolution. The winning bin can exist even on noise or a spectrum without meaningful positive power. The stage tests the declared period and twice that period for robust STL strength. For an admissible rounded spectral period, it computes $y_t=T_t+S_t+R_t$ and reports trend and seasonal strength ratios. At least two complete periods are required. The public MSTL adapter iteratively estimates multiple seasonal components, then exports their sum with the trend and remainder. A separate phase-subseries API reshapes complete cycles and reports phase means, discarding the final incomplete cycle. Neither of those two APIs is called by the default panel.
+
+STL estimates the seasonal component by smoothing detrended observations
+within each phase with local regressions, then removes a low-pass
+component from the smoothed seasonal sequence. It smooths the
+deseasonalized sequence for the trend and repeats these steps. The
+single-period wrapper enables robust residual weighting. Statsmodels
+0.14.6 supplies the smoothing windows and inner and outer iteration
+defaults. The resulting trend, seasonal and residual arrays have source
+units and share the cleaned observation axis in the direct API. The baked
+\texttt{stl\_at\_dominant} object exists only when the periodogram peak
+has period at least two and its rounded integer $p$ satisfies $p\ge2$
+and $n\ge2p$. It stores the one-period list and dimensionless trend and
+seasonal strengths in $[0,1]$. It omits the three component arrays.
+
+The separate MSTL wrapper admits periods at least two and refuses a
+cleaned record shorter than twice its largest period. The pinned
+backend can remove a period at or beyond half the record length.
+It sorts eligible periods, starts their components at zero, adds back
+the old component for each period, applies STL to the partly
+deseasonalized values, and subtracts the updated component before
+advancing. It makes two sweeps for multiple periods and one for a
+single retained period. The wrapper passes no power transform or custom
+smoothing windows. It returns the sum of the seasonal columns on the
+cleaned axis. Its period field lists the requested admissible input
+periods. The cost grows with the number of period passes and the
+underlying STL smoothing cost per pass.
 
 The periodogram uses SciPy's one-sided density scaling, constant detrending and a boxcar window. For a non-edge positive bin $k$ on an $n$-sample record, its density is twice the squared magnitude of the discrete Fourier coefficient of the centered observations, divided by $f_s n$. The zero and Nyquist bins, when present, are not doubled. Frequencies are cycles per observation step, and the density is in $U^2/(\text{cycles per step})$ for source unit $U$. Multiplying by bin width before summation restores squared source units. The reported peak power has density units. The corresponding period is the reciprocal of peak frequency, in observation steps. Welch uses a Hann window and half-segment overlap under the pinned defaults. Its compact output retains peak power and period rather than the aligned frequency and density arrays. If no positive-frequency bin is available, the record contains \texttt{dominant\_period=null} and \texttt{dominant\_power=0.0}. A numerical failure produces an error record instead of a spectrum.
 
@@ -69,6 +142,31 @@ The Hodrick--Prescott calculation estimates the trend vector $T$ by solving
 The fitted trend and residual cycle share the source unit. The fixed penalty is not adapted to hourly or daily sampling. Baxter--King instead truncates a symmetric band-pass filter with periods 6 to 32 and 12 coefficients on either side. Its direct result drops 12 observations at each end. The default filter panel omits that result. The Christiano--Fitzgerald panel uses the same nominal band and a drift adjustment, with asymmetric endpoint weights from its random-walk approximation. Full-length output does not make this filter causal.
 
 EMD sifts envelope means from extrema until the backend identifies an intrinsic mode, then repeats on the residue. The panel retains at most six modes and uses the EMD-signal 1.9.0 stopping rules. Its plain EMD seed argument has no effect. The separate CEEMDAN entry point uses 50 noise-assisted trials with a local noise seed, which controls the perturbations. The default filter panel runs plain EMD. The modes depend on the algorithm and do not identify physical sources by themselves. Continuous wavelet energy uses the Morlet wavelet on a fitted linear detrend. For 64 geometrically spaced periods from two to $\max(4,n/2)$ the scale is period times the wavelet's central frequency. PyWavelets 1.8.0 supplies the coefficients. The panel sums their squared magnitudes over time, retaining one energy per scale, while the direct method can return the full time-scale array. Edge effects and significance are not corrected. Wavelet fitting requires at least eight observations and shorter arrays are refused.
+
+For CEEMDAN, standardize by the input standard deviation and decompose
+the seeded normal noise realizations with EMD. Average the first mode
+from the perturbed records. At each later step, perturb the residual
+with the corresponding noise mode scaled by $0.005$ times the residual
+standard deviation when that mode is available. Apply a single-mode EMD
+to each perturbed residual and average its local means. Subtract that
+average from the current residual to obtain the next mode. The backend
+stops when the residual fails to support another mode or reaches its
+range or total-power threshold. It restores the original scale and
+returns components and the remaining residue. Work scales with the
+number of trials and sift iterations per extracted mode. A degenerate
+zero-variance input cannot be interpreted through this normalization.
+
+The baked filter object stores the cleaned-axis HP trend and cycle and
+the CF cycle in $U$. Its CF band contains the lower and upper periods
+in observation steps. EMD modes form an array of rows, each containing
+one value per cleaned observation. The residue follows the same axis.
+For fewer than eight observations the direct CWT call raises an error,
+whereas the panel omits \texttt{scalogram} if the earlier filters
+succeed. An error from a filter that is invoked replaces the panel with
+an error record. The retained scalogram aligns period and energy arrays,
+stores the maximum-energy period and names the wavelet. Energy is a
+sum of squared coefficients over the cleaned axis in squared source
+units.
 
 \subsection{Breakpoints, latent regimes and volatility}
 \label{sec:diagnostic-breaks}
@@ -90,6 +188,21 @@ The panel retains parameters, $a+b$ and log likelihood, while the direct fit als
 
 The volatility record's lag orders and rolling window count observations. The ARCH probability is dimensionless and lies in $[0,1]$. The rolling mean and standard deviation use the input units and align to the cleaned-series positions, with nulls before the first complete window. The fitted GARCH constant mean and variance intercept have units $U_{\rm fit}$ and $U_{\rm fit}^{2}$, respectively. The shock coefficient, variance coefficient and their sum are dimensionless. The log likelihood is in natural log units on the fitted scale. The serializer does not retain the backend's numerical rescaling multiplier, so the stored mean and intercept cannot by themselves be converted back into physical units. The lack of a GARCH result after an ARCH-LM nonrejection records a decision to skip that fit. It does not imply zero volatility.
 
+The pinned Guerrero routine retains the last complete blocks of length
+$m$. For each block $j$, compute its positive shifted mean $\mu_j$
+and sample standard deviation $s_j$. Use bounded Brent search over
+$[-0.9,2]$ to minimize the sample coefficient of variation of
+$s_j/\mu_j^{1-\lambda}$ across those blocks. With at most two periods
+of data the backend returns $\lambda=1$ directly. The block moments
+take linear work in the retained record length. Each objective
+evaluation then scales with the number of blocks. The wrapper passes
+the selected exponent to SciPy for the transform. Without a declared
+seasonal period of at least two, SciPy selects the exponent by its
+profile likelihood instead. The separate log option fixes the exponent
+at zero. The baked \texttt{boxcox} object holds only the method label,
+dimensionless exponent, nonnegative input-unit shift and reference.
+A failed transform produces a nested error in place of these fields.
+
 \subsection{Distribution, scaling and deterministic-dynamics diagnostics}
 \label{sec:diagnostic-complexity}
 The distribution panel computes a population standard deviation, biased sample skewness and excess kurtosis. Jarque--Bera evaluates $n(g_1^2/6+g_2^2/24)$ against its asymptotic reference. Shapiro--Wilk is run only from 3 to 5,000 observations. It evaluates the normal order-statistic pattern and neither test supplies serial-independence evidence. The baked \texttt{normal} flag requires Jarque--Bera nonrejection and, where available, Shapiro--Wilk nonrejection at .05. It retains both probabilities, with a null for unavailable Shapiro--Wilk, and omits the statistics returned by the direct summary. Kernel density uses SciPy Gaussian kernels at one hundred points spanning the sample, with bandwidth chosen by the library and density in inverse source units. A singular covariance can fail the panel even when the moments were computable. The normal Q--Q calculation returns ordered observations against theoretical standard-normal quantiles, with a fitted slope in source units.
@@ -97,6 +210,21 @@ The distribution panel computes a population standard deviation, biased sample s
 The scalar entropy diagnostics use AntroPy 0.2.2. Sample entropy calls the default order two and tolerance .2 times population standard deviation, independently of the public ordinal pattern order. Permutation entropy uses order three, unit delay and normalization by $\log(3!)$. Welch spectral entropy divides the Shannon entropy of normalized spectral powers by the log of the bin count. These are distinct from multiscale sample entropy below. BDS compares an embedding correlation integral against the independent-product reference at dimension two, with the default radius 1.5 standard deviations and only for $n\ge20$. The direct complexity result carries the BDS statistic and probability. The panel keeps only \texttt{bds\_pvalue} and \texttt{iid}, with nulls for both when BDS is ineligible or fails. The flag means nonrejection at .05. Catch24 retains 22 backend-named features plus the original mean and standard deviation in source units. Each catch22 value has the interpretation of its keyed backend feature. If \texttt{pycatch22} cannot be imported, the record sets \texttt{available} to false and stores a reason and reference in place of the feature map.
 
 R/S scaling fits the log rescaled range across observation scales. The first call uses the simplified random-walk estimator; on failure it uses the nolds polynomial fit. DFA estimates the slope of log root-mean-square fluctuation after linear detrending of integrated profiles. The panel maps a DFA slope above one by subtracting one, then averages the mapped value with R/S for its interpretation label. Values below .45 give the anti-persistent label, values above .55 give the persistent label and the inclusive middle gives the random-walk-like label. The \texttt{reliable} flag only indicates $n\ge100$. The distinct \texttt{arfima\_link.d} field is $H_{\mathrm{RS}}-1/2$ rounded to four decimal places. It is a descriptive proxy. For $n\ge200$, MF-DFA uses linear detrending on 24 geometrically spaced scales from 8 to $\max(16,\lfloor n/4\rfloor)$, truncated to integers and deduplicated, with $q$ in $\{-5,-3,-2,-1,1,2,3,5\}$. From slopes $h(q)$ it calculates $\tau(q)=qh(q)-1$, $\alpha(q)=\mathrm{d}\tau/\mathrm{d}q$ and $f(\alpha)=q\alpha-\tau(q)$. The panel stores aligned $q$, $h(q)$, $\alpha(q)$ and $f(\alpha)$ arrays and omits $\tau(q)$. Width above .15 is a heuristic flag. A short input or failed fit yields a nested error. A nonfinite value from a completed fit is represented by null at its array position. Higuchi uses graph lengths up to lag ten, Katz uses path length and extent, and Petrosian counts sign changes of first differences. Their empirical graph estimates do not identify an attractor dimension. The public DCCA coefficient normalizes the summed detrended profile covariance by the geometric mean of the two detrended variance sums at one scale. It uses $s=\max(8,\lfloor m/8\rfloor)$ by default on the shared length $m$ and linearly detrends the two integrated profiles within each of the $m-s$ overlapping windows of length $s+1$. It refuses $s\ge m$ and returns a nonfinite coefficient for a zero denominator. The implementation cleans the series separately before truncating to shared length, so callers must align missing observations before this call. The default panel omits this direct result.
+
+The AntroPy 0.2.2 Higuchi calculation forms $k$ offset subsequences
+for each $k=1,\ldots,10$. For offset $j$, let
+$M=\lfloor(n-1-j)/k\rfloor$. It sums the $M$ absolute increments
+at step $k$ and multiplies the sum by $(n-1)/(k^2M)$. Average the
+normalized lengths across offsets and regress their logarithms on
+$\log(1/k)$. This needs $O(nk_{\max})$ work for the lengths. A
+constant path or offset with no increments can make the slope
+unavailable. Katz uses $L=\sum_{t=2}^n|y_t-y_{t-1}|$,
+$a=L/(n-1)$ and $d=\max_t|y_t-y_1|$. Its value is
+$\log(L/a)/\log(d/a)$. Petrosian counts the sign-bit transitions
+$Z$ in the first-difference array and evaluates
+$\log n/[\log n+\log(n/(n+0.4Z))]$. Both take linear work in
+the record length. The Katz calculation is undefined on a constant
+path and can exceed two on finite samples.
 
 Delay embedding forms $(y_t,y_{t+\ell},\ldots,y_{t+(d-1)\ell})$, requiring a nonempty vector roster. The canonical nonlinear panel uses $d=4$, $\ell=1$ and $n\ge400$. Correlation dimension estimates a slope of $\log C(r)$ against $\log r$, with $C(r)$ the fraction of close pairs. The Lyapunov adapter fits average log-neighbor divergence versus observation step, with temporal exclusion $\max(5,\lfloor n/200\rfloor)$. Both slope fits use seeded robust regression and a least-squares fallback. Recurrence quantification caps the embedding at 800 vectors, constructs Euclidean pair distances, chooses a threshold at the .1 quantile, removes the diagonal and counts runs of length at least two. The threshold uses all pair distances before diagonal removal. If $C$ is the off-diagonal recurrence count across both triangles and $v$ the capped vector count, the rate is $C/[v(v-1)]$. Determinism and laminarity divide the points in qualifying diagonal and vertical runs, respectively, by $C$. Both ratios are zero when $C=0$, and the longest diagonal run is then zero. The direct result includes the threshold in source units. The baked record retains the three ratios and the longest diagonal run. Its pair matrix has quadratic memory in the capped count. The strict distance inequality and ties can yield density below the target.
 

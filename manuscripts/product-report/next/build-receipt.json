@@ -4,8 +4,8 @@
   "independent_reader_review": "pending",
   "scope": "Compiled PDF and local input identity only; not publication acceptance",
   "latex_engine": "MiKTeX-pdfTeX 4.19 (MiKTeX 24.4)",
-  "pdf_sha256": "dfcebf4611579e45032ca5013d7a153ecee325bf8e78d0fe1a8c8528a076f545",
-  "pdf_bytes": 983346,
+  "pdf_sha256": "12ab679e06ddc1ea3bf0308e268c46778991ed565f87c14df88d5c060bf72cb9",
+  "pdf_bytes": 1003250,
   "source_files": {
     "manuscripts/product-report/next/figures/architecture.pdf": "104d17934b272e9dd3a1c7bbe6923c3dab2e60d9e8908debd6a7773f56e21ad6",
     "manuscripts/product-report/next/figures/browser-family-coverage.pdf": "b3c3ec6ab7f4aa1910623e77ccb682f943a71fd39b84bb81ae545262ca347b4b",
@@ -47,11 +47,11 @@
     "manuscripts/product-report/next/tex/combination-algorithm.tex": "ab571329a07806204dbc53c12dc0bf65e9e3ab205f2090bf28c70ce0168216f1",
     "manuscripts/product-report/next/tex/conclusions.tex": "1e695af7f3e224a00fc6240a181f115d93b41565fa8e90a74c917606c5149f40",
     "manuscripts/product-report/next/tex/data-contracts.tex": "13dd6a9b41688e91629202df61b9ade3397486dd229731847cf777b9f2d6a5da",
-    "manuscripts/product-report/next/tex/diagnostic-procedures.tex": "ee71a05f0167f81812ba140b02919d11abb7648c08fd7afbb323e07a4975d5ca",
+    "manuscripts/product-report/next/tex/diagnostic-procedures.tex": "1f8bfe0a847e74306da721bc7eb5bb73e1851cffc0c2c5c2320a78da8d1a8311",
     "manuscripts/product-report/next/tex/discussion-limits.tex": "1d6027111316a9827c997c320f8607e4495454c6130ba9e689e2b3c5340412e3",
     "manuscripts/product-report/next/tex/forecast-methods.tex": "e503dc644dc99dc204d7db32ac74dd639563decb8f8862780a72b56013ea7f18",
     "manuscripts/product-report/next/tex/main.tex": "1ab5784c54c5c34adc5358c2231acbde3bfaabdbce5796f757bb71130247d889",
-    "manuscripts/product-report/next/tex/nested-contracts.tex": "cb2832ded5daf425e60e72fd82cf23db8a3976d59d7a3bd9af3e662dba019c84",
+    "manuscripts/product-report/next/tex/nested-contracts.tex": "a1536c6903a2e38bed342235dd97a671b8c204fc695b39b18e0c5e5dab512595",
     "manuscripts/product-report/next/tex/notation.tex": "7dafe344515c1557be342ec3527cd0e7bb95c03bd87486b80a74940dd6dd74b6",
     "manuscripts/product-report/next/tex/problem-notation.tex": "3145705322f3e3a1c38f910024093b7a4a69d604ec1913df46ea8f061e13c8d2",
     "manuscripts/product-report/next/tex/selection-derivation.tex": "2b63b41426dc5b867f6f338d3b25fbb2cec7a9dcc77efc131cbfff38bae862ba",
@@ -59,8 +59,8 @@
     "manuscripts/product-report/next/tex/timestral.tex": "3ae99250790bc3efe3be46c85779976a334f5240e8fc00f1edc980ec5e767941"
   },
   "companion_files": {
-    "manuscripts/product-report/next/REPRODUCING.md": "fb3bada66c3cdefe9abd13e7311ac051635c9558080b16a3db46b9c1478593dd",
-    "manuscripts/product-report/next/tables/catch24-fields.csv": "d6934c9bab1ba8f97b23527bd1687e26ede990237ed3d0c81bc5c345aab76e00",
+    "manuscripts/product-report/next/REPRODUCING.md": "a283c967684af492a4f3d0b95edcba8c8b634e34e2114568f207f047c098bd2b",
+    "manuscripts/product-report/next/tables/catch24-fields.csv": "d1d364cd6640539cc11bbe03efba535872b5aab241106b3ba4ff597ef7539ff0",
     "manuscripts/product-report/next/tables/fresh-by-case.csv": "4d44d1bfd04ddec60fe2e57038d95482b8aac3044cbd69b4dc26d6a5750f566d",
     "manuscripts/product-report/next/tables/observed-analysis-fields.csv": "18f6e6c3244d34f33ab1de09508c67733cdeb26f290108c1cde07a7525e51ba9",
     "manuscripts/product-report/next/tables/procedure-crosswalk.csv": "9b02e0af20a1979b4e04507a9b82af9f9b62d08bf78fb873a71bcb702dc298b2"
