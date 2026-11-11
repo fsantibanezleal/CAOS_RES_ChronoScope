@@ -15,6 +15,16 @@
   "method_packages": [
     "preqts"
   ],
+  "pipeline_stage_sources": {
+    "preprocess": "data-pipeline/chronoscopelab/stages/preprocess.py",
+    "analyze": "data-pipeline/chronoscopelab/stages/analyze.py",
+    "feature_extraction": "data-pipeline/chronoscopelab/stages/feature_extraction.py",
+    "train": "data-pipeline/chronoscopelab/stages/train.py",
+    "evaluate": "data-pipeline/chronoscopelab/stages/evaluate.py",
+    "infer": "data-pipeline/chronoscopelab/stages/infer.py",
+    "streaming": "data-pipeline/chronoscopelab/stages/streaming.py",
+    "export": "data-pipeline/chronoscopelab/stages/export.py"
+  },
   "method_entrypoints": [
     "chronoscopelab.stages.streaming.run",
     "chronoscopelab.model.forecasters.theta",

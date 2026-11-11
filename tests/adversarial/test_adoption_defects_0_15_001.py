@@ -208,7 +208,7 @@ def test_the_products_checker_admits_a_stage_of_its_committed_bake(tmp_path: Pat
     assert not (stage / "scripts/local/workflow.json").exists()
     assert not (stage / "scripts/check_readiness.py").exists()
     judged = readiness(ROOT, stage)
-    assert judged.returncode == 0 and judged.stdout.startswith("readiness: current"), judged.stdout + judged.stderr
+    assert judged.returncode == 0 and "readiness: current (declared product provider)" in judged.stdout.splitlines(), judged.stdout + judged.stderr
     assert "No module named" not in judged.stdout
 
 

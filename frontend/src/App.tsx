@@ -28,6 +28,7 @@ const config: ShellConfig = {
   visibility: product.visibility as ShellConfig['visibility'],
   architecture,
   contain: true,
+  immersiveRoutes: product.showcase.story_routes,
   footer: {
     provenance: {
       en: 'Four real data excerpts and eleven generated cases. Source licences, method versions and frozen-versus-recomputed provenance are listed in Benchmark. Streaming experiments use preqts.',
