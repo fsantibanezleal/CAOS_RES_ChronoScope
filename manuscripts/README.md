@@ -1,12 +1,12 @@
 # Manuscripts and revisions
 
-All three revised manuscripts are published. Each final PDF was compiled without LaTeX warnings or box defects, inspected on every page, and verified through a fresh unauthenticated download matching the frozen checksum.
+The two preprints below have new, independently reviewed scientific revisions. Their final DOI-bearing PDFs match fresh anonymous downloads. The published technical report remains at v0.25.000 while the [expanded report](product-report/next/main.pdf) completes its method and diagnostic-field review.
 
 | Document | Published version | Canonical PDF | Source |
 |---|---|---|---|
 | Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study | [v2.6, DOI 24123073](https://doi.org/10.5281/zenodo.24123073) | [22-page preprint](prequential-streaming-conformal/main.pdf) | [LaTeX](prequential-streaming-conformal/tex/main.tex) |
 | Temporally Validated Forecast Combinations on Two Benchmark Collections | [v0.3, DOI 24123068](https://doi.org/10.5281/zenodo.24123068) | [26-page preprint](context-memory/main.pdf) | [LaTeX](context-memory/tex/main.tex) |
-| ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation | [v0.25.000, DOI 23884372](https://doi.org/10.5281/zenodo.23884372) | [Eighteen-page technical report](product-report/main.pdf) | [LaTeX](product-report/tex/main.tex) |
+| ChronoScope: Time-Series Diagnostics and Forecast Evaluation | [v0.26.000, DOI 24124790](https://doi.org/10.5281/zenodo.24124790) | [85-page technical report](product-report/main.pdf) | [LaTeX](product-report/tex/main.tex) |
 
 The combination paper and report cover ContextMemoryCV, ValidationMix and the complete external M4 Weekly/M3 Monthly evaluation. Both new methods lower point error relative to RecencyMean on each admitted collection; AutoTheta remains stronger on monthly point error and both collections' interval scores. All 53,148 external forecasts are independently rescored. The original ContextMemory and M4 Daily selection outcomes remain unchanged.
 

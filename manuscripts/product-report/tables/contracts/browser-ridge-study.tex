@@ -1,0 +1,15 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the browser-ridge-study contract, interface revision \texttt{1.1.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-browser-ridge-study}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{name} & fixed value & metadata & const="Held-out normalized ridge" & yes\\
+\texttt{lookback} & fixed value & observations & const=48 & yes\\
+\texttt{horizon} & fixed value & observations & const=12 & yes\\
+\texttt{alpha} & fixed value & probabilities & const=0.2 & yes\\
+\texttt{absolute\_\allowbreak{}residual\_\allowbreak{}radii} & array & dimensionless & minItems=12; maxItems=12 & yes\\
+\texttt{selection} & array & metadata & minItems=7; maxItems=7 & yes\\
+\texttt{normalization} & fixed value & metadata & const="subtract\_\allowbreak{}last\_\allowbreak{}then\_\allowbreak{}divide\_\allowbreak{}population\_\allowbreak{}std" & no\\
+\bottomrule
+\end{longtable}
+\endgroup

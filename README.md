@@ -1,4 +1,4 @@
-# ChronoScope: the time-series forecasting method atlas
+# ChronoScope: time-series diagnostics and forecast evaluation
 
 [![CI](https://img.shields.io/github/actions/workflow/status/fsantibanezleal/CAOS_RES_ChronoScope/ci.yml?branch=main&label=CI)](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions)
 [![License](https://img.shields.io/github/license/fsantibanezleal/CAOS_RES_ChronoScope)](LICENSE)
@@ -13,13 +13,16 @@ A Fifteen-Series Replay Study"*, concept DOI
 [10.5281/zenodo.21508920](https://doi.org/10.5281/zenodo.21508920) (source in
 [`manuscripts/prequential-streaming-conformal/`](manuscripts/prequential-streaming-conformal/)).
 
-ChronoScope is an interactive research atlas of time-series forecasting. It takes a series, understands
-it with the classical diagnostic toolkit (ten analysis families: stationarity, autocorrelation,
-seasonality, filters/decomposition, change points, volatility, distribution/complexity, fractals,
-nonlinear dynamics, causality), and compares **22 forecast variants on common final holdouts**.
-The default comparison freshly executes all 22 variants on original contiguous histories, with
-exact package versions and checkpoint revisions. An explicit selector retains the earlier
-comparison of fourteen frozen paths, five corrected light methods and three combinations.
+ChronoScope lets readers inspect time-series structure and compare forecasts on reproducible cases.
+It exposes ten diagnostic families, including stationarity, autocorrelation, decomposition,
+change points, volatility, distribution, complexity and bivariate relationships. The default
+comparison replays **22 forecast variants evaluated on common final holdouts** with original
+contiguous histories, pinned packages and checkpoint revisions. The earlier comparison
+remains available through the study selector.
+
+The [technical report](https://doi.org/10.5281/zenodo.24124790) documents the procedures, data contracts
+and validation. The separate [Timestral study](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/a9b83ea22cbedd1856ab6b5839d95f2caa7f4e4e/docs/research/timestral-v1) evaluates four checkpoint
+sizes on fifteen selected blocks and retains all 60 forecast paths.
 ContextMemory did not improve mean MASE
 over its recency-only ablation. Every case and the negative result remain available. Two further combinations, ContextMemoryCV
 and ValidationMix, select settings through causal historical validation. On complete M4 Weekly

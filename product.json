@@ -51,8 +51,8 @@
     {
       "kind": "technical-report",
       "concept_doi": "10.5281/zenodo.23874816",
-      "title": "ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation",
-      "version": "0.25.000",
+      "title": "ChronoScope: Time-Series Diagnostics and Forecast Evaluation",
+      "version": "0.26.000",
       "covers": [
         "BS-1",
         "NC-1"
