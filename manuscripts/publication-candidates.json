@@ -3,22 +3,23 @@
   "candidates": [
     {
       "kind": "technical-report",
-      "version": "0.25.000",
+      "version": "0.26.000",
       "covers": [
         "BS-1"
       ],
       "state": "published",
       "pdf": "manuscripts/product-report/main.pdf",
-      "sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
+      "sha256": "b2828e58394a0bfdf0a91676b146096bb6a28b0ae26c413cc7242d8e9108b4da",
       "source": "manuscripts/product-report/tex/main.tex",
-      "source_sha256": "df4fb231e008470b05a8f6452358603917f6fe61cb9656a43793af4951822f7c",
-      "version_doi": "10.5281/zenodo.23884372",
+      "source_sha256": "7f05321b6b7f127d66f218f2683cf5bbc1a68416e2d6c94f8f23b10e8b09dd36",
+      "version_doi": "10.5281/zenodo.24124790",
       "concept_doi": "10.5281/zenodo.23874816",
-      "doi": "10.5281/zenodo.23884372",
-      "record_url": "https://zenodo.org/records/23884372",
-      "reviewed_pdf_sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
-      "reviewed_source_sha256": "df4fb231e008470b05a8f6452358603917f6fe61cb9656a43793af4951822f7c",
-      "publication_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea"
+      "doi": "10.5281/zenodo.24124790",
+      "record_url": "https://zenodo.org/records/24124790",
+      "reviewed_pdf_sha256": "b2828e58394a0bfdf0a91676b146096bb6a28b0ae26c413cc7242d8e9108b4da",
+      "reviewed_source_sha256": "7f05321b6b7f127d66f218f2683cf5bbc1a68416e2d6c94f8f23b10e8b09dd36",
+      "publication_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea",
+      "independent_reviewed_working_pdf_sha256": "5f51cce8f19fb7de0a946c21e5fd3ac0ef30b463bd098f616693c675480e2bb4"
     },
     {
       "kind": "manuscript",
@@ -169,6 +170,25 @@
       "reviewed_source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4",
       "doi": "10.5281/zenodo.23884367",
       "record_url": "https://zenodo.org/records/23884367"
+    },
+    {
+      "kind": "technical-report",
+      "version": "0.25.000",
+      "covers": [
+        "BS-1"
+      ],
+      "state": "published",
+      "pdf": "manuscripts/product-report/main.pdf",
+      "sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
+      "source": "manuscripts/product-report/tex/main.tex",
+      "source_sha256": "df4fb231e008470b05a8f6452358603917f6fe61cb9656a43793af4951822f7c",
+      "version_doi": "10.5281/zenodo.23884372",
+      "concept_doi": "10.5281/zenodo.23874816",
+      "doi": "10.5281/zenodo.23884372",
+      "record_url": "https://zenodo.org/records/23884372",
+      "reviewed_pdf_sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
+      "reviewed_source_sha256": "df4fb231e008470b05a8f6452358603917f6fe61cb9656a43793af4951822f7c",
+      "publication_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea"
     }
   ],
   "prior_approval": {

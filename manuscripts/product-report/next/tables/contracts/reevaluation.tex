@@ -1,0 +1,18 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the reevaluation contract, interface revision \texttt{2.1.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-reevaluation}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.reevaluation/\allowbreak{}v2" & yes\\
+\texttt{protocol} & object & metadata &  & yes\\
+\texttt{source\_\allowbreak{}engine\_\allowbreak{}version} & string & metadata & No explicit range & yes\\
+\texttt{trace\_\allowbreak{}sha256} & object & metadata &  & yes\\
+\texttt{code\_\allowbreak{}sha256} & object & metadata &  & yes\\
+\texttt{cases} & array & metadata & minItems=1 & yes\\
+\texttt{summary} & array & mixed; see text & minItems=1 & yes\\
+\texttt{input\_\allowbreak{}sha256} & object & metadata &  & yes\\
+\texttt{source\_\allowbreak{}comparison\_\allowbreak{}sha256} & string & metadata & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & no\\
+\texttt{runtime} & object & metadata &  & no\\
+\bottomrule
+\end{longtable}
+\endgroup

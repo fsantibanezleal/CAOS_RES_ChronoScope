@@ -1,0 +1,38 @@
+{
+  "kind": "technical-report",
+  "title_support": [
+    "tab:cases",
+    "fig:sequence-patterns",
+    "tab:validated-combinations",
+    "tab:browser-confirmation"
+  ],
+  "methods": {
+    "CL-1": "sec:method-local-experts",
+    "ST-1": "sec:method-automatic-statistical",
+    "ST-2": "sec:method-lag-trees",
+    "ST-3": "sec:method-neural",
+    "ST-4": "sec:method-pretrained",
+    "ST-5": "sec:method-sequence",
+    "BS-1": "sec:method-combinations"
+  },
+  "contracts": {
+    "trace": "sec:contract-trace",
+    "manifest": "sec:contract-manifest",
+    "streaming": "sec:contract-streaming",
+    "analysis": "sec:contract-analysis",
+    "nlinear-model": "sec:contract-nlinear-model",
+    "browser-calibration": "sec:contract-browser-calibration",
+    "browser-ridge-study": "sec:contract-browser-ridge-study",
+    "reevaluation": "sec:contract-reevaluation",
+    "fresh-reevaluation": "sec:contract-fresh-reevaluation",
+    "index": "sec:contract-index",
+    "selector": "sec:contract-selector",
+    "forecastability": "sec:contract-forecastability",
+    "combination-index": "sec:contract-combination-index",
+    "combination-case": "sec:contract-combination-case",
+    "readiness": "sec:contract-readiness"
+  },
+  "claims": {
+    "BS-1": "sec:method-combinations"
+  }
+}

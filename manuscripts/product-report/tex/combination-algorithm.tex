@@ -1,0 +1,49 @@
+Algorithm~\ref{alg:fixed-combination} specifies the fixed context rule
+and its controls. Algorithm~\ref{alg:report-temporal-selection} specifies
+the completed-target selection used by the separately validated variants.
+The outer reserved targets never enter candidate fitting.
+
+\begin{algorithm}[htbp]
+\caption{Combine five current expert forecasts using fixed contextual, recency-only or uniform weights estimated from completed origins.}
+\label{alg:fixed-combination}
+\begin{algorithmic}[1]
+\Require Observed prefix, horizon $H$, seasonal lag $m$, probabilities and weighting rule
+\State Form up to 12 unique integer origins evenly spaced from $\max(2m,2H+8,24)$ to $n-H$
+\State Use the empty roster if the last eligible origin precedes the first
+\State Compute the roster's prefix features and seasonal-scaled expert losses
+\State Initialize equal weights
+\If{the roster is nonempty and the rule is ContextMemory or RecencyMean}
+  \State Compute mean loss for each expert with a six-origin recency half-life
+  \If{the rule is ContextMemory}
+    \State Compute RMS query distances and set bandwidth to the larger of their median and .25
+    \State Compute the local kernel-weighted loss with .25 shrinkage toward the recency mean
+  \EndIf
+  \State Convert scores to softmax weights at temperature one and mix with .05 uniform weight
+\EndIf
+\State Fit the five expert quantile paths on the current prefix
+\State Return their weighted columns, the weights and the eligible origin roster
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\caption{Temporally completed candidate selection. Every expert forecast and
+validation target used to choose a combination is available before the current
+reserved target block begins.}
+\label{alg:report-temporal-selection}
+\begin{algorithmic}[1]
+\Require Observed prefix $y_{1:n}$, horizon $H$, fixed candidates $\mathcal C$
+\State Construct the fixed historical origin schedule and cache expert paths
+\For{each historical query origin $q$}
+\State Retain earlier origins $o$ satisfying $o+H\leq q$
+\State Use the query only when at least three completed origins are available
+\For{each candidate $c\in\mathcal C$}
+\State Fit its weights from the completed historical memories only
+\State Score its combined path on the query block using the query's prefix scale
+\EndFor
+\EndFor
+\State Select minimum mean validation loss; break ties by the fixed grid order
+\State With no eligible query, use the explicitly defined recency-only fallback
+\State Fit the selected rule's current weights from all completed prefix memories
+\State Return the weighted current expert path without observing $y_{n+1:n+H}$
+\end{algorithmic}
+\end{algorithm}

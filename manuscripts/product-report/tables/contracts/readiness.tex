@@ -1,0 +1,12 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the readiness contract, interface revision \texttt{1.0.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-readiness}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.readiness/v1" & yes\\
+\texttt{product\_\allowbreak{}version} & string & metadata & pattern="\textasciicircum{}[0-9]+\allowbreak{}\textbackslash{}\textbackslash{}.[0-9]+\textbackslash{}\textbackslash{}.[0-9\allowbreak{}]+\$" & yes\\
+\texttt{catalog\_\allowbreak{}sha256} & string & metadata & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & yes\\
+\texttt{contracts} & array & metadata & minItems=1 & yes\\
+\bottomrule
+\end{longtable}
+\endgroup
