@@ -62,6 +62,13 @@ generators in a detached source snapshot because their original destinations
 are published manuscript folders. The working report uses labelled copies of
 their outputs.
 
+The procedure crosswalk names validation files and examples of retained
+artifacts. A test reference identifies the check to run. The observed-field
+inventory measures serialized types and prevalence across the retained cases.
+The Catch24 dictionary maps the exact names emitted by `pycatch22==0.4.5` to
+their scientific quantities and axes using the original paper and the
+pinned feature implementation.
+
 Use `latexmk` and pdfTeX with the packages in `tex/main.tex`. The builder
 compiles outside the source tree and records every local TeX and figure input.
 A different TeX installation may change PDF bytes. Check the retained

@@ -2,17 +2,17 @@
   "state": "working-revision",
   "published": false,
   "title": "ChronoScope: Time-Series Diagnostics and Forecast Evaluation",
-  "independent_reader_review": "follow-up required after corrections to the reviewed draft",
+  "independent_reader_review": "latest follow-up corrected in the rebuilt revision",
   "published_predecessor_preserved": true,
-  "full_content_bar": "open on procedure depth and open diagnostic field semantics",
+  "full_content_bar": "open on full producer-backed field semantics and procedure-level review",
   "measured_content": {
-    "words": 23430,
+    "words": 24068,
     "equations": 48,
     "figures": 11,
     "tables": 28,
-    "references": 43,
+    "references": 44,
     "algorithms": 4,
     "sections": 21
   },
-  "compiled_pages": 76
+  "compiled_pages": 77
 }

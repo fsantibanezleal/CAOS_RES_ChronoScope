@@ -1,111 +1,111 @@
-procedure,source,section_label
-SeasonalNaive,data-pipeline/chronoscopelab/model/forecasters.py::seasonal_naive,sec:method-local-experts
-SES,data-pipeline/chronoscopelab/model/forecasters.py::ses,sec:method-local-experts
-Holt,data-pipeline/chronoscopelab/model/forecasters.py::holt,sec:method-local-experts
-HoltWinters,data-pipeline/chronoscopelab/model/forecasters.py::holt_winters,sec:method-local-experts
-Theta,data-pipeline/chronoscopelab/model/forecasters.py::theta,sec:method-local-experts
-ContextMemory,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations
-RecencyMean,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations
-EqualMean,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations
-ContextMemoryCV,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:temporal-validation
-ValidationMix,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:temporal-validation
-AutoETS,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical
-AutoTheta,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical
-AutoARIMA,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical
-LightGBM,data-pipeline/chronoscopelab/engines/lightgbm_engine.py::LightGBMForecaster,sec:method-lag-trees
-NLinear with a local quantile head,data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster,sec:method-neural
-NLinear from NeuralForecast,data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster,sec:method-neural
-DLinear with a local quantile head,data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster,sec:method-neural
-DLinear from NeuralForecast,data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster,sec:method-neural
-NHITS with a local quantile head,data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster,sec:method-neural
-NHITS from NeuralForecast,data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster,sec:method-neural
-Chronos-Bolt,data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster,sec:method-pretrained
-Chronos-2,data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster,sec:method-pretrained
-TimesFM-2.5,data-pipeline/chronoscopelab/engines/timesfm_engine.py::TimesFmForecaster,sec:method-pretrained
-TiRex-2,data-pipeline/chronoscopelab/engines/tirex2_engine.py::Tirex2Forecaster,sec:method-pretrained
-Instance-normalized linear least-squares browser model,scripts/train_nlinear_onnx.py::main,sec:browser-normalization
-Held-out instance-normalized ridge reference,scripts/evaluate_browser_linear.py::fit_ridge,sec:browser-ridge
-Per-lead absolute-residual split calibration,scripts/evaluate_browser_linear.py::calibration_radii,sec:browser-split
-Prefix-roughness stratified residual calibration,scripts/confirm_browser_calibration.py::group_radii,sec:browser-strata
-Training-case mean-MASE method ranking,data-pipeline/chronoscopelab/stages/train.py::run,sec:training-case-ranking
-Last-observation forecast,scripts/run_forecastability_study.py::evaluate,sec:method-local-experts
-Gaussian marginal quantiles,data-pipeline/chronoscopelab/model/forecasters.py::gaussian_quantiles,sec:method-local-experts
-Archived smoothing-plus-drift predictor,scripts/manuscript_replay.py::legacy_point,sec:streaming-evidence
-Adaptive miscoverage-level feedback,data-pipeline/chronoscopelab/stages/streaming.py::run,sec:streaming-evidence
-Proportional-integral-derivative miscoverage feedback,data-pipeline/chronoscopelab/stages/streaming.py::run,sec:streaming-evidence
-Ridge with observed target lags,data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch,sec:diagnostic-relations
-Ridge with admissible known-future covariates,data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch,sec:diagnostic-relations
-Augmented Dickey-Fuller unit-root test,data-pipeline/chronoscopelab/analysis/stationarity.py::adf,sec:diagnostic-stationarity
-KPSS stationarity test,data-pipeline/chronoscopelab/analysis/stationarity.py::kpss,sec:diagnostic-stationarity
-Phillips-Perron unit-root test,data-pipeline/chronoscopelab/analysis/stationarity.py::phillips_perron,sec:diagnostic-stationarity
-GLS-detrended unit-root test,data-pipeline/chronoscopelab/analysis/stationarity.py::dfgls,sec:diagnostic-stationarity
-Unit-root test with an endogenous structural break,data-pipeline/chronoscopelab/analysis/stationarity.py::zivot_andrews,sec:diagnostic-stationarity
-Sequential KPSS differencing-order selection,data-pipeline/chronoscopelab/analysis/stationarity.py::ndiffs,sec:diagnostic-stationarity
-STL-strength seasonal differencing selection,data-pipeline/chronoscopelab/analysis/stationarity.py::nsdiffs,sec:diagnostic-stationarity
-Joint ADF and KPSS interpretation,data-pipeline/chronoscopelab/analysis/stationarity.py::combined_verdict,sec:diagnostic-stationarity
-Bartlett lag-dependent autocorrelation uncertainty band,data-pipeline/chronoscopelab/analysis/autocorrelation.py::bartlett_band,sec:diagnostic-autocorrelation
-Autocorrelation function with lag uncertainty,data-pipeline/chronoscopelab/analysis/autocorrelation.py::acf,sec:diagnostic-autocorrelation
-Partial autocorrelation by Durbin-Levinson recursion,data-pipeline/chronoscopelab/analysis/autocorrelation.py::pacf,sec:diagnostic-autocorrelation
-Ljung-Box portmanteau statistic,data-pipeline/chronoscopelab/analysis/autocorrelation.py::ljung_box,sec:diagnostic-autocorrelation
-Box-Pierce portmanteau statistic,data-pipeline/chronoscopelab/analysis/autocorrelation.py::box_pierce,sec:diagnostic-autocorrelation
-Durbin-Watson serial-correlation statistic,data-pipeline/chronoscopelab/analysis/autocorrelation.py::durbin_watson,sec:diagnostic-autocorrelation
-Lagged state-pair representation,data-pipeline/chronoscopelab/analysis/autocorrelation.py::lag_plot_pairs,sec:diagnostic-autocorrelation
-Fourier periodogram,data-pipeline/chronoscopelab/analysis/seasonality.py::periodogram,sec:diagnostic-autocorrelation
-Welch spectral-density estimate,data-pipeline/chronoscopelab/analysis/seasonality.py::welch,sec:diagnostic-autocorrelation
-Seasonal variance strength,data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_strength,sec:diagnostic-autocorrelation
-STL decomposition,data-pipeline/chronoscopelab/analysis/seasonality.py::stl_decompose,sec:diagnostic-autocorrelation
-Multiple-seasonal STL decomposition,data-pipeline/chronoscopelab/analysis/seasonality.py::mstl_decompose,sec:diagnostic-autocorrelation
-Seasonal subseries comparison,data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_subseries,sec:diagnostic-autocorrelation
-Hodrick-Prescott trend-cycle filter,data-pipeline/chronoscopelab/analysis/filters.py::hodrick_prescott,sec:diagnostic-filters
-Baxter-King band-pass filter,data-pipeline/chronoscopelab/analysis/filters.py::baxter_king,sec:diagnostic-filters
-Christiano-Fitzgerald band-pass filter,data-pipeline/chronoscopelab/analysis/filters.py::christiano_fitzgerald,sec:diagnostic-filters
-Empirical mode decomposition,data-pipeline/chronoscopelab/analysis/filters.py::emd,sec:diagnostic-filters
-Complete ensemble empirical mode decomposition,data-pipeline/chronoscopelab/analysis/filters.py::ceemdan,sec:diagnostic-filters
-Continuous-wavelet scalogram,data-pipeline/chronoscopelab/analysis/filters.py::cwt_scalogram,sec:diagnostic-filters
-PELT segmentation,data-pipeline/chronoscopelab/analysis/changepoints.py::pelt,sec:diagnostic-breaks
-Binary segmentation,data-pipeline/chronoscopelab/analysis/changepoints.py::binseg,sec:diagnostic-breaks
-OLS residual cumulative-sum stability test,data-pipeline/chronoscopelab/analysis/changepoints.py::cusum_stability,sec:diagnostic-breaks
-Markov-switching regime model,data-pipeline/chronoscopelab/analysis/changepoints.py::markov_regimes,sec:diagnostic-breaks
-ARCH Lagrange-multiplier test,data-pipeline/chronoscopelab/analysis/volatility.py::arch_lm,sec:diagnostic-breaks
-GARCH conditional-variance model,data-pipeline/chronoscopelab/analysis/volatility.py::garch,sec:diagnostic-breaks
-Box-Cox profile-likelihood transform selection,data-pipeline/chronoscopelab/analysis/volatility.py::box_cox,sec:diagnostic-breaks
-Guerrero seasonal variance stabilization,data-pipeline/chronoscopelab/analysis/volatility.py::box_cox,sec:diagnostic-breaks
-Rolling dispersion estimate,data-pipeline/chronoscopelab/analysis/volatility.py::rolling_volatility,sec:diagnostic-breaks
-Empirical moments,data-pipeline/chronoscopelab/analysis/distribution.py::summary,sec:diagnostic-complexity
-Jarque-Bera normality test,data-pipeline/chronoscopelab/analysis/distribution.py::summary,sec:diagnostic-complexity
-Shapiro-Wilk normality test,data-pipeline/chronoscopelab/analysis/distribution.py::summary,sec:diagnostic-complexity
-Kernel density estimate,data-pipeline/chronoscopelab/analysis/distribution.py::kde_curve,sec:diagnostic-complexity
-Normal quantile-quantile representation,data-pipeline/chronoscopelab/analysis/distribution.py::qq_points,sec:diagnostic-complexity
-Sample entropy,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity
-Normalized permutation entropy,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity
-Normalized spectral entropy,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity
-BDS independence statistic,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity
-Canonical catch22 feature vector,data-pipeline/chronoscopelab/analysis/distribution.py::catch22_features,sec:diagnostic-complexity
-Rescaled-range Hurst estimate,data-pipeline/chronoscopelab/analysis/fractal.py::hurst,sec:diagnostic-complexity
-Detrended fluctuation scaling estimate,data-pipeline/chronoscopelab/analysis/fractal.py::hurst,sec:diagnostic-complexity
-Multifractal detrended fluctuation analysis,data-pipeline/chronoscopelab/analysis/fractal.py::mfdfa,sec:diagnostic-complexity
-Higuchi graph-dimension estimate,data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension,sec:diagnostic-complexity
-Katz graph-dimension estimate,data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension,sec:diagnostic-complexity
-Petrosian graph-dimension estimate,data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension,sec:diagnostic-complexity
-Detrended cross-correlation coefficient,data-pipeline/chronoscopelab/analysis/fractal.py::dcca_coefficient,sec:diagnostic-complexity
-Time-delay state-space embedding,data-pipeline/chronoscopelab/analysis/nonlinear.py::time_delay_embed,sec:diagnostic-complexity
-Grassberger-Procaccia correlation dimension,data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures,sec:diagnostic-complexity
-Rosenstein largest Lyapunov estimate,data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures,sec:diagnostic-complexity
-Recurrence quantification analysis,data-pipeline/chronoscopelab/analysis/nonlinear.py::recurrence_quantification,sec:diagnostic-complexity
-Iterative amplitude-adjusted Fourier surrogate,data-pipeline/chronoscopelab/analysis/nonlinear.py::iaaft_surrogate,sec:diagnostic-complexity
-Zero-one chaos diagnostic,data-pipeline/chronoscopelab/analysis/nonlinear.py::zero_one_test,sec:diagnostic-complexity
-Cross-correlation lead-lag estimate,data-pipeline/chronoscopelab/analysis/causality.py::cross_correlation,sec:diagnostic-relations
-Granger predictive-causality test,data-pipeline/chronoscopelab/analysis/causality.py::granger_causality,sec:diagnostic-relations
-Engle-Granger residual cointegration test,data-pipeline/chronoscopelab/analysis/causality.py::cointegration,sec:diagnostic-relations
-Johansen trace-rank cointegration test,data-pipeline/chronoscopelab/analysis/causality.py::cointegration,sec:diagnostic-relations
-Exact z-normalized Matrix Profile self-join,data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile,sec:method-sequence
-FLUSS candidate regime boundaries,data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile,sec:method-sequence
-Fixed-tolerance multiscale sample entropy,data-pipeline/chronoscopelab/analysis/sequence.py::multiscale_entropy,sec:method-sequence
-Binary Lempel-Ziv complexity with an explicit finite-length reference,data-pipeline/chronoscopelab/analysis/sequence.py::sequence_report,sec:method-sequence
-Raw third-order lag-reversal statistic,data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal,sec:method-sequence
-Standardized third-order lag-reversal statistic,data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal,sec:method-sequence
-Deterministic disjoint-series partition assignment,data-pipeline/chronoscopelab/analysis/atlas.py::partition,sec:forecastability
-Prefix-only forecastability feature extraction,data-pipeline/chronoscopelab/analysis/atlas.py::prefix_features,sec:forecastability
-Benjamini-Yekutieli dependent-test adjustment,data-pipeline/chronoscopelab/analysis/atlas.py::by_adjust,sec:forecastability
-Kendall rank association with disjoint-series confirmation,data-pipeline/chronoscopelab/analysis/atlas.py::associations,sec:forecastability
-Discovery-trained random-forest method selector,data-pipeline/chronoscopelab/analysis/atlas.py::study_summary,sec:forecastability
+procedure,source,section_label,validation_reference,retained_evidence_scope,retained_evidence_reference
+SeasonalNaive,data-pipeline/chronoscopelab/model/forecasters.py::seasonal_naive,sec:method-local-experts,tests/test_forecasters.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[SeasonalNaive]
+SES,data-pipeline/chronoscopelab/model/forecasters.py::ses,sec:method-local-experts,tests/test_forecasters.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[SES]
+Holt,data-pipeline/chronoscopelab/model/forecasters.py::holt,sec:method-local-experts,tests/test_forecasters.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[Holt]
+HoltWinters,data-pipeline/chronoscopelab/model/forecasters.py::holt_winters,sec:method-local-experts,tests/test_forecasters.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[HoltWinters]
+Theta,data-pipeline/chronoscopelab/model/forecasters.py::theta,sec:method-local-experts,tests/test_forecasters.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[Theta]
+ContextMemory,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations,tests/test_reevaluation.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[ContextMemory]
+RecencyMean,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations,tests/test_reevaluation.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[RecencyMean]
+EqualMean,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations,tests/test_reevaluation.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[EqualMean]
+ContextMemoryCV,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:temporal-validation,tests/test_validated_combination.py,Retained study artifact,data/derived/combinations/m4_weekly/T1.json#origins
+ValidationMix,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:temporal-validation,tests/test_validated_combination.py,Retained study artifact,data/derived/combinations/m4_weekly/T1.json#origins
+AutoETS,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical,tests/test_engines.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[AutoETS]
+AutoTheta,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical,tests/test_engines.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[AutoTheta]
+AutoARIMA,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical,tests/test_engines.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[AutoARIMA]
+LightGBM,data-pipeline/chronoscopelab/engines/lightgbm_engine.py::LightGBMForecaster,sec:method-lag-trees,tests/test_engines.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[LightGBM]
+NLinear with a local quantile head,data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster,sec:method-neural,tests/test_engine_neural.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[NLinear]
+NLinear from NeuralForecast,data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster,sec:method-neural,tests/test_engine_neuralforecast.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[NLinear (nf)]
+DLinear with a local quantile head,data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster,sec:method-neural,tests/test_engine_neural.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[DLinear]
+DLinear from NeuralForecast,data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster,sec:method-neural,tests/test_engine_neuralforecast.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[DLinear (nf)]
+NHITS with a local quantile head,data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster,sec:method-neural,tests/test_engine_neural.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[NHITS]
+NHITS from NeuralForecast,data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster,sec:method-neural,tests/test_engine_neuralforecast.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[NHITS (nf)]
+Chronos-Bolt,data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster,sec:method-pretrained,tests/test_engine_foundation.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[Chronos-Bolt]
+Chronos-2,data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster,sec:method-pretrained,tests/test_engine_foundation.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[Chronos-2]
+TimesFM-2.5,data-pipeline/chronoscopelab/engines/timesfm_engine.py::TimesFmForecaster,sec:method-pretrained,tests/test_engine_foundation.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[TimesFM-2.5]
+TiRex-2,data-pipeline/chronoscopelab/engines/tirex2_engine.py::Tirex2Forecaster,sec:method-pretrained,tests/test_engine_tirex2_wsl.py,Retained fresh holdout paths,data/derived/fresh-reevaluation.json#cases[].methods[TiRex-2]
+Instance-normalized linear least-squares browser model,scripts/train_nlinear_onnx.py::main,sec:browser-normalization,frontend/scripts/check-live-real.mjs,Retained study artifact,frontend/public/models/nlinear.json
+Held-out instance-normalized ridge reference,scripts/evaluate_browser_linear.py::fit_ridge,sec:browser-ridge,tests/test_browser_linear.py,Retained study artifact,docs/research/browser-linear/v1/results.json#selection
+Per-lead absolute-residual split calibration,scripts/evaluate_browser_linear.py::calibration_radii,sec:browser-split,tests/test_browser_linear.py,Retained study artifact,docs/research/browser-linear/v1/results.json#scores
+Prefix-roughness stratified residual calibration,scripts/confirm_browser_calibration.py::group_radii,sec:browser-strata,tests/test_browser_calibration.py,Retained study artifact,docs/research/browser-linear/confirmation-v1/results.json#scores
+Training-case mean-MASE method ranking,data-pipeline/chronoscopelab/stages/train.py::run,sec:training-case-ranking,tests/test_pipeline_smoke.py,Retained study artifact,models/selector.json#ranking
+Last-observation forecast,scripts/run_forecastability_study.py::evaluate,sec:method-local-experts,tests/test_forecastability.py,Retained study artifact,data/derived/forecastability.json#series[].mase.Naive
+Gaussian marginal quantiles,data-pipeline/chronoscopelab/model/forecasters.py::gaussian_quantiles,sec:method-local-experts,tests/test_forecasters.py,Retained study artifact,data/derived/TRND_seasonal/trace.json
+Archived smoothing-plus-drift predictor,scripts/manuscript_replay.py::legacy_point,sec:streaming-evidence,tests/test_manuscript_replay.py,Retained study artifact,manuscripts/prequential-streaming-conformal/evidence/replay.json
+Adaptive miscoverage-level feedback,data-pipeline/chronoscopelab/stages/streaming.py::run,sec:streaming-evidence,tests/test_stage_streaming.py,Retained study artifact,data/derived/TRND_seasonal/streaming.json#methods.Theta+ACI
+Proportional-integral-derivative miscoverage feedback,data-pipeline/chronoscopelab/stages/streaming.py::run,sec:streaming-evidence,tests/test_stage_streaming.py,Retained study artifact,data/derived/TRND_seasonal/streaming.json#methods.Theta+PID
+Ridge with observed target lags,data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch,sec:diagnostic-relations,tests/test_stage_streaming.py,Retained study artifact,data/derived/EXOG_promo/streaming.json#methods.Ridge (blind)
+Ridge with admissible known-future covariates,data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch,sec:diagnostic-relations,tests/test_stage_streaming.py,Retained study artifact,data/derived/EXOG_promo/streaming.json#methods.Ridge+exog (aware)
+Augmented Dickey-Fuller unit-root test,data-pipeline/chronoscopelab/analysis/stationarity.py::adf,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.tests[ADF]
+KPSS stationarity test,data-pipeline/chronoscopelab/analysis/stationarity.py::kpss,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.tests[KPSS]
+Phillips-Perron unit-root test,data-pipeline/chronoscopelab/analysis/stationarity.py::phillips_perron,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.tests[PhillipsPerron]
+GLS-detrended unit-root test,data-pipeline/chronoscopelab/analysis/stationarity.py::dfgls,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.tests[DFGLS]
+Unit-root test with an endogenous structural break,data-pipeline/chronoscopelab/analysis/stationarity.py::zivot_andrews,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.tests[ZivotAndrews]
+Sequential KPSS differencing-order selection,data-pipeline/chronoscopelab/analysis/stationarity.py::ndiffs,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.recommended_d
+STL-strength seasonal differencing selection,data-pipeline/chronoscopelab/analysis/stationarity.py::nsdiffs,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.recommended_D
+Joint ADF and KPSS interpretation,data-pipeline/chronoscopelab/analysis/stationarity.py::combined_verdict,sec:diagnostic-stationarity,tests/test_analysis_stationarity.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#stationarity.combined_verdict
+Bartlett lag-dependent autocorrelation uncertainty band,data-pipeline/chronoscopelab/analysis/autocorrelation.py::bartlett_band,sec:diagnostic-autocorrelation,tests/test_analysis_autocorrelation.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#autocorrelation.bartlett_band
+Autocorrelation function with lag uncertainty,data-pipeline/chronoscopelab/analysis/autocorrelation.py::acf,sec:diagnostic-autocorrelation,tests/test_analysis_autocorrelation.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#autocorrelation.acf
+Partial autocorrelation by Durbin-Levinson recursion,data-pipeline/chronoscopelab/analysis/autocorrelation.py::pacf,sec:diagnostic-autocorrelation,tests/test_analysis_autocorrelation.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#autocorrelation.pacf
+Ljung-Box portmanteau statistic,data-pipeline/chronoscopelab/analysis/autocorrelation.py::ljung_box,sec:diagnostic-autocorrelation,tests/test_analysis_autocorrelation.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#autocorrelation.ljung_box
+Box-Pierce portmanteau statistic,data-pipeline/chronoscopelab/analysis/autocorrelation.py::box_pierce,sec:diagnostic-autocorrelation,tests/test_analysis_autocorrelation.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#autocorrelation.box_pierce
+Durbin-Watson serial-correlation statistic,data-pipeline/chronoscopelab/analysis/autocorrelation.py::durbin_watson,sec:diagnostic-autocorrelation,tests/test_analysis_autocorrelation.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#autocorrelation.durbin_watson
+Lagged state-pair representation,data-pipeline/chronoscopelab/analysis/autocorrelation.py::lag_plot_pairs,sec:diagnostic-autocorrelation,tests/test_analysis_autocorrelation.py,Callable procedure,
+Fourier periodogram,data-pipeline/chronoscopelab/analysis/seasonality.py::periodogram,sec:diagnostic-autocorrelation,tests/test_analysis_seasonality.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#seasonality.periodogram
+Welch spectral-density estimate,data-pipeline/chronoscopelab/analysis/seasonality.py::welch,sec:diagnostic-autocorrelation,tests/test_analysis_seasonality.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#seasonality.welch.dominant_power
+Seasonal variance strength,data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_strength,sec:diagnostic-autocorrelation,tests/test_analysis_seasonality.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#seasonality.seasonal_strength_by_candidate_period
+STL decomposition,data-pipeline/chronoscopelab/analysis/seasonality.py::stl_decompose,sec:diagnostic-autocorrelation,tests/test_analysis_seasonality.py,Retained output or summary,data/derived/CHAO_mackey/analysis.json#seasonality.stl_at_dominant
+Multiple-seasonal STL decomposition,data-pipeline/chronoscopelab/analysis/seasonality.py::mstl_decompose,sec:diagnostic-autocorrelation,tests/test_analysis_seasonality.py,Callable procedure,
+Seasonal subseries comparison,data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_subseries,sec:diagnostic-autocorrelation,tests/test_analysis_seasonality.py,Callable procedure,
+Hodrick-Prescott trend-cycle filter,data-pipeline/chronoscopelab/analysis/filters.py::hodrick_prescott,sec:diagnostic-filters,tests/test_analysis_filters.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#filters.hp
+Baxter-King band-pass filter,data-pipeline/chronoscopelab/analysis/filters.py::baxter_king,sec:diagnostic-filters,tests/test_analysis_filters.py,Callable procedure,
+Christiano-Fitzgerald band-pass filter,data-pipeline/chronoscopelab/analysis/filters.py::christiano_fitzgerald,sec:diagnostic-filters,tests/test_analysis_filters.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#filters.cf
+Empirical mode decomposition,data-pipeline/chronoscopelab/analysis/filters.py::emd,sec:diagnostic-filters,tests/test_analysis_filters.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#filters.emd
+Complete ensemble empirical mode decomposition,data-pipeline/chronoscopelab/analysis/filters.py::ceemdan,sec:diagnostic-filters,tests/test_analysis_filters.py,Callable procedure,
+Continuous-wavelet scalogram,data-pipeline/chronoscopelab/analysis/filters.py::cwt_scalogram,sec:diagnostic-filters,tests/test_analysis_filters.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#filters.scalogram
+PELT segmentation,data-pipeline/chronoscopelab/analysis/changepoints.py::pelt,sec:diagnostic-breaks,tests/test_analysis_changepoints.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#changepoints.pelt
+Binary segmentation,data-pipeline/chronoscopelab/analysis/changepoints.py::binseg,sec:diagnostic-breaks,tests/test_analysis_changepoints.py,Callable procedure,
+OLS residual cumulative-sum stability test,data-pipeline/chronoscopelab/analysis/changepoints.py::cusum_stability,sec:diagnostic-breaks,tests/test_analysis_changepoints.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#changepoints.cusum
+Markov-switching regime model,data-pipeline/chronoscopelab/analysis/changepoints.py::markov_regimes,sec:diagnostic-breaks,tests/test_analysis_changepoints.py,Retained output or summary,data/derived/EXOG_promo/analysis.json#changepoints.markov.most_likely
+ARCH Lagrange-multiplier test,data-pipeline/chronoscopelab/analysis/volatility.py::arch_lm,sec:diagnostic-breaks,tests/test_analysis_volatility.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#volatility.arch_lm
+GARCH conditional-variance model,data-pipeline/chronoscopelab/analysis/volatility.py::garch,sec:diagnostic-breaks,tests/test_analysis_volatility.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#volatility.garch
+Box-Cox profile-likelihood transform selection,data-pipeline/chronoscopelab/analysis/volatility.py::box_cox,sec:diagnostic-breaks,tests/test_analysis_volatility.py,Retained output or summary,data/derived/CHAO_mackey/analysis.json#volatility.boxcox
+Guerrero seasonal variance stabilization,data-pipeline/chronoscopelab/analysis/volatility.py::box_cox,sec:diagnostic-breaks,tests/test_analysis_volatility.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#volatility.boxcox
+Rolling dispersion estimate,data-pipeline/chronoscopelab/analysis/volatility.py::rolling_volatility,sec:diagnostic-breaks,tests/test_analysis_volatility.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#volatility.rolling
+Empirical moments,data-pipeline/chronoscopelab/analysis/distribution.py::summary,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.summary.mean
+Jarque-Bera normality test,data-pipeline/chronoscopelab/analysis/distribution.py::summary,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.summary.jarque_bera_pvalue
+Shapiro-Wilk normality test,data-pipeline/chronoscopelab/analysis/distribution.py::summary,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.summary.shapiro_pvalue
+Kernel density estimate,data-pipeline/chronoscopelab/analysis/distribution.py::kde_curve,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.kde
+Normal quantile-quantile representation,data-pipeline/chronoscopelab/analysis/distribution.py::qq_points,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.qq
+Sample entropy,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.complexity.sample_entropy
+Normalized permutation entropy,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.complexity.permutation_entropy
+Normalized spectral entropy,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.complexity.spectral_entropy
+BDS independence statistic,data-pipeline/chronoscopelab/analysis/distribution.py::complexity,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.complexity.bds_pvalue
+Canonical catch22 feature vector,data-pipeline/chronoscopelab/analysis/distribution.py::catch22_features,sec:diagnostic-complexity,tests/test_analysis_distribution.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#distribution.catch22.features
+Rescaled-range Hurst estimate,data-pipeline/chronoscopelab/analysis/fractal.py::hurst,sec:diagnostic-complexity,tests/test_analysis_fractal.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#fractal.hurst.rs
+Detrended fluctuation scaling estimate,data-pipeline/chronoscopelab/analysis/fractal.py::hurst,sec:diagnostic-complexity,tests/test_analysis_fractal.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#fractal.hurst.dfa_alpha
+Multifractal detrended fluctuation analysis,data-pipeline/chronoscopelab/analysis/fractal.py::mfdfa,sec:diagnostic-complexity,tests/test_analysis_fractal.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#fractal.multifractal.q
+Higuchi graph-dimension estimate,data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension,sec:diagnostic-complexity,tests/test_analysis_fractal.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#fractal.fractal_dimension.higuchi
+Katz graph-dimension estimate,data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension,sec:diagnostic-complexity,tests/test_analysis_fractal.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#fractal.fractal_dimension.katz
+Petrosian graph-dimension estimate,data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension,sec:diagnostic-complexity,tests/test_analysis_fractal.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#fractal.fractal_dimension.petrosian
+Detrended cross-correlation coefficient,data-pipeline/chronoscopelab/analysis/fractal.py::dcca_coefficient,sec:diagnostic-complexity,tests/test_analysis_fractal.py,Callable procedure,
+Time-delay state-space embedding,data-pipeline/chronoscopelab/analysis/nonlinear.py::time_delay_embed,sec:diagnostic-complexity,tests/test_analysis_nonlinear.py,Callable procedure,
+Grassberger-Procaccia correlation dimension,data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures,sec:diagnostic-complexity,tests/test_analysis_nonlinear.py,Retained output or summary,data/derived/CHAO_mackey/analysis.json#nonlinear.correlation_dimension
+Rosenstein largest Lyapunov estimate,data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures,sec:diagnostic-complexity,tests/test_analysis_nonlinear.py,Retained output or summary,data/derived/CHAO_mackey/analysis.json#nonlinear.largest_lyapunov
+Recurrence quantification analysis,data-pipeline/chronoscopelab/analysis/nonlinear.py::recurrence_quantification,sec:diagnostic-complexity,tests/test_analysis_nonlinear.py,Retained output or summary,data/derived/CHAO_mackey/analysis.json#nonlinear.rqa.recurrence_rate
+Iterative amplitude-adjusted Fourier surrogate,data-pipeline/chronoscopelab/analysis/nonlinear.py::iaaft_surrogate,sec:diagnostic-complexity,tests/test_analysis_nonlinear.py,Retained output or summary,data/derived/CHAO_mackey/analysis.json#nonlinear.surrogate_test.n_surrogates
+Zero-one chaos diagnostic,data-pipeline/chronoscopelab/analysis/nonlinear.py::zero_one_test,sec:diagnostic-complexity,tests/test_analysis_nonlinear.py,Retained output or summary,data/derived/CHAO_mackey/analysis.json#nonlinear.zero_one_K
+Cross-correlation lead-lag estimate,data-pipeline/chronoscopelab/analysis/causality.py::cross_correlation,sec:diagnostic-relations,tests/test_analysis_causality.py,Runtime test; retained cases skipped,data/derived/REAL_electricity/analysis.json#causality.skipped
+Granger predictive-causality test,data-pipeline/chronoscopelab/analysis/causality.py::granger_causality,sec:diagnostic-relations,tests/test_analysis_causality.py,Runtime test; retained cases skipped,data/derived/REAL_electricity/analysis.json#causality.skipped
+Engle-Granger residual cointegration test,data-pipeline/chronoscopelab/analysis/causality.py::cointegration,sec:diagnostic-relations,tests/test_analysis_causality.py,Runtime test; retained cases skipped,data/derived/REAL_electricity/analysis.json#causality.skipped
+Johansen trace-rank cointegration test,data-pipeline/chronoscopelab/analysis/causality.py::cointegration,sec:diagnostic-relations,tests/test_analysis_causality.py,Runtime test; retained cases skipped,data/derived/REAL_electricity/analysis.json#causality.skipped
+Exact z-normalized Matrix Profile self-join,data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile,sec:method-sequence,tests/test_sequence_diagnostics.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#sequence.matrix_profile.profile
+FLUSS candidate regime boundaries,data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile,sec:method-sequence,tests/test_sequence_diagnostics.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#sequence.matrix_profile.corrected_arc_curve
+Fixed-tolerance multiscale sample entropy,data-pipeline/chronoscopelab/analysis/sequence.py::multiscale_entropy,sec:method-sequence,tests/test_sequence_diagnostics.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#sequence.multiscale_entropy.scales
+Binary Lempel-Ziv complexity with an explicit finite-length reference,data-pipeline/chronoscopelab/analysis/sequence.py::sequence_report,sec:method-sequence,tests/test_sequence_diagnostics.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#sequence.lempel_ziv
+Raw third-order lag-reversal statistic,data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal,sec:method-sequence,tests/test_sequence_diagnostics.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#sequence.time_reversal[].raw
+Standardized third-order lag-reversal statistic,data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal,sec:method-sequence,tests/test_sequence_diagnostics.py,Retained output or summary,data/derived/BRKV_level_shift/analysis.json#sequence.time_reversal[].standardized
+Deterministic disjoint-series partition assignment,data-pipeline/chronoscopelab/analysis/atlas.py::partition,sec:forecastability,tests/test_forecastability.py,Retained study artifact,data/derived/forecastability.json#series[].partition
+Prefix-only forecastability feature extraction,data-pipeline/chronoscopelab/analysis/atlas.py::prefix_features,sec:forecastability,tests/test_forecastability.py,Retained study artifact,data/derived/forecastability.json#series[].features
+Benjamini-Yekutieli dependent-test adjustment,data-pipeline/chronoscopelab/analysis/atlas.py::by_adjust,sec:forecastability,tests/test_forecastability.py,Retained study artifact,data/derived/forecastability.json#summary.associations
+Kendall rank association with disjoint-series confirmation,data-pipeline/chronoscopelab/analysis/atlas.py::associations,sec:forecastability,tests/test_forecastability.py,Retained study artifact,data/derived/forecastability.json#summary.associations
+Discovery-trained random-forest method selector,data-pipeline/chronoscopelab/analysis/atlas.py::study_summary,sec:forecastability,tests/test_forecastability.py,Retained study artifact,data/derived/forecastability.json#summary.selection_mean_mase

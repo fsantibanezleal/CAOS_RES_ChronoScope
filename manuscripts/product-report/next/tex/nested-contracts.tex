@@ -22,6 +22,14 @@ released observations, so it cannot expand the normative schema or admit a
 new shape in a later release. The method section beside each field gives its
 calculation and units.
 
+The Catch24 dictionary in \path{next/tables/catch24-fields.csv} identifies
+the retained feature keys and their units or observation axes. The twenty-two
+shape and dynamics features use the backend's standardized input. The two
+additional location and scale features use the original values. A nonfinite
+feature is serialized as null. An unavailable backend omits the feature map
+and carries a reason. The keyed dictionary follows the original definitions
+and the pinned implementation~\cite{catch22}.
+
 \paragraph{Model and interval metadata.}
 The ONNX file has float32 input shape $[1,48]$ and output shape $[1,12]$. The companion metadata identifies the input normalization, horizon and historical residual scale. Shape, graph digest and numerical parity are separate from the JSON check. The browser calibration record contains two roughness bin edges, a minimum count for each bin, three rows of twelve dimensionless radii and a twelve-lead global vector. All admitted radii are finite and nonnegative. Wrong graph identity, nonfinite normalization or a missing required radius refuses the interval. The separate experimental ridge record carries the seven penalty and normalized mean-square-error pairs, validation selection and twelve absolute-residual radii for its own graph. It depends on its own disjoint selection, calibration and test partitions.
 
