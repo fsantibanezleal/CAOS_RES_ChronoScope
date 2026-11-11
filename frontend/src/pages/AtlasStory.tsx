@@ -73,14 +73,27 @@ function DelayScene({ onBand }: { onBand: (band: number) => void }) {
   const es = useShellLang() === 'es';
   const [angle, setAngle] = useState(.65);
   const { cursor, markerProps } = useLinkedCursor();
-  const points = useMemo(() => delayCoordinates(activeData?.history ?? []), [activeData?.history]);
-  if (!activeData) return <p role={err ? 'alert' : 'status'} data-state={err ? 'unavailable' : 'loading'}>{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
-  if (!points.length) return <p>{es ? 'Faltan tres observaciones finitas.' : 'Three finite observations are required.'}</p>;
-  const low = Math.min(...activeData.history), high = Math.max(...activeData.history), center = (low + high) / 2, span = high - low || 1;
+  const history = activeData?.history;
+  const trace = useMemo(() => {
+    const points = delayCoordinates(history ?? []);
+    if (!history || !points.length) return null;
+    const low = Math.min(...history), high = Math.max(...history);
+    const center = (low + high) / 2, span = high - low || 1;
+    const coordinates = points.map(({ value }) => projectDelay(value, center, span, angle));
+    return {
+      center,
+      span,
+      line: coordinates.map(point => point.join(',')).join(' '),
+      markers: coordinates.map(([x, y]) => 'M' + (x - 3) + ' ' + y + 'a3 3 0 1 0 6 0a3 3 0 1 0 -6 0Z').join(' '),
+      count: coordinates.length,
+    };
+  }, [history, angle]);
+  if (!history) return <p role={err ? 'alert' : 'status'} data-state={err ? 'unavailable' : 'loading'}>{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
+  if (!trace) return <p>{es ? 'Faltan tres observaciones finitas.' : 'Three finite observations are required.'}</p>;
+  const { center, span } = trace;
   const project = (value: number[]) => projectDelay(value, center, span, angle);
-  const coordinates = points.map(point => project(point.value));
-  const currentIndex = Math.max(0, Math.min(activeData.history.length - 3, cursor ?? 0));
-  const current = { index: currentIndex, value: activeData.history.slice(currentIndex, currentIndex + 3) };
+  const currentIndex = Math.max(0, Math.min(history.length - 3, cursor ?? 0));
+  const current = { index: currentIndex, value: history.slice(currentIndex, currentIndex + 3) };
   const anchor = project(current.value);
   const callouts: SceneCalloutDef[] = current.value.map((value, i) => ({ id: `coordinate-${i}`, eyebrow: bi(`y[${current.index + i}]`, `y[${current.index + i}]`), value: formatNumber(value, es ? 'es' : 'en', { digits: 2 }), unit: bi('source units', 'unidades de origen'), state: 'selected', anchor: { x: anchor[0] / 1000, y: anchor[1] / 650 }, source: bi(`Observed prefix; delay ${i}`, `Historia observada; retardo ${i}`) }));
   return <Scene3DFrame label={es ? 'Trayectoria en tres coordenadas retardadas' : 'Trajectory in three delayed coordinates'}
@@ -90,8 +103,8 @@ function DelayScene({ onBand }: { onBand: (band: number) => void }) {
       <title>{es ? 'Cada punto es (y[t], y[t+1], y[t+2])' : 'Each point is (y[t], y[t+1], y[t+2])'}</title>
       {[0, 1, 2].map(axis => { const end = [center, center, center]; end[axis] = center + span * .57; const [x, y] = project(end); const start = project([center, center, center]);
         return <g key={axis}><line x1={start[0]} y1={start[1]} x2={x} y2={y} className="cs-flow-line" /><text x={x} y={y - 12}>{`y[t+${axis}]`}</text></g>; })}
-      <polyline points={coordinates.map(v => v.join(',')).join(' ')} fill="none" stroke="var(--color-accent)" strokeWidth="2" opacity=".6" />
-      {points.map((point, i) => <circle key={point.index} cx={coordinates[i][0]} cy={coordinates[i][1]} r="3" fill="var(--color-accent)" pointerEvents="none" aria-hidden="true" />)}
+      <polyline points={trace.line} fill="none" stroke="var(--color-accent)" strokeWidth="2" opacity=".6" />
+      <path d={trace.markers} data-delay-samples={trace.count} fill="var(--color-accent)" pointerEvents="none" aria-hidden="true" />
       <Glyph id={`observation:${current.index}`} label={`${es ? 'Observación' : 'Observation'} ${current.index}`}>
         <circle cx={anchor[0]} cy={anchor[1]} r="14" fill="transparent" />
         <circle cx={anchor[0]} cy={anchor[1]} r="7" />
