@@ -344,8 +344,11 @@ windows.
 \begin{algorithmic}[1]
 \Require Aligned paired record for diagnostics, observed prefix and covariate availability for forecasting
 \State For diagnostics, jointly drop nonfinite pairs and compute centered signed-lag cross-correlations
+\State Use a $10^{-12}$ denominator when the centered scale is zero
+\State Choose the first maximum absolute correlation and retain its signed coefficient and lag
 \State Run both directions of the Granger lag scan and store each minimum-probability lag and decision
 \State Compute Engle--Granger, Johansen and the levels-versus-differences integration flags
+\State Preserve the skip or error branch if dispatch or fitting fails
 \For{each forecast cutoff and ridge variant}
   \State Construct the lagged design from the prefix and the permitted covariate column
   \State Solve the penalized normal equations, or use the last value if the prefix is too short

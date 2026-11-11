@@ -341,13 +341,22 @@ the feature and selector experiment.
 \begin{algorithmic}[1]
 \Require Declared M4 Daily source, fixed methods, prefix features and series partitions
 \State Validate identities, retain the first exact duplicate identity and record exclusions
+\State Assign discovery when the first 32 bits of the salted sequence hash modulo 100 is below 70
 \State Compute features from the earliest fitting prefix, and MASE from the three future blocks for each method
-\State Calculate signed Kendall effects and adjust probabilities within each partition
+\State Set the association target to $\log(1+\min_j\overline{\mathrm{MASE}}_j)$ for each series
+\State Use Kendall on at least 20 finite nonconstant feature pairs, with $(0,1)$ for unavailable effects and probabilities
+\State Apply Benjamini--Yekutieli correction within each partition
 \State Retain a confirmation flag only for concordant adjusted discoveries in both partitions
-\State Fit imputation medians, the selector and the constant comparator on discovery rows
+\State Impute from discovery medians, using zero for an entirely missing discovery feature
+\State Fit the selector and constant comparator on discovery rows, with model roster order resolving ties
 \State Score both rules on confirmation rows and retain the future-informed oracle separately
 \end{algorithmic}
 \end{algorithm}
+
+For the partition calculation, hash the ASCII string
+\texttt{chronoscope-atlas-v1:} followed by the lower-case hexadecimal
+digest of the little-endian float64 sequence. Read the first eight hex
+digits as the unsigned integer used in Algorithm~\ref{alg:corpus-selection}.
 
 \input{../tables/corpus-summary.tex}
 \clearpage
