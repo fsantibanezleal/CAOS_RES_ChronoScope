@@ -112,5 +112,408 @@
     ],
     "declared_story_routes": 6,
     "story_smoke": "Passed direct routes, numbered steps, all links, pause on input, and state-preserving exit"
+  },
+  "five_width_shell_gate": {
+    "commit": "b17776e5f99e8397214923e1703d187e78fee961",
+    "version": "0.25.000",
+    "states": 2046,
+    "capture_count": 315,
+    "pass": false,
+    "sizes": "390x844,768x1024,1280x800,1600x900,2560x1440",
+    "themes": "light,dark",
+    "languages": "en,es",
+    "wide_font_sizes": "390x844,1280x800",
+    "failures_by_check": {
+      "G20": 15,
+      "G19": 36,
+      "G21": 4
+    },
+    "findings": [
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "390x844 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "390x844 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 light en",
+        "trail": "",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/system",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/component",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/domain",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/dynamics",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence22 forecasts share ",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence22 forecasts share ",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/method",
+        "mode": "768x1024 dark en",
+        "trail": "6Compare the evidence22 forecasts share ",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 dark en",
+        "trail": "",
+        "message": "\"q0.1\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.1\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 dark en",
+        "trail": "",
+        "message": "\"q0.5\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.5\")"
+      },
+      {
+        "check": "G19",
+        "route": "/story/decision",
+        "mode": "768x1024 dark en",
+        "trail": "",
+        "message": "\"q0.9\" breaks across 2 lines (span.caos-callout-eyebrow \"q0.9\")"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "1280x800 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Signed error · source units (uns\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "1280x800 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "1600x900 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "1600x900 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/component",
+        "mode": "2560x1440 light en",
+        "trail": "4Follow the errors12 leads expose signed",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/domain",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/domain",
+        "mode": "2560x1440 light en",
+        "trail": "6Compare the evidence23 forecasts share ",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/dynamics",
+        "mode": "2560x1440 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast minus targe\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/method",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "2560x1440 light en",
+        "trail": "",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G20",
+        "route": "/story/decision",
+        "mode": "2560x1440 light en",
+        "trail": "2Inspect the experts5 experts expose dif",
+        "message": "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1280x800 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-1 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1280x800 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-0 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/decision",
+        "mode": "1280x800 dark en story",
+        "trail": "",
+        "message": "callouts snapshot-1 and snapshot-2 overlap"
+      },
+      {
+        "check": "G21",
+        "route": "/story/system",
+        "mode": "1280x800 light en story",
+        "trail": "",
+        "message": "story fifth-percentile frame rate is 29.9 fps; ADR-0082 floor is 30 fps"
+      }
+    ]
   }
 }
