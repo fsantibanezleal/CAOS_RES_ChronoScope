@@ -52,7 +52,7 @@ La referencia del paquete repite la fase del último día y devuelve tres column
 
 <!-- code: inference -->
 
-La figura siguiente empareja el puntaje histórico de cada método clásico con el del bloque final. El evaluador histórico ajusta orígenes anteriores dentro del prefijo y puntúa allí los bloques posteriores correspondientes. Los adaptadores pueden tener presupuestos históricos distintos, por lo que se limita la comparación mostrada al conjunto clásico. Incluso dentro de ese conjunto el bloque final contiene un patrón particular de objetivos. Un método con poco error en orígenes anteriores puede encontrar otro nivel diario o una fase distinta en el bloque reservado. Identifique el método con la menor barra de cada evaluación e informe el diseño temporal junto con la clasificación.
+La figura siguiente compara los puntajes históricos y del bloque final de SeasonalNaive, SES, Holt, HoltWinters y Theta. El evaluador histórico ajusta orígenes anteriores dentro del prefijo y puntúa allí los bloques posteriores correspondientes. Los adaptadores pueden tener presupuestos históricos distintos, por lo que la figura compara solo estas cinco implementaciones. Para cada una el bloque final contiene un patrón particular de objetivos. Un método con poco error en orígenes anteriores puede encontrar otro nivel diario o una fase distinta en el bloque reservado. Identifique el método con la menor barra de cada evaluación e informe el diseño temporal junto con la clasificación.
 
 <!-- code: scores -->
 
@@ -68,7 +68,7 @@ La línea discontinua indica el objetivo marginal declarado. Cuando una curva se
 
 **Respuesta:** La clasificación histórica resume orígenes anteriores dentro de las 96 observaciones disponibles. La clasificación final usa las 24 observaciones reservadas. La cobertura móvil usa actualizaciones de un paso dentro del prefijo. Los valores cambian cuando cambian los orígenes, horizontes y observaciones disponibles. Interprete cada salida con su propia ventana objetivo y denominador.
 
-El selector de entrenamiento de la siguiente celda usa dos historias generadas. Agrega los errores históricos de los métodos clásicos en esas historias y registra un método por defecto. No utiliza los objetivos eléctricos ni elige al ganador del día eléctrico. La exportación escribe una trayectoria, un manifiesto, un análisis y una reproducción en un directorio temporal. Registra el costo medido de la llamada clásica corta en esa ejecución, sin imprimirlo como resultado reproducible de otra máquina. El manifiesto guarda una ruta y un tamaño en bytes. El índice identifica el manifiesto de cada caso. Se comprueba esa relación antes de retirar el directorio temporal.
+El selector de entrenamiento de la siguiente celda usa dos historias generadas. Promedia el MASE histórico de cada uno de los mismos cinco pronosticadores en esas historias y registra un método por defecto. No utiliza los objetivos eléctricos ni elige al ganador del día eléctrico. La exportación escribe una trayectoria, un manifiesto, un análisis y una reproducción en un directorio temporal. Registra el costo medido de la llamada de pronóstico de los cinco adaptadores en esa ejecución, sin imprimirlo como resultado reproducible de otra máquina. El manifiesto guarda una ruta y un tamaño en bytes. El índice identifica el manifiesto de cada caso. Se comprueba esa relación antes de retirar el directorio temporal.
 
 <!-- code: export -->
 
