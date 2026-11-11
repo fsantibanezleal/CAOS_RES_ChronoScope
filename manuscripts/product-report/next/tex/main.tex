@@ -290,6 +290,26 @@ Fewer than twenty coarse observations, or no matching extensions, yield an unava
 
 Binary Lempel--Ziv complexity uses $1[x_t>\operatorname{median}(x)]$, assigning ties to zero. Both phrase count $c(n)$ and $c(n)\log_2(n)/n$ are retained~\cite{lz}. The asymptotic normalization is not clipped to one. Time-reversal asymmetry reports the mean of $x_{t+\ell}(x_{t+2\ell}^2-x_t^2)$ at lags one, two and seven, where available, on raw and standardized observations. Raw units are cubed source units. Reversal changes the sign, but a finite nonzero statistic alone is not a significance test or an irreversibility test.
 
+Algorithm~\ref{alg:sequence-annotations} follows the retained original-axis
+record from input admission to the four kinds of output.
+\begin{algorithm}[htbp]
+\caption{Compute original-axis sequence annotations and complexity measures from an admitted contiguous observation record.}
+\label{alg:sequence-annotations}
+\begin{algorithmic}[1]
+\Require Finite contiguous observations $x$ and seasonal lag $m$
+\State Select the profile window from $\min(\max(8,2m),64,\lfloor n/3\rfloor)$
+\If{the profile is eligible and the record is nonconstant}
+  \State Compute the self join, nonoverlapping ranked windows and the FLUSS arc summary
+\Else
+  \State Record why the profile is unavailable
+\EndIf
+\State For each coarse scale, count template matches and compute available sample entropy
+\State Threshold at the median and retain raw and normalized Lempel--Ziv phrase measures
+\State For each admissible lag in $\{1,2,7\}$, evaluate raw and standardized time-reversal asymmetry
+\State Bind all retained arrays and window positions to the original observation axis
+\end{algorithmic}
+\end{algorithm}
+
 Figure~\ref{fig:sequence-entropy} shows the entropy calculation as coarsening reduces available template counts; its curve is not a calibrated measure of forecasting ability.
 
 \begin{figure}[ht]\centering\includegraphics[width=.8\linewidth]{sequence-entropy.pdf}

@@ -2,17 +2,17 @@
   "state": "working-revision",
   "published": false,
   "title": "ChronoScope: Time-Series Diagnostics and Forecast Evaluation",
-  "independent_reader_review": "prior findings addressed; exact revision in follow-up review",
+  "independent_reader_review": "follow-up requested on exact revised report with method algorithms",
   "published_predecessor_preserved": true,
-  "full_content_bar": "pending independent assessment of expanded procedure and field coverage",
+  "full_content_bar": "pending independent assessment of the expanded algorithm and field coverage",
   "measured_content": {
-    "words": 25841,
+    "words": 26212,
     "equations": 49,
     "figures": 11,
     "tables": 28,
     "references": 44,
-    "algorithms": 4,
+    "algorithms": 15,
     "sections": 21
   },
-  "compiled_pages": 81
+  "compiled_pages": 84
 }
