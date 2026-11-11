@@ -10,7 +10,7 @@
         "affiliation": "CAOS open-research programme, Santiago, Chile"
       }
     ],
-    "description": "<p>Adaptive prediction intervals can have accurate average coverage while retaining substantial local coverage error. We examine this distinction in a one-step prequential study of fifteen selected time series: eleven generated mechanisms and four real excerpts. The point forecaster is a full-history smoothing-plus-drift adaptation, rather than a native stateful forecaster or the standard finite-history Theta method. Two scale-normalized score-buffer controllers use ACI-style and PID-style updates of an effective miscoverage level. At nominal 80% coverage, their mean rolling absolute coverage errors are 0.0656 and 0.0645, compared with 0.0830 for unadjusted intervals. The substantially smaller errors obtained by first averaging signed coverage deviations over time describe a different statistic and do not establish uniformly accurate local coverage. Every numerical forecast, target, score and controller update is reconstructed and checked against the archived coverage trajectories and final weighted quantile losses. Sensitivity calculations vary nominal coverage, base forecaster, controller gains and generated-series seeds. These selected finite-stream results characterize the evaluated implementations; they provide neither a new coverage theorem nor a general forecasting advantage.</p><p>Source code, admitted inputs and computational records: https://github.com/fsantibanezleal/CAOS_RES_ChronoScope . Research atlas: https://chronoscope.fasl-work.com . Not peer reviewed.</p>",
+    "description": "<p>A one-step replay study compares residual calibration, adaptive conformal inference and a proportional-integral-derivative style controller with a common Theta-based reference on fifteen selected series. Complete prediction and update traces, sensitivity runs and repeated case constructions document coverage, width and timing under a fixed information order.</p>",
     "keywords": [
       "time-series forecasting",
       "prequential evaluation",
@@ -20,7 +20,7 @@
     ],
     "license": "cc-by-4.0",
     "language": "eng",
-    "version": "2.5",
+    "version": "2.6",
     "related_identifiers": [
       {
         "relation": "isSupplementedBy",
@@ -33,7 +33,7 @@
         "resource_type": "software"
       }
     ],
-    "publication_date": "2026-11-02",
-    "version_notes": "Corrects the stateful-evaluation title and historical algorithm identities; reconstructs all 21,296 online rows; separates time-averaged coverage error from local rolling error; adds interval efficiency, 630 sensitivity rows and generated-seed checks; removes unsupported framework comparison and unclamps the per-case figure."
+    "publication_date": "2026-11-11",
+    "version_notes": "Clarifies replay semantics, documents controller sensitivity and repeated constructions, and binds all forecast-before-update trajectories and the standalone manuscript source."
   }
 }
