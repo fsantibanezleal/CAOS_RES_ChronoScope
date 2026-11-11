@@ -187,6 +187,26 @@ ax.set(xlabel="Final-block MASE", ylabel="Mean interval width")
 fig.tight_layout()
 plt.show()
 ''',
+    "lead_sensitivity": '''# Compare early and late errors within one reserved block.
+lead_groups = np.array_split(np.arange(h), 2)
+scale = np.mean(np.abs(history[m:] - history[:-m]))
+paths = {"SeasonalNaive": naive, "AutoETS": ets_q[:, 1], "AutoTheta": auto_theta_q[:, 1],
+         "AutoARIMA": arima_q[:, 1], "LightGBM": tree_q[:, 1]}
+scores = np.array([[np.mean(np.abs(actual[group] - path[group])) / scale
+                    for group in lead_groups] for path in paths.values()])
+fig, ax = plt.subplots()
+positions = np.arange(len(paths))
+for index, group in enumerate(lead_groups):
+    ax.bar(positions + (index - 0.5) * 0.34, scores[:, index], width=0.34,
+           label=f"Leads {group[0] + 1} to {group[-1] + 1}")
+ax.set_xticks(positions, list(paths))
+ax.set(ylabel="Scaled absolute error")
+ax.legend()
+fig.tight_layout()
+plt.show()
+for name, pair in zip(paths, scores, strict=True):
+    print(name, "early and late", np.round(pair, 4))
+''',
     "context": '''# Fit the fixed context kernel using only completed targets within the history.
 context_fit = fit_context_memory(history, m, h, mode="context")
 print("Completed training origins:", len(context_fit.origins))
@@ -234,6 +254,23 @@ fig.tight_layout()
 plt.show()
 for name, value in zip(names, means, strict=True):
     print(name, "mean MASE", f"{value:.4f}")
+''',
+    "case_differences": '''# Pair the two rules within each case before aggregating the differences.
+differences = []
+for case in comparison["cases"]:
+    by_name = {row["name"]: row["metrics"]["mase"] for row in case["methods"]}
+    differences.append(by_name["ContextMemory"] - by_name["RecencyMean"])
+delta = np.asarray(differences)
+fig, ax = plt.subplots()
+positions = np.arange(1, len(delta) + 1)
+ax.bar(positions, delta, color=np.where(delta < 0, "#267a6d", "#a65132"))
+ax.axhline(0, color="black", linewidth=0.8)
+ax.set(xlabel="Case in the published inventory", ylabel="ContextMemory minus RecencyMean MASE")
+ax.set_xticks(positions)
+fig.tight_layout()
+plt.show()
+print("Lower, tied, higher:", int(sum(delta < 0)), int(sum(delta == 0)), int(sum(delta > 0)))
+print("Mean and median difference:", np.round([delta.mean(), np.median(delta)], 6))
 ''',
     "electricity_phase": '''# Compare daily phase and a weekly seasonal reference on the same reserved hours.
 electricity = np.loadtxt(root / "data/examples/electricity_sample.csv", delimiter=",", skiprows=1, usecols=2)

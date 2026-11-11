@@ -64,6 +64,34 @@ El criterio primario declarado es el MASE medio sobre los quince bloques finales
 
 Las barras muestran una diferencia pequeña entre las variantes contextual y de recencia, y una separación mayor respecto de EqualMean. Como la media contextual resulta ligeramente superior, el experimento no respalda ese componente en el criterio declarado. Redondear a dos decimales ocultaría el resultado; las cuatro cifras impresas lo conservan. Una comparación fallida sigue siendo evidencia y debe limitar la afirmación del manuscrito, en vez de provocar ajustes no declarados contra el conjunto reservado.
 
+### Sensibilidad entre los casos seleccionados
+
+En un origen de consulta, sea $u$ el contexto estandarizado, $u_i$ el contexto de una memoria completada, $a_i$ su antigüedad en orígenes almacenados y $b$ el ancho derivado de las distancias a los contextos disponibles. El peso relativo de su pérdida es
+
+$$
+k_i=2^{-a_i/6}\exp\!\left(-\frac{\|u-u_i\|^2}{2b^2}\right).
+$$
+
+Sea $L_j$ la pérdida resultante del experto $j$, después de contraerla hacia la estimación por recencia. Con temperatura $T=1$ y piso uniforme $\eta=.05$, el peso final es
+
+$$
+w_j=(1-\eta)\frac{\exp[-(L_j-\min_k L_k)/T]}{\sum_r\exp[-(L_r-\min_k L_k)/T]}+\frac{\eta}{5}.
+$$
+
+Restar la pérdida mínima deja la mayor exponencial en uno y mejora la estabilidad numérica. La ablación por recencia conserva la transformación de pérdidas y el piso, con el núcleo contextual fijado en uno. El ajuste requiere suficientes memorias completadas para estimar una pérdida local interpretable. Un contexto cercano puede pesar poco si es antiguo. Uno distante pero reciente puede conservar influencia cuando todas las distancias observadas son grandes. Los pesos pueden cambiar aunque el pronóstico combinado apenas varíe, porque distintos expertos a veces predicen trayectorias muy similares.
+
+La siguiente figura empareja los dos puntajes dentro de cada caso. Una barra negativa significa que ContextMemory obtuvo menor MASE en ese caso. La media refleja magnitudes: algunas pérdidas grandes pueden contrarrestar mejoras pequeñas más frecuentes. La mediana y los conteos por dirección describen otras propiedades de los mismos quince casos. Su orden en el gráfico sigue el inventario publicado y carece de interpretación temporal.
+
+<!-- code: case_differences -->
+
+Estas comparaciones reutilizan los resultados reservados. Sirven para diagnosticar la variación del experimento fijo y no eligen parámetros nuevos. Eliminar un caso adverso por tener una barra grande cambiaría silenciosamente el criterio. Un ensayo futuro puede declarar de antemano grupos de mecanismos y tamaños de muestra, con la serie como unidad de remuestreo si contribuye varios orígenes. La sensibilidad de la media histórica a la composición de los casos justifica conservar tanto las trayectorias emparejadas como la procedencia de los datos.
+
+### Aplica la comparación a tus propios datos
+
+Parta de observaciones contiguas y un período estacional declarado. Elija el horizonte y use los mismos cinco expertos en todas las ablaciones. En cada origen de evaluación, admita solo memorias cuyos objetivos completos ya se observaron. Guarde el origen, el extremo, el contexto y los puntajes de expertos de cada memoria antes de calcular los pesos. Si combina historias de tiendas o instrumentos distintos, preserve cada identidad y escala. Una escala MASE común dentro de cada caso permite obtener una diferencia emparejada adimensional. Los anchos absolutos de intervalos con unidades incompatibles requieren otro tratamiento.
+
+Reserve un conjunto final de orígenes antes de explorar temperaturas, anchos o pisos alternativos. Si ajusta un parámetro, selecciónelo sobre bloques históricos completos dentro del prefijo de ajuste y evalúelo una vez sobre los objetivos reservados. Registre si el control por recencia participa en la selección. La pregunta concreta es cuánto aporta el cálculo contextual adicional con trayectorias y evaluación fijas. Conserve la referencia uniforme para mostrar por separado el efecto de estimar preferencias entre expertos.
+
 ## Resultados
 
 **Respuesta:** ContextMemory obtiene MASE medio 1,4504 y RecencyMean 1,4489. La regla contextual falla su criterio declarado de error medio en esta colección. EqualMean obtiene 1,8970. Estimar pérdidas recientes ayudó frente al promedio uniforme en estos casos, pero el núcleo contextual adicional no mejoró la comparación primaria. Las cifras conservan la precisión de la salida computada.

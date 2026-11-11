@@ -1,6 +1,6 @@
 # Manuscripts and revisions
 
-All three revised manuscripts are published. Each final PDF was compiled without LaTeX warnings or box defects, inspected on every page, and verified through a fresh unauthenticated download matching the frozen checksum.
+The two preprints below have new, independently reviewed scientific revisions. Their final DOI-bearing PDFs match fresh anonymous downloads. The published technical report remains at v0.25.000 while the [expanded report](product-report/next/main.pdf) completes its method and diagnostic-field review.
 
 | Document | Published version | Canonical PDF | Source |
 |---|---|---|---|

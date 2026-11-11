@@ -9,6 +9,12 @@
     "ST-2": [
       "01-forecast-decisions/03-model-comparison.ipynb"
     ],
+    "ST-3": [
+      "01-forecast-decisions/03-model-comparison.ipynb"
+    ],
+    "ST-4": [
+      "01-forecast-decisions/03-model-comparison.ipynb"
+    ],
     "BS-1": [
       "01-forecast-decisions/04-context-memory.ipynb",
       "01-forecast-decisions/05-temporal-validation.ipynb"

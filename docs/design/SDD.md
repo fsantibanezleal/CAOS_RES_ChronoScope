@@ -42,6 +42,8 @@ UNVERIFIED: the exact historical timing environment, native state-update perform
 - Sequence/corpus extension primary reference: https://doi.org/10.1103/PhysRevLett.89.068102
 - Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2016.0179
 - Sequence/corpus extension primary reference: https://doi.org/10.1109/ICDM.2017.21
+- STUMPY exact-profile reference implementation: https://stumpy.readthedocs.io/en/latest/Tutorial_STUMPY_Basics.html
+- Sample entropy and finite template matches: https://doi.org/10.1152/ajpheart.2000.278.6.H2039
 - Sequence/corpus extension primary reference: https://doi.org/10.1109/TIT.1976.1055501
 - Sequence/corpus extension primary reference: https://doi.org/10.5281/zenodo.4656548
 - Sequence/corpus extension primary reference: https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html
@@ -147,7 +149,7 @@ Evaluation fixes all hyperparameters before scoring the final blocks. The common
 
 ## Novel contributions
 
-NC-1 is the admitted fifteen-series replay protocol and empirical adaptive-interval comparison, implemented with preqts. Its paper is **Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study**, version 2.5, concept DOI 10.5281/zenodo.21508920. This is an evaluation contribution, not a new forecasting method or a comparison of native state updates. The v0.25 reconstruction preserves per-step states and sensitivity outcomes; historical runtime provenance remains unavailable. The separate working v2.6 revision has not been published or independently reviewed.
+NC-1 is the admitted fifteen-series replay protocol and empirical adaptive-interval comparison, implemented with preqts. Its independently reviewed preprint is **Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study**, version 2.6, DOI 10.5281/zenodo.24123073, concept DOI 10.5281/zenodo.21508920. The reconstruction preserves per-step states and sensitivity outcomes. The historical runtime environment remains unavailable, and the replay protocol measures forecasts made by refitting on available history.
 
 ## Cases
 
