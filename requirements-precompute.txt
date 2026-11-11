@@ -5,6 +5,7 @@
 # this lane runs offline (GPU where available) and bakes committed artifacts. The live/web lane uses only
 # requirements.txt (numpy). See docs/analysis.md and plans/chronoscope (in _CAOS_MANAGE).
 numpy==2.4.6
+forecastscope==0.1.1         # offline ARCH, GARCH and Box-Cox diagnostics
 scipy==1.15.3
 pandas==2.3.3
 # --- analysis toolkit (understand the series) ---

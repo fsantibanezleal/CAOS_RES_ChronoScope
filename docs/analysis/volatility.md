@@ -87,3 +87,12 @@ Box-Cox requires $y > 0$; when the series has non-positive values ChronoScope sh
 - Bollerslev, T. (1986). Generalized Autoregressive Conditional Heteroskedasticity. *J. Econometrics* 31(3):307-327. DOI [10.1016/0304-4076(86)90063-1](https://doi.org/10.1016/0304-4076(86)90063-1).
 - Box, G.E.P. & Cox, D.R. (1964). An Analysis of Transformations. *JRSS-B* 26(2):211-252. JSTOR [2984418](https://www.jstor.org/stable/2984418).
 - Guerrero, V.M. (1993). Time-series analysis supported by power transformations. *J. Forecasting* 12(1):37-48. DOI [10.1002/for.3980120104](https://doi.org/10.1002/for.3980120104).
+
+## Offline pipeline provider
+
+The candidate pipeline imports the volatility toolkit from ForecastScope 0.1.1.
+GARCH returns conditional volatility in the source units and records the fit
+multiplier for interpreting parameters and likelihood. Box–Cox derives its
+positivity offset from the observed scale. The published 0.26.000 report
+describes its retained diagnostic artifacts. [Installed-wheel comparison and
+publication receipt](../validation/base-adoption-2026-11-10/forecastscope-volatility.json).

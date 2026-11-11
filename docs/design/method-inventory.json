@@ -630,7 +630,13 @@
       "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::arch_lm",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.1",
+        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
+      }
     },
     {
       "id": "analysis/volatility/garch",
@@ -639,7 +645,13 @@
       "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::garch",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.1",
+        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
+      }
     },
     {
       "id": "analysis/volatility/box-cox-mle",
@@ -648,7 +660,13 @@
       "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::box_cox",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.1",
+        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
+      }
     },
     {
       "id": "analysis/volatility/box-cox-guerrero",
@@ -657,7 +675,13 @@
       "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::box_cox",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.1",
+        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
+      }
     },
     {
       "id": "analysis/volatility/rolling",
@@ -666,7 +690,13 @@
       "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::rolling_volatility",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.1",
+        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
+      }
     },
     {
       "id": "analysis/distribution/moments",
@@ -1036,7 +1066,7 @@
     "data-pipeline/chronoscopelab/analysis/seasonality.py": "99c328fdb6b792b73485928146313e613f9c3ba354b1760e82e8bdd7e50b7cbb",
     "data-pipeline/chronoscopelab/analysis/sequence.py": "63cf6a21ba110d08fd5bde2c9e4df2ec53a75b29ab03fba151b83be35c7420b9",
     "data-pipeline/chronoscopelab/analysis/stationarity.py": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029",
-    "data-pipeline/chronoscopelab/analysis/volatility.py": "38685dc0684377d816ead19cff357c75caef68c5db7038fb9c5c96ad213978c0",
+    "data-pipeline/chronoscopelab/analysis/volatility.py": "5131ec78380b3ef206702785ec44af7e4e43a190f46005aab22c77bdfe40b6af",
     "data-pipeline/chronoscopelab/engines/chronos_engine.py": "dbbbca3f4567007e98feaf4409a4660520b3bbe9890b7c46f930adb9ad7924c4",
     "data-pipeline/chronoscopelab/engines/lightgbm_engine.py": "7ce55fa309d5072c9a44751d8d06aac52f7e823950cda3a14154c0b3267a467c",
     "data-pipeline/chronoscopelab/engines/neural_engine.py": "91776da3315fc850fa51fe3911ae9e25b93b7c11364363be982d7b8d2e72d341",

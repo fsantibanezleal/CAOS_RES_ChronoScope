@@ -69,7 +69,9 @@ jobs:
       - name: Working review PDFs match their compiled local source and figure inputs
         run: python scripts/check_working_draft_bindings.py
       - name: Every numerical procedure resolves to source and retains measured model identities
-        run: python scripts/method_inventory.py
+        run: |
+          pip install --no-deps forecastscope==0.1.1
+          python scripts/method_inventory.py
       - name: Independently rescore every held-out browser forecast and retain partition provenance
         run: python scripts/check_browser_linear_evidence.py
       - name: Rescore the Timestral holdouts and verify the displayed results

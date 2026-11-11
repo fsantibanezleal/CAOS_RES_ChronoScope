@@ -4,6 +4,7 @@
 # requirements-precompute.txt on the build box; those engines are env-gated and skip gracefully here.
 # Every pin is documented in docs/frameworks/ or docs/analysis/ and actually used by the stages.
 numpy==2.4.6
+forecastscope==0.1.1         # offline ARCH, GARCH and Box-Cox diagnostics
 
 # preqts: the prequential streaming-evaluation library ChronoScope consumes in stages/evaluate.py and
 # stages/streaming.py (ADR-0061 package extraction). LIVE on PyPI since 0.2.0 (trusted-publisher OIDC).
