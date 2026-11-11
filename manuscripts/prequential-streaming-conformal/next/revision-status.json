@@ -1,11 +1,12 @@
 {
   "state": "working-revision",
   "published": false,
-  "independent_reader_review": "pending",
-  "full_content_bar": "pending",
+  "title": "Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study",
+  "independent_reader_review": "passed on the bound working draft",
   "published_predecessor_preserved": true,
+  "full_content_bar": "passed for this manuscript",
   "measured_content": {
-    "words": 7387,
+    "words": 7466,
     "equations": 14,
     "figures": 6,
     "tables": 7,
@@ -14,6 +15,9 @@
     "sections": 11
   },
   "compiled_pages": 22,
-  "draft_content_check": "pass for working title, declared evaluation contribution and result support; not publication acceptance",
-  "content_revision": "Full controller derivation, causality and clipping analysis, primary literature comparison, source curation, and source-bound retrospective paired case uncertainty"
+  "released_as": {
+    "version": "2.6",
+    "doi": "10.5281/zenodo.24123073",
+    "sha256": "8bb0121f71319f25d857c864b39abf1d001982c1bd0d07b6bd4a66b706981334"
+  }
 }

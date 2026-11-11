@@ -5,6 +5,7 @@ import argparse
 import gzip
 import hashlib
 import json
+import statistics
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,6 +37,14 @@ def outputs() -> dict[Path, str]:
         counts[key] = {"source": len(series), "admitted": len(admitted), "excluded": len(series)-len(admitted),
                        "origins": len(origins), "horizon": horizon, "methods": next(iter(methods)),
                        "method_paths": paths, "point_values": points}
+        worker_seconds = [s["seconds"] for s in admitted]
+        counts[key].update({
+            "worker_median_seconds": statistics.median(worker_seconds),
+            "worker_p90_seconds": statistics.quantiles(worker_seconds, n=10, method="inclusive")[8],
+            "validation_mix_stack_origins": sum(
+                m["selected"][0] == "stack" for o in origins for m in o["methods"] if m["name"] == "ValidationMix"
+            ),
+        })
         rows.append(f"{label} & {horizon} & {len(series)} & {len(admitted)} & {len(series)-len(admitted)} & "
                     f"{len(origins)} & {points:,}" + r"\\")
     total = {name: sum(c[name] for c in counts.values()) for name in
@@ -67,6 +76,15 @@ def outputs() -> dict[Path, str]:
     macros = "\n".join(["% Generated from exact admitted method-path lengths.",
                         rf"\newcommand{{\externalpointcount}}{{{total['point_values']:,}}}",
                         rf"\newcommand{{\externalpathcount}}{{{total['method_paths']:,}}}", ""])
+    for key, prefix in (("m4_weekly", "weekly"), ("m3_monthly", "monthly")):
+        row = counts[key]
+        macros += "\n".join([
+            rf"\newcommand{{\{prefix}MedianSeconds}}{{{row['worker_median_seconds']:.3f}}}",
+            rf"\newcommand{{\{prefix}PninetySeconds}}{{{row['worker_p90_seconds']:.3f}}}",
+            rf"\newcommand{{\{prefix}StackOrigins}}{{{row['validation_mix_stack_origins']:,}}}",
+            rf"\newcommand{{\{prefix}AllOrigins}}{{{row['origins']:,}}}",
+            "",
+        ])
     receipt = {"archive_sha256": hashlib.sha256(raw).hexdigest(), "paired_sha256": hashlib.sha256(paired_path.read_bytes()).hexdigest(),
                "collections": counts, "total": total, "unit": "one scalar point prediction per method-origin-lead"}
     return {NEXT / "tables/collection-inventory.tex": inventory, NEXT / "tables/paired-main.tex": table,

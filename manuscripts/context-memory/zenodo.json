@@ -2,7 +2,7 @@
   "metadata": {
     "upload_type": "publication",
     "publication_type": "preprint",
-    "title": "Forecast Combination with Temporal Validation and Context Memory",
+    "title": "Temporally Validated Forecast Combinations on Two Benchmark Collections",
     "creators": [
       {
         "name": "Santibáñez-Leal, Felipe",
@@ -10,7 +10,7 @@
         "affiliation": "CAOS open-research programme, Santiago, Chile"
       }
     ],
-    "description": "<p>A forecast combination must decide how much historical expert performance remains relevant at a new origin. We study a fixed context-weighted rule and two variants that select their parameters using completed historical target blocks. ContextMemoryCV selects context shrinkage and temperature; ValidationMix also considers regularized convex stacking. Each inner fit excludes outcomes not yet observed at its validation origin. The original fifteen-case experiment remains negative for fixed ContextMemory, with mean MASE 1.4504 versus 1.4489 for its recency-only ablation. In a separate external evaluation, 294 of 359 M4 Weekly series satisfy the fixed history criterion, and 1,422 of 1,428 M3 Monthly series remain after exact deduplication. ValidationMix has mean series MASE 0.2855 versus 0.3109 for RecencyMean on M4 Weekly, and 0.8993 versus 0.9085 on M3 Monthly. AutoTheta gives 0.3076 and 0.8472, respectively: improvement over the recency control does not establish superiority on both collections. Interval scores also retain unfavorable outcomes. Full forecast paths, scales, weights, validation decisions and source hashes support independent recomputation of 53,148 external forecasts. These results concern the configured algorithms and admitted series; they neither establish priority for context weighting nor prove population-wide superiority or calibrated uncertainty.</p><p>Source code, admitted inputs and computational records: https://github.com/fsantibanezleal/CAOS_RES_ChronoScope . Research atlas: https://chronoscope.fasl-work.com . Not peer reviewed.</p>",
+    "description": "<p>This study evaluates temporally validated combinations of five local forecast experts on eligible M4 Weekly and M3 Monthly series. The protocol retains complete historical validation and reserved-origin forecasts. Validated mixtures improve mean MASE relative to the recency-only control on both collections. AutoTheta retains lower monthly mean MASE and lower mean interval score in both collections.</p>",
     "keywords": [
       "time-series forecasting",
       "reproducibility",
@@ -20,7 +20,7 @@
     ],
     "license": "cc-by-4.0",
     "language": "eng",
-    "version": "0.2",
+    "version": "0.3",
     "related_identifiers": [
       {
         "relation": "isSupplementedBy",
@@ -28,7 +28,7 @@
         "resource_type": "software"
       }
     ],
-    "publication_date": "2026-11-02",
-    "version_notes": "Adds temporally validated context/convex combinations and complete external weekly/monthly evaluation; corrects method definitions, naming and references; preserves prior negative results and unfavorable interval/statistical comparisons."
+    "publication_date": "2026-11-11",
+    "version_notes": "Adds temporal selection derivations, full source and origin accounting, paired case-level uncertainty, measured worker timings and a reproducible standalone manuscript build."
   }
 }

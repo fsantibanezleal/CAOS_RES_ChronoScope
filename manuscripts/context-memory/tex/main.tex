@@ -4,42 +4,52 @@
 \usepackage{lmodern}
 \usepackage[margin=25mm]{geometry}
 \usepackage{amsmath,amssymb,graphicx,booktabs,longtable,array,microtype}
+\usepackage{algorithm,algpseudocode}
 \usepackage[hidelinks]{hyperref}
-\graphicspath{{../../product-report/figures/}}
+\graphicspath{{../figures/}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt}
 \setlength{\LTcapwidth}{\textwidth}
 \newcommand{\doctype}{Preprint}
-\newcommand{\docversion}{v0.2}
-\newcommand{\docdate}{2 November 2026}
-\newcommand{\versiondoi}{10.5281/zenodo.23884371}
+\newcommand{\docversion}{v0.3}
+\newcommand{\docdate}{11 November 2026}
+\newcommand{\versiondoi}{10.5281/zenodo.24123068}
 \newcommand{\conceptdoi}{10.5281/zenodo.23874820}
 \newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
 \newcommand{\headerblock}{\begin{center}\fbox{\parbox{0.94\textwidth}{\small\raggedright
 \textbf{\doctype}\quad \docversion, \docdate\quad Licence CC BY 4.0\\[2pt]
 CAOS open-research programme; ChronoScope context-dependent forecasting.\\[2pt]
-Version DOI: \versiondoi. Concept DOI (always latest): \conceptdoi.\\[2pt]
+Version DOI \href{https://doi.org/\versiondoi}{\texttt{\versiondoi}}. Concept DOI (always latest) \href{https://doi.org/\conceptdoi}{\texttt{\conceptdoi}}.\\[2pt]
 Not peer reviewed. Source, inputs and computational records: \url{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope}.
 }}\end{center}}
-\title{Forecast Combination with Temporal Validation and Context Memory}
+\title{Temporally Validated Forecast Combinations on Two Benchmark Collections}
 \author{Felipe Santib\'a\~nez-Leal\\CAOS open-research programme, Santiago, Chile\\\small ORCID: 0000-0002-0150-3246}
 \date{}
-\hypersetup{pdftitle={Forecast Combination with Temporal Validation and Context Memory},pdfauthor={Felipe Santibáñez-Leal}}
+\hypersetup{pdftitle={Temporally Validated Forecast Combinations on Two Benchmark Collections},pdfauthor={Felipe Santibáñez-Leal}}
+\input{protocol-counts.tex}
 \begin{document}
 \maketitle
 \headerblock
 \begin{abstract}
-A forecast combination must decide how much historical expert performance remains relevant at a new origin. We study a fixed context-weighted rule and two variants that select their parameters using completed historical target blocks. ContextMemoryCV selects context shrinkage and temperature; ValidationMix also considers regularized convex stacking. Each inner fit excludes outcomes not yet observed at its validation origin. The original fifteen-case experiment remains negative for fixed ContextMemory, with mean MASE 1.4504 versus 1.4489 for its recency-only ablation. In a separate external evaluation, 294 of 359 M4 Weekly series satisfy the fixed history criterion, and 1,422 of 1,428 M3 Monthly series remain after exact deduplication. ValidationMix has mean series MASE 0.2855 versus 0.3109 for RecencyMean on M4 Weekly, and 0.8993 versus 0.9085 on M3 Monthly. AutoTheta gives 0.3076 and 0.8472, respectively: improvement over the recency control does not establish superiority on both collections. Interval scores also retain unfavorable outcomes. Full forecast paths, scales, weights, validation decisions and source hashes support independent recomputation of 53,148 external forecasts. These results concern the configured algorithms and admitted series; they neither establish priority for context weighting nor prove population-wide superiority or calibrated uncertainty.
+Forecast combinations estimate which past expert errors remain relevant at a new origin. We compare a fixed context-weighted rule with two variants whose parameters are selected using causally completed historical validation blocks. The original fifteen-case result remains unfavorable for fixed ContextMemory. In a separate external comparison, ValidationMix has mean series MASE 0.2855 versus RecencyMean's 0.3109 on 294 eligible M4 Weekly series, and 0.8993 versus 0.9085 on 1,422 unique M3 Monthly series. Exploratory paired-series bootstrap intervals for the respective differences are [-0.033914,-0.017227] and [-0.013176,-0.005173]. The monthly mean gain does not imply that most series improve: only 589 of 1,422 have strictly lower MASE than RecencyMean. AutoTheta retains lower monthly point error and lower interval score in both collections. All combinations share five local experts and at most twelve completed historical origins. Historical candidate evaluation excludes outcomes unavailable at its own query, followed by a final refit on completed outer-prefix memory. The regularized simplex solver enumerates every nonempty expert face; its mathematical uniqueness does not imply predictive superiority. The retained 53,148 full-precision method-origin paths support independent metric rescoring and reconstruction of the stored weighted mixtures. Expert training and external comparator fitting are separate operations. The uncertainty analysis preserves series as the resampling unit and is explicitly post hoc, unadjusted and conditional on the admitted collections. These bounded results support temporally validated combinations relative to their recency control; they do not establish priority for contextual weighting, an isolated causal benefit of its kernel, calibrated prediction intervals or population-wide superiority.
 \end{abstract}
 
-\section{Question and relation to prior work}
+\section{Introduction and research question}
 Combining forecasters can reduce dependence on one modelling assumption, but estimated expert weights can introduce another source of error. When a series changes regime, a recent expert loss may be more relevant than a long-run average. When an earlier regime recurs, a remembered context may instead carry useful information. The concrete question is whether a small context-distance weighting rule improves a combination beyond an otherwise matching recency-only estimate.
 
 Feature-based forecast averaging and dynamic expert arbitration already address context-dependent combinations. FFORMA learns a feature-to-weight mapping across a collection of reference series~\cite{fforma}. Arbitrated dynamic ensembles learn and combine expert-competence estimates~\cite{ade}. These precedents prevent interpreting the existence of contextual weighting as a new general idea. The proposed experiment concerns one particular low-data, within-series memory construction. A small implementation and matching ablations make its mechanism falsifiable; they do not establish priority over earlier ensemble research.
 
 The primary comparison is mean final-block MASE of ContextMemory against RecencyMean over all fifteen selected cases. Configuration values are fixed in the released implementation; this is a retrospective experiment, not a prospectively registered trial or an independently selected confirmation corpus. An unfavorable mean difference provides no aggregate benefit in this experiment. It does not establish that every possible contextual rule is ineffective. Individual case outcomes, interval width and empirical coverage remain visible so that a favorable subset cannot replace the aggregate question.
 
-\section{Information available at an origin}
+The paper separates two questions that would otherwise be easy to conflate. The fixed rule asks whether context matching helps when the experts, memory and competence transformation are held constant. The later selection rules ask whether a finite historical comparison can choose a useful allocation before an outer target is exposed. A favorable answer to the second question cannot repair an unfavorable answer to the first. It also cannot identify which selected component caused the change.
+
+The reported units of evidence are equally explicit. The original selected cases are development examples with one final block each. The external collections contain multiple eligible origins, summarized first within a series. An origin is a location at which a forecast is issued, a lead is a position in its future block, and a method-origin path contains all of those leads. These are different denominators. Complete paths permit detailed error inspection, but their individual values are not interchangeable independent replications. The resulting claim is about the stated finite comparisons and their paired series summaries.
+
+The contributions are threefold: (i) an explicit five-expert finite-memory construction with source-resolved context and error definitions; (ii) temporally validated configuration selection and an exhaustively solved regularized simplex fit with declared information boundaries; and (iii) complete two-collection forecast paths and retrospective paired-series uncertainty that retain unfavorable component and comparator results. These are contributions of specification and bounded evaluation, not claims of priority for contextual weighting or stacking.
+
+\input{related-work.tex}
+
+\section{Problem formulation and available information}
 Let the observed prefix be $y_{1:n}$, the forecast horizon be $H$ and the seasonal lag be $m$. The final targets $a_{1:H}$ are used only for evaluation. Historical training origins belong to
 \begin{equation}
 \mathcal O\subseteq\{o:o\geq o_{\min},\quad o+H\leq n\},
@@ -48,6 +58,12 @@ Let the observed prefix be $y_{1:n}$, the forecast horizon be $H$ and the season
 At most twelve distinct origins are selected as the unique integer values of a twelve-point equally spaced grid from $o_{\min}$ to $n-H$, with nonnegative grid values truncated to integers. An empty eligible interval supplies no memory. Every expert at origin $o$ receives $y_{1:o}$, and its loss uses $y_{o+1:o+H}$. The requirement $o+H\leq n$ ensures that all remembered targets have arrived before the final query. An origin near the end of the prefix is not eligible merely because its first future target is known; its complete scored horizon must be known.
 
 The selection does not consume the final test block. Generated source definitions and admitted real-data CSVs reconstruct the original equally spaced histories. Every available released display sample is checked at its original time index, the original prefix length is verified, and the reserved targets are checked to their released four-decimal tolerance. A display-decimated replay array is explicitly rejected as a consecutive fitting sequence. This is necessary because changing observation spacing changes both context statistics and the seasonal error scale.
+
+The forecasting task is univariate. No future promotion flag, calendar regressor or external covariate is supplied to these combination methods. A source observation is one element of the admitted ordered sequence; the protocol does not infer a new sampling frequency from a display layout. The horizon counts future observations in that sequence, and the seasonal lag counts observed positions. These counts are dimensionless indices, while a point forecast, target and interval endpoint have the source series' measurement unit.
+
+Within an origin, every method is evaluated against the same future block. The historical scale has that same measurement unit, making a valid MASE ratio dimensionless. A zero scale cannot be repaired by looking at the future block without changing the task. Missing outcomes, irregular observation spacing and undefined denominators therefore require explicit handling before one can generalize this task to another dataset. The present runner uses admitted finite sequences and records its exclusions; it does not silently interpolate absent observations or relabel an incomplete block as a shorter successful forecast. The common-prefix cap in the external experiment is specified separately from the original selected-case design.
+
+\input{notation.tex}
 
 \section{Experts and contextual memory}
 The fixed expert set is SeasonalNaive, SES, Holt, additive HoltWinters and nonseasonal finite-history Theta. Their parameter grids and Gaussian residual quantile rules belong to the implementation. They are shared unchanged by the proposal and both ablations. Seasonal continuation respects an incomplete terminal cycle; Theta includes the finite-history SES correction~\cite{theta}. No expert is removed after observing its final-block error.
@@ -64,11 +80,11 @@ For each remembered origin $o$ and expert $k$, the competence target is a normal
 \begin{equation}
 L_{ok}=\frac{H^{-1}\sum_{j=1}^H|y_{o+j}-p_{okj}|}{s_o},
 \end{equation}
-Here $s_o$ is the mean absolute lag-$m\prime$ difference in the prefix, with $m\prime=\max(1,\min(m,o-1))$. If that mean is at most $10^{-12}$, the training-loss scale is $\max(\operatorname{sd}(y_{1:o}),10^{-12})$. This training fallback differs from the final evaluation rule, which reports unavailable MASE for an exactly zero denominator. No scale is estimated from the final held-out block. The loss array and historical contexts are cached for a fitting history; caching changes runtime rather than the available information.
+Here $s_o$ is the mean absolute lag-$m\prime$ difference in the prefix, with $m\prime=\max(1,\min(m,o-1))$. If that mean is at most $10^{-12}$, the training-loss scale is $\max(\operatorname{sd}(y_{1:o}),10^{-12})$. This training fallback differs from the final evaluation rule, which reports unavailable MASE when the final scale is at most $10^{-12}$ in source units. No scale is estimated from the final held-out block. The loss array and historical contexts are cached for a fitting history; caching changes runtime rather than the available information.
 
-For remembered origins indexed $j=1,\ldots,J$, recency weights are $r_j=2^{-(J-j)/6}$. Distance to the query is $D_j=\sqrt{\frac14\sum_{a=1}^4(f_{ja}-f_{\mathrm{query},a})^2}$, bandwidth is $b=\max(\operatorname{median}_jD_j,.25)$, and local weights are $a_j=r_j\exp(-D_j^2/(2b^2))$. Expert competence is
+For remembered origins indexed $j=1,\ldots,J$, recency weights are $r_j=2^{-(J-j)/6}$. Distance to the query is $D_j=\sqrt{\frac14\sum_{a=1}^4(f_{ja}-f_{\mathrm{query},a})^2}$, bandwidth is $b_D=\max(\operatorname{median}_jD_j,.25)$, and local weights are $a_j^{\rm loc}=r_j\exp(-D_j^2/(2b_D^2))$. Expert competence is
 \begin{equation}
-c_k=.75\frac{\sum_j a_jL_{jk}}{\sum_j a_j}+.25\frac{\sum_j r_jL_{jk}}{\sum_j r_j}.
+c_k=.75\frac{\sum_j a_j^{\rm loc}L_{jk}}{\sum_j a_j^{\rm loc}}+.25\frac{\sum_j r_jL_{jk}}{\sum_j r_j}.
 \end{equation}
 Weights before the uniform floor are normalized values of $\exp(\max\{-(c_k-\min_lc_l),-700\})$. RecencyMean uses only the recency-weighted loss average, without context weighting or shrinkage. EqualMean, and any fit without remembered origins, uses $1/5$ directly. These settings are fixed; they are not retuned after inspecting the final blocks.
 
@@ -83,56 +99,62 @@ Thus $w_k\geq0.01$ and $\sum_kw_k=1$. If every input expert has ordered quantile
 \end{equation}
 This follows by multiplying each input inequality by a nonnegative weight and summing. It proves column order only. An average of marginal quantiles generally differs from the quantile function of a predictive mixture. No calibration or conditional-coverage guarantee follows from this construction.
 
+These are statements about the allocation at a fixed origin; they do not provide an oracle allocation for a future observation or certify generalization.
+
 The context features and normalized losses aim to make expert allocation insensitive to a positive change of units and a common level shift. The numerical implementation includes clipping and degeneracy thresholds, so structural invariance is tested away from those thresholds rather than claimed without qualification for every floating-point input. Independent tests also require finite paths, positive normalized weights and temporally complete historical targets.
 
-\section{Matching ablations}
+\subsection{Matching ablations}
 RecencyMean removes context-distance weighting and retains the experts, completed origins, recency decay and competence-to-weight transformation. It tests whether the contextual component adds value to an otherwise similar recent-loss combination. EqualMean removes estimated competence preferences and assigns a uniform allocation. All three compute their current expert paths from the same original prefix.
 
 Comparing only with SeasonalNaive would not isolate the proposed mechanism: a gain might be due to combining experts rather than context similarity. Comparing only with EqualMean would similarly confound context with loss adaptation. The recency-only ablation is therefore the primary comparator. The equality of expert rosters, information sets and target blocks is part of the experimental contract, not a post hoc interpretation of whichever comparison is favorable.
 
-\section{Evaluation protocol and invalidated calculation}
+An additional comparison would be required to isolate the effect of historical selection itself: the selected rule would need to face a corresponding fixed configuration with the same fitting objective and information budget. The current control comparisons remain useful, but cannot attribute every selected-method gain to the context features.
+
+\section{Evaluation protocol and corrected selected-case results}
 The corrected experiment uses fifteen selected cases, eleven generated and four real excerpts, with one final forecast origin per case. For the three combinations, all fitting paths are freshly computed. Other methods in the surrounding atlas include historical frozen forecasts and are not needed to isolate the context-versus-recency question. Their leaderboard positions do not substitute for the matching-expert ablation.
 
 The first calculation incorrectly used display-decimated history arrays as consecutive inputs for nine cases. Its predictions, scales and aggregate values are invalidated. Reconstructing original histories fixes that defect. Every displayed observation matches its original indexed source within 0.000051, and the final targets also match. The invalidated artifact remains identifiable in Git so the correction is auditable; it is not pooled with the corrected experiment or counted as a replication.
 
-The primary metric is MAE divided by the in-prefix mean absolute seasonal difference~\cite{mase}. This denominator is common to every final-block method within a case. It is not the error of a separately forecast future SeasonalNaive path. Zero denominators yield unavailable scaled metrics. Coverage and mean interval width are also retained. Three-quantile weighted loss and mean scaled interval score supply additional descriptive measures without implying an entire predictive distribution has been validated.
+The primary metric is MAE divided by the in-prefix mean absolute seasonal difference~\cite{mase}. This denominator is common to every final-block method within a case. It is not the error of a separately forecast future SeasonalNaive path. Seasonal scales at or below $10^{-12}$ yield unavailable scaled metrics. Coverage and mean interval width are also retained. Mean scaled interval score supplies an additional descriptive measure without implying an entire predictive distribution has been validated.
 
-\section{Results}
-\input{../../product-report/tables/proposal.tex}
+\subsection{Selected-case results}
+\input{../tables/proposal.tex}
 
 \begin{figure}[htbp]\centering\includegraphics[width=0.88\textwidth]{proposal-comparison.pdf}
-\caption{Mean MASE of the fixed combinations on all selected final blocks. ContextMemory is slightly worse than RecencyMean at the declared primary criterion. Bar heights are point summaries; no sampling uncertainty is shown because one selected origin per case does not supply a justified population interval.}\end{figure}
+\caption{Mean MASE of the fixed combinations on all selected final blocks. ContextMemory is slightly worse than RecencyMean at the declared primary criterion. Bar heights are point summaries; no sampling uncertainty is shown because one selected origin per case does not supply a justified population interval.}\label{fig:fixed-means}\end{figure}
 
-ContextMemory has mean MASE 1.4504, compared with 1.4489 for RecencyMean and 1.8970 for EqualMean. The contextual component fails its aggregate improvement criterion. The estimated recent-loss combinations perform better than the equal average on this collection, but that difference does not establish a benefit from the additional context kernel.
+Figure~\ref{fig:fixed-means} summarizes the matching ablation in Table~\ref{tab:fixed-ablations}. ContextMemory has mean MASE 1.4504, compared with 1.4489 for RecencyMean and 1.8970 for EqualMean. The contextual component fails its aggregate improvement criterion. The estimated recent-loss combinations perform better than the equal average on this collection, but that difference does not establish a benefit from the additional context kernel.
 
 \begin{figure}[htbp]\centering\includegraphics[width=\textwidth]{case-differences.pdf}
-\caption{Per-case MASE difference between contextual and recency-only weighting. Each bar is one final block. Both signs are retained; selecting only negative bars would replace the declared aggregate question with a post hoc favorable subset.}\end{figure}
+\caption{Per-case MASE difference between contextual and recency-only weighting. Each bar is one final block. Both signs are retained; selecting only negative bars would replace the declared aggregate question with a post hoc favorable subset.}\label{fig:fixed-series}\end{figure}
 
-The aggregate difference is small relative to variation across selected mechanisms. It is still unfavorable at the criterion that was actually declared. Rounding both means to two decimal places would conceal that outcome. No significance claim, equivalence conclusion or general impossibility result is attached to the difference. Full-precision prediction paths and expert weights remain available so the cases that help and hurt can be inspected without reconstructing an aggregate from a selected table.
+Figure~\ref{fig:fixed-series} retains the individual directions. The aggregate difference is small relative to variation across selected mechanisms. It is still unfavorable at the criterion that was actually declared. Rounding both means to two decimal places would conceal that outcome. No significance claim, equivalence conclusion or general impossibility result is attached to the difference. Full-precision prediction paths and expert weights remain available so the cases that help and hurt can be inspected without reconstructing an aggregate from a selected table.
 
-\section{Forecast combination with temporal validation}
+\section{Proposed method and theoretical derivation}
+\label{sec:selection-derivation}
 The fixed context-versus-recency comparison tests one particular parameter setting. Two additional methods allow a historical validation calculation to choose a setting before an outer forecast. They retain the same five experts, four context features, completed-origin memory and quantile-column combination. Their improvements must not be attributed exclusively to the context kernel, because temperature, shrinkage and selection also change.
 
 For every remembered validation origin $v$, only training origins $o$ satisfying $o+H\le v$ are eligible. At least three such origins are required. The candidate is fit on those completed earlier blocks, predicts the block beginning at $v$, and receives its mean absolute error divided by a scale calculated from the prefix at $v$. The final candidate score averages these eligible validation-block losses. The outer target is never an input to candidate fitting or selection. If no validation origin qualifies, the method uses the original RecencyMean rule.
 
 ContextMemoryCV considers context shrinkages $\{0,.5,1\}$ and temperatures $\{.15,.5,1\}$, plus the original RecencyMean and EqualMean controls. Shrinkage one removes the context kernel, so selecting this method does not imply that contextual similarity helped. All settings retain recency half-life six, the original bandwidth rule and the 5\% uniform allocation floor. The first configured minimum wins an exact score tie. After selection, the chosen rule is fit on all completed memory blocks in the outer prefix.
 
-ValidationMix additionally considers four convex stacking rules. Let $E_{jhk}=(p_{jhk}-y_{j+h})/s_j$ be expert $k$'s normalized error at completed training origin $j$ and lead $h$. For $\lambda\in\{.01,.1,1,10\}$, the unfloored stacking weights solve
-\begin{equation}
-\min_{w\ge0,\,\mathbf1^\top w=1}\frac{1}{JH}\sum_{j,h}\left(\sum_k E_{jhk}w_k\right)^2+\lambda\left\|w-\frac{\mathbf1}{5}\right\|_2^2.
-\end{equation}
-Five experts permit enumeration of the 31 nonempty active sets. Each face solves a regularized equality-constrained quadratic, and the feasible minimum is selected. A 5\% uniform floor is applied afterwards; the floored vector is not claimed to minimize the unfloored objective. Candidate selection still uses historical absolute error, rather than the squared fitting objective. The stacking family and its penalties are fixed before the external outcomes are computed. Neither established convex stacking nor temporal validation is claimed as a new general idea.
+ValidationMix adds four regularized convex stacking candidates with penalties $\{.01,.1,1,10\}$. They fit normalized signed expert errors and retain the same five-expert roster. The detailed objective, active-face solution, uniform floor and distinction between fitting and selection losses are derived below. These candidates extend the eleven-rule ContextMemoryCV roster to fifteen rules; established convex stacking is not claimed as a new general idea.
 
-\section{External evaluation on weekly and monthly collections}
+\input{selection-derivation.tex}
+
+\input{scoring-definitions.tex}
+
+\section{External evaluation and results on weekly and monthly collections}
 The sources are the complete Monash M4 Weekly inventory of 359 identities~\cite{weekly} and M3 Monthly inventory of 1,428 identities~\cite{monthly}, both redistributed under CC BY 4.0. ZIP, extracted TSF and exact sequence SHA-256 values identify their bytes. Forecast horizon and seasonal lag are $(13,52)$ for weekly and $(18,12)$ for monthly. Each series supplies up to three nonoverlapping final target blocks, provided that the prefix has at least $\max(2m,2H+8,24)$ observations. Every method receives the same final 512 contiguous prefix observations, or all observations if fewer are available. The scale uses this supplied prefix, and never the future block.
 
 Sixty-five weekly identities have no eligible origin under that fixed criterion. All 294 eligible weekly series contribute three origins, giving 882 origins. Six exact duplicate monthly sequences retain one representative each; 1,422 monthly series contribute 3,547 eligible origins. Every exclusion and representative remains identifiable. Scores average origins within a series and then weight admitted series equally within each collection. The collections are reported separately; their different units, seasonal scales and origin counts are not silently pooled. This schedule and scaling differ from the original forecasting competitions, so the results do not establish an official competition rank.
 
-Twelve methods are evaluated at every admitted origin: five individual experts, AutoETS and AutoTheta from StatsForecast, three fixed combinations, ContextMemoryCV and ValidationMix. Automatic statistical methods use the same available prefix and configured seasonal lag. Their library point forecast supplies the central column and their requested analytic 80\% interval supplies the endpoints. This roster contains no freshly evaluated neural, pretrained or globally trained ensemble on the external collections. A method failure stops the calculation rather than deleting a difficult comparator.
+Twelve methods are evaluated at every admitted origin: five individual experts, AutoETS and AutoTheta from StatsForecast~\cite{statsforecast}, three fixed combinations, ContextMemoryCV and ValidationMix. Automatic statistical methods use the same available prefix and configured seasonal lag. Their library point forecast supplies the central column and their requested analytic 80\% interval supplies the endpoints. This roster contains no freshly evaluated neural, pretrained or globally trained ensemble on the external collections. A method failure stops the calculation rather than deleting a difficult comparator.
 
+Table~\ref{tab:external-combinations} and Figure~\ref{fig:external-means} summarize both external collections.
 \input{../tables/external.tex}
 \begin{figure}[htbp]\centering\includegraphics[width=.98\textwidth]{validated-combinations.pdf}
-\caption{Fixed and temporally selected combinations alongside AutoTheta on each external collection. Bars are mean series MASE without sampling-error bars. The complete twelve-method table retains all individual-expert and automatic-statistical outcomes.}\end{figure}
+\caption{Fixed and temporally selected combinations alongside AutoTheta on each external collection. Bars are mean series MASE without sampling-error bars. The complete twelve-method table retains all individual-expert and automatic-statistical outcomes.}\label{fig:external-means}\end{figure}
 
 ValidationMix has mean MASE .2855 versus .3109 for RecencyMean on weekly series, and .8993 versus .9085 on monthly series. ContextMemoryCV gives .2848 and .8996. AutoTheta gives .3076 and .8472: the temporally selected combinations have lower point error on the admitted weekly collection, while AutoTheta has lower point error on monthly series. These are finite-collection comparisons without an inferential or population-superiority claim.
 
@@ -140,7 +162,9 @@ Uncertainty quality does not follow the point-error ordering. ValidationMix has 
 
 The original fifteen final blocks remain development examples. On those blocks ContextMemoryCV and ValidationMix have mean MASE 1.3974 and 1.4031; the original fixed contextual and recency-only results remain 1.4504 and 1.4489. Their MSIS values are 9.5025 and 9.3428 versus RecencyMean's 9.1076. The changed algorithms therefore improve this descriptive point score while worsening the interval score. Reusing these already examined cases is not independent external confirmation.
 
-\section{Interpretation and limitations}
+\input{paired-uncertainty.tex}
+
+\section{Discussion and limitations}
 Context matching has a bias--variance tradeoff. A small within-series memory can contain few genuinely comparable contexts. Kernel weighting can overemphasize those few origins, while shrinkage and a uniform floor can dilute a useful specialist. A context can recur in its four descriptive statistics without recurring in the forecasting relationships that determine competence. The experiment does not identify which explanation caused the observed aggregate failure; that requires new controlled comparisons.
 
 The original selected corpus and one final origin per series provide a bounded diagnostic experiment rather than representative population sampling. The additional weekly and monthly collections broaden empirical coverage, but eligibility exclusions, source relationships and limited rolling origins still constrain generalization. Training origins share observations and must not be counted as independent final-test replications. Methods also share experts and target series. A dependence-aware uncertainty analysis would need an explicitly designed repeated-origin or cross-series study. Neither the selected-case experiment nor the external collections support a superiority or equivalence statement for a deployment population.
@@ -149,14 +173,20 @@ Faithful external FFORMA and arbitrated-ensemble comparators remain necessary be
 
 Quantile averaging and the experts' Gaussian approximations are further limits. An interval can achieve higher observed coverage by becoming too wide for useful planning. Evaluating an inventory action would require shortage and excess costs, decision lead times and prospective outcomes. Neither the generated examples nor real forecasting excerpts establish an operational benefit from this combination.
 
-\section{Reproduction and conclusion}
+The latest related work also changes what an adequate next comparator would look like. A serial-error correction needs a completed previous combined error; a global feature learner needs an admissible reference corpus; a dynamic model average needs its own state and tuning policy. Giving one method information that another could not observe would test an information advantage rather than an allocation mechanism. The current study therefore preserves its measured gains while leaving these unexecuted comparisons unresolved. That boundary is preferable to calling a narrowly favorable table a completed comparison against the current forecasting literature.
+
+\section{Reproducibility and conclusions}
 Implementations and admitted numerical outputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/d702831a7660f9fb8123798a2e3bbf5e47887bce}{frozen source and data snapshot}.
+
+The later paired-series analysis has its own retained numerical file and source identity. Its script and independent reproduction inputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/8b7d89b9df1cfd9e627fd29a598873de94e95a6e}{paired-analysis source snapshot}. The complete numerical archive retains each horizon explicitly. Its 10,584 weekly paths contain 137,592 scalar point predictions, and its 42,564 monthly paths contain 766,152. The distinct method-path and scalar counts describe computation volume; the paired analysis uses series as its resampling unit.
+
+The recorded numerical environment uses NumPy 2.4.6, SciPy 1.15.3, StatsForecast 2.0.3 and Numba 0.68.1. The retained per-series worker durations have median and 90th percentile \weeklyMedianSeconds{} and \weeklyPninetySeconds{} seconds for weekly series, and \monthlyMedianSeconds{} and \monthlyPninetySeconds{} seconds for monthly series. The historical machine identity and end-to-end parallel makespan are unavailable. These per-worker durations do not recover wall time or support a speed comparison. The executable reconstruction and build commands, including explicit source, cache and output arguments, are in \path{next/REPRODUCING.md}. Numerical rescoring is distinct from a fresh expert fit.
 
 The fixed rule is implemented in \path{data-pipeline/chronoscopelab/model/context_memory.py}; the temporally validated variants are in \path{data-pipeline/chronoscopelab/model/validated_combination.py}. Tests check complete historical eligibility, deterministic selection, convex constraints, quantile order and the fallback identity. Recursive expert loops are optionally compiled with Numba without fast-math transformations; independent reference comparisons protect their forecast equations.
 
-The external runner accepts explicit source, cache and output directories. Its cache binds source bytes, protocol, implementations and package versions. The full compressed numerical file is \path{manuscripts/context-memory/evidence/external-evaluation.json.gz}; it contains every outer forecast, target, scale, expert allocation, candidate validation score and temporal split. A separate checker reconstructs all source prefixes and independently recomputes all 53,148 external method forecasts and aggregate scores. Browser documents retain eight decimal places for forecast paths; the full numerical file retains the original floating-point outputs. The selected-case comparison is reproduced separately from its original contiguous histories. The new bilingual lesson executes the proposed variants and checks their admitted values.
+The external runner accepts explicit source, cache and output directories. Its cache binds source bytes, protocol, implementations and package versions. The full compressed numerical file is \path{manuscripts/context-memory/evidence/external-evaluation.json.gz}; it contains every outer forecast, target, scale, expert allocation, candidate validation score and temporal split. A separate checker reconstructs all source prefixes and independently rescores all \externalpathcount{} retained method-origin forecast paths and reconstructs weighted combinations from their stored expert paths. Browser documents retain eight decimal places for forecast paths; the full numerical file retains the original floating-point outputs. The selected-case comparison is reproduced separately from its original contiguous histories. The worked temporal-validation example executes the proposed variants on their declared prefixes.
 
-The fixed contextual rule did not improve its recency-only ablation on the original selected blocks. Temporal selection and convex stacking produce lower measured point error than that control on the admitted weekly and monthly collections. AutoTheta remains stronger on monthly point error and both collections' interval score. These outcomes support a qualified improvement in the evaluated combinations, with explicit remaining limits on component attribution, uncertainty and generalization.
+The fixed contextual rule did not improve its recency-only ablation on the original selected blocks. ContextMemoryCV and ValidationMix have lower measured mean MASE than that control in both collections. ValidationMix expands the candidate set to include stacking and selects a stack at \weeklyStackOrigins{} of \weeklyAllOrigins{} weekly origins and \monthlyStackOrigins{} of \monthlyAllOrigins{} monthly origins. Relative to ContextMemoryCV, its mean MASE changes from .2848 to .2855 weekly and from .8996 to .8993 monthly. The incremental result is mixed. AutoTheta remains stronger on monthly point error and both collections' interval score. These outcomes support a qualified improvement in the evaluated combinations, with explicit remaining limits on component attribution, uncertainty and generalization.
 
 \appendix
 \section{Fixed expert specifications}
@@ -172,7 +202,8 @@ p_j=\ell_n+\tfrac12 b\left[j-1+\frac{1-(1-a)^n}{a}\right].
 \end{equation}
 Its residual dispersion is the SES residual dispersion. This is distinct from the smoothing-plus-half-drift replay adaptation used in the separate streaming study. The source implementation fixes update ordering and first-minimum tie breaking in all grids; the same experts are used for every combination and ablation.
 
-\begin{thebibliography}{9}
+
+\begin{thebibliography}{99}
 \small\setlength{\itemsep}{0pt}
 \bibitem{fforma} P. Montero-Manso et al., FFORMA: Feature-based forecast model averaging. \emph{International Journal of Forecasting}, 2020. \url{https://doi.org/10.1016/j.ijforecast.2019.02.011}.
 \bibitem{ade} V. Cerqueira et al., Arbitrage of forecasting experts. \emph{Machine Learning}, 108, 913--944, 2019. \url{https://doi.org/10.1007/s10994-018-05774-y}.
@@ -181,5 +212,26 @@ Its residual dispersion is the SES residual dispersion. This is distinct from th
 \bibitem{weekly} R. Godahewa et al., M4 Weekly Dataset, Monash Forecasting Repository, version 3. \url{https://doi.org/10.5281/zenodo.4656522}.
 \bibitem{monthly} R. Godahewa et al., M3 Monthly Dataset, Monash Forecasting Repository, version 3. \url{https://doi.org/10.5281/zenodo.4656298}.
 \bibitem{statsforecast} Nixtla, StatsForecast model implementation documentation. \url{https://nixtlaverse.nixtla.io/statsforecast/src/core/models.html}.
+\bibitem{bates} J. M. Bates and C. W. J. Granger, The combination of forecasts. \emph{Operational Research Quarterly}, 20, 451--468, 1969. \url{https://doi.org/10.1057/jors.1969.103}.
+\bibitem{clemen} R. T. Clemen, Combining forecasts: A review and annotated bibliography. \emph{International Journal of Forecasting}, 5, 559--583, 1989. \url{https://doi.org/10.1016/0169-2070(89)90012-5}.
+\bibitem{timmermann} A. Timmermann, Forecast combinations. \emph{Handbook of Economic Forecasting}, 1, 135--196, 2006. \url{https://doi.org/10.1016/S1574-0706(05)01004-9}.
+\bibitem{smithwallis} J. Smith and K. F. Wallis, A simple explanation of the forecast combination puzzle. \emph{Oxford Bulletin of Economics and Statistics}, 71, 331--355, 2009. \url{https://doi.org/10.1111/j.1468-0084.2008.00541.x}.
+\bibitem{wolpert} D. H. Wolpert, Stacked generalization. \emph{Neural Networks}, 5, 241--259, 1992. \url{https://doi.org/10.1016/S0893-6080(05)80023-1}.
+\bibitem{breiman} L. Breiman, Stacked regressions. \emph{Machine Learning}, 24, 49--64, 1996. \url{https://statistics.berkeley.edu/sites/default/files/tech-reports/367.pdf}.
+\bibitem{hansen} B. E. Hansen, Least squares model averaging. \emph{Econometrica}, 75, 1175--1189, 2007. \url{https://doi.org/10.1111/j.1468-0262.2007.00785.x}.
+\bibitem{dma} A. E. Raftery, M. K\'arn\'y and P. Ettler, Online prediction under model uncertainty via dynamic model averaging: Application to a cold rolling mill. \emph{Technometrics}, 52, 52--66, 2010. \url{https://doi.org/10.1198/TECH.2009.08104}.
+\bibitem{wangreview} X. Wang, R. J. Hyndman, F. Li and Y. Kang, Forecast combinations: An over 50-year review. arXiv:2205.04216, 2022. \url{https://arxiv.org/abs/2205.04216}.
+\bibitem{corrected} C.-A. Liu and A. L. Vasnev, Corrected forecast combinations. arXiv:2601.09999v2, 25 September 2026. \url{https://arxiv.org/abs/2601.09999v2}.
+\bibitem{giacomini} R. Giacomini and H. White, Tests of conditional predictive ability. \emph{Econometrica}, 74, 1545--1578, 2006. \url{https://doi.org/10.1111/j.1468-0262.2006.00718.x}.
+\bibitem{tashman} L. J. Tashman, Out-of-sample tests of forecasting accuracy: An analysis and review. \emph{International Journal of Forecasting}, 16, 437--450, 2000. \url{https://doi.org/10.1016/S0169-2070(00)00065-0}.
+\bibitem{berg2012} C. Bergmeir and J. M. Ben\'itez, On the use of cross-validation for time series predictor evaluation. Information Sciences, 191, 192--213, 2012. \url{https://doi.org/10.1016/j.ins.2011.12.028}.
+\bibitem{berg2018} C. Bergmeir, R. J. Hyndman and B. Koo, A note on the validity of cross-validation for evaluating autoregressive time series prediction. \emph{Computational Statistics \& Data Analysis}, 120, 70--83, 2018. \url{https://doi.org/10.1016/j.csda.2017.11.003}.
+\bibitem{monash} R. Godahewa, C. Bergmeir, G. I. Webb, R. J. Hyndman and P. Montero-Manso, Monash time series forecasting archive. arXiv:2105.06643, 2021. \url{https://arxiv.org/abs/2105.06643}.
+\bibitem{m3study} S. Makridakis and M. Hibon, The M3-Competition: Results, conclusions and implications. \emph{International Journal of Forecasting}, 16, 451--476, 2000. \url{https://doi.org/10.1016/S0169-2070(00)00057-1}.
+\bibitem{m4study} S. Makridakis, E. Spiliotis and V. Assimakopoulos, The M4 Competition: 100,000 time series and 61 forecasting methods. \emph{International Journal of Forecasting}, 36, 54--74, 2020. \url{https://doi.org/10.1016/j.ijforecast.2019.04.014}.
+\bibitem{proper} T. Gneiting and A. E. Raftery, Strictly proper scoring rules, prediction, and estimation. \emph{Journal of the American Statistical Association}, 102, 359--378, 2007. \url{https://doi.org/10.1198/016214506000001437}.
+\bibitem{demsar} J. Dem\v{s}ar, Statistical comparisons of classifiers over multiple data sets. \emph{Journal of Machine Learning Research}, 7, 1--30, 2006. \url{https://jmlr.org/papers/v7/demsar06a.html}.
+\bibitem{dmreview} F. X. Diebold, Comparing predictive accuracy, twenty years later: A personal perspective on the use and abuse of Diebold--Mariano tests. PIER Working Paper 12-035, 2012. \url{https://economics.sas.upenn.edu/sites/default/files/filevault/12-035.pdf}.
+\bibitem{boyd} S. Boyd and L. Vandenberghe, Convex optimization. Cambridge University Press, 2004. \url{https://web.stanford.edu/~boyd/cvxbook/}.
 \end{thebibliography}
 \end{document}
