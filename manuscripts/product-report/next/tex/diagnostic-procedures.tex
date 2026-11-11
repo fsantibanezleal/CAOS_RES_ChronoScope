@@ -335,6 +335,25 @@ The successful bivariate record stores the paired sample count \texttt{n}. The c
 
 The dispatch appends the target case identifier, first covariate name and fixed descriptive scope string to aligned pairs, including when a backend returns an error. A length mismatch returns an error before fitting and without those identifiers. A univariate case carries a skipped reason. A finite paired sample may still be too short or otherwise unsuitable for the numerical routines; a failed fit supplies an error instead of test values.
 
+Algorithm~\ref{alg:paired-diagnostics} gives the paired diagnostic
+and refitted forecast operations. They use different information
+windows.
+\begin{algorithm}[htbp]
+\caption{Compute retrospective paired diagnostics and construct the separately scored blind and covariate-aware ridge forecasts.}
+\label{alg:paired-diagnostics}
+\begin{algorithmic}[1]
+\Require Aligned paired record for diagnostics, observed prefix and covariate availability for forecasting
+\State For diagnostics, jointly drop nonfinite pairs and compute centered signed-lag cross-correlations
+\State Run both directions of the Granger lag scan and store each minimum-probability lag and decision
+\State Compute Engle--Granger, Johansen and the levels-versus-differences integration flags
+\For{each forecast cutoff and ridge variant}
+  \State Construct the lagged design from the prefix and the permitted covariate column
+  \State Solve the penalized normal equations, or use the last value if the prefix is too short
+  \State Recurse over the requested leads with the declared covariate availability and form residual intervals
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
 The streaming experiment fits two local ridge references. For target $y_t$, the row of $X$ contains an intercept, $y_{t-1}$ and $y_{t-m}$, with the first covariate optionally appended. With $D=\operatorname{diag}(0,1,\ldots,1)$, the fit solves
 \begin{equation}
  (X^\mathsf{T}X+D)\widehat\beta=X^\mathsf{T}y .

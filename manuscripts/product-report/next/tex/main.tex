@@ -333,6 +333,22 @@ Confirmation requires rejection in both partitions and matching effect direction
 
 A fixed random forest predicts the best model identity from discovery features, with 200 trees, maximum depth eight, minimum leaf size ten and random state 42. Missing-value medians and the constant comparator are fitted on discovery only. Confirmation outcomes choose neither parameters nor feature thresholds. The selected rule is compared once on confirmation series with that constant method and the future-informed per-series oracle. Scores are descriptive held-out results, not population-superiority or operational guarantees. Negative selection outcomes remain in the report.
 
+Algorithm~\ref{alg:corpus-selection} fixes where the partition enters
+the feature and selector experiment.
+\begin{algorithm}[htbp]
+\caption{Compare the discovery-trained selector and constant method on a separate set of admitted series.}
+\label{alg:corpus-selection}
+\begin{algorithmic}[1]
+\Require Declared M4 Daily source, fixed methods, prefix features and series partitions
+\State Validate identities, retain the first exact duplicate identity and record exclusions
+\State Compute features from the earliest fitting prefix, and MASE from the three future blocks for each method
+\State Calculate signed Kendall effects and adjust probabilities within each partition
+\State Retain a confirmation flag only for concordant adjusted discoveries in both partitions
+\State Fit imputation medians, the selector and the constant comparator on discovery rows
+\State Score both rules on confirmation rows and retain the future-informed oracle separately
+\end{algorithmic}
+\end{algorithm}
+
 \input{../tables/corpus-summary.tex}
 \clearpage
 Table~\ref{tab:corpus-associations} retains all forty tested prefix features and the adjusted probabilities in both partitions, rather than showing only the twenty-one confirmations.
