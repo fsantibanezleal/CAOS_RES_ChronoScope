@@ -94,7 +94,7 @@ jobs:
         run: python scripts/check_contracts.py docs/contracts/catalog.md --repo-root .
       - name: The readiness document is current with the catalog and the bake (ADR-0080)
         run: |
-          python scripts/local/producer_bridge.py validate .
+          python scripts/check_readiness.py
           python scripts/check_fresh_reevaluation.py
           python scripts/check_research_extensions.py
       - name: Every committed document valid against its schema file (ADR-0080)

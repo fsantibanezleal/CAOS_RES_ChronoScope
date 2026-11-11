@@ -88,6 +88,9 @@ def build(slug: str, scratch: Path) -> None:
                "scope": "Compiled PDF and local input identity only; not publication acceptance",
                "latex_engine": engine, "pdf_sha256": digest(pdf), "pdf_bytes": pdf.stat().st_size,
                "source_files": dict(sorted(sources.items()))}
+    if slug == "product-report":
+        companions = [folder / "REPRODUCING.md", *sorted((folder / "tables").glob("*.csv"))]
+        receipt["companion_files"] = {path.relative_to(ROOT).as_posix(): digest(path) for path in companions}
     (folder / "build-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Bound {slug}: {len(sources)} local inputs, PDF {receipt['pdf_sha256']}")
 

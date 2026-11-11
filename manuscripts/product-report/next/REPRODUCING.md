@@ -31,6 +31,14 @@ Rechecking retained forecasts requires the bound target vectors and model
 paths. Fresh inference additionally requires the checkpoint revisions and
 runtime in the corresponding analysis plan.
 
+The [fresh case and method scores](tables/fresh-by-case.csv) come from
+[fresh-reevaluation.json](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/blob/20fa9357716b534c4fdd3a5aa66cacd9eb66e416/data/derived/fresh-reevaluation.json).
+The [archived case and method paths](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/blob/20fa9357716b534c4fdd3a5aa66cacd9eb66e416/data/derived/reevaluation.json)
+include the same reserved targets and their historical metrics. The
+[external per-origin audit](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/blob/20fa9357716b534c4fdd3a5aa66cacd9eb66e416/manuscripts/context-memory/evidence/external-evaluation.json.gz)
+contains forecasts, targets, seasonal scales, weights, selection metadata
+and scores by source series and origin.
+
 ## Tables, figures and PDF
 
 ```text
@@ -38,6 +46,8 @@ python scripts/build_report_contract_tables.py
 python scripts/build_report_evidence_tables.py
 python scripts/build_timestral_report.py
 python scripts/build_combination_review_tables.py
+python scripts/build_report_architecture.py
+python scripts/plot_browser_calibration.py --output manuscripts/product-report/next/figures
 python scripts/build_research_report.py --sequence-output manuscripts/product-report/next/figures/sequence-patterns.pdf
 python scripts/build_working_manuscripts.py --only product-report --scratch <external-build-folder>
 python scripts/check_working_draft_bindings.py
@@ -50,8 +60,7 @@ snapshot's `scripts/build_research_report.py`, `scripts/build_combination_report
 and `manuscripts/product-report/make_evidence.py`. Run those historical
 generators in a detached source snapshot because their original destinations
 are published manuscript folders. The working report uses labelled copies of
-their outputs. The architecture drawing and browser study figures have their
-own builders in the repository.
+their outputs.
 
 Use `latexmk` and pdfTeX with the packages in `tex/main.tex`. The builder
 compiles outside the source tree and records every local TeX and figure input.

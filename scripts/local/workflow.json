@@ -1882,6 +1882,7 @@
     "docs/research/browser-linear/v1/normalized-ridge.onnx",
     "docs/research/browser-linear/v1/results.json",
     "docs/research/browser-linear/v1/series.json.gz",
+    "frontend/public/models/nlinear.json",
     "frontend/public/models/nlinear.onnx",
     "frontend/src/lib/browserCalibration.json",
     "frontend/src/lib/nlinearMeta.json",

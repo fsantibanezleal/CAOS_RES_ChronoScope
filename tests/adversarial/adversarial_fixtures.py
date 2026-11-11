@@ -41,7 +41,7 @@ def base_copy(tmp_path_factory: pytest.TempPathFactory) -> Path:
     for source in ROOT.glob("requirements*.txt"):
         shutil.copy2(source, base / source.name)
     shutil.copytree(ROOT / "content", base / "content")
-    return add_control_contract(add_schema(base))
+    return add_schema(base)
 
 
 @pytest.fixture

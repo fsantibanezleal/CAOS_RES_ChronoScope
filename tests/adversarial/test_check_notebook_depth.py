@@ -160,9 +160,10 @@ def test_adversarial_static_cli_refuses_bad_notebook_without_execution(tmp_path:
 
 def test_adversarial_committed_curriculum_mutation_fails(tmp_path: Path) -> None:
     root = tmp_path / "copy"
-    for name in ("notebooks", "data-pipeline/pipeline"):
-        shutil.copytree(ROOT / name, root / name, ignore=shutil.ignore_patterns("__pycache__"))
-    for name in ("product.json", "docs/design/SDD.md", "docs/contracts/catalog.md"):
+    shutil.copytree(ROOT / "notebooks", root / "notebooks", ignore=shutil.ignore_patterns("__pycache__"))
+    product = json.loads((ROOT / "product.json").read_text(encoding="utf-8"))
+    stages = product["pipeline_stage_sources"].values()
+    for name in ("product.json", "docs/design/SDD.md", "docs/contracts/catalog.md", *stages):
         target = root / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / name, target)

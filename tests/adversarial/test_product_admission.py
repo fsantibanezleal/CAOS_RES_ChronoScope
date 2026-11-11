@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
+from planting import stage_of
 
 
 def adapter(repo):
@@ -18,11 +19,7 @@ def test_complete_corpus_is_admitted(repo):
 
 
 def test_mutated_frozen_input_is_refused(repo, tmp_path):
-    import shutil
-
-    stage = tmp_path / "candidate"
-    shutil.copytree(repo / "data", stage / "data")
-    shutil.copytree(repo / "models", stage / "models")
+    stage = stage_of(repo, tmp_path / "candidate")
     trace = stage / "data/derived/TRND_seasonal/trace.json"
     trace.write_bytes(trace.read_bytes() + b"\n")
     with pytest.raises(ValueError, match="Frozen source changed"):

@@ -22,7 +22,7 @@ from pathlib import Path
 
 import planting
 import pytest
-from planting import ROOT, add_schema, guard, make_tree
+from planting import ROOT, add_schema, guard, make_tree, stage_of
 
 NODE = shutil.which("node")
 DOC_ROUTES = ["/app", "/introduction", "/methodology", "/implementation", "/experiments", "/benchmark"]
@@ -194,23 +194,6 @@ def test_adversarial_a_missing_or_invalid_story_fails_the_sdd_guard(sdd_tree: Pa
 
 # ---------------------------------------------------------------- BD-2 (#91): stage admission
 
-def stage_of(root: Path, stage: Path) -> Path:
-    """What 02_generate-data stages and admits: the metadata it copies (VERSION, the contracts, product.json, the API
-    document, the declared authored inputs) and the promoted payload, taken from the product's committed bake."""
-    config = json.loads((root / "scripts/local/workflow.json").read_text(encoding="utf-8"))
-    stage.mkdir(parents=True)
-    shutil.copy2(root / "VERSION", stage / "VERSION")
-    shutil.copytree(root / "docs/contracts", stage / "docs/contracts")
-    for name in ["product.json", "app/openapi.json", *config.get("stage_inputs", [])]:
-        if (root / name).is_file():
-            (stage / name).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(root / name, stage / name)
-    for name in config["promote"]:
-        if (root / name).is_dir():
-            shutil.copytree(root / name, stage / name)
-    return stage
-
-
 def readiness(script_root: Path, judged: Path | None = None) -> subprocess.CompletedProcess:
     args = [str(judged)] if judged is not None else []
     return subprocess.run([sys.executable, str(script_root / "scripts/check_readiness.py"), *args], capture_output=True,
@@ -218,11 +201,12 @@ def readiness(script_root: Path, judged: Path | None = None) -> subprocess.Compl
 
 
 def test_the_products_checker_admits_a_stage_of_its_committed_bake(tmp_path: Path) -> None:
-    """The stage holds no scripts/ and no pipeline: the checker that runs (the product's) judges it with its own provider."""
+    """The product's checker uses its own provider when judging an external stage."""
     shipped = readiness(ROOT)
     assert shipped.returncode == 0, shipped.stdout + shipped.stderr
     stage = stage_of(ROOT, tmp_path / "external stage")
-    assert not (stage / "scripts").exists() and not (stage / "data-pipeline").exists()
+    assert not (stage / "scripts/local/workflow.json").exists()
+    assert not (stage / "scripts/check_readiness.py").exists()
     judged = readiness(ROOT, stage)
     assert judged.returncode == 0 and judged.stdout.startswith("readiness: current"), judged.stdout + judged.stderr
     assert "No module named" not in judged.stdout

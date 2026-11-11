@@ -14,6 +14,23 @@ ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_REL = "frontend/node_modules/@fasl-work/caos-app-shell/src/content/executive.schema.json"
 
 
+def stage_of(root: Path, stage: Path) -> Path:
+    """Copy the product's declared generation inputs and committed promoted payload."""
+    config = json.loads((root / "scripts/local/workflow.json").read_text(encoding="utf-8"))
+    stage.mkdir(parents=True)
+    shutil.copytree(root / "docs/contracts", stage / "docs/contracts")
+    for name in ("VERSION", "product.json", "app/openapi.json", *config.get("stage_inputs", [])):
+        source = root / name
+        if source.is_file():
+            target = stage / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+    for name in config["promote"]:
+        if (root / name).is_dir():
+            shutil.copytree(root / name, stage / name, dirs_exist_ok=True)
+    return stage
+
+
 def add_schema(dest: Path) -> Path:
     """Copy the shell's executive schema, as ``npm ci`` installs it, into a copy: ``check_sdd.py`` validates the
     executive view against it and fails without it. A missing install fails the test with the reason."""

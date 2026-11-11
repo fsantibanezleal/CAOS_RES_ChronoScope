@@ -18,7 +18,7 @@ def verify(folder: Path, root: Path = ROOT) -> None:
     assert hashlib.sha256(pdf).hexdigest() == receipt["pdf_sha256"], "Working PDF changed"
     sources = receipt["source_files"]
     assert (folder / "tex/main.tex").relative_to(root).as_posix() in sources
-    for name, expected in sources.items():
+    for name, expected in [*sources.items(), *receipt.get("companion_files", {}).items()]:
         path = (root / name).resolve()
         assert path.is_relative_to(root.resolve()), "Input escapes the source repository"
         assert hashlib.sha256(path.read_bytes()).hexdigest() == expected, f"Working PDF input changed: {name}"

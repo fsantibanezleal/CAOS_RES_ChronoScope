@@ -28,7 +28,8 @@ ANALYSIS_SECTIONS = {
 }
 FORECAST_SECTIONS = {
     "method-local-experts": ("Naive", "SeasonalNaive", "SES", "Holt", "HoltWinters", "Theta"),
-    "method-combinations": ("ContextMemory", "RecencyMean", "EqualMean", "ContextMemoryCV", "ValidationMix"),
+    "method-combinations": ("ContextMemory", "RecencyMean", "EqualMean"),
+    "temporal-validation": ("ContextMemoryCV", "ValidationMix"),
     "method-automatic-statistical": ("AutoARIMA", "AutoETS", "AutoTheta"),
     "method-lag-trees": ("LightGBM",),
     "method-neural": ("NLinear", "DLinear", "NHITS", "NLinear-nf", "DLinear-nf", "NHITS-nf"),
@@ -40,7 +41,7 @@ OTHER_SECTIONS = {
     "experimental-browser/normalized-ridge": "browser-ridge",
     "experimental-browser/split-calibration": "browser-split",
     "experimental-browser/roughness-stratification": "browser-strata",
-    "selection/training-case-ranking": "forecastability",
+    "selection/training-case-ranking": "training-case-ranking",
     "interval/gaussian": "method-local-experts",
     "historical/streaming-smoothing-drift": "streaming-evidence",
     "interval/aci-style": "streaming-evidence",

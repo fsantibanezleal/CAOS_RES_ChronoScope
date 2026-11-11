@@ -7,8 +7,8 @@ Theta,data-pipeline/chronoscopelab/model/forecasters.py::theta,sec:method-local-
 ContextMemory,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations
 RecencyMean,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations
 EqualMean,data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory,sec:method-combinations
-ContextMemoryCV,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:method-combinations
-ValidationMix,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:method-combinations
+ContextMemoryCV,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:temporal-validation
+ValidationMix,data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated,sec:temporal-validation
 AutoETS,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical
 AutoTheta,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical
 AutoARIMA,data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster,sec:method-automatic-statistical
@@ -27,7 +27,7 @@ Instance-normalized linear least-squares browser model,scripts/train_nlinear_onn
 Held-out instance-normalized ridge reference,scripts/evaluate_browser_linear.py::fit_ridge,sec:browser-ridge
 Per-lead absolute-residual split calibration,scripts/evaluate_browser_linear.py::calibration_radii,sec:browser-split
 Prefix-roughness stratified residual calibration,scripts/confirm_browser_calibration.py::group_radii,sec:browser-strata
-Training-case mean-MASE method ranking,data-pipeline/chronoscopelab/stages/train.py::run,sec:forecastability
+Training-case mean-MASE method ranking,data-pipeline/chronoscopelab/stages/train.py::run,sec:training-case-ranking
 Last-observation forecast,scripts/run_forecastability_study.py::evaluate,sec:method-local-experts
 Gaussian marginal quantiles,data-pipeline/chronoscopelab/model/forecasters.py::gaussian_quantiles,sec:method-local-experts
 Archived smoothing-plus-drift predictor,scripts/manuscript_replay.py::legacy_point,sec:streaming-evidence

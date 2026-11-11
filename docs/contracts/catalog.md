@@ -18,11 +18,13 @@ JSON Schema files define the static artifact boundaries. Python contract tests v
 | forecastability | 1.0.0 | corpus experiment and web | docs/contracts/schemas/forecastability.schema.json | data/derived/forecastability.json | data/derived/forecastability.json | tests/test_forecastability.py | frontend/src/test/research-extensions.test.tsx | Missing or incomplete corpus output is unavailable; no fifteen-case substitute. | baseline:data/derived/forecastability.json | - | tests/adversarial/test_research_corpus.py | real |
 | combination-index | 1.0.0 | offline experiment and web | docs/contracts/schemas/combination-index.schema.json | data/derived/validated-combinations.json | data/derived/validated-combinations.json | tests/test_combination_contract.py | frontend/src/test/combinations.test.ts | Missing study is shown as unavailable; another experiment is never substituted. | baseline:data/derived/validated-combinations.json | - | tests/test_combination_contract.py | real |
 | combination-case | 1.0.0 | offline experiment and web | docs/contracts/schemas/combination-case.schema.json | data/derived/combinations/m4_weekly/T1.json | data/derived/combinations/*/*.json | tests/test_combination_contract.py | frontend/src/test/combinations.test.ts | Missing case paths are shown as an explicit loading error; no synthetic replacement is created. | baseline:data/derived/combinations/m4_weekly/T1.json | - | tests/test_combination_contract.py | real |
+| readiness | 1.0.0 | scripts/local/readiness.py | docs/contracts/schemas/readiness.schema.json | data/derived/readiness.json | data/derived/readiness.json | tests/adversarial/test_product_admission.py | tests/adversarial/test_adoption_defects_0_15_001.py | Missing or stale readiness refuses release admission. | baseline:data/derived/readiness.json | - | tests/adversarial/test_adoption_defects_0_15_001.py | real |
 
 ## History
 
 | contract | version | date | change | kind |
 |---|---|---|---|---|
+| readiness | 1.0.0 | 2026-11-10 | Inventory the required document patterns under the declared catalog and product revision. | initial |
 | browser-calibration | 1.0.0 | 2026-11-05 | New independently confirmed prefix-stratified interval contract, preserving the frozen point matrix and legacy metadata. | initial |
 | browser-ridge-study | 1.0.0 | 2026-11-05 | Admit the retained experimental ridge matrix and selection metadata without replacing the deployed point model. | initial |
 | browser-ridge-study | 1.1.0 | 2026-11-05 | Accept the producer's explicit observed-window normalization descriptor; preserve all original evidence bytes. | minor |

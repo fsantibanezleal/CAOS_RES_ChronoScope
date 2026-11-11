@@ -16,7 +16,7 @@ from check_contracts import parse_catalog, parse_document_glob, split_documents 
 OUTPUT = "data/derived/readiness.json"
 
 
-def document(root: Path) -> dict:
+def document(root: Path, *, writing: bool = False) -> dict:
     catalog = (root / "docs/contracts/catalog.md").read_text(encoding="utf-8")
     _, rows = parse_catalog(catalog)
     contracts = []
@@ -24,7 +24,9 @@ def document(root: Path) -> dict:
         missing = []
         for entry in split_documents(row["documents"]):
             negative, pattern, _ = parse_document_glob(entry)
-            if not negative and not any(p.is_file() for p in root.glob(pattern)):
+            if negative or (writing and pattern == OUTPUT):
+                continue
+            if not any(p.is_file() for p in root.glob(pattern)):
                 missing.append(pattern)
         contracts.append({
             "id": row["id"],
@@ -42,14 +44,15 @@ def document(root: Path) -> dict:
 
 
 def write(root: Path) -> None:
-    value = json.dumps(document(root), indent=2) + "\n"
+    value = json.dumps(document(root, writing=True), indent=2) + "\n"
     (root / OUTPUT).write_text(value, encoding="utf-8", newline="\n")
 
 
 def validate(root: Path) -> None:
     expected = document(root)
-    if any(row["state"] != "available" for row in expected["contracts"]):
-        raise ValueError("The research corpus is missing contract documents")
+    missing = [pattern for row in expected["contracts"] for pattern in row["missing"]]
+    if missing:
+        raise ValueError("The research corpus is missing contract documents: " + ", ".join(missing))
     if json.loads((root / OUTPUT).read_text(encoding="utf-8")) != expected:
         raise ValueError("Readiness is stale; regenerate it from the current catalog and corpus")
 

@@ -454,5 +454,13 @@
 \texttt{origins[].\allowbreak{}methods[].\allowbreak{}selected} & array & minItems=3; maxItems=3 & no\\
 \texttt{origins[].\allowbreak{}methods[].\allowbreak{}selected[]} & string/number & No explicit range & item\\
 \texttt{origins[].\allowbreak{}methods[].\allowbreak{}validation\_\allowbreak{}blocks} & integer & minimum=0 & no\\
+\midrule\multicolumn{4}{@{}l}{\textbf{readiness}}\\
+\texttt{contracts[]} & object &  & item\\
+\texttt{contracts[].\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{contracts[].\allowbreak{}version} & string & pattern="\textasciicircum{}[0-9]+\allowbreak{}\textbackslash{}\textbackslash{}.[0-9]+\textbackslash{}\textbackslash{}.[0-9\allowbreak{}]+\$" & yes\\
+\texttt{contracts[].\allowbreak{}status} & fixed value & enum=["real","active"] & yes\\
+\texttt{contracts[].\allowbreak{}state} & fixed value & enum=["available\allowbreak{}","missing"] & yes\\
+\texttt{contracts[].\allowbreak{}missing} & array &  & yes\\
+\texttt{contracts[].\allowbreak{}missing[]} & string & No explicit range & item\\
 \bottomrule\end{longtable}
 \endgroup

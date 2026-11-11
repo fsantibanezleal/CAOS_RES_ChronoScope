@@ -1,7 +1,7 @@
 {
   "schema": "chronoscope.readiness/v1",
   "product_version": "0.25.000",
-  "catalog_sha256": "855194ea35739fb4d3ee4d68d7390830db9e12ed8a01b92bb56f484a6b4f9386",
+  "catalog_sha256": "867d58642d93ad3df83ee1b29207549f2ccafb0050291995f92332d9b17477e8",
   "contracts": [
     {
       "id": "trace",
@@ -96,6 +96,13 @@
     },
     {
       "id": "combination-case",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "readiness",
       "version": "1.0.0",
       "status": "real",
       "state": "available",
