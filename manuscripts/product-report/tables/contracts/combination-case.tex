@@ -1,0 +1,18 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the combination-case contract, interface revision \texttt{1.0.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-combination-case}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.combination-c\allowbreak{}ase/v1" & yes\\
+\texttt{id} & string & metadata & No explicit range & yes\\
+\texttt{dataset} & fixed value & metadata & enum=["m4\_\allowbreak{}weekly","m3\_\allowbreak{}monthly","selected\_\allowbreak{}cases"] & yes\\
+\texttt{source\_\allowbreak{}n} & integer & observations & minimum=0 & yes\\
+\texttt{sequence\_\allowbreak{}sha256} & string & metadata & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{origins} & array & metadata &  & yes\\
+\texttt{excluded} & string & metadata & No explicit range & no\\
+\texttt{representative} & string & metadata & No explicit range & no\\
+\texttt{seasonality} & integer & observations & minimum=0 & no\\
+\texttt{horizon} & integer & observations & minimum=0 & no\\
+\bottomrule
+\end{longtable}
+\endgroup

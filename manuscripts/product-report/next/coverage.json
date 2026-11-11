@@ -29,7 +29,8 @@
     "selector": "sec:contract-selector",
     "forecastability": "sec:contract-forecastability",
     "combination-index": "sec:contract-combination-index",
-    "combination-case": "sec:contract-combination-case"
+    "combination-case": "sec:contract-combination-case",
+    "readiness": "sec:contract-readiness"
   },
   "claims": {
     "BS-1": "sec:method-combinations"

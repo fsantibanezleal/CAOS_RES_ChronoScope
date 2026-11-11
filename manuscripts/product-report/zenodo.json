@@ -2,7 +2,7 @@
   "metadata": {
     "upload_type": "publication",
     "publication_type": "report",
-    "title": "ChronoScope: Sequence Diagnostics and Empirical Forecast Evaluation",
+    "title": "ChronoScope: Time-Series Diagnostics and Forecast Evaluation",
     "creators": [
       {
         "name": "Santibáñez-Leal, Felipe",
@@ -10,7 +10,7 @@
         "affiliation": "CAOS open-research programme, Santiago, Chile"
       }
     ],
-    "description": "<p>ChronoScope combines source-bound sequence diagnostics with distinct forecast evaluations. Exact Matrix Profile and FLUSS annotations, multiscale entropy, symbolic complexity, time-reversal statistics and seeded nonlinear estimates characterize original observations. A separate M4 Daily study admits 4,226 of 4,227 identities, confirms 21 of 40 prefix features under a fixed two-partition rule, and retains a negative selection result: mean confirmation MASE 3.3501 for the selector versus 3.2570 for a discovery-selected AutoETS constant. The fifteen-case forecasting experiment likewise retains the fixed ContextMemory negative result, mean MASE 1.4504 versus 1.4489 for RecencyMean. Two additional combinations select parameters using causally completed historical validation blocks. In an external twelve-method comparison, ValidationMix has mean MASE 0.2855 versus RecencyMean's 0.3109 on 294 eligible M4 Weekly series, and 0.8993 versus 0.9085 on 1,422 unique M3 Monthly series. AutoTheta remains better on monthly point error and both collections' interval score. Independent recomputation checks all 53,148 external forecasts. A reconstructed one-step interval study separately distinguishes local coverage error from error after temporal averaging. Normative schemas, generated browser types, complete numerical files and sixteen executed bilingual lessons expose computations and limitations. These finite-collection improvements do not establish population superiority, calibrated uncertainty, operational benefit or priority for the underlying combination principles.</p><p>Source code and computational records: https://github.com/fsantibanezleal/CAOS_RES_ChronoScope . Research atlas: https://chronoscope.fasl-work.com . Not peer reviewed.</p>",
+    "description": "<p>This technical report documents ChronoScope time-series diagnostics, forecast implementations, artifact contracts, validation and replay. It retains the external forecast-combination comparison, the independently reproduced Timestral holdouts, the M4 Daily selection result and the synthetic browser calibration confirmation. Procedure algorithms and field definitions distinguish callable calculations, retained outputs and runtime tests.</p>",
     "keywords": [
       "time-series forecasting",
       "reproducibility",
@@ -20,7 +20,7 @@
     ],
     "license": "cc-by-4.0",
     "language": "eng",
-    "version": "0.25.000",
+    "version": "0.26.000",
     "related_identifiers": [
       {
         "relation": "isSupplementedBy",
@@ -33,7 +33,7 @@
         "resource_type": "software"
       }
     ],
-    "publication_date": "2026-11-02",
-    "version_notes": "Adds temporally validated context/convex combinations and complete external weekly/monthly evaluation; corrects method definitions, naming and references; preserves prior negative results and unfavorable interval/statistical comparisons."
+    "publication_date": "2026-11-11",
+    "version_notes": "Adds independently reviewed methods and diagnostic procedures, data contract and field definitions, source-bound forecast and calibration evidence, and the full reproducibility crosswalk."
   }
 }

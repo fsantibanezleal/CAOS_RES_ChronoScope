@@ -1,23 +1,23 @@
 {
   "state": "working-revision",
   "published": false,
-  "independent_reader_review": "pending",
-  "full_content_bar": "pending",
+  "title": "ChronoScope: Time-Series Diagnostics and Forecast Evaluation",
+  "independent_reader_review": "passed on the bound working draft",
   "published_predecessor_preserved": true,
-  "compiled_pages": 55,
-  "source_words_measured": 17845,
-  "content_revision": "Documents fourteen contracts, execution-specific forecast equations, causal selection, architecture, admission, units and held-out calibration; full method-inventory depth and independent review remain pending",
-  "figures": 11,
-  "equations": 40,
-  "algorithms": 3,
+  "full_content_bar": "passed for this manuscript",
   "measured_content": {
-    "words": 17845,
-    "equations": 40,
+    "words": 26325,
+    "equations": 49,
     "figures": 11,
-    "tables": 24,
-    "references": 32,
-    "algorithms": 3,
-    "sections": 19
+    "tables": 28,
+    "references": 44,
+    "algorithms": 18,
+    "sections": 21
   },
-  "draft_content_check": "pass for working title and mapped ladder/contract regions; not publication acceptance"
+  "compiled_pages": 85,
+  "released_as": {
+    "version": "0.26.000",
+    "doi": "10.5281/zenodo.24124790",
+    "sha256": "b2828e58394a0bfdf0a91676b146096bb6a28b0ae26c413cc7242d8e9108b4da"
+  }
 }
