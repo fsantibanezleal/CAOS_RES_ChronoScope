@@ -1,0 +1,9 @@
+{
+  "source_candidate_sha256": "84c615357d0b488ede1882a42071b9e1424d1cb3697e0039fbe4d6c6d971b8bc",
+  "unit_safe_candidate_sha256": "069943981e17d72e26a9060666e6488ea142b97ca88a9dd0b71769b4625f739f",
+  "verification": "Two executions used separate cache identities because the aggregation code changed. All 60 full quantile paths and all per-case metrics matched exactly. Only dimensionless metrics are averaged across cases.",
+  "independent_scorer": "scripts/check_timestral_study.py",
+  "model_cases": 60,
+  "case_reweighting_draws": 10000,
+  "verification_command": "python scripts/check_timestral_study.py --reweight"
+}

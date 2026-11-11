@@ -69,6 +69,7 @@ def forecast_case(forecaster, case: dict, settings: dict) -> dict:
 def summarize(rows: list[dict], baseline: dict, plan: dict) -> dict:
     cases = {c["case_id"]: c for c in baseline["cases"]}
     real = set(plan["reference"]["authentic_case_ids"])
+    # Only dimensionless metrics can be averaged across heterogeneous source units.
     comparisons, summaries = [], []
     generator = np.random.Generator(np.random.PCG64(plan["forecast"]["seed"]))
     count = len(cases)
@@ -82,7 +83,7 @@ def summarize(rows: list[dict], baseline: dict, plan: dict) -> dict:
         for group, ids in groups.items():
             summaries.append({"model": model["repo"], "group": group, "cases": len(ids),
                               "mean_metrics": {key: float(np.mean([by_id[k]["metrics"][key] for k in ids]))
-                                               for key in by_id[ids[0]]["metrics"]}})
+                                               for key in ("mase", "msis", "wql", "coverage")}})
         reference_names = [m["name"] for m in baseline["cases"][0]["methods"]]
         for name in reference_names:
             deltas = {metric: np.array([by_id[k]["metrics"][metric] -
