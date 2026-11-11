@@ -39,13 +39,14 @@ function AnnotatedScene({ items, children, onBand, calloutClass }: {
     }
     setAnchors(previous => JSON.stringify(previous) === JSON.stringify(next) ? previous : next);
   }, []);
-  useLayoutEffect(measure);
+  useLayoutEffect(measure, [band, children, measure]);
   useLayoutEffect(() => {
     if (!host.current) return;
     const observer = new ResizeObserver(measure); observer.observe(host.current);
     return () => observer.disconnect();
   }, [measure]);
-  return <div ref={host} className="cs-annotated-scene">
+  const loading = items.length > 0 && band <= 0;
+  return <div ref={host} className="cs-annotated-scene" data-state={loading ? 'loading' : 'ready'} aria-busy={loading}>
     <div className="cs-story-drawing" style={{ paddingTop: band }}>{children}</div>
     <SceneCallouts placement="header" className={calloutClass} items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))}
       onLayout={({ bandHeight }) => { setBand(bandHeight); onBand(bandHeight); }} />
@@ -66,12 +67,13 @@ function FlowScene() {
   </div>;
 }
 function DelayScene({ onBand }: { onBand: (band: number) => void }) {
-  const { activeData } = useAtlasSource();
+  const { activeData, err } = useAtlasSource();
   const es = useShellLang() === 'es';
   const [angle, setAngle] = useState(.65);
   const { cursor, markerProps } = useLinkedCursor();
   const points = useMemo(() => delayCoordinates(activeData?.history ?? []), [activeData?.history]);
-  if (!activeData || !points.length) return <p>{es ? 'Faltan tres observaciones finitas.' : 'Three finite observations are required.'}</p>;
+  if (!activeData) return <p role={err ? 'alert' : 'status'} data-state={err ? 'unavailable' : 'loading'}>{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
+  if (!points.length) return <p>{es ? 'Faltan tres observaciones finitas.' : 'Three finite observations are required.'}</p>;
   const low = Math.min(...activeData.history), high = Math.max(...activeData.history), center = (low + high) / 2, span = high - low || 1;
   const project = (value: number[]) => projectDelay(value, center, span, angle);
   const coordinates = points.map(point => project(point.value));
@@ -167,7 +169,7 @@ export default function AtlasStory() {
     </div>;
   }
   function plot(kind: 'component' | 'dynamics' | 'decision') {
-    if (!data) return <p role="status">{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
+    if (!data) return <p role={err ? 'alert' : 'status'} data-state={err ? 'unavailable' : 'loading'}>{err || (es ? 'Cargando fuente admitida…' : 'Loading admitted source…')}</p>;
     const methods = kind === 'component' ? experts : selectedMethod ? [selectedMethod] : [], xs = Array.from({ length: h }, (_, i) => n + i);
     const series = kind === 'dynamics' ? methods.map(v => ({ label: v.name, values: v.point.map((p, i) => p - data.actual[i]), color: v.color }))
       : [...methods.map(v => ({ label: v.name, values: v.point, color: v.color, width: v.name === selectedMethod?.name ? 3 : 1.2 })), ...(kind === 'decision' && selectedMethod ? [{ label: 'q0.1', values: selectedMethod.lower, color: selectedMethod.color, dash: [4, 3] }, { label: 'q0.9', values: selectedMethod.upper, color: selectedMethod.color, dash: [4, 3] }] : []), { label: es ? 'Objetivo reservado' : 'Reserved target', values: data.actual, color: 'var(--color-fg)' }];
