@@ -18,7 +18,12 @@ function Glyph({ id, children, label }: { id: string; children: ReactNode; label
   }}>{children}</g>;
 }
 /** Anchor annotations to the measured subject, including SVG and chart controls. */
-function AnnotatedScene({ items, children, onBand }: { items: SceneCalloutDef[]; children: ReactNode; onBand: (band: number) => void }) {
+function AnnotatedScene({ items, children, onBand, calloutClass }: {
+  items: SceneCalloutDef[];
+  children: ReactNode;
+  onBand: (band: number) => void;
+  calloutClass?: string;
+}) {
   const [band, setBand] = useState(0);
   const host = useRef<HTMLDivElement>(null);
   const [anchors, setAnchors] = useState<Record<string, { x: number; y: number }>>({});
@@ -42,7 +47,7 @@ function AnnotatedScene({ items, children, onBand }: { items: SceneCalloutDef[];
   }, [measure]);
   return <div ref={host} className="cs-annotated-scene">
     <div className="cs-story-drawing" style={{ paddingTop: band }}>{children}</div>
-    <SceneCallouts placement="header" items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))}
+    <SceneCallouts placement="header" className={calloutClass} items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))}
       onLayout={({ bandHeight }) => { setBand(bandHeight); onBand(bandHeight); }} />
   </div>;
 }
@@ -170,12 +175,21 @@ export default function AtlasStory() {
     const quantities = kind === 'component' ? experts.slice(0, 3).map(v => ({ label: v.name, value: v.point[lead] }))
       : kind === 'dynamics' ? [{ label: es ? 'Pronóstico' : 'Forecast', value: selectedMethod?.point[lead] }, { label: es ? 'Objetivo' : 'Target', value: data.actual[lead] }, { label: es ? 'Error firmado' : 'Signed error', value: selectedMethod ? selectedMethod.point[lead] - data.actual[lead] : NaN }]
       : [{ label: 'q0.1', value: selectedMethod?.lower[lead] }, { label: 'q0.5', value: selectedMethod?.point[lead] }, { label: 'q0.9', value: selectedMethod?.upper[lead] }];
-    const calloutUnits = mode === 'synthetic' ? bi('gen. u.', 'u. gen.') : bi('source u.', 'u. orig.');
+    const calloutUnits = mode === 'synthetic' ? bi('gen. u.', 'u. gen.') : bi('src. u.', 'u. orig.');
+    const selectedValue = (kind === 'dynamics' ? quantities[2].value
+      : kind === 'decision' ? data.actual[lead] : selectedMethod?.point[lead]) ?? NaN;
+    // The shell can update data points without remounting the keyboard cursor as a vertical mark moves.
+    const plotted = [...series, {
+      label: es ? 'Paso seleccionado' : 'Selected lead',
+      values: xs.map((_, i) => i === lead && Number.isFinite(selectedValue) ? selectedValue : null),
+      color: 'var(--color-warn)',
+      scatter: true,
+    }];
     const annotationItems: SceneCalloutDef[] = quantities.map((quantity, i) => ({ id: `snapshot-${i}`, eyebrow: bi(methodLabel(quantity.label), methodLabel(quantity.label)), value: fmt(quantity.value), unit: calloutUnits, state: 'normal', anchor: { x: .5, y: .9 }, source: bi(`${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · lead ${lead + 1}`, `${kind === 'component' ? quantity.label : methodLabel(selectedMethod?.name ?? '')} · paso ${lead + 1}`) }));
-    return <AnnotatedScene items={annotationItems} onBand={setStageBand}><div className="cs-story-chart"><div className="cs-story-scene-choices">{(kind === 'component' ? experts : selectedMethod ? [selectedMethod] : []).map(v => <LinkedButton key={v.name} id={v.name} side="scene">{methodLabel(v.name)}</LinkedButton>)}</div>
-      <Stage label={bi('Forecast paths on reserved targets', 'Pronósticos sobre objetivos reservados')}>{() => <UPlotChart xs={xs} series={series} height="fill" xPrecision={0} yLabel={`${kind === 'dynamics' ? (es ? 'Error firmado' : 'Signed error') : (es ? 'Valor' : 'Value')} · ${units}`} xLabel={es ? 'Índice de observación' : 'Observation index'} ariaSummary={kind === 'dynamics' ? (es ? 'Pronóstico menos objetivo; cero como referencia' : 'Forecast minus target; zero reference') : (es ? 'Trayectorias sobre el mismo bloque reservado' : 'Forecast paths on the same reserved block')}
+    return <AnnotatedScene items={annotationItems} onBand={setStageBand} calloutClass="cs-story-snapshot-callouts"><div className="cs-story-chart"><div className="cs-story-scene-choices">{(kind === 'component' ? experts : selectedMethod ? [selectedMethod] : []).map(v => <LinkedButton key={v.name} id={v.name} side="scene">{methodLabel(v.name)}</LinkedButton>)}</div>
+      <Stage label={bi('Forecast paths on reserved targets', 'Pronósticos sobre objetivos reservados')}>{() => <UPlotChart xs={xs} series={plotted} solo height="fill" xPrecision={0} yLabel={`${kind === 'dynamics' ? (es ? 'Error firmado' : 'Signed error') : (es ? 'Valor' : 'Value')} · ${units}`} xLabel={es ? 'Índice de observación' : 'Observation index'} ariaSummary={kind === 'dynamics' ? (es ? 'Pronóstico menos objetivo; cero como referencia' : 'Forecast minus target; zero reference') : (es ? 'Trayectorias sobre el mismo bloque reservado' : 'Forecast paths on the same reserved block')}
         readout={index => `${es ? 'Paso' : 'Lead'} ${index + 1} · ${series.map(row => `${methodLabel(row.label)} ${fmt(row.values[index])}`).join(' · ')}`}
-        refLines={[...(kind === 'dynamics' ? [{ y: 0, label: '0' }] : []), ...(cursor != null && cursor >= n && cursor < n + h ? [{ x: cursor, label: es ? 'Objetivo seleccionado' : 'Selected target' }] : [])]} onPick={i => scrub(n + i)} />}</Stage>
+        refLines={kind === 'dynamics' ? [{ y: 0, label: '0' }] : []} onPick={i => scrub(n + i)} />}</Stage>
       <p className="cs-story-chart-caption">{kind === 'decision' ? `${methodLabel(selectedMethod?.name ?? '')} · MASE ${fmt(selectedRow?.mase)} · ${es ? 'cobertura del bloque' : 'block coverage'} ${fmt((selectedRow?.coverage ?? NaN) * 100, 1)}%` : kind === 'dynamics' ? (es ? 'Cada error conserva signo y posición temporal.' : 'Each error retains its sign and temporal position.') : (es ? 'Mismo prefijo; objetivos visibles sólo para evaluar.' : 'Same prefix; targets visible only for evaluation.')}</p><div className="cs-story-leads">{quantities.map((quantity, i) => <output data-subject={`snapshot-${i}`} key={i}>{methodLabel(quantity.label)}: {fmt(quantity.value)}</output>)}</div></div></AnnotatedScene>;
   }
   const definitions: { id: ShowcaseKind; verb: ReturnType<typeof bi>; headline: ReturnType<typeof bi>; summary: ReturnType<typeof bi>; stage: ReactNode }[] = [
