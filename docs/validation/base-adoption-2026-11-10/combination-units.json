@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "origins_checked": 4429,
+  "method_forecasts_checked": 53148,
+  "datasets": {
+    "m4_weekly": {
+      "inventory": 359,
+      "admitted": 294,
+      "exclusions": {
+        "nonfinite observations or no eligible origin": 65
+      },
+      "observable_paths_checked": 10584,
+      "flat_path_advisories_by_method": {
+        "AutoETS": 442,
+        "AutoTheta": 48,
+        "SES": 882
+      }
+    },
+    "m3_monthly": {
+      "inventory": 1428,
+      "admitted": 1422,
+      "exclusions": {
+        "exact duplicate": 6
+      },
+      "observable_paths_checked": 42564,
+      "flat_path_advisories_by_method": {
+        "AutoETS": 702,
+        "AutoTheta": 115,
+        "SES": 3547
+      }
+    }
+  },
+  "verification": "python scripts/check_combination_study.py <external-results.json> --source-root <verified-tsf-folder>",
+  "source_artifact": {
+    "path": "manuscripts/context-memory/evidence/external-evaluation.json.gz",
+    "sha256": "2a54f7c8ebf6eb048344b7245242f24b1464c1186a48d739df80b3447793e4c0",
+    "uncompressed_sha256": "b8cfef5c407adf3891c8e9070ffbfc5fccc4b6651d26a3acf50780d01eec4eda",
+    "scope": "Complete external per-origin forecasts, candidate validation scores, temporal splits and weights."
+  },
+  "source_index_sha256": "a2cbce54e080d1938b32b9232bd6a721159ed3cd347bffb4b144e8089dc265da",
+  "sources": {
+    "m4_weekly": {
+      "doi": "10.5281/zenodo.4656522",
+      "license": "CC-BY-4.0",
+      "tsf_sha256": "1b6b9cd34d5898e1def551a997b880f4add150736095e0f2f07084513131b006",
+      "zip_sha256": "5144147e7e02830f6afb9543e798a06caa9e7dc10db00cc7502af23a51f45942",
+      "horizon": 13,
+      "seasonality": 52
+    },
+    "m3_monthly": {
+      "doi": "10.5281/zenodo.4656298",
+      "license": "CC-BY-4.0",
+      "tsf_sha256": "962e5e217d3c98780ef240416daa4773a8e65961ea47e0a769178be58622d9c5",
+      "zip_sha256": "80b0c1c92b6273f12d346256d3ee29489a7b081823430ad8b3a1cc01e06ccafd",
+      "horizon": 18,
+      "seasonality": 12
+    }
+  },
+  "observable_boundary_sha256": "d2585844e26056af87ec10955732cd52a2a23422007c08fb824f75a58eba21fa",
+  "unit_reference": "Exact reconstructed prefix plus reserved target. The widened range is applied after forecasting.",
+  "verified_utc": "2026-11-11T04:57:05+00:00"
+}
