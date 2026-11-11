@@ -74,6 +74,8 @@ def test_report_is_json_ready_and_complete():
         assert key in rep
     assert "DOI" in rep["rqa"]["reference"]
     assert "DOI" in rep["surrogate_test"]["reference"]
+    assert "Lyapunov > 0.01" in rep["verdict_note"]
+    assert "0-1 K > 0.5" in rep["verdict_note"]
 
 
 def test_embed_too_short_raises():
