@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 SOURCE_FILES = (
     "data-pipeline/chronoscopelab/reevaluation.py",
     "data-pipeline/chronoscopelab/model/forecasters.py",
@@ -75,6 +76,9 @@ def validate_combination_release(stage, source=ROOT):
 
 
 def validate(stage):
+    from readiness import validate as validate_readiness
+
+    validate_readiness(stage)
     cfg = read(ROOT / "scripts/local/workflow.json")
     for name in cfg["stage_inputs"]:
         target = (stage / name).resolve()
@@ -150,6 +154,9 @@ def main():
         document = build(stage)
         (stage / "data/derived/reevaluation.json").write_text(
             json.dumps(document, indent=2, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
+        from readiness import write as write_readiness
+
+        write_readiness(stage)
     elif mode != "validate":
         raise ValueError("Expected generate or validate")
     validate(stage)

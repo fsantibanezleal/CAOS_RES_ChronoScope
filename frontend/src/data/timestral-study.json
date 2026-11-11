@@ -1,0 +1,151 @@
+{
+  "source_sha256": "069943981e17d72e26a9060666e6488ea142b97ca88a9dd0b71769b4625f739f",
+  "checkpoints": [
+    {
+      "model": "mistralai/Timestral-5M",
+      "group": "all15",
+      "cases": 15,
+      "mean_metrics": {
+        "mase": 1.084911487326061,
+        "msis": 4.808422759545966,
+        "wql": 0.5246356955973946,
+        "coverage": 0.8146825396825397
+      }
+    },
+    {
+      "model": "mistralai/Timestral-5M",
+      "group": "authentic4",
+      "cases": 4,
+      "mean_metrics": {
+        "mase": 0.5919870276884569,
+        "msis": 3.13053370873421,
+        "wql": 0.10298149791820076,
+        "coverage": 0.9196428571428572
+      }
+    },
+    {
+      "model": "mistralai/Timestral-5M",
+      "group": "generated11",
+      "cases": 11,
+      "mean_metrics": {
+        "mase": 1.2641567453760991,
+        "msis": 5.418564232568421,
+        "wql": 0.6779644947534652,
+        "coverage": 0.7765151515151516
+      }
+    },
+    {
+      "model": "mistralai/Timestral-28M",
+      "group": "all15",
+      "cases": 15,
+      "mean_metrics": {
+        "mase": 1.0549194723403752,
+        "msis": 4.67321326702844,
+        "wql": 0.47883806010373803,
+        "coverage": 0.8194444444444444
+      }
+    },
+    {
+      "model": "mistralai/Timestral-28M",
+      "group": "authentic4",
+      "cases": 4,
+      "mean_metrics": {
+        "mase": 0.5183905571440267,
+        "msis": 2.9651678836333657,
+        "wql": 0.10423588625259841,
+        "coverage": 0.9583333333333334
+      }
+    },
+    {
+      "model": "mistralai/Timestral-28M",
+      "group": "generated11",
+      "cases": 11,
+      "mean_metrics": {
+        "mase": 1.2500208960481383,
+        "msis": 5.294320679172102,
+        "wql": 0.6150570324132434,
+        "coverage": 0.768939393939394
+      }
+    },
+    {
+      "model": "mistralai/Timestral-123M",
+      "group": "all15",
+      "cases": 15,
+      "mean_metrics": {
+        "mase": 1.0358496996788107,
+        "msis": 4.618158129355101,
+        "wql": 0.5026507632938017,
+        "coverage": 0.8111111111111111
+      }
+    },
+    {
+      "model": "mistralai/Timestral-123M",
+      "group": "authentic4",
+      "cases": 4,
+      "mean_metrics": {
+        "mase": 0.5184543530670025,
+        "msis": 2.878833195014718,
+        "wql": 0.0998330417497702,
+        "coverage": 0.9479166666666666
+      }
+    },
+    {
+      "model": "mistralai/Timestral-123M",
+      "group": "generated11",
+      "cases": 11,
+      "mean_metrics": {
+        "mase": 1.2239934620831046,
+        "msis": 5.250639923660697,
+        "wql": 0.6491299347643585,
+        "coverage": 0.7613636363636364
+      }
+    },
+    {
+      "model": "mistralai/Timestral-209M",
+      "group": "all15",
+      "cases": 15,
+      "mean_metrics": {
+        "mase": 1.0490327628001608,
+        "msis": 4.672442813866709,
+        "wql": 0.5173490479780274,
+        "coverage": 0.7793650793650794
+      }
+    },
+    {
+      "model": "mistralai/Timestral-209M",
+      "group": "authentic4",
+      "cases": 4,
+      "mean_metrics": {
+        "mase": 0.5843422722181775,
+        "msis": 3.042155686548784,
+        "wql": 0.10158381744961345,
+        "coverage": 0.8913690476190476
+      }
+    },
+    {
+      "model": "mistralai/Timestral-209M",
+      "group": "generated11",
+      "cases": 11,
+      "mean_metrics": {
+        "mase": 1.2180111230117914,
+        "msis": 5.2652744965277725,
+        "wql": 0.6685364045338142,
+        "coverage": 0.7386363636363636
+      }
+    }
+  ],
+  "primary": {
+    "model": "mistralai/Timestral-209M",
+    "control": "AutoTheta",
+    "metric": "mase",
+    "mean_difference": -0.44740140383770927,
+    "negative": 12,
+    "zero": 0,
+    "positive": 3,
+    "cases": 15,
+    "case_reweighting_percentile_95": [
+      -0.7935589258020613,
+      -0.15991262433594716
+    ]
+  }
+}

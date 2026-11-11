@@ -1,0 +1,111 @@
+Algorithm~\ref{alg:diagnostic-dispatch} shows the shared availability and input
+rules of the retrospective analysis stage. Its individual calculations are
+specified in the following subsections. A reported panel error preserves
+failure rather than inserting a zero-valued scientific result.
+
+\begin{algorithm}[htbp]
+\caption{Dispatch retrospective diagnostic panels on one admitted series}
+\label{alg:diagnostic-dispatch}
+\begin{algorithmic}[1]
+\Require Observations $y$, declared period $m$, case identity, seed and typed covariates
+\State Compute univariate panels on $y$, preserving exceptions as panel errors
+\State Set $z\gets y$
+\If{an admissible robust STL fit has seasonal strength at least $0.64$}
+  \State Set $z\gets y-S$ using its seasonal component $S$
+\EndIf
+\State Compute break and regime diagnostics on $z$
+\If{$y$ contains at least 400 observations}
+  \State Derive a local case seed and run the nonlinear panel with nine surrogates
+\Else
+  \State Record an unavailable nonlinear panel
+\EndIf
+\If{a typed covariate has a complete aligned history}
+  \State Compute the pair diagnostics using that first covariate
+\Else
+  \State Record unavailable pair diagnostics
+\EndIf
+\State Bind the original-axis sequence diagnostics to the full record
+\State \Return diagnostic panels and availability records
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Unit roots, stationarity and differencing}
+\label{sec:diagnostic-stationarity}
+The legacy univariate adapters remove nonfinite entries before fitting. A lag then refers to the compressed sequence, so a missing observation can change the temporal meaning of a lag. The sequence-extension adapters instead require a finite contiguous history. The analysis stage applies these diagnostics to the full available case record, which can include observations later reserved for forecast scoring. Its diagnostic results cannot be used as historical predictors without recomputing them inside the relevant prefix.
+
+The augmented Dickey--Fuller regression~\cite{adf} is
+\begin{equation}
+ \Delta y_t=c+\gamma y_{t-1}+\sum_{j=1}^{p}\phi_j\Delta y_{t-j}+e_t .
+\end{equation}
+The adapter uses a constant and chooses augmentation order by AIC in Statsmodels 0.14.6. It tests the unit-root null using the statistic for $\gamma$, whose reference distribution differs from an ordinary regression $t$ test. Phillips--Perron keeps a constant and uses the \texttt{arch} 8.0.0 tau statistic with a long-run covariance correction. Its bandwidth controls the correction for serial dependence and is distinct from the augmentation order. DFGLS first removes the deterministic level using GLS detrending, then estimates a Dickey--Fuller regression on that residual sequence, with lag selection delegated to the pinned backend. The Zivot--Andrews call searches admissible interior breaks with the constant-break specification. Its selected break index maximizes evidence for the test's alternative under that specification. It does not identify a known external event.
+
+KPSS reverses the direction of the null. For residuals from the level model, with $S_t=\sum_{i\le t}e_i$ and long-run variance estimate $\widehat\omega^2$, the statistic is
+\begin{equation}
+ K=\frac{\sum_{t=1}^{n}S_t^2}{n^2\widehat\omega^2}.
+\end{equation}
+The Statsmodels adapter selects bandwidth automatically~\cite{kpss}. Probability values at the ends of its tables can be bounds. At level .05 the differencing routine checks KPSS repeatedly after applying $(1-B)$, where $B y_t=y_{t-1}$. It stops at two differences, fewer than eight values, a constant, nonrejection or a numerical exception. Thus its returned order is a recommendation and may encode an early stop. Seasonal differencing uses robust STL strength $\max(0,1-\mathrm{Var}(R)/\mathrm{Var}(S+R))$ and applies $(1-B^m)$ once if strength reaches .64. Short histories and zero denominators return zero strength. The combined ADF/KPSS labels summarize decisions on different nulls and deterministic specifications. Agreement does not certify a unique process class. A failed backend call can leave the stationarity panel unavailable.
+
+\subsection{Correlation, periodicity and multi-seasonal decomposition}
+\label{sec:diagnostic-autocorrelation}
+The sample autocorrelation at lag $k$ divides the lagged centered cross-product by the centered sum of squares. Statsmodels computes it using its FFT branch at up to forty lags. The partial autocorrelation uses adjusted Levinson--Durbin recursion, so its coefficients describe the remaining association after intermediate lags enter the autoregression. The wrapper's $n-1$ cap alone cannot satisfy the backend's stricter short-sample PACF limit. Both displays compare nonzero lags to the same pointwise white-noise band $z_{1-\alpha/2}/\sqrt{n}$ at $\alpha=.05$. A significant-looking isolated lag in that display has not been corrected for selection across lags.
+
+\begin{align}
+ Q_{\mathrm{BP}} &= n\sum_{k=1}^{K} r_k^2,&
+ Q_{\mathrm{LB}} &=n(n+2)\sum_{k=1}^{K}\frac{r_k^2}{n-k},\\
+ D &=\frac{\sum_{t=2}^{n}(y_t-y_{t-1})^2}{\sum_{t=1}^{n}y_t^2}.
+\end{align}
+The panel uses Box--Pierce and Ljung--Box at $K=10$, with zero fitted-model degrees of freedom supplied to the backend. A chi-square approximation addresses the specified serial correlations. It cannot certify independence. The Durbin--Watson formula is evaluated on the cleaned levels in this panel. The familiar residual interpretation around two requires the conditions of a regression residual calculation. The separate lag-pair API returns $(y_{t-k},y_t)$ for $1\le k<n$, which can be inspected in source units without interpreting the cloud as a fitted AR order.
+
+The SciPy 1.15.3 periodogram and Welch calls use one sample per observation step and choose the highest nonzero-frequency bin. A peak frequency $f$ gives period $1/f$ in observation steps. Welch averages windowed spectra over segments of length at most 256, reducing variance while coarsening frequency resolution. The winning bin can exist even on noise or a spectrum without meaningful positive power. The stage tests the declared period and twice that period for robust STL strength. For an admissible rounded spectral period, it computes $y_t=T_t+S_t+R_t$ and reports trend and seasonal strength ratios. At least two complete periods are required. The public MSTL adapter iteratively estimates multiple seasonal components, then exports their sum with the trend and remainder. A separate phase-subseries API reshapes complete cycles and reports phase means, discarding the final incomplete cycle. Neither of those two APIs is called by the default panel.
+
+\subsection{Filters, intrinsic modes and wavelet energy}
+\label{sec:diagnostic-filters}
+The Hodrick--Prescott calculation estimates the trend vector $T$ by solving
+\begin{equation}
+ \min_T\sum_t(y_t-T_t)^2+1600\sum_{t=2}^{n-1}(T_{t+1}-2T_t+T_{t-1})^2 .
+\end{equation}
+The fitted trend and residual cycle share the source unit. The fixed penalty is not adapted to hourly or daily sampling. Baxter--King instead truncates a symmetric band-pass filter with periods 6 to 32 and 12 coefficients on either side. Its public result drops 12 observations at each end. The Christiano--Fitzgerald panel uses the same nominal band and a drift adjustment, with asymmetric endpoint weights from its random-walk approximation. Full-length output does not make this filter causal.
+
+EMD sifts envelope means from extrema until the backend identifies an intrinsic mode, then repeats on the residue. The panel retains at most six modes and uses the EMD-signal 1.9.0 stopping rules. Its plain EMD seed argument has no effect. The separate CEEMDAN entry point uses 50 noise-assisted trials with a local noise seed, which controls the perturbations without establishing identifiable physical sources. Continuous wavelet energy uses the Morlet wavelet on a fitted linear detrend. For 64 geometrically spaced periods from two to $\max(4,n/2)$ the scale is period times the wavelet's central frequency. PyWavelets 1.8.0 supplies the coefficients. The panel sums their squared magnitudes over time, retaining one energy per scale, while the direct method can return the full time-scale array. Edge effects and significance are not corrected. Wavelet fitting requires at least eight observations and shorter arrays are refused.
+
+\subsection{Breakpoints, latent regimes and volatility}
+\label{sec:diagnostic-breaks}
+When robust STL strength reaches .64, the stage subtracts the seasonal component before the change-point panel. If the decomposition fails, the original record enters the panel. PELT with the squared-error segment cost searches for
+\begin{equation}
+ \min_{\tau_1,\ldots,\tau_k}
+ \sum_{j=0}^{k}\sum_{t=\tau_j}^{\tau_{j+1}-1}(y_t-\overline y_j)^2
+ + k\,2\widehat\sigma^2\log(\max(n,2)).
+\end{equation}
+Here $\tau_0=0,\tau_{k+1}=n$, each segment has at least five observations, and the default variance proxy is half the population variance of first differences with a $10^{-8}$ fallback in squared source units. The \texttt{ruptures} 1.1.10 implementation prunes the search under its cost conditions~\cite{pelt} and uses the backend's candidate grid. Binary segmentation greedily splits with a supplied number of breaks and is exposed separately. The terminal index $n$ is omitted from the exported breakpoints, and the remaining indices refer to the starts of the new segments.
+
+The CUSUM statistic is the maximum absolute scaled partial sum of residuals after removing the sample mean, using the OLS-residual reference test at .05. The two-state Markov regression estimates state-dependent means and variances and a transition matrix. Its plotted state path is the argmax of smoothed full-record probabilities. It can change retrospectively when observations arrive. The Markov call catches exceptions into an explicit error field. Returned probabilities alone do not establish that optimizer convergence was achieved.
+
+For volatility, ARCH-LM regresses squared demeaned values on twelve lagged squares and tests with the effective sample size times the auxiliary $R^2$. A rejection triggers a Gaussian constant-mean GARCH(1,1) fit with internal rescaling:
+\begin{equation}
+ \sigma_t^2=\omega+a e_{t-1}^2+b\sigma_{t-1}^2 .
+\end{equation}
+The panel retains parameters, $a+b$ and log likelihood, while the direct fit also provides conditional standard deviations. These estimates are in the backend's fitted scale when rescaling is applied. Rolling standard deviation uses sample degrees of freedom one and a trailing window $\min(20,\max(3,\lfloor n/10\rfloor))$, with leading nulls. The Box--Cox implementation adds $1-\min(y)$ when needed for positivity. For shifted positive $x$, the transform is $(x^\lambda-1)/\lambda$ or $\log x$ at $\lambda=0$. With a declared period of at least two, Guerrero estimates $\lambda$ from seasonal-subseries relative variability; without that period, the panel uses profile likelihood. The shift and selected exponent are needed to reverse the transformation. Its additive one is in source units and can change the result under unit conversion.
+
+\subsection{Distribution, scaling and deterministic-dynamics diagnostics}
+\label{sec:diagnostic-complexity}
+The distribution panel computes a population standard deviation, biased sample skewness and excess kurtosis. Jarque--Bera evaluates $n(g_1^2/6+g_2^2/24)$ against its asymptotic reference. Shapiro--Wilk is run only from 3 to 5,000 observations. It evaluates the normal order-statistic pattern and neither test supplies serial-independence evidence. The panel combines the available decisions at .05. Kernel density uses SciPy Gaussian kernels at one hundred points spanning the sample, with bandwidth chosen by the library and density in inverse source units. A singular covariance can fail the panel even when the moments were computable. The normal Q--Q calculation returns ordered observations against theoretical standard-normal quantiles, with a fitted slope in source units.
+
+The scalar entropy diagnostics use AntroPy 0.2.2. Sample entropy calls the default order two and tolerance .2 times population standard deviation, independently of the public ordinal pattern order. Permutation entropy uses order three, unit delay and normalization by $\log(3!)$. Welch spectral entropy divides the Shannon entropy of normalized spectral powers by the log of the bin count. These are distinct from multiscale sample entropy below. BDS compares an embedding correlation integral against the independent-product reference at dimension two, with the default radius 1.5 standard deviations and only for $n\ge20$. The panel leaves its statistic and probability null on failure. Catch24 retains the 22 catch22 features plus mean and standard deviation when its backend is available. Feature values have heterogeneous units.
+
+R/S scaling fits the log rescaled range across observation scales. The first call uses the simplified random-walk estimator; on failure it uses the nolds polynomial fit. DFA estimates the slope of log root-mean-square fluctuation after linear detrending of integrated profiles. The panel's conversion subtracts one from a DFA slope above one before combining it with R/S and deriving the descriptive proxy $d=H-1/2$. This conversion depends on assumptions about levels and increments. For $n\ge200$, MF-DFA uses linear detrending at up to 24 distinct scales with $q$ in $\{-5,-3,-2,-1,1,2,3,5\}$. From slopes $h(q)$ it calculates $\tau(q)=qh(q)-1$, $\alpha(q)=\mathrm{d}\tau/\mathrm{d}q$ and $f(\alpha)=q\alpha-\tau(q)$. Width above .15 is a heuristic flag. Higuchi uses graph lengths up to lag ten, Katz uses path length and extent, and Petrosian counts sign changes of first differences. Their empirical graph estimates do not identify an attractor dimension. The public DCCA coefficient normalizes the summed detrended profile covariance by the geometric mean of the two detrended variance sums at one scale. The implementation cleans the series separately before truncating to shared length, so callers must align missing observations before this call.
+
+Delay embedding forms $(y_t,y_{t+\ell},\ldots,y_{t+(d-1)\ell})$, requiring a nonempty vector roster. The canonical nonlinear panel uses $d=4$, $\ell=1$ and $n\ge400$. Correlation dimension estimates a slope of $\log C(r)$ against $\log r$, with $C(r)$ the fraction of close pairs. The Lyapunov adapter fits average log-neighbor divergence versus observation step, with temporal exclusion $\max(5,\lfloor n/200\rfloor)$. Both slope fits use seeded robust regression and a least-squares fallback. Recurrence quantification caps the embedding at 800 vectors, constructs Euclidean pair distances, chooses a threshold at the .1 quantile, removes the diagonal and counts runs of length at least two. Its pair matrix has quadratic memory in the capped count. The strict distance inequality and ties can yield density below the target.
+
+IAAFT alternates Fourier amplitude replacement and remapping to the observed ranks for one hundred iterations. The final rank mapping preserves the sorted sample values, with only approximate agreement of spectral amplitudes. The stage requests nine surrogates, comparing the case's dimension estimate with the surrogate mean minus two standard deviations. The translation-based 0--1 statistic uses the median of displacement-versus-lag correlations across one hundred random phases. The joint label requires a Lyapunov slope above .01, a 0--1 statistic above .5 and a positive surrogate flag. These finite-sample criteria do not provide a calibrated test of deterministic chaos.
+
+\subsection{Bivariate diagnostics and refitted ridge forecasts}
+\label{sec:diagnostic-relations}
+Public bivariate calls truncate to the shorter series, then take a joint finite mask on paired values. The typed analysis stage requires equal aligned input lengths before dispatching. For the direct CCF, let $x'_t=x_t-\bar x$ and $y'_t=y_t-\bar y$. At signed lag $k$ the numerator is $\sum_{t\in I_k}x'_t y'_{t+k}$ over the overlapping indices $I_k$. The denominator is $\sqrt{\sum_t{x'_t}^2\sum_t{y'_t}^2}$ over the two complete cleaned arrays, so it is fixed across lags. A positive peak lag means that $x$ leads $y$ under this definition. The public cap is 40 lags and the panel uses the fixed pointwise band $1.96/\sqrt n$.
+
+Granger comparisons~\cite{granger} run the SSR $F$ test at lags one through six in both directions, passing the tested response as the first Statsmodels column and the candidate predictor as the second. The smallest probability is compared to .05 without multiplicity correction. Engle--Granger~\cite{englegranger} fits the constant specification and tests the residual for a unit root. Johansen~\cite{johansen} uses deterministic order zero and one lag of first differences, comparing its rank-zero trace statistic to the corresponding 95 percent critical value. The separate integration diagnostic asks ADF not to reject in levels and to reject in first differences for both series. It qualifies interpretation without suppressing the returned cointegration statistics. These tests concern the specified lagged relation and integration assumptions. They do not identify an intervention effect. The archived exogenous analysis artifact has a skipped bivariate panel. The current typed dispatch accepts the declared first covariate, a separate runtime correction.
+
+The streaming experiment fits two local ridge references. For target $y_t$, the row of $X$ contains an intercept, $y_{t-1}$ and $y_{t-m}$, with the first covariate optionally appended. With $D=\operatorname{diag}(0,1,\ldots,1)$, the fit solves
+\begin{equation}
+ (X^\mathsf{T}X+D)\widehat\beta=X^\mathsf{T}y .
+\end{equation}
+At prefixes of length at most $\max(1,m)+3$, it falls back to the last value. At longer prefixes it forecasts recursively, inserting the first future covariate column when supplied and zero otherwise. Dispersion is the population residual standard deviation with a $10^{-6}$ fallback. A Gaussian quantile at lead $j$ adds its normal coefficient times that dispersion times $\sqrt{j}$. The normal-equation solve costs $O(np^2+p^3)$ for $p$ columns and $n$ available regression rows. At each streaming cutoff it refits on the prefix, so it is not a native state-update timing test. On the one generated scheduled-driver case, aware and blind versions yield MASE .49322 and .75956 and coverage .7682 and .7909. This comparison supports the usefulness of the declared driver in that construction. The current streaming Theta resolves to the corrected finite-history equation. The older retained replay uses the archived smoothing-plus-half-drift formula under the same method key.

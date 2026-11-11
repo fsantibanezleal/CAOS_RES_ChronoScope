@@ -1,21 +1,21 @@
 \begingroup\small
 \begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
-\caption{Root fields of the combination-index contract, catalog version 1.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-combination-index}\\
+\caption{Root fields of the combination-index contract, interface revision \texttt{1.0.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-combination-index}\\
 \toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
 \toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
 \texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.combination-i\allowbreak{}ndex/v1" & yes\\
 \texttt{complete} & fixed value & metadata & const=true & yes\\
 \texttt{identity} & string & metadata & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
-\texttt{protocol} & object & metadata & Nested content follows the normative schema & yes\\
-\texttt{code\_\allowbreak{}sha256} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{protocol} & object & metadata &  & yes\\
+\texttt{code\_\allowbreak{}sha256} & object & metadata &  & yes\\
 \texttt{export\_\allowbreak{}code\_\allowbreak{}sha256} & string & metadata & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
-\texttt{packages} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{packages} & object & metadata &  & yes\\
 \texttt{selected\_\allowbreak{}case\_\allowbreak{}source\_\allowbreak{}sha256} & string & metadata & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
 \texttt{cohorts} & array & metadata & minItems=3; maxItems=3 & yes\\
 \texttt{cases} & array & metadata & minItems=1802; maxItems=1802 & yes\\
-\texttt{sources} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{sources} & object & metadata &  & yes\\
 \texttt{browser\_\allowbreak{}forecast\_\allowbreak{}decimals} & fixed value & counts & const=8 & yes\\
-\texttt{audit} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{audit} & object & metadata &  & yes\\
 \bottomrule
 \end{longtable}
 \endgroup

@@ -64,7 +64,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | notebooks/requirements.txt | matplotlib | 3.10.8 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbclient | 0.11.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbformat | 5.11.1 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
-| frontend | @fasl-work/caos-app-shell | 0.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | @fasl-work/caos-app-shell | 0.25.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @testing-library/react | 16.3.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/katex | 0.16.8 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/node | 22.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
@@ -207,6 +207,21 @@ coverage require their own evidence. Requirements MI-1 through MI-3 are in
 
 ## Source-bound walkthrough
 
-The six visualization kinds, source/geometry derivations and their scientific boundaries are specified in `docs/design/showcase-catalog.md`. StoryFrame, measured annotations, linked-view state, motion and chart rendering use published shell 0.20.0. The URL-bound source survives step navigation; cross-case responses and mismatched fresh targets cannot acquire the selected identity. Combination weights additionally require a complete little-endian float64 prefix digest. The existing Explore atlas remains available.
+The six visualization kinds, source/geometry derivations and their scientific boundaries are specified in `docs/design/showcase-catalog.md`. StoryFrame, measured annotations, linked-view state, motion and chart rendering use published shell 0.25.0. The URL-bound source survives step navigation; cross-case responses and mismatched fresh targets cannot acquire the selected identity. Combination weights additionally require a complete little-endian float64 prefix digest. The existing Explore atlas remains available.
 
 `frontend/scripts/check-showcase.mjs` verifies the actual rendered theme and language, six steps, three primary annotations, desktop viewport share, annotation bounds and nonoverlap across 72 states. The shared shell G21 and full repository/browser/release gates remain separately required. Neither this implementation nor a custom matrix establishes manuscript, notebook, package-publication, unit-review or full product acceptance.
+
+## Visualization catalog
+
+| id | question | data contract | kind | interactions | linked views | placement |
+|---|---|---|---|---|---|---|
+| V1 | What was observed before the forecast origin? | fresh-reevaluation prefix, paths and reserved targets | system diagram | Select a block and scrub the observed prefix | Source selector, diagram marker and evidence panel | /story/system |
+| V2 | How do the local experts extrapolate one observed prefix? | fresh-reevaluation and prefix-bound combination-case | component chart | Select an expert and scrub the common horizon | Expert path, lead callouts and weights when admitted | /story/component |
+| V3 | How does the observed sequence move across consecutive delayed coordinates? | fresh-reevaluation observed prefix | rotatable delay projection | Rotate projection and select a retained observation | Trajectory, selected triple and evidence panel | /story/domain |
+| V4 | Where do the signed errors change across the forecast horizon? | fresh-reevaluation point and target arrays | error dynamics chart | Select a method and move the target cursor | Error trace, lead readout and panel | /story/dynamics |
+| V5 | Which target blocks were observable at the historical query? | combination-case completed origin records and horizon | method timeline | Move cutoff and select an origin | Completion status, memory interval and panel | /story/method |
+| V6 | How do selected forecasts and interval endpoints compare with the reserved block? | fresh-reevaluation paths and scores | decision chart | Change method and move the shared lead cursor | Forecast path, held-out values, quantile readout and scores | /story/decision |
+
+Shell 0.25.0 provides the measured header band used to reserve drawing space.
+The subjects are measured in the resized drawing, and the mobile stage floor
+preserves room for the chart or trajectory beneath the callouts.

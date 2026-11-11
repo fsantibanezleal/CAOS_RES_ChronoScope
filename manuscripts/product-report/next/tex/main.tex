@@ -32,7 +32,7 @@ Not peer reviewed. Source, data and computational records: \url{https://github.c
 \begin{center}\textbf{Working revision; not a new published version.}\end{center}
 \headerblock
 \begin{abstract}
-ChronoScope combines source-bound time-series diagnostics with separate forecast evaluations. Exact Matrix Profile and FLUSS annotations, multiscale entropy and seeded nonlinear estimates describe observed sequences without establishing intrinsic predictability. A disjoint-series M4 Daily experiment retains an unfavorable method-selection result, while an external combination study finds lower mean MASE for temporally validated mixtures than for a recency-only control on eligible M4 Weekly and M3 Monthly series. AutoTheta remains better on monthly point error and both collections' interval score. New paired series resampling quantifies those bounded comparisons. A separate prospectively specified synthetic experiment finds that validation-selected ridge does not improve the browser point forecast. An independent confirmation then preserves that point map and evaluates prefix-stratified residual calibration on 800 fresh series. Mean normalized interval score falls from 4.749003 to 2.393376, with a paired difference of -2.355627 and exploratory 95 percent interval [-2.437258,-2.273077]. Overall marginal coverage is 82.73 percent at the nominal 80 percent level, with remaining family-specific differences disclosed. A source-bound browser walkthrough separates observed prefixes, expert paths, sequence geometry, held-out errors, historical information timing and descriptive comparisons. Shared source ownership prevents a late case load from acquiring another case identity. These views expose the admitted evidence and its availability; they do not create additional forecasting trials. Complete forecasts, partition identities, source hashes and independent scoring expose both favorable and unfavorable findings. These experiments establish neither operational benefit nor calibration for arbitrary authentic series.
+ChronoScope combines source-bound time-series diagnostics with separate forecast evaluations. Exact Matrix Profile and FLUSS annotations, multiscale entropy and seeded nonlinear estimates describe observed sequences without establishing intrinsic predictability. A disjoint-series M4 Daily experiment retains an unfavorable method-selection result, while an external combination study finds lower mean MASE for temporally validated mixtures than for a recency-only control on eligible M4 Weekly and M3 Monthly series. AutoTheta remains better on monthly point error and both collections' interval score. Paired series resampling quantifies those bounded comparisons. On the fifteen selected blocks, the planned Timestral-209M minus AutoTheta mean MASE difference is -0.44740, with a descriptive case-reweighting interval from -0.79356 to -0.15991. A separate prospectively specified synthetic experiment finds that validation-selected ridge does not improve the browser point forecast. An independent confirmation then preserves that point map and evaluates prefix-stratified residual calibration on 800 fresh series. Mean normalized interval score falls from 4.749003 to 2.393376, with a paired difference of -2.355627 and exploratory 95 percent interval [-2.437258,-2.273077]. Overall marginal coverage is 82.73 percent at the nominal 80 percent level, with remaining family-specific differences disclosed. A source-bound browser walkthrough separates observed prefixes, expert paths, sequence geometry, held-out errors, historical information timing and descriptive comparisons. Shared source ownership prevents a late case load from acquiring another case identity. These views expose the admitted evidence and its availability; they do not create additional forecasting trials. Complete forecasts, partition identities, source hashes and independent scoring expose both favorable and unfavorable findings. These experiments establish neither operational benefit nor calibration for arbitrary authentic series.
 \end{abstract}
 
 \section{Introduction}
@@ -57,6 +57,8 @@ Table~\ref{tab:cases} distinguishes eleven generated mechanisms from four real e
 \input{../tables/cases.tex}
 
 The source manifest records provenance, redistribution permission, seed, original series descriptors, artifact paths and byte counts. Real-data CSVs are committed as compact admitted excerpts. A source's redistribution status is an explicit field; a restricted source must not expose its raw path merely because aggregate metrics are publishable. The current comparison uses only available, non-redacted inputs.
+
+\input{source-provenance.tex}
 
 \subsection{Why a replay history is not a fitting series}
 The released trace stores at most three hundred historical display samples and their original indices. Nine case histories exceed that display limit. Treating those samples as consecutive observations changes the time interval and can destroy the meaning of a seasonal lag. It also changes a historical scale used by MASE. The initial comparison made this error and is invalidated; its earlier bytes remain identifiable through Git, not as admitted scientific evidence.
@@ -121,7 +123,7 @@ The fixed-allocation means in Figure~\ref{fig:fixed-combination-means} retain th
 \begin{figure}[htbp]\centering\includegraphics[width=0.87\textwidth]{proposal-comparison.pdf}
 \caption{Fixed matching-expert combinations on the corrected fifteen-case protocol. Lower mean MASE is preferable. The contextual component does not improve on the recency-only ablation. Bars summarize selected final blocks, not independent population replications.}\label{fig:fixed-combination-means}\end{figure}
 
-\input{../../../context-memory/next/tex/selection-derivation.tex}
+\input{selection-derivation.tex}
 
 \input{combination-algorithm.tex}
 
@@ -180,6 +182,16 @@ Exact Hugging Face revisions identify the four admitted pretrained checkpoints. 
 
 Each admitted fresh path has the requested horizon and three ordered finite columns. Its execution record retains the package and checkpoint identities used for that run. A new successful run establishes computability for these inputs; it does not establish numerical identity across arbitrary devices or a new independent target realization.
 
+\input{timestral.tex}
+
+The companion table \path{next/tables/fresh-by-case.csv} gives all twenty-two
+fresh method scores on each of the fifteen final blocks. With one block per
+case, the individual case scores are direct measurements on that block.
+Repeated lead errors within a block do not provide independent replications.
+A paired reweighting across selected cases measures sensitivity to their
+relative weighting. It cannot supply within-case uncertainty over a future
+forecast origin or a population confidence interval for a source collection.
+
 \section{Combinations selected by temporal validation}
 ContextMemoryCV and ValidationMix extend the fixed combination with parameter selection inside the observed prefix. They retain SeasonalNaive, SES, Holt, additive HoltWinters and finite-history Theta as experts. At a remembered validation origin $v$, a training block beginning at $o$ is eligible only if $o+H\le v$. At least three fully completed training blocks are required. Candidate scores average scaled absolute error over these causally held-out historical blocks. Without eligible validation, the method falls back to the original RecencyMean rule. No outer target is accepted by the fitting API.
 
@@ -198,11 +210,17 @@ ValidationMix lowers mean MASE relative to RecencyMean on both admitted collecti
 
 Interval quality remains unfavorable relative to AutoTheta. ValidationMix gives weekly MSIS 2.5477 and coverage .9503, and monthly MSIS 6.8208 and coverage .9326. AutoTheta gives 1.7125 and .8511 weekly, and 4.2994 and .7279 monthly. Nominal coverage is .8. These weighted Gaussian endpoints are not calibrated by minimizing point error, and wider intervals do not establish a better decision rule.
 
+Table~\ref{tab:paired-main} reports a retrospective paired-series calculation on the retained forecasts. First average all admitted origins within each series and method. For each control, subtract its series loss from the corresponding ValidationMix loss. Resample the resulting paired differences with replacement within each collection, keeping the number of selected identities fixed at 294 or 1,422. Ten thousand draws use PCG64 with seed 20261105 plus the first four bytes of the SHA-256 of the collection identifier interpreted in little-endian order. The endpoints are the linear 2.5 and 97.5 percent quantiles of the resampled means. This operation does not refit an expert, choose a new parameter or treat the repeated origins as independent replications. The complete retained evidence includes 36 comparisons. The intervals were calculated after seeing the original results and remain exploratory and unadjusted for multiplicity or source dependence.
+\input{../tables/paired-main.tex}
+
+The monthly mean MASE difference from RecencyMean is $-0.009154$, with an interval from $-0.013176$ to $-0.005173$. Only 589 of 1,422 monthly series have lower error than RecencyMean. These two statements describe the distribution of magnitudes and the frequency of improvement, respectively. Monthly AutoTheta still has lower point error, and its interval score remains lower in both collections. The positive ValidationMix minus AutoTheta MSIS differences in Table~\ref{tab:paired-main} quantify the cost of the point-selected mixture's interval construction under this scoring rule.
+
 On the original fifteen development blocks, ContextMemoryCV and ValidationMix give mean MASE 1.3974 and 1.4031, while the original fixed ContextMemory and RecencyMean results remain 1.4504 and 1.4489. Their MSIS values, 9.5025 and 9.3428, are worse than RecencyMean's 9.1076. These already examined cases are not new external confirmation. The separate original twenty-two-variant execution and complete M4 Daily association/selection study remain unchanged.
 
 All 53,148 method--origin forecast paths are independently rescored against their source-derived targets and seasonal scales. Final expert weights reconstruct the combined quantile paths. Temporal splits, complete historical targets, candidate losses and chosen parameters remain in the compressed numerical file. Browser delivery uses a compact index and separately fetched per-series documents, rather than downloading the entire numerical file for one chart. Every displayed path is independently checked against its stored score. Exact duplicates do not imply that all remaining series are independent or free of related-source overlap; no population or operational-superiority conclusion follows.
 
 \section{Streaming evaluation as separate evidence}
+\label{sec:streaming-evidence}
 The historical streaming experiment uses a predict--observe--update order~\cite{dawid}, but the point forecaster is recomputed on each full observed prefix. Its artifact key \texttt{Theta} denotes a smoothing-plus-half-drift adaptation, not the corrected finite-history Theta equation used in the final-block comparison. ACI-style~\cite{aci} and PID-style controllers adapt the effective miscoverage level of a normalized-residual FIFO buffer. The PID-style rule is not a faithful implementation of published Conformal PID~\cite{pid}; its guarantees are not imported by name. No native stateful model update or framework capability comparison is evaluated.
 
 A full numerical reconstruction exports 21,296 method-cutoff rows across fifteen cases, with targets, forecast endpoints, scores, buffer sizes and controller states. Every archived coverage trajectory and final weighted quantile loss matches at saved precision. At nominal 80\%, mean rolling absolute coverage error is .0830 for the raw smoothing-plus-drift base, .0656 for its ACI-style controller and .0645 for its PID-style controller. The much smaller .0416, .0057 and .0060 values measure absolute deviations after temporal averaging, which permits local errors to cancel. These are different statistics. Scaled widths and interval scores accompany coverage.
@@ -231,6 +249,13 @@ The browser recomputes lightweight diagnostics and light forecasts for generated
 
 Heavy statistical, neural and pretrained calculations run offline. GPU availability, checkpoint caches and Python environments are distinct from the served browser bundle. A local environment with only NumPy cannot be represented as a complete neural or foundation-model rerun. Conversely, rescoring a stored model path does not require pretending that its original runtime has been restored.
 
+The procedure crosswalk in \path{next/tables/procedure-crosswalk.csv} connects
+the executable source inventory with the method sections. The shared dispatch
+conditions are described below, and each fitted statistic retains its separate
+interpretation.
+
+\input{diagnostic-procedures.tex}
+
 \subsection{Sequence diagnostics on original observations}
 The diagnostic extension operates on every original observation rather than the display-decimated history. For window length $m$, the exact self-join Matrix Profile is
 \begin{equation}
@@ -243,7 +268,7 @@ FLUSS consumes nearest-neighbor indices and constructs a corrected arc curve~\ci
 Figure~\ref{fig:sequence-patterns} places the estimated windows and boundaries on original observation positions. The annotations are algorithm outputs, not supplied ground-truth regime labels.
 
 \begin{figure}[ht]\centering\includegraphics[width=.95\linewidth]{sequence-patterns.pdf}
-\caption{Original-axis sequence annotations for the structural-break case. Colored intervals identify a motif pair and discord candidates; dashed boundaries are FLUSS candidates. Neither the window ranks nor the requested segmentation count establishes ground-truth anomalies.}\label{fig:sequence-patterns}\end{figure}
+\caption{Original-axis sequence annotations for the structural-break case. Hatched spans label the motif and discord windows, and dashed boundaries mark FLUSS candidates. Neither the window ranks nor the requested segmentation count establishes ground-truth anomalies.}\label{fig:sequence-patterns}\end{figure}
 
 Costa multiscale entropy averages non-overlapping blocks at each scale $\tau$~\cite{costa}. Sample entropy uses order two, tolerance $r=0.15s(x)$ fixed to the original population standard deviation, and the same $N_\tau-2$ template starts for dimensions two and three. Distinct unordered pairs match at Chebyshev distance at most $r$, excluding self matches. If $B_\tau$ pairs match at dimension two and $A_\tau$ extensions match, the estimate is
 \begin{equation}
@@ -261,6 +286,7 @@ Figure~\ref{fig:sequence-entropy} shows the entropy calculation as coarsening re
 The previous nolds correlation-dimension and Lyapunov defaults used randomized RANSAC fits without an explicit random state. The adapter now obtains deterministic log-distance fitting data, then fits the same robust polynomial-feature linear model with an explicit local seed. Least squares is the fallback when consensus fails. A case seed is derived from SHA-256 of case identity and the supplied pipeline seed; surrogate and 0--1 calculations receive derived local seeds. Process-global random state is not changed. DFA and fallback R/S slopes explicitly request least squares. These fit choices can move historical diagnostics even when the source observations are unchanged. Two complete analyzer calls for every case must serialize identically before promotion; independent-process and caller-RNG tests additionally protect the estimator boundary. The existing surrogate gate remains necessary for a chaos classification.
 
 \subsection{Corpus forecastability and disjoint-series confirmation}
+\label{sec:forecastability}
 A separate fixed-protocol experiment processes the complete Monash M4 Daily source, 4,227 series under CC BY 4.0~\cite{m4daily}. Every identity is admitted or assigned an explicit exclusion. Exact whole-sequence duplicates retain the lexicographically first identity for inference. Nonfinite observations, insufficient prefixes and unavailable MASE denominators are excluded with reasons. Source ZIP and extracted TSF hashes identify the input bytes; a full-sequence identity hash is used only for duplicate grouping and partition allocation, never as a predictor.
 
 Each admitted series contributes three non-overlapping fourteen-step future blocks. Each model uses at most the preceding 1,024 contiguous observations at an origin. Features use only the earliest fitting prefix. Forecast seasonality is one, matching the M4 Daily setting; weekly phase strength is a separately named diagnostic. The fixed roster is Naive, SeasonalNaive, SES, Holt, HoltWinters, Theta, AutoETS and AutoTheta. Some configurations coincide when the period is one; these explicit identities do not imply eight distinct future paths. No deep or pretrained model participates in this corpus study, which does not replace the separate twenty-two-variant case experiment.
@@ -302,20 +328,23 @@ For the contextual proposal, a stronger follow-up also needs faithful FFORMA and
 
 Numerical checks use different reference constructions where feasible. Seasonal continuation is checked on an incomplete cycle so that restarting phase would fail. Finite-history Theta is compared with a two-line derivation rather than a second transcription of its final formula. Exact profile distances are checked against exhaustive distances on short sequences. Entropy calculations retain independent matching-count examples, and corrected probabilities are recomputed without relying only on the plotting artifact. These checks target concrete mistakes; passing them does not prove every input regime correct.
 
-Browser evidence adds another boundary. A late asynchronous result must not acquire a newer case identity, a replay-decimated history must not become a contiguous fit input, and an optional combination record must not join a different prefix. Adversarial controls exercise these refusals. Frontend build success, pointer traversal, keyboard interaction and idle behavior are measured separately. The latest walkthrough increment still requires its complete final browser matrix, and the artifact admission result is not a substitute for that rendered check. Independent reader review and complete dimensional review remain separate requirements before a new publication or release can be accepted.
+Browser evidence adds another boundary. A late asynchronous result must not acquire a newer case identity, a replay-decimated history must not become a contiguous fit input, and an optional combination record must not join a different prefix. Tests submit these mismatched inputs to verify each refusal. Frontend build success, pointer traversal, keyboard interaction and idle behavior are measured separately. The latest walkthrough increment still requires its complete final browser matrix, and the artifact admission result is not a substitute for that rendered check. Independent reader review and complete dimensional review remain separate requirements before a new publication or release can be accepted.
 
 \input{discussion-limits.tex}
 
 \section{Reproduction and availability}
-Implementations and admitted numerical outputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/d702831a7660f9fb8123798a2e3bbf5e47887bce}{frozen source and data snapshot}.
+Implementations and admitted numerical outputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/20fa9357716b534c4fdd3a5aa66cacd9eb66e416}{source snapshot for the archived studies}.
 
-The source tree contains the corrected computation in \texttt{chronoscopelab.reevaluation}, the fixed proposal in \texttt{model/context\_memory.py}, original released traces, admitted source CSVs and the generated comparison. Running \texttt{scripts/reevaluate.py} regenerates the common final-block artifact while preserving the original traces. The staged local workflow provides complete candidate admission and explicit promotion. Exact commands, environment pins and validation results are recorded with the source.
+The source tree contains the corrected computation in \texttt{chronoscopelab.reevaluation}, the fixed proposal in \texttt{model/context\_memory.py}, original released traces, admitted source CSVs and the generated comparison. Running \texttt{scripts/reevaluate.py} regenerates the common final-block artifact while preserving the original traces. The staged local workflow provides complete candidate admission and explicit promotion. The original fresh-study implementation bytes are retained in a 56-source archive with a verified inventory. The historical execution commit was unavailable. The reproducibility instructions beside this report identify the distinct commands for numerical checks, figure generation and the clean LaTeX build.
 
 The numerical tables and figures are generated directly from the two admitted forecast comparisons, full-sequence diagnostics and complete M4 study. The research report generator checks independent corpus statistics before producing its tables. The new lesson authoring script records the exact admitted corpus results; fresh-kernel execution remains a separate step. Code and compact admitted data use the repository's software/data licences; prose uses the licence stated in the header. Numerical reproduction does not establish representative population sampling, operational adoption or calibrated uncertainty for a future deployment.
 
 
 
 \input{conclusions.tex}
+
+\appendix
+\input{nested-contracts.tex}
 
 
 \clearpage
@@ -332,14 +361,24 @@ The numerical tables and figures are generated directly from the two admitted fo
 \bibitem{pid} A. N. Angelopoulos, E. Cand\`es and R. J. Tibshirani, Conformal PID control for time series prediction. \url{https://arxiv.org/abs/2307.16895}.
 \bibitem{fpp} R. J. Hyndman and G. Athanasopoulos, Forecasting: Principles and Practice. Holt--Winters seasonal method. \url{https://otexts.com/fpp3/holt-winters.html}.
 \bibitem{statsforecast} Nixtla, StatsForecast model implementation documentation. \url{https://nixtlaverse.nixtla.io/statsforecast/src/core/models.html}.
+\bibitem{timestral} A. Petralia et al., Timestral. arXiv:2610.37585, 2026. \url{https://arxiv.org/abs/2610.37585}. Inference source: \url{https://github.com/mistralai/timestral}.
 \bibitem{chronos} Amazon Science, Chronos forecasting implementation and releases. \url{https://github.com/amazon-science/chronos-forecasting}.
 \bibitem{timesfm} Google Research, TimesFM model API. \url{https://github.com/google-research/timesfm}.
 \bibitem{tirex} P. Podest et al., TiRex-2: Generalizing TiRex to Multivariate Data and Streaming, 2026. \url{https://arxiv.org/abs/2607.01204}.
 
+\bibitem{adf} D. A. Dickey and W. A. Fuller, Distribution of the estimators for autoregressive time series with a unit root. JASA, 1979. \url{https://doi.org/10.1080/01621459.1979.10482531}.
+\bibitem{kpss} D. Kwiatkowski, P. C. B. Phillips, P. Schmidt and Y. Shin, Testing the null hypothesis of stationarity against the alternative of a unit root. Journal of Econometrics, 1992. \url{https://doi.org/10.1016/0304-4076(92)90104-Y}.
+\bibitem{pelt} R. Killick, P. Fearnhead and I. A. Eckley, Optimal detection of changepoints with a linear computational cost. JASA, 2012. \url{https://doi.org/10.1080/01621459.2012.737745}.
+\bibitem{granger} C. W. J. Granger, Investigating causal relations by econometric models and cross-spectral methods. Econometrica, 1969. \url{https://doi.org/10.2307/1912791}.
+\bibitem{englegranger} R. F. Engle and C. W. J. Granger, Co-integration and error correction: representation, estimation, and testing. Econometrica, 1987. \url{https://doi.org/10.2307/1913236}.
+\bibitem{johansen} S. Johansen, Estimation and hypothesis testing of cointegration vectors in Gaussian vector autoregressive models. Econometrica, 1991. \url{https://doi.org/10.2307/2938278}.
 \bibitem{profile} C.-C. M. Yeh et al., Matrix Profile I: All Pairs Similarity Joins for Time Series. ICDM, 2016. \url{https://doi.org/10.1109/ICDM.2016.0179}.
 \bibitem{fluss} S. Gharghabi et al., Matrix Profile VIII: Domain Agnostic Online Semantic Segmentation at Superhuman Performance Levels. ICDM, 2017. \url{https://doi.org/10.1109/ICDM.2017.21}.
 \bibitem{costa} M. Costa, A. L. Goldberger and C.-K. Peng, Multiscale Entropy Analysis of Complex Physiologic Time Series. Physical Review Letters 89, 068102, 2002. \url{https://doi.org/10.1103/PhysRevLett.89.068102}.
 \bibitem{lz} A. Lempel and J. Ziv, On the Complexity of Finite Sequences. IEEE Transactions on Information Theory 22, 75--81, 1976. \url{https://doi.org/10.1109/TIT.1976.1055501}.
+\bibitem{electricity} A. Trindade, ElectricityLoadDiagrams20112014. UCI Machine Learning Repository, 2015. \url{https://doi.org/10.24432/C58C86}.
+\bibitem{beijing} S. Chen, Beijing PM2.5 Data. UCI Machine Learning Repository, 2017. \url{https://doi.org/10.24432/C5JS49}.
+\bibitem{m4hourly} R. Godahewa et al., M4 Hourly Dataset, Monash Forecasting Repository. \url{https://doi.org/10.5281/zenodo.4656589}.
 \bibitem{m4daily} R. Godahewa et al., M4 Daily Dataset, Monash Forecasting Repository. \url{https://doi.org/10.5281/zenodo.4656548}.
 \bibitem{freshby} tsfresh, Feature filtering: dependent-test significance and Benjamini--Yekutieli correction. \url{https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html}.
 

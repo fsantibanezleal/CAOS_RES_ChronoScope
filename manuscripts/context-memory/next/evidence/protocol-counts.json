@@ -10,7 +10,10 @@
       "horizon": 13,
       "methods": 12,
       "method_paths": 10584,
-      "point_values": 137592
+      "point_values": 137592,
+      "worker_median_seconds": 3.815291700000671,
+      "worker_p90_seconds": 6.484760220000316,
+      "validation_mix_stack_origins": 289
     },
     "m3_monthly": {
       "source": 1428,
@@ -20,7 +23,10 @@
       "horizon": 18,
       "methods": 12,
       "method_paths": 42564,
-      "point_values": 766152
+      "point_values": 766152,
+      "worker_median_seconds": 0.7251150500014774,
+      "worker_p90_seconds": 1.0798518699950364,
+      "validation_mix_stack_origins": 990
     }
   },
   "total": {

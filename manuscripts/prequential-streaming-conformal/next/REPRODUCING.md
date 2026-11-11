@@ -1,6 +1,6 @@
 # Source-bound numerical replay and document build
 
-Use a clean copy of the complete source snapshot accompanying this document.
+The independent reconstruction used the [source snapshot at 9987b11](https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/9987b11bbc3bfd24cb4dbd40167036279e780f98). It regenerated all fifteen case streams, 630 sensitivity rows and 66 repeat rows byte for byte in 82.61 seconds on an Intel Core i9-14900HX (Windows 11 build 26300, Python 3.13.14, NumPy 2.4.6, PreqTS 0.3.0). Use the current revision for this text and PDF, and that snapshot for the independently verified reconstruction.
 `build-receipt.json` identifies every local TeX/PDF input by SHA-256. The
 retrospective analysis additionally fixes the original numerical replay digest
 in `evidence/analysis-plan.json`. The historical execution environment and

@@ -50,10 +50,14 @@ jobs:
         run: python scripts/check_sdd.py
       - name: The notebooks, layout, English and Spanish mirror, levels, anatomy, metadata and cleanliness (static; the execution is a local gate, ADR-0074)
         run: python scripts/check_notebooks.py
+      - name: Notebook depth and whole-tool coverage
+        run: python scripts/check_notebook_depth.py
       - name: The tier names stay internal, never in a notebook, a manuscript, the README or the app (CAOS_MANAGE method-tiers rule, section 0)
         run: python scripts/check_internal_names.py
       - name: The manuscripts, product.json declares the Zenodo technical report (static; the online read is a local release step, ADR-0074)
         run: python scripts/check_manuscripts.py
+      - name: Native manuscript sources, content depth and coverage
+        run: python scripts/check_manuscript_depth.py
       - name: Every published PDF and reviewed canonical source matches its receipt
         run: python scripts/check_publication_bindings.py
       - name: Working review PDFs match their compiled local source and figure inputs
@@ -62,6 +66,12 @@ jobs:
         run: python scripts/method_inventory.py
       - name: Independently rescore every held-out browser forecast and retain partition provenance
         run: python scripts/check_browser_linear_evidence.py
+      - name: Rescore the Timestral holdouts and verify the displayed results
+        run: python scripts/build_timestral_report.py --check
+      - name: Verify the generated technical report data tables
+        run: |
+          python scripts/build_report_contract_tables.py --check
+          python scripts/build_report_evidence_tables.py --check
       - name: The README states the repository by areas
         run: python scripts/check_readme_areas.py
       - name: An animated SVG carries its reduced-motion block and plays ten seconds at most (shell 0.14.0, reuses the shell's analysis)

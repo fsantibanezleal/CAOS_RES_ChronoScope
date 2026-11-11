@@ -9,6 +9,17 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const PUB = join(HERE, 'public');
 
+// Resolve the generated directory before letting the shared overlay rebuild it.
+mkdirSync(PUB, { recursive: true });
+const dataOverlay = join(PUB, 'data');
+if (relative(realpathSync(HERE), realpathSync(PUB)) !== 'public' ||
+    (existsSync(dataOverlay) && relative(realpathSync(PUB), realpathSync(dataOverlay)) !== 'data')) {
+  throw new Error('Generated data cleanup must stay inside frontend/public/data');
+}
+
+// The base owns the data overlay. The product adds admitted research documents through its hook.
+await import('./scripts/copy-data.mjs');
+
 // The generated ONNX metadata is imported by the browser and also published beside the ONNX weights.
 const modelMeta = join(HERE, 'src', 'lib', 'nlinearMeta.json');
 if (existsSync(modelMeta)) {
@@ -18,25 +29,6 @@ if (existsSync(modelMeta)) {
 }
 mkdirSync(join(PUB, 'models'), { recursive: true });
 cpSync(join(HERE, 'src', 'lib', 'browserCalibration.json'), join(PUB, 'models', 'browser-calibration.json'));
-
-// 1) data/derived -> public/data (traces under <case>/trace.json + manifests/ subdir incl. index.json)
-const derived = join(ROOT, 'data', 'derived');
-if (existsSync(derived)) {
-  // public/data is a generated overlay: retaining files removed from the canonical
-  // corpus would expose obsolete cases through the static site.
-  mkdirSync(PUB, { recursive: true });
-  const output = join(PUB, 'data');
-  if (relative(realpathSync(HERE), realpathSync(PUB)) !== 'public'
-      || (existsSync(output) && relative(realpathSync(PUB), realpathSync(output)) !== 'data')) {
-    throw new Error('Generated data cleanup must stay inside frontend/public/data');
-  }
-  rmSync(output, { recursive: true, force: true });
-  mkdirSync(join(PUB, 'data'), { recursive: true });
-  cpSync(derived, join(PUB, 'data'), { recursive: true });
-  console.log('[copy-data] data/derived -> public/data');
-} else {
-  throw new Error('Canonical data/derived is missing; admit the complete corpus before building');
-}
 
 // 2) inline the chronoscopelab Python sources for the optional Pyodide live lane -> public/pyodide/sources.json
 const pkg = join(ROOT, 'data-pipeline', 'chronoscopelab');

@@ -64,6 +64,81 @@ Implementation correctness and empirical quality are separate conclusions. The i
 
 Record the exact information set whenever the temporal cut moves. Build the corresponding future target in chronological order, refit all competitors, and recalculate the historical scale from that prefix. Use adversarial histories with incomplete seasons to test a seasonal algorithm. Then examine both whole-block scores and individual errors, while keeping clear that one forecast origin supplies neither a population estimate nor a deployment acceptance test.
 
+
+### Sensitivity to the position inside a day
+
+Number the prefix observations from zero. If its length is $n$, the next
+seasonal slot is $n\bmod m$. An additive HoltWinters fit retains a level
+$\ell$ and trend $b$ in source units and source units per step, plus $m$
+seasonal offsets $s$ in source units. For a lead $j$ counted from one, the
+released forecast is
+
+$$
+\widehat y_{n+j-1} = \ell + jb + s_{(n+j-1)\bmod m}.
+$$
+
+For $m=12$, a prefix of length 125 advances to slot 5. Starting the forecast
+at slot zero would reuse the seasonal position of the first observation,
+although the predicted day has already advanced five slots. Refit before
+changing the cutoff, because moving it also changes the estimated level and
+trend. The search in this implementation tries four level coefficients,
+two trend coefficients and three seasonal coefficients. It minimizes squared
+one-step residuals after the initial seasonal cycle. Below two complete
+cycles, the public method falls back to Holt, since it cannot estimate this
+seasonal initialization from the available observations.
+
+The synthetic control above isolates phase with a known period. The following
+experiment moves to the committed MT_010 electricity excerpt (Trindade,
+UCI, CC BY 4.0, [DOI 10.24432/C58C86](https://doi.org/10.24432/C58C86)).
+Each hourly-labelled value sums four successive quarter-hour power readings
+in kW. These sums have not been converted to energy. The first retained
+timestamp is 00:15 and later timestamps advance by one hour. The data contain
+480 rows. A daily reference has $m=24$ and a weekly reference $m=168$. We
+compare both seasonal-naive forecasts and daily HoltWinters at cutoffs
+312 through 368, stepping by seven observations to move across different
+daily phases. At each cutoff all three forecast the same 24 reserved
+observations. We score them with one common daily lag scale so that the
+weekly method does not get a different denominator.
+
+$$
+s_{24}(y_{0:n})=\frac{1}{n-24}\sum_{i=24}^{n-1}|y_i-y_{i-24}|,
+\qquad
+\operatorname{MASE}_{24}=\frac{\sum_{j=1}^{24}|a_j-\widehat y_{n+j-1}|}{24s_{24}(y_{0:n})}.
+$$
+
+The daily seasonal reference must copy the 24 values immediately preceding
+the cutoff. The cell calculates the maximum difference from direct indexing, which should be zero.
+
+<!-- code: electricity_phase -->
+
+The plot gives a conditional comparison at each cutoff. A curve crossing
+changes the local ordering. Read the printed phase beside the observation
+index: the same phase can recur after a different calendar history, so the
+phase by itself does not explain every score difference. The target windows
+overlap because seven observations separate cutoffs and each block has
+24 observations. The nine points therefore do not constitute nine
+independent replications. Also, the weekly reference accesses a specific
+earlier weekday rather than fitting a weekly effect. A poor weekly score at
+one cutoff does not disprove weekly structure.
+
+### Using this method on your own data
+
+Supply one timestamp-sorted, equally spaced finite series and identify which
+values were available at the forecast origin. For hourly observations, try
+period 24 when a daily cycle is scientifically relevant. Confirm the sampling
+cadence before comparing period 168. Distinguish a missing hour from an
+observed zero, and do not quietly compress the timestamp index when there are
+gaps. Split off the next contiguous block before calling
+`holt_winters(prefix, m, horizon)`. The method returns the forecast vector
+and a residual dispersion in the input's measurement unit. Check that the
+vector has the requested length and compare its phase with the independently
+indexed seasonal reference. Calculate the common scale only from the prefix.
+A constant or exactly periodic prefix can have zero lagged error and thus
+an unavailable scaled score. Keep absolute errors in that case. When the
+residual dispersion is used to form a Gaussian interval, assess its observed
+coverage and width separately from point error. A forecast may have a correct
+phase and still miss a shift in level or amplitude.
+
 ## References
 
 - Seasonal continuation: https://otexts.com/fpp3/holt-winters.html
@@ -71,3 +146,4 @@ Record the exact information set whenever the temporal cut moves. Build the corr
 - Error scaling: https://doi.org/10.1016/j.ijforecast.2006.03.001
 - Feature-dependent combinations: https://doi.org/10.1016/j.ijforecast.2019.02.011
 - Dynamic ensembles: https://doi.org/10.1007/s10994-018-05774-y
+- A. Trindade, ElectricityLoadDiagrams20112014, UCI. [Dataset](https://doi.org/10.24432/C58C86).

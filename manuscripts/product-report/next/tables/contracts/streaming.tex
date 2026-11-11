@@ -1,14 +1,14 @@
 \begingroup\small
 \begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
-\caption{Root fields of the streaming contract, catalog version 2.0.0. Types, units and structural constraints distinguish required members from optional metadata; nested records follow the cited schema.}\label{tab:contract-streaming}\\
+\caption{Root fields of the streaming contract, interface revision \texttt{2.0.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-streaming}\\
 \toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
 \toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
 \texttt{nominal\_\allowbreak{}coverage} & number & probabilities & minimum=0; maximum=1 & yes\\
 \texttt{horizon} & integer & observations & minimum=1 & yes\\
 \texttt{warmup} & integer & metadata & minimum=0 & yes\\
-\texttt{methods} & object & mixed; see text & Nested content follows the normative schema & yes\\
-\texttt{covariate} & object/null & mixed; see text & No additional root-field range & yes\\
-\texttt{references} & object & metadata & Nested content follows the normative schema & yes\\
+\texttt{methods} & object & mixed; see text &  & yes\\
+\texttt{covariate} & object/null & mixed; see text & Open object & yes\\
+\texttt{references} & object & metadata &  & yes\\
 \bottomrule
 \end{longtable}
 \endgroup

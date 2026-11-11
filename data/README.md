@@ -12,7 +12,7 @@ This folder is governed by the two data contracts of ADR-0057.
 | `derived/manifests/` | per-case `<case>.json` (Contract 2) + the flat `index.json` inventory | committed |
 
 `examples/electricity_sample.csv` is a real series: one UCI ElectricityLoadDiagrams client (MT_010)
-aggregated from 15-minute to hourly, 720 points (CC BY 4.0). The heavier datasets (GIFT-Eval, M-competition,
+summed in groups of four 15-minute power readings, 480 hourly-labelled values (CC BY 4.0). The values are sums of readings in kW, without a conversion to energy. The heavier datasets (GIFT-Eval, M-competition,
 LTSF, more UCI/Kaggle series) live in the vault at `E:\_Datos\chronoscope` and are staged, never committed.
 
 ## CONTRACT 1: ingestion (raw to pipeline), the bring-your-own-data gate

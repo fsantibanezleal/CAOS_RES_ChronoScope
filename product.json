@@ -76,5 +76,15 @@
         "NC-1"
       ]
     }
-  ]
+  ],
+  "showcase": {
+    "story_routes": [
+      "/story/system",
+      "/story/component",
+      "/story/domain",
+      "/story/dynamics",
+      "/story/method",
+      "/story/decision"
+    ]
+  }
 }

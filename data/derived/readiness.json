@@ -1,0 +1,105 @@
+{
+  "schema": "chronoscope.readiness/v1",
+  "product_version": "0.25.000",
+  "catalog_sha256": "855194ea35739fb4d3ee4d68d7390830db9e12ed8a01b92bb56f484a6b4f9386",
+  "contracts": [
+    {
+      "id": "trace",
+      "version": "2.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "manifest",
+      "version": "2.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "streaming",
+      "version": "2.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "analysis",
+      "version": "2.1.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "nlinear-model",
+      "version": "2.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "browser-calibration",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "browser-ridge-study",
+      "version": "1.1.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "reevaluation",
+      "version": "2.1.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "fresh-reevaluation",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "index",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "selector",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "forecastability",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "combination-index",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    },
+    {
+      "id": "combination-case",
+      "version": "1.0.0",
+      "status": "real",
+      "state": "available",
+      "missing": []
+    }
+  ]
+}

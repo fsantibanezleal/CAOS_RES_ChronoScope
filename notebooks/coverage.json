@@ -1,0 +1,34 @@
+{
+  "methods": {
+    "CL-1": [
+      "01-forecast-decisions/02-seasonal-phase.ipynb"
+    ],
+    "ST-1": [
+      "01-forecast-decisions/03-model-comparison.ipynb"
+    ],
+    "ST-2": [
+      "01-forecast-decisions/03-model-comparison.ipynb"
+    ],
+    "BS-1": [
+      "01-forecast-decisions/04-context-memory.ipynb",
+      "01-forecast-decisions/05-temporal-validation.ipynb"
+    ],
+    "ST-5": [
+      "02-sequence-evidence/02-complexity.ipynb",
+      "02-sequence-evidence/03-corpus-confirmation.ipynb"
+    ]
+  },
+  "contracts": {
+    "trace": [
+      "01-forecast-decisions/02-seasonal-phase.ipynb"
+    ],
+    "reevaluation": [
+      "01-forecast-decisions/03-model-comparison.ipynb"
+    ],
+    "forecastability": [
+      "02-sequence-evidence/03-corpus-confirmation.ipynb"
+    ]
+  },
+  "stages": {},
+  "packages": {}
+}

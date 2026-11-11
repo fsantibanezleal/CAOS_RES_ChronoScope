@@ -1,25 +1,18 @@
 {
   "state": "working-revision",
   "published": false,
-  "independent_reader_review": "pending",
-  "full_content_bar": "pending",
+  "title": "Temporally Validated Forecast Combinations on Two Benchmark Collections",
+  "independent_reader_review": "pending on final rebuilt inputs",
   "published_predecessor_preserved": true,
+  "full_content_bar": "pending independent review",
   "measured_content": {
-    "words": 8009,
-    "equations": 19,
+    "words": 8749,
+    "equations": 22,
     "figures": 6,
     "tables": 5,
     "references": 28,
     "algorithms": 1,
     "sections": 11
   },
-  "compiled_pages": 24,
-  "current_revision_note": "The draft passes numeric, section, caption, source-claim region and title-support checks under its explicit working title. Published declarations are preserved; publication and independent reader review remain pending.",
-  "draft_content_check": {
-    "status": "passed",
-    "checker": "CAOS_MANAGE tools/zenodo/check_manuscript_depth.py",
-    "declaration_scope": "working revision title only; no published declaration replaced",
-    "findings": []
-  },
-  "visual_review": "Prior 23-page layout inspected; final notation and abstract expansion rendered separately; independent reader pending"
+  "compiled_pages": 26
 }

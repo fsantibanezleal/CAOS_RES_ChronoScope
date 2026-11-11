@@ -1891,7 +1891,8 @@
     "requirements-browser-model.txt",
     "scripts/confirm_browser_calibration.py",
     "scripts/evaluate_browser_linear.py",
-    "scripts/train_nlinear_onnx.py"
+    "scripts/train_nlinear_onnx.py",
+    "data/derived/readiness.json"
   ],
   "primary_environment": ".venv",
   "generation_environments": [
@@ -1972,5 +1973,6 @@
     "numpy"
   ],
   "external_environments_required": true,
-  "environment_namespace": "chronoscope"
+  "environment_namespace": "chronoscope",
+  "readiness_provider": "scripts/local/producer_bridge.py"
 }
