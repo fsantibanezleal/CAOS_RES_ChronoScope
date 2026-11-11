@@ -16,3 +16,12 @@
 | 2 | [Does coarse-graining change the ordering evidence?](02-sequence-evidence/02-complexity.ipynb) |
 | 3 | [Do prefix associations survive a separate series partition?](02-sequence-evidence/03-corpus-confirmation.ipynb) |
 <!-- sequence-lessons:end -->
+
+<!-- workflow-lesson:start -->
+
+## Forecast workflow
+
+| Level | Lesson |
+|---|---|
+| 3 | [Which information belongs to a forecast at issuance?](02-sequence-evidence/04-information-boundaries.ipynb) |
+<!-- workflow-lesson:end -->

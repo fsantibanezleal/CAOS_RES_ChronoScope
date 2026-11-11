@@ -26,6 +26,11 @@
     "export": "data-pipeline/chronoscopelab/stages/export.py"
   },
   "method_entrypoints": [
+    "chronoscopelab.stages.analyze.run",
+    "chronoscopelab.stages.feature_extraction.run",
+    "chronoscopelab.stages.infer.run",
+    "chronoscopelab.stages.evaluate.run",
+    "chronoscopelab.stages.train.run",
     "chronoscopelab.stages.streaming.run",
     "chronoscopelab.model.forecasters.theta",
     "chronoscopelab.model.forecasters.seasonal_naive",
