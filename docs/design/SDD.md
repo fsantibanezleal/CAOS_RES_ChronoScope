@@ -137,6 +137,10 @@ The method is implemented in `data-pipeline/chronoscopelab/model/context_memory.
 
 Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.4504 for ContextMemory and 1.4489 for RecencyMean; EqualMean gives 1.8970. This is a negative finite-sample result, not a claim about all recurrence models. The archived comparison rescores frozen heavy paths. The separate fresh experiment executes all 22 variants on the same original histories and targets, binds package/checkpoint/source identities and independently verifies all metrics.
 
+## Novel contributions
+
+NC-1 is the fifteen-series prequential replay comparison. It measures rolling coverage and interval quality for adaptive calibrators using a common replay base. The independently reviewed preprint v2.6 has DOI 10.5281/zenodo.24123073. Its complete reconstruction preserves prediction-before-update ordering and separates numerical reproduction from historical timing.
+
 ## Cases
 
 The case matrix includes UCI Electricity, Beijing PM2.5, M4 daily, M4 hourly, and generated level-shift, GARCH, intermittent-demand, long-memory, seasonal, promotional, fractional, Mackey-Glass, white-noise, and near-random-walk cases. The two controls are limited protocol checks; they do not prove absence of leakage across all inputs or pretrained model corpora.

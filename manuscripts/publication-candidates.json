@@ -22,37 +22,39 @@
     },
     {
       "kind": "manuscript",
-      "version": "0.2",
+      "version": "0.3",
       "covers": [
         "BS-1"
       ],
       "state": "published",
       "pdf": "manuscripts/context-memory/main.pdf",
-      "sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
+      "sha256": "d23d52dd938c8e8083a6e1e8c3e38e3eafe488a94527e8e8ea6027c657d81a81",
       "source": "manuscripts/context-memory/tex/main.tex",
-      "source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3",
-      "version_doi": "10.5281/zenodo.23884371",
+      "source_sha256": "3fa13801b7283a3b70a48cefcd4f15481256693efbe8da6103012828f7e621ab",
+      "version_doi": "10.5281/zenodo.24123068",
       "concept_doi": "10.5281/zenodo.23874820",
-      "doi": "10.5281/zenodo.23884371",
-      "record_url": "https://zenodo.org/records/23884371",
-      "reviewed_pdf_sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
-      "reviewed_source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3"
+      "doi": "10.5281/zenodo.24123068",
+      "record_url": "https://zenodo.org/records/24123068",
+      "reviewed_pdf_sha256": "d23d52dd938c8e8083a6e1e8c3e38e3eafe488a94527e8e8ea6027c657d81a81",
+      "reviewed_source_sha256": "3fa13801b7283a3b70a48cefcd4f15481256693efbe8da6103012828f7e621ab",
+      "independent_reviewed_working_pdf_sha256": "792bbf34c6378aadb01a7e10892c013c1199f9709e92bc672abb9b33fe63e354"
     },
     {
       "kind": "companion-study-revision",
-      "version": "2.5",
+      "version": "2.6",
       "covers": [],
       "state": "published",
       "pdf": "manuscripts/prequential-streaming-conformal/main.pdf",
-      "sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
+      "sha256": "8bb0121f71319f25d857c864b39abf1d001982c1bd0d07b6bd4a66b706981334",
       "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
-      "source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4",
-      "version_doi": "10.5281/zenodo.23884367",
+      "source_sha256": "2e4bb5195c699d5312f6ffb4ed45547f58ee20b0b25ec4901a1cf6497e9709a3",
+      "version_doi": "10.5281/zenodo.24123073",
       "concept_doi": "10.5281/zenodo.21508920",
-      "reviewed_pdf_sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
-      "reviewed_source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4",
-      "doi": "10.5281/zenodo.23884367",
-      "record_url": "https://zenodo.org/records/23884367"
+      "reviewed_pdf_sha256": "8bb0121f71319f25d857c864b39abf1d001982c1bd0d07b6bd4a66b706981334",
+      "reviewed_source_sha256": "2e4bb5195c699d5312f6ffb4ed45547f58ee20b0b25ec4901a1cf6497e9709a3",
+      "doi": "10.5281/zenodo.24123073",
+      "record_url": "https://zenodo.org/records/24123073",
+      "independent_reviewed_working_pdf_sha256": "0e5b27c41e8ae3fc05a172a3b3bd207ad5ea2311a4dad15013bb9605468309c2"
     }
   ],
   "approval": {
@@ -133,6 +135,40 @@
       "doi": "10.5281/zenodo.23874821",
       "record_url": "https://zenodo.org/records/23874821",
       "immutable_source": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/v0.24.000/manuscripts/context-memory"
+    },
+    {
+      "kind": "manuscript",
+      "version": "0.2",
+      "covers": [
+        "BS-1"
+      ],
+      "state": "published",
+      "pdf": "manuscripts/context-memory/main.pdf",
+      "sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
+      "source": "manuscripts/context-memory/tex/main.tex",
+      "source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3",
+      "version_doi": "10.5281/zenodo.23884371",
+      "concept_doi": "10.5281/zenodo.23874820",
+      "doi": "10.5281/zenodo.23884371",
+      "record_url": "https://zenodo.org/records/23884371",
+      "reviewed_pdf_sha256": "f709cc64a03296c1f9c5e3df69b07d54408ee212feb25e91f38a9d0ab728919a",
+      "reviewed_source_sha256": "1839df3e84f0a094e70d9a5ccfc41dbf1c412f10f97928fa3e3b502fb5d683b3"
+    },
+    {
+      "kind": "companion-study-revision",
+      "version": "2.5",
+      "covers": [],
+      "state": "published",
+      "pdf": "manuscripts/prequential-streaming-conformal/main.pdf",
+      "sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
+      "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
+      "source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4",
+      "version_doi": "10.5281/zenodo.23884367",
+      "concept_doi": "10.5281/zenodo.21508920",
+      "reviewed_pdf_sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
+      "reviewed_source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4",
+      "doi": "10.5281/zenodo.23884367",
+      "record_url": "https://zenodo.org/records/23884367"
     }
   ],
   "prior_approval": {

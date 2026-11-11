@@ -54,10 +54,19 @@
     {
       "kind": "manuscript",
       "concept_doi": "10.5281/zenodo.23874820",
-      "title": "Forecast Combination with Temporal Validation and Context Memory",
-      "version": "0.2",
+      "title": "Temporally Validated Forecast Combinations on Two Benchmark Collections",
+      "version": "0.3",
       "covers": [
         "BS-1"
+      ]
+    },
+    {
+      "kind": "manuscript",
+      "concept_doi": "10.5281/zenodo.21508920",
+      "title": "Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study",
+      "version": "2.6",
+      "covers": [
+        "NC-1"
       ]
     }
   ]
