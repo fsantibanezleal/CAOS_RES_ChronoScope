@@ -2,9 +2,9 @@
   "state": "working-revision",
   "published": false,
   "title": "Temporally Validated Forecast Combinations on Two Benchmark Collections",
-  "independent_reader_review": "pending on final rebuilt inputs",
+  "independent_reader_review": "passed on the bound working draft",
   "published_predecessor_preserved": true,
-  "full_content_bar": "pending independent review",
+  "full_content_bar": "passed for this manuscript",
   "measured_content": {
     "words": 8749,
     "equations": 22,
@@ -14,5 +14,10 @@
     "algorithms": 1,
     "sections": 11
   },
-  "compiled_pages": 26
+  "compiled_pages": 26,
+  "released_as": {
+    "version": "0.3",
+    "doi": "10.5281/zenodo.24123068",
+    "sha256": "d23d52dd938c8e8083a6e1e8c3e38e3eafe488a94527e8e8ea6027c657d81a81"
+  }
 }

@@ -1,0 +1,12 @@
+{
+  "kind": "manuscript",
+  "claims": {
+    "BS-1": "sec:selection-derivation"
+  },
+  "title_support": [
+    "tab:external-combinations",
+    "fig:external-means",
+    "tab:paired-main",
+    "fig:paired-intervals"
+  ]
+}

@@ -1,0 +1,13 @@
+Figure~\ref{fig:gain-sensitivity} makes each fixed gain cell visible instead of reporting only the minimum of its range. The raw reference does not depend on a controller gain, so it appears as a horizontal line in each panel. The two rows retain different point bases; the three columns retain different nominal coverages. This layout permits direct inspection of the S+D ninety-percent setting where one ACI-style cell has slightly higher rolling error than the raw interval. An average improvement at eighty percent therefore does not establish improvement at every neighboring parameter value.
+
+\begin{figure}[htbp]\centering\includegraphics[width=\textwidth]{fig-gain-sensitivity.pdf}
+\caption{All fixed gain multipliers for both point bases and three nominal coverages, with equal weighting of the same fifteen streams; lines describe sensitivity rather than fitted response surfaces.}\label{fig:gain-sensitivity}
+\end{figure}
+
+Figure~\ref{fig:generated-seeds} shows final coverage for every generated mechanism at the three retained seeds. It complements Table~\ref{tab:seeds}, which averages rolling error across mechanisms. Neither a favorable mean nor a small range of mechanism averages establishes identical behavior within each mechanism. The seeds change random realizations while retaining the same generator family and settings, so this is a structured sensitivity exercise. The four real excerpts appear in the original case comparison and receive no artificial seed labels.
+
+\begin{figure}[htbp]\centering\includegraphics[width=\textwidth]{fig-generated-seeds.pdf}
+\caption{Final empirical coverage for eleven generated mechanisms at seeds forty-two, forty-three and forty-four; markers retain mechanism identity and are not independent samples from an authentic-data population.}\label{fig:generated-seeds}
+\end{figure}
+
+The available ablations separate the point-base choice, presence of a controller and a common multiplier on its gains. They do not isolate every internal component. In particular, the PID-style grid multiplies proportional, integral and difference coefficients together. It is not a factorial ablation of those three terms, and no claim that one term causes the gain follows from these tables. Buffer capacity and quantile-interpolation convention also remain fixed. A future component study should specify those alternatives and its selection rule before using a new evaluation collection. The current figures retain the historical design and its observed limitations without presenting unrun alternatives as measured results.
