@@ -1,0 +1,25 @@
+key,meaning,unit
+DN_HistogramMode_5,Mode of a five-bin histogram of standardized values,dimensionless
+DN_HistogramMode_10,Mode of a ten-bin histogram of standardized values,dimensionless
+CO_f1ecac,First 1/e autocorrelation crossing,observation steps
+CO_FirstMin_ac,First local autocorrelation minimum lag,observation steps
+CO_HistogramAMI_even_2_5,"Histogram auto-mutual information at lag two, using five bins",dimensionless
+CO_trev_1_num,Mean cube of one-step increments of the standardized series,dimensionless
+MD_hrv_classic_pnn40,Fraction of absolute increments exceeding the backend threshold,fraction
+SB_BinaryStats_mean_longstretch1,"Legacy boundary-based above-mean run count, omitting the last input",observations
+SB_TransitionMatrix_3ac_sumdiagcov,Sum of the transition-column covariance diagonal,dimensionless
+PD_PeriodicityWang_th0_01,"Zero-based autocovariance peak index, lag minus one, with zero fallback",observation index
+CO_Embed2_Dist_tau_d_expfit_meandiff,Mean histogram discrepancy from an exponential fit to embedding distances,dimensionless
+IN_AutoMutualInfoStats_40_gaussian_fmmi,"Zero-based first-minimum index for Gaussian auto-mutual information over lags 1 to min(40, ceil(n/2)); returns the cap when no local minimum is found",observation index
+FC_LocalSimple_mean1_tauresrat,Ratio of correlation time after one-step differencing to original time,dimensionless
+DN_OutlierInclude_p_001_mdrmd,Relative timing statistic for large positive deviations,dimensionless
+DN_OutlierInclude_n_001_mdrmd,Relative timing statistic for large negative deviations,dimensionless
+SP_Summaries_welch_rect_area_5_1,Spectral area in the lowest fifth of frequencies,standardized variance
+SB_BinaryStats_diff_longstretch0,Legacy boundary-based decreasing stretch count,observation steps
+SB_MotifThree_quantile_hh,Entropy of adjacent symbol pairs after three-level quantile encoding,nats
+SC_FluctAnal_2_rsrangefit_50_1_logi_prop_r1,Fraction of scales on the smaller-scale side of the R/S fit,fraction
+SC_FluctAnal_2_dfa_50_1_2_logi_prop_r1,Fraction of scales on the smaller-scale side of the DFA fit,fraction
+SP_Summaries_welch_rect_centroid,Angular frequency at the halfway point of cumulative spectral power,radians per observation step
+FC_LocalSimple_mean3_stderr,Spread of three-point rolling-mean forecast errors on standardized values,dimensionless
+DN_Mean,Arithmetic mean of the original values,source unit
+DN_Spread_Std,Standard deviation of the original values,source unit

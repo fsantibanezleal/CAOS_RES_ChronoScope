@@ -1,0 +1,132 @@
+\section{Nested data fields and scientific admission}
+\label{sec:nested-contracts}
+Table~\ref{tab:nested-schema} enumerates nested fields expressed in the normative JSON Schemas. A requirement marker refers to the immediate parent or alternative branch. An empty constraint cell records the absence of an additional explicit schema constraint. In particular, an open object admits a family of records without enumerating all fields. The open diagnostic objects below retain their producer semantics even when those semantics have no corresponding nested structural restriction. The values $U$, $U^2$ and $U^3$ denote the source measurement unit, its square and its cube. A dimensionless ratio is comparable across source scales only under its stated normalization and eligibility rules.
+
+\paragraph{Trace and case membership.}
+The case index lists each case identifier, category and relative manifest path. Its count, unique identifiers and one-to-one subject binding are checked against the actual manifest inventory. A trace's method paths contain one lower, central and upper value in $U$ per reserved lead. The backtest record contains dimensionless MASE, coverage and per-lead scaled errors, MAE and RMSE in $U$, and a count of completed windows. Null scores represent unavailable measurements, including a missing seasonal scale. Redaction can omit paths and empty display histories under the permission flags. A reserved lead is not an index into the decimated display history.
+
+\paragraph{Manifest references and permissions.}
+The nested engine identifies package, version and model role. Provenance carries source, licence and redistribution permission. The series record counts observations, seasonal lag and horizon, and reports level and standard deviation in $U$, fitted slope in $U$ per observation and dimensionless correlation, seasonal strength and zero fraction. Artifact references pair a relative path and declared schema with an integer byte count. Optional analysis and streaming references can be absent without changing the selected trace identity. Lane gates carry eligibility, required wheels, byte and millisecond budgets and refusal reasons. The pipeline checks path identity, size and licence separately from JSON validation.
+
+\paragraph{Streaming.}
+Each method's rolling score vectors align with its retained cutoff positions. Coverage is a fraction and the scaled loss columns are dimensionless. The trailing finite window of up to 25 retained forecast outcomes controls the displayed local statistic. Cumulative time is measured in milliseconds. The final summary reduces the evaluated sequence and has a different denominator from the local trajectory. A covariate record identifies whether the first series is past-only or known in advance, its allowed lag and the supplied values in the covariate's own units. A producer exception can yield a method object containing an error message. The success-row schema does not admit that object as a measured trajectory.
+
+\paragraph{Analysis.}
+The open stationarity records contain test statistics, probabilities, rejection decisions, recommended difference counts and labels. Autocorrelation arrays align with lag counts and use dimensionless values. Seasonality combines spectral frequencies in inverse observation steps, candidate periods in observations, strength ratios and additive component values in $U$. Filter trends and cycles are in $U$, while energy sums have squared coefficient units. Break records contain segment boundaries, level means and standard deviations, and optional latent-state and transition information. Volatility includes rolling sample statistics and fitted-transform settings, with leading nulls for incomplete windows. Distribution fields distinguish probability values, moment ratios, ordered sample values and density in inverse $U$. Fractal and nonlinear arrays use dimensionless fitted slopes or inverse-step rates as specified by the estimator. They retain skip and error states when a backend or input is unavailable. The sequence record separately binds the original observation indices, normalized profile distances and neighbor indices, corrected arc fractions, entropy tolerances in $U$, match and phrase counts, and reversal statistics in $U^3$ or standardized units. A missing or nonfinite estimate remains unavailable. The bivariate panel records a skipped state when an eligible paired input is absent.
+
+The companion \path{next/tables/observed-analysis-fields.csv} records the
+actual nested keys and JSON types observed across the fifteen admitted
+analysis documents. Array lengths and counts of cases with each field expose
+optional, missing and mixed-shape records. This inventory describes the
+released observations, so it cannot expand the normative schema or admit a
+new shape in a later release. The method section beside each field gives its
+calculation and units.
+
+The Catch24 dictionary in \path{next/tables/catch24-fields.csv} identifies
+the retained feature keys and their units or observation axes. The twenty-two
+shape and dynamics features use the backend's standardized input. The two
+additional location and scale features use the original values. A nonfinite
+feature is serialized as null. An unavailable backend omits the feature map
+and carries a reason. The keyed dictionary follows the original definitions
+and the pinned implementation~\cite{catch22}.
+
+\paragraph{Diagnostic field conventions.}
+The panel count \texttt{n} measures cleaned observations. The root count
+precedes that cleaning. A position in a cleaned array is zero-based
+unless it is expressed as a positive lag or window length. Each
+\texttt{reference} identifies the procedure that produced its enclosing
+result. A panel-level \texttt{error} replaces that panel's success
+fields. Nested error objects replace only the affected Markov,
+multifractal, Box--Cox or GARCH result. Skip strings record eligibility
+decisions. Null is the serialization of an unavailable scalar or a
+nonfinite numerical result. In a retained vector it preserves the
+element position.
+
+\paragraph{Stationarity and correlation fields.}
+The ordered stationarity test array contains ADF, KPSS,
+Phillips--Perron, DFGLS and Zivot--Andrews. Its names identify the
+procedure and its null strings state the tested hypothesis. Statistics
+and their critical values are dimensionless and can have either sign.
+Critical-value keys identify nominal levels and differ by procedure.
+Probabilities lie in $[0,1]$. The \texttt{stationary} and
+\texttt{combined\_verdict} fields encode the test-specific rules in
+Section~\ref{sec:diagnostic-stationarity}. The nonseasonal recommendation
+is an integer in $0,1,2$. The seasonal recommendation is zero or one.
+The seasonal recommendation and strength appear only when the declared
+period is at least two. The strength is a ratio in $[0,1]$.
+ACF and PACF entries pair the coefficient with its lag in observations.
+ACF magnitudes are at most one up to rounding. An adjusted finite-sample
+PACF can exceed that bound. Box--Pierce and Ljung--Box store nonnegative
+statistics and their tested lag. The Durbin--Watson ratio lies in
+$[0,4]$ for a nonzero denominator. The identification hint follows
+Section~\ref{sec:diagnostic-autocorrelation}.
+
+\paragraph{Seasonality, filters and changes.}
+Candidate strength map keys are periods in observation steps. Values
+are the seasonal-strength ratios for the declared period and its
+double. A zero may represent an ineligible short input or a
+zero-variance denominator. The spectral bin arrays share an ordered
+frequency axis. The period and density units and the conditional STL
+summary are specified in Section~\ref{sec:diagnostic-autocorrelation}.
+In the filter panel, HP lambda is the dimensionless coefficient of the
+second-difference penalty. EMD stores an IMF count and that many
+cleaned-axis rows, together with the residual. The scalogram stores
+aligned period and energy summaries under the conditions in
+Section~\ref{sec:diagnostic-filters}.
+The change-point flag and note say whether the input was
+STL-deseasonalized. PELT stores its cost model, penalty in $U^2$,
+break positions and half-open segment statistics in $U$. CUSUM
+stores a nonnegative dimensionless statistic, probability and
+nonrejection flag. Markov states are zero-based. The transition
+matrix entries are probabilities whose columns sum to one up to
+rounding for a successful fit. The state path can be absent when
+the backend produces a nested error.
+
+\paragraph{Volatility and distribution fields.}
+The ARCH-LM decision records whether its probability is below .05.
+The lag count, rolling window and array alignment are specified in
+Section~\ref{sec:diagnostic-breaks}. The GARCH model label and two
+orders identify the fit. The fitted parameters and scale are
+interpreted there. Its nested skip indicates ARCH-LM nonrejection.
+The Box--Cox method label identifies Guerrero or the profile
+likelihood. The accompanying input-unit shift is needed alongside
+the dimensionless exponent.
+Distribution mean and standard deviation use $U$. Skewness and
+excess kurtosis are dimensionless ratios. The KDE grid and density
+align by grid index, with axes $U$ and $1/U$. Q--Q theoretical and
+sample arrays align by rank. The fitted slope and intercept use $U$
+and the line correlation is dimensionless. Sample entropy is a
+natural logarithm ratio. Permutation and spectral entropy divide
+by their reference log cardinalities. The BDS and normality
+decisions and their null behavior are defined in
+Section~\ref{sec:diagnostic-complexity}.
+
+\paragraph{Fractal and nonlinear fields.}
+The R/S, DFA, graph dimensions, fractional-differencing proxy and
+MF-DFA slopes are dimensionless estimates. The implementation
+does not clip graph dimensions into a theoretical interval.
+The multifractal arrays share the ordered $q$ axis and the width
+is nonnegative for a finite fit. The stored Boolean tests width
+strictly above .15. The Hurst label and length-only flag are
+specified in Section~\ref{sec:diagnostic-complexity}. In the
+nonlinear panel, the seed is a case-derived unsigned 32-bit
+integer. The correlation dimension is dimensionless and the
+Lyapunov estimate is per observation step. The 0--1 statistic is a
+correlation in $[-1,1]$ when finite. RQA stores three fractions
+and a maximum diagonal length in steps. The surrogate result
+stores a completed-call count and a nullable decision. The
+archived diagnostic note is explanatory text. Its numerical
+criterion is specified in the method section. Below 400 input
+observations, the stage emits a skip in place of the nonlinear
+values.
+
+\paragraph{Model and interval metadata.}
+The ONNX file has float32 input shape $[1,48]$ and output shape $[1,12]$. The companion metadata identifies the input normalization, horizon and historical residual scale. Shape, graph digest and numerical parity are separate from the JSON check. The browser calibration record contains two roughness bin edges, a minimum count for each bin, three rows of twelve dimensionless radii and a twelve-lead global vector. All admitted radii are finite and nonnegative. Wrong graph identity, nonfinite normalization or a missing required radius refuses the interval. The separate experimental ridge record carries the seven penalty and normalized mean-square-error pairs, validation selection and twelve absolute-residual radii for its own graph. It depends on its own disjoint selection, calibration and test partitions.
+
+\paragraph{Common comparisons.}
+Each case holds the contiguous prefix, common reserved targets, seasonal lag and horizon. A method record has aligned forecasts, dimensionless MASE, MSIS, weighted quantile loss and coverage, plus MAE, RMSE and width in $U$. Scales come from the fitting prefix or the declared absolute target denominator. Optional expert allocations align with the declared order and historical origins. Fresh runs add seconds, warning categories, runtime versions and checkpoint identities. The fresh document binds its original implementation archive and source bytes. A valid JSON vector is still refused if the prefix, target, method roster, scaling or recomputed metric disagrees with the reference. The selector export uses method and mean-MASE pairs, a training-case count and a default. An empty-score fallback that serializes as null fails the numeric ranking constraint.
+
+\paragraph{Forecastability and combinations.}
+The corpus record stores three origin indices per included series, a split identity and complete-sequence hash, forty named nullable features and eight method scores. The features form a keyed object. The separate \texttt{selector\_features} array fixes the order of the discovery imputation medians. Association records carry valid-pair count, Kendall coefficient, raw and adjusted probabilities and the confirmation decision. Exclusion records preserve the rejected identity and reason. The combination index distinguishes cohort inventory from admitted counts, summarizes scores after averaging within each series, and binds its source and audit digests. Each case document fixes prefix start, length and little-endian float64 digest, the horizon-length target, an ordered $H$ by 3 array and five ordered weights where the method uses them. Memory origins and validation counts must satisfy the historical availability rule. Full candidate losses and validation splits live in the compressed archive; the small served case record retains the selected configuration and can expose an exclusion instead of an admissible path.
+
+\input{../tables/contracts/nested.tex}

@@ -8,6 +8,7 @@ import { CommonHoldout } from '../render/CommonHoldout';
 import { UPlotChart } from '../render/UPlotChart';
 import { methodColor } from '../lib/methodColors';
 import { ForecastabilityStudy } from '../render/ForecastabilityStudy';
+import { TimestralStudy } from '../render/TimestralStudy';
 
 function CaseSelect({ cases, value, onChange }: { cases: ReevaluatedCase[]; value: string; onChange: (value: string) => void }) {
   const es = useShellLang() === 'es';
@@ -97,6 +98,7 @@ export default function BenchmarkCurrent() {
     </select></label>
     {err ? <p role="alert">{err}</p> : !data ? <p data-state="loading">{t('Loading admitted results', 'Cargando resultados admitidos')}</p> : <TabGroups ariaLabel={t('Benchmark topics', 'Temas de comparación')} groups={[{id:'case-comparison',label:t('Case comparisons','Comparaciones por caso'),tabs:[
       { id:'results',label:t('Common results','Resultados comunes'),content:<DocSection title={{en:'Common final holdout',es:'Bloque final común'}} area="results" refs={['chronoscope-report','mase','msis']}><CommonHoldout data={data} /></DocSection> },
+      { id:'timestral',label:'Timestral',content:<TimestralStudy /> },
       { id:'real',label:t('Real series','Series reales'),content:<DocSection title={{en:'Models on the same real outcomes',es:'Modelos sobre los mismos resultados reales'}} area="comparison" refs={['uci-electricity','mase']}>
         <CaseSelect cases={real} value={realCase?.case_id ?? ''} onChange={setCaseId} />
         {realCase && <Figure caption={t('These model paths share one real historical cutoff and the same final observations.', 'Estas trayectorias comparten un corte histórico real y las mismas observaciones finales.')}><UPlotChart xs={realCase.actual.map((_,i)=>i+1)} series={[

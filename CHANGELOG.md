@@ -3,6 +3,12 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.26.000] - 2026-11-11
+
+- Display the reproduced Timestral holdouts and the paired AutoTheta comparison in Benchmark.
+- Publish the independently reviewed technical report on time-series diagnostics and forecast evaluation.
+- Cite the revised combination and prequential replay manuscripts. Preserve the admitted research artifacts.
+
 ## [0.25.000] - 2026-11-02
 
 - Add ContextMemoryCV and ValidationMix with causal historical validation and regularized convex stacking; compare complete M4 Weekly and M3 Monthly inventories.

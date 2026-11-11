@@ -1,0 +1,21 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the analysis contract, interface revision \texttt{2.1.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-analysis}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{n} & integer & observations & minimum=1 & yes\\
+\texttt{seasonality\_\allowbreak{}period} & integer & observations & minimum=1 & yes\\
+\texttt{stationarity} & object & mixed; see text & Open object & yes\\
+\texttt{autocorrelation} & object & mixed; see text & Open object & yes\\
+\texttt{seasonality} & object & mixed; see text & Open object & yes\\
+\texttt{filters} & object & mixed; see text & Open object & yes\\
+\texttt{changepoints} & object & mixed; see text & Open object & yes\\
+\texttt{volatility} & object & mixed; see text & Open object & yes\\
+\texttt{distribution} & object & mixed; see text & Open object & yes\\
+\texttt{fractal} & object & mixed; see text & Open object & yes\\
+\texttt{nonlinear} & object & mixed; see text & Open object & yes\\
+\texttt{causality} & object & mixed; see text & Open object & yes\\
+\texttt{sequence} & declared union & mixed; see text & No explicit range & no\\
+\bottomrule
+\end{longtable}
+\endgroup

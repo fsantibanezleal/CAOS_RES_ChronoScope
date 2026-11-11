@@ -1,0 +1,19 @@
+{
+  "id": 23884372,
+  "doi": "10.5281/zenodo.23884372",
+  "concept_doi": "10.5281/zenodo.23874816",
+  "version": "0.25.000",
+  "state": "published",
+  "filename": "chronoscope-product-report-v0.25.000.pdf",
+  "bytes": 505376,
+  "md5": "daf2b7adeb1450b49f99defc648574a2",
+  "sha256": "ed061a0ec554fb484d69936a5a59931b9de2871a32aa486b6112699fdea5c6d8",
+  "publication_date": "2026-11-02",
+  "published_utc": "2026-11-02T13:51:33Z",
+  "record_url": "https://zenodo.org/records/23884372",
+  "source": "manuscripts/product-report/tex/main.tex",
+  "source_sha256": "df4fb231e008470b05a8f6452358603917f6fe61cb9656a43793af4951822f7c",
+  "publication_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea",
+  "publication_source_archive": "manuscripts/product-report/history/source-at-publication-v0.25.000.tex.gz",
+  "source_normalization": "Only CRLF to LF; normalized bytes exactly match the committed LaTeX. The reviewed and published PDF is unchanged."
+}

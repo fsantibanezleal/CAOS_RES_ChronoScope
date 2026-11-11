@@ -1,0 +1,22 @@
+\begingroup\small
+\begin{longtable}{@{}p{.22\textwidth}p{.14\textwidth}p{.14\textwidth}p{.29\textwidth}p{.09\textwidth}@{}}
+\caption{Root fields of the forecastability contract, interface revision \texttt{1.0.0}. Types, units and structural constraints distinguish required members from optional metadata; nested records are listed separately.}\label{tab:contract-forecastability}\\
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endfirsthead
+\toprule Field & JSON type & Unit & Root constraint & Required\\\midrule\endhead
+\texttt{schema} & fixed value & metadata & const="chronosco\allowbreak{}pe.forecastabili\allowbreak{}ty/v1" & yes\\
+\texttt{complete} & fixed value & metadata & const=true & yes\\
+\texttt{protocol} & object & metadata &  & yes\\
+\texttt{packages} & object & metadata &  & yes\\
+\texttt{code\_\allowbreak{}sha256} & object & metadata &  & yes\\
+\texttt{source\_\allowbreak{}sha256} & string & metadata & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{source} & object & metadata &  & yes\\
+\texttt{source\_\allowbreak{}n} & fixed value & series & const=4227 & yes\\
+\texttt{included\_\allowbreak{}n} & integer & counts & minimum=3000 & yes\\
+\texttt{excluded} & array & metadata &  & yes\\
+\texttt{model\_\allowbreak{}names} & array & metadata &  & yes\\
+\texttt{summary} & object & mixed; see text &  & yes\\
+\texttt{series} & array & mixed; see text & minItems=3000 & yes\\
+\texttt{audit} & object & metadata &  & yes\\
+\bottomrule
+\end{longtable}
+\endgroup
