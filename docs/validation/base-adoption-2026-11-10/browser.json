@@ -1,0 +1,116 @@
+{
+  "scope": "Frozen local candidate builds. Production verification is a separate step.",
+  "shell": "0.25.0",
+  "template": "0.15.006",
+  "invalidated_run": "An initial run was stopped when its served directory changed.",
+  "two_width_shell_gate": [
+    {
+      "commit": "21a3174d39e1508fab43cb0c8fb426a82dccd83c",
+      "version": "0.25.000",
+      "states": 930,
+      "capture_count": 167,
+      "pass": false,
+      "failures": {
+        "G19": {
+          "count": 108,
+          "messages": [
+            "\"q0.1\" breaks across 4 lines (span.caos-callout-eyebrow \"q0.1\")",
+            "\"q0.5\" breaks across 4 lines (span.caos-callout-eyebrow \"q0.5\")",
+            "\"q0.9\" breaks across 4 lines (span.caos-callout-eyebrow \"q0.9\")"
+          ]
+        },
+        "G20": {
+          "count": 1,
+          "messages": [
+            "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+          ]
+        },
+        "G21": {
+          "count": 7,
+          "messages": [
+            "callouts completed and horizon overlap",
+            "story stage and docked panel cover 63.8% of the viewport (floor 80%, ADR-0082)"
+          ]
+        }
+      },
+      "widths": [
+        390,
+        1280
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "languages": [
+        "en",
+        "es"
+      ]
+    },
+    {
+      "commit": "9ee988daec9a180f938b6ec2a79dfcbb6e4e67b9",
+      "version": "0.25.000",
+      "states": 930,
+      "capture_count": 131,
+      "pass": false,
+      "failures": {
+        "G20": {
+          "count": 1,
+          "messages": [
+            "div.caos-chart.fill \"Line chart, Forecast paths on th\" (line chart): the arrow keys do not move the crosshair (the readout does not change on ArrowRight)"
+          ]
+        }
+      },
+      "widths": [
+        390,
+        1280
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "languages": [
+        "en",
+        "es"
+      ]
+    }
+  ],
+  "targeted_followup": {
+    "commit": "9ee988daec9a180f938b6ec2a79dfcbb6e4e67b9",
+    "callout_geometry_contexts": 24,
+    "callout_geometry_findings": 0,
+    "keyboard": [
+      {
+        "route": "component",
+        "failures": [],
+        "first": "Lead 1 · Holt 35.7 · HoltWinters 39.9 · SES 35.9 · SeasonalNaive 36.8 · Theta 35.8 · Reserved target 38.4",
+        "second": "Lead 2 · Holt 35.5 · HoltWinters 42.5 · SES 35.9 · SeasonalNaive 44.3 · Theta 35.8 · Reserved target 42.1"
+      },
+      {
+        "route": "dynamics",
+        "failures": [],
+        "first": "Lead 1 · AutoARIMA 1.97",
+        "second": "Lead 2 · AutoARIMA 1.66"
+      },
+      {
+        "route": "decision",
+        "failures": [],
+        "first": "Lead 1 · AutoARIMA 40.3 · q0.1 36.4 · q0.9 44.2 · Reserved target 38.4",
+        "second": "Lead 2 · AutoARIMA 43.7 · q0.1 39.2 · q0.9 48.2 · Reserved target 42.1"
+      },
+      {
+        "route": "component",
+        "failures": [],
+        "first": "Lead 1 · Holt 35.7 · HoltWinters 39.9 · SES 35.9 · SeasonalNaive 36.8 · Theta 35.8 · Reserved target 38.4",
+        "second": "Lead 2 · Holt 35.5 · HoltWinters 42.5 · SES 35.9 · SeasonalNaive 44.3 · Theta 35.8 · Reserved target 42.1"
+      },
+      {
+        "route": "component",
+        "failures": [],
+        "first": "Lead 1 · Holt 35.7 · HoltWinters 39.9 · SES 35.9 · SeasonalNaive 36.8 · Theta 35.8 · Reserved target 38.4",
+        "second": "Lead 2 · Holt 35.5 · HoltWinters 42.5 · SES 35.9 · SeasonalNaive 44.3 · Theta 35.8 · Reserved target 42.1"
+      }
+    ],
+    "declared_story_routes": 6,
+    "story_smoke": "Passed direct routes, numbered steps, all links, pause on input, and state-preserving exit"
+  }
+}

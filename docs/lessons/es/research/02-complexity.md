@@ -66,6 +66,38 @@ El ajuste no lineal con semilla responde otra pregunta de reproducibilidad. Su r
 
 El caso incluye niveles cambiantes y una cantidad finita de observaciones. Los resúmenes globales pueden combinar varios regímenes en lugar de identificar un mecanismo estable. La simbolización binaria oculta amplitudes y puede ser sensible a empates. Los conteos dependen de orden, tolerancia y longitud. Por ello, el estudio M4 usa estas magnitudes como características de prefijos bajo un protocolo declarado, contrasta su relación con errores posteriores y conserva los resultados negativos sin interpretar cualquier curva irregular como estructura predictiva.
 
+### Sensibilidad a la tolerancia de coincidencia
+
+En la escala $s$ el algoritmo calcula medias de bloques disjuntos y descarta el último grupo incompleto.
+
+$$
+x^{(s)}_j=\frac{1}{s}\sum_{k=0}^{s-1}x_{js+k},
+\qquad 0\le j<\lfloor n/s\rfloor .
+$$
+
+Sea $B_m$ el número de pares distintos y no ordenados de patrones de longitud $m$ cuya máxima diferencia por coordenada no supera $r$. Sea $A_{m+1}$ el conteo equivalente después de extenderlos una observación. La implementación restringe ambos conteos a posiciones que admiten la extensión.
+
+$$
+\operatorname{SampEn}(m,r)=-\log\!\left(\frac{A_{m+1}}{B_m}\right),
+\qquad A_{m+1},B_m>0.
+$$
+
+El cociente es la fracción de pares coincidentes que sigue coincidiendo al incluir la observación siguiente. Una tolerancia positiva admite valores iguales y cercanos. Aumentarla no puede reducir ninguno de los conteos para una secuencia y escala fijas. El cociente sí puede subir o bajar porque ambos conteos pueden crecer en proporciones distintas. Una tolerancia mayor no garantiza un cambio de entropía en un sentido determinado.
+
+<!-- code: tolerance_plot -->
+
+El panel izquierdo muestra cómo varía la entropía con las tres tolerancias declaradas. El derecho muestra cuánta evidencia sostiene cada estimación al contar coincidencias extendidas. Compare los paneles en la misma escala de agregación. Con pocas coincidencias extendidas, el cociente es sensible a pares individuales. Si el conteo cae a cero, la estimación queda ausente. Las escalas mayores dejan secuencias más cortas. Esto reduce el número de pares posibles, aunque promediar también puede volver los valores más parecidos. Un gráfico solo de entropía ocultaría esos efectos simultáneos.
+
+Este análisis cambia únicamente una fracción de la desviación estándar original. Cada línea conserva la misma tolerancia absoluta en sus cuatro escalas. Si recalibra la tolerancia sobre cada secuencia agregada, identifique esa elección como otro estimador y explique su propósito. Examinar estos parámetros después de observar un caso permite diagnosticar fragilidad. No justifica elegir la curva que más se parezca a un mecanismo esperado.
+
+### Extiende el experimento a tus propios datos
+
+Elija un segmento regularmente espaciado con duración, frecuencia y unidades conocidas. Declare si las lecturas faltantes interrumpen la secuencia o se imputan, y registre su posición y tratamiento antes de calcular medidas con rezagos. Exprese las escalas en duraciones físicas y compruebe que cada duración conserve suficientes bloques. Evite contar segmentos adyacentes superpuestos como datos independientes por comenzar en instantes distintos. Si el diagnóstico influye en una decisión, reserve otro período para la comparación.
+
+Incluya dos controles. Un segmento constante ejercita el límite entre cero y una estimación ausente. Un cambio positivo de unidades comprueba si la tolerancia y los valores cambian en la misma proporción. Si la pregunta se refiere al orden, invierta el segmento original y compare el signo del momento estandarizado, manteniendo fijas las demás decisiones. La cuantización y los empates pueden cambiar el conteo binario de frases aun cuando dos calibraciones de sensor parezcan casi iguales. Conserve los valores originales y registre el umbral para poder examinar ese efecto más adelante.
+
+Compare los conteos antes de comparar entropías publicadas por dos estudios. El orden de los patrones, la norma y el tratamiento de coincidencias consigo mismo pueden cambiar el denominador. Informe estas decisiones, la tolerancia y el tamaño muestral por escala.
+
 ## Resumen
 
 Entropía, frases y momentos con rezago descartan información distinta. Unidades, valores ausentes y condiciones de repetibilidad forman parte del resultado.
@@ -75,6 +107,8 @@ Entropía, frases y momentos con rezago descartan información distinta. Unidade
 Ejecute las llamadas y ambas figuras en orden. Compruebe tolerancia, cero y extremo ausente del control, conteo de frases y estimaciones robustas repetidas. Las pruebas independientes de conteo de pares y conservación del generador aleatorio cubren propiedades adicionales; la lección aporta un ejemplo interpretable sin reemplazar esas pruebas por un gráfico.
 
 ## Referencias
+
+[Richman y Moorman sobre entropía muestral](https://doi.org/10.1152/ajpheart.2000.278.6.H2039).
 
 Costa, Goldberger y Peng, DOI 10.1103/PhysRevLett.89.068102. Lempel y Ziv, DOI 10.1109/TIT.1976.1055501. La definición tsfresh especifica el momento con rezago, y nolds documenta los datos de ajuste utilizados por el adaptador con semilla.
 

@@ -4,6 +4,12 @@ on:
   push:
     branches: [main, develop]
   workflow_dispatch:
+    inputs:
+      comparison_base:
+        description: Base branch for contract comparisons on a manually dispatched branch
+        type: choice
+        options: [develop, main]
+        default: develop
 
 # ADR-0074: cheap checks on committed files. No pipeline test suite, no training stack, no bake: those run locally.
 # The web job builds the site and runs its unit tests (the contract and parity checks are milliseconds).
@@ -86,9 +92,10 @@ jobs:
       - name: Contract versions follow their schemas, each with its History entry, against the base (spec area)
         env:
           BEFORE: ${{ github.event.before }}
+          COMPARISON_BASE: ${{ inputs.comparison_base || 'develop' }}
         run: |
           base="$BEFORE"
-          if [ -z "${base//0/}" ]; then base=origin/develop; fi  # a new branch or a manual run has no before SHA
+          if [ -z "${base//0/}" ]; then base="origin/$COMPARISON_BASE"; fi  # a new branch or a manual run has no before SHA
           python scripts/check_contract_versions.py --base "$base"
       - name: The contract catalog, every row complete and every path it names present (ADR-0080)
         run: python scripts/check_contracts.py docs/contracts/catalog.md --repo-root .

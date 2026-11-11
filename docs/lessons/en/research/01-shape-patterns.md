@@ -40,6 +40,23 @@ A second window of twelve observations tests sensitivity to the declared local s
 
 <!-- code: sensitivity -->
 
+### Sensitivity to window length
+
+Write $z_i(k)$ for observation $k$ in the window beginning at $i$, centered and scaled using that window. For nonconstant windows the profile at start $i$ is
+
+$$
+P_m(i)=\min_{|i-j|>\lceil m/4\rceil}
+\sqrt{\sum_{k=0}^{m-1}(z_i(k)-z_j(k))^2}.
+$$
+
+Each candidate distance adds $m$ squared differences. The following figure divides $P_m$ by $\sqrt m$, so its vertical axis represents root mean square disagreement per normalized observation. Both curves use original start indices. Their eligible matches still differ because changing the window changes the sampled shape, the exclusion radius and how many complete windows fit before the record ends.
+
+<!-- code: profile_scale_plot -->
+
+Read large differences between curves as sensitivity to the representation. For a minimum that moves, inspect both matching raw intervals and ask whether a short fragment of a longer pattern is repeating elsewhere. For a maximum that moves, inspect whether part of a long window straddles a level change. Neither movement establishes which window is preferable. In operational data the useful duration is chosen from the action, such as detecting a recurring hour of machine behavior. Fix the time scale, segmentation settings and allowed missingness before testing on a reserved sequence. If a detection is meant to be online, at each timestamp use only the windows already available then. A retrospective pattern can be confirmed before or after the event of interest, so record that information boundary.
+
+Save the match index together with the distance. A close numerical distance alone cannot identify which two raw intervals a reader should compare.
+
 ## Results
 
 **Answer:** The selected motif windows start at 112 and 232 on the original axis. FLUSS proposes boundaries at 104 and 239 for the requested three regimes. These candidates describe the observed shapes; their positions do not establish known generator breaks or a prospective alarm.
@@ -65,3 +82,5 @@ Run the notebook from top to bottom in the pinned environment. Compare the print
 ## References
 
 Yeh et al., Matrix Profile I, DOI 10.1109/ICDM.2016.0179. Gharghabi et al., Matrix Profile VIII, DOI 10.1109/ICDM.2017.21. The STUMPY exact self-join and FLUSS tutorials document normalization, exclusion and candidate segmentation behavior.
+
+[STUMPY exact profile tutorial](https://stumpy.readthedocs.io/en/latest/Tutorial_STUMPY_Basics.html).

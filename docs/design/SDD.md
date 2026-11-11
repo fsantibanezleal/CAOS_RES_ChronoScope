@@ -1,12 +1,12 @@
 # ChronoScope software design description
 
-Status: current product design; reviewed 2026-11-05 against repository source and committed artifacts.
+Status: current product design, reviewed 2026-11-10 against repository source and committed artifacts.
 
 ## Problem and non-goals
 
 ChronoScope packages time-series diagnostics, point forecasting, interval forecasts, and prequential streaming evaluations in a reproducible research atlas. Its primary boundary is analysis and comparison of selected cases. It is not a production forecasting service, a universal model ranking, a guarantee of coverage under arbitrary drift, or evidence of a new forecasting method.
 
-The streaming study is finite: 15 selected cases, four real series, eleven generated series, one-step horizons, four forecasting/calibration configurations, and stored rolling trajectories. Runtime measurements are machine-dependent. The current artifact does not preserve individual online score-buffer states or complete execution provenance for an exact replay of each controller update.
+The streaming study covers 15 selected series, including four real excerpts and eleven generated series, at a one-step horizon. The published reconstruction binds individual forecast-before-update records and matches the archived aggregate trajectories. The original hardware and timing environment were not retained.
 
 ## Executive brief
 
