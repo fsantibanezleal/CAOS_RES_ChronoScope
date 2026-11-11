@@ -1,0 +1,16 @@
+{
+  "id": 23884367,
+  "doi": "10.5281/zenodo.23884367",
+  "concept_doi": "10.5281/zenodo.21508920",
+  "version": "2.5",
+  "state": "published",
+  "filename": "chronoscope-prequential-streaming-conformal-v2.5.pdf",
+  "bytes": 389190,
+  "md5": "93fb93fd2bb2162abe8c7d16f6970780",
+  "sha256": "c4c1a8c503fa43ca78dd76c6ddbc6f0da32278d862bab038bce01659e0a9c3ac",
+  "publication_date": "2026-11-02",
+  "published_utc": "2026-11-02T12:28:56Z",
+  "record_url": "https://zenodo.org/records/23884367",
+  "source": "manuscripts/prequential-streaming-conformal/tex/main.tex",
+  "source_sha256": "d4e5be71209653319882731977053e21a7bea4944ee2313ffff7e334a13132a4"
+}

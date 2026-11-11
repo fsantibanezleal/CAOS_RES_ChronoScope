@@ -19,6 +19,12 @@ def verify(folder, candidate):
     assert hashlib.sha256(pdf).hexdigest() == receipt["sha256"] == candidate["sha256"] == candidate["reviewed_pdf_sha256"]
     assert b"\r\n" not in source, "Published source must retain the repository's canonical LF bytes"
     assert hashlib.sha256(source).hexdigest() == receipt["source_sha256"] == candidate["source_sha256"] == candidate["reviewed_source_sha256"]
+    if "source_files" in receipt:
+        assert receipt["source_files"][receipt["source"]] == receipt["source_sha256"]
+        for name, digest in receipt["source_files"].items():
+            path = (ROOT / name).resolve()
+            assert path.is_relative_to(folder.resolve()), f"Input escapes the manuscript folder: {name}"
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, f"Published input changed: {name}"
     assert receipt["doi"].encode() in source and receipt["doi"] == candidate["version_doi"]
     assert receipt["version"] == candidate["version"]
     metadata = json.loads((folder / "zenodo.json").read_text(encoding="utf-8"))["metadata"]
