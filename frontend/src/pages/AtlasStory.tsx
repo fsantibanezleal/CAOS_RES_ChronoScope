@@ -48,8 +48,10 @@ function AnnotatedScene({ items, children, onBand, calloutClass }: {
   const loading = items.length > 0 && band <= 0;
   return <div ref={host} className="cs-annotated-scene" data-state={loading ? 'loading' : 'ready'} aria-busy={loading}>
     <div className="cs-story-drawing" style={{ paddingTop: band }}>{children}</div>
-    <SceneCallouts placement="header" className={calloutClass} items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))}
-      onLayout={({ bandHeight }) => { setBand(bandHeight); onBand(bandHeight); }} />
+    <div className="cs-story-callout-layout" aria-hidden={loading || undefined}>
+      <SceneCallouts placement="header" className={calloutClass} items={items.map(item => ({ ...item, anchor: anchors[item.id] ?? item.anchor }))}
+        onLayout={({ bandHeight }) => { setBand(bandHeight); onBand(bandHeight); }} />
+    </div>
   </div>;
 }
 function ResponsiveSvg({ label, children }: { label: string; children: ReactNode }) {
