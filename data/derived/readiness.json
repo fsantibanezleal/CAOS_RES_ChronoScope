@@ -1,6 +1,6 @@
 {
   "schema": "chronoscope.readiness/v1",
-  "product_version": "0.25.000",
+  "product_version": "0.26.000",
   "catalog_sha256": "867d58642d93ad3df83ee1b29207549f2ccafb0050291995f92332d9b17477e8",
   "contracts": [
     {

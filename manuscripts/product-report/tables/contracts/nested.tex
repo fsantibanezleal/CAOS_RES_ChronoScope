@@ -1,0 +1,466 @@
+\begingroup\small
+\begin{longtable}{@{}p{.38\textwidth}p{.15\textwidth}p{.29\textwidth}p{.08\textwidth}@{}}
+\caption{Explicit nested JSON fields and schema constraints across the ChronoScope data interfaces. Requirement markers apply within the immediate parent record or branch.}\label{tab:nested-schema}\\
+\toprule Field path & JSON type & Explicit constraint & Req.\\\midrule\endfirsthead
+\toprule Field path & JSON type & Explicit constraint & Req.\\\midrule\endhead
+\midrule\multicolumn{4}{@{}l}{\textbf{trace}}\\
+\texttt{quantile\_\allowbreak{}levels[]} & number & No explicit range & item\\
+\texttt{history\_\allowbreak{}index[]} & integer & minimum=0 & item\\
+\texttt{history[]} & number & No explicit range & item\\
+\texttt{actual[]} & number & No explicit range & item\\
+\texttt{methods[]} & object &  & item\\
+\texttt{methods[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}family} & string & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest} & object &  & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}mase} & number/null & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}wql} & number/null & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}coverage} & number/null & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}mae} & number/null & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}rmse} & number/null & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}smape} & number/null & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}msis} & number/null & No explicit range & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}per\_\allowbreak{}horizon\_\allowbreak{}scaled} & array &  & yes\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}per\_\allowbreak{}horizon\_\allowbreak{}scaled[]} & number/null & No explicit range & item\\
+\texttt{methods[].\allowbreak{}backtest.\allowbreak{}n\_\allowbreak{}windows} & integer/null & minimum=0 & yes\\
+\texttt{methods[].\allowbreak{}point} & array &  & no\\
+\texttt{methods[].\allowbreak{}point[]} & number & No explicit range & item\\
+\texttt{methods[].\allowbreak{}lower} & array &  & no\\
+\texttt{methods[].\allowbreak{}lower[]} & number & No explicit range & item\\
+\texttt{methods[].\allowbreak{}upper} & array &  & no\\
+\texttt{methods[].\allowbreak{}upper[]} & number & No explicit range & item\\
+\texttt{summary.\allowbreak{}best\_\allowbreak{}method} & string/null & No explicit range & yes\\
+\texttt{summary.\allowbreak{}best\_\allowbreak{}mase} & number/null & No explicit range & yes\\
+\texttt{summary.\allowbreak{}nominal\_\allowbreak{}coverage} & number/null & No explicit range & yes\\
+\midrule\multicolumn{4}{@{}l}{\textbf{manifest}}\\
+\texttt{engine.\allowbreak{}package} & string & No explicit range & yes\\
+\texttt{engine.\allowbreak{}version} & string & No explicit range & yes\\
+\texttt{engine.\allowbreak{}model} & string & No explicit range & yes\\
+\texttt{provenance.\allowbreak{}source} & string & No explicit range & yes\\
+\texttt{provenance.\allowbreak{}license} & string & No explicit range & yes\\
+\texttt{provenance.\allowbreak{}citation} & string & No explicit range & yes\\
+\texttt{provenance.\allowbreak{}public\_\allowbreak{}artifact\_\allowbreak{}ok} & boolean & No explicit range & yes\\
+\texttt{analysis\_\allowbreak{}artifact[anyOf 1]} & null & No explicit range & branch\\
+\texttt{analysis\_\allowbreak{}artifact[anyOf 2]} & object &  & branch\\
+\texttt{analysis\_\allowbreak{}artifact[anyOf 2].\allowbreak{}path} & string & No explicit range & yes\\
+\texttt{analysis\_\allowbreak{}artifact[anyOf 2].\allowbreak{}format} & string & No explicit range & yes\\
+\texttt{analysis\_\allowbreak{}artifact[anyOf 2].\allowbreak{}analysis\_\allowbreak{}schema} & string & No explicit range & yes\\
+\texttt{analysis\_\allowbreak{}artifact[anyOf 2].\allowbreak{}bytes} & integer & minimum=0 & yes\\
+\texttt{streaming\_\allowbreak{}artifact[anyOf 1]} & null & No explicit range & branch\\
+\texttt{streaming\_\allowbreak{}artifact[anyOf 2]} & object &  & branch\\
+\texttt{streaming\_\allowbreak{}artifact[anyOf 2].\allowbreak{}path} & string & No explicit range & yes\\
+\texttt{streaming\_\allowbreak{}artifact[anyOf 2].\allowbreak{}format} & string & No explicit range & yes\\
+\texttt{streaming\_\allowbreak{}artifact[anyOf 2].\allowbreak{}streaming\_\allowbreak{}schema} & string & No explicit range & yes\\
+\texttt{streaming\_\allowbreak{}artifact[anyOf 2].\allowbreak{}bytes} & integer & minimum=0 & yes\\
+\texttt{series.\allowbreak{}n\_\allowbreak{}obs} & integer & minimum=1 & yes\\
+\texttt{series.\allowbreak{}seasonality} & integer & minimum=1 & yes\\
+\texttt{series.\allowbreak{}horizon} & integer & minimum=1 & yes\\
+\texttt{series.\allowbreak{}source} & string & No explicit range & yes\\
+\texttt{series.\allowbreak{}mean} & number & No explicit range & yes\\
+\texttt{series.\allowbreak{}std} & number & No explicit range & yes\\
+\texttt{series.\allowbreak{}trend\_\allowbreak{}slope} & number & No explicit range & yes\\
+\texttt{series.\allowbreak{}seasonal\_\allowbreak{}strength} & number & No explicit range & yes\\
+\texttt{series.\allowbreak{}acf1} & number & No explicit range & yes\\
+\texttt{series.\allowbreak{}pct\_\allowbreak{}zeros} & number & No explicit range & yes\\
+\texttt{artifact.\allowbreak{}path} & string & No explicit range & yes\\
+\texttt{artifact.\allowbreak{}format} & string & No explicit range & yes\\
+\texttt{artifact.\allowbreak{}trace\_\allowbreak{}schema} & string & No explicit range & yes\\
+\texttt{artifact.\allowbreak{}bytes} & integer & minimum=0 & yes\\
+\texttt{gate.\allowbreak{}lane} & string & No explicit range & yes\\
+\texttt{gate.\allowbreak{}pure\_\allowbreak{}python} & boolean & No explicit range & yes\\
+\texttt{gate.\allowbreak{}wheels} & array &  & yes\\
+\texttt{gate.\allowbreak{}wheels[]} & string & No explicit range & item\\
+\texttt{gate.\allowbreak{}trace\_\allowbreak{}bytes} & integer & minimum=0 & yes\\
+\texttt{gate.\allowbreak{}run\_\allowbreak{}ms\_\allowbreak{}budget} & number & No explicit range & yes\\
+\texttt{gate.\allowbreak{}trace\_\allowbreak{}bytes\_\allowbreak{}budget} & integer & minimum=0 & yes\\
+\texttt{gate.\allowbreak{}reasons} & array &  & yes\\
+\texttt{gate.\allowbreak{}reasons[]} & string & No explicit range & item\\
+\texttt{flags[]} & object &  & item\\
+\texttt{flags[]\{key\}} & string & No explicit range & keyed\\
+\texttt{metrics\{key\}} & number/null & No explicit range & keyed\\
+\midrule\multicolumn{4}{@{}l}{\textbf{streaming}}\\
+\texttt{methods\{key\}} & object &  & keyed\\
+\texttt{methods\{key\}.\allowbreak{}cutoffs} & array &  & yes\\
+\texttt{methods\{key\}.\allowbreak{}cutoffs[]} & integer & minimum=0 & item\\
+\texttt{methods\{key\}.\allowbreak{}rolling\_\allowbreak{}mase} & array &  & yes\\
+\texttt{methods\{key\}.\allowbreak{}rolling\_\allowbreak{}mase[]} & number/null & No explicit range & item\\
+\texttt{methods\{key\}.\allowbreak{}rolling\_\allowbreak{}coverage} & array &  & yes\\
+\texttt{methods\{key\}.\allowbreak{}rolling\_\allowbreak{}coverage[]} & number/null & No explicit range & item\\
+\texttt{methods\{key\}.\allowbreak{}rolling\_\allowbreak{}wql} & array &  & yes\\
+\texttt{methods\{key\}.\allowbreak{}rolling\_\allowbreak{}wql[]} & number/null & No explicit range & item\\
+\texttt{methods\{key\}.\allowbreak{}cumulative\_\allowbreak{}cost\_\allowbreak{}ms} & array &  & yes\\
+\texttt{methods\{key\}.\allowbreak{}cumulative\_\allowbreak{}cost\_\allowbreak{}ms[]} & number/null & No explicit range & item\\
+\texttt{methods\{key\}.\allowbreak{}n\_\allowbreak{}steps} & integer & minimum=0 & yes\\
+\texttt{methods\{key\}.\allowbreak{}final} & object &  & yes\\
+\texttt{methods\{key\}.\allowbreak{}final.\allowbreak{}mase} & number/null & No explicit range & yes\\
+\texttt{methods\{key\}.\allowbreak{}final.\allowbreak{}coverage} & number/null & No explicit range & yes\\
+\texttt{methods\{key\}.\allowbreak{}final.\allowbreak{}wql} & number/null & No explicit range & yes\\
+\texttt{references\{key\}} & string & No explicit range & keyed\\
+\midrule\multicolumn{4}{@{}l}{\textbf{analysis}}\\
+\texttt{sequence[oneOf 1]} & object &  & branch\\
+\texttt{sequence[oneOf 1].\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}observation\_\allowbreak{}indices} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}observation\_\allowbreak{}indices[]} & integer & minimum=0 & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}values} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}values[]} & number & No explicit range & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile} & declared union & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1]} & object &  & branch\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}available} & fixed value & const=true & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}window} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}exclusion\_\allowbreak{}zone} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}profile} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}profile[]} & number/null & No explicit range & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}nearest\_\allowbreak{}neighbor} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}nearest\_\allowbreak{}neighbor[]} & integer & No explicit range & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}motifs} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}motifs[]} & object &  & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}motifs[].\allowbreak{}start} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}motifs[].\allowbreak{}match} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}motifs[].\allowbreak{}distance} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}discords} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}discords[]} & object &  & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}discords[].\allowbreak{}start} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}discords[].\allowbreak{}distance} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}corrected\_\allowbreak{}arc\_\allowbreak{}curve} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}corrected\_\allowbreak{}arc\_\allowbreak{}curve[]} & number & No explicit range & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}regime\_\allowbreak{}boundaries} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}regime\_\allowbreak{}boundaries[]} & integer & minimum=0 & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}regimes\_\allowbreak{}requested} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}normalization} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 1].\allowbreak{}note} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 2]} & object &  & branch\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 2].\allowbreak{}available} & fixed value & const=false & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 2].\allowbreak{}reason} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 2].\allowbreak{}n} & integer & minimum=0 & no\\
+\texttt{sequence[oneOf 1].\allowbreak{}matrix\_\allowbreak{}profile[oneOf 2].\allowbreak{}window} & integer & minimum=0 & no\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy} & object &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}order} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}tolerance\_\allowbreak{}ratio} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}tolerance\_\allowbreak{}basis} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[]} & object &  & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[].\allowbreak{}scale} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[].\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[].\allowbreak{}tolerance} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[].\allowbreak{}entropy} & number/null & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[].\allowbreak{}matching\_\allowbreak{}m} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[].\allowbreak{}matching\_\allowbreak{}m\_\allowbreak{}plus\_\allowbreak{}one} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}multiscale\_\allowbreak{}entropy.\allowbreak{}scales[].\allowbreak{}reason} & string & No explicit range & no\\
+\texttt{sequence[oneOf 1].\allowbreak{}lempel\_\allowbreak{}ziv} & object &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}lempel\_\allowbreak{}ziv.\allowbreak{}raw} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}lempel\_\allowbreak{}ziv.\allowbreak{}normalized} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}lempel\_\allowbreak{}ziv.\allowbreak{}threshold} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}lempel\_\allowbreak{}ziv.\allowbreak{}alphabet} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}lempel\_\allowbreak{}ziv.\allowbreak{}normalization} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}time\_\allowbreak{}reversal} & array &  & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}time\_\allowbreak{}reversal[]} & object &  & item\\
+\texttt{sequence[oneOf 1].\allowbreak{}time\_\allowbreak{}reversal[].\allowbreak{}lag} & integer & minimum=0 & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}time\_\allowbreak{}reversal[].\allowbreak{}raw} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}time\_\allowbreak{}reversal[].\allowbreak{}standardized} & number & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}time\_\allowbreak{}reversal[].\allowbreak{}note} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 1].\allowbreak{}interpretation} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 2]} & object &  & branch\\
+\texttt{sequence[oneOf 2].\allowbreak{}available} & fixed value & const=false & yes\\
+\texttt{sequence[oneOf 2].\allowbreak{}reason} & string & No explicit range & yes\\
+\texttt{sequence[oneOf 2].\allowbreak{}n} & integer & minimum=0 & no\\
+\texttt{sequence[oneOf 2].\allowbreak{}window} & integer & minimum=0 & no\\
+\texttt{sequence[oneOf 3]} & object &  & branch\\
+\texttt{sequence[oneOf 3].\allowbreak{}error} & string & No explicit range & yes\\
+\midrule\multicolumn{4}{@{}l}{\textbf{browser-calibration}}\\
+\texttt{calibration\_\allowbreak{}bin\_\allowbreak{}counts[]} & integer & minimum=20 & item\\
+\texttt{absolute\_\allowbreak{}residual\_\allowbreak{}radii[]} & array & minItems=12; maxItems=12 & item\\
+\texttt{absolute\_\allowbreak{}residual\_\allowbreak{}radii[][]} & number & minimum=0 & item\\
+\texttt{global\_\allowbreak{}radii[]} & number & minimum=0 & item\\
+\midrule\multicolumn{4}{@{}l}{\textbf{browser-ridge-study}}\\
+\texttt{absolute\_\allowbreak{}residual\_\allowbreak{}radii[]} & number & minimum=0 & item\\
+\texttt{selection[]} & object &  & item\\
+\texttt{selection[].\allowbreak{}penalty} & fixed value & enum=[0,1e-06,0.\allowbreak{}0001,0.01,0.1,1,\allowbreak{}10] & yes\\
+\texttt{selection[].\allowbreak{}normalized\_\allowbreak{}mse} & number & minimum=0 & yes\\
+\texttt{selection[].\allowbreak{}selected} & boolean & No explicit range & no\\
+\midrule\multicolumn{4}{@{}l}{\textbf{reevaluation}}\\
+\texttt{protocol.\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}forecast\_\allowbreak{}origins\_\allowbreak{}per\_\allowbreak{}case} & integer & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}quantile\_\allowbreak{}levels} & array &  & yes\\
+\texttt{protocol.\allowbreak{}quantile\_\allowbreak{}levels[]} & number & No explicit range & item\\
+\texttt{protocol.\allowbreak{}heavy\_\allowbreak{}forecasts} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}light\_\allowbreak{}forecasts} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}history} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}limits} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}context\_\allowbreak{}memory} & object &  & yes\\
+\texttt{protocol.\allowbreak{}context\_\allowbreak{}memory\{key\}} & number & No explicit range & keyed\\
+\texttt{trace\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{code\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{cases[]} & object &  & item\\
+\texttt{cases[].\allowbreak{}case\_\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}seasonality} & integer & minimum=1 & yes\\
+\texttt{cases[].\allowbreak{}horizon} & integer & minimum=1 & yes\\
+\texttt{cases[].\allowbreak{}history\_\allowbreak{}length} & integer & minimum=2 & yes\\
+\texttt{cases[].\allowbreak{}actual} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}actual[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[]} & object &  & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}family} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}source} & fixed value & enum=["frozen released forecast","recomputed from current source"] & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}point} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}point[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}lower} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}lower[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}upper} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}upper[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics} & object &  & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mae} & number & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}rmse} & number & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mase} & number/null & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}msis} & number/null & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}wql} & number/null & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}coverage} & number & minimum=0; maximum=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mean\_\allowbreak{}width} & number & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}fit\_\allowbreak{}inference\_\allowbreak{}seconds} & number & minimum=0 & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}warning\_\allowbreak{}categories} & array &  & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}warning\_\allowbreak{}categories[]} & string & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}expert\_\allowbreak{}weights} & object &  & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}expert\_\allowbreak{}weights\{key\}} & number & minimum=0; maximum=1 & keyed\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}training\_\allowbreak{}origins} & array &  & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}training\_\allowbreak{}origins[]} & integer & minimum=1 & item\\
+\texttt{cases[].\allowbreak{}history} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}history[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}category} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}legacy\_\allowbreak{}backtest\_\allowbreak{}window\_\allowbreak{}counts} & object &  & yes\\
+\texttt{cases[].\allowbreak{}legacy\_\allowbreak{}backtest\_\allowbreak{}window\_\allowbreak{}counts\{key\}} & integer/null & No explicit range & keyed\\
+\texttt{summary[]} & object &  & item\\
+\texttt{summary[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{summary[].\allowbreak{}cases} & integer & minimum=1 & yes\\
+\texttt{summary[].\allowbreak{}mean\_\allowbreak{}mase} & number & No explicit range & yes\\
+\texttt{summary[].\allowbreak{}mean\_\allowbreak{}coverage} & number & minimum=0; maximum=1 & yes\\
+\texttt{input\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{runtime.\allowbreak{}python} & string & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}platform} & string & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}packages} & object &  & yes\\
+\texttt{runtime.\allowbreak{}packages\{key\}} & string & No explicit range & keyed\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}revisions} & object &  & yes\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}revisions\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{40\}\$" & keyed\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}sha256} & object &  & yes\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}sha256\{key\}} & object &  & keyed\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}sha256\{key\}\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{runtime.\allowbreak{}cuda\_\allowbreak{}available} & boolean & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}torch\_\allowbreak{}cuda} & string/null & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}gpu} & string/null & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}torch\_\allowbreak{}cpu\_\allowbreak{}threads} & integer & minimum=1 & yes\\
+\midrule\multicolumn{4}{@{}l}{\textbf{fresh-reevaluation}}\\
+\texttt{protocol.\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}forecast\_\allowbreak{}origins\_\allowbreak{}per\_\allowbreak{}case} & integer & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}quantile\_\allowbreak{}levels} & array &  & yes\\
+\texttt{protocol.\allowbreak{}quantile\_\allowbreak{}levels[]} & number & No explicit range & item\\
+\texttt{protocol.\allowbreak{}heavy\_\allowbreak{}forecasts} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}light\_\allowbreak{}forecasts} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}history} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}limits} & string & No explicit range & yes\\
+\texttt{protocol.\allowbreak{}context\_\allowbreak{}memory} & object &  & yes\\
+\texttt{protocol.\allowbreak{}context\_\allowbreak{}memory\{key\}} & number & No explicit range & keyed\\
+\texttt{trace\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{code\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{cases[]} & object &  & item\\
+\texttt{cases[].\allowbreak{}case\_\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}seasonality} & integer & minimum=1 & yes\\
+\texttt{cases[].\allowbreak{}horizon} & integer & minimum=1 & yes\\
+\texttt{cases[].\allowbreak{}history\_\allowbreak{}length} & integer & minimum=2 & yes\\
+\texttt{cases[].\allowbreak{}actual} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}actual[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[]} & object &  & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}family} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}source} & fixed value & enum=["frozen released forecast","recomputed from current source"] & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}point} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}point[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}lower} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}lower[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}upper} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}upper[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics} & object &  & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mae} & number & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}rmse} & number & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mase} & number/null & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}msis} & number/null & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}wql} & number/null & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}coverage} & number & minimum=0; maximum=1 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mean\_\allowbreak{}width} & number & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}fit\_\allowbreak{}inference\_\allowbreak{}seconds} & number & minimum=0 & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}warning\_\allowbreak{}categories} & array &  & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}warning\_\allowbreak{}categories[]} & string & No explicit range & item\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}expert\_\allowbreak{}weights} & object &  & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}expert\_\allowbreak{}weights\{key\}} & number & minimum=0; maximum=1 & keyed\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}training\_\allowbreak{}origins} & array &  & no\\
+\texttt{cases[].\allowbreak{}methods[].\allowbreak{}training\_\allowbreak{}origins[]} & integer & minimum=1 & item\\
+\texttt{cases[].\allowbreak{}history} & array & minItems=1 & yes\\
+\texttt{cases[].\allowbreak{}history[]} & number & No explicit range & item\\
+\texttt{cases[].\allowbreak{}category} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}legacy\_\allowbreak{}backtest\_\allowbreak{}window\_\allowbreak{}counts} & object &  & yes\\
+\texttt{cases[].\allowbreak{}legacy\_\allowbreak{}backtest\_\allowbreak{}window\_\allowbreak{}counts\{key\}} & integer/null & No explicit range & keyed\\
+\texttt{summary[]} & object &  & item\\
+\texttt{summary[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{summary[].\allowbreak{}cases} & integer & minimum=1 & yes\\
+\texttt{summary[].\allowbreak{}mean\_\allowbreak{}mase} & number & No explicit range & yes\\
+\texttt{summary[].\allowbreak{}mean\_\allowbreak{}coverage} & number & minimum=0; maximum=1 & yes\\
+\texttt{input\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{runtime.\allowbreak{}python} & string & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}platform} & string & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}packages} & object &  & yes\\
+\texttt{runtime.\allowbreak{}packages\{key\}} & string & No explicit range & keyed\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}revisions} & object &  & yes\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}revisions\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{40\}\$" & keyed\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}sha256} & object &  & yes\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}sha256\{key\}} & object &  & keyed\\
+\texttt{runtime.\allowbreak{}checkpoint\_\allowbreak{}sha256\{key\}\{key\}} & string & pattern="\textasciicircum{}[0-9a-f]\{64\}\$" & keyed\\
+\texttt{runtime.\allowbreak{}cuda\_\allowbreak{}available} & boolean & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}torch\_\allowbreak{}cuda} & string/null & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}gpu} & string/null & No explicit range & yes\\
+\texttt{runtime.\allowbreak{}torch\_\allowbreak{}cpu\_\allowbreak{}threads} & integer & minimum=1 & yes\\
+\midrule\multicolumn{4}{@{}l}{\textbf{index}}\\
+\texttt{cases[]} & object &  & item\\
+\texttt{cases[].\allowbreak{}case\_\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}category} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}manifest\_\allowbreak{}path} & string & No explicit range & yes\\
+\midrule\multicolumn{4}{@{}l}{\textbf{selector}}\\
+\texttt{ranking[]} & array & minItems=2; maxItems=2 & item\\
+\texttt{ranking[][0]} & string & No explicit range & tuple\\
+\texttt{ranking[][1]} & number & No explicit range & tuple\\
+\midrule\multicolumn{4}{@{}l}{\textbf{forecastability}}\\
+\texttt{packages\{key\}} & string & No explicit range & keyed\\
+\texttt{code\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & keyed\\
+\texttt{excluded[]} & object &  & item\\
+\texttt{excluded[].\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{excluded[].\allowbreak{}excluded} & string & No explicit range & yes\\
+\texttt{excluded[].\allowbreak{}sequence\_\allowbreak{}sha256} & string & No explicit range & yes\\
+\texttt{model\_\allowbreak{}names[]} & string & No explicit range & item\\
+\texttt{summary.\allowbreak{}discovery\_\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{summary.\allowbreak{}confirmation\_\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{summary.\allowbreak{}associations} & array &  & yes\\
+\texttt{summary.\allowbreak{}associations[]} & object &  & item\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}feature} & string & No explicit range & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}discovery} & object &  & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}discovery.\allowbreak{}feature} & string & No explicit range & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}discovery.\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}discovery.\allowbreak{}tau} & number & minimum=-1; maximum=1 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}discovery.\allowbreak{}p} & number & minimum=0; maximum=1 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}discovery.\allowbreak{}q} & number & minimum=0; maximum=1 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}discovery.\allowbreak{}rejected} & boolean & No explicit range & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmation} & object &  & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmation.\allowbreak{}feature} & string & No explicit range & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmation.\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmation.\allowbreak{}tau} & number & minimum=-1; maximum=1 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmation.\allowbreak{}p} & number & minimum=0; maximum=1 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmation.\allowbreak{}q} & number & minimum=0; maximum=1 & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmation.\allowbreak{}rejected} & boolean & No explicit range & yes\\
+\texttt{summary.\allowbreak{}associations[].\allowbreak{}confirmed} & boolean & No explicit range & yes\\
+\texttt{summary.\allowbreak{}constant\_\allowbreak{}method} & string & No explicit range & yes\\
+\texttt{summary.\allowbreak{}selection\_\allowbreak{}mean\_\allowbreak{}mase} & object &  & yes\\
+\texttt{summary.\allowbreak{}selection\_\allowbreak{}mean\_\allowbreak{}mase.\allowbreak{}selected} & number & No explicit range & yes\\
+\texttt{summary.\allowbreak{}selection\_\allowbreak{}mean\_\allowbreak{}mase.\allowbreak{}discovery\_\allowbreak{}constant} & number & No explicit range & yes\\
+\texttt{summary.\allowbreak{}selection\_\allowbreak{}mean\_\allowbreak{}mase.\allowbreak{}oracle} & number & No explicit range & yes\\
+\texttt{summary.\allowbreak{}model\_\allowbreak{}mean\_\allowbreak{}mase} & object &  & yes\\
+\texttt{summary.\allowbreak{}model\_\allowbreak{}mean\_\allowbreak{}mase\{key\}} & number & No explicit range & keyed\\
+\texttt{summary.\allowbreak{}selector\_\allowbreak{}features} & array &  & yes\\
+\texttt{summary.\allowbreak{}selector\_\allowbreak{}features[]} & string & No explicit range & item\\
+\texttt{summary.\allowbreak{}discovery\_\allowbreak{}medians} & array &  & yes\\
+\texttt{summary.\allowbreak{}discovery\_\allowbreak{}medians[]} & number & No explicit range & item\\
+\texttt{summary.\allowbreak{}limitations} & array &  & yes\\
+\texttt{summary.\allowbreak{}limitations[]} & string & No explicit range & item\\
+\texttt{series[]} & object &  & item\\
+\texttt{series[].\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{series[].\allowbreak{}start\_\allowbreak{}timestamp} & string & No explicit range & yes\\
+\texttt{series[].\allowbreak{}source\_\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{series[].\allowbreak{}sequence\_\allowbreak{}sha256} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{series[].\allowbreak{}partition} & fixed value & enum=["discovery\allowbreak{}","confirmation"\allowbreak{}] & yes\\
+\texttt{series[].\allowbreak{}features} & object &  & yes\\
+\texttt{series[].\allowbreak{}features\{key\}} & number/null & No explicit range & keyed\\
+\texttt{series[].\allowbreak{}mase} & object &  & yes\\
+\texttt{series[].\allowbreak{}mase\{key\}} & number & No explicit range & keyed\\
+\texttt{series[].\allowbreak{}origins} & array & minItems=3; maxItems=3 & yes\\
+\texttt{series[].\allowbreak{}origins[]} & integer & minimum=0 & item\\
+\texttt{series[].\allowbreak{}selected\_\allowbreak{}method} & string & No explicit range & no\\
+\texttt{audit.\allowbreak{}verified\_\allowbreak{}origin\_\allowbreak{}scores} & integer & minimum=0 & yes\\
+\texttt{audit.\allowbreak{}selector\_\allowbreak{}sha256} & string & No explicit range & yes\\
+\texttt{audit.\allowbreak{}cache\_\allowbreak{}identity} & string & No explicit range & yes\\
+\midrule\multicolumn{4}{@{}l}{\textbf{combination-index}}\\
+\texttt{code\_\allowbreak{}sha256\{key\}} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & keyed\\
+\texttt{packages\{key\}} & string & No explicit range & keyed\\
+\texttt{cohorts[]} & object &  & item\\
+\texttt{cohorts[].\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}inventory} & integer & minimum=0 & yes\\
+\texttt{cohorts[].\allowbreak{}admitted} & integer & minimum=0 & yes\\
+\texttt{cohorts[].\allowbreak{}excluded} & integer & minimum=0 & yes\\
+\texttt{cohorts[].\allowbreak{}exclusion\_\allowbreak{}reasons} & object &  & yes\\
+\texttt{cohorts[].\allowbreak{}exclusion\_\allowbreak{}reasons\{key\}} & integer & minimum=0 & keyed\\
+\texttt{cohorts[].\allowbreak{}origins} & integer & minimum=0 & yes\\
+\texttt{cohorts[].\allowbreak{}summary} & array &  & yes\\
+\texttt{cohorts[].\allowbreak{}summary[]} & object &  & item\\
+\texttt{cohorts[].\allowbreak{}summary[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}summary[].\allowbreak{}series} & integer & minimum=0 & yes\\
+\texttt{cohorts[].\allowbreak{}summary[].\allowbreak{}mase} & number & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}summary[].\allowbreak{}mae} & number & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}summary[].\allowbreak{}coverage} & number & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}summary[].\allowbreak{}mean\_\allowbreak{}width} & number & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}summary[].\allowbreak{}msis} & number & No explicit range & yes\\
+\texttt{cohorts[].\allowbreak{}selection\_\allowbreak{}counts} & object &  & yes\\
+\texttt{cohorts[].\allowbreak{}selection\_\allowbreak{}counts\{key\}} & integer & minimum=0 & keyed\\
+\texttt{cases[]} & object &  & item\\
+\texttt{cases[].\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}dataset} & string & No explicit range & yes\\
+\texttt{cases[].\allowbreak{}source\_\allowbreak{}n} & integer & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}path} & string & pattern="\textasciicircum{}combinations/(m4\_\allowbreak{}weekly|m3\_\allowbreak{}monthly|selected\_\allowbreak{}cases)/[A-Za-z0-9\_\allowbreak{}]+\textbackslash{}\textbackslash{}.json\$" & yes\\
+\texttt{cases[].\allowbreak{}origins} & integer & minimum=0 & yes\\
+\texttt{cases[].\allowbreak{}excluded} & string & No explicit range & no\\
+\texttt{sources\{key\}} & object &  & keyed\\
+\texttt{sources\{key\}.\allowbreak{}doi} & string & No explicit range & yes\\
+\texttt{sources\{key\}.\allowbreak{}license} & fixed value & const="CC-BY-4.0" & yes\\
+\texttt{sources\{key\}.\allowbreak{}tsf\_\allowbreak{}sha256} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{sources\{key\}.\allowbreak{}zip\_\allowbreak{}sha256} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{sources\{key\}.\allowbreak{}horizon} & integer & minimum=0 & yes\\
+\texttt{sources\{key\}.\allowbreak{}seasonality} & integer & minimum=0 & yes\\
+\texttt{audit.\allowbreak{}path} & string & No explicit range & yes\\
+\texttt{audit.\allowbreak{}sha256} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{audit.\allowbreak{}uncompressed\_\allowbreak{}sha256} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{audit.\allowbreak{}scope} & string & No explicit range & yes\\
+\midrule\multicolumn{4}{@{}l}{\textbf{combination-case}}\\
+\texttt{origins[]} & object &  & item\\
+\texttt{origins[].\allowbreak{}origin} & integer & minimum=0 & yes\\
+\texttt{origins[].\allowbreak{}prefix\_\allowbreak{}start} & integer & minimum=0 & yes\\
+\texttt{origins[].\allowbreak{}prefix\_\allowbreak{}length} & integer & minimum=0 & yes\\
+\texttt{origins[].\allowbreak{}prefix\_\allowbreak{}sha256} & string & pattern="\textasciicircum{}[a-f0-9]\{64\}\$" & yes\\
+\texttt{origins[].\allowbreak{}scale} & number & exclusiveMinimum=0 & yes\\
+\texttt{origins[].\allowbreak{}actual} & array & minItems=1 & yes\\
+\texttt{origins[].\allowbreak{}actual[]} & number & No explicit range & item\\
+\texttt{origins[].\allowbreak{}methods} & array & minItems=1 & yes\\
+\texttt{origins[].\allowbreak{}methods[]} & object &  & item\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}name} & string & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}quantiles} & array & minItems=1 & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}quantiles[]} & array & minItems=3; maxItems=3 & item\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}quantiles[][]} & number & No explicit range & item\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics} & object &  & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mae} & number & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}rmse} & number & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mase} & number/null & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}coverage} & number & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}mean\_\allowbreak{}width} & number & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}msis} & number/null & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}metrics.\allowbreak{}wql} & number/null & No explicit range & yes\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}weights} & array & minItems=5; maxItems=5 & no\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}weights[]} & number & No explicit range & item\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}memory\_\allowbreak{}origins} & array &  & no\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}memory\_\allowbreak{}origins[]} & integer & minimum=0 & item\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}selected} & array & minItems=3; maxItems=3 & no\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}selected[]} & string/number & No explicit range & item\\
+\texttt{origins[].\allowbreak{}methods[].\allowbreak{}validation\_\allowbreak{}blocks} & integer & minimum=0 & no\\
+\midrule\multicolumn{4}{@{}l}{\textbf{readiness}}\\
+\texttt{contracts[]} & object &  & item\\
+\texttt{contracts[].\allowbreak{}id} & string & No explicit range & yes\\
+\texttt{contracts[].\allowbreak{}version} & string & pattern="\textasciicircum{}[0-9]+\allowbreak{}\textbackslash{}\textbackslash{}.[0-9]+\textbackslash{}\textbackslash{}.[0-9\allowbreak{}]+\$" & yes\\
+\texttt{contracts[].\allowbreak{}status} & fixed value & enum=["real","active"] & yes\\
+\texttt{contracts[].\allowbreak{}state} & fixed value & enum=["available\allowbreak{}","missing"] & yes\\
+\texttt{contracts[].\allowbreak{}missing} & array &  & yes\\
+\texttt{contracts[].\allowbreak{}missing[]} & string & No explicit range & item\\
+\bottomrule\end{longtable}
+\endgroup
