@@ -65,7 +65,9 @@
       "concept_doi": "10.5281/zenodo.21508920",
       "title": "Prequential Evaluation of Adaptive Prediction Intervals: A Fifteen-Series Replay Study",
       "version": "2.6",
-      "covers": []
+      "covers": [
+        "NC-1"
+      ]
     }
   ]
 }
