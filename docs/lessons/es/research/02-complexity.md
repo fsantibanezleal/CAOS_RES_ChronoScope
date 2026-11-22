@@ -1,6 +1,8 @@
-# ¿Cambiar la escala modifica la evidencia sobre el orden?
+# Distinguir complejidad secuencial y volatilidad cambiante
 
-**Pregunta:** ¿Cómo describen la entropía, la complejidad simbólica y la reversión temporal distintos aspectos de una misma secuencia? Usamos el caso de quiebres estructurales sin sustituirlo por un proceso idealizado y conservamos una secuencia constante como control de respuesta conocida. El objetivo es comprender la información y las unidades de cada cálculo. Ninguno de estos resúmenes identifica por sí solo un método ganador ni demuestra un mecanismo físico determinista.
+**Nivel:** 2. **Requisitos previos:** Las lecciones anteriores de este tema; arrays NumPy y evaluación temporal. **Tiempo de lectura:** 40 minutos.
+
+**Pregunta:** ¿Qué miden los diagnósticos de complejidad del orden y volatilidad de la escala en un control generado y un extracto eléctrico auténtico, y qué conclusiones no justifican?
 
 ## Objetivos
 
@@ -16,7 +18,7 @@ El entorno incluye la implementación de secuencias, sus bibliotecas numéricas 
 
 ## Datos
 
-El artefacto admitido conserva la identidad y las observaciones utilizadas a continuación.
+Los controles de entropía e inversión usan BRKV_level_shift, una secuencia explícitamente sintética leída sin reducción desde sequence.values en `data/derived/BRKV_level_shift/analysis.json`. ChronoScope es propietario del generador determinista con semilla 42 (`data-pipeline/engine/cases/forecast_cases.py`, MIT); sus índices no son fechas. El cálculo separado de volatilidad usa el extracto observado MT_010 de UCI (https://doi.org/10.24432/C58C86, CC BY 4.0), en `data/examples/electricity_sample.csv`. Cada y suma cuatro lecturas en kW: las diferencias y desviaciones condicionales conservan estas unidades de la fuente y no representan energía.
 
 <!-- code: data -->
 
@@ -46,7 +48,7 @@ Un cambio positivo de unidades y un desplazamiento deberían conservar el orden 
 
 ## Resultados
 
-**Respuesta:** El conteo de frases binarias es 13 y su normalización es 0.3566. La curva de entropía cambia con la escala bajo una tolerancia original fija, mientras el conteo de frases binarias describe otra representación. Invertir el orden cambia el signo del estadístico. Ninguno de estos valores descriptivos certifica por sí solo caos, significancia o precisión de pronóstico.
+**Respuesta:** El conteo de frases binarias es 13 y su normalización es 0.3566. La curva de entropía cambia con la escala bajo una tolerancia original fija, mientras el conteo de frases binarias describe otra representación. Invertir el orden cambia el signo del estadístico. Ninguno de estos valores descriptivos certifica por sí solo caos, significancia o precisión de pronóstico. La sección de volatilidad utiliza otra secuencia eléctrica auténtica: su desviación condicional ajustada describe escala en unidades de la fuente; entropía y frases binarias describen representación y orden del control generado. Son entradas y preguntas distintas; ningún cálculo por sí solo establece caos ni intervalos futuros calibrados.
 
 <!-- code: entropy_plot -->
 

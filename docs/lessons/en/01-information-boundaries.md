@@ -1,5 +1,7 @@
 # Which information belongs to a forecast at issuance?
 
+**Level:** 3. **Prerequisites:** Earlier lessons in this topic; NumPy arrays and temporal evaluation. **Reading time:** 50 minutes.
+
 **Question:** How can the same electricity excerpt yield a different historical method choice, final-block ranking, and interval coverage trajectory?
 
 ## Objectives
@@ -20,7 +22,7 @@ Use the declared notebook runtime. The stage registry discovers optional adapter
 
 ## Data
 
-The ingestion stage reads a long table whose keys are series identity and timestamp. It returns accepted records, rejected records and warnings. The warning mechanism distinguishes a suspicious observation from an unreadable or inadmissible series. An accepted record can still have missing values under the ingestion rule. Additional conditions are needed before a model consumes a contiguous finite prefix. In this example the slice is contiguous and finite. We cut the slice in timestamp order and keep the original positions, so a seasonal lag of 24 refers to one day.
+The real input belongs to UCI ElectricityLoadDiagrams20112014, client MT_010 (https://doi.org/10.24432/C58C86), distributed under CC BY 4.0. `data/examples/electricity_sample.csv` stores unique_id, recorded local time ds and target y. Four consecutive 15-minute power readings are summed into each hourly-labelled y; these source units do not equal kWh. The teaching prefix and its next-day target are consecutive rows of this sample; later full-length retained studies use different cutoffs. Generated browser calibration series and generated training controls remain explicitly separate from this authentic observation stream.
 
 <!-- code: data -->
 
@@ -82,7 +84,7 @@ The full fresh comparison has an electricity row with the same case label and ho
 
 <!-- code: comparison_records -->
 
-The browser experiment uses a different boundary again. Its frozen linear graph accepts a fixed-length normalized prefix and produces twelve point values. The original ridge study changed the point estimator, while the confirmation study keeps the graph and points fixed and changes only the prediction intervals. Rescore the retained studies before comparing the normalized errors. The independent checker verifies the graph digest, configuration identities, split separation and arithmetic on retained forecast paths. This calculation uses their retained outputs; it does not refit the graph or measure new browser runtime.
+The actual graph, ridge and calibration calls above use three different information boundaries. The observed graph receives history only; ridge weights use generated training and validation data; interval radii use separate calibration outcomes. The final tests choose none of these objects. Source identities explain the relationship to retained studies without treating a checksum or a checker invocation as a new scientific execution.
 
 <!-- code: browser_calibration -->
 

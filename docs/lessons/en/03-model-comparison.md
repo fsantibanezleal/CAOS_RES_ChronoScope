@@ -1,16 +1,18 @@
 # Comparing executed adapters with archived model paths
 
-**Question:** What can a shared final block tell us when statistical and tree adapters run now, while neural and pretrained forecasts come from identified released artifacts?
+**Level:** 3. **Prerequisites:** Earlier lessons in this topic; NumPy arrays and temporal evaluation. **Reading time:** 50 minutes.
+
+**Question:** How do four fitted statistical/tree adapters, seven newly executed neural/pretrained references and separately archived paths compare on the same synthetic 12-step target block?
 
 ## Objectives
 
-Compare methods without erasing how their predictions were obtained. This lesson executes the installed AutoETS, AutoTheta, bounded AutoARIMA and LightGBM adapters on one committed history. It also recomputes scores for released neural and pretrained forecast paths using exactly the same future targets. These are two different evidence sources. A freshly executed score on an archived prediction is a new calculation, but it is not a new model fit or a current-checkpoint inference run.
+Compare methods without erasing how their predictions were obtained. This lesson executes three distinct evidence sources on the same synthetic history and 12 reserved targets. First it fits the installed AutoETS, AutoTheta, bounded AutoARIMA and LightGBM adapters. Then the pinned reference runtime actually fits NeuralForecast NLinear, DLinear and NHITS and runs the pinned Chronos-Bolt, Chronos-2, TimesFM-2.5 and TiRex-2 checkpoints. Separately it rescores previously retained forecast paths, including direct-torch adaptations. Rescoring an archived prediction is a new calculation, not a new fit or checkpoint inference.
 
 We will examine point error and uncertainty width separately, retain the original forecast names, and identify limitations that a leaderboard cannot resolve. The experiment does not establish performance on a new population, independence from pretraining data or the accuracy of a production planning policy. Its narrower purpose is useful: competitors share their available series, forecast horizon, final targets and scaling rule, so an error difference cannot be attributed to a different scoring block.
 
 ## Setup
 
-The exact direct pins below include the actual statistical and tree libraries used in this lesson. The local product adapters specify their settings. Neural and pretrained libraries are not silently installed or replaced by smaller models while the notebook executes.
+The exact direct pins below identify the notebook environment and its statistical/tree providers. The separately declared Linux reference runtime supplies the seven neural/pretrained implementations; its checked package versions and checkpoint revisions are printed with the newly returned paths. Prepare that runtime and its weights through the documented setup before execution. No cell installs packages or substitutes smaller models.
 
 ```text
 {{PINS}}
@@ -20,7 +22,7 @@ The exact direct pins below include the actual statistical and tree libraries us
 
 ## Data
 
-Use the generated trend-plus-seasonal case to keep interpretation connected to a visible mechanism. The complete common-holdout artifact additionally contains fifteen selected cases, including four real excerpts. This lesson concentrates on one prefix and its final block so every freshly run adapter has an identical information set. Archived forecasts retain their original inference provenance. The original rolling experiments had unequal origin budgets across methods, which is why their aggregate scores must not be substituted into this common-block comparison.
+This shared adapter experiment takes the synthetic trend-plus-season fixture TRND_seasonal from `data/derived/TRND_seasonal/trace.json`. Its owner is the ChronoScope project, licence MIT; the seed-42 generator is `data-pipeline/engine/cases/forecast_cases.py`. The history is the available fitting prefix, actual is its consecutive reserved final block, seasonality is 12 observations and horizon is 12 predictions. Values have generated source units. Retained paths are identified separately from calls executed here. The reference package and checkpoint sources are listed in References; a model's prior pretraining exposure is not ruled out by this example.
 
 <!-- code: data -->
 
@@ -90,7 +92,7 @@ If the target represents energy per interval, sum forecasts across a decision bl
 
 ## Results
 
-**Answer:** The fresh and archived paths are evaluated against the same 12 future observations, which supports a direct score comparison on this case. Four statistical/tree adapters execute here. The neural and pretrained entries are rescored frozen paths, so this lesson supplies no new fitting or current-checkpoint evidence for them. Their printed error and coverage values remain useful when interpreted with that provenance.
+**Answer:** On the same synthetic 12-step target block, freshly fitted AutoARIMA has MASE 0.526274 and freshly executed Chronos-2 has 0.532694. AutoARIMA reports a convergence notice, so its returned score does not establish a successful optimum. Fresh TimesFM-2.5 coverage is 0.833333 on this block, which does not establish calibrated population coverage. The retained direct-torch DLinear path has MASE 0.378737, whereas the newly fitted NeuralForecast DLinear reference has 2.951097. These distinct implementations must retain separate identities. Four installed adapters, seven actual reference fits/inferences and separately rescored archived paths share targets and scale, but provide different provenance. This one generated case supports no general superiority claim.
 
 The number of methods is not the number of independent experimental replications. Their errors share a target series and often share modelling assumptions. General comparisons require declared datasets, multiple temporal origins, appropriate dependence-aware uncertainty and resource budgets. For real excerpts, potential overlap with model pretraining must also be investigated. Those obligations remain visible instead of being replaced by a favorable mean from a selected collection.
 

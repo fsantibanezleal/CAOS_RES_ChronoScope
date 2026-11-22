@@ -1,5 +1,7 @@
 # ¿Se conservan las asociaciones en otra partición de series?
 
+**Nivel:** 3. **Requisitos previos:** Las lecciones anteriores de este tema; arrays NumPy y evaluación temporal. **Tiempo de lectura:** 50 minutos.
+
 **Pregunta:** ¿Qué asociaciones diagnósticas sobreviven al separar descubrimiento y confirmación, y reduce el error un selector basado en características? Examinamos el estudio completo M4 Daily bajo su protocolo fijo. La lección distingue tres evidencias: pruebas de asociación, una regla aprendida de selección y un oráculo que conoce los resultados futuros. Una respuesta fuerte en una de ellas no resuelve automáticamente las otras; un selector desfavorable debe permanecer visible aunque varias pruebas rechacen sus hipótesis nulas.
 
 ## Objetivos
@@ -16,7 +18,7 @@ Instale el entorno fijado y lea el artefacto compacto del corpus ejecutado. Cont
 
 ## Datos
 
-El artefacto admitido conserva la identidad y las observaciones utilizadas a continuación.
+El corpus es M4 Daily del archivo Monash (https://doi.org/10.5281/zenodo.4656548, CC BY 4.0). La tabla compacta `data/derived/forecastability.json` identifica m4_daily_dataset.zip y su SHA-256 0f07fc3b67a93be1865de7853e06d8ad212f1a8cb8436ba859920cfe5625d889. Cada fila conserva partición disjunta, características anteriores al objetivo y errores por método promediados en tres orígenes; horizonte 14 y rezago estacional uno. Reajustar el selector con estas filas no vuelve a generar los pronósticos originales. Los valores BRKV cargados aparte ilustran únicamente la extracción de características: son controles sintéticos MIT con semilla 42, no observaciones M4.
 
 <!-- code: corpus -->
 
@@ -104,7 +106,7 @@ La partición de confirmación evalúa reglas e hipótesis fijadas previamente. 
 ### Reproducir
 
 
-Ejecute las celdas y compare correcciones de referencia, medidas reproducidas del selector y comprobaciones de partición. Reproducir los pronósticos completos requiere además el TSF licenciado y el evaluador externo; el repositorio documenta su suma de verificación, caché y puntuación independiente de trayectorias. Este cuaderno reproduce la capa inferencial y de selección y declara expresamente ese límite.
+Ejecute las celdas y compare correcciones de referencia, medidas reproducidas del selector y comprobaciones de partición. Reproducir los pronósticos completos requiere además el TSF licenciado y el evaluador externo; el repositorio documenta su suma de verificación, caché y puntuación independiente de trayectorias. Este notebook reproduce la capa inferencial y de selección y declara expresamente ese límite.
 
 ## Referencias
 

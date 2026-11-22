@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import json
 import re
+from build_lesson_quality import revise
 from pathlib import Path
 
 from build_baseline_lesson import build as build_baseline
@@ -29,12 +30,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 root = next(p for p in Path.cwd().parents if (p / "VERSION").is_file() and (p / "data-pipeline").is_dir())
 sys.path.insert(0, str(root / "data-pipeline"))
-from chronoscopelab.model.forecasters import seasonal_naive, ses, holt, holt_winters, theta
-from chronoscopelab.model.forecasters import gaussian_quantiles
-from chronoscopelab.model.context_memory import fit_context_memory
-from chronoscopelab.reevaluation import metrics
-from chronoscopelab.engines.statsforecast_engine import StatsforecastForecaster
-from chronoscopelab.engines.lightgbm_engine import LightGBMForecaster
+from engine.model.forecasters import seasonal_naive, ses, holt, holt_winters, theta
+from engine.model.forecasters import gaussian_quantiles
+from engine.model.context_memory import fit_context_memory
+from engine.reevaluation import metrics
+from engine.engines.statsforecast_engine import StatsforecastForecaster
+from engine.engines.lightgbm_engine import LightGBMForecaster
 plt.rcParams.update({"figure.figsize": (8, 3), "figure.dpi": 95, "font.size": 10})
 plt.rcParams["svg.hashsalt"] = "chronoscope-lessons"
 import importlib.metadata
@@ -179,11 +180,15 @@ for name, score in frozen_scores:
     print(name, "MASE", round(score["mase"], 4), "coverage", round(score["coverage"], 4))
 ''',
     "frozen_plot": '''# A score-width view preserves the point/interval tradeoff on this one case.
-fig, ax = plt.subplots()
-for name, score in frozen_scores:
-    ax.scatter(score["mase"], score["mean_width"])
-    ax.annotate(name, (score["mase"], score["mean_width"]), fontsize=7)
+fig, ax = plt.subplots(figsize=(10, 4.8))
+markers = ("o", "s", "^", "D", "v", "P", "X", "*", "<", ">")
+for index, (name, score) in enumerate(frozen_scores):
+    ax.scatter(score["mase"], score["mean_width"], label=name, s=60,
+               marker=markers[index % len(markers)], color=plt.get_cmap("tab10")(index),
+               edgecolors="black", linewidths=0.3)
 ax.set(xlabel="Final-block MASE", ylabel="Mean interval width")
+ax.margins(x=0.12, y=0.15)
+ax.legend(loc="center left", bbox_to_anchor=(1.02, 0.5), title="Retained implementation", fontsize=8)
 fig.tight_layout()
 plt.show()
 ''',
@@ -222,7 +227,7 @@ uniform_fit = fit_context_memory(history, m, h, mode="uniform")
 print("Equal weights:", np.round(uniform_fit.weights, 4))
 ''',
     "weight_plot": '''# Associate weights with expert identities rather than an unlabeled vector.
-from chronoscopelab.model.context_memory import EXPERT_NAMES
+from engine.model.context_memory import EXPERT_NAMES
 fig, ax = plt.subplots()
 x = np.arange(len(EXPERT_NAMES))
 ax.bar(x - 0.2, context_fit.weights, width=0.2, label="ContextMemory")
@@ -342,6 +347,8 @@ def main():
             doc = {"nbformat": 4, "nbformat_minor": 5, "metadata": {"caos": meta,
                    "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
                    "language_info": {"name": "python"}}, "cells": cells}
+            doc = revise(doc, f"{TOPIC}/{name}.ipynb")
+            title = doc["metadata"]["caos"]["title"]
             path = ROOT / f"notebooks/{lang}/{TOPIC}/{name}.ipynb"
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")

@@ -1,6 +1,8 @@
-# Does coarse-graining change the ordering evidence?
+# Distinguishing sequence complexity from changing volatility
 
-**Question:** How do entropy, symbolic complexity and time reversal describe different aspects of the same observed sequence? We use the structural-break case rather than replacing it with an idealized process, and keep a constant sequence as a control with a known answer. The aim is to understand each calculation's information and units. None of these summaries, by itself, identifies a forecasting winner or demonstrates a deterministic physical mechanism.
+**Level:** 2. **Prerequisites:** Earlier lessons in this topic; NumPy arrays and temporal evaluation. **Reading time:** 40 minutes.
+
+**Question:** What do ordering-based complexity and scale-based volatility diagnostics measure on a generated control and an authentic electricity excerpt, and which conclusions do neither justify?
 
 ## Objectives
 
@@ -16,7 +18,7 @@ The environment includes the sequence implementation, its numerical libraries an
 
 ## Data
 
-The admitted artifact preserves the source identity and the observations used below.
+The entropy and reversal controls use the explicitly synthetic BRKV_level_shift sequence, read without decimation from sequence.values in `data/derived/BRKV_level_shift/analysis.json`. ChronoScope owns its deterministic seed-42 generator (`data-pipeline/engine/cases/forecast_cases.py`, MIT); generated observation indices are not calendar times. A separate volatility calculation uses the observed MT_010 electricity slice from UCI (https://doi.org/10.24432/C58C86, CC BY 4.0), stored in `data/examples/electricity_sample.csv`. Each y is a sum of four kW readings; its differences and conditional standard deviations therefore retain these source units, rather than energy units.
 
 <!-- code: data -->
 
@@ -46,7 +48,7 @@ A change of positive units and an additive offset should preserve the median ord
 
 ## Results
 
-**Answer:** The binary phrase count is 13 and its normalization is 0.3566. The entropy curve varies with scale under one fixed original tolerance, while the binary phrase count describes a different representation. Reversal changes the signed lag statistic. None of these descriptive values alone certifies chaos, significance or forecast accuracy.
+**Answer:** The binary phrase count is 13 and its normalization is 0.3566. The entropy curve varies with scale under one fixed original tolerance, while the binary phrase count describes a different representation. Reversal changes the signed lag statistic. None of these descriptive values alone certifies chaos, significance or forecast accuracy. The later volatility section uses a separate authentic electricity sequence: its fitted conditional standard deviation describes scale in source units, while entropy and binary phrase counts concern the generated control's representation and ordering. These are different inputs and questions; neither calculation alone establishes chaos or calibrated future forecast intervals.
 
 <!-- code: entropy_plot -->
 

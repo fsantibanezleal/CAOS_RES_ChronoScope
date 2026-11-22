@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from build_lesson_quality import revise
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,13 +43,13 @@ import matplotlib.pyplot as plt
 from preqts import SeasonalNaive
 root = next(path for path in Path.cwd().parents if (path / "VERSION").is_file())
 sys.path.insert(0, str(root / "data-pipeline"))
-from chronoscopelab import registry
-from chronoscopelab.core.manifest import build_index
-from chronoscopelab.io.formats import write_json
-from chronoscopelab.io.schema import SeriesSpec
-from chronoscopelab.model.forecasters import classical_forecasters, forecast_all
-from chronoscopelab.reevaluation import metrics
-from chronoscopelab.stages import analyze, evaluate, export, feature_extraction, infer, preprocess, streaming, train
+from engine import registry
+from engine.core.manifest import build_index
+from engine.io.formats import write_json
+from engine.io.schema import SeriesSpec
+from engine.model.forecasters import classical_forecasters, forecast_all
+from engine.reevaluation import metrics
+from engine.stages import analyze, evaluate, export, feature_extraction, infer, preprocess, streaming, train
 plt.rcParams.update({"figure.figsize": (8, 3.2), "figure.dpi": 95, "font.size": 10})
 print("PreqTS", importlib.metadata.version("preqts"))
 ''',
@@ -263,6 +264,7 @@ def main() -> None:
         target = ROOT / "notebooks" / lang / TOPIC / f"{LESSON}.ipynb"
         target.parent.mkdir(parents=True, exist_ok=True)
         value = {"cells": cells, "metadata": metadata, "nbformat": 4, "nbformat_minor": 5}
+        value = revise(value, f"{TOPIC}/{LESSON}.ipynb")
         target.write_text(json.dumps(value, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         index = ROOT / "notebooks" / lang / "README.md"
         heading = "Forecast workflow" if lang == "en" else "Flujo de pronóstico"

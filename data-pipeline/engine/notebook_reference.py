@@ -8,6 +8,7 @@ new predictions are computed from the caller's history without evaluation truth.
 from __future__ import annotations
 
 import argparse
+import gc
 import hashlib
 import importlib.metadata
 import json
@@ -83,6 +84,7 @@ def reference_forecasts(history, seasonality, horizon, methods=None):
         command = ["wsl.exe", "-d", distribution, "-u", "root", "--cd", "/root", "--", "env", "CUDA_HOME=/usr",
                    f"PATH={interpreter.rsplit('/', 1)[0]}:/usr/bin:/bin",
                    "TORCH_EXTENSIONS_DIR=/root/.cache/torch_extensions", "TORCHINDUCTOR_COMPILE_THREADS=1",
+                   "MAX_JOBS=1",
                    "HF_HUB_OFFLINE=1", "TRANSFORMERS_OFFLINE=1", f"CHRONOSCOPE_REFERENCE_CACHE={cache}",
                    interpreter, _wsl_path(__file__),
                    "--input", _wsl_path(source), "--output", _wsl_path(output)]
@@ -116,11 +118,27 @@ def _native(request):
 
     sys.path.insert(0, str(ROOT / "data-pipeline"))
     protocol = json.loads((ROOT / "data/derived/fresh-reevaluation.json").read_text(encoding="utf-8"))["runtime"]
-    packages = {PROVIDERS[name] for name in request["methods"]} | {"torch"}
+    packages = {PROVIDERS[name] for name in request["methods"]} | {"torch", "numpy", "pandas", "forecastscope"}
     versions = {name: importlib.metadata.version(name) for name in sorted(packages)}
+    lesson_requirements = (ROOT / "notebooks/requirements.txt").read_text(encoding="utf-8")
+    provider_pin = re.search(r"^forecastscope==([^\s#]+)", lesson_requirements, re.MULTILINE)
+    if provider_pin is None:
+        raise ValueError("Reference numerical-provider pin is absent")
     for name, version in versions.items():
-        if version != protocol["packages"][name]:
+        expected = provider_pin[1] if name == "forecastscope" else protocol["packages"][name]
+        if version != expected:
             raise ValueError(f"Reference package pin differs: {name}")
+    build_tools = {}
+    if "TiRex-2" in request["methods"]:
+        ninja = importlib.metadata.distribution("ninja")
+        if ninja.version != "1.13.0":
+            raise ValueError("Reference Ninja build-tool pin differs")
+        binaries = [Path(ninja.locate_file(name)).resolve() for name in ninja.files or []
+                    if Path(name).name in ("ninja", "ninja.exe") and Path(ninja.locate_file(name)).is_file()]
+        if not binaries:
+            raise ValueError("Reference Ninja executable is unavailable")
+        os.environ["PATH"] = str(binaries[0].parent) + os.pathsep + os.environ.get("PATH", "")
+        build_tools["ninja"] = ninja.version
     torch.set_num_threads(4)
     torch.manual_seed(42)
     paths, hashes = {}, {}
@@ -142,7 +160,9 @@ def _native(request):
     history = np.asarray(request["history"], dtype=float)
     seasonality, horizon = request["seasonality"], request["horizon"]
     result = {"input_sha256": _digest(request), "methods": {}, "runtime": {
-        "platform": platform.system(), "packages": versions, "seed": 42,
+        "platform": platform.system(), "python": platform.python_version(),
+        "packages": versions, "build_tools": build_tools, "seed": 42,
+        "torch_cpu_threads": torch.get_num_threads(), "cuda_available": torch.cuda.is_available(),
         "checkpoint_revisions": {CHECKPOINTS[name]: protocol["checkpoint_revisions"][CHECKPOINTS[name]]
                                  for name in request["methods"] if name in CHECKPOINTS},
         "checkpoint_sha256": hashes}}
@@ -173,6 +193,7 @@ def _native(request):
         if name in CHECKPOINTS:
             record["checkpoint_revision"] = protocol["checkpoint_revisions"][CHECKPOINTS[name]]
         result["methods"][name] = record
+        gc.collect()
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
     _validate_result(request, result)

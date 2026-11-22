@@ -1,5 +1,6 @@
 """Author the bilingual lesson on temporal selection; execute with run_notebooks.py."""
 
+from build_lesson_quality import revise
 from pathlib import Path
 import copy
 import hashlib
@@ -38,9 +39,9 @@ import matplotlib.pyplot as plt
 import importlib.metadata
 root = next(p for p in Path.cwd().parents if (p / "VERSION").is_file())
 sys.path.insert(0, str(root / "data-pipeline"))
-from chronoscopelab.model.validated_combination import fit_validated
-from chronoscopelab.model.context_memory import fit_context_memory
-from chronoscopelab.reevaluation import metrics
+from engine.model.validated_combination import fit_validated
+from engine.model.context_memory import fit_context_memory
+from engine.reevaluation import metrics
 plt.rcParams.update({"figure.figsize": (8, 3.5), "figure.dpi": 95, "font.size": 10})
 comparison = json.loads((root / "data/derived/reevaluation.json").read_text(encoding="utf-8"))
 case = next(c for c in comparison["cases"] if c["case_id"] == "BRKV_level_shift")
@@ -270,7 +271,7 @@ Evaluate each method on the same origins. When a case has several origins, aggre
 
 **Answer:** The reproduced development mean MASE values are 1.3974 for ContextMemoryCV and 1.4031 for ValidationMix. The variants also improve point error over RecencyMean on both admitted external collections. AutoTheta retains lower monthly point error and lower interval scores on both. Context attribution and calibrated uncertainty remain unresolved.
 
-The external table accounts for every source identity. Sixty-five weekly series have insufficient history for the fixed seasonal/origin protocol; six monthly identities are exact duplicates. Eligible origins are averaged within each series, then series receive equal weight within each collection. The new variants reduce mean MASE against the recency-only control on both admitted collections. AutoTheta nevertheless has lower point error on monthly series, and it has lower interval score on both collections. The figure must therefore be read by collection and comparator, not as a universal ranking or an official M4 competition result.
+The external table accounts for every source identity. Sixty-five weekly series fall under the recorded combined exclusion reason, nonfinite observations or no eligible origin; six monthly identities are exact duplicates. Eligible origins are averaged within each series, then series receive equal weight within each collection. The new variants reduce mean MASE against the recency-only control on both admitted collections. AutoTheta nevertheless has lower point error on monthly series, and it has lower interval score on both collections. The figure must therefore be read by collection and comparator, not as a universal ranking or an official M4 competition result.
 
 The Gaussian endpoints of the combinations are broad. Coverage above the nominal level is not automatically useful when width and missed-target penalties are considered together. The original fifteen-case data illustrate the distinction: the new variants improve point error while worsening MSIS against RecencyMean. Neither convex weights nor selecting a point-error parameter calibrates the resulting interval. A future uncertainty method needs its own temporal protocol and held-out assessment.
 
@@ -298,7 +299,7 @@ Evalúe los métodos en los mismos orígenes. Cuando una serie aporta varios or�
 
 **Respuesta:** Los MASE medios de desarrollo reproducidos son 1.3974 para ContextMemoryCV y 1.4031 para ValidationMix. Las variantes también mejoran el error puntual frente a RecencyMean en ambas colecciones externas admitidas. AutoTheta mantiene menor error puntual mensual y mejores puntuaciones de intervalos en ambas. La atribución contextual y la incertidumbre calibrada siguen sin resolverse.
 
-La tabla externa contabiliza cada identidad de origen. Sesenta y cinco series semanales tienen historia insuficiente para el protocolo estacional y de orígenes fijado; seis identidades mensuales son duplicados exactos. Se promedian orígenes elegibles por serie y después se asigna igual peso a cada serie dentro de su colección. Las variantes nuevas reducen MASE medio frente al control de recencia en ambas colecciones admitidas. Sin embargo, AutoTheta tiene menor error puntual mensual y menor puntuación de intervalos en ambas. La figura se interpreta por colección y comparador, no como clasificación universal ni resultado oficial de la competición M4.
+La tabla externa contabiliza cada identidad de origen. Sesenta y cinco series semanales tienen el motivo combinado registrado de exclusión, observaciones no finitas o ningún origen elegible; seis identidades mensuales son duplicados exactos. Se promedian orígenes elegibles por serie y después se asigna igual peso a cada serie dentro de su colección. Las variantes nuevas reducen MASE medio frente al control de recencia en ambas colecciones admitidas. Sin embargo, AutoTheta tiene menor error puntual mensual y menor puntuación de intervalos en ambas. La figura se interpreta por colección y comparador, no como clasificación universal ni resultado oficial de la competición M4.
 
 Los extremos gaussianos de las combinaciones son amplios. Cobertura por encima del nivel nominal no es automáticamente útil al considerar amplitud y penalizaciones por objetivos fuera del intervalo. Los quince casos originales muestran esa distinción: las variantes nuevas mejoran error puntual y empeoran MSIS frente a RecencyMean. Ni los pesos convexos ni seleccionar parámetros por error puntual calibran el intervalo. Un método futuro de incertidumbre necesita protocolo temporal y evaluación reservada propios.
 
@@ -421,9 +422,11 @@ def main():
                 item.update(execution_count=None, outputs=[])
             cells.append(item)
         path = ROOT / f"notebooks/{lang}/01-forecast-decisions/05-temporal-validation.ipynb"
+        document = revise({"cells": cells, "metadata": metadata, "nbformat": 4, "nbformat_minor": 5},
+                          "01-forecast-decisions/05-temporal-validation.ipynb")
         path.write_text(
             json.dumps(
-                {"cells": cells, "metadata": metadata, "nbformat": 4, "nbformat_minor": 5},
+                document,
                 indent=1,
                 ensure_ascii=False,
             )

@@ -1,5 +1,7 @@
 # ¿Qué información corresponde a un pronóstico al momento de emitirlo?
 
+**Nivel:** 3. **Requisitos previos:** Las lecciones anteriores de este tema; arrays NumPy y evaluación temporal. **Tiempo de lectura:** 50 minutos.
+
 **Pregunta:** ¿Por qué el mismo extracto eléctrico puede dar una elección histórica, una clasificación del bloque final y una trayectoria de cobertura diferentes?
 
 ## Objetivos
@@ -10,7 +12,7 @@ El caso usa un extracto cronológico del medidor MT_010 de la colección eléctr
 
 ## Preparación
 
-Use el entorno declarado para los cuadernos. El registro de etapas descubre adaptadores opcionales entre las bibliotecas instaladas. El conjunto disponible puede diferir del conjunto completo publicado. La celda muestra los adaptadores que efectivamente se ejecutan. Este entorno no descarga pesos de modelos. Las versiones fijadas permiten identificar las implementaciones locales y sus bibliotecas de referencia.
+Use el entorno declarado para los notebooks. El registro de etapas descubre adaptadores opcionales entre las bibliotecas instaladas. El conjunto disponible puede diferir del conjunto completo publicado. La celda muestra los adaptadores que efectivamente se ejecutan. Este entorno no descarga pesos de modelos. Las versiones fijadas permiten identificar las implementaciones locales y sus bibliotecas de referencia.
 
 ```text
 {{PINS}}
@@ -20,7 +22,7 @@ Use el entorno declarado para los cuadernos. El registro de etapas descubre adap
 
 ## Datos
 
-La ingestión lee una tabla larga con identidad de serie y fecha como claves. Devuelve registros aceptados, rechazados y observaciones marcadas. Una marca distingue una observación sospechosa de una serie ilegible o inadmisible. Un registro aceptado todavía puede contener faltantes conforme a la política de ingreso. Antes de ajustar un modelo hacen falta condiciones adicionales para usar un prefijo contiguo y finito. El extracto de este ejemplo satisface esas condiciones. Se corta en orden temporal y conserva las posiciones originales, de modo que el rezago 24 corresponde a un día.
+La entrada real pertenece a UCI ElectricityLoadDiagrams20112014, cliente MT_010 (https://doi.org/10.24432/C58C86), con licencia CC BY 4.0. `data/examples/electricity_sample.csv` guarda unique_id, hora local registrada ds y objetivo y. Se suman cuatro lecturas de potencia cada 15 minutos por etiqueta horaria; estas unidades no equivalen a kWh. El prefijo didáctico y el día siguiente son filas consecutivas de la muestra; los estudios conservados de longitud completa usan cortes distintos. Las series generadas para calibración del navegador y entrenamiento se distinguen de este flujo auténtico de observaciones.
 
 <!-- code: data -->
 
@@ -82,11 +84,11 @@ La comparación nueva completa tiene una fila eléctrica con el mismo identifica
 
 <!-- code: comparison_records -->
 
-El experimento del navegador emplea otra frontera. El grafo lineal congelado recibe un prefijo normalizado de longitud fija y produce doce valores puntuales. El estudio inicial con cresta cambió el estimador puntual. La confirmación conserva el grafo y los puntos y cambia solo los intervalos. Recalcule los estudios retenidos antes de comparar errores normalizados. El verificador independiente comprueba el resumen del grafo, la identidad de configuraciones, la separación de particiones y la aritmética sobre trayectorias retenidas. Este cálculo usa sus salidas guardadas y no reajusta el grafo ni mide otro tiempo de navegador.
+Las llamadas reales al grafo, ridge y calibración de arriba usan tres fronteras distintas. El grafo observado recibe solo historia; los pesos ridge usan entrenamiento y validación generados; los radios usan resultados separados de calibración. Las pruebas finales no eligen ninguno de esos objetos. La procedencia enlaza estudios conservados sin presentar un resumen criptográfico ni un verificador como ejecución científica nueva.
 
 <!-- code: browser_calibration -->
 
-En el estudio de cresta, compare primero el MAE puntual con el modelo congelado. Un intervalo más estrecho puede mejorar su puntuación aunque empeore el centro. En la confirmación compare las puntuaciones de intervalos con la misma trayectoria puntual. El grupo de calibración depende de la rugosidad dentro del prefijo observado. Sus radios residuales empíricos se calculan con series separadas de calibración y se puntúan sobre series generadas reservadas. Una puntuación normalizada se expresa respecto a la escala del prefijo. No corresponde a un error en unidades eléctricas, y la prueba sintética no establece la cobertura del medidor del ejemplo.
+En el estudio de regresión ridge, compare primero el MAE puntual con el modelo congelado. Un intervalo más estrecho puede mejorar su puntuación aunque empeore el centro. En la confirmación compare las puntuaciones de intervalos con la misma trayectoria puntual. El grupo de calibración depende de la rugosidad dentro del prefijo observado. Sus radios residuales empíricos se calculan con series separadas de calibración y se puntúan sobre series generadas reservadas. Una puntuación normalizada se expresa respecto a la escala del prefijo. No corresponde a un error en unidades eléctricas, y la prueba sintética no establece la cobertura del medidor del ejemplo.
 
 ### Repite la comparación con tus propios datos
 

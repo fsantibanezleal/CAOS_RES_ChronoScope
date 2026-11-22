@@ -1,5 +1,7 @@
 # What yesterday's electricity profile can tell us about tomorrow
 
+**Level:** 1. **Prerequisites:** Basic Python and reading charts. **Reading time:** 30 minutes.
+
 **Question:** How much does repeating a daily profile explain a real electricity excerpt, and what changes when its period or level is wrong?
 
 ## Objectives
@@ -24,9 +26,7 @@ NumPy supplies arrays, Matplotlib supplies figures, and PreqTS supplies the actu
 
 ## Data
 
-`data/examples/electricity_sample.csv` contains an already prepared hourly excerpt. `unique_id` identifies the client, `ds` records local time, and `y` is the sum of four consecutive quarter-hour readings. The UCI source describes its original readings as kW and documents its daylight-saving convention. A sum of those readings is neither their hourly mean nor an energy conversion: the corresponding mean would divide the sum by four, and energy requires accounting for interval duration. We retain the committed values and label their arithmetic explicitly. The excerpt's timestamps advance hourly, including the 15-minute offset in their labels; no undocumented resampling occurs here.
-
-Only one client is present. The final 48 observations are withheld from fitting the block forecast; the preceding values form its history. Separately, the first 96 observations define the fixed evaluation scale for the sensitivity experiment. Checking finiteness and consecutive timestamps protects the interpretation of a period of 24 as one day. A missing hour would turn a 24-row lag into a different elapsed-time comparison.
+The source owner is UCI (ElectricityLoadDiagrams20112014, client MT_010), https://doi.org/10.24432/C58C86, licensed CC BY 4.0. The committed `data/examples/electricity_sample.csv` contains 480 hourly-labelled rows: `unique_id` is the client, `ds` the recorded local timestamp and `y` the sum of four consecutive 15-minute power readings in kW. The grouping is not an integration to kWh. This baseline uses its observed ordering without claiming timezone-aware duration or a calibrated energy forecast.
 
 <!-- code: data -->
 

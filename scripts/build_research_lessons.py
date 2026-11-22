@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from build_lesson_quality import revise
 from pathlib import Path
 import re
 
@@ -19,9 +20,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 root = next(p for p in Path.cwd().parents if (p / "VERSION").is_file())
 sys.path.insert(0, str(root / "data-pipeline"))
-from chronoscopelab.analysis.sequence import matrix_profile, sequence_report
-from chronoscopelab.analysis.sequence import multiscale_entropy, time_reversal
-from chronoscopelab.analysis.atlas import prefix_features, associations, by_adjust
+from engine.analysis.sequence import matrix_profile, sequence_report
+from engine.analysis.sequence import multiscale_entropy, time_reversal
+from engine.analysis.atlas import prefix_features, associations, by_adjust
 plt.rcParams.update({"figure.figsize": (8, 3), "figure.dpi": 95, "font.size": 10})
 plt.rcParams["svg.hashsalt"] = "chronoscope-sequence-lessons"
 warnings.filterwarnings("ignore", message="A large number of values in.*", category=UserWarning)
@@ -173,7 +174,7 @@ assert np.allclose(corrected, library)
 print("Duplicate, partition and corrected-probability checks passed")
 """,
 }
-CODES["seeded"] = """from chronoscopelab.analysis.nonlinear import chaos_measures
+CODES["seeded"] = """from engine.analysis.nonlinear import chaos_measures
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=SyntaxWarning, message="invalid escape sequence.*")
     first_fit = chaos_measures(values, seed=42)
@@ -181,7 +182,7 @@ with warnings.catch_warnings():
 print("Repeated robust estimates identical:", first_fit == second_fit)
 print("Correlation dimension:", round(first_fit.corr_dim, 6))
 """
-CODES["refit_selector"] = """from chronoscopelab.analysis.atlas import study_summary
+CODES["refit_selector"] = """from engine.analysis.atlas import study_summary
 reproduced, trained_selector = study_summary(study["series"])
 differences = [abs(reproduced["selection_mean_mase"][n]-study["summary"]["selection_mean_mase"][n])
                for n in reproduced["selection_mean_mase"]]
@@ -362,6 +363,7 @@ def main():
                 },
                 "cells": cells,
             }
+            document = revise(document, f"{TOPIC}/{name}.ipynb")
             dest = ROOT / f"notebooks/{lang}/{TOPIC}/{name}.ipynb"
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_text(

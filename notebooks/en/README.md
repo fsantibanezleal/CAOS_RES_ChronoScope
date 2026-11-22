@@ -13,8 +13,9 @@
 | Level | Lesson |
 |---|---|
 | 1 | [Which local shapes repeat in the break case?](02-sequence-evidence/01-shape-patterns.ipynb) |
-| 2 | [Does coarse-graining change the ordering evidence?](02-sequence-evidence/02-complexity.ipynb) |
+| 2 | [Distinguishing sequence complexity from changing volatility](02-sequence-evidence/02-complexity.ipynb) |
 | 3 | [Do prefix associations survive a separate series partition?](02-sequence-evidence/03-corpus-confirmation.ipynb) |
+| 3 | [Which information belongs to a forecast at issuance?](02-sequence-evidence/04-information-boundaries.ipynb) |
 <!-- sequence-lessons:end -->
 
 <!-- workflow-lesson:start -->

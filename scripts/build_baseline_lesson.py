@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 from pprint import pformat
+from build_lesson_quality import revise
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -177,6 +178,7 @@ def build(lang: str) -> str:
                  "data": ["data/examples/electricity_sample.csv"], "sources": SOURCES, "beyond": []},
         "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
         "language_info": {"name": "python"}}, "cells": cells}
+    doc = revise(doc, f"{TOPIC}/{NAME}.ipynb")
     (ROOT / f"notebooks/{lang}/{TOPIC}/{NAME}.ipynb").write_text(
         json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     return title

@@ -1,5 +1,7 @@
 # Do prefix associations survive a separate series partition?
 
+**Level:** 3. **Prerequisites:** Earlier lessons in this topic; NumPy arrays and temporal evaluation. **Reading time:** 50 minutes.
+
 **Question:** Which diagnostic associations survive a discovery/confirmation split, and does a feature-based method selector reduce error on the confirmation series? We examine the complete M4 Daily study under its fixed protocol. This lesson distinguishes three pieces of evidence: association tests, a learned selection rule and a future-informed oracle. A strong answer to one does not automatically answer the others, and a negative selection result must remain visible even when several feature tests reject their null hypotheses.
 
 ## Objectives
@@ -16,7 +18,7 @@ Install the pinned environment below and read the compact executed corpus artifa
 
 ## Data
 
-The admitted artifact preserves the source identity and the observations used below.
+The corpus is M4 Daily from the Monash forecasting archive (https://doi.org/10.5281/zenodo.4656548, CC BY 4.0). The compact `data/derived/forecastability.json` records source filename m4_daily_dataset.zip and source SHA-256 0f07fc3b67a93be1865de7853e06d8ad212f1a8cb8436ba859920cfe5625d889. Each series row retains its disjoint partition, pre-target features and per-method errors averaged over three origins; the fixed horizon is 14 and seasonal lag one. Fitting the selector from these rows is a new selector fit, not a repeat of the original forecast generation. The separately loaded BRKV values illustrate feature extraction only: they are synthetic seed-42 MIT controls, not M4 observations.
 
 <!-- code: corpus -->
 

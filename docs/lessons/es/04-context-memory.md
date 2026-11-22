@@ -1,5 +1,7 @@
 # Evaluar si recordar contextos mejora una combinación
 
+**Nivel:** 4. **Requisitos previos:** Las lecciones anteriores de este tema; arrays NumPy y evaluación temporal. **Tiempo de lectura:** 60 minutos.
+
 **Pregunta:** ¿La regla fija ContextMemory mejora el MASE final medio respecto de una combinación equivalente que utiliza solamente recencia en los quince casos seleccionados?
 
 ## Objetivos
@@ -10,7 +12,7 @@ La literatura ya contiene combinaciones dependientes de características y ensam
 
 ## Preparación
 
-Utilice el entorno aislado definido por las dependencias directas exactas siguientes. Las tres combinaciones importan los mismos expertos. El cuaderno no busca configuraciones después de observar los resultados reservados finales.
+Utilice el entorno aislado definido por las dependencias directas exactas siguientes. Las tres combinaciones importan los mismos expertos. El notebook no busca configuraciones después de observar los resultados reservados finales.
 
 ```text
 {{PINS}}
@@ -20,7 +22,7 @@ Utilice el entorno aislado definido por las dependencias directas exactas siguie
 
 ## Datos
 
-El caso generado seleccionado permite explicar visualmente el ajuste. El artefacto completo proporciona la comparación agregada declarada sobre quince bloques finales. Cumplen funciones distintas: un caso muestra cómo aparecen los pesos y la colección fija evalúa el criterio medio. Ambos utilizan historias y objetivos comprometidos. La configuración está registrada en el artefacto y en el dossier de investigación. Un resultado decepcionante o un éxito individual conveniente no justifican cambiar silenciosamente el núcleo, los expertos o la colección comparativa.
+La asignación trabajada de ContextMemory usa la historia y el bloque final explícitamente sintéticos de TRND_seasonal en `data/derived/TRND_seasonal/trace.json`, con licencia MIT. Su generador de tendencia y período 12 pertenece a ChronoScope (`data-pipeline/engine/cases/forecast_cases.py`, semilla 42). La colección fija en `data/derived/reevaluation.json` contiene quince series seleccionadas: cuatro auténticas y once controles generados. Cada caso aporta history, actual, horizon, seasonality y pronósticos; sus métricas usan la escala estacional histórica del caso. Es un inventario finito de desarrollo, no una muestra aleatoria de una población objetivo.
 
 <!-- code: data -->
 
@@ -66,10 +68,10 @@ Las barras muestran una diferencia pequeña entre las variantes contextual y de 
 
 ### Sensibilidad entre los casos seleccionados
 
-En un origen de consulta, sea $u$ el contexto estandarizado, $u_i$ el contexto de una memoria completada, $a_i$ su antigüedad en orígenes almacenados y $b$ el ancho derivado de las distancias a los contextos disponibles. El peso relativo de su pérdida es
+Usa las cuatro coordenadas contextuales normalizadas y recortadas y la distancia RMS $d_i$ definida arriba. Sea $a_i$ la antigüedad en orígenes recordados y $b=\max(\operatorname{median}_i d_i,0.25)$. El peso conjunto de recencia y similitud para esa pérdida es
 
 $$
-k_i=2^{-a_i/6}\exp\!\left(-\frac{\|u-u_i\|^2}{2b^2}\right).
+k_i=2^{-a_i/6}\exp\!\left(-\frac{d_i^2}{2b^2}\right).
 $$
 
 Sea $L_j$ la pérdida resultante del experto $j$, después de contraerla hacia la estimación por recencia. Con temperatura $T=1$ y piso uniforme $\eta=.05$, el peso final es

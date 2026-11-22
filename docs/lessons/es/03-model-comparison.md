@@ -1,16 +1,18 @@
 # Comparar adaptadores ejecutados con trayectorias archivadas
 
-**Pregunta:** ¿Cuánto cambia la clasificación de los métodos entre pasos tempranos y tardíos de un mismo bloque reservado, y cómo influye la procedencia de cada trayectoria en su interpretación?
+**Nivel:** 3. **Requisitos previos:** Las lecciones anteriores de este tema; arrays NumPy y evaluación temporal. **Tiempo de lectura:** 50 minutos.
+
+**Pregunta:** ¿Cómo se comparan cuatro adaptadores estadísticos y de árboles ajustados ahora, siete referencias neuronales o preentrenadas recién ejecutadas y trayectorias archivadas separadas sobre el mismo bloque sintético de 12 objetivos?
 
 ## Objetivos
 
-Compararemos métodos sin borrar cómo se obtuvieron sus predicciones. Esta lección ejecuta AutoETS, AutoTheta, AutoARIMA acotado y LightGBM instalados sobre una historia comprometida. También recalcula las medidas de trayectorias neuronales y preentrenadas publicadas utilizando exactamente los mismos objetivos futuros. Son dos fuentes de evidencia diferentes. Ejecutar una medida sobre una predicción archivada produce un cálculo nuevo, pero no constituye un ajuste del modelo ni una inferencia con su checkpoint actual.
+Compararemos métodos sin borrar cómo se obtuvieron sus predicciones. La lección ejecuta tres fuentes distintas de evidencia sobre la misma historia sintética y 12 objetivos reservados. Primero ajusta los adaptadores instalados AutoETS, AutoTheta, AutoARIMA acotado y LightGBM. Después el entorno de referencia fijado ajusta realmente NLinear, DLinear y NHITS de NeuralForecast y ejecuta los checkpoints fijados de Chronos-Bolt, Chronos-2, TimesFM-2.5 y TiRex-2. Por separado vuelve a puntuar trayectorias conservadas, incluidas adaptaciones directas en torch. Puntuar una predicción archivada produce un cálculo nuevo, no un ajuste nuevo ni una inferencia del checkpoint.
 
 Examinaremos por separado error puntual y amplitud, conservaremos los nombres originales e identificaremos limitaciones que una clasificación no resuelve. El experimento no demuestra rendimiento poblacional, independencia respecto de datos de preentrenamiento ni precisión de una política productiva. Su propósito más acotado resulta útil: los competidores comparten serie disponible, horizonte, objetivos finales y escala. Así, una diferencia de error no puede atribuirse a bloques de evaluación diferentes.
 
 ## Preparación
 
-Las dependencias directas exactas incluyen las bibliotecas estadísticas y de árboles ejecutadas aquí. Los adaptadores del producto especifican sus configuraciones. Las bibliotecas neuronales y preentrenadas no se instalan silenciosamente ni se sustituyen por modelos menores mientras se ejecuta el cuaderno.
+Las dependencias directas exactas identifican el entorno del notebook y sus proveedores estadísticos y de árboles. El entorno Linux de referencia declarado por separado aporta las siete implementaciones neuronales o preentrenadas; sus versiones comprobadas y revisiones de checkpoints se imprimen junto con las trayectorias nuevas. Prepare ese entorno y sus pesos mediante el flujo documentado antes de ejecutar. Ninguna celda instala paquetes ni sustituye modelos menores.
 
 ```text
 {{PINS}}
@@ -20,7 +22,7 @@ Las dependencias directas exactas incluyen las bibliotecas estadísticas y de á
 
 ## Datos
 
-Utilizaremos el caso generado con tendencia y estacionalidad para vincular la interpretación con un mecanismo visible. El artefacto comparativo completo contiene quince casos seleccionados, incluidos cuatro extractos reales. Aquí nos concentramos en un prefijo y su bloque final para que cada adaptador recién ejecutado reciba la misma información. Los pronósticos archivados mantienen su procedencia. Los experimentos móviles originales utilizaron diferentes cantidades de orígenes por método: sus agregados no deben sustituirse en esta comparación de bloque común.
+El experimento común de adaptadores utiliza el control sintético TRND_seasonal con tendencia y ciclo, desde `data/derived/TRND_seasonal/trace.json`. ChronoScope es su propietario, bajo MIT; el generador con semilla 42 está en `data-pipeline/engine/cases/forecast_cases.py`. History contiene el prefijo disponible, actual el bloque final consecutivo reservado, seasonality vale 12 observaciones y horizon vale 12 predicciones. Las unidades son generadas. Se distinguen las trayectorias conservadas de las llamadas ejecutadas aquí. Referencias identifica paquetes y modelos; este ejemplo no descarta exposición de los modelos preentrenados a datos semejantes.
 
 <!-- code: data -->
 
@@ -34,7 +36,7 @@ AutoTheta también delega el ajuste a la biblioteca de referencia. Es distinto d
 
 <!-- code: auto_theta -->
 
-AutoARIMA emplea la configuración acotada publicada: búsqueda por pasos, ajuste aproximado y contexto máximo de trescientas sesenta observaciones. Estas decisiones hacen viable el cálculo y forman parte del método evaluado. No representan una búsqueda exhaustiva de órdenes estacionales. Una alternativa más lenta constituiría otro experimento, con tiempo y procedencia propios. Los avisos numéricos, incluidos problemas de convergencia, se capturan e imprimen sin rutas de máquina. Una predicción con ese aviso no demuestra un óptimo exitoso. Cualquier excepción o salida no finita impide completar limpiamente el cuaderno.
+AutoARIMA emplea la configuración acotada publicada: búsqueda por pasos, ajuste aproximado y contexto máximo de trescientas sesenta observaciones. Estas decisiones hacen viable el cálculo y forman parte del método evaluado. No representan una búsqueda exhaustiva de órdenes estacionales. Una alternativa más lenta constituiría otro experimento, con tiempo y procedencia propios. Los avisos numéricos, incluidos problemas de convergencia, se capturan e imprimen sin rutas de máquina. Una predicción con ese aviso no demuestra un óptimo exitoso. Cualquier excepción o salida no finita impide completar limpiamente el notebook.
 
 <!-- code: arima -->
 
@@ -90,7 +92,7 @@ Si la variable representa energía por intervalo, sume pronósticos de un bloque
 
 ## Resultados
 
-**Respuesta:** Las trayectorias actuales y archivadas se evalúan contra las mismas 12 observaciones futuras, lo que permite comparar sus medidas en este caso. Aquí se ejecutan cuatro adaptadores estadísticos y de árboles. Las entradas neuronales y preentrenadas son rutas congeladas reevaluadas: la lección no aporta un ajuste nuevo ni evidencia de checkpoints actuales. Sus errores y coberturas siguen siendo útiles si se interpretan junto con esa procedencia.
+**Respuesta:** Sobre el mismo bloque sintético de 12 objetivos, AutoARIMA recién ajustado obtiene MASE 0.526274 y Chronos-2 recién ejecutado obtiene 0.532694. AutoARIMA informa un aviso de convergencia, por lo que su puntuación no demuestra haber alcanzado un óptimo. La cobertura nueva de TimesFM-2.5 es 0.833333 en este bloque; no establece cobertura poblacional calibrada. La trayectoria conservada de DLinear directo en torch obtiene MASE 0.378737, mientras la referencia DLinear de NeuralForecast recién ajustada obtiene 2.951097. Estas implementaciones distintas deben mantener identidades separadas. Cuatro adaptadores instalados, siete ajustes o inferencias reales de referencia y trayectorias archivadas puntuadas por separado comparten objetivos y escala, pero tienen distinta procedencia. Este único caso generado no sostiene superioridad general.
 
 La cantidad de métodos no equivale a repeticiones experimentales independientes. Sus errores comparten objetivos y, con frecuencia, supuestos. Una comparación general requiere datos declarados, varios orígenes, incertidumbre que considere la dependencia y presupuestos computacionales. Para extractos reales también debe investigarse el posible solapamiento con preentrenamiento. Conservamos esas obligaciones visibles, sin sustituirlas por un promedio favorable obtenido de una colección seleccionada.
 

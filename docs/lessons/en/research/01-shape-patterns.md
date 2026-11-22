@@ -1,5 +1,7 @@
 # Which local shapes repeat in the break case?
 
+**Level:** 1. **Prerequisites:** Basic Python and reading charts. **Reading time:** 30 minutes.
+
 **Question:** Can we identify repeated windows without confusing their original positions with a reduced display axis? This lesson follows the structural-break case from its complete observations to a Matrix Profile, a motif pair and candidate segmentation boundaries. The question concerns similarity of local shapes. It does not ask whether an unusual value is dangerous, whether a boundary is a proven change in the generator, or whether an online detector could have issued an alarm at that position.
 
 ## Objectives
@@ -16,7 +18,7 @@ Create an isolated environment and install the exact lesson dependencies below. 
 
 ## Data
 
-The admitted artifact preserves the source identity and the observations used below.
+The mechanism illustration is the synthetic BRKV_level_shift sequence in `data/derived/BRKV_level_shift/analysis.json`, generated with seed 42 by ChronoScope's `data-pipeline/engine/cases/forecast_cases.py` under MIT. Its field sequence.values retains all 300 generated observations and their original index. Its boundaries are retrospective diagnostics, not measured change-point labels. A second actual API run below uses the authentic UCI MT_010 electricity excerpt (`data/examples/electricity_sample.csv`, https://doi.org/10.24432/C58C86, CC BY 4.0): y sums four 15-minute power readings, in kW-sum source units, per hourly label.
 
 <!-- code: data -->
 

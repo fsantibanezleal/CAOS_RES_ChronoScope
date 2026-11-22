@@ -1,5 +1,7 @@
 # Testing whether remembered contexts improve a combination
 
+**Level:** 4. **Prerequisites:** Earlier lessons in this topic; NumPy arrays and temporal evaluation. **Reading time:** 60 minutes.
+
 **Question:** Does the fixed ContextMemory rule improve mean final-block MASE over an otherwise matching recency-only combination on the fifteen selected cases?
 
 ## Objectives
@@ -20,7 +22,7 @@ Use the isolated environment defined by the direct pins below. All three combina
 
 ## Data
 
-The selected generated case provides a visible example of the fitting process. The complete artifact provides the predeclared aggregate comparison over fifteen final blocks. These serve different purposes: one case explains how weights arise, while the fixed collection evaluates the stated mean-error criterion. Both use committed histories and actual values. Model configuration is recorded in the artifact and the research dossier. Neither disappointing results nor a convenient individual success justify silently changing the kernel, expert roster or comparison collection.
+ContextMemory's worked allocation uses the explicitly synthetic, MIT-licensed TRND_seasonal history and final block in `data/derived/TRND_seasonal/trace.json`. Its seed-42 trend-plus-period-12 generator belongs to ChronoScope (`data-pipeline/engine/cases/forecast_cases.py`). The broader fixed collection in `data/derived/reevaluation.json` has fifteen selected series: four authentic source series and eleven generated controls. Each case supplies history, actual, horizon, seasonality and method forecasts; per-method metrics use that case's historical seasonal scale. These selected cases are a finite development inventory, not random draws from a target population.
 
 <!-- code: data -->
 
@@ -66,10 +68,10 @@ The aggregate bars show the small difference between the contextual and recency-
 
 ### Sensitivity across the selected cases
 
-At a query origin, let $u$ be the standardized context, $u_i$ a completed memory's context, $a_i$ its age in remembered origins, and $b$ the bandwidth derived from distances to available contexts. The relative weight for its loss is
+Use the four clipped normalized context coordinates and RMS distance $d_i$ defined above. Let $a_i$ be the age in remembered origins and $b=\max(\operatorname{median}_i d_i,0.25)$. The combined recency and similarity weight for the memory's loss is
 
 $$
-k_i=2^{-a_i/6}\exp\!\left(-\frac{\|u-u_i\|^2}{2b^2}\right).
+k_i=2^{-a_i/6}\exp\!\left(-\frac{d_i^2}{2b^2}\right).
 $$
 
 Let $L_j$ denote the resulting loss for expert $j$, after shrinking toward the recency-only estimate. With temperature $T=1$ and uniform floor $\eta=.05$, the final weight is
