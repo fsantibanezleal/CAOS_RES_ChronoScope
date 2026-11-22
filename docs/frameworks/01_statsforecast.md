@@ -1,7 +1,7 @@
 # Framework: statsforecast (Nixtla)
 
 The auto-tuned statistical SOTA tier of ChronoScope's method ladder. Used by
-`data-pipeline/chronoscopelab/engines/statsforecast_engine.py`.
+`data-pipeline/engine/engines/statsforecast_engine.py`.
 
 ## What and why
 

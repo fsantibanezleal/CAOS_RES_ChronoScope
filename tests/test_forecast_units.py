@@ -6,10 +6,10 @@ from types import SimpleNamespace
 
 import pytest
 
-from chronoscopelab import registry
-from chronoscopelab.io.schema import FeatureRow, ForecastResult, MethodForecast
-from chronoscopelab.io.units import check_forecast_units, require_forecast_units
-from chronoscopelab.stages import export
+from engine import registry
+from engine.io.schema import FeatureRow, ForecastResult, MethodForecast
+from engine.io.units import check_forecast_units, require_forecast_units
+from engine.stages import export
 
 
 def path(point):

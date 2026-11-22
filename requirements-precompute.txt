@@ -5,7 +5,7 @@
 # this lane runs offline (GPU where available) and bakes committed artifacts. The live/web lane uses only
 # requirements.txt (numpy). See docs/analysis.md and plans/chronoscope (in _CAOS_MANAGE).
 numpy==2.4.6
-forecastscope==0.1.1         # offline ARCH, GARCH and Box-Cox diagnostics
+forecastscope==0.1.2         # offline ARCH, GARCH and Box-Cox diagnostics
 scipy==1.15.3
 pandas==2.3.3
 # --- analysis toolkit (understand the series) ---
@@ -33,6 +33,7 @@ utilsforecast==0.2.16        # Guerrero Box-Cox lambda, scalers
 coreforecast==0.0.17
 lightgbm==4.6.0
 chronos-forecasting==2.3.1   # Chronos / Chronos-Bolt / Chronos-2 (Apache-2.0 foundation tier)
+timesfm==2.0.2              # TimesFM 2.5 reference loader used in the comparison lessons
 # torch: install the CUDA build from the cu126 index (driver 560.94 = CUDA 12.6, verified 2026-07-04):
 #   pip install torch==2.12.1+cu126 --index-url https://download.pytorch.org/whl/cu126
 # CPU-only clones/CI: plain `pip install torch==2.12.1` works (the engines fall back to CPU via chronoscopelab.gpu).

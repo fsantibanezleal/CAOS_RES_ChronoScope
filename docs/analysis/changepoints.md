@@ -1,6 +1,6 @@
 # Change points and regimes
 
-Code: [`chronoscopelab/analysis/changepoints.py`](../../data-pipeline/chronoscopelab/analysis/changepoints.py)
+Code: [`chronoscopelab/analysis/changepoints.py`](../../data-pipeline/engine/analysis/changepoints.py)
 · Tests: [`tests/test_analysis_changepoints.py`](../../tests/test_analysis_changepoints.py)
 
 ## Why breaks matter for forecasting

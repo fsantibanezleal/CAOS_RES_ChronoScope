@@ -1,7 +1,7 @@
 # Framework: mlforecast + LightGBM (Nixtla)
 
 The machine-learning tier of ChronoScope's method ladder. Used by
-`data-pipeline/chronoscopelab/engines/lightgbm_engine.py`.
+`data-pipeline/engine/engines/lightgbm_engine.py`.
 
 ## What and why
 

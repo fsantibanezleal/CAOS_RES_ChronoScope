@@ -27,3 +27,7 @@ python scripts/run_notebooks.py --check --tmp <external-scratch>
 The whole-tool coverage file records the lessons that teach each declared method,
 data contract, pipeline stage and package. Add an entry only after both language
 versions teach the named subject. A missing entry identifies curriculum work.
+
+The isolated check copies the manuscript sources into its temporary tree, so
+lessons can import the committed numerical analysis alongside their data and
+model files. It omits Python caches and notebook checkpoints.

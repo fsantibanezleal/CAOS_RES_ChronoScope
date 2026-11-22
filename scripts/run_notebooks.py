@@ -267,9 +267,14 @@ def main() -> int:
             if tmp_root is not None:
                 # a copy of the repository's inputs at the same relative depth: the notebook reads `../../../data/...`
                 work = tmp_root / "repo"
-                for item in ("data", "data-pipeline", "docs", "content", "models", "notebooks"):
+                for item in ("data", "data-pipeline", "docs", "content", "models", "manuscripts", "scripts", "notebooks"):
                     if (ROOT / item).exists() and not (work / item).exists():
                         shutil.copytree(ROOT / item, work / item, ignore=shutil.ignore_patterns("__pycache__", ".ipynb_checkpoints"))
+                for item in ("frontend/public/models/nlinear.onnx", "frontend/src/lib/nlinearMeta.json"):
+                    source, target = ROOT / item, work / item
+                    if source.is_file() and not target.exists():
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(source, target)
                 work.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT / "VERSION", work / "VERSION")  # the pipeline package reads it at import
                 src = work / rel

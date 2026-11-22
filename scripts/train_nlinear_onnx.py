@@ -45,10 +45,16 @@ def _windows(y: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         x = y[i:i + L]
         target = y[i + L:i + L + H]
         last = x[-1]
-        s = np.std(x) or 1.0
+        if np.ptp(x) == 0:
+            continue
+        s = np.std(x)
+        # A constant prefix has no observable normalization scale. Match the
+        # browser's refusal instead of assigning one unit of arbitrary size.
+        if not np.isfinite(s) or s <= 0:
+            continue
         xs.append((x - last) / s)
         ys.append((target - last) / s)
-    return np.asarray(xs), np.asarray(ys)
+    return np.asarray(xs).reshape(-1, L), np.asarray(ys).reshape(-1, H)
 
 
 def main() -> int:

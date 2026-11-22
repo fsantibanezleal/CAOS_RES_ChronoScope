@@ -136,6 +136,11 @@ describe('dfaAlpha (Peng 1994 scaling exponent)', () => {
 });
 
 describe('histogram', () => {
+  it('represents a constant sample at its observable value without invented bin units', () => {
+    expect(histogram([4e-18, 4e-18, 4e-18])).toEqual({ edges: [4e-18, 4e-18], counts: [3] });
+    expect(histogram([NaN])).toEqual({ edges: [], counts: [] });
+    expect(() => histogram([1, 2], 0)).toThrow(RangeError);
+  });
   it('counts sum to n and edges span the range', () => {
     const y = normals(500, 9);
     const h = histogram(y, 24);
@@ -146,6 +151,18 @@ describe('histogram', () => {
 });
 
 describe('decompose (classical additive, FPP3 ch. 3)', () => {
+  it('preserves dimensionless strengths across observable unit changes', () => {
+    const y = Array.from({ length: 240 }, (_, t) => 0.02 * t + Math.sin(2 * Math.PI * t / 12) + 0.2 * Math.cos(t));
+    const reference = decompose(y, 12)!;
+    for (const factor of [1e-15, 1e12]) {
+      const scaled = decompose(y.map(value => value * factor), 12)!;
+      expect(scaled.seasonalStrength).toBeCloseTo(reference.seasonalStrength, 10);
+      expect(scaled.trendStrength).toBeCloseTo(reference.trendStrength, 10);
+    }
+    const constant = decompose(Array(48).fill(0), 12)!;
+    expect(constant.seasonalStrength).toBe(0);
+    expect(constant.trendStrength).toBe(0);
+  });
   it('recovers an exact seasonal pattern and a linear trend', () => {
     const m = 12;
     const seas = Array.from({ length: m }, (_, i) => Math.sin((2 * Math.PI * i) / m) * 5);
@@ -173,6 +190,13 @@ describe('decompose (classical additive, FPP3 ch. 3)', () => {
 });
 
 describe('qqPairs + normalInv', () => {
+  it('leaves constant-series standardization unavailable and keeps small-unit quantiles', () => {
+    expect(qqPairs(Array(12).fill(7))).toEqual({ theoretical: [], sample: [] });
+    const y = normals(40, 13);
+    const reference = qqPairs(y);
+    const scaled = qqPairs(y.map(value => value * 1e-15));
+    scaled.sample.forEach((value, i) => expect(value).toBeCloseTo(reference.sample[i], 12));
+  });
   it('normalInv matches known quantiles', () => {
     expect(normalInv(0.5)).toBeCloseTo(0, 9);
     expect(normalInv(0.975)).toBeCloseTo(1.959964, 5);

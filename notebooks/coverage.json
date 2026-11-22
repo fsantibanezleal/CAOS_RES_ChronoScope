@@ -37,33 +37,78 @@
     "forecastability": [
       "02-sequence-evidence/03-corpus-confirmation.ipynb"
     ],
-    "analysis": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "browser-calibration": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "browser-ridge-study": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "combination-case": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "combination-index": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "fresh-reevaluation": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "index": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "manifest": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "nlinear-model": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "readiness": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "selector": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "streaming": ["02-sequence-evidence/04-information-boundaries.ipynb"]
+    "analysis": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "browser-calibration": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "browser-ridge-study": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "combination-case": [
+      "01-forecast-decisions/05-temporal-validation.ipynb",
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "combination-index": [
+      "01-forecast-decisions/05-temporal-validation.ipynb",
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "fresh-reevaluation": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "index": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "manifest": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "nlinear-model": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "readiness": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "selector": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "streaming": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ]
   },
   "stages": {
-    "analyze": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "evaluate": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "export": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "feature_extraction": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "infer": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "preprocess": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "streaming": ["02-sequence-evidence/04-information-boundaries.ipynb"],
-    "train": ["02-sequence-evidence/04-information-boundaries.ipynb"]
+    "analyze": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "evaluate": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "export": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "feature_extraction": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "infer": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "preprocess": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "streaming": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "train": [
+      "02-sequence-evidence/04-information-boundaries.ipynb"
+    ]
   },
   "packages": {
     "preqts": [
       "01-forecast-decisions/01-baseline.ipynb",
       "02-sequence-evidence/04-information-boundaries.ipynb"
+    ],
+    "forecastscope": [
+      "02-sequence-evidence/02-complexity.ipynb"
     ]
   }
 }

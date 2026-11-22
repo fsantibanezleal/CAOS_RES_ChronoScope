@@ -44,7 +44,7 @@ are a few seconds.
 # from the repo, with the pipeline venv:
 $env:CHRONOSCOPE_ENABLE_TIREX_WSL = "1"
 # (plus the usual GPU/foundation gates for the full ladder)
-python -m chronoscopelab.pipeline           # all cases gain TiRex-2 as the 19th method
+python data-pipeline/run.py           # all cases gain TiRex-2 as the 19th method
 ```
 
 Env knobs: `CHRONOSCOPE_ENABLE_TIREX_WSL` (on/off), `CHRONOSCOPE_TIREX_WSL_DISTRO` (default `Ubuntu-24.04`),

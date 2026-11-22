@@ -4,8 +4,8 @@ The heavy path (actually invoking TiRex-2 in WSL) is exercised offline on the bu
 gate behaves: disabled by default, and merge_into is a no-op that leaves the ForecastResult + metrics
 untouched when the lane is unavailable, so CI and the default bake never depend on WSL."""
 
-from chronoscopelab.engines import tirex2_wsl_engine as tx
-from chronoscopelab.io.schema import ForecastResult, MethodForecast, SeriesSpec
+from engine.engines import tirex2_wsl_engine as tx
+from engine.io.schema import ForecastResult, MethodForecast, SeriesSpec
 
 
 def test_disabled_by_default(monkeypatch):

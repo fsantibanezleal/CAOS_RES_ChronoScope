@@ -2,7 +2,7 @@
 
 Source: **Monash Time Series Forecasting Repository / M4 competition** (CC-BY-4.0, public-safe), via the
 `autogluon/chronos_datasets` `m4_daily` snapshot cached in the private vault. Loader:
-[`chronoscopelab/data/loaders.py`](../../data-pipeline/chronoscopelab/data/loaders.py) `load_m4_daily`.
+[`chronoscopelab/data/loaders.py`](../../data-pipeline/engine/data/loaders.py) `load_m4_daily`.
 Committed sample: `data/examples/m4_daily_sample.csv` (400 daily points, one representative series selected
 by the same length / variance / lag-7 autocorrelation criteria as the hourly case).
 

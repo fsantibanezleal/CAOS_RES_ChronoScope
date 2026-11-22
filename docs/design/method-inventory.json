@@ -6,112 +6,172 @@
       "id": "forecast/SeasonalNaive",
       "name": "SeasonalNaive",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::seasonal_naive",
+      "implementation": "data-pipeline/engine/model/forecasters.py::seasonal_naive",
       "validation": "tests/test_forecasters.py",
       "artifact_name": "SeasonalNaive",
-      "implementation_relation": "local finite-history forecast"
+      "implementation_relation": "local finite-history forecast",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.forecasting",
+        "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
+      }
     },
     {
       "id": "forecast/SES",
       "name": "SES",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::ses",
+      "implementation": "data-pipeline/engine/model/forecasters.py::ses",
       "validation": "tests/test_forecasters.py",
       "artifact_name": "SES",
-      "implementation_relation": "local finite-history forecast"
+      "implementation_relation": "local finite-history forecast",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.forecasting",
+        "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
+      }
     },
     {
       "id": "forecast/Holt",
       "name": "Holt",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::holt",
+      "implementation": "data-pipeline/engine/model/forecasters.py::holt",
       "validation": "tests/test_forecasters.py",
       "artifact_name": "Holt",
-      "implementation_relation": "local finite-history forecast"
+      "implementation_relation": "local finite-history forecast",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.forecasting",
+        "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
+      }
     },
     {
       "id": "forecast/HoltWinters",
       "name": "HoltWinters",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::holt_winters",
+      "implementation": "data-pipeline/engine/model/forecasters.py::holt_winters",
       "validation": "tests/test_forecasters.py",
       "artifact_name": "HoltWinters",
-      "implementation_relation": "local finite-history forecast"
+      "implementation_relation": "local finite-history forecast",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.forecasting",
+        "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
+      }
     },
     {
       "id": "forecast/Theta",
       "name": "Theta",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::theta",
+      "implementation": "data-pipeline/engine/model/forecasters.py::theta",
       "validation": "tests/test_forecasters.py",
       "artifact_name": "Theta",
-      "implementation_relation": "local finite-history forecast"
+      "implementation_relation": "local finite-history forecast",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.forecasting",
+        "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
+      }
     },
     {
       "id": "forecast/ContextMemory",
       "name": "ContextMemory",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory",
+      "implementation": "data-pipeline/engine/model/context_memory.py::fit_context_memory",
       "validation": "tests/test_reevaluation.py",
       "artifact_name": "ContextMemory",
       "implementation_relation": "fixed combination",
       "configuration": {
         "mode": "context"
+      },
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.combinations.context_memory",
+        "source_sha256": "738a34f04efbfa1246e73d71512189c3a5276ba9fdc13e907714cae139d7093f"
       }
     },
     {
       "id": "forecast/RecencyMean",
       "name": "RecencyMean",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory",
+      "implementation": "data-pipeline/engine/model/context_memory.py::fit_context_memory",
       "validation": "tests/test_reevaluation.py",
       "artifact_name": "RecencyMean",
       "implementation_relation": "matching combination control",
       "configuration": {
         "mode": "recency"
+      },
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.combinations.context_memory",
+        "source_sha256": "738a34f04efbfa1246e73d71512189c3a5276ba9fdc13e907714cae139d7093f"
       }
     },
     {
       "id": "forecast/EqualMean",
       "name": "EqualMean",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/context_memory.py::fit_context_memory",
+      "implementation": "data-pipeline/engine/model/context_memory.py::fit_context_memory",
       "validation": "tests/test_reevaluation.py",
       "artifact_name": "EqualMean",
       "implementation_relation": "matching combination control",
       "configuration": {
         "mode": "uniform"
+      },
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.combinations.context_memory",
+        "source_sha256": "738a34f04efbfa1246e73d71512189c3a5276ba9fdc13e907714cae139d7093f"
       }
     },
     {
       "id": "forecast/ContextMemoryCV",
       "name": "ContextMemoryCV",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated",
+      "implementation": "data-pipeline/engine/model/validated_combination.py::fit_validated",
       "validation": "tests/test_validated_combination.py",
       "artifact_name": "ContextMemoryCV",
       "implementation_relation": "temporally selected combination",
       "configuration": {
         "stacking": false
+      },
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.combinations.validated",
+        "source_sha256": "d5baf809bb79bd5f1dd6f996741e40f8a5cd7fa6eaa86ff11dee54696a9edcfa"
       }
     },
     {
       "id": "forecast/ValidationMix",
       "name": "ValidationMix",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/model/validated_combination.py::fit_validated",
+      "implementation": "data-pipeline/engine/model/validated_combination.py::fit_validated",
       "validation": "tests/test_validated_combination.py",
       "artifact_name": "ValidationMix",
       "implementation_relation": "temporally selected combination",
       "configuration": {
         "stacking": true
+      },
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.combinations.validated",
+        "source_sha256": "d5baf809bb79bd5f1dd6f996741e40f8a5cd7fa6eaa86ff11dee54696a9edcfa"
       }
     },
     {
       "id": "forecast/AutoETS",
       "name": "AutoETS",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster",
+      "implementation": "data-pipeline/engine/engines/statsforecast_engine.py::StatsforecastForecaster",
       "validation": "tests/test_engines.py",
       "artifact_name": "AutoETS",
       "implementation_relation": "StatsForecast model"
@@ -120,7 +180,7 @@
       "id": "forecast/AutoTheta",
       "name": "AutoTheta",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster",
+      "implementation": "data-pipeline/engine/engines/statsforecast_engine.py::StatsforecastForecaster",
       "validation": "tests/test_engines.py",
       "artifact_name": "AutoTheta",
       "implementation_relation": "StatsForecast model"
@@ -129,7 +189,7 @@
       "id": "forecast/AutoARIMA",
       "name": "AutoARIMA",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/statsforecast_engine.py::StatsforecastForecaster",
+      "implementation": "data-pipeline/engine/engines/statsforecast_engine.py::StatsforecastForecaster",
       "validation": "tests/test_engines.py",
       "artifact_name": "AutoARIMA",
       "implementation_relation": "StatsForecast model"
@@ -138,7 +198,7 @@
       "id": "forecast/LightGBM",
       "name": "LightGBM",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/lightgbm_engine.py::LightGBMForecaster",
+      "implementation": "data-pipeline/engine/engines/lightgbm_engine.py::LightGBMForecaster",
       "validation": "tests/test_engines.py",
       "artifact_name": "LightGBM",
       "implementation_relation": "lag-feature regression"
@@ -147,7 +207,7 @@
       "id": "forecast/NLinear",
       "name": "NLinear with a local quantile head",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster",
+      "implementation": "data-pipeline/engine/engines/neural_engine.py::NeuralForecaster",
       "validation": "tests/test_engine_neural.py",
       "artifact_name": "NLinear",
       "implementation_relation": "direct local adaptation, distinct from the package implementation"
@@ -156,7 +216,7 @@
       "id": "forecast/NLinear-nf",
       "name": "NLinear from NeuralForecast",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster",
+      "implementation": "data-pipeline/engine/engines/neuralforecast_engine.py::NeuralForecastForecaster",
       "validation": "tests/test_engine_neuralforecast.py",
       "artifact_name": "NLinear (nf)",
       "implementation_relation": "NeuralForecast package model"
@@ -165,7 +225,7 @@
       "id": "forecast/DLinear",
       "name": "DLinear with a local quantile head",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster",
+      "implementation": "data-pipeline/engine/engines/neural_engine.py::NeuralForecaster",
       "validation": "tests/test_engine_neural.py",
       "artifact_name": "DLinear",
       "implementation_relation": "direct local adaptation, distinct from the package implementation"
@@ -174,7 +234,7 @@
       "id": "forecast/DLinear-nf",
       "name": "DLinear from NeuralForecast",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster",
+      "implementation": "data-pipeline/engine/engines/neuralforecast_engine.py::NeuralForecastForecaster",
       "validation": "tests/test_engine_neuralforecast.py",
       "artifact_name": "DLinear (nf)",
       "implementation_relation": "NeuralForecast package model"
@@ -183,7 +243,7 @@
       "id": "forecast/NHITS",
       "name": "NHITS with a local quantile head",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/neural_engine.py::NeuralForecaster",
+      "implementation": "data-pipeline/engine/engines/neural_engine.py::NeuralForecaster",
       "validation": "tests/test_engine_neural.py",
       "artifact_name": "NHITS",
       "implementation_relation": "direct local adaptation, distinct from the package implementation"
@@ -192,7 +252,7 @@
       "id": "forecast/NHITS-nf",
       "name": "NHITS from NeuralForecast",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py::NeuralForecastForecaster",
+      "implementation": "data-pipeline/engine/engines/neuralforecast_engine.py::NeuralForecastForecaster",
       "validation": "tests/test_engine_neuralforecast.py",
       "artifact_name": "NHITS (nf)",
       "implementation_relation": "NeuralForecast package model"
@@ -201,7 +261,7 @@
       "id": "forecast/Chronos-Bolt",
       "name": "Chronos-Bolt",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster",
+      "implementation": "data-pipeline/engine/engines/chronos_engine.py::ChronosForecaster",
       "validation": "tests/test_engine_foundation.py",
       "artifact_name": "Chronos-Bolt",
       "implementation_relation": "pretrained checkpoint inference"
@@ -210,7 +270,7 @@
       "id": "forecast/Chronos-2",
       "name": "Chronos-2",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/chronos_engine.py::ChronosForecaster",
+      "implementation": "data-pipeline/engine/engines/chronos_engine.py::ChronosForecaster",
       "validation": "tests/test_engine_foundation.py",
       "artifact_name": "Chronos-2",
       "implementation_relation": "pretrained checkpoint inference"
@@ -219,7 +279,7 @@
       "id": "forecast/TimesFM-2.5",
       "name": "TimesFM-2.5",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/timesfm_engine.py::TimesFmForecaster",
+      "implementation": "data-pipeline/engine/engines/timesfm_engine.py::TimesFmForecaster",
       "validation": "tests/test_engine_foundation.py",
       "artifact_name": "TimesFM-2.5",
       "implementation_relation": "pretrained checkpoint inference"
@@ -228,7 +288,7 @@
       "id": "forecast/TiRex-2",
       "name": "TiRex-2",
       "scope": "forecast",
-      "implementation": "data-pipeline/chronoscopelab/engines/tirex2_engine.py::Tirex2Forecaster",
+      "implementation": "data-pipeline/engine/engines/tirex2_engine.py::Tirex2Forecaster",
       "validation": "tests/test_engine_tirex2_wsl.py",
       "artifact_name": "TiRex-2",
       "implementation_relation": "pretrained checkpoint inference"
@@ -273,7 +333,7 @@
       "id": "selection/training-case-ranking",
       "name": "Training-case mean-MASE method ranking",
       "scope": "selection",
-      "implementation": "data-pipeline/chronoscopelab/stages/train.py::run",
+      "implementation": "data-pipeline/engine/stages/train.py::run",
       "validation": "tests/test_pipeline_smoke.py",
       "artifact_name": null,
       "implementation_relation": "legacy global ranking; separate from corpus selector"
@@ -291,10 +351,16 @@
       "id": "interval/gaussian",
       "name": "Gaussian marginal quantiles",
       "scope": "interval",
-      "implementation": "data-pipeline/chronoscopelab/model/forecasters.py::gaussian_quantiles",
+      "implementation": "data-pipeline/engine/model/forecasters.py::gaussian_quantiles",
       "validation": "tests/test_forecasters.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.forecasting",
+        "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
+      }
     },
     {
       "id": "historical/streaming-smoothing-drift",
@@ -309,7 +375,7 @@
       "id": "interval/aci-style",
       "name": "Adaptive miscoverage-level feedback",
       "scope": "interval",
-      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::run",
+      "implementation": "data-pipeline/engine/stages/streaming.py::run",
       "validation": "tests/test_stage_streaming.py",
       "artifact_name": "Theta+ACI",
       "implementation_relation": "preqts AdaptiveConformal wrapper; replay base"
@@ -318,7 +384,7 @@
       "id": "interval/pid-style",
       "name": "Proportional-integral-derivative miscoverage feedback",
       "scope": "interval",
-      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::run",
+      "implementation": "data-pipeline/engine/stages/streaming.py::run",
       "validation": "tests/test_stage_streaming.py",
       "artifact_name": "Theta+PID",
       "implementation_relation": "preqts ConformalPID wrapper; no published Conformal PID theorem is claimed"
@@ -327,7 +393,7 @@
       "id": "forecast/ridge-blind",
       "name": "Ridge with observed target lags",
       "scope": "covariate-protocol",
-      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch",
+      "implementation": "data-pipeline/engine/stages/streaming.py::_ridge_batch",
       "validation": "tests/test_stage_streaming.py",
       "artifact_name": "Ridge (blind)",
       "implementation_relation": "numerical procedure"
@@ -336,7 +402,7 @@
       "id": "forecast/ridge-aware",
       "name": "Ridge with admissible known-future covariates",
       "scope": "covariate-protocol",
-      "implementation": "data-pipeline/chronoscopelab/stages/streaming.py::_ridge_batch",
+      "implementation": "data-pipeline/engine/stages/streaming.py::_ridge_batch",
       "validation": "tests/test_stage_streaming.py",
       "artifact_name": "Ridge+exog (aware)",
       "implementation_relation": "numerical procedure"
@@ -345,296 +411,482 @@
       "id": "analysis/stationarity/adf",
       "name": "Augmented Dickey-Fuller unit-root test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::adf",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::adf",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/stationarity/kpss",
       "name": "KPSS stationarity test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::kpss",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::kpss",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/stationarity/pp",
       "name": "Phillips-Perron unit-root test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::phillips_perron",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::phillips_perron",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/stationarity/dfgls",
       "name": "GLS-detrended unit-root test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::dfgls",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::dfgls",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/stationarity/zivot-andrews",
       "name": "Unit-root test with an endogenous structural break",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::zivot_andrews",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::zivot_andrews",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/stationarity/differencing",
       "name": "Sequential KPSS differencing-order selection",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::ndiffs",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::ndiffs",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/stationarity/seasonal-differencing",
       "name": "STL-strength seasonal differencing selection",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::nsdiffs",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::nsdiffs",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/stationarity/joint-verdict",
       "name": "Joint ADF and KPSS interpretation",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/stationarity.py::combined_verdict",
+      "implementation": "data-pipeline/engine/analysis/stationarity.py::combined_verdict",
       "validation": "tests/test_analysis_stationarity.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.stationarity",
+        "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+      }
     },
     {
       "id": "analysis/autocorrelation/bartlett",
       "name": "Bartlett lag-dependent autocorrelation uncertainty band",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::bartlett_band",
+      "implementation": "data-pipeline/engine/analysis/autocorrelation.py::bartlett_band",
       "validation": "tests/test_analysis_autocorrelation.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.autocorrelation",
+        "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+      }
     },
     {
       "id": "analysis/autocorrelation/acf",
       "name": "Autocorrelation function with lag uncertainty",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::acf",
+      "implementation": "data-pipeline/engine/analysis/autocorrelation.py::acf",
       "validation": "tests/test_analysis_autocorrelation.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.autocorrelation",
+        "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+      }
     },
     {
       "id": "analysis/autocorrelation/pacf",
       "name": "Partial autocorrelation by Durbin-Levinson recursion",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::pacf",
+      "implementation": "data-pipeline/engine/analysis/autocorrelation.py::pacf",
       "validation": "tests/test_analysis_autocorrelation.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.autocorrelation",
+        "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+      }
     },
     {
       "id": "analysis/autocorrelation/ljung-box",
       "name": "Ljung-Box portmanteau statistic",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::ljung_box",
+      "implementation": "data-pipeline/engine/analysis/autocorrelation.py::ljung_box",
       "validation": "tests/test_analysis_autocorrelation.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.autocorrelation",
+        "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+      }
     },
     {
       "id": "analysis/autocorrelation/box-pierce",
       "name": "Box-Pierce portmanteau statistic",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::box_pierce",
+      "implementation": "data-pipeline/engine/analysis/autocorrelation.py::box_pierce",
       "validation": "tests/test_analysis_autocorrelation.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.autocorrelation",
+        "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+      }
     },
     {
       "id": "analysis/autocorrelation/durbin-watson",
       "name": "Durbin-Watson serial-correlation statistic",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::durbin_watson",
+      "implementation": "data-pipeline/engine/analysis/autocorrelation.py::durbin_watson",
       "validation": "tests/test_analysis_autocorrelation.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.autocorrelation",
+        "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+      }
     },
     {
       "id": "analysis/autocorrelation/lag-pairs",
       "name": "Lagged state-pair representation",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/autocorrelation.py::lag_plot_pairs",
+      "implementation": "data-pipeline/engine/analysis/autocorrelation.py::lag_plot_pairs",
       "validation": "tests/test_analysis_autocorrelation.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.autocorrelation",
+        "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+      }
     },
     {
       "id": "analysis/seasonality/periodogram",
       "name": "Fourier periodogram",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::periodogram",
+      "implementation": "data-pipeline/engine/analysis/seasonality.py::periodogram",
       "validation": "tests/test_analysis_seasonality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.seasonality",
+        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+      }
     },
     {
       "id": "analysis/seasonality/welch",
       "name": "Welch spectral-density estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::welch",
+      "implementation": "data-pipeline/engine/analysis/seasonality.py::welch",
       "validation": "tests/test_analysis_seasonality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.seasonality",
+        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+      }
     },
     {
       "id": "analysis/seasonality/strength",
       "name": "Seasonal variance strength",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_strength",
+      "implementation": "data-pipeline/engine/analysis/seasonality.py::seasonal_strength",
       "validation": "tests/test_analysis_seasonality.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure",
       "implementation_aliases": [
-        "data-pipeline/chronoscopelab/analysis/stationarity.py::seasonal_strength"
-      ]
+        "data-pipeline/engine/analysis/stationarity.py::seasonal_strength"
+      ],
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.seasonality",
+        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+      }
     },
     {
       "id": "analysis/seasonality/stl",
       "name": "STL decomposition",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::stl_decompose",
+      "implementation": "data-pipeline/engine/analysis/seasonality.py::stl_decompose",
       "validation": "tests/test_analysis_seasonality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.seasonality",
+        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+      }
     },
     {
       "id": "analysis/seasonality/mstl",
       "name": "Multiple-seasonal STL decomposition",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::mstl_decompose",
+      "implementation": "data-pipeline/engine/analysis/seasonality.py::mstl_decompose",
       "validation": "tests/test_analysis_seasonality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.seasonality",
+        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+      }
     },
     {
       "id": "analysis/seasonality/subseries",
       "name": "Seasonal subseries comparison",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/seasonality.py::seasonal_subseries",
+      "implementation": "data-pipeline/engine/analysis/seasonality.py::seasonal_subseries",
       "validation": "tests/test_analysis_seasonality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.seasonality",
+        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+      }
     },
     {
       "id": "analysis/filters/hp",
       "name": "Hodrick-Prescott trend-cycle filter",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::hodrick_prescott",
+      "implementation": "data-pipeline/engine/analysis/filters.py::hodrick_prescott",
       "validation": "tests/test_analysis_filters.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.filters",
+        "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
+      }
     },
     {
       "id": "analysis/filters/bk",
       "name": "Baxter-King band-pass filter",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::baxter_king",
+      "implementation": "data-pipeline/engine/analysis/filters.py::baxter_king",
       "validation": "tests/test_analysis_filters.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.filters",
+        "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
+      }
     },
     {
       "id": "analysis/filters/cf",
       "name": "Christiano-Fitzgerald band-pass filter",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::christiano_fitzgerald",
+      "implementation": "data-pipeline/engine/analysis/filters.py::christiano_fitzgerald",
       "validation": "tests/test_analysis_filters.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.filters",
+        "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
+      }
     },
     {
       "id": "analysis/filters/emd",
       "name": "Empirical mode decomposition",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::emd",
+      "implementation": "data-pipeline/engine/analysis/filters.py::emd",
       "validation": "tests/test_analysis_filters.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.filters",
+        "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
+      }
     },
     {
       "id": "analysis/filters/ceemdan",
       "name": "Complete ensemble empirical mode decomposition",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::ceemdan",
+      "implementation": "data-pipeline/engine/analysis/filters.py::ceemdan",
       "validation": "tests/test_analysis_filters.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.filters",
+        "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
+      }
     },
     {
       "id": "analysis/filters/cwt",
       "name": "Continuous-wavelet scalogram",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/filters.py::cwt_scalogram",
+      "implementation": "data-pipeline/engine/analysis/filters.py::cwt_scalogram",
       "validation": "tests/test_analysis_filters.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.filters",
+        "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
+      }
     },
     {
       "id": "analysis/changepoints/pelt",
       "name": "PELT segmentation",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::pelt",
+      "implementation": "data-pipeline/engine/analysis/changepoints.py::pelt",
       "validation": "tests/test_analysis_changepoints.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.changepoints",
+        "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
+      }
     },
     {
       "id": "analysis/changepoints/binseg",
       "name": "Binary segmentation",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::binseg",
+      "implementation": "data-pipeline/engine/analysis/changepoints.py::binseg",
       "validation": "tests/test_analysis_changepoints.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.changepoints",
+        "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
+      }
     },
     {
       "id": "analysis/changepoints/cusum",
       "name": "OLS residual cumulative-sum stability test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::cusum_stability",
+      "implementation": "data-pipeline/engine/analysis/changepoints.py::cusum_stability",
       "validation": "tests/test_analysis_changepoints.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.changepoints",
+        "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
+      }
     },
     {
       "id": "analysis/changepoints/markov",
       "name": "Markov-switching regime model",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/changepoints.py::markov_regimes",
+      "implementation": "data-pipeline/engine/analysis/changepoints.py::markov_regimes",
       "validation": "tests/test_analysis_changepoints.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.changepoints",
+        "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
+      }
     },
     {
       "id": "analysis/volatility/arch",
       "name": "ARCH Lagrange-multiplier test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::arch_lm",
+      "implementation": "data-pipeline/engine/analysis/volatility.py::arch_lm",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.1",
-        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
     },
@@ -642,14 +894,14 @@
       "id": "analysis/volatility/garch",
       "name": "GARCH conditional-variance model",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::garch",
+      "implementation": "data-pipeline/engine/analysis/volatility.py::garch",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.1",
-        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
     },
@@ -657,14 +909,14 @@
       "id": "analysis/volatility/box-cox-mle",
       "name": "Box-Cox profile-likelihood transform selection",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::box_cox",
+      "implementation": "data-pipeline/engine/analysis/volatility.py::box_cox",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.1",
-        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
     },
@@ -672,14 +924,14 @@
       "id": "analysis/volatility/box-cox-guerrero",
       "name": "Guerrero seasonal variance stabilization",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::box_cox",
+      "implementation": "data-pipeline/engine/analysis/volatility.py::box_cox",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.1",
-        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
     },
@@ -687,14 +939,14 @@
       "id": "analysis/volatility/rolling",
       "name": "Rolling dispersion estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/volatility.py::rolling_volatility",
+      "implementation": "data-pipeline/engine/analysis/volatility.py::rolling_volatility",
       "validation": "tests/test_analysis_volatility.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.1",
-        "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
     },
@@ -702,304 +954,502 @@
       "id": "analysis/distribution/moments",
       "name": "Empirical moments",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::summary",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::summary",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/jarque-bera",
       "name": "Jarque-Bera normality test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::summary",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::summary",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/shapiro-wilk",
       "name": "Shapiro-Wilk normality test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::summary",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::summary",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/kde",
       "name": "Kernel density estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::kde_curve",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::kde_curve",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/qq",
       "name": "Normal quantile-quantile representation",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::qq_points",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::qq_points",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/sample-entropy",
       "name": "Sample entropy",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::complexity",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/permutation-entropy",
       "name": "Normalized permutation entropy",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::complexity",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/spectral-entropy",
       "name": "Normalized spectral entropy",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::complexity",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/bds",
       "name": "BDS independence statistic",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::complexity",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::complexity",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/distribution/catch22",
       "name": "Canonical catch22 feature vector",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/distribution.py::catch22_features",
+      "implementation": "data-pipeline/engine/analysis/distribution.py::catch22_features",
       "validation": "tests/test_analysis_distribution.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.distribution",
+        "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+      }
     },
     {
       "id": "analysis/fractal/hurst-rs",
       "name": "Rescaled-range Hurst estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::hurst",
+      "implementation": "data-pipeline/engine/analysis/fractal.py::hurst",
       "validation": "tests/test_analysis_fractal.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.fractal",
+        "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+      }
     },
     {
       "id": "analysis/fractal/dfa",
       "name": "Detrended fluctuation scaling estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::hurst",
+      "implementation": "data-pipeline/engine/analysis/fractal.py::hurst",
       "validation": "tests/test_analysis_fractal.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.fractal",
+        "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+      }
     },
     {
       "id": "analysis/fractal/mfdfa",
       "name": "Multifractal detrended fluctuation analysis",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::mfdfa",
+      "implementation": "data-pipeline/engine/analysis/fractal.py::mfdfa",
       "validation": "tests/test_analysis_fractal.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.fractal",
+        "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+      }
     },
     {
       "id": "analysis/fractal/higuchi",
       "name": "Higuchi graph-dimension estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension",
+      "implementation": "data-pipeline/engine/analysis/fractal.py::fractal_dimension",
       "validation": "tests/test_analysis_fractal.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.fractal",
+        "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+      }
     },
     {
       "id": "analysis/fractal/katz",
       "name": "Katz graph-dimension estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension",
+      "implementation": "data-pipeline/engine/analysis/fractal.py::fractal_dimension",
       "validation": "tests/test_analysis_fractal.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.fractal",
+        "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+      }
     },
     {
       "id": "analysis/fractal/petrosian",
       "name": "Petrosian graph-dimension estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::fractal_dimension",
+      "implementation": "data-pipeline/engine/analysis/fractal.py::fractal_dimension",
       "validation": "tests/test_analysis_fractal.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.fractal",
+        "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+      }
     },
     {
       "id": "analysis/fractal/dcca",
       "name": "Detrended cross-correlation coefficient",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/fractal.py::dcca_coefficient",
+      "implementation": "data-pipeline/engine/analysis/fractal.py::dcca_coefficient",
       "validation": "tests/test_analysis_fractal.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.fractal",
+        "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+      }
     },
     {
       "id": "analysis/nonlinear/embedding",
       "name": "Time-delay state-space embedding",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::time_delay_embed",
+      "implementation": "data-pipeline/engine/analysis/nonlinear.py::time_delay_embed",
       "validation": "tests/test_analysis_nonlinear.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.nonlinear",
+        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+      }
     },
     {
       "id": "analysis/nonlinear/correlation-dimension",
       "name": "Grassberger-Procaccia correlation dimension",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures",
+      "implementation": "data-pipeline/engine/analysis/nonlinear.py::chaos_measures",
       "validation": "tests/test_analysis_nonlinear.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.nonlinear",
+        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+      }
     },
     {
       "id": "analysis/nonlinear/lyapunov",
       "name": "Rosenstein largest Lyapunov estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::chaos_measures",
+      "implementation": "data-pipeline/engine/analysis/nonlinear.py::chaos_measures",
       "validation": "tests/test_analysis_nonlinear.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.nonlinear",
+        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+      }
     },
     {
       "id": "analysis/nonlinear/rqa",
       "name": "Recurrence quantification analysis",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::recurrence_quantification",
+      "implementation": "data-pipeline/engine/analysis/nonlinear.py::recurrence_quantification",
       "validation": "tests/test_analysis_nonlinear.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.nonlinear",
+        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+      }
     },
     {
       "id": "analysis/nonlinear/iaaft",
       "name": "Iterative amplitude-adjusted Fourier surrogate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::iaaft_surrogate",
+      "implementation": "data-pipeline/engine/analysis/nonlinear.py::iaaft_surrogate",
       "validation": "tests/test_analysis_nonlinear.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.nonlinear",
+        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+      }
     },
     {
       "id": "analysis/nonlinear/zero-one",
       "name": "Zero-one chaos diagnostic",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/nonlinear.py::zero_one_test",
+      "implementation": "data-pipeline/engine/analysis/nonlinear.py::zero_one_test",
       "validation": "tests/test_analysis_nonlinear.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.nonlinear",
+        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+      }
     },
     {
       "id": "analysis/causality/cross-correlation",
       "name": "Cross-correlation lead-lag estimate",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::cross_correlation",
+      "implementation": "data-pipeline/engine/analysis/causality.py::cross_correlation",
       "validation": "tests/test_analysis_causality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.causality",
+        "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
+      }
     },
     {
       "id": "analysis/causality/granger",
       "name": "Granger predictive-causality test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::granger_causality",
+      "implementation": "data-pipeline/engine/analysis/causality.py::granger_causality",
       "validation": "tests/test_analysis_causality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.causality",
+        "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
+      }
     },
     {
       "id": "analysis/causality/engle-granger",
       "name": "Engle-Granger residual cointegration test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::cointegration",
+      "implementation": "data-pipeline/engine/analysis/causality.py::cointegration",
       "validation": "tests/test_analysis_causality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.causality",
+        "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
+      }
     },
     {
       "id": "analysis/causality/johansen",
       "name": "Johansen trace-rank cointegration test",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/causality.py::cointegration",
+      "implementation": "data-pipeline/engine/analysis/causality.py::cointegration",
       "validation": "tests/test_analysis_causality.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.causality",
+        "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
+      }
     },
     {
       "id": "analysis/sequence/matrix-profile",
       "name": "Exact z-normalized Matrix Profile self-join",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile",
+      "implementation": "data-pipeline/engine/analysis/sequence.py::matrix_profile",
       "validation": "tests/test_sequence_diagnostics.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.sequence",
+        "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
+      }
     },
     {
       "id": "analysis/sequence/fluss",
       "name": "FLUSS candidate regime boundaries",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::matrix_profile",
+      "implementation": "data-pipeline/engine/analysis/sequence.py::matrix_profile",
       "validation": "tests/test_sequence_diagnostics.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.sequence",
+        "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
+      }
     },
     {
       "id": "analysis/sequence/multiscale-entropy",
       "name": "Fixed-tolerance multiscale sample entropy",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::multiscale_entropy",
+      "implementation": "data-pipeline/engine/analysis/sequence.py::multiscale_entropy",
       "validation": "tests/test_sequence_diagnostics.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.sequence",
+        "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
+      }
     },
     {
       "id": "analysis/sequence/lempel-ziv",
       "name": "Binary Lempel-Ziv complexity with an explicit finite-length reference",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::sequence_report",
+      "implementation": "data-pipeline/engine/analysis/sequence.py::sequence_report",
       "validation": "tests/test_sequence_diagnostics.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.sequence",
+        "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
+      }
     },
     {
       "id": "analysis/sequence/time-reversal-raw",
       "name": "Raw third-order lag-reversal statistic",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal",
+      "implementation": "data-pipeline/engine/analysis/sequence.py::time_reversal",
       "validation": "tests/test_sequence_diagnostics.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.sequence",
+        "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
+      }
     },
     {
       "id": "analysis/sequence/time-reversal-standardized",
       "name": "Standardized third-order lag-reversal statistic",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/sequence.py::time_reversal",
+      "implementation": "data-pipeline/engine/analysis/sequence.py::time_reversal",
       "validation": "tests/test_sequence_diagnostics.py",
       "artifact_name": null,
-      "implementation_relation": "numerical procedure"
+      "implementation_relation": "numerical procedure",
+      "runtime_provider": {
+        "distribution": "forecastscope",
+        "version": "0.1.2",
+        "module": "forecastscope.diagnostics.sequence",
+        "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
+      }
     },
     {
       "id": "analysis/atlas/partition",
       "name": "Deterministic disjoint-series partition assignment",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::partition",
+      "implementation": "data-pipeline/engine/analysis/atlas.py::partition",
       "validation": "tests/test_forecastability.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure"
@@ -1008,7 +1458,7 @@
       "id": "analysis/atlas/prefix-features",
       "name": "Prefix-only forecastability feature extraction",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::prefix_features",
+      "implementation": "data-pipeline/engine/analysis/atlas.py::prefix_features",
       "validation": "tests/test_forecastability.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure"
@@ -1017,7 +1467,7 @@
       "id": "analysis/atlas/by",
       "name": "Benjamini-Yekutieli dependent-test adjustment",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::by_adjust",
+      "implementation": "data-pipeline/engine/analysis/atlas.py::by_adjust",
       "validation": "tests/test_forecastability.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure"
@@ -1026,7 +1476,7 @@
       "id": "analysis/atlas/kendall",
       "name": "Kendall rank association with disjoint-series confirmation",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::associations",
+      "implementation": "data-pipeline/engine/analysis/atlas.py::associations",
       "validation": "tests/test_forecastability.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure"
@@ -1035,7 +1485,7 @@
       "id": "analysis/atlas/selector",
       "name": "Discovery-trained random-forest method selector",
       "scope": "analysis",
-      "implementation": "data-pipeline/chronoscopelab/analysis/atlas.py::study_summary",
+      "implementation": "data-pipeline/engine/analysis/atlas.py::study_summary",
       "validation": "tests/test_forecastability.py",
       "artifact_name": null,
       "implementation_relation": "numerical procedure"
@@ -1055,34 +1505,34 @@
     "volatility.volatility_report": "Assembles conditional-variance, transformation and rolling-dispersion outputs."
   },
   "source_sha256": {
-    "data-pipeline/chronoscopelab/analysis/atlas.py": "0c038b33f39110ca257cb6888a31d8fa8764ac4a38018ffe9e73af6ef1dc7719",
-    "data-pipeline/chronoscopelab/analysis/autocorrelation.py": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552",
-    "data-pipeline/chronoscopelab/analysis/causality.py": "e9b8fe8bc9b64a5cadf0e7accc2fae0b322fa1511958c375828f8ffede840c01",
-    "data-pipeline/chronoscopelab/analysis/changepoints.py": "dc0ce4fcb0eae8ca1b58bcf12046d09298d9807ce83e3d9344528a583b8e1466",
-    "data-pipeline/chronoscopelab/analysis/distribution.py": "36d79880747d2cef9c715e84e23586014988b77eadb78acac33edf6cf3d07f42",
-    "data-pipeline/chronoscopelab/analysis/filters.py": "227301d30878b6379d9588e8baa204a03a1d8d8dd4a329f90df8ac65db87741f",
-    "data-pipeline/chronoscopelab/analysis/fractal.py": "f1fa42f4c0676a97cde5a07ca79e9a832ae356c13451a7d46ee3859c107f3b1e",
-    "data-pipeline/chronoscopelab/analysis/nonlinear.py": "96d6649f484514fd27704c10f5cea9ed390d85d6caffdbd8df530271fe1ac9ba",
-    "data-pipeline/chronoscopelab/analysis/seasonality.py": "99c328fdb6b792b73485928146313e613f9c3ba354b1760e82e8bdd7e50b7cbb",
-    "data-pipeline/chronoscopelab/analysis/sequence.py": "63cf6a21ba110d08fd5bde2c9e4df2ec53a75b29ab03fba151b83be35c7420b9",
-    "data-pipeline/chronoscopelab/analysis/stationarity.py": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029",
-    "data-pipeline/chronoscopelab/analysis/volatility.py": "5131ec78380b3ef206702785ec44af7e4e43a190f46005aab22c77bdfe40b6af",
-    "data-pipeline/chronoscopelab/engines/chronos_engine.py": "dbbbca3f4567007e98feaf4409a4660520b3bbe9890b7c46f930adb9ad7924c4",
-    "data-pipeline/chronoscopelab/engines/lightgbm_engine.py": "7ce55fa309d5072c9a44751d8d06aac52f7e823950cda3a14154c0b3267a467c",
-    "data-pipeline/chronoscopelab/engines/neural_engine.py": "91776da3315fc850fa51fe3911ae9e25b93b7c11364363be982d7b8d2e72d341",
-    "data-pipeline/chronoscopelab/engines/neuralforecast_engine.py": "c0b2386012a1c53f61d58ce03dd37c4b4579f14053db8b30ade61f696d72d235",
-    "data-pipeline/chronoscopelab/engines/statsforecast_engine.py": "2277da5ffc93ea2543b43239d4b0f334fd440d0fdfc67c627a253e2a9cab7a34",
-    "data-pipeline/chronoscopelab/engines/timesfm_engine.py": "343d3557395ce904530525bb69ed9c0b8bcf16c3595239181c5fe69ef7a99780",
-    "data-pipeline/chronoscopelab/engines/tirex2_engine.py": "b81e7b32deaacde94ee358ba0e58a086525c37eb1c8b5869af96d54c9c34bd92",
-    "data-pipeline/chronoscopelab/model/context_memory.py": "dbafac6c79f05a562718e217113c170aac6a968ddbae6bf723e8e5e7292fc5ad",
-    "data-pipeline/chronoscopelab/model/forecasters.py": "940c194ab85fe9d2ccbd58b89b986c1e0bb580298954f06a8793117b6469e664",
-    "data-pipeline/chronoscopelab/model/validated_combination.py": "dfbf1940dd6bd4832e234cc2f1efb28b06d5b4f72f6006e9b49f551918c88c95",
-    "data-pipeline/chronoscopelab/stages/streaming.py": "bd3c4746476afd7346da51f6d2f8284ac9cb68353f3572c00adc603a88633bc8",
-    "data-pipeline/chronoscopelab/stages/train.py": "6e72e60b03da95fb164bd6939d1f79c41af7fe2464906f17b52bd250c3fe49ae",
+    "data-pipeline/engine/analysis/atlas.py": "0c038b33f39110ca257cb6888a31d8fa8764ac4a38018ffe9e73af6ef1dc7719",
+    "data-pipeline/engine/analysis/autocorrelation.py": "dd494f4a80687cc3deb32fe9ae50e0105e59dc3df279cf6a4dd34d19898fb8a7",
+    "data-pipeline/engine/analysis/causality.py": "126d50928e228d1c61b95ba96b282413190b0a749ddc8833c9a33fa1577ca8e0",
+    "data-pipeline/engine/analysis/changepoints.py": "2d7fc44c9c3ba45840a848835c906dbeb21ebf488b6b4535d8c37a14bedf3f4f",
+    "data-pipeline/engine/analysis/distribution.py": "5bc9599db67855f8569beaf80abea9b2779cf337870dda4334ddfc7a0947502b",
+    "data-pipeline/engine/analysis/filters.py": "3911d77abd9c29f0a4aec98f20f937da5746067d06506ddd21b5c2dc46c0a4ed",
+    "data-pipeline/engine/analysis/fractal.py": "c3b96ed6868f24a95c64add3f543af76719302bf445bae859586377d51123ab4",
+    "data-pipeline/engine/analysis/nonlinear.py": "9be867ea793959144b8bde4c9123e6b50f30a889ba28b718093a1fc061734514",
+    "data-pipeline/engine/analysis/seasonality.py": "2495d00db434d39439212ec5ee1027abac6cf353aa2dbed891578da92206b25c",
+    "data-pipeline/engine/analysis/sequence.py": "31bb8575912191cf82c1f8a9193b24a4b098d391974fe7157dcda9e30ba45521",
+    "data-pipeline/engine/analysis/stationarity.py": "799f4954deab057f98ca6dee29a16f1b5cbe00f98372ff74caed21f285b8006c",
+    "data-pipeline/engine/analysis/volatility.py": "40a9727c447f773da2ea3ac658d43315c3ffb751dc5f6cdfcc5b8ec3209515be",
+    "data-pipeline/engine/engines/chronos_engine.py": "dbbbca3f4567007e98feaf4409a4660520b3bbe9890b7c46f930adb9ad7924c4",
+    "data-pipeline/engine/engines/lightgbm_engine.py": "7ce55fa309d5072c9a44751d8d06aac52f7e823950cda3a14154c0b3267a467c",
+    "data-pipeline/engine/engines/neural_engine.py": "af5f837a34c824b92827113f97c0c5fb1c6794dc72f81b8916bdaaf2d80ad765",
+    "data-pipeline/engine/engines/neuralforecast_engine.py": "c0b2386012a1c53f61d58ce03dd37c4b4579f14053db8b30ade61f696d72d235",
+    "data-pipeline/engine/engines/statsforecast_engine.py": "2277da5ffc93ea2543b43239d4b0f334fd440d0fdfc67c627a253e2a9cab7a34",
+    "data-pipeline/engine/engines/timesfm_engine.py": "343d3557395ce904530525bb69ed9c0b8bcf16c3595239181c5fe69ef7a99780",
+    "data-pipeline/engine/engines/tirex2_engine.py": "b81e7b32deaacde94ee358ba0e58a086525c37eb1c8b5869af96d54c9c34bd92",
+    "data-pipeline/engine/model/context_memory.py": "c8c3b0f6c4b433e9d2b09f28b311d1047b0c1dbc4a928bb0ac2414d30409ca34",
+    "data-pipeline/engine/model/forecasters.py": "68f7323b8a49917905d4f253d7998a606beb21d758825398cc1a677a74f0daf5",
+    "data-pipeline/engine/model/validated_combination.py": "f879212704a265a005b83aa4ae110a6f9e6c39936bb1cefd00aae4823ef87c49",
+    "data-pipeline/engine/stages/streaming.py": "45e852ce5d578c4fc03b463792ef18a8d7f12dfd4a99c9f8035b41af5e63c1f0",
+    "data-pipeline/engine/stages/train.py": "6e72e60b03da95fb164bd6939d1f79c41af7fe2464906f17b52bd250c3fe49ae",
     "scripts/confirm_browser_calibration.py": "2e75e8de5d2a1fa06f508b5e33bf2a23612d04307edecf9a4e6f403517adf284",
     "scripts/evaluate_browser_linear.py": "b206fb7c6f9a61b85707c65cc3b9c695e6e60d513169139644483fdc79c1dc5e",
-    "scripts/manuscript_replay.py": "cf28b109e09186be9b05386b280851ae56a8f218f38058d1b788a25549393172",
-    "scripts/run_forecastability_study.py": "584c720c40167d1fe30d902475be44f04cc55f53429d746053ec7c21814fc7ef",
-    "scripts/train_nlinear_onnx.py": "d5e4c95273385f41f190fa0794f0ed0ec486ba4fcb22fd0b45053ff3ff54e235"
+    "scripts/manuscript_replay.py": "d4844c79ec59dfff6850ab488653e45c177efc8e512890d3145e92887aef5f52",
+    "scripts/run_forecastability_study.py": "009974e38337dac9bf9f626f31cbfe368e3538c1f21240df85fdac9c7c5d987f",
+    "scripts/train_nlinear_onnx.py": "acd589a88253a21b15f4f1ea9a9087085f3d44f99f63c9dc5fbd5340323fa48c"
   }
 }

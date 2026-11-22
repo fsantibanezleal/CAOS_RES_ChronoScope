@@ -2,7 +2,7 @@
 
 The offline pipeline trains the deep forecasting ladder and runs the foundation models. When a CUDA GPU is
 present it uses it; everywhere else (CI, a CPU-only clone) it falls back to CPU transparently. Code:
-[`chronoscopelab/gpu.py`](../../data-pipeline/chronoscopelab/gpu.py) · Tests:
+[`chronoscopelab/gpu.py`](../../data-pipeline/engine/gpu.py) · Tests:
 [`tests/test_gpu.py`](../../tests/test_gpu.py).
 
 ## The build box

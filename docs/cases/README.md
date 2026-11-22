@@ -1,6 +1,6 @@
 # Cases + categories
 
-Each case (`data-pipeline/chronoscopelab/cases/forecast_cases.py`) declares a CATEGORY (the forecasting
+Each case (`data-pipeline/engine/cases/forecast_cases.py`) declares a CATEGORY (the forecasting
 problem-type taxonomy), its seasonality and horizon, an expected band (what a domain expert should see), a
 real/synthetic flag, and a provenance `source` (drives the license export guard). `registry.list_categories()`
 groups them. The App shows ONE selected case; Experiments and Benchmark show cross-case summaries by category

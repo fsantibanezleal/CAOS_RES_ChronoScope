@@ -27,7 +27,7 @@ def roughness_bin(x: np.ndarray) -> np.ndarray:
     if x.ndim != 2 or x.shape[1] != LOOKBACK or not np.isfinite(x).all():
         raise ValueError("Invalid normalized prefix")
     variance = np.var(x, axis=1)
-    if np.any(variance <= 0):
+    if np.any(np.ptp(x, axis=1) == 0) or np.any(variance <= 0):
         raise ValueError("Unavailable prefix variance")
     roughness = np.mean(np.diff(x, axis=1) ** 2, axis=1) / variance
     return np.searchsorted(BINS, roughness, side="right")

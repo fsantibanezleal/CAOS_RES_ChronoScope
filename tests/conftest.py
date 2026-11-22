@@ -1,4 +1,4 @@
-"""Make chronoscopelab importable whether or not `pip install -e .` has run (belt-and-suspenders for CI/local).
+"""Load the product-specific path tooling; numerical methods are installed published dependencies.
 
 Also sandbox EVERY pipeline write for the whole suite: the committed data/derived is the canonical GPU bake
 (all 18 methods), and any test regenerating a case on the test environment's lighter engine set would silently
@@ -14,6 +14,7 @@ import sys
 import pytest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "data-pipeline"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "scripts"))
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -123,7 +124,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
 
 @pytest.fixture(autouse=True)
 def _sandbox_pipeline_writes(tmp_path, monkeypatch):
-    from chronoscopelab import pipeline
+    from engine import pipeline
 
     monkeypatch.setattr(pipeline, "DERIVED", tmp_path / "derived")
     monkeypatch.setattr(pipeline, "MANIFESTS", tmp_path / "derived" / "manifests")

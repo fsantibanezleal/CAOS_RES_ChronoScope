@@ -4,19 +4,19 @@
 # requirements-precompute.txt on the build box; those engines are env-gated and skip gracefully here.
 # Every pin is documented in docs/frameworks/ or docs/analysis/ and actually used by the stages.
 numpy==2.4.6
-forecastscope==0.1.1         # offline ARCH, GARCH and Box-Cox diagnostics
+forecastscope==0.1.2         # offline ARCH, GARCH and Box-Cox diagnostics
 
 # preqts: the prequential streaming-evaluation library ChronoScope consumes in stages/evaluate.py and
 # stages/streaming.py (ADR-0061 package extraction). LIVE on PyPI since 0.2.0 (trusted-publisher OIDC).
 preqts==0.3.0
 
 # statsforecast (Nixtla): the auto-tuned statistical SOTA methods (AutoARIMA, AutoETS, AutoTheta), used by
-# data-pipeline/chronoscopelab/engines/statsforecast_engine.py. Offline-only (pulls numba, not Pyodide-safe);
+# data-pipeline/engine/engines/statsforecast_engine.py. Offline-only (pulls numba, not Pyodide-safe);
 # the pipeline degrades gracefully to the classical numpy ladder if it is absent. Doc: docs/frameworks/01_statsforecast.md.
 statsforecast==2.0.3
 
 # mlforecast (Nixtla) + LightGBM: the ML tier (gradient boosting on lag features), used by
-# data-pipeline/chronoscopelab/engines/lightgbm_engine.py. Offline-only; graceful degradation if absent.
+# data-pipeline/engine/engines/lightgbm_engine.py. Offline-only; graceful degradation if absent.
 # Doc: docs/frameworks/02_mlforecast_lightgbm.md.
 mlforecast==1.0.31
 lightgbm==4.6.0
@@ -37,3 +37,6 @@ hurst==0.0.5                 # Hurst R/S (Anis-Lloyd corrected)
 MFDFA==0.4.3                 # multifractal DFA singularity spectrum
 utilsforecast==0.2.16        # Guerrero Box-Cox lambda, scalers
 coreforecast==0.0.17
+stumpy==1.14.1              # exact Matrix Profile and FLUSS in the published diagnostics
+pycatch22==0.4.5            # complete catch24 feature catalog used in corpus analysis
+scikit-learn==1.9.1         # seeded disjoint-series diagnostic selection

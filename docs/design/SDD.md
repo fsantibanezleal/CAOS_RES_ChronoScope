@@ -16,13 +16,16 @@ The executive view frames demand-planning decisions, forecasting adjustments, un
 
 ## Research basis
 
+- Published reusable diagnostic and finite-prefix forecasting APIs: https://pypi.org/project/forecastscope/
+- Conditional variance follows the GARCH formulation: https://doi.org/10.1016/0304-4076(86)90063-1
+
 - The electricity lesson preserves the UCI source convention and explicitly labels the hourly sum: https://doi.org/10.24432/C58C86
 - Seasonal-copy forecasting and the distinction between fitted residuals and future errors follow the forecasting toolbox: https://otexts.com/fpp3/toolbox.html
 - The electricity lesson executes the published PreqTS 0.3.0 start/predict/ingest API; its empirical residual intervals are distinct from the atlas Gaussian intervals: https://pypi.org/project/preqts/0.3.0/
 
 - Dawid's prequential approach motivates predict-then-observe evaluation: https://doi.org/10.2307/2981683
-- Gibbs and Candès specify adaptive conformal inference under distribution shift: https://arxiv.org/abs/2106.00170
-- Angelopoulos, Candès, and Tibshirani describe conformal PID control for time-series prediction: https://arxiv.org/abs/2307.16895
+- Gibbs and CandÃƒÆ’Ã‚Â¨s specify adaptive conformal inference under distribution shift: https://arxiv.org/abs/2106.00170
+- Angelopoulos, CandÃƒÆ’Ã‚Â¨s, and Tibshirani describe conformal PID control for time-series prediction: https://arxiv.org/abs/2307.16895
 - Hyndman and Koehler discuss forecast accuracy measures and their limitations: https://doi.org/10.1016/j.ijforecast.2006.03.001
 - Gneiting and Raftery establish proper scoring rules for probabilistic forecasts: https://doi.org/10.1198/016214506000001437
 - Hyndman and Billah derive the finite-history Theta point equation: https://robjhyndman.com/papers/Theta.pdf
@@ -32,7 +35,7 @@ The executive view frames demand-planning decisions, forecasting adjustments, un
 
 The refreshed implementation audit and sources are in `docs/research/2026-11-01-method-reevaluation.md`; the fixed experimental proposal and its refutation criteria are in `docs/research/2026-11-01-context-memory-proposal.md`. The executive brief has a separate evidence ledger.
 
-The implementation details in Sections III and IV of the manuscript were checked against `data-pipeline/chronoscopelab/stages/streaming.py`, the installed `preqts==0.3.0` package behavior, and `data/derived/*/streaming.json`.
+The implementation details in Sections III and IV of the manuscript were checked against `data-pipeline/engine/stages/streaming.py`, the installed `preqts==0.3.0` package behavior, and `data/derived/*/streaming.json`.
 
 The original aggregate trajectories did not retain every controller state or the complete historical execution environment. The v0.25 reconstruction now retains 21,296 per-step updates, independently matches archived coverage and final weighted quantile loss, and includes 630 sensitivity settings plus 66 additional-seed results. Those calculations support finite-stream replay and sensitivity analysis; they do not restore the missing historical timing environment or establish native state-update performance. The separate external combination study retains favorable ValidationMix point-error comparisons against RecencyMean on two admitted collections, alongside unfavorable comparisons against AutoTheta. The new independent synthetic browser confirmation improves interval score by 49.60 percent around unchanged points, with full prefix-bin, family and lead outcomes in `docs/research/browser-linear/README.md`. These are measured gains with explicit population boundaries, not a record containing only negative outcomes.
 
@@ -66,7 +69,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | notebooks/requirements.txt | matplotlib | 3.10.8 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbclient | 0.11.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbformat | 5.11.1 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
-| frontend | @fasl-work/caos-app-shell | 0.25.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | @fasl-work/caos-app-shell | 0.26.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @testing-library/react | 16.3.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/katex | 0.16.8 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/node | 22.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
@@ -95,7 +98,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | requirements-precompute.txt | pandas | 2.3.3 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | frontend | playwright | 1.64.1 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | preqts | 0.3.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
-| requirements-precompute.txt | forecastscope | 0.1.1 | Published volatility diagnostics for the offline analysis stage. | The installed source is verified against the release receipt. |
+| requirements-precompute.txt | forecastscope | 0.1.2 | Published volatility diagnostics for the offline analysis stage. | The installed source is verified against the release receipt. |
 | requirements-precompute.txt | pycatch22 | 0.4.5 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-dev.txt | pytest | 9.1.1 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | pywavelets | 1.8.0 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
@@ -108,6 +111,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | requirements-precompute.txt | statsforecast | 2.0.3 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | statsmodels | 0.14.6 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | torch | 2.12.1 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
+| requirements-precompute.txt | timesfm | 2.0.2 | Pinned TimesFM 2.5 reference loader for actual notebook inference. | A recorded forecast is insufficient for the reference-execution lesson. |
 | frontend | typescript | 5.9.3 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | uplot | 1.6.32 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | requirements-precompute.txt | utilsforecast | 0.2.16 | Python dependency; see pinned requirements | Not assessed as a substitute in this release. |
@@ -144,7 +148,7 @@ The offline pipeline creates forecast, analysis, and streaming artifacts. The br
 
 BS-1 proposes ContextMemory, a causal within-series combination of SeasonalNaive, SES, Holt, HoltWinters and Theta. Its hypothesis is that similar historical contexts give more useful expert-loss estimates than recency alone. At each completed historical origin it records a normalized half-window mean contrast, level shift, volatility change, seasonal correlation and the experts' realised multi-step absolute errors. A distance kernel and fixed recency weights estimate the query-context loss; shrinkage toward the global recency estimate and a uniform floor determine convex forecast weights.
 
-The method is implemented in `data-pipeline/chronoscopelab/model/context_memory.py`, integrated in the offline method registry, and compared in `data/derived/reevaluation.json`. FFORMA and arbitrated dynamic ensembles already establish context-dependent combinations. This proposal makes no priority claim; it tests a particular low-data, within-series recurrence rule. A calibration wrapper or the preqts harness is not represented as this forecasting proposal.
+The method is implemented in `data-pipeline/engine/model/context_memory.py`, integrated in the offline method registry, and compared in `data/derived/reevaluation.json`. FFORMA and arbitrated dynamic ensembles already establish context-dependent combinations. This proposal makes no priority claim; it tests a particular low-data, within-series recurrence rule. A calibration wrapper or the preqts harness is not represented as this forecasting proposal.
 
 Evaluation fixes all hyperparameters before scoring the final blocks. The common experiment has 15 selected cases, one final forecast origin per case and the same truth and horizon for every admitted method. It refutes the present hypothesis at aggregate level: mean MASE is approximately 1.4504 for ContextMemory and 1.4489 for RecencyMean; EqualMean gives 1.8970. This is a negative finite-sample result, not a claim about all recurrence models. The archived comparison rescores frozen heavy paths. The separate fresh experiment executes all 22 variants on the same original histories and targets, binds package/checkpoint/source identities and independently verifies all metrics.
 
@@ -225,6 +229,11 @@ The six visualization kinds, source/geometry derivations and their scientific bo
 | V5 | Which target blocks were observable at the historical query? | combination-case completed origin records and horizon | method timeline | Move cutoff and select an origin | Completion status, memory interval and panel | /story/method |
 | V6 | How do selected forecasts and interval endpoints compare with the reserved block? | fresh-reevaluation paths and scores | decision chart | Change method and move the shared lead cursor | Forecast path, held-out values, quantile readout and scores | /story/decision |
 
-Shell 0.25.0 provides the measured header band used to reserve drawing space.
+Shell 0.26.2 provides the measured header band used to reserve drawing space.
 The subjects are measured in the resized drawing, and the mobile stage floor
 preserves room for the chart or trajectory beneath the callouts.
+
+The local bootstrap declares separate external product and teaching runtimes.
+The product runtime includes the complete CPU pipeline requirements. The teaching
+runtime includes ForecastScope for the volatility adapter. Existing runtime aliases
+are preserved when they belong to a different environment.

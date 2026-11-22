@@ -8,6 +8,8 @@ import math
 from pathlib import Path
 import statistics
 
+from source_bindings import implementation_sources
+
 ROOT = Path(__file__).resolve().parents[1]
 METHODS = {'Naive', 'SeasonalNaive', 'SES', 'Holt', 'HoltWinters', 'Theta', 'AutoETS', 'AutoTheta'}
 STUDY_CODE = {'scripts/run_forecastability_study.py', 'data-pipeline/chronoscopelab/analysis/atlas.py',
@@ -52,9 +54,7 @@ def validate_study(d: dict, root: Path = ROOT, statistics_check: bool = False):
         raise ValueError('Changed preregistered protocol')
     if set(d['code_sha256']) != STUDY_CODE:
         raise ValueError('Incomplete implementation identity')
-    for relative, digest in d['code_sha256'].items():
-        if hashlib.sha256((root/relative).read_bytes().replace(b'\r\n',b'\n')).hexdigest() != digest:
-            raise ValueError('Stale corpus implementation: '+relative)
+    implementation_sources(d['code_sha256'], root)
     feature_names = set(d['summary']['selector_features'])
     if len(feature_names) < 40:
         raise ValueError('Feature inventory is incomplete')

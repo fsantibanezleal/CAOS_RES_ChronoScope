@@ -52,6 +52,7 @@ export async function runNLinear(series: number[]): Promise<{ point: number[]; s
   if (series.length < meta.lookback || !series.every(Number.isFinite)) throw new Error('Invalid finite model lookback');
   const window = series.slice(series.length - meta.lookback);
   const last = window[window.length - 1];
+  if (window.every(value => value === last)) throw new Error('Unavailable observed model scale');
   const s = std(window);
   if (!Number.isFinite(s) || s <= 0) throw new Error('Unavailable observed model scale');
   const xn = Float32Array.from(window.map((v) => (v - last) / s));

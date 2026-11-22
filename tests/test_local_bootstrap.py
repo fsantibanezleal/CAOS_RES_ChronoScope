@@ -278,8 +278,6 @@ def free_port():
 
 
 def test_declared_producer_plan_keeps_all_outputs_external(workflow, fixture_repo):
-    if workflow.settings(ROOT).get("product_admission"):
-        pytest.skip("The custom product bridge has its own actual external generation control")
     root, _, env = fixture_repo
     config = workflow.settings(ROOT)
     config["generation_modules"] = []
@@ -288,8 +286,27 @@ def test_declared_producer_plan_keeps_all_outputs_external(workflow, fixture_rep
     config["stage_inputs"] = []  # Actual authored input/admission is covered by the real-pipeline test.
     config.pop("readiness_check", None)
     config.pop("readiness_exceptions", None)
+    # RP-032: this is an output-routing check on the strict path; a product's guarded provider needs its readiness_check
+    config.pop("readiness_provider", None)
     write(root / "scripts/local/workflow.json", json.dumps(config))
-    shutil.copyfile(ROOT / "scripts/local/producer_bridge.py", root / "scripts/local/producer_bridge.py")
+    # This fixture tests output routing; the real source-bound scientific lane
+    # is exercised by test_adversarial_real_product_generation_admission.
+    write(root / "scripts/local/producer_bridge.py", """import json, sys
+from pathlib import Path
+root = Path(__file__).resolve().parents[2]
+mode, stage = sys.argv[1], Path(sys.argv[2])
+assert not stage.is_relative_to(root)
+if mode == "generate":
+    config = json.loads((root/"scripts/local/workflow.json").read_text())
+    version = (root/"VERSION").read_text().strip()
+    for name in set(config["required"]) | {"data/derived/readiness.json"}:
+        path = stage/name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        value = {"engine_version": config.get("stage_engine_versions", {}).get(name, version)}
+        if name.endswith("index.json"): value["cases"] = [{"case_id": "a"}]
+        if name.endswith("readiness.json"): value = {"product_version": version, "contracts": [{"state": "available"}]}
+        path.write_text(json.dumps(value))
+""")
     for name in ("pipeline/__init__.py", "pipeline/core/__init__.py", "pipeline/cases/__init__.py"):
         write(root / "data-pipeline" / name, "")
     write(

@@ -1,6 +1,6 @@
 # Data provenance and licensing
 
-Code: [`chronoscopelab/data/provenance.py`](../../data-pipeline/chronoscopelab/data/provenance.py)
+Code: [`chronoscopelab/data/provenance.py`](../../data-pipeline/engine/data/provenance.py)
 · Tests: [`tests/test_data_provenance.py`](../../tests/test_data_provenance.py),
 [`tests/test_data_export_guard.py`](../../tests/test_data_export_guard.py)
 

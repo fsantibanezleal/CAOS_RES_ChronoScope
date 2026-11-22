@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from chronoscopelab.analysis.atlas import MODEL_NAMES, PROTOCOL, by_adjust, partition, prefix_features, study_summary
+from engine.analysis.atlas import MODEL_NAMES, PROTOCOL, by_adjust, partition, prefix_features, study_summary
 
 
 def test_by_matches_manual_harmonic_step_up_oracle():

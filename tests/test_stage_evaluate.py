@@ -3,10 +3,10 @@ carries the point family (MAE/RMSE/sMAPE), MSIS, and the per-lead scaled error c
 ships them (including for license-redacted sources, where they are aggregates like MASE)."""
 import numpy as np
 
-from chronoscopelab import registry
-from chronoscopelab.core.trace import TRACE_SCHEMA, build_trace
-from chronoscopelab.methods import all_forecasters
-from chronoscopelab.stages import evaluate, infer
+from engine import registry
+from engine.core.trace import TRACE_SCHEMA, build_trace
+from engine.methods import all_forecasters
+from engine.stages import evaluate, infer
 
 QLEVELS = (0.1, 0.5, 0.9)
 

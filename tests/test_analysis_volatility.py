@@ -1,7 +1,7 @@
 """Volatility toolkit tests: ARCH detection, GARCH persistence, Box-Cox variance stabilization, Guerrero."""
 import numpy as np
 
-from chronoscopelab.analysis import volatility as vo
+from engine.analysis import volatility as vo
 from forecastscope.diagnostics import volatility as provider
 
 

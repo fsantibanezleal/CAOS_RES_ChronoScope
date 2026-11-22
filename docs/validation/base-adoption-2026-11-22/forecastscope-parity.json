@@ -1,0 +1,301 @@
+{
+  "schema": "chronoscope-numerical-provider-parity-v1",
+  "distribution": "forecastscope",
+  "version": "0.1.2",
+  "source_artifact_sha256": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
+  "source_archive_sha256": "4c53b62e8aff184818adcd07f345be9d4587de99b40d7743aad5554e9ad21413",
+  "provider_module_count": 14,
+  "cases": [
+    {
+      "case_id": "BRKV_level_shift",
+      "history_sha256": "638f51aba294642d2f443ca2696529c7a6b567775cf289ef2b2410d9567c2752",
+      "history_length": 288,
+      "horizon": 12,
+      "seasonality": 12,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "CHAO_mackey",
+      "history_sha256": "f45f00b8f7d20dff4913033654380eed162f3c0b76cec4b4c632a282618b4eaa",
+      "history_length": 488,
+      "horizon": 12,
+      "seasonality": 1,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "CTRL_white_noise",
+      "history_sha256": "c616114588fc458e97120ddcaf524a6b514cd0d5f7d7da4130a2729ad528dcb4",
+      "history_length": 148,
+      "horizon": 12,
+      "seasonality": 1,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "EXOG_promo",
+      "history_sha256": "e9eda802c21d30f314343920fa40d0c563dee28d85c4c8906a7be43ee55489fe",
+      "history_length": 226,
+      "horizon": 14,
+      "seasonality": 7,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "HETV_garch",
+      "history_sha256": "1fd83131c366f0fbd6d53063d5c3f597bcd175b98820c8d39afe069b2569e3d3",
+      "history_length": 488,
+      "horizon": 12,
+      "seasonality": 1,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "INTM_demand",
+      "history_sha256": "2af699ad52da5f20ea73083cf827f08d7313c88e1c93c3b2e947f89325b5403c",
+      "history_length": 188,
+      "horizon": 12,
+      "seasonality": 1,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "LMEM_fractional",
+      "history_sha256": "8db0096900fb2afa0c885ba844b82cbe6a9695af50778bff076a9582902e00bd",
+      "history_length": 488,
+      "horizon": 12,
+      "seasonality": 1,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "MSEA_daily_weekly",
+      "history_sha256": "55ca773de66d99466146704eaa768a5e58c1fc24489750a1ccfc5a9d3ed84df2",
+      "history_length": 648,
+      "horizon": 24,
+      "seasonality": 24,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "REAL_electricity",
+      "history_sha256": "f52426a81659d943fda200e18b2a87a7204ee95d7f6a38534826a4107e5673f1",
+      "history_length": 456,
+      "horizon": 24,
+      "seasonality": 24,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "REAL_m4_daily",
+      "history_sha256": "19778fb24286d629735984783e956156a601998e4780a4a84523b41da6cd08b3",
+      "history_length": 386,
+      "horizon": 14,
+      "seasonality": 7,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "REAL_m4_hourly",
+      "history_sha256": "88c3fc19baeda2a2382373e7faca054dda3d4724eb385590a128b0dcbee3c52d",
+      "history_length": 456,
+      "horizon": 24,
+      "seasonality": 24,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "REAL_pm25",
+      "history_sha256": "ea8eb0c5ac7a0d73d28490690ce1a77beb4a6ce0ee720b21f74a89b2601e8916",
+      "history_length": 456,
+      "horizon": 24,
+      "seasonality": 24,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "RWLK_noise",
+      "history_sha256": "67223f6d58ffdab11c374e18b477bdf7cb5f06a77d1d61bc8d73eafc42f484a9",
+      "history_length": 188,
+      "horizon": 12,
+      "seasonality": 1,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "SEAS_hourly",
+      "history_sha256": "1f7fb34587e6e19742a4e0c392edbd7f24b6752e1b573d06bbcca6f340fb50a9",
+      "history_length": 456,
+      "horizon": 24,
+      "seasonality": 24,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    },
+    {
+      "case_id": "TRND_seasonal",
+      "history_sha256": "3edefdb9459052438bb4948035d45f1fe83f9797e8415f1c49516e83840a6016",
+      "history_length": 168,
+      "horizon": 12,
+      "seasonality": 12,
+      "exact_methods": [
+        "SeasonalNaive",
+        "SES",
+        "Holt",
+        "HoltWinters",
+        "Theta",
+        "ContextMemory",
+        "RecencyMean",
+        "EqualMean",
+        "ContextMemoryCV",
+        "ValidationMix"
+      ]
+    }
+  ],
+  "exact_comparisons": 150,
+  "scope": "Full-precision forecast quantiles, allocation weights and historical origins on the fifteen shipped histories; diagnostic unit changes have separate controls. No new accuracy experiment.",
+  "runtime": {
+    "python": "3.12.15",
+    "numpy": "2.4.6"
+  }
+}

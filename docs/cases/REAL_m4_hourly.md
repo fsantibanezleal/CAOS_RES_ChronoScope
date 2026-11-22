@@ -2,7 +2,7 @@
 
 Source: **Monash Time Series Forecasting Repository / M4 competition** (CC-BY-4.0, public-safe), via the
 `autogluon/chronos_datasets` `m4_hourly` snapshot cached in the private vault. Loader:
-[`chronoscopelab/data/loaders.py`](../../data-pipeline/chronoscopelab/data/loaders.py) `load_m4_hourly`.
+[`chronoscopelab/data/loaders.py`](../../data-pipeline/engine/data/loaders.py) `load_m4_hourly`.
 Committed sample: `data/examples/m4_hourly_sample.csv` (480 hourly points, one representative series;
 the loader picks the first series with length >= 480, positive variance, and a lag-24 autocorrelation
 >= 0.2, so the committed excerpt is genuinely seasonal rather than flat or too short).

@@ -38,6 +38,8 @@ def normalize_window(history: np.ndarray, target: np.ndarray) -> tuple[np.ndarra
         raise ValueError("Unsupported lookback or horizon")
     if not np.isfinite(history).all() or not np.isfinite(target).all():
         raise ValueError("Nonfinite observations")
+    if np.ptp(history) == 0:
+        raise ValueError("Unavailable lookback scale")
     scale, last = float(np.std(history)), float(history[-1])
     if not math.isfinite(scale) or scale <= 0:
         raise ValueError("Unavailable lookback scale")

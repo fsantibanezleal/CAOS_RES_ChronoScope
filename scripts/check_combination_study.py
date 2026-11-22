@@ -10,6 +10,8 @@ from pathlib import Path
 
 import numpy as np
 
+from source_bindings import implementation_sources
+
 ROOT = Path(__file__).resolve().parents[1]
 EXPERTS = ("SeasonalNaive", "SES", "Holt", "HoltWinters", "Theta")
 METHODS = {*EXPERTS, "AutoETS", "AutoTheta", "ContextMemory", "RecencyMean", "EqualMean",
@@ -39,8 +41,7 @@ def validate(document, source_root):
     from run_forecastability_study import series_from_tsf
 
     assert len(document["series"]) == 1787, "Incomplete source inventory"
-    for path, digest in document["code_sha256"].items():
-        assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, path
+    implementation_sources(document["code_sha256"], ROOT)
     methods_checked, origins_checked = 0, 0
     summary = {}
     for dataset, config in document["datasets"].items():

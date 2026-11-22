@@ -19,9 +19,12 @@ afterEach(() => vi.unstubAllGlobals());
 
 it('adversarial: constant and nonfinite prefixes refuse inference without a raw-unit scale fallback', async () => {
   const { runNLinear } = await import('../lib/onnxRunner');
-  await expect(runNLinear(Array(48).fill(5))).rejects.toThrow('scale');
+  for (const level of [5, .1, 1e-14, 1e12]) {
+    await expect(runNLinear(Array(48).fill(level))).rejects.toThrow('scale');
+  }
   await expect(runNLinear([...Array(47).fill(5), NaN])).rejects.toThrow('finite');
   expect(mocks.create).not.toHaveBeenCalled();
+  expect(fetch).not.toHaveBeenCalled();
 });
 
 it('adversarial: an ONNX graph with the wrong digest cannot use this calibration', async () => {

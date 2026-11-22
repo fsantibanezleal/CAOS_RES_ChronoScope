@@ -11,6 +11,7 @@ import statistics
 import struct
 from pathlib import Path
 
+from source_bindings import implementation_sources
 from check_forecast_units import boundary
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,7 +69,10 @@ def validate(document: dict, *, reweight: bool = False) -> int:
     reference_path = ROOT / plan["reference"]["path"]
     cases = load(reference_path)["cases"]
     source_paths = {**SOURCE_PATHS, "reference_sha256": plan["reference"]["path"]}
-    binding = {key: digest(ROOT / path) for key, path in source_paths.items()}
+    historical = {SOURCE_PATHS[key]: document[key] for key in ("code_sha256", "scoring_sha256", "unit_boundary_sha256")}
+    historical_bytes = implementation_sources(historical, ROOT)
+    binding = {key: hashlib.sha256(historical_bytes[path]).hexdigest() if path in historical_bytes else digest(ROOT / path)
+               for key, path in source_paths.items()}
     if binding["reference_sha256"] != plan["reference"]["sha256"]:
         raise ValueError("The holdout reference differs from the pre-inference plan")
     if any(document[key] != value for key, value in binding.items()):

@@ -1,7 +1,7 @@
 """Seasonality toolkit tests: ground-truth checks on a clean sinusoid, white noise, and multi-seasonal data."""
 import numpy as np
 
-from chronoscopelab.analysis import seasonality as se
+from engine.analysis import seasonality as se
 
 
 def _sin(n=360, m=12, fs=1.0, seed=0):

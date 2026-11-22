@@ -15,10 +15,10 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "data-pipeline"))
-from chronoscopelab.model.context_memory import fit_context_memory  # noqa: E402
-from chronoscopelab.model.forecasters import METHODS, gaussian_quantiles  # noqa: E402
-from chronoscopelab.model.validated_combination import fit_validated  # noqa: E402
-from chronoscopelab.reevaluation import metrics  # noqa: E402
+from engine.model.context_memory import fit_context_memory  # noqa: E402
+from engine.model.forecasters import METHODS, gaussian_quantiles  # noqa: E402
+from engine.model.validated_combination import fit_validated  # noqa: E402
+from engine.reevaluation import metrics  # noqa: E402
 from accelerate_expert_loops import enable  # noqa: E402
 from check_combination_study import validate  # noqa: E402
 

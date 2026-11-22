@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location("forecast_unit_boundary", ROOT / "data-pipeline/chronoscopelab/io/units.py")
+spec = importlib.util.spec_from_file_location("forecast_unit_boundary", ROOT / "data-pipeline/engine/io/units.py")
 boundary = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(boundary)
 

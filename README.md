@@ -27,7 +27,7 @@ ContextMemory did not improve mean MASE
 over its recency-only ablation. Every case and the negative result remain available. Two further combinations, ContextMemoryCV
 and ValidationMix, select settings through causal historical validation. On complete M4 Weekly
 and M3 Monthly inventories, both improve point error against RecencyMean on each admitted
-collection. AutoTheta remains better on monthly point error and both collections’ interval scores.
+collection. AutoTheta remains better on monthly point error and both collectionsâ€™ interval scores.
 The app exposes all twelve methods and 53,148 independently rescored external forecasts.
 
 The [implementation reassessment](docs/research/2026-11-01-method-reevaluation.md) records the
@@ -48,7 +48,7 @@ a causal explanation of model rankings.
   ladder + an ONNX NLinear run live in-browser, parity-checked against the Python core.
 
 The sequence research extension adds exact Matrix Profile motifs/discords and FLUSS candidates
-on original observation indices, multiscale entropy, binary Lempel–Ziv complexity and time-reversal
+on original observation indices, multiscale entropy, binary Lempelâ€“Ziv complexity and time-reversal
 asymmetry. A separate complete M4 Daily study uses three final origins, forty prefix-only features,
 BY correction and disjoint discovery/confirmation series. Its selector is assessed against a
 discovery-selected constant and a future-informed oracle. See the [executed protocol and limits](docs/research/2026-11-02-sequence-evidence.md)
@@ -93,10 +93,10 @@ contextual-combination paper and a revision of the streaming study. The technica
 
 ## The two data contracts
 
-1. **Ingestion contract: `raw → pipeline`** (`chronoscopelab/io/contract.py`): schema, dtypes, missing
-   policy, and the per-source **license verdict** (`chronoscopelab/data/provenance.py`). The export stage
+1. **Ingestion contract: `raw â†’ pipeline`** (`engine/io/contract.py`): schema, dtypes, missing
+   policy, and the per-source **license verdict** (`engine/data/provenance.py`). The export stage
    enforces it: a local-only-licensed source ships aggregate metrics only, never raw values.
-2. **Artifact contract: `pipeline → web`** (`chronoscopelab.trace/v2`, `chronoscope.analysis/v1`,
+2. **Artifact contract: `pipeline â†’ web`** (`chronoscopelab.trace/v2`, `chronoscope.analysis/v1`,
    `chronoscope.streaming/v1` + per-case manifests): mirrored in TypeScript
    (`frontend/src/lib/contract.types.ts`); a schema divergence breaks the build, and
    `scripts/check_artifacts.py` (CI) fails on any byte/ladder/feature drift.
@@ -105,7 +105,7 @@ contextual-combination paper and a revision of the streaming study. The technica
 
 | Path | What lives there |
 |---|---|
-| `data-pipeline/chronoscopelab/` | the Python package: staged pipeline, 10 analysis families, engines (statsforecast, mlforecast, neuralforecast, torch-direct, Chronos/TimesFM/TiRex), provenance registry |
+| `data-pipeline/engine/` | the Python package: staged pipeline, 10 analysis families, engines (statsforecast, mlforecast, neuralforecast, torch-direct, Chronos/TimesFM/TiRex), provenance registry |
 | `data/derived/` | the committed per-case artifacts (trace + analysis + streaming + manifests), seed-deterministic, never hand-edited |
 | `frontend/` | the React SPA (shared `@fasl-work/caos-app-shell`, uPlot workbench, onnxruntime-web live tier) |
 | `docs/` | the wiki: research dossiers, per-family analysis theory, architecture, per-case write-ups, guides |

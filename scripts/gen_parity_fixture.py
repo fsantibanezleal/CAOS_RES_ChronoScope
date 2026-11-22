@@ -19,7 +19,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "data-pipeline"))
 
-from chronoscopelab.model.forecasters import METHODS, normal_ppf  # noqa: E402
+from engine.model.forecasters import METHODS, normal_ppf  # noqa: E402
 
 OUT = ROOT / "frontend" / "src" / "lib" / "__fixtures__" / "parity.json"
 LEVELS = (0.1, 0.5, 0.9)

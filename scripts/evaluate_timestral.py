@@ -130,7 +130,7 @@ def main() -> None:
                "torch_threads": torch.get_num_threads(), "device": "cpu", "timestral_module_sha256": source_hashes}
     binding = {"plan_sha256": digest(PLAN), "reference_sha256": digest(source), "code_sha256": digest(Path(__file__)),
                "scoring_sha256": digest(ROOT / "scripts/check_fresh_reevaluation.py"),
-               "unit_boundary_sha256": digest(ROOT / "data-pipeline/chronoscopelab/io/units.py"), "runtime": runtime}
+               "unit_boundary_sha256": digest(ROOT / "data-pipeline/engine/io/units.py"), "runtime": runtime}
     identity = hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest()
     rows = []
     for model in plan["models"]:

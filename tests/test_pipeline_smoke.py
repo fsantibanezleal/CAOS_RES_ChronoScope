@@ -6,7 +6,7 @@ Pipeline writes are sandboxed suite-wide by the conftest autouse fixture (the co
 the canonical GPU bake; see conftest for the incident record)."""
 import json
 
-from chronoscopelab import pipeline, registry
+from engine import pipeline, registry
 
 
 def _trace(manifest):

@@ -1,7 +1,7 @@
 """Autocorrelation toolkit tests: ground-truth checks against AR(1), MA(1), white noise, and an AR residual."""
 import numpy as np
 
-from chronoscopelab.analysis import autocorrelation as ac
+from engine.analysis import autocorrelation as ac
 
 
 def _white_noise(n=500, seed=0):

@@ -1,6 +1,6 @@
 # Nonlinear dynamics and chaos
 
-Code: [`chronoscopelab/analysis/nonlinear.py`](../../data-pipeline/chronoscopelab/analysis/nonlinear.py)
+Code: [`chronoscopelab/analysis/nonlinear.py`](../../data-pipeline/engine/analysis/nonlinear.py)
 · Tests: [`tests/test_analysis_nonlinear.py`](../../tests/test_analysis_nonlinear.py)
 
 ## Deterministic chaos vs stochastic noise

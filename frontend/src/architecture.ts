@@ -75,7 +75,7 @@ const APP = svg('cs-a1', 470, `
   <text class="sub" x="28" y="276" style="font-weight:600;">RESEARCH AND BUILD WORKFLOW</text>
   ${[
     ['1 research', 'research notes', 'papers, methods,', 'datasets, licenses'],
-    ['2 implement', 'chronoscopelab/', 'engines + the', '10-family toolkit'],
+    ['2 implement', 'ForecastScope + engine/', 'published methods +', 'product orchestration'],
     ['3 train + validate', 'stages/train.py', 'GPU deep + foundation;', 'ONNX export + parity'],
     ['4 bake artifact', 'stages/export.py', 'trace v2 + manifest', '+ streaming, seeded'],
     ['5 build SPA', 'copy-data.mjs + vite', 'overlay artifacts;', 'tsc contract gate'],
@@ -281,7 +281,7 @@ const CONTRACTS = svg('cs-a5', 430, `
 
   <rect class="bx bx-hi" x="258" y="56" width="340" height="120" rx="10"/>
   <text class="ttl" x="270" y="76" style="fill:var(--color-accent);">staged computation with source identities</text>
-  <text class="cd mono" x="270" y="94">chronoscopelab/pipeline.py</text>
+  <text class="cd mono" x="270" y="94">data-pipeline/run.py → engine/pipeline.py</text>
   <text class="mu" x="270" y="116">preprocess → feature_extraction → train → infer</text>
   <text class="mu" x="270" y="134">→ evaluate → export · seeded numerical fits</text>
   <text class="mu" x="270" y="158">source, package and checkpoint hashes retained;</text>

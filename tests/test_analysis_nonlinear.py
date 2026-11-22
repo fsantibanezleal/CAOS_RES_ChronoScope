@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from chronoscopelab.analysis import nonlinear as nl
+from engine.analysis import nonlinear as nl
 
 
 def _logistic(n=3000, r=3.99, x0=0.4):

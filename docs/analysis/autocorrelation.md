@@ -1,6 +1,6 @@
 # Autocorrelation
 
-Code: [`chronoscopelab/analysis/autocorrelation.py`](../../data-pipeline/chronoscopelab/analysis/autocorrelation.py)
+Code: [`chronoscopelab/analysis/autocorrelation.py`](../../data-pipeline/engine/analysis/autocorrelation.py)
 · Tests: [`tests/test_analysis_autocorrelation.py`](../../tests/test_analysis_autocorrelation.py)
 
 ## What autocorrelation is

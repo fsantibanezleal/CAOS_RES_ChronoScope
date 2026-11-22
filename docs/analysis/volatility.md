@@ -1,6 +1,6 @@
 # Volatility and variance-stabilizing transforms
 
-Code: [`chronoscopelab/analysis/volatility.py`](../../data-pipeline/chronoscopelab/analysis/volatility.py)
+Code: [`chronoscopelab/analysis/volatility.py`](../../data-pipeline/engine/analysis/volatility.py)
 · Tests: [`tests/test_analysis_volatility.py`](../../tests/test_analysis_volatility.py)
 
 ## Why the second moment matters

@@ -1,6 +1,6 @@
 # Distribution, normality, and complexity
 
-Code: [`chronoscopelab/analysis/distribution.py`](../../data-pipeline/chronoscopelab/analysis/distribution.py)
+Code: [`chronoscopelab/analysis/distribution.py`](../../data-pipeline/engine/analysis/distribution.py)
 · Tests: [`tests/test_analysis_distribution.py`](../../tests/test_analysis_distribution.py)
 
 ## Two independent questions

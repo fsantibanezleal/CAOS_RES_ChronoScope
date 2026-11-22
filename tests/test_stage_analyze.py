@@ -2,8 +2,8 @@
 import numpy as np
 import pytest
 
-from chronoscopelab import registry
-from chronoscopelab.stages import analyze
+from engine import registry
+from engine.stages import analyze
 
 
 def test_analyze_runs_all_panels_on_a_seasonal_case():

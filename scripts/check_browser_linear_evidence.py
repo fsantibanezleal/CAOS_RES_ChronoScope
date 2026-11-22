@@ -13,6 +13,8 @@ import math
 import statistics
 from pathlib import Path
 
+from source_bindings import implementation_sources
+
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / "docs/research/browser-linear"
 METRICS = ("normalized_mse", "normalized_mae", "coverage", "normalized_width", "normalized_interval_score")
@@ -53,10 +55,7 @@ def validate_directory(directory: Path, seen: set[str], source_root=ROOT) -> dic
     for name, expected in result["artifacts"].items():
         if sha(directory / name) != expected:
             raise ValueError(f"Artifact hash differs: {name}")
-    for name, expected in result["sources"].items():
-        path = (source_root / name).resolve()
-        if not path.is_relative_to(source_root.resolve()) or sha(path) != expected:
-            raise ValueError(f"Source hash differs: {name}")
+    implementation_sources(result["sources"], source_root)
     partitions = json.loads(gzip.decompress((directory / "series.json.gz").read_bytes()))
     expected_splits = ({"calibration": (400, 20261109), "test": (800, 20261110)} if confirmation else
                        {"training": (400, 20260704), "validation": (200, 20261105),
@@ -85,7 +84,9 @@ def validate_directory(directory: Path, seen: set[str], source_root=ROOT) -> dic
         record = test[forecast["id"]]
         history, actual = record["values"][-60:-12], record["values"][-12:]
         scale = statistics.pstdev(history)
-        close(forecast["scale"], scale, "observed scale")
+        if not scale > 0 or not math.isfinite(forecast["scale"]) or not math.isclose(
+                forecast["scale"], scale, rel_tol=1e-9, abs_tol=0):
+            raise ValueError("Evidence mismatch: observed scale")
         if forecast["actual"] != actual or forecast["family"] != record["family"] or set(forecast["methods"]) != methods:
             raise ValueError("Forecast input or methods differ")
         group = roughness_group(history)
@@ -214,7 +215,10 @@ def validate_runtime(directory: Path):
             # The producer promotes its point arrays to float64 for raw-unit mapping.
             expected["point"] = predicted.astype(float) * scale + last
             for key, values in expected.items():
-                np.testing.assert_allclose(values, stored[record["id"]]["methods"][method][key], rtol=1e-10, atol=1e-10)
+                # Absolute tolerance is dimensionless in fitting-scale units.
+                observed = np.asarray(stored[record["id"]]["methods"][method][key])
+                np.testing.assert_allclose((values - last) / scale, (observed - last) / scale,
+                                           rtol=1e-10, atol=1e-10)
         if maximum >= .0001:
             raise ValueError("Independent ONNX/NumPy parity failed")
     return {"study": directory.name, "independent_max_runtime_error": maximum, "calibration_radii_reconstructed": True}

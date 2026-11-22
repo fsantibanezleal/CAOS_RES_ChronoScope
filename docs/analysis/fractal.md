@@ -1,6 +1,6 @@
 # Fractal, multifractal, and long-memory analysis
 
-Code: [`chronoscopelab/analysis/fractal.py`](../../data-pipeline/chronoscopelab/analysis/fractal.py)
+Code: [`chronoscopelab/analysis/fractal.py`](../../data-pipeline/engine/analysis/fractal.py)
 · Tests: [`tests/test_analysis_fractal.py`](../../tests/test_analysis_fractal.py)
 
 ## Self-affinity, memory, and roughness

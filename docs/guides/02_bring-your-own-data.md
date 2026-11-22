@@ -1,7 +1,7 @@
 # Guide: bring your own data
 
 The product is applicable to NEW data, not just the baked cases: that is what makes it a tool. The door is
-CONTRACT 1 (`data-pipeline/chronoscopelab/io/contract.py`).
+CONTRACT 1 (`data-pipeline/engine/io/contract.py`).
 
 1. Put your series in the long format (see [`data/README.md`](../../data/README.md)): a CSV with columns
    `unique_id,ds,y` (plus optional covariate columns). Drop the file under `data/raw/` (git-ignored).

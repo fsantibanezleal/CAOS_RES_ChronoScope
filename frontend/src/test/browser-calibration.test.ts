@@ -14,6 +14,13 @@ const scale = (history: number[]) => {
 };
 
 describe('source-bound prefix-stratified browser intervals', () => {
+  it('adversarial: exactly constant fractional lookbacks cannot acquire a scale from summation error', () => {
+    for (const value of [.1, 1e-14, 1e12]) {
+      const history = Array(48).fill(value);
+      const observed = scale(history);
+      expect(() => calibratedLinearIntervals(history, Array(12).fill(value), observed)).toThrow();
+    }
+  });
   it('matches all 800 independently admitted confirmation paths', () => {
     expect(forecasts).toHaveLength(800);
     for (const forecast of forecasts) {

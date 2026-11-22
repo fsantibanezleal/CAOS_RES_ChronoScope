@@ -1,6 +1,6 @@
 # The staged precompute pipeline
 
-`data-pipeline/chronoscopelab/pipeline.py` orchestrates the **named stages** (frozen names/signatures, rework bodies):
+`data-pipeline/engine/pipeline.py` orchestrates the **named stages** (frozen names/signatures, rework bodies):
 
 | Stage | Module | Does |
 |---|---|---|
@@ -12,7 +12,7 @@
 | evaluate | `stages/evaluate.py` | leakage-safe rolling-origin backtest via preqts (MASE / WQL / coverage) |
 | export | `stages/export.py` | CONTRACT 2: compact trace artifact + analysis artifact + manifest |
 
-Run: `python -m chronoscopelab.pipeline [all|<case_id>] [--seed N]` (or `scripts/precompute.{sh,ps1}`). It writes
+Run: `python data-pipeline/run.py [all|<case_id>] [--seed N]` (or `scripts/precompute.{sh,ps1}`). It writes
 `data/derived/<case>/trace.json` (the forecast replay), `data/derived/<case>/analysis.json` (the diagnostics
 panel), `data/derived/manifests/<case>.json` (which references both), and `index.json`.
 

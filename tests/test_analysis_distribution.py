@@ -1,7 +1,7 @@
 """Distribution + complexity tests: normality verdicts, moments, entropy ordering (regular vs random)."""
 import numpy as np
 
-from chronoscopelab.analysis import distribution as di
+from engine.analysis import distribution as di
 
 
 def _normal(n=1000, seed=0):
