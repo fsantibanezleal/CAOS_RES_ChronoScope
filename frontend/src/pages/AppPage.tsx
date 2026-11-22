@@ -377,6 +377,9 @@ export default function AppPage() {
             </table>
           </div>
           <p className="cs-panel-sub">{stationarityVerdictLabel(bakedStationarity.combined_verdict, es)} · d = {bakedStationarity.recommended_d}</p>
+          <p className="cs-panel-sub">{es
+            ? 'Estas etiquetas resumen las decisiones de las pruebas en esta muestra finita. No rechazar una hipótesis nula no demuestra que sea cierta; los veredictos no prueban la estacionariedad del proceso.'
+            : 'These labels summarize test decisions in this finite sample. Failure to reject a null hypothesis does not prove it true; the verdicts do not prove the process is stationary.'}</p>
         </div>
       )}
       {mode === 'baked' && bakedVolatility && (
