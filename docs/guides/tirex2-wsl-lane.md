@@ -44,7 +44,8 @@ are a few seconds.
 # from the repo, with the pipeline venv:
 $env:CHRONOSCOPE_ENABLE_TIREX_WSL = "1"
 # (plus the usual GPU/foundation gates for the full ladder)
-python data-pipeline/run.py           # all cases gain TiRex-2 as the 19th method
+python data-pipeline/run.py --output-root (Join-Path $env:CAOS_TEMP_ROOT 'tirex-candidate')
+# New external study; complete-roster admission must pass before promotion.
 ```
 
 Env knobs: `CHRONOSCOPE_ENABLE_TIREX_WSL` (on/off), `CHRONOSCOPE_TIREX_WSL_DISTRO` (default `Ubuntu-24.04`),

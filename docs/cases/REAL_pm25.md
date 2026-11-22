@@ -1,7 +1,7 @@
 # REAL_pm25 - Beijing PM2.5 (hourly air quality)
 
 Source: **UCI Beijing PM2.5** (CC-BY-4.0, public-safe). Loader:
-[`chronoscopelab/data/loaders.py`](../../data-pipeline/engine/data/loaders.py) `load_uci_beijing_pm25`.
+[`engine/data/loaders.py`](../../data-pipeline/engine/data/loaders.py) `load_uci_beijing_pm25`.
 Committed sample: `data/examples/beijing_pm25_sample.csv` (480 hourly points, one meter-window from 2011).
 
 ## What it teaches

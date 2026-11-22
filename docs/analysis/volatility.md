@@ -1,6 +1,6 @@
 # Volatility and variance-stabilizing transforms
 
-Code: [`chronoscopelab/analysis/volatility.py`](../../data-pipeline/engine/analysis/volatility.py)
+Code: [`engine/analysis/volatility.py`](../../data-pipeline/engine/analysis/volatility.py)
 · Tests: [`tests/test_analysis_volatility.py`](../../tests/test_analysis_volatility.py)
 
 ## Why the second moment matters
@@ -59,8 +59,11 @@ Two ways to choose $\lambda$:
   the right choice for seasonal series. Guerrero 1993, DOI
   [10.1002/for.3980120104](https://doi.org/10.1002/for.3980120104).
 
-Box-Cox requires $y > 0$; when the series has non-positive values ChronoScope shifts it by $1 - \min(y)$ and
-**records the shift** so the transform is invertible and honest.
+Box-Cox requires positive transformed inputs. For nonpositive observations, the current provider uses the
+observed range as its reference scale, or the absolute minimum for an exactly constant negative series,
+and shifts by that scale minus the minimum. The shift is recorded for inversion. An all-zero input or an
+unrepresentable positive shift is refused; no arbitrary one-unit offset is introduced. Historical artifacts
+retain their recorded original transform and source identity.
 
 ## What this is, and is NOT
 

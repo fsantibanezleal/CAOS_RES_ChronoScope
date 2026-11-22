@@ -1,6 +1,6 @@
 # Data provenance and licensing
 
-Code: [`chronoscopelab/data/provenance.py`](../../data-pipeline/engine/data/provenance.py)
+Code: [`engine/data/provenance.py`](../../data-pipeline/engine/data/provenance.py)
 · Tests: [`tests/test_data_provenance.py`](../../tests/test_data_provenance.py),
 [`tests/test_data_export_guard.py`](../../tests/test_data_export_guard.py)
 
@@ -41,7 +41,7 @@ The verdicts are transcribed from the verified license dossier (`wip/chronoscope
 
 ## How the enforcement works
 
-1. Each `Case` carries a `source` id into `chronoscopelab.data.provenance.SOURCES`.
+1. Each `Case` carries a `source` id into `engine.data.provenance.SOURCES`.
 2. The **manifest** records a `provenance` block: `{source, license, citation, public_artifact_ok}`.
 3. The **export stage** computes `redact_raw = not public_artifact_ok(source)`. When true:
    - the **trace** omits `history`, `actual`, and every method's `point`/`lower`/`upper` (the raw excerpt and

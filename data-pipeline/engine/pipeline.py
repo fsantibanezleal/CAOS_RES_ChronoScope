@@ -1,8 +1,8 @@
 """The offline pipeline orchestrator + CLI (ADR-0057). Runs the named stages per case, applies CONTRACT 1,
 writes the compact artifact + manifest (CONTRACT 2) and a flat index.json.
 
-    python data-pipeline/run.py                 # all cases
-    python data-pipeline/run.py SEAS_hourly --seed 7
+    python data-pipeline/run.py --output-root <absolute-external-directory>
+    python data-pipeline/run.py SEAS_hourly --seed 7 --output-root <absolute-external-directory>
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from .io.formats import write_json
 from .model.forecasters import forecast_all
 from .stages import analyze, evaluate, export, feature_extraction, infer, streaming, train
 
-# data-pipeline/engine/pipeline.py -> parents[2] = repo root (works under `pip install -e .` too)
+# Product-specific path tooling; reusable methods come from installed providers.
 REPO_ROOT = Path(__file__).resolve().parents[2]
 # CHRONOSCOPE_DERIVED_DIR redirects the output tree (tests, CI smoke). The committed data/derived is the
 # CANONICAL GPU bake (all 19 methods incl. the TiRex-2 WSL lane); anything that regenerates on a lighter
@@ -32,7 +32,25 @@ STAGES = ("preprocess", "analyze", "feature_extraction", "train", "infer", "eval
 QUANTILE_LEVELS = (0.1, 0.5, 0.9)
 
 
+def _require_external_outputs() -> None:
+    for label, value in (("derived", DERIVED), ("manifests", MANIFESTS), ("models", MODELS)):
+        path = Path(value)
+        if not path.is_absolute() or path.resolve().is_relative_to(REPO_ROOT.resolve()):
+            raise ValueError(f"Scientific {label} output must be absolute and outside the source checkout")
+
+
+def _configure_outputs(output_root: Path) -> None:
+    if not output_root.is_absolute() or output_root.resolve().is_relative_to(REPO_ROOT.resolve()):
+        raise ValueError("Scientific output root must be absolute and outside the source checkout")
+    global DERIVED, MANIFESTS, MODELS
+    DERIVED = output_root.resolve() / "data" / "derived"
+    MANIFESTS = DERIVED / "manifests"
+    MODELS = output_root.resolve() / "models"
+    _require_external_outputs()
+
+
 def _train_selector(seed: int) -> dict:
+    _require_external_outputs()
     # Learn the global method ranking from the SYNTHETIC training cases only (leakage-safe: real cases
     # are scored on their own held-out windows, never used to pick the global default).
     specs = [registry.build_series(c, seed=seed) for c in registry.list_cases()
@@ -41,6 +59,7 @@ def _train_selector(seed: int) -> dict:
 
 
 def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> dict:
+    _require_external_outputs()
     case = registry.get_case(case_id)
     if selector is None:
         selector = _train_selector(seed)
@@ -69,8 +88,8 @@ def precompute(case_id: str, seed: int = 42, selector: dict | None = None) -> di
     from .engines import tirex2_wsl_engine
     result, eval_metrics = tirex2_wsl_engine.merge_into(result, eval_metrics, spec, QUANTILE_LEVELS)
 
-    # The gate's run_ms measures the LIVE-lane (classical, browser) path, not the offline heavy engines
-    # (statsforecast) that never run live. This keeps the live/precompute verdict honest.
+    # Retain the Python reference-kernel timing for the legacy resource fields.
+    # Export still classifies this roster offline; browser timing is measured separately.
     t_live = time.perf_counter()
     forecast_all(history, spec.seasonality, spec.horizon, QUANTILE_LEVELS)
     run_ms = (time.perf_counter() - t_live) * 1000.0
@@ -97,7 +116,12 @@ def main() -> None:
     ap = argparse.ArgumentParser(prog="engine.pipeline")
     ap.add_argument("case", nargs="?", default="all", help="a case id, or 'all'")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--output-root", required=True, type=Path, help="Absolute external candidate directory")
     args = ap.parse_args()
+    try:
+        _configure_outputs(args.output_root)
+    except ValueError as error:
+        ap.error(str(error))
     from . import gpu
     print(gpu.summary())  # record the compute device used for this bake
     if args.case == "all":

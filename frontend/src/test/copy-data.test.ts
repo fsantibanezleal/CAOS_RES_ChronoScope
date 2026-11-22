@@ -52,7 +52,7 @@ test('adversarial: prebuild removes orphaned public cases and copies the canonic
   }
 });
 
-test('adversarial: prebuild refuses missing canonical inputs instead of publishing a cached corpus', () => {
+function refusesMissingCanonical(missing: 'directory' | 'index') {
   const tempBase = resolve(tmpdir());
   const root = mkdtempSync(join(tempBase, 'chronoscope-copy-data-'));
   try {
@@ -60,14 +60,24 @@ test('adversarial: prebuild refuses missing canonical inputs instead of publishi
     const cached = join(front, 'public/data/cached.json');
     mkdirSync(dirname(cached), { recursive: true });
     copyDataFixture(front);
+    if (missing === 'index') mkdirSync(join(root, 'data/derived'), { recursive: true });
     writeFileSync(cached, '{"old":true}');
     assert.throws(() => execFileSync(process.execPath, [join(front, 'copy-data.mjs')], { cwd: front, stdio: 'pipe' }),
       error => typeof error === 'object' && error !== null && 'status' in error && error.status !== 0
-        && 'stderr' in error && String(error.stderr).includes('manifests/index.json is missing'));
+        && 'stderr' in error && String(error.stderr).includes(missing === 'directory'
+          ? 'Canonical data/derived is missing' : 'manifests/index.json is missing'));
     assert.equal(readFileSync(cached, 'utf8'), '{"old":true}');
   } finally {
     const rel = relative(tempBase, resolve(root));
     assert.ok(rel && !isAbsolute(rel) && rel !== '..' && !rel.startsWith(`..${sep}`));
     rmSync(root, { recursive: true, force: true });
   }
+}
+
+test('adversarial: prebuild refuses missing canonical inputs instead of publishing a cached corpus', () => {
+  refusesMissingCanonical('directory');
+});
+
+test('adversarial: prebuild refuses a missing canonical index instead of publishing a cached corpus', () => {
+  refusesMissingCanonical('index');
 });

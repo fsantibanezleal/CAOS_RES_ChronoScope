@@ -4,7 +4,7 @@ ChronoScope consumes the separately published `forecastscope` distribution. The
 exact dependency version is pinned in the runtime requirements. The product root
 `pyproject.toml` contains tooling configuration and declares no Python project or
 build backend. Run the product-specific pipeline by path with
-`python data-pipeline/run.py`; there is no local distribution to install.
+`python data-pipeline/run.py --output-root <absolute-external-directory>`; there is no local distribution to install.
 
 The `data-pipeline/engine` tree owns case selection, source-data provenance,
 checkpoint and runtime policy, stage orchestration, artifact schemas and export.
@@ -35,8 +35,8 @@ source-bound archive. Neither archive is imported by product admission.
 The retained case inventory, combination results, corpus study and browser
 calibration outputs remain historical results. Carrying and independently scoring
 those payloads during release does not mean that today's installed methods fitted
-them again. To create genuinely new forecasts, set `CHRONOSCOPE_DERIVED_DIR` to an
-external output directory before invoking the path pipeline, retain the actual
+them again. To create genuinely new forecasts, invoke the path pipeline with the required `--output-root` pointing to an
+absolute external candidate directory, retain the actual
 provider and checkpoint revisions, and admit the new result as a separate study.
 The shipped canonical data must never be overwritten by a reduced-runtime bake.
 

@@ -1,67 +1,11 @@
-# Framework: mlforecast + LightGBM (Nixtla)
+# MLForecast and LightGBM adapter
 
-The machine-learning tier of ChronoScope's method ladder. Used by
-`data-pipeline/engine/engines/lightgbm_engine.py`.
+`data-pipeline/engine/engines/lightgbm_engine.py` fits one recursive LightGBM point model using [MLForecast](https://github.com/Nixtla/mlforecast). [LightGBM](https://github.com/microsoft/LightGBM) supplies the gradient-boosted regression trees. This per-prefix configuration is distinct from a global model trained across a competition collection; a result from another implementation or task is not transferred to this adapter.
 
-## What and why
+The candidate lags are 1, 2 and 3, plus the seasonal lag, one beyond it and twice it where the supplied history permits. The adapter filters unusable lags and caps its retained context at 500 observations. Its historical rolling schedule permits six origins. These are configuration choices, not evidence that a particular lag set or fitting budget is optimal.
 
-Gradient boosting on lagged and date features is the approach that won the M5 competition and remains the
-standard ML baseline any forecasting atlas must include. [LightGBM](https://github.com/microsoft/LightGBM)
-(MIT) is the gradient-boosting library; [mlforecast](https://github.com/Nixtla/mlforecast) (Nixtla,
-Apache-2.0) supplies the time-series feature machinery (lag features, target transforms) and the recursive
-multi-step forecasting loop, so the model sees a proper tabular design matrix instead of a hand-rolled one.
+Prediction proceeds recursively, using earlier predicted point values as later lag inputs. Gaussian endpoints use the in-prefix one-step residual standard deviation and square-root lead widening through the shared provider helper. This is a lightweight uncertainty approximation. It does not fit independent conditional quantile models or establish calibrated coverage on authentic future data.
 
-This tier sits above the classical numpy ladder and the statistical (statsforecast) tier: instead of a fixed
-functional form, it learns a nonlinear map from recent lags to the next value.
+The maintained experiment records its exact MLForecast, LightGBM and numerical dependencies. Native LightGBM/pandas computation remains offline; the deployed browser's TypeScript and ONNX paths do not import these libraries. Unavailable optional dependencies can reduce an exploratory local roster, but they cannot silently replace a method or overwrite the admitted complete study.
 
-## Why offline-only (not the live lane)
-
-LightGBM is a native library and mlforecast pulls pandas; neither is Pyodide-safe, so this engine runs only in
-the offline `.venv-pipeline` and is never imported by the browser live lane (which uses the pure-numpy classical
-core). The engine module imports lazily and the pipeline degrades gracefully to the classical + statistical
-tiers if these deps are absent.
-
-## Install
-
-Pinned in `data-pipeline/requirements.txt`:
-
-```
-mlforecast==1.0.31
-lightgbm==4.6.0
-pandas==2.3.3
-```
-
-## How ChronoScope uses it
-
-For a forecast origin, the engine builds lag features from the seasonality `m` (base lags 1, 2, 3 plus `m`,
-`m+1`, `2m` when seasonal), fits a single LightGBM point model with mlforecast, and forecasts recursively:
-
-```python
-from mlforecast import MLForecast
-from lightgbm import LGBMRegressor
-mlf = MLForecast(models={"lgb": LGBMRegressor(n_estimators=100, num_leaves=31, learning_rate=0.05)},
-                 freq=1, lags=[1, 2, 3, m, m + 1, 2 * m])
-mlf.fit(df, fitted=True)                 # fitted=True to get in-sample predictions
-point = mlf.predict(h)["lgb"].to_numpy()
-```
-
-Prediction intervals come from the in-sample one-step residual sigma (`y - fitted`), widened by sqrt(step)
-through the shared `gaussian_quantiles` helper, exactly as the classical ladder does. This is deliberately
-simpler and faster than fitting three quantile-objective models and recursing each: recursive quantile models
-drift because each feeds its own (biased) prediction back as a lag. A native quantile-objective variant is a
-documented future refinement.
-
-## Configuration notes and gotchas
-
-- Lags must be shorter than the usable history; the engine filters lags to those that fit the context.
-- The backtest refits per origin, so LightGBM gets a small window budget (`max_windows=6`) and a context cap
-  (`ctx_cap=500`) to keep the pipeline runtime practical.
-- `verbosity=-1` silences LightGBM's per-iteration logging; mlforecast may warn about missing frequency
-  metadata when passed bare integer timestamps (cosmetic).
-
-## Result (this slice)
-
-LightGBM is competitive on the seasonal cases (MASE near the seasonal-naive baseline) and, like every method,
-is scored by the preqts rolling backtest, never by a hand-typed number. On the built-in cases the auto-tuned
-seasonal statistical models (AutoARIMA/AutoETS) still tend to win; the ML tier's advantage grows with more
-data, covariates, and cross-series learning, which later slices explore.
+Inspect the matched final-block or external-collection results under their own protocols. Historical rolling rows, common final targets and cross-series model-selection experiments have different sampling units and fitting budgets. Their errors and warnings are retained separately. More training data, covariates or cross-series fitting are hypotheses for another specified experiment rather than demonstrated gains of this implementation.

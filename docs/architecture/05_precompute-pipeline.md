@@ -12,13 +12,14 @@
 | evaluate | `stages/evaluate.py` | leakage-safe rolling-origin backtest via preqts (MASE / WQL / coverage) |
 | export | `stages/export.py` | CONTRACT 2: compact trace artifact + analysis artifact + manifest |
 
-Run: `python data-pipeline/run.py [all|<case_id>] [--seed N]` (or `scripts/precompute.{sh,ps1}`). It writes
-`data/derived/<case>/trace.json` (the forecast replay), `data/derived/<case>/analysis.json` (the diagnostics
-panel), `data/derived/manifests/<case>.json` (which references both), and `index.json`.
+To make new forecasts, invoke `python data-pipeline/run.py [all|<case_id>] [--seed N] --output-root <absolute-external-directory>`. The CLI routes derived artifacts, manifests and the fitted selector together into that external root and refuses in-checkout outputs before fitting. The output contains traces, analysis panels,
+case manifests and an index. Registering a new delivered case requires full source and roster admission;
+a reduced exploratory run must not overwrite the retained public corpus. The standard local generation
+workflow instead carries and validates the sealed studies in an external candidate before explicit promotion.
 
 ## The `analyze` stage (the "understand the series" half of CONTRACT 2)
 
-`stages/analyze.py` runs `chronoscopelab.analysis` (the 10 diagnostic families: stationarity, autocorrelation,
+`stages/analyze.py` runs `engine.analysis` (the 10 diagnostic families: stationarity, autocorrelation,
 seasonality, filters, change-points, volatility, distribution/complexity, fractal/multifractal, nonlinear
 dynamics, causality) on the case series and bakes one JSON-ready `analysis.json` per case. The web App's
 Understand workbench reads this artifact, and the browser recomputes a live subset to match it (parity).

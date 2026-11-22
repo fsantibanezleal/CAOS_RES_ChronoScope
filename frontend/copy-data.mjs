@@ -16,8 +16,19 @@ if (relative(realpathSync(HERE), realpathSync(PUB)) !== 'public' ||
   throw new Error('Generated data cleanup must stay inside frontend/public/data');
 }
 
-// The base owns the data overlay. The product adds admitted research documents through its hook.
-await import('./scripts/copy-data.mjs');
+// This release serves its admitted corpus. A machine's global raw-data setting
+// must not redirect the public research overlay to another tree.
+const canonical = join(HERE, '..', 'data', 'derived');
+if (!existsSync(canonical)) throw new Error('Canonical data/derived is missing');
+const previousDataRoot = process.env.CAOS_DATA_ROOT;
+process.env.CAOS_DATA_ROOT = canonical;
+try {
+  // The base owns declared-file copying; the product hook adds admitted research.
+  await import('./scripts/copy-data.mjs');
+} finally {
+  if (previousDataRoot === undefined) delete process.env.CAOS_DATA_ROOT;
+  else process.env.CAOS_DATA_ROOT = previousDataRoot;
+}
 
 // The generated ONNX metadata is imported by the browser and also published beside the ONNX weights.
 const modelMeta = join(HERE, 'src', 'lib', 'nlinearMeta.json');

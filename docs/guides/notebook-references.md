@@ -7,12 +7,12 @@ The helper validates pinned package versions and checkpoint revisions/hashes aga
 On Windows, configure the Linux reference interpreter and a native Linux checkpoint cache before executing the curriculum:
 
 ```powershell
-$env:CAOS_VENVS_ROOT = 'D:/_Venvs'
-$env:CAOS_TEMP_ROOT = 'D:/_Temp'
-$env:CHRONOSCOPE_REFERENCE_PYTHON = '/root/chronoscope-eval-20261101/bin/python'
-$env:CHRONOSCOPE_REFERENCE_CACHE = '/root/.cache/huggingface/hub'
+$env:CAOS_VENVS_ROOT = '<absolute-environments-root>'
+$env:CAOS_TEMP_ROOT = '<absolute-temporary-root>'
+$env:CHRONOSCOPE_REFERENCE_PYTHON = '<absolute-Linux-reference-interpreter>'
+$env:CHRONOSCOPE_REFERENCE_CACHE = '<absolute-native-Linux-checkpoint-cache>'
 python scripts/run_notebooks.py
-python scripts/run_notebooks.py --check --tmp D:/_Temp
+python scripts/run_notebooks.py --check --tmp $env:CAOS_TEMP_ROOT
 ```
 
 The interpreter path is explicit machine configuration. Initialize product and lesson environments with the repository setup workflow. Provision the Linux interpreter using exact versions in the retained fresh-reference runtime and current ForecastScope pin in `notebooks/requirements.txt`. The TiRex lane requires its declared CUDA/compiler toolchain and Ninja 1.13.0; the helper locates the executable installed by the Ninja wheel. It bounds compiler and CPU workers and releases memory between methods.

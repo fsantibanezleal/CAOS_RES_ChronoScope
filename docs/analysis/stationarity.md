@@ -1,6 +1,6 @@
 # Stationarity and unit roots
 
-Code: [`chronoscopelab/analysis/stationarity.py`](../../data-pipeline/engine/analysis/stationarity.py)
+Code: [`engine/analysis/stationarity.py`](../../data-pipeline/engine/analysis/stationarity.py)
 · Tests: [`tests/test_analysis_stationarity.py`](../../tests/test_analysis_stationarity.py)
 
 ## What stationarity is, and why forecasting needs it

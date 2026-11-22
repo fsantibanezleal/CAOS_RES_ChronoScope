@@ -100,7 +100,10 @@ def validate(stage):
         raise ValueError("Comparison has stale trace bindings")
     if set(document["code_sha256"]) != set(SOURCE_FILES):
         raise ValueError("Comparison has incomplete implementation bindings")
-    implementation_sources(document["code_sha256"], ROOT)
+    try:
+        implementation_sources(document["code_sha256"], ROOT)
+    except ValueError as error:
+        raise ValueError("Comparison has stale implementation bindings: " + str(error)) from error
     expected_inputs = {p.relative_to(stage).as_posix(): digest(p) for p in sorted((stage / "data/examples").glob("*.csv"))}
     if document["input_sha256"] != expected_inputs:
         raise ValueError("Comparison has stale source input bindings")

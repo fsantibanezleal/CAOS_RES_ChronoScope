@@ -13,11 +13,11 @@ This folder is governed by the two data contracts of ADR-0057.
 
 `examples/electricity_sample.csv` is a real series: one UCI ElectricityLoadDiagrams client (MT_010)
 summed in groups of four 15-minute power readings, 480 hourly-labelled values (CC BY 4.0). The values are sums of readings in kW, without a conversion to energy. The heavier datasets (GIFT-Eval, M-competition,
-LTSF, more UCI/Kaggle series) live in the vault at `E:\_Datos\chronoscope` and are staged, never committed.
+LTSF, more UCI/Kaggle series) live under the configured external `CAOS_DATA_ROOT` and are staged, never committed.
 
 ## CONTRACT 1: ingestion (raw to pipeline), the bring-your-own-data gate
 
-Defined in `data-pipeline/chronoscopelab/io/contract.py`. Long-format schema, one row per (series, timestamp):
+Defined in `data-pipeline/engine/io/contract.py`. Long-format schema, one row per (series, timestamp):
 
 | Column | Type | Notes |
 |---|---|---|

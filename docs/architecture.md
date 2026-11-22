@@ -1,6 +1,6 @@
 # Architecture
 
-- [01: overview](architecture/01_overview.md), the archetype, the lanes, the flow, frozen-vs-rework
+- [01: overview](architecture/01_overview.md), execution lanes, provider ownership and artifact flow
 - [02: determinism + trace](architecture/02_determinism-and-trace.md)
 - [03: the live/precompute gate](architecture/03_the-gate.md)
 - [04: browser computation](architecture/04_live-computation.md)

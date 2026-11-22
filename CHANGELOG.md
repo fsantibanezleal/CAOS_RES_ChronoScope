@@ -6,7 +6,7 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`
 ## [0.27.000] - 2026-11-22
 
 - Adopt shell v0.26.002 and repository template v0.15.014, preserving product-specific readiness and research admission.
-- Execute reusable diagnostics, forecasts and combinations through published ForecastScope 0.1.3; preserve and verify historical implementation bytes.
+- Execute reusable diagnostics, forecasts and combinations through published ForecastScope 0.1.4; preserve and verify historical implementation bytes.
 - Correct observable-unit handling, exact-constant boundaries and scientific float transport; audit actual TypeScript/ONNX execution and numerical literals.
 - Extend the bilingual curriculum to eighteen executed notebooks with seven actual reference models, browser training/calibration and whole-series uncertainty calculations.
 - Update the technical report with provider identities, normalized ridge equations, reproducibility boundaries and the current curriculum.
