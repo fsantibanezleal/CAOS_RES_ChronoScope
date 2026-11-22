@@ -17,6 +17,7 @@ export function calibratedLinearIntervals(history: number[], point: number[], sc
   if (history.length < c.lookback || point.length !== c.horizon || !history.every(Number.isFinite)
       || !point.every(Number.isFinite) || !Number.isFinite(scale) || scale <= 0) throw new Error('Invalid calibrated forecast input');
   const window = history.slice(-c.lookback);
+  if (window.every(value => value === window[0])) throw new Error('Unavailable or inconsistent observed scale');
   const mean = window.reduce((a, b) => a + b, 0) / window.length;
   const variance = window.reduce((sum, value) => sum + (value - mean) ** 2, 0) / window.length;
   if (!Number.isFinite(variance) || variance <= 0 || Math.abs(Math.sqrt(variance) / scale - 1) > 1e-9) {

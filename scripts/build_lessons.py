@@ -4,9 +4,11 @@ Execution and outputs belong to run_notebooks.py, never this authoring step.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import re
+from build_lesson_quality import revise
 from pathlib import Path
 
 from build_baseline_lesson import build as build_baseline
@@ -28,12 +30,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 root = next(p for p in Path.cwd().parents if (p / "VERSION").is_file() and (p / "data-pipeline").is_dir())
 sys.path.insert(0, str(root / "data-pipeline"))
-from chronoscopelab.model.forecasters import seasonal_naive, ses, holt, holt_winters, theta
-from chronoscopelab.model.forecasters import gaussian_quantiles
-from chronoscopelab.model.context_memory import fit_context_memory
-from chronoscopelab.reevaluation import metrics
-from chronoscopelab.engines.statsforecast_engine import StatsforecastForecaster
-from chronoscopelab.engines.lightgbm_engine import LightGBMForecaster
+from engine.model.forecasters import seasonal_naive, ses, holt, holt_winters, theta
+from engine.model.forecasters import gaussian_quantiles
+from engine.model.context_memory import fit_context_memory
+from engine.reevaluation import metrics
+from engine.engines.statsforecast_engine import StatsforecastForecaster
+from engine.engines.lightgbm_engine import LightGBMForecaster
 plt.rcParams.update({"figure.figsize": (8, 3), "figure.dpi": 95, "font.size": 10})
 plt.rcParams["svg.hashsalt"] = "chronoscope-lessons"
 import importlib.metadata
@@ -178,13 +180,37 @@ for name, score in frozen_scores:
     print(name, "MASE", round(score["mase"], 4), "coverage", round(score["coverage"], 4))
 ''',
     "frozen_plot": '''# A score-width view preserves the point/interval tradeoff on this one case.
-fig, ax = plt.subplots()
-for name, score in frozen_scores:
-    ax.scatter(score["mase"], score["mean_width"])
-    ax.annotate(name, (score["mase"], score["mean_width"]), fontsize=7)
+fig, ax = plt.subplots(figsize=(10, 4.8))
+markers = ("o", "s", "^", "D", "v", "P", "X", "*", "<", ">")
+for index, (name, score) in enumerate(frozen_scores):
+    ax.scatter(score["mase"], score["mean_width"], label=name, s=60,
+               marker=markers[index % len(markers)], color=plt.get_cmap("tab10")(index),
+               edgecolors="black", linewidths=0.3)
 ax.set(xlabel="Final-block MASE", ylabel="Mean interval width")
+ax.margins(x=0.12, y=0.15)
+ax.legend(loc="center left", bbox_to_anchor=(1.02, 0.5), title="Retained implementation", fontsize=8)
 fig.tight_layout()
 plt.show()
+''',
+    "lead_sensitivity": '''# Compare early and late errors within one reserved block.
+lead_groups = np.array_split(np.arange(h), 2)
+scale = np.mean(np.abs(history[m:] - history[:-m]))
+paths = {"SeasonalNaive": naive, "AutoETS": ets_q[:, 1], "AutoTheta": auto_theta_q[:, 1],
+         "AutoARIMA": arima_q[:, 1], "LightGBM": tree_q[:, 1]}
+scores = np.array([[np.mean(np.abs(actual[group] - path[group])) / scale
+                    for group in lead_groups] for path in paths.values()])
+fig, ax = plt.subplots()
+positions = np.arange(len(paths))
+for index, group in enumerate(lead_groups):
+    ax.bar(positions + (index - 0.5) * 0.34, scores[:, index], width=0.34,
+           label=f"Leads {group[0] + 1} to {group[-1] + 1}")
+ax.set_xticks(positions, list(paths))
+ax.set(ylabel="Scaled absolute error")
+ax.legend()
+fig.tight_layout()
+plt.show()
+for name, pair in zip(paths, scores, strict=True):
+    print(name, "early and late", np.round(pair, 4))
 ''',
     "context": '''# Fit the fixed context kernel using only completed targets within the history.
 context_fit = fit_context_memory(history, m, h, mode="context")
@@ -201,7 +227,7 @@ uniform_fit = fit_context_memory(history, m, h, mode="uniform")
 print("Equal weights:", np.round(uniform_fit.weights, 4))
 ''',
     "weight_plot": '''# Associate weights with expert identities rather than an unlabeled vector.
-from chronoscopelab.model.context_memory import EXPERT_NAMES
+from engine.model.context_memory import EXPERT_NAMES
 fig, ax = plt.subplots()
 x = np.arange(len(EXPERT_NAMES))
 ax.bar(x - 0.2, context_fit.weights, width=0.2, label="ContextMemory")
@@ -234,14 +260,63 @@ plt.show()
 for name, value in zip(names, means, strict=True):
     print(name, "mean MASE", f"{value:.4f}")
 ''',
+    "case_differences": '''# Pair the two rules within each case before aggregating the differences.
+differences = []
+for case in comparison["cases"]:
+    by_name = {row["name"]: row["metrics"]["mase"] for row in case["methods"]}
+    differences.append(by_name["ContextMemory"] - by_name["RecencyMean"])
+delta = np.asarray(differences)
+fig, ax = plt.subplots()
+positions = np.arange(1, len(delta) + 1)
+ax.bar(positions, delta, color=np.where(delta < 0, "#267a6d", "#a65132"))
+ax.axhline(0, color="black", linewidth=0.8)
+ax.set(xlabel="Case in the published inventory", ylabel="ContextMemory minus RecencyMean MASE")
+ax.set_xticks(positions)
+fig.tight_layout()
+plt.show()
+print("Lower, tied, higher:", int(sum(delta < 0)), int(sum(delta == 0)), int(sum(delta > 0)))
+print("Mean and median difference:", np.round([delta.mean(), np.median(delta)], 6))
+''',
+    "electricity_phase": '''# Compare daily phase and a weekly seasonal reference on the same reserved hours.
+electricity = np.loadtxt(root / "data/examples/electricity_sample.csv", delimiter=",", skiprows=1, usecols=2)
+origins = np.arange(312, 369, 7)
+scores, reference_errors = [], []
+for origin in origins:
+    prefix = electricity[:origin]
+    targets = electricity[origin:origin + 24]
+    daily, _ = seasonal_naive(prefix, 24, 24)
+    weekly, _ = seasonal_naive(prefix, 168, 24)
+    smooth, _ = holt_winters(prefix, 24, 24)
+    reference_errors.append(np.max(np.abs(daily - prefix[origin - 24:origin])))
+    scale = np.mean(np.abs(prefix[24:] - prefix[:-24]))
+    scores.append([np.mean(np.abs(targets - path)) / scale for path in (daily, weekly, smooth)])
+scores = np.asarray(scores)
+fig, ax = plt.subplots()
+for j, (name, style) in enumerate((("SeasonalNaive 24", "o-"), ("SeasonalNaive 168", "s--"), ("HoltWinters 24", "^:"))):
+    ax.plot(origins, scores[:, j], style, label=name)
+ax.set(xlabel="Cutoff (hourly-labelled observation)", ylabel="MASE using lag 24")
+ax.legend()
+fig.tight_layout()
+plt.show()
+print("Largest difference from direct seasonal indexing:", max(reference_errors))
+print("Cutoff  /  next daily phase  /  daily MASE  /  weekly MASE  /  smoothed MASE")
+for origin, row in zip(origins, scores, strict=True):
+    print(f"{origin:6d} {origin % 24:9d} " + " ".join(f"{value:10.4f}" for value in row))
+''',
+
 }
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--only", choices=NAMES)
+    args = parser.parse_args()
     pins = [s for s in (ROOT / "notebooks/requirements.txt").read_text().splitlines() if s and not s.startswith("#")]
     for lang in ("en", "es"):
         index = []
         for level, name in enumerate(NAMES, 1):
+            if args.only and name != args.only:
+                continue
             if name == "01-baseline":
                 title = build_baseline(lang)
                 index.append(f"| {level} | [{title}]({TOPIC}/{name}.ipynb) |")
@@ -264,15 +339,22 @@ def main():
             meta = {"language": lang, "topic": TOPIC, "level": level, "title": title,
                     "packages": pins, "data": ["data/derived/TRND_seasonal/trace.json", "data/derived/reevaluation.json"],
                     "sources": SOURCES, "beyond": ["BS-1"] if level == 4 else []}
+            if name == "02-seasonal-phase":
+                meta["data"].append("data/examples/electricity_sample.csv")
+                meta["sources"] = [*meta["sources"], "https://doi.org/10.24432/C58C86"]
             if level == 3:
                 meta["methods"] = ["ST-1", "ST-2", "ST-3", "ST-4"]
             doc = {"nbformat": 4, "nbformat_minor": 5, "metadata": {"caos": meta,
                    "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
                    "language_info": {"name": "python"}}, "cells": cells}
+            doc = revise(doc, f"{TOPIC}/{name}.ipynb")
+            title = doc["metadata"]["caos"]["title"]
             path = ROOT / f"notebooks/{lang}/{TOPIC}/{name}.ipynb"
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
             index.append(f"| {level} | [{title}]({TOPIC}/{name}.ipynb) |")
+        if args.only:
+            continue
         heading = "Forecast decisions" if lang == "en" else "Decisiones de pronóstico"
         (ROOT / f"notebooks/{lang}/README.md").write_text(
             f"# {heading}\n\n| Level | Lesson |\n|---|---|\n" + "\n".join(index) + "\n", encoding="utf-8")

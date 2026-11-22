@@ -75,7 +75,7 @@ const APP = svg('cs-a1', 470, `
   <text class="sub" x="28" y="276" style="font-weight:600;">RESEARCH AND BUILD WORKFLOW</text>
   ${[
     ['1 research', 'research notes', 'papers, methods,', 'datasets, licenses'],
-    ['2 implement', 'chronoscopelab/', 'engines + the', '10-family toolkit'],
+    ['2 implement', 'ForecastScope + engine/', 'published methods +', 'product orchestration'],
     ['3 train + validate', 'stages/train.py', 'GPU deep + foundation;', 'ONNX export + parity'],
     ['4 bake artifact', 'stages/export.py', 'trace v2 + manifest', '+ streaming, seeded'],
     ['5 build SPA', 'copy-data.mjs + vite', 'overlay artifacts;', 'tsc contract gate'],
@@ -188,14 +188,14 @@ const FLOW = svg('cs-a3', 430, `
   <text class="mu" x="424" y="180">every chart: zoom/pan/crosshair/brush; the legend rail solos a curve; theme-aware</text>
 
   <rect class="grp" x="20" y="222" width="832" height="184" rx="10"/>
-  <text class="sub" x="34" y="242" style="font-weight:600;">HOW THE BUILD STAYS HONEST</text>
+  <text class="sub" x="34" y="242" style="font-weight:600;">BUILD AND DATA CHECKS</text>
   <rect class="bx bx-store" x="34" y="256" width="250" height="130" rx="9"/>
   <text class="ttl" x="46" y="276">artifact overlay</text>
   <text class="cd mono" x="46" y="294">frontend/copy-data.mjs</text>
   <text class="mu" x="46" y="314">prebuild copies data/derived +</text>
   <text class="mu" x="46" y="330">manifests into public/; the SPA</text>
   <text class="mu" x="46" y="346">fetches them (never hand-typed)</text>
-  <text class="mu" x="46" y="370">+ inlines the pyodide sources</text>
+  <text class="mu" x="46" y="370">+ binds the graph to its calibration</text>
   <rect class="bx bx-warn" x="300" y="256" width="250" height="130" rx="9"/>
   <text class="ttl" x="312" y="276" style="fill:var(--color-warn);">contract-type gate</text>
   <text class="cd mono" x="312" y="294">lib/contract.types.ts</text>
@@ -281,7 +281,7 @@ const CONTRACTS = svg('cs-a5', 430, `
 
   <rect class="bx bx-hi" x="258" y="56" width="340" height="120" rx="10"/>
   <text class="ttl" x="270" y="76" style="fill:var(--color-accent);">staged computation with source identities</text>
-  <text class="cd mono" x="270" y="94">chronoscopelab/pipeline.py</text>
+  <text class="cd mono" x="270" y="94">data-pipeline/run.py → engine/pipeline.py</text>
   <text class="mu" x="270" y="116">preprocess → feature_extraction → train → infer</text>
   <text class="mu" x="270" y="134">→ evaluate → export · seeded numerical fits</text>
   <text class="mu" x="270" y="158">source, package and checkpoint hashes retained;</text>

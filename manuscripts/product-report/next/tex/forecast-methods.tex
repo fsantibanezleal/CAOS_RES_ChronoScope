@@ -148,7 +148,7 @@ The direct adapter standardizes its supplied observed prefix using the prefix me
 \begin{equation}\label{eq:report-neural-scale}
 z_t=(y_t-\mu)/s,\qquad \widehat y=\mu+s\widehat z.
 \end{equation}
-Only prefix observations enter those quantities. The implementation uses a unit denominator when the standard deviation is exactly zero; that is a numerical fallback, not an empirically calibrated uncertainty model for constant series. It must not be confused with the browser linear consumer, which refuses a constant required lookback. Sliding training inputs and their future blocks are drawn entirely inside the supplied prefix. The final reserved outer block is not a training window.
+Only prefix observations enter those quantities. The current adapter detects an exactly constant observed range before training and returns that observed level at every requested probability and lead. It does not invent a positive source-unit scale. The historical fresh-fit source used a unit-denominator fallback; its retained paths keep that original identity. Neither convention estimates future stochastic uncertainty after a constant prefix. The browser linear consumer instead refuses a constant required lookback. Sliding training inputs and their future blocks are drawn entirely inside the supplied prefix. The final reserved outer block is not a training window.
 
 A direct NLinear head subtracts the last value of each input window, applies one affine map and adds that value back to every lead and quantile:
 \begin{equation}\label{eq:report-nlinear}

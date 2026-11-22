@@ -1,5 +1,7 @@
 # Qué nos dice el perfil eléctrico de ayer sobre el de mañana
 
+**Nivel:** 1. **Requisitos previos:** Python básico y lectura de gráficos. **Tiempo de lectura:** 30 minutos.
+
 **Pregunta:** ¿Cuánto explica la repetición de un perfil diario en un extracto eléctrico real y qué ocurre cuando se equivoca el período o cambia el nivel?
 
 ## Objetivos
@@ -12,7 +14,7 @@ Al terminar deberías poder calcular la primera predicción mirando un valor ant
 
 ## Preparación
 
-La lección llama la API publicada de PreqTS 0.3.0. Instala estas dependencias directas con sus versiones exactas en el entorno aislado de notebooks del repositorio antes de abrir el cuaderno. La ejecución no instala paquetes.
+La lección llama la API publicada de PreqTS 0.3.0. Instala estas dependencias directas con sus versiones exactas en el entorno aislado de notebooks del repositorio antes de abrir el notebook. La ejecución no instala paquetes.
 
 ```text
 {{PINS}}
@@ -24,9 +26,7 @@ NumPy aporta los arreglos, Matplotlib las figuras y PreqTS la implementación de
 
 ## Datos
 
-`data/examples/electricity_sample.csv` contiene un extracto horario ya preparado. `unique_id` identifica al cliente, `ds` registra la hora local e `y` suma cuatro lecturas consecutivas de quince minutos. UCI describe las lecturas originales en kW y documenta su convención de horario de verano. Sumarlas no equivale a promediarlas por hora ni a convertirlas en energía: el promedio divide la suma por cuatro y la energía exige considerar la duración de los intervalos. Conservamos los valores comprometidos y explicitamos su operación aritmética. Las marcas del extracto avanzan cada hora y mantienen un desplazamiento de quince minutos en sus etiquetas; aquí no se aplica otro remuestreo.
-
-Hay un solo cliente. Las últimas 48 observaciones se reservan para evaluar el pronóstico por bloque; las anteriores constituyen su historia. Por separado, las primeras 96 observaciones definen la escala fija del experimento de sensibilidad. Comprobar valores finitos y marcas consecutivas protege la interpretación de 24 observaciones como un día. Si faltara una hora, un rezago de 24 filas compararía otro tiempo transcurrido.
+El propietario es UCI (ElectricityLoadDiagrams20112014, cliente MT_010), https://doi.org/10.24432/C58C86, con licencia CC BY 4.0. El archivo versionado `data/examples/electricity_sample.csv` contiene 480 filas con etiqueta horaria: unique_id identifica al cliente, ds es la hora local registrada e y suma cuatro lecturas consecutivas de potencia en kW cada 15 minutos. La agrupación no integra energía en kWh. La referencia utiliza el orden observado sin atribuirle duraciones corregidas por zona horaria ni calibración de un pronóstico energético.
 
 <!-- code: data -->
 
@@ -46,7 +46,7 @@ $$
 
 T representa la longitud del prefijo, H el horizonte solicitado y el resto de la división vuelve a recorrer el último ciclo observado. Con m=24 y H=48, mañana y pasado mañana repiten el mismo último día. No aparece una tendencia nueva ni un efecto de fin de semana salvo que ya esté representado en ese perfil. La interpretación requiere historia suficiente: el paquete utiliza una referencia ingenua de un paso cuando la historia disponible es más corta que el ciclo solicitado.
 
-Primero inicializamos un objeto nuevo con el prefijo disponible. Solicitar las probabilidades 0.1, 0.5 y 0.9 devuelve una matriz H por tres cuyas columnas mantienen ese orden. La columna mediana coincide exactamente con la trayectoria copiada. La primera fila impresa concreta la interfaz y su comparación con `history[-24]` aporta un valor independiente que puede leerse a mano. Así se comprueba una consecuencia de la fórmula sin sustituir el paquete por otro algoritmo de pronóstico escrito dentro del cuaderno.
+Primero inicializamos un objeto nuevo con el prefijo disponible. Solicitar las probabilidades 0.1, 0.5 y 0.9 devuelve una matriz H por tres cuyas columnas mantienen ese orden. La columna mediana coincide exactamente con la trayectoria copiada. La primera fila impresa concreta la interfaz y su comparación con `history[-24]` aporta un valor independiente que puede leerse a mano. Así se comprueba una consecuencia de la fórmula sin sustituir el paquete por otro algoritmo de pronóstico escrito dentro del notebook.
 
 <!-- code: fit -->
 

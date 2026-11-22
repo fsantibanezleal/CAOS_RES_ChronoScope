@@ -3,7 +3,7 @@ import math
 
 import numpy as np
 
-from chronoscopelab.model.forecasters import (
+from engine.model.forecasters import (
     METHOD_FNS,
     forecast_all,
     normal_ppf,
@@ -64,7 +64,7 @@ def test_adversarial_holt_winters_preserves_an_incomplete_seasons_phase():
 
 
 def test_adversarial_theta_matches_the_two_theta_lines_with_finite_history():
-    from chronoscopelab.model.forecasters import _opt_alpha, _ses_run, theta
+    from engine.model.forecasters import _opt_alpha, _ses_run, theta
 
     y = np.array([3.0, 4.0, 7.0, 7.5, 10.0, 11.0, 15.0])
     b, a = np.polyfit(np.arange(len(y)), y, 1)

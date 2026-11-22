@@ -11,6 +11,9 @@ import statistics
 import struct
 from pathlib import Path
 
+from source_bindings import implementation_sources
+from check_forecast_units import boundary
+
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / "docs/research/timestral-v1"
 SOURCE_PATHS = {
@@ -66,7 +69,10 @@ def validate(document: dict, *, reweight: bool = False) -> int:
     reference_path = ROOT / plan["reference"]["path"]
     cases = load(reference_path)["cases"]
     source_paths = {**SOURCE_PATHS, "reference_sha256": plan["reference"]["path"]}
-    binding = {key: digest(ROOT / path) for key, path in source_paths.items()}
+    historical = {SOURCE_PATHS[key]: document[key] for key in ("code_sha256", "scoring_sha256", "unit_boundary_sha256")}
+    historical_bytes = implementation_sources(historical, ROOT)
+    binding = {key: hashlib.sha256(historical_bytes[path]).hexdigest() if path in historical_bytes else digest(ROOT / path)
+               for key, path in source_paths.items()}
     if binding["reference_sha256"] != plan["reference"]["sha256"]:
         raise ValueError("The holdout reference differs from the pre-inference plan")
     if any(document[key] != value for key, value in binding.items()):
@@ -128,6 +134,11 @@ def validate(document: dict, *, reweight: bool = False) -> int:
             for level, field in zip(plan["forecast"]["probabilities"], ("lower", "point", "upper"), strict=True):
                 if [v[q.index(level)] for v in quantiles] != row[field]:
                     raise ValueError("A scored quantile differs from the retained output")
+            unit_advisories = boundary.require_forecast_units(
+                history + case["actual"], [{**row, "name": "Timestral"}],
+            )
+            if row["unit_advisories"] != unit_advisories:
+                raise ValueError(f"{name}/{case['case_id']}: observable unit advisories differ")
             expected_scores = scores(case, row)
             if set(row["metrics"]) != set(expected_scores):
                 raise ValueError("Missing or extra case metrics")

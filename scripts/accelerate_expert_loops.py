@@ -13,7 +13,7 @@ def enable():
     if _ENABLED:
         return
     from numba import njit
-    from chronoscopelab.model import forecasters as reference
+    from engine.model import forecasters as reference
     for name in ("_ses_run", "_opt_alpha", "_holt_run", "_hw_run"):
         setattr(reference, name, njit(cache=True, fastmath=False)(getattr(reference, name)))
     _ENABLED = True

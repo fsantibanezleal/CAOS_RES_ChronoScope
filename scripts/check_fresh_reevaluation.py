@@ -30,7 +30,7 @@ def implementation_dependencies(root, sources=None):
     """
     package = root / "data-pipeline"
     modules = {}
-    paths = ((package / "chronoscopelab").rglob("*.py") if sources is None else
+    paths = ((package / "engine").rglob("*.py") if sources is None else
              (root / rel for rel in sources if rel.startswith("data-pipeline/chronoscopelab/")))
     for path in paths:
         parts = list(path.relative_to(package).with_suffix("").parts)

@@ -1,12 +1,9 @@
-# Guide: the GPU lane (optional)
+# GPU and native reference runtimes
 
-Only for products whose offline engine/sweep/training genuinely needs CUDA (large DEM, big Monte-Carlo, heavy
-model training). Never required for the live/replay path.
+The deployed static application requires no GPU or backend. Native neural and foundation-model fitting happens in separately declared offline environments, and the browser inspects admitted paths or runs its own small TypeScript/ONNX methods.
 
-1. Pin the CUDA build in `requirements-gpu.txt` (e.g. `cupy-cuda12x`, `torch==…+cu12x`, `numba`, `taichi`).
-2. On a CUDA box: `.venv-pipeline/bin/python -m pip install -r requirements-gpu.txt`.
-3. Document the engine in `docs/frameworks/<tool>/`.
+The [fresh execution guide](fresh-reevaluation.md) specifies the retained twenty-two-configuration runtime, checkpoint revisions and complete-roster admission. The [notebook reference guide](notebook-references.md) specifies actual seven-model lesson execution and its separate pinned Linux interpreter/cache. Do not replace either environment with the latest upstream package versions and assign the old experiment identity to new outputs.
 
-The committed artifacts are produced offline regardless of lane, so a GPU-only product still deploys as a static
-replay (the browser never needs the GPU). The template's EXAMPLE has no GPU step, `requirements-gpu.txt` is a
-commented placeholder.
+`requirements-gpu.txt` and the precompute requirements describe optional local model dependencies. Match the torch build to the actual CUDA toolchain; TiRex's retained 0.1.1 lane also requires a working native compiler and Ninja. Newer TiRex versions have different runtime and checkpoint requirements. Keep model weights and build caches in configured external roots, preserve existing environments and record actual hardware/thread/checkpoint identities with a new experiment.
+
+A local reduced-runtime bake does not replace the admitted full roster. Current application generation carries and independently scores the source-bound studies; fresh model inference is an explicit separate operation.

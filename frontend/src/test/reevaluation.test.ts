@@ -15,12 +15,28 @@ describe.each(['reevaluation', 'fresh-reevaluation'])('%s final-holdout contract
     if (data.source_comparison_sha256) {
       expect(createHash('sha256').update(readFileSync(join(root, 'data/derived/reevaluation.json'))).digest('hex')).toBe(data.source_comparison_sha256);
     }
-    for (const [path, expected] of Object.entries({ ...data.trace_sha256, ...data.input_sha256,
-      ...(artifact === 'reevaluation' ? data.code_sha256 : {}) })) {
+    for (const [path, expected] of Object.entries({ ...data.trace_sha256, ...data.input_sha256 })) {
       const actual = createHash('sha256').update(readFileSync(join(root, path))).digest('hex');
       expect(actual, path).toBe(expected);
     }
-    if (artifact === 'fresh-reevaluation') {
+    if (artifact === 'reevaluation') {
+      // Resolve only a complete allowlisted historical binding, then independently
+      // hash the verified archived bytes. Current adapters have a different identity.
+      const reader = spawnSync('python', ['-c', [
+        'import sys,json,base64',
+        'from pathlib import Path',
+        'root=Path(sys.argv[1]); sys.path.insert(0,str(root/"scripts"))',
+        'from source_bindings import implementation_sources',
+        'data=json.loads((root/"data/derived/reevaluation.json").read_text(encoding="utf-8"))',
+        'print(json.dumps({n:base64.b64encode(b).decode() for n,b in implementation_sources(data["code_sha256"],root).items()}))',
+      ].join('\n'), root], { encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 });
+      expect(reader.status, reader.stderr).toBe(0);
+      const sources: Record<string, string> = JSON.parse(reader.stdout);
+      expect(Object.keys(sources).sort()).toEqual(Object.keys(data.code_sha256).sort());
+      for (const [path, expected] of Object.entries(data.code_sha256)) {
+        expect(createHash('sha256').update(Buffer.from(sources[path], 'base64')).digest('hex'), path).toBe(expected);
+      }
+    } else {
       // Independently hash the historical members, rather than substitute the
       // current export/analysis code for the experiment's original source.
       const receipt = JSON.parse(readFileSync(join(root, 'docs/research/fresh-source-archive.json'), 'utf8'));

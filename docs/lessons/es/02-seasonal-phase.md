@@ -1,16 +1,18 @@
-# Pronosticar después de una estación incompleta
+# Pronosticar después de un ciclo estacional incompleto
 
-**Pregunta:** Al mover el origen cinco observaciones hacia atrás, ¿HoltWinters continúa la fase estacional correcta y cómo se comparan sus errores por paso con una estación repetida?
+**Nivel:** 2. **Requisitos previos:** Las lecciones anteriores de este tema; arrays NumPy y evaluación temporal. **Tiempo de lectura:** 40 minutos.
+
+**Pregunta:** Al mover el origen cinco observaciones hacia atrás, ¿HoltWinters continúa la fase estacional correcta y cómo se comparan sus errores por paso con un ciclo estacional repetido?
 
 ## Objetivos
 
-Investigaremos un riesgo concreto de implementación sin asumir que el nombre conocido de un método garantiza un pronóstico correcto. Acortaremos una historia comprometida, construiremos el objetivo correspondiente con las observaciones posteriores al nuevo origen y ejecutaremos HoltWinters aditivo del producto. Compararemos la trayectoria con métodos más simples e inspeccionaremos errores agregados y por paso. El experimento cambia deliberadamente el corte temporal y mantiene fija la secuencia observada subyacente.
+Investigaremos un riesgo concreto de implementación sin asumir que el nombre conocido de un método garantiza un pronóstico correcto. Acortaremos una historia versionada, construiremos el objetivo correspondiente con las observaciones posteriores al nuevo origen y ejecutaremos HoltWinters aditivo del producto. Compararemos la trayectoria con métodos más simples e inspeccionaremos errores agregados y por paso. El experimento cambia deliberadamente el corte temporal y mantiene fija la secuencia observada subyacente.
 
 Un modelo estacional almacena componentes indexados según su posición dentro del ciclo. Si la historia termina a mitad de ese ciclo, el pronóstico debe continuar desde esa posición. Reiniciar el componente en la primera casilla puede generar una oscilación plausible, pero desfasada. El defecto pasa inadvertido cuando todas las historias de demostración contienen ciclos completos. Por eso retiramos una cantidad fija y declarada de observaciones antes del ajuste, en lugar de escogerla después de observar los resultados.
 
 ## Preparación
 
-Utilice el entorno aislado de cuadernos con estas dependencias directas exactas. El código importa las funciones del producto y no define una segunda implementación cuyo comportamiento pueda diferir del utilizado en la aplicación.
+Utilice el entorno aislado de notebooks con estas dependencias directas exactas. El código importa las funciones del producto y no define una segunda implementación cuyo comportamiento pueda diferir del utilizado en la aplicación.
 
 ```text
 {{PINS}}
@@ -20,7 +22,7 @@ Utilice el entorno aislado de cuadernos con estas dependencias directas exactas.
 
 ## Datos
 
-La traza generada con tendencia y estacionalidad contiene un prefijo histórico y un bloque final reservado. Para el origen anterior, las cinco observaciones históricas finales pasan a ser los primeros objetivos futuros. Los objetivos restantes provienen del bloque reservado original. Esta concatenación conserva el orden cronológico. Ninguna observación recién reservada entra al ajuste. Las medidas del origen anterior no deben compararse como si utilizaran el objetivo original: cambiaron la información disponible, el bloque futuro y la pregunta experimental.
+La ilustración inicial usa TRND_seasonal, un control sintético de ChronoScope con licencia MIT, desde `data/derived/TRND_seasonal/trace.json`. Lo genera `data-pipeline/engine/cases/forecast_cases.py` con semilla 42 y período 12. History y actual conservan valores contiguos en unidades generadas. La sensibilidad posterior utiliza observaciones auténticas del cliente MT_010 de UCI ElectricityLoadDiagrams20112014 (https://doi.org/10.24432/C58C86, CC BY 4.0), en `data/examples/electricity_sample.csv`. Sus etiquetas horarias agrupan por suma cuatro lecturas de potencia en kW; no se convierten en energía.
 
 <!-- code: data -->
 
@@ -56,13 +58,88 @@ El gráfico muestra si los métodos fallan en las mismas posiciones o intercambi
 
 ## Resultados
 
-**Respuesta:** HoltWinters obtiene MASE 0,4948 en el origen anterior, frente a 1,0136 de SeasonalNaive. Retirar cinco observaciones produce una estación incompleta que la implementación corregida continúa desde su posición terminal real. Las trayectorias y medidas impresas cuantifican este caso. La curva compara cada paso con SeasonalNaive sobre el mismo objetivo nuevo; no permite ordenar estos métodos mediante medidas del origen original posterior.
+**Respuesta:** HoltWinters obtiene MASE 0,4948 en el origen anterior, frente a 1,0136 de SeasonalNaive. Retirar cinco observaciones produce un ciclo estacional incompleto que la implementación corregida continúa desde su posición terminal real. Las trayectorias y medidas impresas cuantifican este caso. La curva compara cada paso con SeasonalNaive sobre el mismo objetivo nuevo; no permite ordenar estos métodos mediante medidas del origen original posterior.
 
-Corrección de implementación y calidad empírica son conclusiones separadas. Una prueba de estación incompleta puede refutar una regla de indexación sin afirmar superioridad poblacional. Un error observado puede refutar una expectativa de precisión sin demostrar que la indexación esté equivocada. Conserve ambos tipos de evidencia al diagnosticar un pronóstico y mantenga los resultados desfavorables, en vez de cambiar el origen hasta que gane el método preferido.
+Corrección de implementación y calidad empírica son conclusiones separadas. Una prueba de ciclo estacional incompleto puede refutar una regla de indexación sin afirmar superioridad poblacional. Un error observado puede refutar una expectativa de precisión sin demostrar que la indexación esté equivocada. Conserve ambos tipos de evidencia al diagnosticar un pronóstico y mantenga los resultados desfavorables, en vez de cambiar el origen hasta que gane el método preferido.
 
 ## Resumen
 
-Registre la información exacta cada vez que mueva el corte temporal. Construya su objetivo futuro en orden cronológico, vuelva a ajustar todos los competidores y recalcule la escala histórica con ese prefijo. Use historias adversariales con estaciones incompletas para comprobar un algoritmo estacional. Después examine medidas del bloque completo y errores individuales, recordando que un origen no proporciona una estimación poblacional ni una aceptación de despliegue.
+Registre la información exacta cada vez que mueva el corte temporal. Construya su objetivo futuro en orden cronológico, vuelva a ajustar todos los competidores y recalcule la escala histórica con ese prefijo. Use historias adversariales con ciclos estacionales incompletos para comprobar un algoritmo estacional. Después examine medidas del bloque completo y errores individuales, recordando que un origen no proporciona una estimación poblacional ni una aceptación de despliegue.
+
+
+### Sensibilidad a la posición dentro de un día
+
+Numera las observaciones del prefijo desde cero. Si su longitud es $n$, la
+siguiente fase estacional corresponde a $n\bmod m$. El ajuste aditivo de
+HoltWinters conserva un nivel $\ell$ en las unidades de la serie y una
+tendencia $b$ en esas unidades por paso, junto con $m$ efectos estacionales
+$s$ en las unidades originales. Para un paso $j$ contado desde uno, el
+pronóstico implementado es
+
+$$
+\widehat y_{n+j-1} = \ell + jb + s_{(n+j-1)\bmod m}.
+$$
+
+Con $m=12$, un prefijo de longitud 125 avanza a la fase 5. Empezar el
+pronóstico en la fase cero reutilizaría la posición estacional de la primera
+observación aunque ya se hayan consumido cinco posiciones de ese ciclo.
+Al mover el corte hay que ajustar nuevamente el método porque también cambian
+el nivel y la tendencia estimados. La implementación prueba cuatro coeficientes
+de nivel, dos de tendencia y tres de estacionalidad. Selecciona la combinación
+que minimiza la suma de residuos cuadrados a un paso tras el primer ciclo.
+Si el prefijo contiene menos de dos ciclos completos, la función devuelve
+la proyección de Holt porque la inicialización estacional requiere más datos.
+
+El control generado anterior permite aislar la fase con un período conocido.
+El siguiente cálculo usa el extracto eléctrico MT_010 publicado por Trindade
+en UCI (CC BY 4.0, [DOI 10.24432/C58C86](https://doi.org/10.24432/C58C86)).
+Cada fila con etiqueta horaria suma cuatro lecturas consecutivas de potencia
+en kW. El valor agregado no se ha convertido a energía. La primera etiqueta
+es 00:15 y las sucesivas avanzan una hora. El extracto tiene 480 filas. La
+referencia diaria usa $m=24$ y la semanal $m=168$. Comparamos ambos pronósticos
+estacionales ingenuos y HoltWinters diario en cortes entre 312 y 368,
+separados por siete observaciones para visitar distintas fases. En cada corte
+los tres métodos predicen las mismas 24 observaciones reservadas. La escala
+del error emplea el retardo diario para los tres, de modo que la referencia
+semanal no obtiene un denominador diferente.
+
+$$
+s_{24}(y_{0:n})=\frac{1}{n-24}\sum_{i=24}^{n-1}|y_i-y_{i-24}|,
+\qquad
+\operatorname{MASE}_{24}=\frac{\sum_{j=1}^{24}|a_j-\widehat y_{n+j-1}|}{24s_{24}(y_{0:n})}.
+$$
+
+La referencia diaria debe repetir exactamente las 24 observaciones que
+preceden al corte. La celda calcula la diferencia máxima frente al índice directo, que debe ser cero.
+
+<!-- code: electricity_phase -->
+
+La figura compara métodos para cada corte particular. Cuando las curvas se
+cruzan, el orden local cambia. Lee en la tabla la fase junto al índice:
+una fase se puede repetir con distinta historia de días de la semana, por
+lo que la fase no explica por sí sola la diferencia de puntuación. Los
+bloques objetivo se solapan: los cortes distan siete observaciones y cada
+bloque abarca 24. Los nueve puntos no son nueve réplicas independientes.
+La referencia semanal reutiliza un día específico de la semana anterior.
+Un error alto en un corte no descarta un patrón semanal en toda la serie.
+
+### Úsalo con tus propios datos
+
+Prepara una sola serie finita con marcas temporales ordenadas y regulares.
+Identifica qué lecturas estaban disponibles antes de emitir el pronóstico.
+Para una serie horaria con un ciclo diario plausible usa 24 como período
+inicial, y comprueba la frecuencia antes de usar 168. Una hora ausente y una
+lectura cero tienen significados distintos. No comprimas el eje temporal si
+faltan filas. Separa el bloque contiguo que usarás para medir error antes
+de llamar a `holt_winters(prefix, m, horizon)`. La salida contiene la
+trayectoria solicitada y una dispersión de residuos en las unidades de la
+entrada. Comprueba la longitud del vector y contrasta la fase con la
+referencia estacional indexada de forma independiente. Estima la escala
+solo con el prefijo. Una serie constante o exactamente periódica puede dar
+una escala nula y dejar el error escalado sin definir. Conserva el error
+absoluto para documentar ese caso. Si construyes intervalos gaussianos con
+la dispersión, lee la cobertura observada junto con la anchura. El método
+puede acertar la fase y errar el nivel o la amplitud del siguiente ciclo.
 
 ## Referencias
 
@@ -71,3 +148,4 @@ Registre la información exacta cada vez que mueva el corte temporal. Construya 
 - Escalamiento: https://doi.org/10.1016/j.ijforecast.2006.03.001
 - Combinaciones por características: https://doi.org/10.1016/j.ijforecast.2019.02.011
 - Ensambles dinámicos: https://doi.org/10.1007/s10994-018-05774-y
+- A. Trindade, ElectricityLoadDiagrams20112014, UCI. [Datos](https://doi.org/10.24432/C58C86).

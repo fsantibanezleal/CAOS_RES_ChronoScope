@@ -11,7 +11,7 @@ How ChronoScope sources, licenses, and ingests time series.
 ## Contract 1 (ingestion)
 
 Every series - a built-in case or bring-your-own data - enters through Contract 1
-([`io/contract.py`](../data-pipeline/chronoscopelab/io/contract.py)): a long-format `unique_id, ds, y` table
+([`io/contract.py`](../data-pipeline/engine/io/contract.py)): a long-format `unique_id, ds, y` table
 with an explicit missing/outlier policy (accept / reject / flag). See
 [architecture/08_data-contracts.md](architecture/08_data-contracts.md).
 

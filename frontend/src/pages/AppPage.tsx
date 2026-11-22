@@ -215,7 +215,7 @@ export default function AppPage() {
               { label: es ? 'tendencia (MA centrada)' : 'trend (centered MA)', values: decomp.trend, color: 'var(--color-accent)' },
             ]}
             title={es ? 'Tendencia (media móvil centrada de orden m)' : 'Trend (centered order-m moving average)'}
-            subtitle={es ? 'promedio móvil centrado (FPP3 cap. 3): exacto para tendencia lineal; NaN honesto en los bordes (m/2 puntos).' : 'centered moving average (FPP3 ch. 3): exact for a linear trend; honestly NaN at the edges (m/2 points).'}
+            subtitle={es ? 'promedio móvil centrado (FPP3 cap. 3): exacto para tendencia lineal; no definido en los bordes (m/2 puntos).' : 'centered moving average (FPP3 ch. 3): exact for a linear trend; undefined at the edges (m/2 points).'}
           />
           <LinePlot
             xs={Array.from({ length: Math.min(3 * m_, fullSeries.length) }, (_, i) => i)}
@@ -387,12 +387,13 @@ export default function AppPage() {
           <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (precalculado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">replay</span></div>
           {bakedFractal && <p>Hurst R/S = <b>{fmt(bakedFractal.hurst?.rs, 3)}</b> · DFA α = <b>{fmt(bakedFractal.hurst?.dfa_alpha, 3)}</b> · {es ? 'Estimaciones de muestra finita; no demuestran memoria poblacional ni estacionariedad.' : bakedFractal.hurst?.interpretation}</p>}
           {bakedNonlinear && !bakedNonlinear.skipped && (
-            <p>0-1 K = <b>{fmt(bakedNonlinear.zero_one_K, 3)}</b> · λ₁ = <b>{fmt(bakedNonlinear.largest_lyapunov, 4)}</b>{' '}
+            <><p>0-1 K = <b>{fmt(bakedNonlinear.zero_one_K, 3)}</b> · λ₁ = <b>{fmt(bakedNonlinear.largest_lyapunov, 4)}</b>{' '}
               <span className={`cs-badge ${bakedNonlinear.likely_chaotic ? 'warn' : 'ok'}`}>
-                {bakedNonlinear.likely_chaotic ? (es ? 'caótica (gate de surrogates aprobado)' : 'chaotic (surrogate gate passed)') : (es ? 'sin caos confirmado' : 'no confirmed chaos')}
+                {bakedNonlinear.likely_chaotic ? (es ? 'indicio descriptivo presente' : 'descriptive flag present') : (es ? 'indicio descriptivo ausente' : 'descriptive flag absent')}
               </span></p>
+              <p className="cs-panel-sub">{es ? 'Los umbrales y la comparación con sustitutos no demuestran caos determinista.' : 'The thresholds and surrogate comparison do not prove deterministic chaos.'}</p></>
           )}
-          {bakedNonlinear?.skipped && <p className="cs-panel-sub">{es ? 'panel no lineal omitido honestamente (serie corta)' : 'nonlinear panel honestly skipped (short series)'}</p>}
+          {bakedNonlinear?.skipped && <p className="cs-panel-sub">{es ? 'panel no lineal omitido (serie corta)' : 'nonlinear panel skipped (short series)'}</p>}
         </div>
       )}
       {mode === 'baked' && bakedCatch22 && (
@@ -403,11 +404,11 @@ export default function AppPage() {
           ) : (
             <>
               <div className="cs-panel-sub">{es
-                ? 'Las 24 features canónicas (catch22 + media y desviación): destiladas de las ~7700 de hctsa seleccionando por desempeño de clasificación y baja redundancia. Es la respuesta rigurosa a "extraer muchas features": llevan la información de un banco grande sin la escopeta.'
-                : 'The 24 canonical features (catch22 + mean and std): distilled from hctsa\'s ~7700 by selecting for classification performance and low redundancy. This is the rigorous answer to "extract many features": the information of a large bank without the shotgun.'}</div>
+                ? 'catch22 reúne 22 características seleccionadas por clasificación y baja redundancia en las colecciones de su estudio; catch24 añade media y desviación estándar. Esta huella describe la serie y no garantiza selección de pronósticos ni suficiencia para otros objetivos.'
+                : 'catch22 contains 22 features selected for classification performance and low redundancy on its study collections; catch24 adds mean and standard deviation. This fingerprint describes the series and does not guarantee forecast selection or sufficiency for other objectives.'}</div>
               <div className="cs-chart">
                 <table className="cs-table">
-                  <thead><tr><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
+                  <thead><tr><th>{es ? 'característica' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'característica' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
                   <tbody>
                     {(() => {
                       const entries = Object.entries(bakedCatch22.features ?? {});

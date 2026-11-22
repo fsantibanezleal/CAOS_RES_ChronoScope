@@ -1,7 +1,7 @@
 """Provenance/license registry tests: every source has a verdict; public-safe set matches the dossier."""
 import pytest
 
-from chronoscopelab.data import provenance as pv
+from engine.data import provenance as pv
 
 
 def test_every_source_has_a_license_and_citation():

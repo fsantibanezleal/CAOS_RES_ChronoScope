@@ -22,3 +22,4 @@ The 0.14.006 template patch supplies non-method contribution declarations and ex
 |---|---|---|
 | LA-6 | Notebook execution SHALL resolve the declared external notebook role, refuse a missing root or ambiguous role and reject an inner invocation using an unrelated interpreter. | `tests/test_notebook_environment.py` |
 | LA-7 | A paper about a reusable empirical protocol SHALL use an explicitly declared non-method contribution; unknown, fenced or misplaced identifiers SHALL be refused. | `tests/test_novel_contribution_manuscripts.py` |
+| LA-8 | Direct scientific baking SHALL require an explicit absolute external output root and SHALL refuse any derived, manifest or selector destination inside the source checkout before fitting or writing. Validated workflow promotion remains the only path that replaces admitted payloads. | `tests/test_scientific_output_safety.py` |

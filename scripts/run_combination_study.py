@@ -22,10 +22,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "data-pipeline"))
 
 import numpy as np  # noqa: E402
-from chronoscopelab.model.context_memory import fit_context_memory  # noqa: E402
-from chronoscopelab.model.forecasters import METHODS, gaussian_quantiles  # noqa: E402
-from chronoscopelab.model.validated_combination import fit_validated  # noqa: E402
-from chronoscopelab.reevaluation import metrics  # noqa: E402
+from engine.model.context_memory import fit_context_memory  # noqa: E402
+from engine.model.forecasters import METHODS, gaussian_quantiles  # noqa: E402
+from engine.model.validated_combination import fit_validated  # noqa: E402
+from engine.reevaluation import metrics  # noqa: E402
 from run_forecastability_study import series_from_tsf  # noqa: E402
 from accelerate_expert_loops import enable as accelerate  # noqa: E402
 
@@ -37,10 +37,10 @@ PROTOCOL = {"context_cap": 512, "max_origins": 3, "scale": "seasonal difference 
             "loop_execution": "unchanged recursive expert loops compiled by Numba without fastmath; reference parity tested",
             "primary": "ValidationMix versus RecencyMean mean series MASE, separately per dataset",
             "selection": "completed historical targets only; no outer target selects a configuration"}
-SOURCE_FILES = ["scripts/run_combination_study.py", "data-pipeline/chronoscopelab/model/validated_combination.py",
+SOURCE_FILES = ["scripts/run_combination_study.py", "data-pipeline/engine/model/validated_combination.py",
                 "scripts/accelerate_expert_loops.py",
-                "data-pipeline/chronoscopelab/model/context_memory.py", "data-pipeline/chronoscopelab/model/forecasters.py",
-                "data-pipeline/chronoscopelab/reevaluation.py"]
+                "data-pipeline/engine/model/context_memory.py", "data-pipeline/engine/model/forecasters.py",
+                "data-pipeline/engine/reevaluation.py"]
 NAMES = [*(name for name, _, _ in METHODS), "AutoETS", "AutoTheta", "ContextMemory", "RecencyMean", "EqualMean", "ContextMemoryCV", "ValidationMix"]
 
 

@@ -68,5 +68,10 @@
     "version": "1.0.0",
     "schema": "docs/contracts/schemas/combination-case.schema.json",
     "sha256": "8ffd1ab481876a7d723b7ca2e78926fe48dd1fea8d70e546d7a50ee5b7920a75"
+  },
+  "readiness": {
+    "version": "1.0.0",
+    "schema": "docs/contracts/schemas/readiness.schema.json",
+    "sha256": "def6e935f5bab3287aa7383f0753167ab51136b2927bb16582daafee40986091"
   }
 }

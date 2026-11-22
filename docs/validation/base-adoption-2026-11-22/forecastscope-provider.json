@@ -1,0 +1,102 @@
+{
+  "distribution": "forecastscope",
+  "version": "0.1.4",
+  "adapters": {
+    "data-pipeline/engine/analysis/autocorrelation.py": "forecastscope.diagnostics.autocorrelation",
+    "data-pipeline/engine/analysis/causality.py": "forecastscope.diagnostics.causality",
+    "data-pipeline/engine/analysis/changepoints.py": "forecastscope.diagnostics.changepoints",
+    "data-pipeline/engine/analysis/distribution.py": "forecastscope.diagnostics.distribution",
+    "data-pipeline/engine/analysis/filters.py": "forecastscope.diagnostics.filters",
+    "data-pipeline/engine/analysis/fractal.py": "forecastscope.diagnostics.fractal",
+    "data-pipeline/engine/analysis/nonlinear.py": "forecastscope.diagnostics.nonlinear",
+    "data-pipeline/engine/analysis/seasonality.py": "forecastscope.diagnostics.seasonality",
+    "data-pipeline/engine/analysis/sequence.py": "forecastscope.diagnostics.sequence",
+    "data-pipeline/engine/analysis/stationarity.py": "forecastscope.diagnostics.stationarity",
+    "data-pipeline/engine/analysis/volatility.py": "forecastscope.diagnostics.volatility",
+    "data-pipeline/engine/model/forecasters.py": "forecastscope.forecasting",
+    "data-pipeline/engine/model/context_memory.py": "forecastscope.combinations.context_memory",
+    "data-pipeline/engine/model/validated_combination.py": "forecastscope.combinations.validated"
+  },
+  "modules": {
+    "forecastscope.combinations.context_memory": {
+      "module": "forecastscope.combinations.context_memory",
+      "source_sha256": "738a34f04efbfa1246e73d71512189c3a5276ba9fdc13e907714cae139d7093f"
+    },
+    "forecastscope.combinations.validated": {
+      "module": "forecastscope.combinations.validated",
+      "source_sha256": "d5baf809bb79bd5f1dd6f996741e40f8a5cd7fa6eaa86ff11dee54696a9edcfa"
+    },
+    "forecastscope.diagnostics.autocorrelation": {
+      "module": "forecastscope.diagnostics.autocorrelation",
+      "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
+    },
+    "forecastscope.diagnostics.causality": {
+      "module": "forecastscope.diagnostics.causality",
+      "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
+    },
+    "forecastscope.diagnostics.changepoints": {
+      "module": "forecastscope.diagnostics.changepoints",
+      "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
+    },
+    "forecastscope.diagnostics.distribution": {
+      "module": "forecastscope.diagnostics.distribution",
+      "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
+    },
+    "forecastscope.diagnostics.filters": {
+      "module": "forecastscope.diagnostics.filters",
+      "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
+    },
+    "forecastscope.diagnostics.fractal": {
+      "module": "forecastscope.diagnostics.fractal",
+      "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
+    },
+    "forecastscope.diagnostics.nonlinear": {
+      "module": "forecastscope.diagnostics.nonlinear",
+      "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
+    },
+    "forecastscope.diagnostics.seasonality": {
+      "module": "forecastscope.diagnostics.seasonality",
+      "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
+    },
+    "forecastscope.diagnostics.sequence": {
+      "module": "forecastscope.diagnostics.sequence",
+      "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
+    },
+    "forecastscope.diagnostics.stationarity": {
+      "module": "forecastscope.diagnostics.stationarity",
+      "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
+    },
+    "forecastscope.diagnostics.volatility": {
+      "module": "forecastscope.diagnostics.volatility",
+      "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
+    },
+    "forecastscope.forecasting": {
+      "module": "forecastscope.forecasting",
+      "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
+    }
+  },
+  "publication": {
+    "state": "published registry files verified",
+    "source_commit": "13a4ba84b68e0b342c3852dec8c3cab5e61ec1d5",
+    "publish_workflow": 44994208107,
+    "index": "https://pypi.org/project/forecastscope/0.1.4/",
+    "distributions": [
+      {
+        "filename": "forecastscope-0.1.4-py3-none-any.whl",
+        "size": 58797,
+        "sha256": "cdcbbb9c82bec58789e41e4d1d13f2c6d461ae54a156ff811e70a3711e3c4a9b",
+        "upload_time": "2026-11-22T06:33:15.900659Z"
+      },
+      {
+        "filename": "forecastscope-0.1.4.tar.gz",
+        "size": 89886,
+        "sha256": "01194005eef44082ac0c8da46bf411e4b44cb0e2d80ef0ad1e458b75c627b1a4",
+        "upload_time": "2026-11-22T06:33:17.104647Z"
+      }
+    ],
+    "release": "https://github.com/fsantibanezleal/CAOS_ForecastScope/releases/tag/v0.01.004",
+    "candidate_ci": 44993690726,
+    "develop_ci": 44993836655,
+    "main_ci": 44994036832
+  }
+}

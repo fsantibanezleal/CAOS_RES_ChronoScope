@@ -1,6 +1,6 @@
 """CONTRACT 1 (ingestion) tests: good series validate; bad series are rejected with a reason; missing values
 and outliers are flagged but accepted."""
-from chronoscopelab.io.contract import MIN_OBS, validate_rows
+from engine.io.contract import MIN_OBS, validate_rows
 
 
 def _rows(uid, ys):

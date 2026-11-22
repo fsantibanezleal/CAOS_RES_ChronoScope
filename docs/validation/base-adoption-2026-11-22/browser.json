@@ -1,0 +1,1010 @@
+{
+  "ok": true,
+  "base": "http://127.0.0.1:63449/",
+  "expectBrand": "ChronoScope",
+  "sizes": "390x844,768x1024,1280x800,1600x900,2560x1440",
+  "themes": "light,dark",
+  "langs": "en,es",
+  "wideFontSizes": "390x844,1280x800",
+  "states": 2046,
+  "minima": {
+    "drawnShare": null,
+    "stageFill": null
+  },
+  "waivers": [],
+  "docWalks": [
+    {
+      "route": "/introduction",
+      "lang": "en",
+      "trail": "",
+      "samples": 24,
+      "budgetSamples": 124,
+      "ms": 3848,
+      "budgetMs": 92000
+    },
+    {
+      "route": "/introduction",
+      "lang": "en",
+      "trail": "executive > context",
+      "samples": 4,
+      "budgetSamples": 104,
+      "ms": 127,
+      "budgetMs": 82000
+    },
+    {
+      "route": "/introduction",
+      "lang": "en",
+      "trail": "executive > situation",
+      "samples": 35,
+      "budgetSamples": 135,
+      "ms": 7296,
+      "budgetMs": 97500
+    },
+    {
+      "route": "/introduction",
+      "lang": "en",
+      "trail": "executive > trends",
+      "samples": 4,
+      "budgetSamples": 104,
+      "ms": 148,
+      "budgetMs": 82000
+    },
+    {
+      "route": "/introduction",
+      "lang": "en",
+      "trail": "executive > proposal",
+      "samples": 30,
+      "budgetSamples": 130,
+      "ms": 5077,
+      "budgetMs": 95000
+    },
+    {
+      "route": "/introduction",
+      "lang": "en",
+      "trail": "technical",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 360,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 243,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "forecast-methods > automatic",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 196,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "forecast-methods > trees",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 221,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "forecast-methods > networks",
+      "samples": 7,
+      "budgetSamples": 107,
+      "ms": 324,
+      "budgetMs": 83500
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "forecast-methods > pretrained",
+      "samples": 7,
+      "budgetSamples": 107,
+      "ms": 403,
+      "budgetMs": 83500
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "forecast-methods > context-memory",
+      "samples": 7,
+      "budgetSamples": 107,
+      "ms": 253,
+      "budgetMs": 83500
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "sequence-methods",
+      "samples": 4,
+      "budgetSamples": 104,
+      "ms": 240,
+      "budgetMs": 82000
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "sequence-methods > complexity",
+      "samples": 4,
+      "budgetSamples": 104,
+      "ms": 141,
+      "budgetMs": 82000
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "sequence-methods > corpus",
+      "samples": 5,
+      "budgetSamples": 105,
+      "ms": 180,
+      "budgetMs": 82500
+    },
+    {
+      "route": "/methodology",
+      "lang": "en",
+      "trail": "validation-methods",
+      "samples": 5,
+      "budgetSamples": 105,
+      "ms": 248,
+      "budgetMs": 82500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 76,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "computation > reproducibility",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 20,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "computation > engine",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 85,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "computation > research",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 75,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "computation > combinations",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 88,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "boundaries",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 21,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "boundaries > contracts",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 63,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "operations",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 13,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "operations > origins",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 21,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "en",
+      "trail": "operations > failures",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 15,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 118,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "questions > context",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 91,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "questions > controls",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 77,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "questions > corpus",
+      "samples": 210,
+      "budgetSamples": 310,
+      "ms": 9830,
+      "budgetMs": 185000
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "questions > combinations",
+      "samples": 104,
+      "budgetSamples": 204,
+      "ms": 3566,
+      "budgetMs": 132000
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "protocol-data",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 63,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "protocol-data > metrics",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 126,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "en",
+      "trail": "protocol-data > datasets",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 126,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "",
+      "samples": 7,
+      "budgetSamples": 107,
+      "ms": 516,
+      "budgetMs": 83500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "case-comparison > timestral",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 81,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "case-comparison > real",
+      "samples": 66,
+      "budgetSamples": 166,
+      "ms": 2163,
+      "budgetMs": 113000
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "case-comparison > lead",
+      "samples": 26,
+      "budgetSamples": 126,
+      "ms": 825,
+      "budgetMs": 93000
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "case-comparison > live",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 59,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "corpus-scope",
+      "samples": 23,
+      "budgetSamples": 123,
+      "ms": 752,
+      "budgetMs": 91500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "corpus-scope > corpus",
+      "samples": 210,
+      "budgetSamples": 310,
+      "ms": 9249,
+      "budgetMs": 185000
+    },
+    {
+      "route": "/benchmark",
+      "lang": "en",
+      "trail": "corpus-scope > limits",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 54,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/introduction",
+      "lang": "es",
+      "trail": "",
+      "samples": 24,
+      "budgetSamples": 124,
+      "ms": 3856,
+      "budgetMs": 92000
+    },
+    {
+      "route": "/introduction",
+      "lang": "es",
+      "trail": "executive > context",
+      "samples": 4,
+      "budgetSamples": 104,
+      "ms": 216,
+      "budgetMs": 82000
+    },
+    {
+      "route": "/introduction",
+      "lang": "es",
+      "trail": "executive > situation",
+      "samples": 35,
+      "budgetSamples": 135,
+      "ms": 7306,
+      "budgetMs": 97500
+    },
+    {
+      "route": "/introduction",
+      "lang": "es",
+      "trail": "executive > trends",
+      "samples": 4,
+      "budgetSamples": 104,
+      "ms": 201,
+      "budgetMs": 82000
+    },
+    {
+      "route": "/introduction",
+      "lang": "es",
+      "trail": "executive > proposal",
+      "samples": 30,
+      "budgetSamples": 130,
+      "ms": 5110,
+      "budgetMs": 95000
+    },
+    {
+      "route": "/introduction",
+      "lang": "es",
+      "trail": "technical",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 681,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 369,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "forecast-methods > automatic",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 348,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "forecast-methods > trees",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 381,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "forecast-methods > networks",
+      "samples": 7,
+      "budgetSamples": 107,
+      "ms": 328,
+      "budgetMs": 83500
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "forecast-methods > pretrained",
+      "samples": 6,
+      "budgetSamples": 106,
+      "ms": 298,
+      "budgetMs": 83000
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "forecast-methods > context-memory",
+      "samples": 7,
+      "budgetSamples": 107,
+      "ms": 401,
+      "budgetMs": 83500
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "sequence-methods",
+      "samples": 5,
+      "budgetSamples": 105,
+      "ms": 246,
+      "budgetMs": 82500
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "sequence-methods > complexity",
+      "samples": 4,
+      "budgetSamples": 104,
+      "ms": 172,
+      "budgetMs": 82000
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "sequence-methods > corpus",
+      "samples": 5,
+      "budgetSamples": 105,
+      "ms": 268,
+      "budgetMs": 82500
+    },
+    {
+      "route": "/methodology",
+      "lang": "es",
+      "trail": "validation-methods",
+      "samples": 5,
+      "budgetSamples": 105,
+      "ms": 309,
+      "budgetMs": 82500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 99,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "computation > reproducibility",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 39,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "computation > engine",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 130,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "computation > research",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 106,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "computation > combinations",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 141,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "boundaries",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 24,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "boundaries > contracts",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 62,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "operations",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 13,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "operations > origins",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 24,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/implementation",
+      "lang": "es",
+      "trail": "operations > failures",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 13,
+      "budgetMs": 80500
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 94,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "questions > context",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 94,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "questions > controls",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 71,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "questions > corpus",
+      "samples": 273,
+      "budgetSamples": 373,
+      "ms": 12528,
+      "budgetMs": 216500
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "questions > combinations",
+      "samples": 110,
+      "budgetSamples": 210,
+      "ms": 3831,
+      "budgetMs": 135000
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "protocol-data",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 68,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "protocol-data > metrics",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 157,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/experiments",
+      "lang": "es",
+      "trail": "protocol-data > datasets",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 120,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "",
+      "samples": 7,
+      "budgetSamples": 107,
+      "ms": 435,
+      "budgetMs": 83500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "case-comparison > timestral",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 94,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "case-comparison > real",
+      "samples": 66,
+      "budgetSamples": 166,
+      "ms": 2250,
+      "budgetMs": 113000
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "case-comparison > lead",
+      "samples": 28,
+      "budgetSamples": 128,
+      "ms": 891,
+      "budgetMs": 94000
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "case-comparison > live",
+      "samples": 3,
+      "budgetSamples": 103,
+      "ms": 61,
+      "budgetMs": 81500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "corpus-scope",
+      "samples": 24,
+      "budgetSamples": 124,
+      "ms": 791,
+      "budgetMs": 92000
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "corpus-scope > corpus",
+      "samples": 273,
+      "budgetSamples": 373,
+      "ms": 15397,
+      "budgetMs": 216500
+    },
+    {
+      "route": "/benchmark",
+      "lang": "es",
+      "trail": "corpus-scope > limits",
+      "samples": 1,
+      "budgetSamples": 101,
+      "ms": 38,
+      "budgetMs": 80500
+    }
+  ],
+  "storyContexts": [
+    {
+      "mode": "1280x800 light en story",
+      "routes": 6
+    },
+    {
+      "mode": "390x844 light en story",
+      "routes": 6
+    },
+    {
+      "mode": "390x844 light es story",
+      "routes": 6
+    },
+    {
+      "mode": "390x844 dark en story",
+      "routes": 6
+    },
+    {
+      "mode": "390x844 dark es story",
+      "routes": 6
+    },
+    {
+      "mode": "768x1024 light en story",
+      "routes": 6
+    },
+    {
+      "mode": "768x1024 light es story",
+      "routes": 6
+    },
+    {
+      "mode": "768x1024 dark en story",
+      "routes": 6
+    },
+    {
+      "mode": "768x1024 dark es story",
+      "routes": 6
+    },
+    {
+      "mode": "1280x800 light es story",
+      "routes": 6
+    },
+    {
+      "mode": "1280x800 dark en story",
+      "routes": 6
+    },
+    {
+      "mode": "1280x800 dark es story",
+      "routes": 6
+    },
+    {
+      "mode": "1600x900 light en story",
+      "routes": 6
+    },
+    {
+      "mode": "1600x900 light es story",
+      "routes": 6
+    },
+    {
+      "mode": "1600x900 dark en story",
+      "routes": 6
+    },
+    {
+      "mode": "1600x900 dark es story",
+      "routes": 6
+    },
+    {
+      "mode": "2560x1440 light en story",
+      "routes": 6
+    },
+    {
+      "mode": "2560x1440 light es story",
+      "routes": 6
+    },
+    {
+      "mode": "2560x1440 dark en story",
+      "routes": 6
+    },
+    {
+      "mode": "2560x1440 dark es story",
+      "routes": 6
+    }
+  ],
+  "checks": {},
+  "captures": 289,
+  "failures": [],
+  "artifactChecks": [
+    {
+      "path": "/data/manifests/index.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/fresh-reevaluation.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/BRKV_level_shift.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/analysis.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/BRKV_level_shift/streaming.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/combinations/selected_cases/BRKV_level_shift.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CHAO_mackey.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/CTRL_white_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/EXOG_promo.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/HETV_garch.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/LMEM_fractional.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/MSEA_daily_weekly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_electricity.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_daily.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/INTM_demand.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_m4_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/REAL_pm25.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/RWLK_noise.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/SEAS_hourly.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/manifests/TRND_seasonal.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/forecastability.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/validated-combinations.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/combinations/m4_weekly/T1.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    },
+    {
+      "path": "/data/REAL_electricity/trace.json",
+      "ok": true,
+      "first": "{",
+      "transportRetry": false
+    }
+  ]
+}

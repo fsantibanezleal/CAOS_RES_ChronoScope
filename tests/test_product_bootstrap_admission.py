@@ -58,6 +58,11 @@ def test_actual_product_generates_and_admits_a_complete_external_candidate(workf
         shutil.copy2(ROOT / "docs/research" / name, root / "docs/research" / name)
     shutil.copytree(ROOT / "app", root / "app", ignore=ignored)
     config = workflow.settings(root)
+    for name in config["stage_inputs"]:
+        target = root / name
+        if not target.is_file():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / name, target)
     monkeypatch.setattr(workflow, "generation_python", lambda *_: Path(sys.executable))
     env = {**os.environ, "CAOS_TEMP_ROOT": str(tmp_path / "external candidates"),
            "PYTHONDONTWRITEBYTECODE": "1"}
@@ -76,11 +81,23 @@ def test_frontend_copies_only_the_admitted_canonical_corpus(tmp_path):
     root = tmp_path / "canonical frontend input"
     (root / "frontend").mkdir(parents=True)
     shutil.copy2(ROOT / "frontend/copy-data.mjs", root / "frontend/copy-data.mjs")
+    (root / "frontend/scripts").mkdir()
+    for name in ("copy-data.mjs", "declared.mjs", "copy-data.product.mjs"):
+        shutil.copy2(ROOT / "frontend/scripts" / name, root / "frontend/scripts" / name)
+    (root / "scripts/local").mkdir(parents=True)
+    (root / "scripts/local/workflow.json").write_text(
+        json.dumps({"stage_inputs": ["data/derived/canonical.json"]}), encoding="utf-8")
     (root / "frontend/src/lib").mkdir(parents=True)
     shutil.copy2(ROOT / "frontend/src/lib/browserCalibration.json", root / "frontend/src/lib/browserCalibration.json")
     derived = root / "data/derived"
     derived.mkdir(parents=True)
     (derived / "canonical.json").write_text('{"source":"admitted"}', encoding="utf-8")
+    (derived / "manifests").mkdir()
+    (derived / "manifests/index.json").write_text(
+        json.dumps({"cases": [], "files": ["canonical.json"]}), encoding="utf-8")
+    (derived / "readiness.json").write_text('{"contracts":[]}', encoding="utf-8")
+    (derived / "reevaluation.json").write_text('{"cases":[]}', encoding="utf-8")
+    (derived / "undeclared.json").write_text('{}', encoding="utf-8")
     untrusted = tmp_path / "unrelated global input"
     untrusted.mkdir()
     (untrusted / "wrong.json").write_text("{}", encoding="utf-8")
@@ -88,7 +105,8 @@ def test_frontend_copies_only_the_admitted_canonical_corpus(tmp_path):
                             env={**os.environ, "CAOS_DATA_ROOT": str(untrusted)}, check=False)
     assert result.returncode == 0, result.stderr
     output = root / "frontend/public/data"
-    assert {p.name for p in output.iterdir()} == {"canonical.json"}
+    assert {p.relative_to(output).as_posix() for p in output.rglob("*") if p.is_file()} == {
+        "canonical.json", "manifests/index.json", "readiness.json", "reevaluation.json"}
     assert (output / "canonical.json").read_bytes() == (derived / "canonical.json").read_bytes()
     shutil.rmtree(derived)
     result = subprocess.run(["node", "copy-data.mjs"], cwd=root / "frontend", capture_output=True,

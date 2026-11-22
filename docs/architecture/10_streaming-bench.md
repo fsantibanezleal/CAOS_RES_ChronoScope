@@ -1,6 +1,6 @@
 # Prequential streaming evaluation
 
-Stage: [`chronoscopelab/stages/streaming.py`](../../data-pipeline/chronoscopelab/stages/streaming.py)
+Stage: [`engine/stages/streaming.py`](../../data-pipeline/engine/stages/streaming.py)
 Tests: [`tests/test_stage_streaming.py`](../../tests/test_stage_streaming.py)
 Evaluator: [`preqts` on PyPI](https://pypi.org/project/preqts/), version 0.3.0
 Detailed study protocol: [`main.tex`](../../manuscripts/prequential-streaming-conformal/tex/main.tex)

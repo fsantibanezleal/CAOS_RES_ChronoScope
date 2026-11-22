@@ -1,9 +1,18 @@
 # Changelog
 
-All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
+All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
-## Unreleased
+## [0.27.000] - 2026-11-22
+
+- Adopt shell v0.26.002 and repository template v0.15.014, preserving product-specific readiness and research admission.
+- Execute reusable diagnostics, forecasts and combinations through published ForecastScope 0.1.4; preserve and verify historical implementation bytes.
+- Correct observable-unit handling, exact-constant boundaries and scientific float transport; audit actual TypeScript/ONNX execution and numerical literals.
+- Extend the bilingual curriculum to eighteen executed notebooks with seven actual reference models, browser training/calibration and whole-series uncertainty calculations.
+- Update the technical report with provider identities, normalized ridge equations, reproducibility boundaries and the current curriculum.
+- Remove the unused Python browser scaffold and protect admitted artifacts from in-place reevaluation.
+
+## Prior candidate work
 
 - Add six source-bound walkthrough views with direct story routes, measured
   annotations, linked selection/scrubbing and shared-shell keyboard/motion controls.

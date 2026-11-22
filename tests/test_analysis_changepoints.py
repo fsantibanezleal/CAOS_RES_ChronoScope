@@ -1,7 +1,7 @@
 """Change-point toolkit tests: ground truth = a series with KNOWN break locations and regimes."""
 import numpy as np
 
-from chronoscopelab.analysis import changepoints as cp
+from engine.analysis import changepoints as cp
 
 
 def _level_shifts(n=300, breaks=(100, 200), levels=(0.0, 5.0, -3.0), noise=0.5, seed=0):

@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from chronoscopelab.model.context_memory import fit_context_memory
-from chronoscopelab.reevaluation import compare_case, metrics
+from engine.model.context_memory import fit_context_memory
+from engine.reevaluation import compare_case, metrics
 
 
 def test_adversarial_context_memory_uses_only_completed_training_targets():
@@ -46,7 +46,7 @@ def test_reconstruction_matches_all_released_observation_positions():
     import json
     from pathlib import Path
 
-    from chronoscopelab.cases.forecast_cases import CASES, build_series
+    from engine.cases.forecast_cases import CASES, build_series
 
     root = Path(__file__).resolve().parents[1]
     artifact = json.loads((root / "data/derived/reevaluation.json").read_text())

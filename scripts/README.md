@@ -20,3 +20,14 @@ second installation or generation path. See [local/README.md](local/README.md)
 for role-root configuration, admission, rollback and the research reproduction
 boundaries. The historical full-engine bake is a separate explicit operation
 documented in the research guides; `precompute` never starts it implicitly.
+
+The web build copies the manifest inventory with the shared template overlay and
+adds the rest of the admitted research corpus through
+[the product hook](../frontend/scripts/copy-data.product.mjs). Regenerate the
+catalog-bound availability record with `python scripts/local/readiness.py --write`
+after changing the catalog or release version. Local stage generation updates this
+record before validation, and admission checks that it still describes the stage.
+
+Run `python scripts/check_manuscript_depth.py --report` and
+`python scripts/check_notebook_depth.py --report` to locate source regions and
+lessons that need revision before content publication.

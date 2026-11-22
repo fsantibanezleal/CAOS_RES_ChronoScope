@@ -30,7 +30,7 @@ def test_adversarial_fresh_inventory_cannot_omit_a_transitive_engine(candidate):
 
 
 def test_adversarial_independent_module_does_not_relabel_frozen_experiment(candidate, tmp_path):
-    shutil.copytree(ROOT / "data-pipeline/chronoscopelab", tmp_path / "data-pipeline/chronoscopelab",
+    shutil.copytree(ROOT / "data-pipeline/engine", tmp_path / "data-pipeline/engine",
                     ignore=shutil.ignore_patterns("__pycache__"))
     (tmp_path / "scripts").mkdir()
     shutil.copyfile(ROOT / "scripts/reevaluate_fresh.py", tmp_path / "scripts/reevaluate_fresh.py")
@@ -41,7 +41,7 @@ def test_adversarial_independent_module_does_not_relabel_frozen_experiment(candi
         destination = tmp_path/rel
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(source, encoding="utf-8", newline="\n")
-    extra = tmp_path / "data-pipeline/chronoscopelab/model/independent_trial.py"
+    extra = tmp_path / "data-pipeline/engine/model/independent_trial.py"
     extra.write_text("def trial():\n    return 7\n", encoding="utf-8")
     assert admission.validate(candidate, root=tmp_path, artifact_root=ROOT) == (15, 22)
     # Even a recorded module outside the import closure cannot change unnoticed.
@@ -52,10 +52,10 @@ def test_adversarial_independent_module_does_not_relabel_frozen_experiment(candi
 
 
 def test_adversarial_new_transitive_import_requires_its_own_binding(tmp_path):
-    package = tmp_path / "data-pipeline/chronoscopelab"
+    package = tmp_path / "data-pipeline/engine"
     (package / "model").mkdir(parents=True)
     (tmp_path / "scripts").mkdir()
-    (tmp_path / "scripts/reevaluate_fresh.py").write_text("from chronoscopelab.model import first\n", encoding="utf-8")
+    (tmp_path / "scripts/reevaluate_fresh.py").write_text("from engine.model import first\n", encoding="utf-8")
     (package / "__init__.py").write_text("", encoding="utf-8")
     (package / "model/__init__.py").write_text("", encoding="utf-8")
     first = package / "model/first.py"
@@ -92,7 +92,7 @@ def test_adversarial_fresh_admission_refutes_corrupted_candidate(candidate, defe
 
 
 def test_adversarial_native_tirex_cannot_map_arbitrary_levels_to_deciles():
-    from chronoscopelab.engines.tirex2_engine import decile_columns
+    from engine.engines.tirex2_engine import decile_columns
 
     assert decile_columns((0.1, 0.5, 0.9)) == [0, 4, 8]
     for levels in ((0.05, 0.5, 0.95), (0, 0.5, 1), (0.11, 0.5, 0.9)):
@@ -116,7 +116,7 @@ def test_historical_sources_remain_exact_while_the_current_export_adds_a_guard(c
     import hashlib
     assert hashlib.sha256(sources[relative].encode()).hexdigest() == candidate["code_sha256"][relative]
     assert "require_forecast_units" not in sources[relative]
-    assert "require_forecast_units" in (ROOT/relative).read_text(encoding="utf-8")
+    assert "require_forecast_units" in (ROOT / "data-pipeline/engine/stages/export.py").read_text(encoding="utf-8")
     assert admission.implementation_dependencies(frozen_source_fixture, sources) <= set(sources)
 
 

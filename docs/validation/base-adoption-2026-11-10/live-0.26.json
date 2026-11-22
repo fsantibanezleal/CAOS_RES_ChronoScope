@@ -1,0 +1,115 @@
+{
+  "build": {
+    "version": "0.26.000",
+    "sha": "78df11793c506c04df14215686f904e660ee8d3c",
+    "built": "2026-11-11T04:30:10.526Z"
+  },
+  "verified_utc": "2026-11-11T04:31:20+00:00",
+  "application_url": "https://chronoscope.fasl-work.com/",
+  "routes": [
+    "/",
+    "/introduction",
+    "/app",
+    "/methodology",
+    "/implementation",
+    "/experiments",
+    "/benchmark"
+  ],
+  "research_artifacts_matching_main": 1867,
+  "artifact_read_retries": 1,
+  "published_citations_in_bundle": [
+    "10.5281/zenodo.24123068",
+    "10.5281/zenodo.24123073",
+    "10.5281/zenodo.24124790"
+  ],
+  "scope": "ChronoScope 0.26.000 with the Timestral Benchmark and three verified manuscript citations",
+  "main_ci": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/42958903945",
+  "pages": "https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/actions/runs/42959600797",
+  "timestral_browser_contexts": [
+    {
+      "width": 390,
+      "lang": "en",
+      "theme": "light",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "theme": "dark",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    },
+    {
+      "width": 390,
+      "lang": "es",
+      "theme": "light",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    },
+    {
+      "width": 390,
+      "lang": "es",
+      "theme": "dark",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    },
+    {
+      "width": 1280,
+      "lang": "en",
+      "theme": "light",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    },
+    {
+      "width": 1280,
+      "lang": "en",
+      "theme": "dark",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    },
+    {
+      "width": 1280,
+      "lang": "es",
+      "theme": "light",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    },
+    {
+      "width": 1280,
+      "lang": "es",
+      "theme": "dark",
+      "rows": 4,
+      "wins": 12,
+      "total": 15
+    }
+  ],
+  "software_archive": {
+    "version": "0.26.000",
+    "git_commit": "78df11793c506c04df14215686f904e660ee8d3c",
+    "concept_doi": "10.5281/zenodo.23875114",
+    "version_doi": "10.5281/zenodo.24125213",
+    "filename": "fsantibanezleal/CAOS_RES_ChronoScope-v0.26.000.zip",
+    "archive_sha256": "1831245e32dcdae0c4743156e8c77393fd01393e32f9c6ff1cf57df6040feef6",
+    "git_blobs_verified": 2587,
+    "git_blobs_matching_raw": 2579,
+    "git_blobs_matching_declared_crlf": [
+      "scripts/dev.ps1",
+      "scripts/local/00_install-prereqs.ps1",
+      "scripts/local/01_init.ps1",
+      "scripts/local/02_generate-data.ps1",
+      "scripts/local/03_dev.ps1",
+      "scripts/precompute.ps1",
+      "scripts/setup.ps1",
+      "scripts/smoke.ps1"
+    ],
+    "verified_utc": "2026-11-11T04:41:49+00:00"
+  }
+}

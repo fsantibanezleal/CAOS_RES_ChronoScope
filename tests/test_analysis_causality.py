@@ -1,7 +1,7 @@
 """Causality/cointegration tests: known lead/lag, directional Granger, cointegrated vs independent pairs."""
 import numpy as np
 
-from chronoscopelab.analysis import causality as ca
+from engine.analysis import causality as ca
 
 
 def _leading_pair(n=400, lead=3, seed=0):

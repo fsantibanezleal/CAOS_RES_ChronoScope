@@ -6,8 +6,8 @@ import importlib.util
 import numpy as np
 import pytest
 
-from chronoscopelab.methods import all_forecasters
-from chronoscopelab.model.forecasters import classical_forecasters
+from engine.methods import all_forecasters
+from engine.model.forecasters import classical_forecasters
 
 HAS_STATSFORECAST = importlib.util.find_spec("statsforecast") is not None
 HAS_LIGHTGBM = (
@@ -32,7 +32,7 @@ def test_statistical_engines_forecast_valid_quantiles():
     names = {fc.name for fc in all_forecasters()}
     assert {"AutoETS", "AutoTheta", "AutoARIMA"} <= names
 
-    from chronoscopelab.engines import heavy_forecasters
+    from engine.engines import heavy_forecasters
 
     rng = np.random.default_rng(0)
     y = 50 + 10 * np.sin(np.arange(120) * 2 * np.pi / 12) + rng.normal(0, 2.0, 120)
@@ -45,20 +45,20 @@ def test_statistical_engines_forecast_valid_quantiles():
 
 def test_foundation_tier_opt_in_by_default():
     # Without CHRONOSCOPE_ENABLE_FOUNDATION set, the foundation tier is omitted (keeps tests fast).
-    from chronoscopelab.engines.chronos_engine import chronos_forecasters
+    from engine.engines.chronos_engine import chronos_forecasters
 
     assert chronos_forecasters() == []
 
 
 def _foundation_available():
-    from chronoscopelab.engines.chronos_engine import foundation_available
+    from engine.engines.chronos_engine import foundation_available
 
     return foundation_available()
 
 
 @pytest.mark.skipif(not _foundation_available(), reason="foundation deps/checkpoints not available")
 def test_chronos_foundation_forecasts():
-    from chronoscopelab.engines.chronos_engine import _CHECKPOINTS, ChronosForecaster, _model_root
+    from engine.engines.chronos_engine import _CHECKPOINTS, ChronosForecaster, _model_root
 
     name, folder = _CHECKPOINTS[0]
     fc = ChronosForecaster(name, str(_model_root() / folder))
@@ -73,7 +73,7 @@ def test_chronos_foundation_forecasts():
 def test_lightgbm_ml_engine_forecasts():
     names = {fc.name for fc in all_forecasters()}
     assert "LightGBM" in names
-    from chronoscopelab.engines.lightgbm_engine import LightGBMForecaster
+    from engine.engines.lightgbm_engine import LightGBMForecaster
 
     rng = np.random.default_rng(1)
     y = 50 + 10 * np.sin(np.arange(180) * 2 * np.pi / 12) + 0.2 * np.arange(180) + rng.normal(0, 2.0, 180)

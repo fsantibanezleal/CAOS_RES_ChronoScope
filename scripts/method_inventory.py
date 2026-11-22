@@ -8,12 +8,14 @@ from __future__ import annotations
 import argparse
 import ast
 import hashlib
+from importlib.metadata import distribution
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DESTINATION = Path("docs/design/method-inventory.json")
-ENGINE = "data-pipeline/chronoscopelab/"
+ENGINE = "data-pipeline/engine/"
+PROVIDER_RECEIPT = Path("docs/validation/base-adoption-2026-11-22/forecastscope-provider.json")
 NON_METHOD_APIS = {
     "stationarity.stationarity_report": "Assembles the stationarity tests, differencing recommendations and combined verdict.",
     "autocorrelation.autocorrelation_report": "Assembles correlograms, portmanteau statistics and lag pairs.",
@@ -235,6 +237,26 @@ def validate_analysis_api(rows, root=ROOT):
         raise ValueError("Uninventoried analysis API: " + ", ".join(sorted(actual - covered - excluded)))
 
 
+def numerical_providers(root):
+    receipt = json.loads((root / PROVIDER_RECEIPT).read_text(encoding="utf-8"))
+    installed = distribution(receipt["distribution"])
+    if installed.version != receipt["version"]:
+        raise ValueError("Installed ForecastScope version differs from the numerical provider receipt")
+    providers = {}
+    for adapter, module in receipt["adapters"].items():
+        provider = receipt["modules"][module]
+        source = installed.locate_file(module.replace(".", "/") + ".py").read_bytes()
+        if hashlib.sha256(source).hexdigest() != provider["source_sha256"]:
+            raise ValueError("Installed numerical provider source differs: " + module)
+        tree = ast.parse((root / adapter).read_text(encoding="utf-8"))
+        calls = [node for node in ast.walk(tree) if isinstance(node, ast.Call)
+                 and isinstance(node.func, ast.Attribute) and node.func.attr == "import_module"]
+        if len(calls) != 1 or not calls[0].args or not isinstance(calls[0].args[0], ast.Constant) or calls[0].args[0].value != module:
+            raise ValueError("Unexpected numerical provider binding: " + adapter)
+        providers[adapter] = ({"distribution": receipt["distribution"], "version": receipt["version"], **provider}, ast.parse(source))
+    return providers
+
+
 def validate(rows, root=ROOT):
     ids = [row["id"] for row in rows]
     if len(ids) != len(set(ids)):
@@ -242,6 +264,7 @@ def validate(rows, root=ROOT):
     expected = {row["id"] for row in catalog()}
     if set(ids) != expected:
         raise ValueError("Numerical procedure inventory is incomplete or contains undeclared entries")
+    providers = numerical_providers(root)
     for row in rows:
         source, symbol = row["implementation"].split("::", 1)
         path = root / source
@@ -251,6 +274,9 @@ def validate(rows, root=ROOT):
                 or not path.is_file() or not validation.is_file()):
             raise ValueError(f"Missing source or validation: {row['id']}")
         tree = ast.parse(path.read_text(encoding="utf-8"))
+        if source in providers:
+            provider, tree = providers[source]
+            row["runtime_provider"] = provider
         if not any(isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name == symbol for node in tree.body):
             raise ValueError(f"Unimplemented callable: {row['implementation']}")
     covered = {row["artifact_name"] for row in rows if row["scope"] == "forecast"}

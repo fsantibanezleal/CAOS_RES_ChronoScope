@@ -12,9 +12,9 @@
 \setlength{\LTcapwidth}{\textwidth}
 \setlength{\parindent}{0pt}
 \newcommand{\doctype}{Technical report}
-\newcommand{\docversion}{v0.26.000}
-\newcommand{\docdate}{11 November 2026}
-\newcommand{\versiondoi}{10.5281/zenodo.24124790}
+\newcommand{\docversion}{v0.27.000}
+\newcommand{\docdate}{22 November 2026}
+\newcommand{\versiondoi}{10.5281/zenodo.24435155}
 \newcommand{\conceptdoi}{10.5281/zenodo.23874816}
 \newcommand{\docrepo}{github.com/fsantibanezleal/CAOS\_RES\_ChronoScope}
 \newcommand{\headerblock}{\begin{center}\fbox{\parbox{0.94\textwidth}{\small\raggedright
@@ -105,6 +105,8 @@ where $\ell_n$ is the selected SES level and $b$ is the fitted linear slope. An 
 
 The Gaussian widening rule maps a residual standard deviation to three ordered columns at probabilities 0.1, 0.5 and 0.9. Residual estimation, Gaussian shape and horizon widening are assumptions. Neither an ordered matrix nor a quantile-loss fit establishes marginal or conditional calibration. These distinctions also apply to the direct neural adaptations and the lag-tree adapter.
 
+\input{observable-units.tex}
+
 \input{forecast-methods.tex}
 
 
@@ -124,6 +126,7 @@ The fixed-allocation means in Figure~\ref{fig:fixed-combination-means} retain th
 \begin{figure}[htbp]\centering\includegraphics[width=0.87\textwidth]{proposal-comparison.pdf}
 \caption{Fixed matching-expert combinations on the corrected fifteen-case protocol. Lower mean MASE is preferable. The contextual component does not improve on the recency-only ablation. Bars summarize selected final blocks, not independent population replications.}\label{fig:fixed-combination-means}\end{figure}
 
+The following derivation specifies the source-bound combination study, including its historical feasibility tolerances and scale-degeneracy cutoffs. Its retained results are not re-labelled as fits by the current provider. Section~\ref{sec:observable-units} describes the current positive-scale and exact-constant policies; their verification is a separate numerical consistency exercise.
 \input{selection-derivation.tex}
 
 \input{combination-algorithm.tex}
@@ -244,7 +247,7 @@ The browser delegates chart interaction, summaries, tables, reset controls and k
 
 Numbered local workflows check prerequisites, initialize declared environments, build an external data candidate and start the development server. Generation binds source and payload fingerprints, refuses partial inventories and changed frozen inputs, and separates candidate creation from explicit promotion. Historical engine-version metadata is retained rather than relabeled to match the new browser release. An unused epidemic-model surrogate inherited from an older repository structure was removed.
 
-Sixteen executed English and Spanish notebooks cover a seasonal reference, an incomplete-season experiment, actual statistical/tree adapter execution, the fixed combination with its ablations, sequence patterns, multiscale complexity and disjoint-series corpus inference. Their metadata records exact direct dependencies, sources, inputs and method coverage. Fresh-kernel execution and byte comparison check that committed outputs are current. Numerical convergence notices are retained as portable text; machine paths and incidental notebook metadata are excluded.
+Eighteen English and Spanish notebooks cover a seasonal reference, an incomplete-season experiment, actual statistical/tree adapter execution, the fixed combination with its ablations, sequence patterns, multiscale complexity, disjoint-series corpus inference and information timing. The model-comparison pair executes the NLinear, DLinear, NHITS, Chronos-Bolt, Chronos-2, TimesFM 2.5 and retained TiRex-2 reference implementations on the observed prefix before scoring its reserved future. Their versions and checkpoint revisions are recorded rather than replaced by newer upstream releases. The workflow pair fits the browser linear map and calibrates its residual bands through the canonical scientific producers. Whole-series resampling in the combination and temporal-validation lessons preserves within-series dependence; excluded zero-origin rows do not enter the sampling population. Metadata records direct dependencies, sources, inputs and method coverage. Fresh-kernel execution and output comparison check that committed outputs are current. Numerical convergence notices are retained as portable text; machine paths and incidental notebook metadata are excluded.
 
 \section{Sequence diagnostics and corpus evaluation}
 \label{sec:method-sequence}
@@ -384,14 +387,14 @@ For the contextual proposal, a stronger follow-up also needs faithful FFORMA and
 
 Numerical checks use different reference constructions where feasible. Seasonal continuation is checked on an incomplete cycle so that restarting phase would fail. Finite-history Theta is compared with a two-line derivation rather than a second transcription of its final formula. Exact profile distances are checked against exhaustive distances on short sequences. Entropy calculations retain independent matching-count examples, and corrected probabilities are recomputed without relying only on the plotting artifact. These checks target concrete mistakes; passing them does not prove every input regime correct.
 
-Browser evidence adds another boundary. A late asynchronous result must not acquire a newer case identity, a replay-decimated history must not become a contiguous fit input, and an optional combination record must not join a different prefix. Tests submit these mismatched inputs to verify each refusal. Frontend build success, pointer traversal, keyboard interaction and idle behavior are measured separately. The latest walkthrough increment still requires its complete final browser matrix, and the artifact admission result is not a substitute for that rendered check. Independent reader review and complete dimensional review remain separate requirements before a new publication or release can be accepted.
+Browser evidence adds another boundary. A late asynchronous result must not acquire a newer case identity, a replay-decimated history must not become a contiguous fit input, and an optional combination record must not join a different prefix. Tests submit these mismatched inputs to verify each refusal. Frontend build success, pointer traversal, keyboard interaction and idle behavior are measured separately. The rendered matrix spans declared routes, widths, languages and themes; artifact admission is not a substitute for that check. Independent reader review and dimensional review likewise have their own source-bound records. The numerical results in this report do not imply that any later application build has passed those separate delivery gates.
 
 \input{discussion-limits.tex}
 
 \section{Reproduction and availability}
 Implementations and admitted numerical outputs are available in the \href{https://github.com/fsantibanezleal/CAOS_RES_ChronoScope/tree/20fa9357716b534c4fdd3a5aa66cacd9eb66e416}{source snapshot for the archived studies}.
 
-The source tree contains the corrected computation in \texttt{chronoscopelab.reevaluation}, the fixed proposal in \texttt{model/context\_memory.py}, original released traces, admitted source CSVs and the generated comparison. Running \texttt{scripts/reevaluate.py} regenerates the common final-block artifact while preserving the original traces. The staged local workflow provides complete candidate admission and explicit promotion. The original fresh-study implementation bytes are retained in a 56-source archive with a verified inventory. The historical execution commit was unavailable. The reproducibility instructions beside this report identify the distinct commands for numerical checks, figure generation and the clean LaTeX build.
+The source tree contains current experiment tooling under \texttt{data-pipeline/engine}, thin adapters to published ForecastScope methods, original released traces, admitted source CSVs and generated comparisons. Running \texttt{scripts/reevaluate.py} requires an explicit external candidate output; it cannot replace admitted artifacts in place. The staged local workflow provides candidate admission and explicit promotion. The original fresh-study implementation bytes are retained in a 56-source archive with a verified inventory. That historical execution commit was unavailable. Separately, the pre-migration application-source archive verifies the complete historical source maps used by retained studies; these archives serve different provenance purposes. The reproducibility instructions distinguish current provider checks, retained forecast rescoring, the pinned historical replay reconstruction, figure generation and the clean LaTeX build.
 
 The numerical tables and figures are generated directly from the two admitted forecast comparisons, full-sequence diagnostics and complete M4 study. The research report generator checks independent corpus statistics before producing its tables. The new lesson authoring script records the exact admitted corpus results; fresh-kernel execution remains a separate step. Code and compact admitted data use the repository's software/data licences; prose uses the licence stated in the header. Numerical reproduction does not establish representative population sampling, operational adoption or calibrated uncertainty for a future deployment.
 

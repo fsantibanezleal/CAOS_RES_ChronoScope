@@ -45,14 +45,29 @@ def refresh_replay(scratch: Path) -> None:
     assert protected == {rel: digest(ROOT / rel) for rel in inputs}, "A frozen generator input changed"
 
 
+def copy_shared_inputs(slug: str) -> None:
+    """Keep each manuscript buildable using only its own source directory."""
+    manuscripts = ROOT / "manuscripts"
+    report = manuscripts / "product-report/next"
+    combination = manuscripts / "context-memory/next"
+    if slug == "context-memory":
+        for path in ("tables/proposal.tex", "figures/proposal-comparison.pdf",
+                     "figures/case-differences.pdf", "figures/validated-combinations.pdf"):
+            shutil.copyfile(report / path, combination / path)
+    elif slug == "product-report":
+        for path in ("tex/selection-derivation.tex", "tex/notation.tex", "tables/paired-main.tex"):
+            shutil.copyfile(combination / path, report / path)
+
+
 def build(slug: str, scratch: Path) -> None:
+    copy_shared_inputs(slug)
     folder = ROOT / "manuscripts" / slug / "next"
     output = scratch / slug
     output.mkdir(parents=True, exist_ok=True)
     subprocess.run(["latexmk", "-cd", "-pdf", "-recorder", "-interaction=nonstopmode", "-halt-on-error",
                     f"-outdir={output.as_posix()}", str(folder / "tex/main.tex")], cwd=ROOT, check=True)
     log = (output / "main.log").read_text(encoding="utf-8", errors="replace")
-    bad = ("has been already used, duplicate ignored", "There were undefined references", "Citation `", "Overfull \\hbox")
+    bad = ("destination with the same identifier", "There were undefined references", "Citation `", "Overfull \\hbox")
     if any(marker in log for marker in bad):
         raise ValueError(f"Unresolved LaTeX layout/reference warning in {output / 'main.log'}")
     sources = {}
@@ -73,6 +88,9 @@ def build(slug: str, scratch: Path) -> None:
                "scope": "Compiled PDF and local input identity only; not publication acceptance",
                "latex_engine": engine, "pdf_sha256": digest(pdf), "pdf_bytes": pdf.stat().st_size,
                "source_files": dict(sorted(sources.items()))}
+    if slug == "product-report":
+        companions = [folder / "REPRODUCING.md", *sorted((folder / "tables").glob("*.csv"))]
+        receipt["companion_files"] = {path.relative_to(ROOT).as_posix(): digest(path) for path in companions}
     (folder / "build-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Bound {slug}: {len(sources)} local inputs, PDF {receipt['pdf_sha256']}")
 

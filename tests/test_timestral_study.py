@@ -13,6 +13,9 @@ sys.path.insert(0, str(ROOT / "scripts"))
 spec = importlib.util.spec_from_file_location("timestral_study", ROOT / "scripts/evaluate_timestral.py")
 study = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(study)
+check_spec = importlib.util.spec_from_file_location("timestral_check", ROOT / "scripts/check_timestral_study.py")
+check = importlib.util.module_from_spec(check_spec)
+check_spec.loader.exec_module(check)
 SETTINGS = {"probabilities": [.1, .5, .9], "symmetric_averaging": True, "clip_nonnegative": True}
 LEVELS = (.01, .05, .1, .15, .2, .25, .3, .35, .4, .45, .5, .55, .6, .65, .7, .75, .8, .85, .9, .95, .99)
 
@@ -63,3 +66,13 @@ def test_adversarial_malformed_public_model_output_refuses(defect):
 def test_unavailable_quantile_is_not_silently_rounded_to_a_nearby_level():
     with pytest.raises(ValueError):
         study.forecast_case(Recorder(), case(), {**SETTINGS, "probabilities": [.11, .5, .9]})
+
+
+def test_retained_quantiles_in_wrong_observable_units_fail_independent_verification():
+    document = check.load(check.FOLDER / "results.json")
+    row = document["models"][0]["cases"][0]
+    for field in ("lower", "point", "upper"):
+        row[field] = [value + 1e6 for value in row[field]]
+    row["quantiles"] = [[value + 1e6 for value in step] for step in row["quantiles"]]
+    with pytest.raises(ValueError, match="prediction_outside_observable"):
+        check.validate(document)

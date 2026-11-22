@@ -1,6 +1,6 @@
 # Cross-series: correlation, causality, cointegration
 
-Code: [`chronoscopelab/analysis/causality.py`](../../data-pipeline/chronoscopelab/analysis/causality.py)
+Code: [`engine/analysis/causality.py`](../../data-pipeline/engine/analysis/causality.py)
 · Tests: [`tests/test_analysis_causality.py`](../../tests/test_analysis_causality.py)
 
 ## Relating two series

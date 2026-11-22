@@ -7,7 +7,7 @@ identical numerical behavior, and disagreement alone is not a parity failure.
 
 ## Package implementations
 
-`data-pipeline/chronoscopelab/engines/neuralforecast_engine.py` wraps
+`data-pipeline/engine/engines/neuralforecast_engine.py` wraps
 `neuralforecast==3.1.9` models NLinear, DLinear and NHITS with a multi-quantile
 pinball objective. The measured labels carry the `(nf)` suffix. The adapter's
 context budget, optimization steps, seed and requested quantiles define the
@@ -18,7 +18,7 @@ condition, not evidence of poor forecasting accuracy.
 
 ## Direct adaptations
 
-`data-pipeline/chronoscopelab/engines/neural_engine.py` implements separately
+`data-pipeline/engine/engines/neural_engine.py` implements separately
 measured PyTorch variants. Its NLinear subtracts the final observed value and
 uses quantile-specific linear outputs. DLinear decomposes its input using a
 moving average and combines two linear maps. The NHITS-labeled direct variant

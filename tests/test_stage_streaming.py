@@ -1,8 +1,8 @@
 """Streaming-bench stage tests: the preqts prequential trajectories bake per case (the flagship piece)."""
 import numpy as np
 
-from chronoscopelab.io.schema import SeriesSpec
-from chronoscopelab.stages import streaming
+from engine.io.schema import SeriesSpec
+from engine.stages import streaming
 
 
 def _spec(n=300, m=12, seed=0, case_id="stream_test"):
@@ -57,7 +57,7 @@ def test_block_is_json_ready_and_referenced():
 def test_exog_case_demonstrates_the_covariate_policy():
     """The known-future-covariate case: the covariate-AWARE ridge must beat the covariate-BLIND one, and
     the streaming block must carry the covariate with its arrival policy (the preqts novel piece)."""
-    from chronoscopelab import registry
+    from engine import registry
 
     spec = registry.build_series(registry.get_case("EXOG_promo"), seed=42)
     assert spec.covariates and spec.covariates[0].kind == "known_future"

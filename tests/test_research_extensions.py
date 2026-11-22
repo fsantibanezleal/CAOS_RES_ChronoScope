@@ -24,7 +24,7 @@ def test_all_original_case_diagnostics_are_admitted():
 
 
 def test_source_restrictions_do_not_leak_even_a_short_sequence():
-    from chronoscopelab.stages.export import _redact_analysis
+    from engine.stages.export import _redact_analysis
 
     restricted = _redact_analysis({"sequence": {"values": [1.0, 2.0, 3.0], "n": 3}})
     assert restricted["sequence"]["available"] is False

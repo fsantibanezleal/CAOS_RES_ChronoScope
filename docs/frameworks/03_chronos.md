@@ -1,7 +1,7 @@
 # Chronos-Bolt and Chronos-2 adapters
 
 ChronoScope implements both Chronos-Bolt and Chronos-2 through
-`data-pipeline/chronoscopelab/engines/chronos_engine.py`; neither is a future
+`data-pipeline/engine/engines/chronos_engine.py`; neither is a future
 placeholder. These are pretrained forecasting models, consumed from local
 checkpoint folders and evaluated without per-case weight fitting. They remain
 distinct variants in the fifteen-case fresh comparison. Their exact checkpoint

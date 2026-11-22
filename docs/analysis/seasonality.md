@@ -1,6 +1,6 @@
 # Seasonality
 
-Code: [`chronoscopelab/analysis/seasonality.py`](../../data-pipeline/chronoscopelab/analysis/seasonality.py)
+Code: [`engine/analysis/seasonality.py`](../../data-pipeline/engine/analysis/seasonality.py)
 · Tests: [`tests/test_analysis_seasonality.py`](../../tests/test_analysis_seasonality.py)
 
 ## What seasonality is, and the four questions to answer

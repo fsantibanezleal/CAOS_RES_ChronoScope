@@ -1,0 +1,222 @@
+{
+  "provider": {
+    "distribution": "forecastscope",
+    "version": "0.1.1",
+    "source": "https://github.com/fsantibanezleal/CAOS_ForecastScope/blob/f63d71a1d35dfee67b231254d2b2f6323ef36535/src/forecastscope/diagnostics/volatility.py",
+    "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
+  },
+  "publication": {
+    "version": "0.1.1",
+    "git_commit": "f63d71a1d35dfee67b231254d2b2f6323ef36535",
+    "release": "https://github.com/fsantibanezleal/CAOS_ForecastScope/releases/tag/v0.01.001",
+    "index": "https://pypi.org/project/forecastscope/0.1.1/",
+    "exact_main_ci": "https://github.com/fsantibanezleal/CAOS_ForecastScope/actions/runs/42963682207",
+    "publish_workflow": "https://github.com/fsantibanezleal/CAOS_ForecastScope/actions/runs/42964074220",
+    "artifacts": [
+      {
+        "filename": "forecastscope-0.1.1-py3-none-any.whl",
+        "size": 57574,
+        "sha256": "24fded93d2c5cf4a09d7dac89b6ee12286db8f2db56cb9cbd8ae2fb5c8e013f7",
+        "type": "bdist_wheel",
+        "package_files_matching_git": 19
+      },
+      {
+        "filename": "forecastscope-0.1.1.tar.gz",
+        "size": 71010,
+        "sha256": "ed0fd1fb50e379942c806b8313417ba293df18777a217678077ff7fee277e3ef",
+        "type": "sdist",
+        "package_files_matching_git": 19
+      }
+    ],
+    "verified_utc": "2026-11-11T05:12:38+00:00"
+  },
+  "compatibility": {
+    "scope": "Direct offline volatility-report compatibility on the 15 admitted common-holdout sequences",
+    "reference_sha256": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
+    "forecastscope_version": "0.1.1",
+    "box_cox_shifts_changed": 2,
+    "arch_lm_rolling_and_garch_fits_matching": 15,
+    "cases": [
+      {
+        "case_id": "BRKV_level_shift",
+        "seasonality": 12,
+        "observations": 300,
+        "minimum": 30.06653825150805,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 0.10317329718733052,
+        "source_scaled_box_cox_lambda": 0.10317329718733052,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "CHAO_mackey",
+        "seasonality": 1,
+        "observations": 500,
+        "minimum": 58.292605182337454,
+        "box_cox_method": "mle",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 4.435420573413274,
+        "source_scaled_box_cox_lambda": 4.435420573413274,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "CTRL_white_noise",
+        "seasonality": 1,
+        "observations": 160,
+        "minimum": 33.65949023707654,
+        "box_cox_method": "mle",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 1.1550492445719185,
+        "source_scaled_box_cox_lambda": 1.1550492445719185,
+        "garch_fit_scale": null
+      },
+      {
+        "case_id": "EXOG_promo",
+        "seasonality": 7,
+        "observations": 240,
+        "minimum": 31.983372832207806,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": -0.8999267731997017,
+        "source_scaled_box_cox_lambda": -0.8999267731997017,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "HETV_garch",
+        "seasonality": 1,
+        "observations": 500,
+        "minimum": 91.69793587300965,
+        "box_cox_method": "mle",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 2.270475866529777,
+        "source_scaled_box_cox_lambda": 2.270475866529777,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "INTM_demand",
+        "seasonality": 1,
+        "observations": 200,
+        "minimum": 0,
+        "box_cox_method": "mle",
+        "previous_box_cox_shift": 1,
+        "source_scaled_box_cox_shift": 17.997194363202762,
+        "previous_box_cox_lambda": -1.7845847987444143,
+        "source_scaled_box_cox_lambda": -10.617152526633676,
+        "garch_fit_scale": null
+      },
+      {
+        "case_id": "LMEM_fractional",
+        "seasonality": 1,
+        "observations": 500,
+        "minimum": 45.92529136123336,
+        "box_cox_method": "mle",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 0.503613152827464,
+        "source_scaled_box_cox_lambda": 0.503613152827464,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "MSEA_daily_weekly",
+        "seasonality": 24,
+        "observations": 672,
+        "minimum": 57.36557557483356,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 0.8055685863038633,
+        "source_scaled_box_cox_lambda": 0.8055685863038633,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "REAL_electricity",
+        "seasonality": 24,
+        "observations": 480,
+        "minimum": 123.6559,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": -0.8999267731997017,
+        "source_scaled_box_cox_lambda": -0.8999267731997017,
+        "garch_fit_scale": 0.1
+      },
+      {
+        "case_id": "REAL_m4_daily",
+        "seasonality": 7,
+        "observations": 400,
+        "minimum": 991.5,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": -0.8999267731997017,
+        "source_scaled_box_cox_lambda": -0.8999267731997017,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "REAL_m4_hourly",
+        "seasonality": 24,
+        "observations": 480,
+        "minimum": 349,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": -0.1188506653965252,
+        "source_scaled_box_cox_lambda": -0.1188506653965252,
+        "garch_fit_scale": 0.1
+      },
+      {
+        "case_id": "REAL_pm25",
+        "seasonality": 24,
+        "observations": 480,
+        "minimum": 0,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 1,
+        "source_scaled_box_cox_shift": 286,
+        "previous_box_cox_lambda": -0.37652940089918635,
+        "source_scaled_box_cox_lambda": -0.8999267731997017,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "RWLK_noise",
+        "seasonality": 1,
+        "observations": 200,
+        "minimum": 73.5898,
+        "box_cox_method": "mle",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": -7.6225338769504605,
+        "source_scaled_box_cox_lambda": -7.6225338769504605,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "SEAS_hourly",
+        "seasonality": 24,
+        "observations": 480,
+        "minimum": 66.84911066698726,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 1.999926773194879,
+        "source_scaled_box_cox_lambda": 1.999926773194879,
+        "garch_fit_scale": 1
+      },
+      {
+        "case_id": "TRND_seasonal",
+        "seasonality": 12,
+        "observations": 180,
+        "minimum": 45.29467736246403,
+        "box_cox_method": "guerrero",
+        "previous_box_cox_shift": 0,
+        "source_scaled_box_cox_shift": 0,
+        "previous_box_cox_lambda": 1.0387105768624034,
+        "source_scaled_box_cox_lambda": 1.0387105768624034,
+        "garch_fit_scale": 1
+      }
+    ]
+  }
+}
