@@ -50,7 +50,7 @@ function LiveRealInference({ cases }: { cases: ReevaluatedCase[] }) {
     {point && trace && <>
       <UPlotChart xs={point.map((_, i) => i + 1)} series={[
         { label: es ? 'Observado' : 'Observed', values: trace.actual.slice(0, point.length), color: 'var(--color-good)' },
-        { label: 'Normalized linear (ONNX)', values: point, color: 'var(--color-accent)' },
+        { label: es ? 'Lineal normalizado (ONNX)' : 'Normalized linear (ONNX)', values: point, color: 'var(--color-accent)' },
       ]} height={320} xLabel={es ? 'Paso reservado' : 'Held-out lead'} yLabel={es ? 'Unidades del caso' : 'Case value units'} ariaSummary={es ? 'Inferencia real en el navegador' : 'Live browser inference on real data'} />
       <p>{es ? 'Error absoluto medio' : 'Mean absolute error'}: {formatNumber(point.reduce((s, p, i) => s + Math.abs(p - trace.actual[i]), 0) / point.length, lang, { digits: 4 })}</p>
     </>}
@@ -116,7 +116,7 @@ export default function BenchmarkCurrent() {
         ]} ariaSummary={t('Absolute error by lead on one reserved block','Error absoluto por paso en un bloque reservado')} xLabel={t('Forecast lead','Paso de pronóstico')} yLabel={t('Absolute error in case units','Error absoluto en unidades del caso')} />}
         <p>{t('This is an observed degradation diagnostic from one final block, not a confidence band or a repeated-noise robustness experiment. Compare local spikes with the aggregate score before drawing a conclusion.', 'Este es un diagnóstico observado de un bloque final, no una banda de confianza ni un experimento repetido con perturbaciones. Compare los errores locales con la medida agregada antes de concluir.')}</p>
       </DocSection> },
-      { id:'live',label:t('Live real inference','Inferencia real viva'),content:<DocSection title={{en:'NLinear in the browser',es:'NLinear en el navegador'}} area="live" refs={['dlinear']}><LiveRealInference cases={data.cases} /></DocSection> },
+      { id:'live',label:t('Live real inference','Inferencia real viva'),content:<DocSection title={{en:'Normalized linear inference in the browser',es:'Inferencia lineal normalizada en el navegador'}} area="live" refs={['dlinear']}><LiveRealInference cases={data.cases} /></DocSection> },
     ]},{id:'corpus-scope',label:t('Corpus and scope','Corpus y alcance'),tabs:[
       { id:'sources',label:t('Cases and sources','Casos y fuentes'),content:<DocSection title={{en:'Case provenance and diagnostic context',es:'Procedencia y contexto diagnóstico'}} area="provenance" noRefsReason={own}>
         <div className="cs-table-scroll"><table className="cs-table"><thead><tr><th>{t('Case','Caso')}</th><th>{t('Difficulty','Dificultad')}</th><th>{t('Source','Fuente')}</th><th>{t('Redistribution','Redistribución')}</th></tr></thead><tbody>{manifests.map(m=><tr key={m.case_id}><td>{m.case_id}</td><td>{es ? m.category.replace(/(\d)\.(\d)/g, '$1,$2') : m.category}</td><td>{m.provenance.source}</td><td><code>{m.provenance.license}</code>: {m.provenance.public_artifact_ok?t('admitted','admitida'):t('restricted','restringida')}</td></tr>)}</tbody></table></div>

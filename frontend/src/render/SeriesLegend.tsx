@@ -4,6 +4,7 @@
 // so the selection is informed and the number is never ambiguous. This is the on-chart curve selection the
 // rubric requires when many series overlap (you can pick out one method among 19).
 import { formatNumber } from '@fasl-work/caos-app-shell';
+import { methodFamilyLabel } from '../lib/displayLabels';
 
 export interface LegendItem {
   name: string;
@@ -16,16 +17,7 @@ export interface LegendItem {
 
 export type LegendMetric = 'mase' | 'wql' | 'msis';
 
-const FAMILY_ORDER = ['classical', 'statistical', 'ml', 'deep', 'deep (live)', 'foundation', 'adaptive ensemble'];
-const famLabel: Record<string, { en: string; es: string }> = {
-  classical: {en:'Rules and smoothing',es:'Reglas y suavizado'},
-  statistical: {en:'Automatic statistical fits',es:'Ajustes estadísticos automáticos'},
-  ml: {en:'Lagged trees',es:'Árboles con rezagos'},
-  deep: {en:'Per-series neural models',es:'Redes ajustadas por serie'},
-  'deep (live)': {en:'Browser neural inference',es:'Inferencia neuronal local'},
-  foundation: {en:'Pretrained sequence models',es:'Modelos preentrenados'},
-  'adaptive ensemble': {en:'Adaptive combinations',es:'Combinaciones adaptativas'},
-};
+const FAMILY_ORDER = ['classical', 'statistical', 'linear (live)', 'ml', 'deep', 'deep (live)', 'foundation', 'adaptive ensemble'];
 const METRICS: { id: LegendMetric; label: string }[] = [
   { id: 'mase', label: 'MASE' },
   { id: 'wql', label: 'WQL' },
@@ -95,7 +87,7 @@ export function SeriesLegend({
         return (
           <div key={fam} className="cs-legend-group">
             <button className="cs-legend-fam" onClick={() => onSetGroup(names, !allShown)} title={es ? 'alternar familia' : 'toggle family'}>
-              {famLabel[fam]?.[es ? 'es' : 'en'] ?? fam}
+              {methodFamilyLabel(fam, es)}
             </button>
             {group.map((it) => {
               const off = hidden.has(it.name);

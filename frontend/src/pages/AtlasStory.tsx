@@ -1,3 +1,4 @@
+import { sourceClassLabel } from '../lib/displayLabels';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { Scene3DFrame, SceneCallouts, Stage, StoryFrame, formatNumber, useLinkedCursor, useLinkedItem, useLinkedView, useShellLang, type SceneCalloutDef, type StoryStep } from '@fasl-work/caos-app-shell';
@@ -171,7 +172,7 @@ export default function AtlasStory() {
   const sourceControls = <div className="cs-story-source"><label>{es ? 'Fuente' : 'Source'} <select aria-label={es ? 'Fuente de la historia' : 'Story source'} value={mode} onChange={event => setMode(event.target.value as 'baked' | 'synthetic')}>
     <option value="baked">{es ? 'Caso registrado' : 'Baked case'}</option><option value="synthetic">{es ? 'Generador determinista' : 'Deterministic generator'}</option></select></label>
     {mode === 'baked' && <label>{es ? 'Caso' : 'Case'} <select aria-label={es ? 'Caso de la historia' : 'Story case'} value={caseId} onChange={event => setCaseId(event.target.value)}>{index?.cases.map(item => <option key={item.case_id} value={item.case_id}>{item.case_id}</option>)}</select></label>}
-    <small>{mode === 'synthetic' ? (es ? `Datos generados; semilla ${source.knobs.seed}. Modifica parámetros en Explorar.` : `Generated data; seed ${source.knobs.seed}. Edit parameters in Explore.`) : `${source.manifest?.real_or_synthetic ?? ''} · ${caseId}`}</small></div>;
+    <small>{mode === 'synthetic' ? (es ? `Datos generados; semilla ${source.knobs.seed}. Modifica parámetros en Explorar.` : `Generated data; seed ${source.knobs.seed}. Edit parameters in Explore.`) : `${sourceClassLabel(source.manifest?.real_or_synthetic, es)} · ${caseId}`}</small></div>;
   function methodRows(names = allMethods.map(v => v.name)) {
     return <div className="cs-story-methods">{names.map(name => { const row = allRows.find(v => v.name === name), weight = mix?.weights?.[EXPERTS.indexOf(name)];
       return <LinkedButton key={name} id={name} side="panel"><span>{methodLabel(name)}</span><span>{active === 'component' && weight != null ? `${fmt(100 * weight, 1)}%` : `MASE ${fmt(row?.mase)}`}</span></LinkedButton>; })}</div>;

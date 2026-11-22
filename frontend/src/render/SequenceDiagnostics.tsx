@@ -49,13 +49,13 @@ export function SequenceDiagnostics({ data }: { data?: SequenceData }) {
         {p.discords.map((d, i) => <tr key={`d${i}`}><td>{t('Discord', 'Discordancia')}</td><td>{d.start}</td><td>{d.start+p.window-1}</td><td>{fmt(d.distance)}</td></tr>)}
         {p.regime_boundaries.map(b => <tr key={`b${b}`}><td>FLUSS</td><td>{b}</td><td>{t("n/a", "n/d")}</td><td>{t("n/a", "n/d")}</td></tr>)}
       </tbody></table></div>
-    </> : <p>{p.reason}</p>}
+    </> : <p>{t('Matrix Profile unavailable. Source detail: ', 'Matrix Profile no disponible. Detalle de origen: ')}<code>{p.reason}</code></p>}
     <UPlotChart xs={entropy.map(s => s.scale)} series={[{ label: t('Sample entropy', 'Entropía muestral'), values: entropy.map(s => s.entropy), color: 'var(--color-good)' }]}
       xPrecision={0} yLabel={t('Entropy (nats)', 'Entropía (nats)')}
       xLabel={t('Coarse-graining scale', 'Escala de grano grueso')} ariaSummary={t('Multiscale entropy with fixed original tolerance', 'Entropía multiescala con tolerancia original fija')} />
     <p>{t('Tolerance remains', 'La tolerancia se mantiene en')} {fmt(entropy[0]?.tolerance ?? null)}; m={data.multiscale_entropy.order}. {t('Missing values mean insufficient observations or no matching templates. Compare curves only under the same length and tolerance protocol.', 'Los valores ausentes indican pocas observaciones o falta de plantillas coincidentes. Compare curvas solo con el mismo protocolo de longitud y tolerancia.')}</p>
     <p>{t('Binary Lempel–Ziv complexity', 'Complejidad binaria Lempel–Ziv')}: {data.lempel_ziv.raw}; {t('normalized', 'normalizada')}: {fmt(data.lempel_ziv.normalized)}. {t('Threshold: median. Finite-sample normalization can exceed one.', 'Umbral: mediana. La normalización de muestras finitas puede superar uno.')}</p>
-    <div className="cs-table-scroll"><table className="cs-table"><caption>{t('Time-reversal asymmetry: descriptive, without a significance verdict', 'Asimetría temporal: descriptiva, sin dictamen de significancia')}</caption><thead><tr><th>Lag</th><th>{t('Raw', 'Sin normalizar')}</th><th>{t('Standardized', 'Estandarizada')}</th></tr></thead><tbody>
+    <div className="cs-table-scroll"><table className="cs-table"><caption>{t('Time-reversal asymmetry: descriptive, without a significance verdict', 'Asimetría temporal: descriptiva, sin dictamen de significancia')}</caption><thead><tr><th>{t('Lag', 'Retardo')}</th><th>{t('Raw', 'Sin normalizar')}</th><th>{t('Standardized', 'Estandarizada')}</th></tr></thead><tbody>
       {data.time_reversal.map(r => <tr key={r.lag}><td>{r.lag}</td><td>{fmt(r.raw)}</td><td>{fmt(r.standardized)}</td></tr>)}
     </tbody></table></div>
   </div>;

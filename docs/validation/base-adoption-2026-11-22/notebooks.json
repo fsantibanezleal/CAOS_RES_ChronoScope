@@ -205,7 +205,7 @@
     "notebooks/requirements.txt": "07f7b53e85e5e2a5ab16669d0afa4658ca78d31fd8bc2be3b011b8e85918b5bf",
     "docs/validation/base-adoption-2026-11-22/forecastscope-provider.json": "6a789706b75580a52ee40d6d930684e7c7d96cb7199f133885a6903df442bee8",
     "docs/validation/base-adoption-2026-11-22/forecastscope-parity.json": "70d627ed5ffea50a14e381eb19bc685c7c06fde9c18d8e76ba8a521dc2c56faa",
-    "scripts/unit_constants.json": "001016b7bd391274d8aebaf5559beb30bbf07a3b1d66d301ae28baa452c260bf"
+    "scripts/unit_constants.json": "6d1eda6b5f7c2852955bb78b287996c06fd0328ee7bd68f987aa26fd7141e0be"
   },
   "runtime": {
     "notebook_python": "D:/_Venvs/chronoscope/.venv-lessons/Scripts/python.exe",
@@ -230,6 +230,13 @@
       "after_sha256": "001016b7bd391274d8aebaf5559beb30bbf07a3b1d66d301ae28baa452c260bf",
       "reason": "Independently reviewed output-root guard source identity; no numerical values or notebook scientific inputs changed.",
       "review": "Independent numeric-unit review PASS; pipeline source b6a25763f9d2ae376913f8564cf0f28fdf555018000de3e67d0b23e655d79d7a"
+    },
+    {
+      "path": "scripts/unit_constants.json",
+      "before_sha256": "001016b7bd391274d8aebaf5559beb30bbf07a3b1d66d301ae28baa452c260bf",
+      "after_sha256": "6d1eda6b5f7c2852955bb78b287996c06fd0328ee7bd68f987aa26fd7141e0be",
+      "reason": "Adds one independently reviewed numeric-free presentation-label module to the audit inventory. All original98 source hashes and2237 numeric literals, provider identity, notebook authoring sources, scientific inputs and executed outputs are unchanged. No new notebook execution is claimed.",
+      "review": "Independent dimensional/scope review PASS for displayLabels.ts SHA256 2b786c49556b1a21b824aee5b7ee70ac30000ae89e9bba0ddb9b36388e2abe96"
     }
   ],
   "batch_inputs_sha256": {
