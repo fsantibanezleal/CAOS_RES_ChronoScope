@@ -276,11 +276,37 @@ def outputs() -> dict[Path, str]:
         if evidence and not (ROOT / evidence.partition("#")[0]).is_file():
             raise ValueError(f"Missing retained evidence file for {row['id']}: {evidence}")
         crosswalk.append((row["name"], row["implementation"], label, validation, scope, evidence))
+    providers = {}
+    for row in inventory["methods"]:
+        provider = row.get("runtime_provider")
+        if provider:
+            entry = providers.setdefault(provider["module"], {**provider, "adapters": set()})
+            if (entry["version"], entry["source_sha256"]) != (provider["version"], provider["source_sha256"]):
+                raise ValueError("One provider module has inconsistent execution identities")
+            entry["adapters"].add(row["implementation"].partition("::")[0].removeprefix("data-pipeline/"))
+    provider_rows = [("module", "version", "source_sha256", "product_adapters")]
+    provider_tex = [
+        r"\begin{longtable}{p{0.28\textwidth}p{0.08\textwidth}p{0.16\textwidth}p{0.33\textwidth}}",
+        r"\caption{Installed numerical providers and product adapters for current execution; historical study source identities remain attached to their retained artifacts. Hashes show twelve-character prefixes; the companion CSV retains full SHA-256 values.}\label{tab:numerical-providers}\\",
+        r"\toprule Provider module & Version & Source hash & Product adapter\\\midrule\endfirsthead",
+        r"\toprule Provider module & Version & Source hash & Product adapter\\\midrule\endhead",
+    ]
+    def breakable(value):
+        return str(value).replace("_", r"\_").replace(".", r".\allowbreak{}").replace("/", r"/\allowbreak{}")
+    for module, provider in sorted(providers.items()):
+        adapters = "; ".join(sorted(provider["adapters"]))
+        provider_rows.append((module, provider["version"], provider["source_sha256"], adapters))
+        provider_tex.append(r"\texttt{" + breakable(module) + "} & " + provider["version"] +
+                            r" & \texttt{" + provider["source_sha256"][:12] + "} & " +
+                            r"\texttt{" + breakable(adapters) + r"}\\")
+    provider_tex += [r"\bottomrule", r"\end{longtable}", ""]
     return {
         TABLES / "fresh-by-case.csv": csv_text(by_case),
         TABLES / "procedure-crosswalk.csv": csv_text(crosswalk),
         TABLES / "observed-analysis-fields.csv": csv_text(observed_fields()),
         TABLES / "catch24-fields.csv": csv_text(catch_fields),
+        TABLES / "numerical-providers.csv": csv_text(provider_rows),
+        TABLES / "numerical-providers.tex": "\n".join(provider_tex),
     }
 
 

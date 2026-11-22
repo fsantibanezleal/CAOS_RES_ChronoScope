@@ -14,13 +14,14 @@ spec.loader.exec_module(bindings)
 
 
 @pytest.mark.parametrize("defect", ["pdf", "source", "line-endings", "reviewed-hash"])
-def test_adversarial_publication_rejects_changed_or_noncanonical_source(tmp_path, defect):
-    folder = tmp_path / "report"
+def test_adversarial_publication_rejects_changed_or_noncanonical_source(tmp_path, defect, monkeypatch):
+    folder = tmp_path / "manuscripts/product-report"
     shutil.copytree(ROOT / "manuscripts/product-report", folder,
                     ignore=shutil.ignore_patterns("*.aux", "*.log", "*.out", "*.toc"))
     candidate = next(c for c in json.loads((ROOT / "manuscripts/publication-candidates.json").read_text(encoding="utf-8"))["candidates"]
                      if c["pdf"] == "manuscripts/product-report/main.pdf")
-    assert bindings.verify(folder, candidate) == "10.5281/zenodo.23884372"
+    monkeypatch.setattr(bindings, "ROOT", tmp_path)
+    assert bindings.verify(folder, candidate) == candidate["version_doi"]
     if defect == "pdf":
         path = folder / "main.pdf"
         path.write_bytes(path.read_bytes() + b"altered")

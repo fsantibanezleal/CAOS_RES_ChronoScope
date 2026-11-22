@@ -10,17 +10,18 @@
         "affiliation": "CAOS open-research programme, Santiago, Chile"
       }
     ],
-    "description": "<p>This technical report documents ChronoScope time-series diagnostics, forecast implementations, artifact contracts, validation and replay. It retains the external forecast-combination comparison, the independently reproduced Timestral holdouts, the M4 Daily selection result and the synthetic browser calibration confirmation. Procedure algorithms and field definitions distinguish callable calculations, retained outputs and runtime tests.</p>",
+    "description": "<p>ChronoScope connects time-series diagnostics, numerical implementations and finite forecast comparisons to their source observations and information cutoffs. This technical report derives the forecasting and diagnostic methods, specifies the artifact contracts, and distinguishes retained experiments from current numerical execution. It documents the published ForecastScope provider, prefix-only normalization, constant-input policies and eighteen bilingual lessons with actual model references and browser training.</p><p>The external combination experiment finds lower mean MASE for temporally validated mixtures than for a recency-only control on eligible M4 Weekly and M3 Monthly series. AutoTheta retains lower monthly point error and lower interval score on both collections. On fifteen selected blocks, the planned Timestral-209M minus AutoTheta mean MASE difference is -0.44740, with a descriptive case-reweighting interval from -0.79356 to -0.15991. A separate synthetic confirmation preserves the browser point map and reduces mean normalized interval score from 4.749003 to 2.393376 on 800 fresh series; marginal coverage is 82.73 percent at the nominal 80 percent level. Unfavorable fixed-context, selector and ridge results remain reported.</p><p>Complete forecasts, source and checkpoint identities, generated tables and independent scoring make the comparisons inspectable. The results concern their admitted cases, protocols and sampling units. They establish neither general forecasting superiority, authentic-data calibration nor an accepted operational policy. <a href=\"https://github.com/fsantibanezleal/CAOS_RES_ChronoScope\">Source code and computational records</a> accompany the report.</p>",
     "keywords": [
       "time-series forecasting",
-      "reproducibility",
-      "forecast combination",
-      "benchmark",
-      "uncertainty"
+      "time-series diagnostics",
+      "forecast combinations",
+      "prediction intervals",
+      "numerical reproducibility",
+      "foundation models"
     ],
     "license": "cc-by-4.0",
     "language": "eng",
-    "version": "0.26.000",
+    "version": "0.27.000",
     "related_identifiers": [
       {
         "relation": "isSupplementedBy",
@@ -31,9 +32,240 @@
         "relation": "isSupplementedBy",
         "identifier": "https://pypi.org/project/preqts/",
         "resource_type": "software"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1016/j.ijforecast.2006.03.001",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1198/016214506000001437",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1016/j.ijforecast.2019.02.011",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1007/s10994-018-05774-y",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.2307/2981683",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2106.00170",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2307.16895",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2610.37585",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2607.01204",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1080/01621459.1979.10482531",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1016/0304-4076(92)90104-Y",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1080/01621459.2012.737745",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.2307/1912791",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.2307/1913236",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.2307/2938278",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1109/ICDM.2016.0179",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1109/ICDM.2017.21",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1103/PhysRevLett.89.068102",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1109/TIT.1976.1055501",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1007/s10618-019-00647-x",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.24432/C58C86",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.24432/C5JS49",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.5281/zenodo.4656589",
+        "resource_type": "dataset"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1016/j.ijforecast.2024.07.006",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.5281/zenodo.4656548",
+        "resource_type": "dataset"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.5281/zenodo.4656522",
+        "resource_type": "dataset"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.5281/zenodo.4656298",
+        "resource_type": "dataset"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2107.07511",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.18637/jss.v027.i03",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.1016/S0169-2070(01)00110-8",
+        "resource_type": "publication-article"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2205.13504",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2201.12886",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2403.07815",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "cites",
+        "identifier": "10.48550/arXiv.2310.10688",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "references",
+        "identifier": "10.5281/zenodo.21508920",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "references",
+        "identifier": "10.5281/zenodo.23874820",
+        "resource_type": "publication-preprint"
+      },
+      {
+        "relation": "isSupplementedBy",
+        "identifier": "10.5281/zenodo.23875114",
+        "resource_type": "software"
       }
     ],
-    "publication_date": "2026-11-11",
-    "version_notes": "Adds independently reviewed methods and diagnostic procedures, data contract and field definitions, source-bound forecast and calibration evidence, and the full reproducibility crosswalk."
+    "references": [
+      "R. J. Hyndman and B. Billah, Unmasking the Theta method. International Journal of Forecasting, 2003. https://robjhyndman.com/papers/Theta.pdf.",
+      "R. J. Hyndman and A. B. Koehler, Another look at measures of forecast accuracy. International Journal of Forecasting, 2006. https://doi.org/10.1016/j.ijforecast.2006.03.001.",
+      "T. Gneiting and A. E. Raftery, Strictly proper scoring rules, prediction, and estimation. JASA, 2007. https://doi.org/10.1198/016214506000001437.",
+      "P. Montero-Manso et al., FFORMA: Feature-based forecast model averaging. International Journal of Forecasting, 2020. https://doi.org/10.1016/j.ijforecast.2019.02.011.",
+      "V. Cerqueira et al., Arbitrage of forecasting experts. Machine Learning, 108, 913-944, 2019. https://doi.org/10.1007/s10994-018-05774-y.",
+      "A. P. Dawid, Statistical theory: The prequential approach. JRSS A, 1984. https://doi.org/10.2307/2981683.",
+      "I. Gibbs and E. Candès, Adaptive conformal inference under distribution shift. NeurIPS, 2021. https://arxiv.org/abs/2106.00170.",
+      "A. N. Angelopoulos, E. Candès and R. J. Tibshirani, Conformal PID control for time series prediction. https://arxiv.org/abs/2307.16895.",
+      "R. J. Hyndman and G. Athanasopoulos, Forecasting: Principles and Practice. Holt-Winters seasonal method. https://otexts.com/fpp3/holt-winters.html.",
+      "Nixtla, StatsForecast model implementation documentation. https://nixtlaverse.nixtla.io/statsforecast/src/core/models.html.",
+      "A. Petralia et al., Timestral. arXiv:2610.37585, 2026. https://arxiv.org/abs/2610.37585. Inference source: https://github.com/mistralai/timestral.",
+      "Amazon Science, Chronos forecasting implementation and releases. https://github.com/amazon-science/chronos-forecasting.",
+      "Google Research, TimesFM model API. https://github.com/google-research/timesfm.",
+      "P. Podest et al., TiRex-2: Generalizing TiRex to Multivariate Data and Streaming, 2026. https://arxiv.org/abs/2607.01204.",
+      "D. A. Dickey and W. A. Fuller, Distribution of the estimators for autoregressive time series with a unit root. JASA, 1979. https://doi.org/10.1080/01621459.1979.10482531.",
+      "D. Kwiatkowski, P. C. B. Phillips, P. Schmidt and Y. Shin, Testing the null hypothesis of stationarity against the alternative of a unit root. Journal of Econometrics, 1992. https://doi.org/10.1016/0304-4076(92)90104-Y.",
+      "R. Killick, P. Fearnhead and I. A. Eckley, Optimal detection of changepoints with a linear computational cost. JASA, 2012. https://doi.org/10.1080/01621459.2012.737745.",
+      "C. W. J. Granger, Investigating causal relations by econometric models and cross-spectral methods. Econometrica, 1969. https://doi.org/10.2307/1912791.",
+      "R. F. Engle and C. W. J. Granger, Co-integration and error correction: representation, estimation, and testing. Econometrica, 1987. https://doi.org/10.2307/1913236.",
+      "S. Johansen, Estimation and hypothesis testing of cointegration vectors in Gaussian vector autoregressive models. Econometrica, 1991. https://doi.org/10.2307/2938278.",
+      "C.-C. M. Yeh et al., Matrix Profile I: All Pairs Similarity Joins for Time Series. ICDM, 2016. https://doi.org/10.1109/ICDM.2016.0179.",
+      "S. Gharghabi et al., Matrix Profile VIII: Domain Agnostic Online Semantic Segmentation at Superhuman Performance Levels. ICDM, 2017. https://doi.org/10.1109/ICDM.2017.21.",
+      "M. Costa, A. L. Goldberger and C.-K. Peng, Multiscale Entropy Analysis of Complex Physiologic Time Series. Physical Review Letters 89, 068102, 2002. https://doi.org/10.1103/PhysRevLett.89.068102.",
+      "A. Lempel and J. Ziv, On the Complexity of Finite Sequences. IEEE Transactions on Information Theory 22, 75-81, 1976. https://doi.org/10.1109/TIT.1976.1055501.",
+      "C. H. Lubba et al., catch22: CAnonical Time-series CHaracteristics. Data Mining and Knowledge Discovery 33, 1821-1852, 2019. https://doi.org/10.1007/s10618-019-00647-x.",
+      "A. Trindade, ElectricityLoadDiagrams20112014. UCI Machine Learning Repository, 2015. https://doi.org/10.24432/C58C86.",
+      "S. Chen, Beijing PM2.5 Data. UCI Machine Learning Repository, 2017. https://doi.org/10.24432/C5JS49.",
+      "R. Godahewa et al., M4 Hourly Dataset, Monash Forecasting Repository. https://doi.org/10.5281/zenodo.4656589.",
+      "R. Fildes, P. Goodwin and S. De Baets, Forecast value added in demand planning, International Journal of Forecasting 41(2), 649-669, 2025. https://doi.org/10.1016/j.ijforecast.2024.07.006.",
+      "R. Godahewa et al., M4 Daily Dataset, Monash Forecasting Repository. https://doi.org/10.5281/zenodo.4656548.",
+      "tsfresh, Feature filtering: dependent-test significance and Benjamini-Yekutieli correction. https://tsfresh.readthedocs.io/en/v0.21.0/text/feature_filtering.html.",
+      "R. Godahewa et al., M4 Weekly Dataset, Monash Forecasting Repository, version 3. https://doi.org/10.5281/zenodo.4656522.",
+      "R. Godahewa et al., M3 Monthly Dataset, Monash Forecasting Repository, version 3. https://doi.org/10.5281/zenodo.4656298.",
+      "A. N. Angelopoulos and S. Bates, A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification. https://arxiv.org/abs/2107.07511.",
+      "R. J. Hyndman and Y. Khandakar, Automatic time series forecasting: The forecast package for R. Journal of Statistical Software, 27, 1-22, 2008. https://doi.org/10.18637/jss.v027.i03.",
+      "R. J. Hyndman, A. B. Koehler, R. D. Snyder and S. Grose, A state space framework for automatic forecasting using exponential smoothing methods. International Journal of Forecasting, 18, 439-454, 2002. https://doi.org/10.1016/S0169-2070(01)00110-8.",
+      "G. Ke et al., LightGBM: A highly efficient gradient boosting decision tree. Advances in Neural Information Processing Systems, 30, 2017. https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html.",
+      "Nixtla, MLForecast documentation and lag-feature forecasting API. https://nixtlaverse.nixtla.io/mlforecast/.",
+      "A. Zeng, M. Chen, L. Zhang and Q. Xu, Are transformers effective for time series forecasting? AAAI, 2023; arXiv:2205.13504. https://arxiv.org/abs/2205.13504.",
+      "C. Challu et al., N-HiTS: Neural hierarchical interpolation for time series forecasting. AAAI, 2023; arXiv:2201.12886. https://arxiv.org/abs/2201.12886.",
+      "Nixtla, NeuralForecast model and multi-quantile loss documentation. https://nixtlaverse.nixtla.io/neuralforecast/.",
+      "A. F. Ansari et al., Chronos: Learning the language of time series. arXiv:2403.07815, 2024. https://arxiv.org/abs/2403.07815.",
+      "A. Das, W. Kong, R. Sen and Y. Zhou, A decoder-only foundation model for time-series forecasting. ICML, 2024; arXiv:2310.10688. https://arxiv.org/abs/2310.10688.",
+      "S. Boyd and L. Vandenberghe, Convex Optimization. Cambridge University Press, 2004. https://web.stanford.edu/ boyd/cvxbook/."
+    ],
+    "publication_date": "2026-11-22",
+    "version_notes": "Documents published numerical-provider separation, observable-unit and exact-constant policies, full-precision transport, eighteen executable lessons and actual seven-model references. Reconciles current method equations with retained historical implementations; preserves all historical results and their source identities. Titles and conclusions remain bounded to diagnostics and finite forecast evaluation."
   }
 }

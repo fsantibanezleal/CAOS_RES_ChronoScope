@@ -3,23 +3,22 @@
   "candidates": [
     {
       "kind": "technical-report",
-      "version": "0.26.000",
+      "version": "0.27.000",
       "covers": [
         "BS-1"
       ],
       "state": "published",
       "pdf": "manuscripts/product-report/main.pdf",
-      "sha256": "b2828e58394a0bfdf0a91676b146096bb6a28b0ae26c413cc7242d8e9108b4da",
+      "sha256": "2ab204a76ebfb2c04c69b72a91d9e77ad5140e06b109ad4dee566cd12a270845",
       "source": "manuscripts/product-report/tex/main.tex",
-      "source_sha256": "7f05321b6b7f127d66f218f2683cf5bbc1a68416e2d6c94f8f23b10e8b09dd36",
-      "version_doi": "10.5281/zenodo.24124790",
+      "source_sha256": "ec13b81d00bad7e1abf50df0ef7a1fc0925e67fa2bd7325b69c3ab1549b97cc1",
+      "version_doi": "10.5281/zenodo.24435155",
       "concept_doi": "10.5281/zenodo.23874816",
-      "doi": "10.5281/zenodo.24124790",
-      "record_url": "https://zenodo.org/records/24124790",
-      "reviewed_pdf_sha256": "b2828e58394a0bfdf0a91676b146096bb6a28b0ae26c413cc7242d8e9108b4da",
-      "reviewed_source_sha256": "7f05321b6b7f127d66f218f2683cf5bbc1a68416e2d6c94f8f23b10e8b09dd36",
-      "publication_source_sha256": "b00c55d568af0d75bdb0c34fa8a72cff74a1d44fe4d896039a160ca2a93224ea",
-      "independent_reviewed_working_pdf_sha256": "5f51cce8f19fb7de0a946c21e5fd3ac0ef30b463bd098f616693c675480e2bb4"
+      "doi": "10.5281/zenodo.24435155",
+      "record_url": "https://zenodo.org/records/24435155",
+      "reviewed_pdf_sha256": "2ab204a76ebfb2c04c69b72a91d9e77ad5140e06b109ad4dee566cd12a270845",
+      "reviewed_source_sha256": "ec13b81d00bad7e1abf50df0ef7a1fc0925e67fa2bd7325b69c3ab1549b97cc1",
+      "independent_reviewed_working_pdf_sha256": "114fb57dc6d6e5647e1bd3716cadac07b667f14dfc96943394f24a80097c3599"
     },
     {
       "kind": "manuscript",

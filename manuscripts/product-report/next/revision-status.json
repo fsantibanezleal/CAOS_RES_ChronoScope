@@ -2,22 +2,28 @@
   "state": "working-revision",
   "published": false,
   "title": "ChronoScope: Time-Series Diagnostics and Forecast Evaluation",
-  "independent_reader_review": "passed on the bound working draft",
+  "independent_reader_review": "passed for the exact bound 0.27.000 working PDF and compiled inputs",
   "published_predecessor_preserved": true,
-  "full_content_bar": "passed for this manuscript",
+  "full_content_bar": "passed mechanical depth, coverage and independent scientific/layout review",
   "measured_content": {
-    "words": 26325,
-    "equations": 49,
+    "words": 27376,
+    "equations": 50,
     "figures": 11,
-    "tables": 28,
+    "tables": 29,
     "references": 44,
     "algorithms": 18,
     "sections": 21
   },
-  "compiled_pages": 85,
-  "released_as": {
+  "compiled_pages": 88,
+  "previous_release": {
     "version": "0.26.000",
     "doi": "10.5281/zenodo.24124790",
     "sha256": "b2828e58394a0bfdf0a91676b146096bb6a28b0ae26c413cc7242d8e9108b4da"
+  },
+  "independent_reviewed_pdf_sha256": "114fb57dc6d6e5647e1bd3716cadac07b667f14dfc96943394f24a80097c3599",
+  "released_as": {
+    "version": "0.27.000",
+    "doi": "10.5281/zenodo.24435155",
+    "sha256": "2ab204a76ebfb2c04c69b72a91d9e77ad5140e06b109ad4dee566cd12a270845"
   }
 }
