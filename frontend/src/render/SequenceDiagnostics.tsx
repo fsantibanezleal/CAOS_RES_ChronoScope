@@ -49,7 +49,7 @@ export function SequenceDiagnostics({ data }: { data?: SequenceData }) {
         {p.discords.map((d, i) => <tr key={`d${i}`}><td>{t('Discord', 'Discordancia')}</td><td>{d.start}</td><td>{d.start+p.window-1}</td><td>{fmt(d.distance)}</td></tr>)}
         {p.regime_boundaries.map(b => <tr key={`b${b}`}><td>FLUSS</td><td>{b}</td><td>{t("n/a", "n/d")}</td><td>{t("n/a", "n/d")}</td></tr>)}
       </tbody></table></div>
-    </> : <p>{p.reason}</p>}
+    </> : <p>{t('Matrix Profile unavailable. Source detail: ', 'Matrix Profile no disponible. Detalle de origen: ')}<code>{p.reason}</code></p>}
     <UPlotChart xs={entropy.map(s => s.scale)} series={[{ label: t('Sample entropy', 'Entropía muestral'), values: entropy.map(s => s.entropy), color: 'var(--color-good)' }]}
       xPrecision={0} yLabel={t('Entropy (nats)', 'Entropía (nats)')}
       xLabel={t('Coarse-graining scale', 'Escala de grano grueso')} ariaSummary={t('Multiscale entropy with fixed original tolerance', 'Entropía multiescala con tolerancia original fija')} />

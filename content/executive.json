@@ -550,21 +550,30 @@
   },
   "illustrations": {
     "pain": {
-      "file": "executive/pain.svg",
+      "file": {
+        "en": "executive/pain.svg",
+        "es": "executive/pain-es.svg"
+      },
       "caption": {
         "en": "Forecast disagreements reach the same loading bay as excess stock and unmet demand.",
         "es": "Las diferencias entre pronósticos llegan al mismo andén como excesos y demanda sin atender."
       }
     },
     "situation": {
-      "file": "executive/situation.svg",
+      "file": {
+        "en": "executive/situation.svg",
+        "es": "executive/situation-es.svg"
+      },
       "caption": {
         "en": "Planning, operations and analytics contribute different information to the same commitment.",
         "es": "Planificación, operaciones y analítica aportan información distinta al mismo compromiso."
       }
     },
     "proposal": {
-      "file": "executive/proposal.svg",
+      "file": {
+        "en": "executive/proposal.svg",
+        "es": "executive/proposal-es.svg"
+      },
       "caption": {
         "en": "A shared planning cycle makes uncertainty visible before resources are committed.",
         "es": "Un ciclo compartido hace visible la incertidumbre antes de comprometer recursos."

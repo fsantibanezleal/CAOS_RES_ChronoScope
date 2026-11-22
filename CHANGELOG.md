@@ -11,6 +11,9 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`
 - Extend the bilingual curriculum to eighteen executed notebooks with seven actual reference models, browser training/calibration and whole-series uncertainty calculations.
 - Update the technical report with provider identities, normalized ridge equations, reproducibility boundaries and the current curriculum.
 - Remove the unused Python browser scaffold and protect admitted artifacts from in-place reevaluation.
+- Complete Spanish workbench controls, method families, source classifications, five architecture diagrams and accessible executive illustration names; retain every stored method identifier.
+- Replace histogram, QQ and single-block error overclaims with descriptive interpretations and distinct calibration limits.
+- Validate both language-specific illustration paths, including missing assets, labels and theme paints.
 
 ## Prior candidate work
 
