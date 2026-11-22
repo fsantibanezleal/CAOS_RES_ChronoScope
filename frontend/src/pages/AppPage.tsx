@@ -408,7 +408,7 @@ export default function AppPage() {
                 : 'catch22 contains 22 features selected for classification performance and low redundancy on its study collections; catch24 adds mean and standard deviation. This fingerprint describes the series and does not guarantee forecast selection or sufficiency for other objectives.'}</div>
               <div className="cs-chart">
                 <table className="cs-table">
-                  <thead><tr><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
+                  <thead><tr><th>{es ? 'característica' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'característica' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
                   <tbody>
                     {(() => {
                       const entries = Object.entries(bakedCatch22.features ?? {});
