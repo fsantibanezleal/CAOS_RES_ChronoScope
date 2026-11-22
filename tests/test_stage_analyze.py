@@ -23,6 +23,24 @@ def test_stationarity_recommendation_survives_a_change_of_observed_units(monkeyp
     assert result["recommended_D"] == 0
 
 
+@pytest.mark.parametrize("unit", [1e-9, 1.0, 1e9])
+def test_complete_stationarity_panel_remains_available_after_unit_conversion(monkeypatch, unit):
+    from types import SimpleNamespace
+
+    original_safe = analyze._safe
+    monkeypatch.setattr(analyze, "_safe", lambda name, call:
+                        original_safe(name, call) if name == "stationarity" else {})
+    rng = np.random.default_rng(73019)
+    rng.normal(size=240)
+    seasonal = 3 * np.sin(2 * np.pi * np.arange(240) / 12) + rng.normal(0, 0.05, 240)
+    spec = SimpleNamespace(y=unit * (seasonal + 17), seasonality=12, case_id="UNIT_SEASONAL")
+    result = analyze.run(spec)["stationarity"]
+    assert "error" not in result
+    assert len(result["tests"]) == 5
+    assert result["recommended_d"] == 0
+    assert result["recommended_D"] == 1
+
+
 def test_analyze_runs_all_panels_on_a_seasonal_case():
     spec = registry.build_series(registry.get_case("SEAS_hourly"), seed=42)
     a = analyze.run(spec)
