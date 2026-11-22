@@ -16,6 +16,14 @@ from engine.data import loaders
 from engine.engines.neural_engine import NeuralForecaster
 from engine.io.schema import Covariate, ForecastResult, MethodForecast, SeriesSpec
 from engine.stages import streaming
+from engine.stages.feature_extraction import _seasonal_strength
+
+
+@pytest.mark.parametrize("level", [0.1, 1e-14, 1e12])
+@pytest.mark.parametrize("cycles", [2, 5, 10])
+def test_adversarial_constant_complete_cycles_ignore_incomplete_tail(level, cycles):
+    values = np.r_[np.full(12 * cycles, level), 2 * level]
+    assert _seasonal_strength(values, 12) == 0.0
 
 
 @pytest.mark.parametrize("factor,offset", [(1e-18, 0), (1e12, -4e12), (2, 17)])
@@ -48,6 +56,18 @@ def test_adversarial_sparse_outlier_detection_does_not_invent_a_measured_mad():
     values = [1, 1, 1, 1, 3]
     assert _mad_zscores(values) == _mad_zscores([v * 1e-18 for v in values])
     assert _mad_zscores(values) == [0, 0, 0, 0, float("inf")]
+
+
+@pytest.mark.parametrize("level", [0.1, 1e-14, 1e12])
+def test_adversarial_constant_covariate_cannot_acquire_a_future_effect(level):
+    y = np.sin(np.arange(120) / 3) + np.arange(120) / 100
+    past = np.full((120, 1), level)
+    predictor = _ridge_batch(12, use_cov=True)
+    unchanged = predictor(y, 3, past, np.full((3, 1), level), (0.1, 0.5, 0.9))
+    changed = predictor(y, 3, past, np.full((3, 1), 9 * level), (0.1, 0.5, 0.9))
+    blind = _ridge_batch(12, use_cov=False)(y, 3, None, None, (0.1, 0.5, 0.9))
+    np.testing.assert_array_equal(changed, unchanged)
+    np.testing.assert_allclose(changed, blind, rtol=1e-13, atol=1e-13)
 
 
 @pytest.mark.parametrize("level", [1, 0.1, 1e-14, 1e12])

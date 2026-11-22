@@ -10,9 +10,9 @@ from ..io.schema import FeatureRow, SeriesSpec
 def _seasonal_strength(y: np.ndarray, m: int) -> float:
     if m < 2 or y.shape[0] < 2 * m:
         return 0.0
-    if np.ptp(y) == 0:
-        return 0.0
     n = (y.shape[0] // m) * m
+    if np.ptp(y[:n]) == 0:
+        return 0.0
     blocks = y[:n].reshape(-1, m)
     seasonal_means = blocks.mean(axis=0)
     seasonal_component = np.tile(seasonal_means, n // m)

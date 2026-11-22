@@ -1,10 +1,10 @@
 # TiRex-2 WSL2 lane: setup + how it works
 
-TiRex-2 (NX-AI, streaming-native xLSTM) is the atlas's 19th method. It cannot run on native Windows: its
+The retained TiRex-2 0.1.1 reference (NX-AI, streaming-native xLSTM) is the atlas's 19th method. This historical lane uses Linux because its
 `flashrnn` dependency needs `triton` and fused sLSTM CUDA kernels compiled by `nvcc`, and none ship Windows
 wheels. So TiRex-2 runs in a WSL2 (Linux) venv with CUDA-in-WSL, and the Windows pipeline invokes it per
 case and merges the result as a foundation method. The lane is **opt-in** and degrades gracefully, so CI and
-the default bake never depend on WSL.
+the default bake never depend on WSL. This setup describes that retained version, not all current TiRex releases. Upstream 0.5 changes checkpoint format and runtime support; see the [dated review](../research/2026-11-22-foundation-update.md). For executed lesson references, use the separately pinned [notebook reference runtime](notebook-references.md).
 
 ## One-time setup (the build box)
 

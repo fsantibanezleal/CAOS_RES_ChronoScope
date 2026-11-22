@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from source_bindings import implementation_sources
+from source_bindings import implementation_sources  # noqa: E402
 SOURCE_FILES = (
     "data-pipeline/chronoscopelab/reevaluation.py",
     "data-pipeline/chronoscopelab/model/forecasters.py",

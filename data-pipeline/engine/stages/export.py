@@ -70,7 +70,17 @@ def run(
     trace = build_trace(result, actual, eval_metrics, redact_raw=redact_raw)
     artifact_rel = f"{case.id}/trace.json"
     trace_bytes = write_json(Path(derived_dir) / artifact_rel, trace)
-    gate = classify_lane(pure_python=True, wheels={"numpy"}, run_ms=run_ms, trace_bytes=trace_bytes)
+    # This export executes the offline roster, not the separate TypeScript/ONNX
+    # browser implementations. Artifact size and speed cannot make it browser code.
+    dependencies = {"numpy", "forecastscope"}
+    family_dependencies = {
+        "classical": set(), "statistical": {"statsforecast"},
+        "ml": {"lightgbm", "mlforecast"}, "deep": {"torch", "neuralforecast"},
+        "foundation": {"torch"},
+    }
+    for method in result.methods:
+        dependencies.update(family_dependencies.get(method.family, {"unclassified-offline-runtime"}))
+    gate = classify_lane(pure_python=False, wheels=dependencies, run_ms=run_ms, trace_bytes=trace_bytes)
 
     # The "understand the series" half of CONTRACT 2: the baked analysis panel the web Understand workbench
     # reads. Written as a separate artifact (it is large and only the App's Understand half needs it). For a

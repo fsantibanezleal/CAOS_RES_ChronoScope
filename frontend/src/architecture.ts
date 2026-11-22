@@ -188,14 +188,14 @@ const FLOW = svg('cs-a3', 430, `
   <text class="mu" x="424" y="180">every chart: zoom/pan/crosshair/brush; the legend rail solos a curve; theme-aware</text>
 
   <rect class="grp" x="20" y="222" width="832" height="184" rx="10"/>
-  <text class="sub" x="34" y="242" style="font-weight:600;">HOW THE BUILD STAYS HONEST</text>
+  <text class="sub" x="34" y="242" style="font-weight:600;">BUILD AND DATA CHECKS</text>
   <rect class="bx bx-store" x="34" y="256" width="250" height="130" rx="9"/>
   <text class="ttl" x="46" y="276">artifact overlay</text>
   <text class="cd mono" x="46" y="294">frontend/copy-data.mjs</text>
   <text class="mu" x="46" y="314">prebuild copies data/derived +</text>
   <text class="mu" x="46" y="330">manifests into public/; the SPA</text>
   <text class="mu" x="46" y="346">fetches them (never hand-typed)</text>
-  <text class="mu" x="46" y="370">+ inlines the pyodide sources</text>
+  <text class="mu" x="46" y="370">+ binds the graph to its calibration</text>
   <rect class="bx bx-warn" x="300" y="256" width="250" height="130" rx="9"/>
   <text class="ttl" x="312" y="276" style="fill:var(--color-warn);">contract-type gate</text>
   <text class="cd mono" x="312" y="294">lib/contract.types.ts</text>

@@ -1,28 +1,17 @@
 # Architecture: overview
 
-This product is an instance of the **CAOS product-repo archetype** ([ADR-0057]): offline-pipeline-heavy,
-backend-optional, deploying as a static deterministic-replay viewer. The base is **frozen** (instantiated, never
-re-litigated); per-product rework lives only in the **core**, models/algorithms, visualization, content.
+ChronoScope combines retained research artifacts, live browser computations and executed teaching material. The adopted shell and repository template supply the shared interface and delivery workflow; product-specific numerical and evidence contracts are described in the [SDD](../design/SDD.md).
 
-## The lanes (and what runs where)
-| Lane | Where | Deps | Notes |
-|---|---|---|---|
-| **Offline (precompute)** | `data-pipeline/` (`chronoscopelab`), `.venv-pipeline` | `data-pipeline/requirements.txt` (SOTA engines) | bakes the committed artifacts |
-| **Live (client-side)** | `frontend/src/pyodide` + `chronoscopelab/live.py` | Pyodide-safe wheels (`requirements.txt`) | optional small recompute in the browser; may be a reduced model |
-| **Replay** | `frontend/` | – | always present; the fallback (ADR-0054) |
-| **API (backend)** | `app/` (FastAPI) | `requirements-api.txt` | DORMANT; activate only on an ADR-0002 trigger |
+| Lane | Implementation | Execution boundary |
+|---|---|---|
+| Offline analysis | `data-pipeline/engine`, using published `forecastscope` and `preqts` | Declared external `.venv-product`; heavy model references use their recorded environments |
+| Live browser | TypeScript kernels and self-hosted ONNX/WASM | Five classical rules plus the fixed normalized linear graph; no Python worker |
+| Retained studies | Committed `data/derived` and source-bound archives | Rendered and independently rescored; opening a view does not refit a model |
+| Teaching | Eighteen English/Spanish notebooks | External `.venv-lessons`; seven actual references execute in a separately pinned Linux runtime |
+| API | Optional `app/` scaffold | Dormant; the deployed application requires no API |
 
-A measured **[gate](03_the-gate.md)** decides live vs replay per case.
+The staged pipeline validates source inputs, preprocesses, extracts features, trains, forecasts, evaluates and exports. [Data contracts](08_data-contracts.md) bind admitted source descriptors, manifests and traces. The local workflow generates into an external candidate stage, validates it and explicitly promotes accepted artifacts. Research studies retain their original implementation and protocol identities when the active provider changes.
 
-## The flow
-`data/raw` → **[CONTRACT 1](08_data-contracts.md)** (`io/contract.py`) → staged pipeline
-(preprocess → feature_extraction → train → infer → evaluate → export) → **[CONTRACT 2](08_data-contracts.md)**
-(`core/manifest.py`, compact artifact) → `data/derived/` (committed) → `frontend/` replays it.
+Reusable numerical methods come from published ForecastScope modules through thin path-tooling adapters. The product root is not an internal method distribution. Product stages, case definitions, rendering and provenance remain here. The [provider guide](../guides/numerical-provider.md) identifies adapter ownership and the verified historical implementation archive.
 
-## Frozen base vs rework
-- **Frozen:** the folder layout, the two contracts, the staged pipeline names, the gate, the manifest/trace,
-  the two-venv split, the cases-by-category mechanism, CI guards. Any area may be **dormant** (with a README).
-- **Rework (the only per-product surface):** the engine in `model/` + the stage bodies (the science), the
-  `frontend/` visualizations, and the cases + content + calibration.
-
-[ADR-0057]: ../../../conventions/architecture/0-archetype/ADR-0057-product-repo-archetype.md
+The [live computation guide](04_live-computation.md) states actual browser methods, normalization and refusal conditions. Native statistical, tree and foundation-model paths displayed from retained studies remain offline results. No inactive Pyodide scaffold is presented as a working execution path.
