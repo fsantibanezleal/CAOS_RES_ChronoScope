@@ -1,6 +1,6 @@
 {
   "schema": "chronoscope.browser-runtime-units/v1",
-  "checked_utc": "2026-11-22T06:01:32.845Z",
+  "checked_utc": "2026-11-22T09:26:39.294Z",
   "state": "passed",
   "runtime_packages": {
     "vite": "8.3.5",
@@ -17,7 +17,7 @@
     "frontend/public/ort/ort-wasm-simd-threaded.mjs": "0a1e718d99c41b22c21f2520ff4f9e883a6b5533856e398d21816ee8eb8185d3",
     "frontend/public/ort/ort-wasm-simd-threaded.wasm": "d1ab1b94b16a65b29d710d0b587b29e7bed336827577623913479b8afe8113e6",
     "frontend/scripts/check_runtime_units.mjs": "6e77766551f3cb54ecc5852af103dfeb661ce5d78f9924ba37856c64a5136063",
-    "frontend/package-lock.json": "1976a90b82c4ff25910045b61f54a7b3fe2d6f61f2be88597ec18aea3559f166",
+    "frontend/package-lock.json": "be08a092ca2204979f7d9ca5644ca1c942419e453e52bd6337b13fafc9829a86",
     "data/derived/reevaluation.json": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c"
   },
   "source_observed_bytes_sha256": {
@@ -30,7 +30,7 @@
     "frontend/public/ort/ort-wasm-simd-threaded.mjs": "0a1e718d99c41b22c21f2520ff4f9e883a6b5533856e398d21816ee8eb8185d3",
     "frontend/public/ort/ort-wasm-simd-threaded.wasm": "d1ab1b94b16a65b29d710d0b587b29e7bed336827577623913479b8afe8113e6",
     "frontend/scripts/check_runtime_units.mjs": "6e77766551f3cb54ecc5852af103dfeb661ce5d78f9924ba37856c64a5136063",
-    "frontend/package-lock.json": "1976a90b82c4ff25910045b61f54a7b3fe2d6f61f2be88597ec18aea3559f166",
+    "frontend/package-lock.json": "be08a092ca2204979f7d9ca5644ca1c942419e453e52bd6337b13fafc9829a86",
     "data/derived/reevaluation.json": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c"
   },
   "source_hash_policy": "UTF-8 ts/mjs/json source canonicalized CRLF to LF for Git portability; ONNX/WASM binary hashes remain exact. Observed-byte hashes separately bind the actual execution files.",

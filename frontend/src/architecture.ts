@@ -3,7 +3,7 @@
 // real code/module paths in monospace, labeled flows, bands/lanes with nested boxes, ~880 wide. Every
 // colour is a CSS-variable token from the shell, so the
 // diagrams follow light/dark. Content is the current system (grouped workbench views, model roster, preqts
-// streaming, the real pipeline stages + two data contracts). Inlined via dangerouslySetInnerHTML by the
+// streaming, the real pipeline stages and catalogued data contracts). Inlined via dangerouslySetInnerHTML by the
 // shell's ArchitectureModal, so SVG var() colours resolve.
 import type { ArchitectureConfig } from '@fasl-work/caos-app-shell';
 
@@ -382,11 +382,16 @@ function bilingualLabels(inner: string): string {
 }
 
 // wrap inner markup in a themed <svg> with an arrowhead marker (unique id per diagram)
-const svg = (id: string, h: number, inner: string) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 ${h}" width="880" class="arch-svg" role="img">` +
-  `<style>${STYLE}</style>` +
-  `<defs><marker id="${id}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
-  `<path d="M0,0 L8,4 L0,8 z" fill="var(--color-fg-subtle)"/></marker></defs>${bilingualLabels(inner)}</svg>`;
+const svg = (id: string, h: number, inner: string) => {
+  const bilingual = bilingualLabels(inner);
+  const heading = /<text class="hd l-en"[^>]*>[\s\S]*?<\/text><text class="hd l-es"[^>]*>[\s\S]*?<\/text>/;
+  if (!heading.test(bilingual)) throw new Error(`Missing paired architecture heading: ${id}`);
+  const named = bilingual.replace(heading, `<g id="${id}-title">$&</g>`);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 ${h}" width="880" class="arch-svg" role="img" aria-labelledby="${id}-title">` +
+    `<style>${STYLE}</style>` +
+    `<defs><marker id="${id}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">` +
+    `<path d="M0,0 L8,4 L0,8 z" fill="var(--color-fg-subtle)"/></marker></defs>${named}</svg>`;
+};
 
 // ---- Tab 1: what the app IS + the design-build lifecycle ----
 const APP = svg('cs-a1', 470, `
@@ -708,8 +713,8 @@ export const architecture: ArchitectureConfig = {
     },
     {
       id: 'contracts', en: 'Data contracts', es: 'Contratos de datos', svg: CONTRACTS,
-      body_en: "Ingestion and artifact interfaces bracket the pipeline. Twelve catalog boundaries cover cases, forecasts, diagnostics, streaming, model metadata, corpus studies and combination records. Normative JSON Schemas generate browser TypeScript types; admission independently checks source identities, temporal eligibility, expert mixtures and scores. Seeded numerical diagnostics are tested for repeatability, while timing records and runtime-dependent model fitting retain separate limits. Tests redirect generated output away from canonical data. License checks govern redistribution, and completeness checks reject partial inventories or degraded model rosters before publication.",
-      body_es: "Las interfaces de ingesta y artefactos delimitan el pipeline. Doce límites del catálogo cubren casos, pronósticos, diagnósticos, streaming, metadatos de modelos, estudios de corpus y combinaciones. Los esquemas JSON normativos generan tipos TypeScript; la admisión verifica independientemente fuentes, elegibilidad temporal, mezclas y puntuaciones. Se prueba la repetibilidad de diagnósticos numéricos con semilla; los tiempos y ajustes dependientes del entorno mantienen límites separados. Las pruebas redirigen salidas fuera de los datos canónicos. Las licencias gobiernan la redistribución y las comprobaciones de completitud rechazan inventarios parciales o conjuntos de modelos degradados antes de publicar.",
+      body_en: "Ingestion and artifact interfaces bracket the pipeline. Fifteen catalog boundaries cover cases, forecasts, diagnostics, streaming, model metadata, corpus studies and combination records. Normative JSON Schemas generate browser TypeScript types; admission independently checks source identities, temporal eligibility, expert mixtures and scores. Seeded numerical diagnostics are tested for repeatability, while timing records and runtime-dependent model fitting retain separate limits. Tests redirect generated output away from canonical data. License checks govern redistribution, and completeness checks reject partial inventories or degraded model rosters before publication.",
+      body_es: "Las interfaces de ingesta y artefactos delimitan el pipeline. Quince límites del catálogo cubren casos, pronósticos, diagnósticos, streaming, metadatos de modelos, estudios de corpus y combinaciones. Los esquemas JSON normativos generan tipos TypeScript; la admisión verifica independientemente fuentes, elegibilidad temporal, mezclas y puntuaciones. Se prueba la repetibilidad de diagnósticos numéricos con semilla; los tiempos y ajustes dependientes del entorno mantienen límites separados. Las pruebas redirigen salidas fuera de los datos canónicos. Las licencias gobiernan la redistribución y las comprobaciones de completitud rechazan inventarios parciales o conjuntos de modelos degradados antes de publicar.",
     },
   ],
 };

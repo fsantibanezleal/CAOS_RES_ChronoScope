@@ -5,7 +5,7 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`
 
 ## [0.27.000] - 2026-11-22
 
-- Adopt shell v0.26.002 and repository template v0.15.014, preserving product-specific readiness and research admission.
+- Adopt shell v0.26.003 and repository template v0.15.015, preserving product-specific readiness and research admission.
 - Execute reusable diagnostics, forecasts and combinations through published ForecastScope 0.1.4; preserve and verify historical implementation bytes.
 - Correct observable-unit handling, exact-constant boundaries and scientific float transport; audit actual TypeScript/ONNX execution and numerical literals.
 - Extend the bilingual curriculum to eighteen executed notebooks with seven actual reference models, browser training/calibration and whole-series uncertainty calculations.
@@ -14,6 +14,7 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`
 - Complete Spanish workbench controls, method families, source classifications, five architecture diagrams and accessible executive illustration names; retain every stored method identifier.
 - Replace histogram, QQ and single-block error overclaims with descriptive interpretations and distinct calibration limits.
 - Validate both language-specific illustration paths, including missing assets, labels and theme paints.
+- Keep the Spanish stationarity table inside a keyboard-accessible scroll region and name all architecture diagrams from their visible localized headings.
 
 ## Prior candidate work
 

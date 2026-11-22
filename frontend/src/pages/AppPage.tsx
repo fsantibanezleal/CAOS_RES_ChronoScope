@@ -359,17 +359,19 @@ export default function AppPage() {
       {mode === 'baked' && bakedStationarity && (
         <div className="cs-panel">
           <div className="cs-panel-t">{es ? 'Estacionariedad (precálculo offline)' : 'Stationarity (baked offline)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
-          <table className="cs-table">
-            <thead><tr><th>{es ? 'prueba' : 'test'}</th><th>{es ? 'estadístico' : 'stat'}</th><th>p</th><th>{es ? 'veredicto' : 'verdict'}</th></tr></thead>
-            <tbody>
-              {(bakedStationarity.tests ?? []).map((t: any) => (
-                <tr key={t.name}>
-                  <td>{t.name}</td><td>{fmt(t.stat, 3)}</td><td>{fmt(t.pvalue, 4)}</td>
-                  <td><span className={`cs-badge ${t.stationary ? 'ok' : 'warn'}`}>{t.stationary ? (es ? 'estacionaria' : 'stationary') : (es ? 'no estacionaria' : 'non-stationary')}</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="cs-table-scroll" role="region" aria-label={es ? 'Resultados de pruebas de estacionariedad' : 'Stationarity test results'} tabIndex={0}>
+            <table className="cs-table">
+              <thead><tr><th>{es ? 'prueba' : 'test'}</th><th>{es ? 'estadístico' : 'stat'}</th><th>p</th><th>{es ? 'veredicto' : 'verdict'}</th></tr></thead>
+              <tbody>
+                {(bakedStationarity.tests ?? []).map((t: any) => (
+                  <tr key={t.name}>
+                    <td>{t.name}</td><td>{fmt(t.stat, 3)}</td><td>{fmt(t.pvalue, 4)}</td>
+                    <td><span className={`cs-badge ${t.stationary ? 'ok' : 'warn'}`}>{t.stationary ? (es ? 'estacionaria' : 'stationary') : (es ? 'no estacionaria' : 'non-stationary')}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <p className="cs-panel-sub">{stationarityVerdictLabel(bakedStationarity.combined_verdict, es)} · d = {bakedStationarity.recommended_d}</p>
         </div>
       )}
