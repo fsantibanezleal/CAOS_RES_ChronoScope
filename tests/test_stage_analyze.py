@@ -6,6 +6,23 @@ from engine import registry
 from engine.stages import analyze
 
 
+@pytest.mark.parametrize("unit", [1.0, 1e-9, 1e9])
+def test_stationarity_recommendation_survives_a_change_of_observed_units(monkeypatch, unit):
+    from types import SimpleNamespace
+
+    # Exercise the real producer/provider path; unrelated panels are outside
+    # this regression. The trend has genuine variation at every tested unit.
+    original_safe = analyze._safe
+    monkeypatch.setattr(analyze, "_safe", lambda name, call:
+                        original_safe(name, call) if name == "stationarity" else {})
+    values = np.linspace(0, 1, 120) + np.random.default_rng(130).normal(0, 0.03, 120)
+    spec = SimpleNamespace(y=values * unit, seasonality=12, case_id="UNIT_TREND")
+    result = analyze.run(spec)["stationarity"]
+    assert "error" not in result
+    assert result["recommended_d"] == 1
+    assert result["recommended_D"] == 0
+
+
 def test_analyze_runs_all_panels_on_a_seasonal_case():
     spec = registry.build_series(registry.get_case("SEAS_hourly"), seed=42)
     a = analyze.run(spec)

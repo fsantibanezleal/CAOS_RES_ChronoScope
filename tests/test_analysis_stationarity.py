@@ -5,8 +5,16 @@ becomes stationary after one difference; a strong seasonal series = high seasona
 checks the tool against ground truth, not against itself.
 """
 import numpy as np
+import pytest
 
 from engine.analysis import stationarity as st
+
+
+@pytest.mark.parametrize("level", [0.1, 1e-14, 1e12])
+def test_exact_constant_has_no_seasonal_differencing_signal_in_any_units(level):
+    values = np.full(120, level)
+    assert st.seasonal_strength(values, period=12) == 0.0
+    assert st.nsdiffs(values, period=12) == 0
 
 
 def _white_noise(n=300, seed=0):
