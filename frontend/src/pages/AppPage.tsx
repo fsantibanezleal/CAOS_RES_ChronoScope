@@ -145,6 +145,10 @@ export default function AppPage() {
   const bakedCatch22 = analysis && ((analysis as any).distribution?.catch22 as { available?: boolean; reason?: string; features?: Record<string, number> } | undefined);
   const bakedStationarity = analysis && (analysis as any).stationarity;
   const bakedVolatility = analysis && (analysis as any).volatility;
+  const archLm = bakedVolatility?.arch_lm;
+  const archSignal: boolean | null = typeof archLm?.has_arch === 'boolean'
+    && Number.isFinite(archLm.lm_pvalue) && archLm.lm_pvalue >= 0 && archLm.lm_pvalue <= 1
+    && archLm.available !== false && !archLm.error ? archLm.has_arch : null;
   const bakedNonlinear = analysis && (analysis as any).nonlinear;
   const bakedFractal = analysis && (analysis as any).fractal;
 
@@ -373,14 +377,17 @@ export default function AppPage() {
             </table>
           </div>
           <p className="cs-panel-sub">{stationarityVerdictLabel(bakedStationarity.combined_verdict, es)} · d = {bakedStationarity.recommended_d}</p>
+          <p className="cs-panel-sub">{es
+            ? 'Estas etiquetas resumen las decisiones de las pruebas en esta muestra finita. No rechazar una hipótesis nula no demuestra que sea cierta; los veredictos no prueban la estacionariedad del proceso.'
+            : 'These labels summarize test decisions in this finite sample. Failure to reject a null hypothesis does not prove it true; the verdicts do not prove the process is stationary.'}</p>
         </div>
       )}
       {mode === 'baked' && bakedVolatility && (
         <div className="cs-panel">
           <div className="cs-panel-t">{es ? 'Volatilidad (precalculado)' : 'Volatility (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
-          <p>ARCH-LM p = <b>{fmt(bakedVolatility.arch_lm?.lm_pvalue, 4)}</b>{' '}
-            <span className={`cs-badge ${bakedVolatility.arch_lm?.has_arch ? 'warn' : 'ok'}`}>
-              {bakedVolatility.arch_lm?.has_arch ? (es ? 'varianza agrupada (GARCH ajustado)' : 'clustered variance (GARCH fitted)') : (es ? 'homocedástica' : 'homoscedastic')}
+          <p>ARCH-LM p = <b>{fmt(archSignal === null ? null : archLm.lm_pvalue, 4)}</b>{' '}
+            <span className={`cs-badge ${archSignal === null ? '' : archSignal ? 'warn' : 'ok'}`}>
+              {archSignal === null ? (es ? 'prueba no disponible' : 'test unavailable') : archSignal ? (es ? 'señal ARCH (prueba LM)' : 'ARCH signal (LM test)') : (es ? 'sin señal ARCH en esta prueba' : 'no ARCH signal in this test')}
             </span>
             {bakedVolatility.garch?.persistence != null && <> · {es ? 'persistencia' : 'persistence'} {fmt(bakedVolatility.garch.persistence, 3)}</>}
           </p>
