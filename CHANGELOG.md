@@ -3,6 +3,13 @@
 All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`. Keep
 `0.x` while on synthetic/early data. Tag every release.
 
+## [0.27.001] - 2026-11-22
+
+- Correct units-dependent differencing and constant seasonal recommendations through the separately published ForecastScope provider patch; keep retained studies bound to their original implementations.
+- Revalidate affected analysis workflows and refresh the bilingual curriculum against the patched public provider.
+- Publish a forward technical-report revision with the corrected provider policy and fifteen documented contract boundaries, preserving the preceding published source and PDF.
+- Describe diagnostic decisions as finite-sample test results and distinguish unavailable ARCH results from a negative signal.
+
 ## [0.27.000] - 2026-11-22
 
 - Adopt shell v0.26.003 and repository template v0.15.015, preserving product-specific readiness and research admission.
