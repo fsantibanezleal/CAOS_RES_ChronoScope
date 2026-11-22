@@ -47,6 +47,7 @@ function caseGroup(id: string): 'Real' | 'Control' | 'Synthetic' {
 
 // ACF / PACF as interactive stems (uPlot bars) with the Bartlett significance band as two ref lines.
 function StemPlot({ values, band, title }: { values: number[]; band: number; title: string }) {
+  const es = useShellLang() === 'es';
   const xs = values.map((_, i) => i);
   const series: USeries[] = [{ label: 'r_k', values, color: 'var(--color-accent)', bars: true }];
   const refs: RefLine[] = [
@@ -57,7 +58,7 @@ function StemPlot({ values, band, title }: { values: number[]; band: number; tit
   return (
     <div className="cs-panel">
       <div className="cs-panel-t">{title}</div>
-      <UPlotChart xs={xs} series={series} refLines={refs} height={200} xLabel="lag" ariaSummary={title} precision={3} />
+      <UPlotChart xs={xs} series={series} refLines={refs} height={200} xLabel={es ? 'retardo' : 'lag'} ariaSummary={title} precision={3} />
     </div>
   );
 }
@@ -356,7 +357,7 @@ export default function AppPage() {
       </div>
       {mode === 'baked' && bakedStationarity && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'Estacionariedad (precálculo offline)' : 'Stationarity (baked offline)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'Estacionariedad (precálculo offline)' : 'Stationarity (baked offline)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
           <table className="cs-table">
             <thead><tr><th>test</th><th>stat</th><th>p</th><th>{es ? 'veredicto' : 'verdict'}</th></tr></thead>
             <tbody>
@@ -373,7 +374,7 @@ export default function AppPage() {
       )}
       {mode === 'baked' && bakedVolatility && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'Volatilidad (precalculado)' : 'Volatility (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'Volatilidad (precalculado)' : 'Volatility (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
           <p>ARCH-LM p = <b>{fmt(bakedVolatility.arch_lm?.lm_pvalue, 4)}</b>{' '}
             <span className={`cs-badge ${bakedVolatility.arch_lm?.has_arch ? 'warn' : 'ok'}`}>
               {bakedVolatility.arch_lm?.has_arch ? (es ? 'varianza agrupada (GARCH ajustado)' : 'clustered variance (GARCH fitted)') : (es ? 'homocedástica' : 'homoscedastic')}
@@ -384,7 +385,7 @@ export default function AppPage() {
       )}
       {mode === 'baked' && (bakedNonlinear || bakedFractal) && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (precalculado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (precalculado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
           {bakedFractal && <p>Hurst R/S = <b>{fmt(bakedFractal.hurst?.rs, 3)}</b> · DFA α = <b>{fmt(bakedFractal.hurst?.dfa_alpha, 3)}</b> · {es ? 'Estimaciones de muestra finita; no demuestran memoria poblacional ni estacionariedad.' : bakedFractal.hurst?.interpretation}</p>}
           {bakedNonlinear && !bakedNonlinear.skipped && (
             <><p>0-1 K = <b>{fmt(bakedNonlinear.zero_one_K, 3)}</b> · λ₁ = <b>{fmt(bakedNonlinear.largest_lyapunov, 4)}</b>{' '}
@@ -398,7 +399,7 @@ export default function AppPage() {
       )}
       {mode === 'baked' && bakedCatch22 && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'catch22 · huella canónica (precalculado)' : 'catch22 · canonical fingerprint (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'catch22 · huella canónica (precalculado)' : 'catch22 · canonical fingerprint (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
           {bakedCatch22.available === false ? (
             <p className="cs-panel-sub">{es ? 'no disponible: ' : 'unavailable: '}{bakedCatch22.reason}</p>
           ) : (
@@ -730,22 +731,22 @@ export default function AppPage() {
       <div className="cs-plotwrap" style={{ marginTop: '0.8rem' }}>
         <div className="cs-plot">
           <TabGroups
-            ariaLabel="workbench views"
+            ariaLabel={es ? 'vistas del área de trabajo' : 'workbench views'}
             value={nav}
             onChange={(next) => setNav(next as AtlasNav)}
             groups={[
               { id: 'understand', label: es ? 'Entender' : 'Understand', tabs: [
-                { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label="Series" es={es}>{understandSeries}</PanelBoundary> },
-                { id: 'structure', label: es ? 'Estructura' : 'Structure', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
-                { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label="Decompose" es={es}>{understandDecompose}</PanelBoundary> },
-                { id: 'patterns', label: es ? 'Patrones' : 'Patterns', content: <PanelBoundary label="Patterns" es={es}><SequenceDiagnostics data={sequenceData} /></PanelBoundary> },
-                { id: 'verdicts', label: es ? 'Veredictos' : 'Verdicts', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
+                { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label={es ? 'Serie' : 'Series'} es={es}>{understandSeries}</PanelBoundary> },
+                { id: 'structure', label: es ? 'Estructura' : 'Structure', content: <PanelBoundary label={es ? 'Estructura' : 'Structure'} es={es}>{understandStructure}</PanelBoundary> },
+                { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label={es ? 'Descomponer' : 'Decompose'} es={es}>{understandDecompose}</PanelBoundary> },
+                { id: 'patterns', label: es ? 'Patrones' : 'Patterns', content: <PanelBoundary label={es ? 'Patrones' : 'Patterns'} es={es}><SequenceDiagnostics data={sequenceData} /></PanelBoundary> },
+                { id: 'verdicts', label: es ? 'Veredictos' : 'Verdicts', content: <PanelBoundary label={es ? 'Veredictos' : 'Verdicts'} es={es}>{understandVerdicts}</PanelBoundary> },
               ] },
               { id: 'forecast', label: es ? 'Pronosticar' : 'Forecast', tabs: [
-                { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastPanel}</PanelBoundary> },
-                { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label="Residuals" es={es}>{forecastResiduals}</PanelBoundary> },
-                { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
-                { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
+                { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label={es ? 'Pronóstico' : 'Forecast'} es={es}>{forecastPanel}</PanelBoundary> },
+                { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label={es ? 'Residuos' : 'Residuals'} es={es}>{forecastResiduals}</PanelBoundary> },
+                { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label={es ? 'Tabla' : 'Leaderboard'} es={es}>{leaderboard}</PanelBoundary> },
+                { id: 'streaming', label: es ? 'Evaluación secuencial' : 'Streaming', content: <PanelBoundary label={es ? 'Evaluación secuencial' : 'Streaming'} es={es}>{streamingBench}</PanelBoundary> },
               ] },
             ]}
           />
