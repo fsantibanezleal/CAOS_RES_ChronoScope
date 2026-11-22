@@ -9,7 +9,7 @@ import pytest
 
 torch = pytest.importorskip("torch")  # skip the whole module when the deep dep is absent
 
-from chronoscopelab.engines.neural_engine import (  # noqa: E402 - after the torch skip-guard by design
+from engine.engines.neural_engine import (  # noqa: E402 - after the torch skip-guard by design
     NeuralForecaster,
     neural_available,
     neural_forecasters,

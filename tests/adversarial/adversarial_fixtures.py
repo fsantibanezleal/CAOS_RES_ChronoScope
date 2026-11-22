@@ -16,7 +16,7 @@ from planting import add_control_contract, add_schema, make_tree
 ROOT = Path(__file__).resolve().parents[2]
 SKIP = shutil.ignore_patterns("node_modules", "dist", "gate-output", "__pycache__", ".venv*", ".git", ".pytest_cache",
                               ".ruff_cache", "*.pyc", "build")
-COPIED = ("scripts", "docs", "data", "data-pipeline", "models", "frontend", "tests", ".github", "deploy", "app", "notebooks")
+COPIED = ("scripts", "docs", "data", "data-pipeline", "models", "frontend", "tests", ".github", "deploy", "app", "notebooks", "manuscripts")
 FILES = ("VERSION", "product.json", "CHANGELOG.md", "requirements-precompute.txt", "requirements-dev.txt",
          "requirements-gpu.txt", "requirements-api.txt", ".template-source", "pyproject.toml")
 
@@ -36,8 +36,12 @@ def base_copy(tmp_path_factory: pytest.TempPathFactory) -> Path:
     for name in FILES:
         if (ROOT / name).exists():
             shutil.copy2(ROOT / name, base / name)
+    # Optional role requirements are frozen admission inputs too. Discover them
+    # rather than leaving each new role absent from the positive-control copy.
+    for source in ROOT.glob("requirements*.txt"):
+        shutil.copy2(source, base / source.name)
     shutil.copytree(ROOT / "content", base / "content")
-    return add_control_contract(add_schema(base))
+    return add_schema(base)
 
 
 @pytest.fixture

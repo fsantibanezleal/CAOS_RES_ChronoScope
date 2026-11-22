@@ -1,11 +1,13 @@
-import { Route, Routes } from 'react-router';
+import { Link, Route, Routes, useParams, useSearchParams } from 'react-router';
 import { Activity } from 'lucide-react';
-import { AppShell, CitationsProvider, Landing, STANDARD_ROUTES, SurfacePage, useShellLang, type ShellConfig } from '@fasl-work/caos-app-shell';
+import { AppShell, CitationsProvider, Landing, LinkedViewProvider, STANDARD_ROUTES, SurfacePage, useShellLang, type ShellConfig } from '@fasl-work/caos-app-shell';
 import { CITATIONS } from './data/citations';
 import { architecture } from './architecture';
 import { EXTERNAL_LINKS } from './lib/links';
 import product from '../../product.json';
 import AppPage from './pages/AppPage';
+import AtlasStory from './pages/AtlasStory';
+import { AtlasSourceProvider } from './state/AtlasSource';
 import Introduction from './pages/Introduction';
 import Methodology from './pages/Methodology';
 import Implementation from './pages/Implementation';
@@ -26,6 +28,7 @@ const config: ShellConfig = {
   visibility: product.visibility as ShellConfig['visibility'],
   architecture,
   contain: true,
+  immersiveRoutes: product.showcase.story_routes,
   footer: {
     provenance: {
       en: 'Four real data excerpts and eleven generated cases. Source licences, method versions and frozen-versus-recomputed provenance are listed in Benchmark. Streaming experiments use preqts.',
@@ -43,6 +46,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/app" element={<AtlasSurface />} />
+            <Route path="/story/:step" element={<AtlasSurface />} />
             <Route path="/introduction" element={<Introduction />} />
             <Route path="/methodology" element={<Methodology />} />
             <Route path="/implementation" element={<Implementation />} />
@@ -54,13 +58,22 @@ export default function App() {
 }
 
 function AtlasSurface() {
+  return <AtlasSourceProvider><LinkedViewProvider><AtlasSurfaceBody /></LinkedViewProvider></AtlasSourceProvider>;
+}
+
+function AtlasSurfaceBody() {
   const lang = useShellLang();
+  const { step } = useParams();
+  const [params] = useSearchParams();
+  const storyParams = new URLSearchParams(params); storyParams.delete('view'); storyParams.delete('focus');
+  if (step) return <AtlasStory />;
   return (
     <SurfacePage
       title={{ en: 'Forecasting atlas', es: 'Atlas de pronósticos' }}
       lede={lang === 'es'
         ? 'Inspecciona una serie, compara pronósticos y sigue sus errores y sus intervalos.'
         : 'Inspect a series, compare forecasts, and follow their error and interval behavior.'}
+      actions={<Link to={`/story/system?${storyParams}`}>{lang === 'es' ? 'Recorrido de evidencia' : 'Guided evidence walkthrough'}</Link>}
       tabs={[
         {
           id: 'explore',

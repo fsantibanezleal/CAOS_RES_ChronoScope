@@ -1,6 +1,6 @@
 # Nonlinear dynamics and chaos
 
-Code: [`chronoscopelab/analysis/nonlinear.py`](../../data-pipeline/chronoscopelab/analysis/nonlinear.py)
+Code: [`engine/analysis/nonlinear.py`](../../data-pipeline/engine/analysis/nonlinear.py)
 · Tests: [`tests/test_analysis_nonlinear.py`](../../tests/test_analysis_nonlinear.py)
 
 ## Deterministic chaos vs stochastic noise
@@ -66,21 +66,22 @@ attractor-like. So ChronoScope never declares chaos on $D_2$ (or even $\lambda_1
 [10.1016/0167-2789(92)90102-S](https://doi.org/10.1016/0167-2789(92)90102-S)): **IAAFT** surrogates
 (Schreiber & Schmitz 1996, DOI
 [10.1103/PhysRevLett.77.635](https://doi.org/10.1103/PhysRevLett.77.635)) preserve the data's amplitude
-distribution *and* power spectrum but destroy any nonlinear structure. If a nonlinear statistic on the data
-falls outside the surrogate ensemble, the structure is genuinely nonlinear; if not, the "chaos" was an
-artifact of the spectrum or the histogram. ChronoScope flags `likely_chaotic` **only** when $\lambda_1 > 0$
-**and** the 0-1 test $K > 0.5$ **and** the surrogate test rejects linearity.
+distribution through rank remapping and approximately match its power spectrum. The implemented comparison
+asks whether the estimated correlation dimension lies below the surrogate mean minus two population
+standard deviations, requiring a positive surrogate standard deviation. ChronoScope sets the descriptive
+`likely_chaotic` flag only when this comparison holds, $\lambda_1 > 0.01$ per observation step and the
+0-1 statistic $K > 0.5$. These fixed finite-sample criteria are not a calibrated probability of nonlinearity
+or proof of deterministic chaos. Failure to flag does not prove a linear stochastic mechanism.
 
 ## What this is, and is NOT
 
 - These measures are demanding: they need long, low-noise, roughly stationary series. On short or noisy
   data they are unreliable, and the report should be read together with the reliability context, not in
   isolation.
-- A positive Lyapunov exponent bounds *how far* you can forecast; it does not mean "unforecastable" - short
-  horizons can still be predictable, which is exactly what the forecasting ladder's per-horizon error curves
-  show.
-- Passing the surrogate gate establishes *nonlinearity*, which is necessary but not sufficient for chaos; the
-  three-way vote (Lyapunov + 0-1 + surrogate) is deliberately conservative.
+- A positive population Lyapunov exponent describes local divergence under a specified dynamical model.
+  A finite-record slope estimate alone does not bound a forecasting method's future error or establish its useful horizon.
+- The surrogate comparison depends on its chosen statistic, finite ensemble and null construction.
+  Combining it with two thresholded estimates does not establish a calibrated test of chaos.
 
 ## Implementation notes
 

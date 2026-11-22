@@ -6,7 +6,7 @@ checks the tool against ground truth, not against itself.
 """
 import numpy as np
 
-from chronoscopelab.analysis import stationarity as st
+from engine.analysis import stationarity as st
 
 
 def _white_noise(n=300, seed=0):

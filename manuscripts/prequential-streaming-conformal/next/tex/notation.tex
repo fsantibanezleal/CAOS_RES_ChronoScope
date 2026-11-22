@@ -1,0 +1,26 @@
+\subsection{Notation, units and source identity}
+Table~\ref{tab:replay-notation} fixes the quantities used by the replay. The unit $U$ denotes the source measurement unit; it is not assigned an SI interpretation when the admitted excerpt lacks one. Seasonal lags and warmup lengths count observations on that source's supplied grid. Equal counts across two cases do not imply equal physical durations. The study does not resample every real excerpt to a common temporal unit or claim that its lag choices were optimized for the controller comparison.
+
+Source identity is distinct from statistical representativeness. A digest of the complete float64 source array identifies the values reconstructed for this experiment. The manifest and raw admitted CSV bindings add provenance, but a hash does not recover an unavailable upstream revision or prove the excerpt is representative. Likewise, a generated seed identifies one realization within a known mechanism, not a newly collected real-world dataset. The two additional seeds retain each mechanism's definition and seasonal setting. They are discussed separately from the four authentic excerpts throughout the analysis.
+
+\begin{table}[htbp]\centering\small
+\caption{Notation for the one-step replay, normalized residual buffer, feedback state and finite-stream evaluation, with source-unit quantities distinguished from probabilities and observation counts.}\label{tab:replay-notation}
+\begin{tabular}{p{.18\textwidth}p{.56\textwidth}p{.16\textwidth}}\toprule
+Symbol & Meaning & Unit\\\midrule
+$y_t,p_t,l_t,u_t$ & Target, point forecast and interval endpoints. & $U$\\
+$T,n,t,w,m$ & Stream length, prefix length, index, warmup and seasonal lag. & observations\\
+$a,b,\ell_i$ & Smoothing coefficient, fitted drift and level. & 1; $U$/observation; $U$\\
+$c,\alpha^*,\alpha_t$ & Nominal coverage, target and effective miscoverage. & dimensionless\\
+$\hat\sigma_t,r_t$ & Fitted dispersion and base half-width. & $U$\\
+$z_t,q_t,\mathcal B_t$ & Normalized error, buffered quantile and prior score buffer. & dimensionless\\
+$e_t,B_t,g_t$ & Miss, hit and signed feedback error, where stated. & dimensionless\\
+$I_t,d_t,\gamma,k_p,k_i,k_d$ & Accumulated error, difference error and gains per arrival. & dimensionless\\
+$N,K_i,W$ & Case count, scored-arrival count and rolling window. & counts\\
+$C_{it}$, $E_{\rm avg}$, $E_{\rm roll}$, $E_{\rm final}$ & Rolling coverage and the three finite-stream errors. & dimensionless\\
+$\delta_t,\omega_s$ & Projection residual and rolling-average boundary weight. & dimensionless\\
+$IS_t,s_i$ & Interval score and initial-prefix seasonal scale. & $U$\\
+$L_{i,A},d_i,\widehat\Delta$ & Case loss, paired difference and mean difference. & dimensionless\\
+\bottomrule\end{tabular}
+\end{table}
+
+The distinction between observation units and dimensionless controller state matters when reproducing a numerical floor. A base half-width is in source units, while a normalized error, empirical score multiplier and effective miscoverage are dimensionless. Scaling all observations should therefore preserve the controller sequence only when the source-unit floor is inactive. The derivation states that condition explicitly rather than treating the historical floor as a universal physical constant.

@@ -1,0 +1,14 @@
+{
+  "schema": "chronoscope.frozen-source-archive/v1",
+  "state": "exact original code bytes recovered and verified against immutable experiment bindings",
+  "recovery_date": "2026-11-05",
+  "recovered_from_commit": "3b57911",
+  "execution_commit": "not retained by the historical artifact; recovery commit is not an execution claim",
+  "artifact": "data/derived/fresh-reevaluation.json",
+  "artifact_sha256": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
+  "archive": "docs/research/fresh-source-2026-11-01.zip",
+  "archive_sha256": "1a883ad9c90bb46ba19d9701c9bc4b17b05c7359dacc557e65cb4f92f09de493",
+  "code_binding_sha256": "111be4be88a103e5be9bb0effb6bed298e2c32e39acc2046fee6f5771be2d327",
+  "files": 56,
+  "purpose": "Keep the historical experiment bound to its original sources while current application code evolves. No result, metric, source identity or execution timestamp is replaced."
+}

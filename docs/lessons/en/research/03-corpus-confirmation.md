@@ -1,5 +1,7 @@
 # Do prefix associations survive a separate series partition?
 
+**Level:** 3. **Prerequisites:** Earlier lessons in this topic; NumPy arrays and temporal evaluation. **Reading time:** 50 minutes.
+
 **Question:** Which diagnostic associations survive a discovery/confirmation split, and does a feature-based method selector reduce error on the confirmation series? We examine the complete M4 Daily study under its fixed protocol. This lesson distinguishes three pieces of evidence: association tests, a learned selection rule and a future-informed oracle. A strong answer to one does not automatically answer the others, and a negative selection result must remain visible even when several feature tests reject their null hypotheses.
 
 ## Objectives
@@ -16,7 +18,7 @@ Install the pinned environment below and read the compact executed corpus artifa
 
 ## Data
 
-The admitted artifact preserves the source identity and the observations used below.
+The corpus is M4 Daily from the Monash forecasting archive (https://doi.org/10.5281/zenodo.4656548, CC BY 4.0). The compact `data/derived/forecastability.json` records source filename m4_daily_dataset.zip and source SHA-256 0f07fc3b67a93be1865de7853e06d8ad212f1a8cb8436ba859920cfe5625d889. Each series row retains its disjoint partition, pre-target features and per-method errors averaged over three origins; the fixed horizon is 14 and seasonal lag one. Fitting the selector from these rows is a new selector fit, not a repeat of the original forecast generation. The separately loaded BRKV values illustrate feature extraction only: they are synthetic seed-42 MIT controls, not M4 observations.
 
 <!-- code: corpus -->
 
@@ -69,6 +71,33 @@ Answer: the reproduced selector has confirmation mean MASE {{SELECTED}}, compare
 ### Limitations
 
 The corpus is one benchmark frequency with anonymized source identities. Exact deduplication cannot identify every related industry or common latent driver. The roster excludes deep and pretrained models and cannot rank them by implication. Context truncation, fixed fitting configurations and the use of a scaled-error oracle limit the target's meaning. No result is used to revise this study's feature set or forest settings. The separate twenty-two-variant case experiment remains available with its own package identities and provenance.
+
+### Sensitivity to the performance summary
+
+Let $\overline E_{i,k}$ be the mean MASE across the three reserved origins of series $i$ for method $k$. The rank association uses a transformed within-roster oracle.
+
+$$
+A_i=\log(1+\min_k \overline E_{i,k}).
+$$
+
+For the confirmation series, let $k_i$ denote the forest's choice made from prefix features and let $k_0$ denote the method selected by discovery mean MASE. The comparison of these two implementable policies uses
+
+$$
+\Delta_i=\overline E_{i,k_i}-\overline E_{i,k_0},
+\qquad \overline\Delta=\frac{1}{N}\sum_{i=1}^{N}\Delta_i.
+$$
+
+The oracle takes the minimum after all scoring outcomes are available. The selector and the constant rule choose before those confirmation outcomes are used. Strong association with $A_i$ can arise because several methods have low errors on the same series. It does not tell the forest which specific method wins. The next figure shows the empirical cumulative distribution of the paired differences for the confirmation series. Each series supplies one number regardless of its history length.
+
+<!-- code: paired_selector_plot -->
+
+To read the distribution, locate zero. Values to its left favor the selector; values to its right favor the discovery constant. A jump at zero can occur because both rules choose the same method or because their scores tie. The mean can be driven by a tail of large differences, so compare it with the direction counts. These observations reuse the confirmation results and describe the fixed outcome. Do not use the plotted tails to remove difficult series, pick a new feature or tune the forest on the confirmation partition.
+
+### Adapt the design to your own data
+
+Identify groups that share an underlying process before creating the partition. For example, multiple channels from the same installation may be distinct sequences but still reveal a common regime. Keep related channels on one side of the split. Write down the rule for excluding short sequences and zero scales, and log every excluded identity. Define the forecast horizon and historical feature cutoff consistently so every row contains features known before every scored target.
+
+Fit imputation, the baseline method choice and all selector settings on discovery data. For confirmation, use the fixed fitted pipeline and score both rules on identical series and origins. Compare paired differences and counts as in the figure. If a few extreme errors dominate the result, retain them and document their source. Use a different untouched group for any revised policy. This design can test method selection for a specified roster, frequency and population without pretending to measure an intrinsic limit of predictability.
 
 ## Summary
 

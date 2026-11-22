@@ -1,7 +1,14 @@
 """Volatility toolkit tests: ARCH detection, GARCH persistence, Box-Cox variance stabilization, Guerrero."""
 import numpy as np
 
-from chronoscopelab.analysis import volatility as vo
+from engine.analysis import volatility as vo
+from forecastscope.diagnostics import volatility as provider
+
+
+def test_application_volatility_uses_the_published_provider():
+    assert vo.garch is provider.garch
+    assert vo.box_cox is provider.box_cox
+    assert vo.volatility_report is provider.volatility_report
 
 
 def _garch_series(n=1500, omega=0.1, alpha=0.15, beta=0.80, seed=0):

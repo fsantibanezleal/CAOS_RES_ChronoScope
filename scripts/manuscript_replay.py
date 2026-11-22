@@ -21,8 +21,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "data-pipeline"))
-from chronoscopelab.cases.forecast_cases import CASES, build_series  # noqa: E402
-from chronoscopelab.model.forecasters import normal_ppf, _opt_alpha, _ses_run  # noqa: E402
+from engine.cases.forecast_cases import CASES, build_series  # noqa: E402
+from engine.model.forecasters import normal_ppf, _opt_alpha, _ses_run  # noqa: E402
 import preqts.conformal as conformal  # noqa: E402
 
 OUTPUT = ROOT / "manuscripts/prequential-streaming-conformal/evidence/replay.json"
@@ -117,7 +117,7 @@ def evaluate(y, paths, warmup, coverage=.8, gain=1., controller="raw", keep_rows
 
 
 def build():
-    sources = ["data-pipeline/chronoscopelab/cases/forecast_cases.py", "data-pipeline/chronoscopelab/model/forecasters.py", "scripts/manuscript_replay.py"]
+    sources = ["data-pipeline/engine/cases/forecast_cases.py", "data-pipeline/engine/model/forecasters.py", "scripts/manuscript_replay.py"]
     source_hashes = {p: sha((ROOT / p).read_bytes()) for p in sources}
     input_hashes = {str(p.relative_to(ROOT)).replace("\\", "/"): sha(p.read_bytes()) for p in sorted((ROOT / "data/examples").glob("*.csv"))}
     cases, sensitivity, repeats = [], [], []

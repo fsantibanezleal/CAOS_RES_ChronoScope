@@ -1,7 +1,57 @@
 # Changelog
 
-All notable changes to this product. Format: `X.XX.XXX` (display); see `chronoscopelab.__version__`. Keep
+All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`. Keep
 `0.x` while on synthetic/early data. Tag every release.
+
+## [0.27.000] - 2026-11-22
+
+- Adopt shell v0.26.003 and repository template v0.15.015, preserving product-specific readiness and research admission.
+- Execute reusable diagnostics, forecasts and combinations through published ForecastScope 0.1.4; preserve and verify historical implementation bytes.
+- Correct observable-unit handling, exact-constant boundaries and scientific float transport; audit actual TypeScript/ONNX execution and numerical literals.
+- Extend the bilingual curriculum to eighteen executed notebooks with seven actual reference models, browser training/calibration and whole-series uncertainty calculations.
+- Update the technical report with provider identities, normalized ridge equations, reproducibility boundaries and the current curriculum.
+- Remove the unused Python browser scaffold and protect admitted artifacts from in-place reevaluation.
+- Complete Spanish workbench controls, method families, source classifications, five architecture diagrams and accessible executive illustration names; retain every stored method identifier.
+- Replace histogram, QQ and single-block error overclaims with descriptive interpretations and distinct calibration limits.
+- Validate both language-specific illustration paths, including missing assets, labels and theme paints.
+- Keep the Spanish stationarity table inside a keyboard-accessible scroll region and name all architecture diagrams from their visible localized headings.
+
+## Prior candidate work
+
+- Add six source-bound walkthrough views with direct story routes, measured
+  annotations, linked selection/scrubbing and shared-shell keyboard/motion controls.
+  Keep delay geometry prefix-only and show historical block availability without
+  claiming a refit. Refuse cross-case and mismatched fresh-comparison identities.
+- Adopt released template 0.14.006 manuscript declarations and the declared
+  external notebook runtime; preserve checked cleanup and existing environments.
+  Register the replay paper as a non-method empirical contribution.
+- Refuse undefined seasonal scales and incomplete live forecast scores rather
+  than inventing MASE denominators or silently dropping observations.
+
+- Recompute live learned forecasts for changed histories even when their length
+  and sum match; reject stale asynchronous results, unsupported horizons,
+  constant lookbacks and malformed outputs.
+- Inventory 110 numerical procedures and execution identities, including bundled
+  diagnostics, direct/package neural distinctions, the browser least-squares
+  export and the archived streaming reconstruction.
+- Evaluate held-out linear selection and interval calibration under committed
+  protocols. Preserve the ridge point-error regression; confirm a 49.60% lower
+  interval score with prefix-stratified intervals around unchanged browser
+  points on 800 independent synthetic series, with full subgroup outcomes.
+- Use confirmed prefix-stratified marginal bands in the live linear panel,
+  bind calibration to the exact ONNX digest, refuse invalid output scales and
+  distinguish the global least-squares map from per-prefix neural models.
+- Adopt template 0.14.005 bootstrap safety: external namespaced environments,
+  immutable admission receipts, late-mutation rollback and legacy entrypoint forwarding.
+- Admit the complete external combination study, all 1,802 series documents and
+  full audit archive during local promotion; refuse missing, changed or extra payloads.
+- Add paired series-level resampling for the frozen external comparison, with
+  explicit exploratory interpretation, full provenance and deterministic tests.
+- Correct the remaining architecture prose that implied native stateful or
+  constant-cost execution in the adaptive-interval replay study.
+- Record bounded retries for transient deployment-verification HTTP failures;
+  retain default TLS, exact commit identity, every artifact hash and fail-closed
+  behavior for persistent or nonretryable errors.
 
 ## [0.26.000] - 2026-11-11
 

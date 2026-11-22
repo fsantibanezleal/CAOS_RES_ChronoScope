@@ -1,7 +1,7 @@
 """Fractal toolkit tests: Hurst on known processes, fractal dimension ordering, MF-DFA width, DCCA sign."""
 import numpy as np
 
-from chronoscopelab.analysis import fractal as fr
+from engine.analysis import fractal as fr
 
 
 def _white_noise(n=1000, seed=0):

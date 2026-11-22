@@ -1,6 +1,6 @@
 """CONTRACT 2 (artifact) tests: the manifest points to a real artifact with the recorded byte size, and the
 lane verdict is consistent with the gate."""
-from chronoscopelab import pipeline
+from engine import pipeline
 
 
 def test_manifest_matches_artifact_and_gate():
@@ -11,5 +11,7 @@ def test_manifest_matches_artifact_and_gate():
     assert m["schema"].startswith("chronoscope.manifest/")
     assert m["lane"] in ("live", "precompute")
     assert m["gate"]["lane"] == m["lane"], "manifest lane disagrees with the gate verdict"
-    # the classical forecasting core is pure-python + numpy + small => must be classified LIVE
-    assert m["lane"] == "live", f"expected live lane, got {m['lane']} ({m['gate']['reasons']})"
+    # Fast offline execution is not evidence of an implemented browser runtime.
+    assert m["lane"] == "precompute"
+    assert m["gate"]["pure_python"] is False
+    assert "forecastscope" in m["gate"]["wheels"]

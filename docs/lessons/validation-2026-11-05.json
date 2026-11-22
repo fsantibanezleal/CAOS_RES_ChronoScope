@@ -1,0 +1,65 @@
+{
+  "state": "two rewritten lessons executed and statically checked; independent review pending",
+  "date": "2026-11-05",
+  "runtime": {
+    "python": "3.12.10",
+    "numpy": "2.4.6",
+    "matplotlib": "3.10.8",
+    "preqts": "0.3.0"
+  },
+  "execution": "released notebook runner in isolated source-input fixture, fresh kernels in both languages; second --check run reproduced clean bytes",
+  "scope_limits": [
+    "Main checkout physical legacy environment aliases remain protected; integrated runtime migration remains open",
+    "Fourteen other notebooks and whole-tool coverage still require rework",
+    "Writer visual inspection is not independent-reader review"
+  ],
+  "kernel_environment_notices_retained": [
+    "Windows Proactor loop requires ZMQ selector thread",
+    "IPKernel TCP transport notice"
+  ],
+  "measurements": {
+    "notebooks/en/01-forecast-decisions/01-baseline.ipynb": {
+      "level": 1,
+      "title": "What yesterday's electricity profile can tell us about tomorrow",
+      "question": "**Question:** How much does repeating a daily profile explain a real electricity excerpt, and what changes when its period or level is wrong?",
+      "prose": 1550,
+      "figures": 4,
+      "equations": 3,
+      "sources": 4,
+      "heads3": [
+        "Copy the last observed daily cycle",
+        "Read an empirical band without claiming calibration",
+        "Separate the error from its scale",
+        "Sensitivity to the assumed cycle",
+        "Limits under a change of level",
+        "Use it on your own data"
+      ]
+    },
+    "notebooks/es/01-forecast-decisions/01-baseline.ipynb": {
+      "level": 1,
+      "title": "Qué nos dice el perfil eléctrico de ayer sobre el de mañana",
+      "question": "**Pregunta:** ¿Cuánto explica la repetición de un perfil diario en un extracto eléctrico real y qué ocurre cuando se equivoca el período o cambia el nivel?",
+      "prose": 1626,
+      "figures": 4,
+      "equations": 3,
+      "sources": 4,
+      "heads3": [
+        "Copiar el último ciclo diario observado",
+        "Interpretar la banda empírica sin suponer calibración",
+        "Separar el error de su escala",
+        "Sensibilidad al ciclo supuesto",
+        "Límites ante un cambio de nivel",
+        "Úsalo con tus propios datos"
+      ]
+    }
+  },
+  "sha256": {
+    "data/examples/electricity_sample.csv": "856a9c2030517c29931787f26753a1f54894f5daa9c4bbb9db2108a501e2d863",
+    "scripts/build_baseline_lesson.py": "0e6be9a5b369e48398e81902f83c78f58ea938eac9092349c08c523697f86b90",
+    "docs/lessons/en/01-baseline.md": "a19abe538e28cb75dc2914277eccf70d7c8a646163e4705f34d5c2b91210c6c8",
+    "docs/lessons/es/01-baseline.md": "8d2775aa00b2e9fc17f152865b70f27fea1e2dedf9a2f3009b61f146712d5bd6",
+    "notebooks/en/01-forecast-decisions/01-baseline.ipynb": "8426b99c505863ec9cf5e1abb30858d80e7aca26035afa887d7465504b5b5ccd",
+    "notebooks/es/01-forecast-decisions/01-baseline.ipynb": "720f2a2fc1e08d6d6f82a544853d99a0522b3005548509487f2c8406744e7e23"
+  },
+  "independent_reader_review": "initial scientific and bilingual checks passed; figure-title/unit/label corrections implemented, follow-up pending"
+}

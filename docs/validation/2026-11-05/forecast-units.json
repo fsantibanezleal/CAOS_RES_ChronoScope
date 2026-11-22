@@ -1,0 +1,894 @@
+{
+  "scope": "15 canonical traces and both 15-case reevaluations; does not cover external combinations or browser paths",
+  "counts": {
+    "cases": 45,
+    "methods": 945,
+    "redacted_uncheckable": 0
+  },
+  "input_sha256": {
+    "data/derived/BRKV_level_shift/trace.json": "c7dbc32d4cbc10c871aeaab630c8dadb82d140582c2ff8ef21483b1dddf5e406",
+    "data/derived/CHAO_mackey/trace.json": "b25fe7a3c5fcca5a41d8ee50eb5c7721370e5e27515962da5f9d899684f4df99",
+    "data/derived/CTRL_white_noise/trace.json": "f59510fa7816955e4a65a1e9df822fc9d63d0b642a8fddae59f43aaa269d690a",
+    "data/derived/EXOG_promo/trace.json": "b30156d4c4c08eadd64e2a45be7c2cce415d9986c295e10ae8803be9d556764e",
+    "data/derived/HETV_garch/trace.json": "51b9499cc9c812870f5b5e53db8936a3f19e7da4ac664cafc5288bb4a9fe1c1b",
+    "data/derived/INTM_demand/trace.json": "1e80005f25808c76058d635e0d8409811fba9a64a9640fee7e75a5a70e58030a",
+    "data/derived/LMEM_fractional/trace.json": "3d647a76ea78642a91d786384dd119fa066494b4f584c600f2585261d3ee7fe9",
+    "data/derived/MSEA_daily_weekly/trace.json": "f70f2c0fa9f35fd557e137acee7e652492e1d9eb6743cbd9233099b0623dd766",
+    "data/derived/REAL_electricity/trace.json": "7117d1aca2e122b68d83554bc44f0e98d3ee8e286981c6d3481cf58d41193842",
+    "data/derived/REAL_m4_daily/trace.json": "a03d117cbf84eee5c07e1d4f6e8a2b85362abd977e494b53a5605b9b895f3d27",
+    "data/derived/REAL_m4_hourly/trace.json": "152eeaa379b52d3530746baadf5d3497ce22e668e8b9944a1640fe2bf7da583c",
+    "data/derived/REAL_pm25/trace.json": "60aa953aa56a4e706ce45fc039fd8f97efc2d5991527bd45e4031ac8222343f8",
+    "data/derived/RWLK_noise/trace.json": "e8ea8eea9a42ac49e6b4693d2fb97ca6d4b505aa7a659d5dbccedbeeaefd7b6a",
+    "data/derived/SEAS_hourly/trace.json": "f7c5218e1901120f595a38f66ea50bb14abf9adb62e978d8d8fef7daea5125fd",
+    "data/derived/TRND_seasonal/trace.json": "efa0106cc9db75da694a972d160c3dcaf03ed4eb009b1c09ebd89b046d1d4244",
+    "data/derived/reevaluation.json": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c",
+    "data/derived/fresh-reevaluation.json": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1"
+  },
+  "blocking": [],
+  "advisories": [
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "BRKV_level_shift",
+      "artifact": "data/derived/BRKV_level_shift/trace.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/CHAO_mackey/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/CHAO_mackey/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/CHAO_mackey/trace.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/CTRL_white_noise/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/CTRL_white_noise/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/CTRL_white_noise/trace.json"
+    },
+    {
+      "method": "AutoTheta",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/CTRL_white_noise/trace.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/CTRL_white_noise/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "EXOG_promo",
+      "artifact": "data/derived/EXOG_promo/trace.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/HETV_garch/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/HETV_garch/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/HETV_garch/trace.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/HETV_garch/trace.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/INTM_demand/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/INTM_demand/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/INTM_demand/trace.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/LMEM_fractional/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/LMEM_fractional/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/LMEM_fractional/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "MSEA_daily_weekly",
+      "artifact": "data/derived/MSEA_daily_weekly/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "MSEA_daily_weekly",
+      "artifact": "data/derived/MSEA_daily_weekly/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_electricity",
+      "artifact": "data/derived/REAL_electricity/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/REAL_m4_daily/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/REAL_m4_daily/trace.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/REAL_m4_daily/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_hourly",
+      "artifact": "data/derived/REAL_m4_hourly/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_hourly",
+      "artifact": "data/derived/REAL_m4_hourly/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/REAL_pm25/trace.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/REAL_pm25/trace.json"
+    },
+    {
+      "method": "AutoTheta",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/REAL_pm25/trace.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/RWLK_noise/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/RWLK_noise/trace.json"
+    },
+    {
+      "method": "LightGBM",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/RWLK_noise/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "SEAS_hourly",
+      "artifact": "data/derived/SEAS_hourly/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "TRND_seasonal",
+      "artifact": "data/derived/TRND_seasonal/trace.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "BRKV_level_shift",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoTheta",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "EXOG_promo",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "MSEA_daily_weekly",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "MSEA_daily_weekly",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_electricity",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_hourly",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_hourly",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "AutoTheta",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "LightGBM",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "SEAS_hourly",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "TRND_seasonal",
+      "artifact": "data/derived/reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "BRKV_level_shift",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CHAO_mackey",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoTheta",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "CTRL_white_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "EXOG_promo",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "HETV_garch",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "INTM_demand",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "LMEM_fractional",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "MSEA_daily_weekly",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "MSEA_daily_weekly",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_electricity",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoARIMA",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_daily",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_hourly",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_m4_hourly",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoETS",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "AutoTheta",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "REAL_pm25",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "LightGBM",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SeasonalNaive",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "RWLK_noise",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "SEAS_hourly",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    },
+    {
+      "method": "SES",
+      "violation": "constant_prediction",
+      "blocking": false,
+      "detail": "A flat point path can be a legitimate level forecast; retained as advisory",
+      "case": "TRND_seasonal",
+      "artifact": "data/derived/fresh-reevaluation.json"
+    }
+  ]
+}

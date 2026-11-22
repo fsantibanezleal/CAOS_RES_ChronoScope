@@ -15,7 +15,7 @@ def test_all_experts_match_reference_before_and_after_compilation(tmp_path):
 import sys,json
 import numpy as np
 sys.path[:0]=['data-pipeline','scripts']
-from chronoscopelab.model.forecasters import METHODS
+from engine.model.forecasters import METHODS
 from accelerate_expert_loops import enable
 rng=np.random.default_rng(123)
 series=[(np.ones(40),1),(np.arange(65,dtype=float),12),

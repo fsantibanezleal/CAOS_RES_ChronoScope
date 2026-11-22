@@ -1,0 +1,309 @@
+{
+  "schema": "chronoscope-replay-case-analysis-v1",
+  "plan": {
+    "kind": "retrospective-case-weight-sensitivity",
+    "status": "specified-before-computing-this-extension; original outcomes already known",
+    "source_sha256": "fdecff600eb03dc27a6aa5d51122091256b8497261275756899b6610fa6d9df9",
+    "unit": "one complete case; all fifteen retained",
+    "reference": "Theta historical key (smoothing plus drift)",
+    "comparators": [
+      "Theta+ACI",
+      "Theta+PID"
+    ],
+    "metrics": [
+      "mean_rolling_absolute_error",
+      "warmup_scaled_interval_score"
+    ],
+    "resamples": 10000,
+    "generator": "NumPy PCG64",
+    "seed": 20261105,
+    "interval": "2.5 and 97.5 percentile endpoints; exploratory case-reweighting interval, not a population guarantee",
+    "pairing": "same sampled case identities for every metric and comparator",
+    "generated_repeats": "separate descriptive mechanism-by-seed display; never pooled with the fifteen-case resampling",
+    "selection": "no gain, case, coverage or base selected by this extension"
+  },
+  "case_ids": [
+    "BRKV_level_shift",
+    "CHAO_mackey",
+    "CTRL_white_noise",
+    "EXOG_promo",
+    "HETV_garch",
+    "INTM_demand",
+    "LMEM_fractional",
+    "MSEA_daily_weekly",
+    "REAL_electricity",
+    "REAL_m4_daily",
+    "REAL_m4_hourly",
+    "REAL_pm25",
+    "RWLK_noise",
+    "SEAS_hourly",
+    "TRND_seasonal"
+  ],
+  "case_metrics": [
+    [
+      [
+        0.05843981884057969,
+        4.539663042190676
+      ],
+      [
+        0.043802137681159425,
+        4.6137663397847435
+      ],
+      [
+        0.04849043478260869,
+        4.665402014466315
+      ]
+    ],
+    [
+      [
+        0.05085635416666667,
+        3.593739021143312
+      ],
+      [
+        0.04060991666666665,
+        3.6523225147417078
+      ],
+      [
+        0.032314624999999986,
+        3.6450450287620506
+      ]
+    ],
+    [
+      [
+        0.07423635714285715,
+        3.1372377618485308
+      ],
+      [
+        0.06535742857142855,
+        3.2670007285353195
+      ],
+      [
+        0.06535742857142855,
+        3.3070751752587544
+      ]
+    ],
+    [
+      [
+        0.060875636363636354,
+        4.088143195478298
+      ],
+      [
+        0.041550818181818175,
+        4.134080536459983
+      ],
+      [
+        0.04045990909090908,
+        4.20487889203098
+      ]
+    ],
+    [
+      [
+        0.09805975,
+        3.5361106112186222
+      ],
+      [
+        0.0897406875,
+        3.543900394560132
+      ],
+      [
+        0.08532402083333332,
+        3.5133769591657455
+      ]
+    ],
+    [
+      [
+        0.11238555555555553,
+        2.2705361517562235
+      ],
+      [
+        0.0615556111111111,
+        1.940354725975717
+      ],
+      [
+        0.059914999999999996,
+        1.9493365713564543
+      ]
+    ],
+    [
+      [
+        0.05274097916666667,
+        3.5082803857350915
+      ],
+      [
+        0.052881958333333326,
+        3.5854728132257643
+      ],
+      [
+        0.0471613125,
+        3.587652083302025
+      ]
+    ],
+    [
+      [
+        0.047510064102564094,
+        3.272617872078315
+      ],
+      [
+        0.0448182532051282,
+        3.321252629562775
+      ],
+      [
+        0.046741330128205125,
+        3.3554191364257067
+      ]
+    ],
+    [
+      [
+        0.11076025462962964,
+        6.259129527524312
+      ],
+      [
+        0.08352516203703704,
+        6.255175158919136
+      ],
+      [
+        0.08867784722222222,
+        6.146865579814836
+      ]
+    ],
+    [
+      [
+        0.11022392105263154,
+        9.347685660951973
+      ],
+      [
+        0.09641102631578947,
+        9.0270631217069
+      ],
+      [
+        0.09588471052631578,
+        8.938630187868306
+      ]
+    ],
+    [
+      [
+        0.10261252314814817,
+        1.8956443437211636
+      ],
+      [
+        0.055373078703703685,
+        1.8925024092095808
+      ],
+      [
+        0.055373078703703685,
+        1.8300504133562008
+      ]
+    ],
+    [
+      [
+        0.1685245601851852,
+        1.7580092610251894
+      ],
+      [
+        0.153102337962963,
+        1.5825542151727967
+      ],
+      [
+        0.14976900462962964,
+        1.5687534472533844
+      ]
+    ],
+    [
+      [
+        0.05144694444444445,
+        4.838717109851322
+      ],
+      [
+        0.06519266666666666,
+        4.9704688399646955
+      ],
+      [
+        0.05753588888888888,
+        5.003589262928247
+      ]
+    ],
+    [
+      [
+        0.05493159722222223,
+        5.6899258083202975
+      ],
+      [
+        0.043209189814814815,
+        5.782060667641825
+      ],
+      [
+        0.04601152777777778,
+        5.845306805654291
+      ]
+    ],
+    [
+      [
+        0.09096628205128207,
+        3.593114270915546
+      ],
+      [
+        0.0469175641025641,
+        3.6438573886773655
+      ],
+      [
+        0.04794320512820512,
+        3.6895475886816405
+      ]
+    ]
+  ],
+  "comparisons": [
+    {
+      "method": "Theta+ACI",
+      "metric": "mean_rolling_absolute_error",
+      "reference_mean": 0.08297137320480462,
+      "method_mean": 0.06560318912361228,
+      "paired_difference": -0.01736818408119235,
+      "case_reweighting_interval": [
+        -0.026569304213360335,
+        -0.008709790777787572
+      ],
+      "strict_improvements": 13,
+      "ties": 0
+    },
+    {
+      "method": "Theta+ACI",
+      "metric": "warmup_scaled_interval_score",
+      "reference_mean": 4.088570268250591,
+      "method_mean": 4.080788832275896,
+      "paired_difference": -0.007781435974695257,
+      "case_reweighting_interval": [
+        -0.08533183193332472,
+        0.05793554396562972
+      ],
+      "strict_improvements": 5,
+      "ties": 0
+    },
+    {
+      "method": "Theta+PID",
+      "metric": "mean_rolling_absolute_error",
+      "reference_mean": 0.08297137320480462,
+      "method_mean": 0.06446395491888186,
+      "paired_difference": -0.018507418285922773,
+      "case_reweighting_interval": [
+        -0.02714271679136413,
+        -0.010737427966364392
+      ],
+      "strict_improvements": 14,
+      "ties": 0
+    },
+    {
+      "method": "Theta+PID",
+      "metric": "warmup_scaled_interval_score",
+      "reference_mean": 4.088570268250591,
+      "method_mean": 4.083395276421662,
+      "paired_difference": -0.005174991828928999,
+      "case_reweighting_interval": [
+        -0.10091538542772706,
+        0.07694107833892477
+      ],
+      "strict_improvements": 6,
+      "ties": 0
+    }
+  ],
+  "interpretation": "Retrospective case-weight sensitivity; selected cases are not a random population sample; no multiplicity adjustment or new confirmation."
+}

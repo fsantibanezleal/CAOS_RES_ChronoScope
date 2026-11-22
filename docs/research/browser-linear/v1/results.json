@@ -1,0 +1,229 @@
+{
+  "artifacts": {
+    "forecasts.json.gz": "bf49d1b33d8033cd12e77817793b774448c54d72fd6516ee64a9df60182585ca",
+    "model.json": "1e8326dc0f63880ba5a57e01ea46d2919208560ce0d5b88e1a18e598f0c70dcf",
+    "normalized-ridge.onnx": "53377c5febdb6e2e422d4402c4f467fc92b1f27aec5332182ab9e5be408c7bcd",
+    "series.json.gz": "2372536d9af2d4d8e2b560395bc0075065405ca1fc6bc5ca86ea18ff41a9ce07"
+  },
+  "max_normalized_runtime_error": 5.066394805908203e-07,
+  "paired_exploratory": {
+    "normalized_interval_score": {
+      "mean_difference": -1.9831448215207117,
+      "percentile_95": [
+        -2.112695895636154,
+        -1.8489506186399178
+      ],
+      "series": 400,
+      "strictly_lower_loss_series": 358
+    },
+    "normalized_mse": {
+      "mean_difference": 0.001818948052983346,
+      "percentile_95": [
+        0.00014464826691114088,
+        0.0034648061928292005
+      ],
+      "series": 400,
+      "strictly_lower_loss_series": 150
+    }
+  },
+  "per_lead_coverage": {
+    "frozen_browser_linear": [
+      0.8225,
+      0.9275,
+      0.9425,
+      0.975,
+      0.965,
+      0.9875,
+      0.99,
+      0.99,
+      0.9925,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "held_out_ridge": [
+      0.7625,
+      0.79,
+      0.785,
+      0.81,
+      0.7525,
+      0.8225,
+      0.8225,
+      0.7675,
+      0.7875,
+      0.795,
+      0.8275,
+      0.8125
+    ]
+  },
+  "population": "synthetic generator only",
+  "protocol_version": 1,
+  "runtime": {
+    "numpy": "2.4.6",
+    "onnx": "1.23.2",
+    "onnxruntime": "1.27.0",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.12.10"
+  },
+  "schema": "chronoscope.browser-linear-evaluation/v1",
+  "scores": {
+    "all": {
+      "frozen_browser_linear": {
+        "coverage": 0.9660416666666666,
+        "normalized_interval_score": 4.764406496289669,
+        "normalized_mae": 0.5141461902109516,
+        "normalized_mse": 0.5487416636476857,
+        "normalized_width": 4.593046406978976
+      },
+      "held_out_ridge": {
+        "coverage": 0.7945833333333334,
+        "normalized_interval_score": 2.781261674768956,
+        "normalized_mae": 0.5179818245229219,
+        "normalized_mse": 0.5505606117006692,
+        "normalized_width": 1.659785866161489
+      },
+      "repeat_last": {
+        "normalized_mae": 1.06454630451222,
+        "normalized_mse": 1.7950890764361085
+      }
+    },
+    "noise": {
+      "frozen_browser_linear": {
+        "coverage": 0.9013605442176871,
+        "normalized_interval_score": 5.092528066201454,
+        "normalized_mae": 0.912189717566307,
+        "normalized_mse": 1.3116509935665814,
+        "normalized_width": 4.593046406978977
+      },
+      "held_out_ridge": {
+        "coverage": 0.5306122448979592,
+        "normalized_interval_score": 4.786293266506574,
+        "normalized_mae": 0.909526400583889,
+        "normalized_mse": 1.3049200313018234,
+        "normalized_width": 1.6597858661614888
+      },
+      "repeat_last": {
+        "normalized_mae": 1.1388591104848838,
+        "normalized_mse": 2.0340459524741323
+      }
+    },
+    "seasonal": {
+      "frozen_browser_linear": {
+        "coverage": 0.9975728155339806,
+        "normalized_interval_score": 4.613985973718789,
+        "normalized_mae": 0.2997085466592321,
+        "normalized_mse": 0.1746831833555493,
+        "normalized_width": 4.593046406978978
+      },
+      "held_out_ridge": {
+        "coverage": 0.9385113268608414,
+        "normalized_interval_score": 1.8340208819525352,
+        "normalized_mae": 0.3066998770473246,
+        "normalized_mse": 0.1794395974926241,
+        "normalized_width": 1.6597858661614886
+      },
+      "repeat_last": {
+        "normalized_mae": 1.1490437368350372,
+        "normalized_mse": 1.9939193427417254
+      }
+    },
+    "trend": {
+      "frozen_browser_linear": {
+        "coverage": 0.9663461538461539,
+        "normalized_interval_score": 4.75583076938337,
+        "normalized_mae": 0.5543200610978892,
+        "normalized_mse": 0.5539385284140382,
+        "normalized_width": 4.593046406978976
+      },
+      "held_out_ridge": {
+        "coverage": 0.766025641025641,
+        "normalized_interval_score": 2.716771714096068,
+        "normalized_mae": 0.5574588574786714,
+        "normalized_mse": 0.5574442533221837,
+        "normalized_width": 1.6597858661614888
+      },
+      "repeat_last": {
+        "normalized_mae": 0.8250324595222327,
+        "normalized_mse": 1.1478231005772075
+      }
+    },
+    "trend_seasonal": {
+      "frozen_browser_linear": {
+        "coverage": 0.9982456140350877,
+        "normalized_interval_score": 4.5983988707286265,
+        "normalized_mae": 0.2920486010821182,
+        "normalized_mse": 0.16160940261966059,
+        "normalized_width": 4.593046406978978
+      },
+      "held_out_ridge": {
+        "coverage": 0.9421052631578946,
+        "normalized_interval_score": 1.810521270345641,
+        "normalized_mae": 0.2999298319820144,
+        "normalized_mse": 0.16721684974148998,
+        "normalized_width": 1.6597858661614886
+      },
+      "repeat_last": {
+        "normalized_mae": 1.1584784030847195,
+        "normalized_mse": 2.04159823652159
+      }
+    }
+  },
+  "selection": [
+    {
+      "normalized_mse": 0.61480316079146,
+      "penalty": 0.0
+    },
+    {
+      "normalized_mse": 0.6148031358052215,
+      "penalty": 1e-06
+    },
+    {
+      "normalized_mse": 0.614800347973248,
+      "penalty": 0.0001
+    },
+    {
+      "normalized_mse": 0.6145321968435902,
+      "penalty": 0.01
+    },
+    {
+      "normalized_mse": 0.6129375697287743,
+      "penalty": 0.1,
+      "selected": true
+    },
+    {
+      "normalized_mse": 0.6367946050828092,
+      "penalty": 1.0
+    },
+    {
+      "normalized_mse": 0.9957652111094776,
+      "penalty": 10.0
+    }
+  ],
+  "sources": {
+    "docs/guides/browser-linear-protocol.md": "15ff056734fe79813635b948c78dd918c513a4bf9136babe74ddb127b7c048dd",
+    "frontend/public/models/nlinear.onnx": "621265165211f756cff537adee364b9790c34ced567bc2a5087513360e1f69f6",
+    "frontend/src/lib/nlinearMeta.json": "60e999e7e39231a6c69243b448bb0e971f2ec9d8d12a1238eece79a0f0e18404",
+    "requirements-browser-model.txt": "4b6e19b75263ef8ca1a79ac9c8a69624568be2d61fffcbfc548bc9169dfa6e34",
+    "scripts/evaluate_browser_linear.py": "b206fb7c6f9a61b85707c65cc3b9c695e6e60d513169139644483fdc79c1dc5e",
+    "scripts/train_nlinear_onnx.py": "d5e4c95273385f41f190fa0794f0ed0ec486ba4fcb22fd0b45053ff3ff54e235"
+  },
+  "splits": {
+    "calibration": {
+      "seed": 20261106,
+      "series": 400
+    },
+    "test": {
+      "seed": 20261107,
+      "series": 400
+    },
+    "training": {
+      "seed": 20260704,
+      "series": 400
+    },
+    "validation": {
+      "seed": 20261105,
+      "series": 200
+    }
+  },
+  "training_windows": 52144
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "manuscript",
+  "claims": {
+    "NC-1": "sec:replay-method"
+  },
+  "title_support": [
+    "tab:coverage",
+    "fig:summary",
+    "tab:case-reweighting"
+  ]
+}

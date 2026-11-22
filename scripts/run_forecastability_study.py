@@ -19,8 +19,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "data-pipeline"))
 
 import numpy as np  # noqa: E402
-from chronoscopelab.analysis.atlas import MODEL_NAMES, PROTOCOL, partition, prefix_features, study_summary  # noqa: E402
-from chronoscopelab.model.forecasters import METHODS  # noqa: E402
+from engine.analysis.atlas import MODEL_NAMES, PROTOCOL, partition, prefix_features, study_summary  # noqa: E402
+from engine.model.forecasters import METHODS  # noqa: E402
 
 
 def digest(path: Path) -> str:
@@ -113,8 +113,8 @@ def main():
     if any(p.resolve().is_relative_to(ROOT) for p in (args.source, args.cache, args.output)):
         parser.error('Source, cache and candidate output must stay outside Git')
     packages = {p: importlib.metadata.version(p) for p in ('numpy','scipy','stumpy','antropy','pycatch22','statsforecast','scikit-learn','joblib')}
-    sources = [Path(__file__), ROOT/'data-pipeline/chronoscopelab/analysis/atlas.py',
-               ROOT/'data-pipeline/chronoscopelab/analysis/sequence.py', ROOT/'data-pipeline/chronoscopelab/model/forecasters.py']
+    sources = [Path(__file__), ROOT/'data-pipeline/engine/analysis/atlas.py',
+               ROOT/'data-pipeline/engine/analysis/sequence.py', ROOT/'data-pipeline/engine/model/forecasters.py']
     code = {p.relative_to(ROOT).as_posix(): digest(p) for p in sources}
     identity = {"protocol": PROTOCOL, "packages": packages, "code_sha256": code, "source_sha256": digest(args.source)}
     fingerprint = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()

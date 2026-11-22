@@ -36,6 +36,12 @@ $B,d,D,\phi,\Phi,\theta,\Theta$ & ARIMA backshift, differencing orders and polyn
 $\epsilon_t$ & Model innovation or residual in the stated observation equation. & $U$\\
 $\mathcal L,F_\theta$ & Lag-index set and fitted recursive tree mapping. & indices; output $U$\\
 $\mu,\sigma,z$ & Prefix mean, prefix population standard deviation and normalized values. & $U$; $U$; dimensionless\\
+$U_y,U_x$ & Response and covariate measurement units in the normalized ridge adapter. & source units\\
+$\mu_y,s_y$ & Observed response-prefix mean and population standard deviation. & $U_y$\\
+$\mu_c,s_c,c_t$ & Observed covariate-prefix mean, population standard deviation and covariate value. & $U_x$\\
+$z_t,x_t$ & Standardized response and covariate in the current ridge problem. & dimensionless\\
+$\beta_0,\beta_1,\beta_m,\beta_c$ & Current standardized ridge intercept and lag/covariate coefficients. & dimensionless\\
+$\lambda,\ell$ & Current ridge penalty, fixed at one, and first admissible lagged row. & dimensionless; index\\
 $\widehat Q,Q$ & Forecast-column matrix and requested probability set. & $U$; dimensionless\\
 $Q_a,K_a,V_a,d$ & Attention matrices and their internal feature dimension. & latent coordinates; count\\
 $W,X,Y,\lambda$ & Browser linear weights, normalized fitting arrays and ridge coefficient. & dimensionless\\

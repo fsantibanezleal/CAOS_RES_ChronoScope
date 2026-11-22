@@ -1,28 +1,14 @@
 #!/usr/bin/env bash
-# Create BOTH venvs + install per-lane requirements + the editable package. Idempotent. No global installs.
-#   .venv-pipeline = heavy OFFLINE lane (data-pipeline/requirements.txt) + dev + editable pkg  (local-only)
-#   .venv          = runtime/live-thin lane (requirements.txt)                                  (what ships)
-# Dormant lanes are skipped gracefully. Re-runnable.
 set -euo pipefail
-cd "$(dirname "$0")/.."
-PY="${PYTHON:-python}"
-
-mkvenv() { [ -d "$1" ] || "$PY" -m venv "$1"; }
-venvpy() { local p="$1/bin/python"; [ -x "$p" ] || p="$1/Scripts/python.exe"; echo "$p"; }
-
-echo "[setup] .venv-pipeline (offline lane)…"
-mkvenv .venv-pipeline
-VP="$(venvpy .venv-pipeline)"
-"$VP" -m pip install --upgrade pip -q
-"$VP" -m pip install -q -r data-pipeline/requirements.txt -r requirements-dev.txt
-"$VP" -m pip install -q -e .
-echo "[setup] .venv-pipeline ready."
-
-echo "[setup] .venv (runtime/live-thin lane)…"
-mkvenv .venv
-VR="$(venvpy .venv)"
-"$VR" -m pip install --upgrade pip -q
-"$VR" -m pip install -q -r requirements.txt
-echo "[setup] .venv ready."
-
-echo "[setup] done. Next:  ./scripts/precompute.sh   then   ./scripts/dev.sh"
+entry_dir="$(cd "$(dirname "$0")" && pwd)"
+python_command="${PYTHON:-python3}"
+if ! command -v "$python_command" >/dev/null 2>&1; then
+  if [ "${1:-}" = "--install" ] && command -v brew >/dev/null 2>&1; then
+    brew install python@3.12
+    echo "Python installed. Open a new terminal and rerun 00_install-prereqs."
+    exit 0
+  fi
+  echo "Python is missing; install Python>=3.12 and rerun 00_install-prereqs." >&2
+  exit 1
+fi
+exec "$python_command" "$entry_dir/local/workflow.py" init "$@"

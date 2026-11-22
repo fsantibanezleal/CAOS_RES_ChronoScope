@@ -172,6 +172,7 @@ export function decompose(y: number[], m: number): Decomposition | null {
   );
   const varOf = (v: number[]) => {
     if (v.length < 2) return NaN;
+    if (v.every(value => value === v[0])) return 0;
     const mu = v.reduce((a, b) => a + b, 0) / v.length;
     return v.reduce((a, b) => a + (b - mu) ** 2, 0) / v.length;
   };
@@ -184,8 +185,12 @@ export function decompose(y: number[], m: number): Decomposition | null {
     pairsTrend.push((trend[t] as number) + (remainder[t] as number));
   }
   const vr = varOf(rem);
-  const seasonalStrength = Math.max(0, 1 - vr / Math.max(1e-12, varOf(pairsSeas)));
-  const trendStrength = Math.max(0, 1 - vr / Math.max(1e-12, varOf(pairsTrend)));
+  // A zero variance carries no evidence of strength. Avoid a raw-amplitude
+  // floor: the dimensionless ratio must survive a change of observable units.
+  const strength = (variance: number) => variance > 0 && Number.isFinite(variance)
+    ? Math.max(0, 1 - vr / variance) : 0;
+  const seasonalStrength = strength(varOf(pairsSeas));
+  const trendStrength = strength(varOf(pairsTrend));
   return { trend, seasonal, remainder, seasonalStrength, trendStrength };
 }
 
@@ -195,8 +200,10 @@ export function qqPairs(values: number[]): { theoretical: number[]; sample: numb
   const v = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
   const n = v.length;
   if (n < 8) return { theoretical: [], sample: [] };
+  if (v[0] === v[n - 1]) return { theoretical: [], sample: [] };
   const mean = v.reduce((a, b) => a + b, 0) / n;
-  const sd = Math.sqrt(v.reduce((a, b) => a + (b - mean) ** 2, 0) / n) || 1;
+  const sd = Math.sqrt(v.reduce((a, b) => a + (b - mean) ** 2, 0) / n);
+  if (!(sd > 0) || !Number.isFinite(sd)) return { theoretical: [], sample: [] };
   const theoretical: number[] = [];
   const sample: number[] = [];
   for (let i = 1; i <= n; i++) {
@@ -229,8 +236,12 @@ export function normalInv(p: number): number {
 
 export function histogram(y: number[], bins = 24): { edges: number[]; counts: number[] } {
   const v = y.filter(Number.isFinite);
+  if (!v.length) return { edges: [], counts: [] };
+  if (!Number.isInteger(bins) || bins < 1) throw new RangeError('Histogram bins must be a positive integer');
   const lo = Math.min(...v), hi = Math.max(...v);
-  const w = (hi - lo) / bins || 1;
+  // A constant sample is a point mass, without an invented observable width.
+  if (hi === lo) return { edges: [lo, hi], counts: [v.length] };
+  const w = (hi - lo) / bins;
   const counts = new Array(bins).fill(0);
   for (const x of v) counts[Math.min(bins - 1, Math.floor((x - lo) / w))]++;
   return { edges: Array.from({ length: bins + 1 }, (_, i) => lo + i * w), counts };

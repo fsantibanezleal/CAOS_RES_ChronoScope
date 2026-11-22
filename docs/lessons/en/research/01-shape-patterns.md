@@ -1,5 +1,7 @@
 # Which local shapes repeat in the break case?
 
+**Level:** 1. **Prerequisites:** Basic Python and reading charts. **Reading time:** 30 minutes.
+
 **Question:** Can we identify repeated windows without confusing their original positions with a reduced display axis? This lesson follows the structural-break case from its complete observations to a Matrix Profile, a motif pair and candidate segmentation boundaries. The question concerns similarity of local shapes. It does not ask whether an unusual value is dangerous, whether a boundary is a proven change in the generator, or whether an online detector could have issued an alarm at that position.
 
 ## Objectives
@@ -16,7 +18,7 @@ Create an isolated environment and install the exact lesson dependencies below. 
 
 ## Data
 
-The admitted artifact preserves the source identity and the observations used below.
+The mechanism illustration is the synthetic BRKV_level_shift sequence in `data/derived/BRKV_level_shift/analysis.json`, generated with seed 42 by ChronoScope's `data-pipeline/engine/cases/forecast_cases.py` under MIT. Its field sequence.values retains all 300 generated observations and their original index. Its boundaries are retrospective diagnostics, not measured change-point labels. A second actual API run below uses the authentic UCI MT_010 electricity excerpt (`data/examples/electricity_sample.csv`, https://doi.org/10.24432/C58C86, CC BY 4.0): y sums four 15-minute power readings, in kW-sum source units, per hourly label.
 
 <!-- code: data -->
 
@@ -39,6 +41,23 @@ FLUSS reads nearest-neighbor arcs and constructs a corrected arc curve. The prod
 A second window of twelve observations tests sensitivity to the declared local shape scale. It is a diagnostic comparison, not a search for the most favorable annotation.
 
 <!-- code: sensitivity -->
+
+### Sensitivity to window length
+
+Write $z_i(k)$ for observation $k$ in the window beginning at $i$, centered and scaled using that window. For nonconstant windows the profile at start $i$ is
+
+$$
+P_m(i)=\min_{|i-j|>\lceil m/4\rceil}
+\sqrt{\sum_{k=0}^{m-1}(z_i(k)-z_j(k))^2}.
+$$
+
+Each candidate distance adds $m$ squared differences. The following figure divides $P_m$ by $\sqrt m$, so its vertical axis represents root mean square disagreement per normalized observation. Both curves use original start indices. Their eligible matches still differ because changing the window changes the sampled shape, the exclusion radius and how many complete windows fit before the record ends.
+
+<!-- code: profile_scale_plot -->
+
+Read large differences between curves as sensitivity to the representation. For a minimum that moves, inspect both matching raw intervals and ask whether a short fragment of a longer pattern is repeating elsewhere. For a maximum that moves, inspect whether part of a long window straddles a level change. Neither movement establishes which window is preferable. In operational data the useful duration is chosen from the action, such as detecting a recurring hour of machine behavior. Fix the time scale, segmentation settings and allowed missingness before testing on a reserved sequence. If a detection is meant to be online, at each timestamp use only the windows already available then. A retrospective pattern can be confirmed before or after the event of interest, so record that information boundary.
+
+Save the match index together with the distance. A close numerical distance alone cannot identify which two raw intervals a reader should compare.
 
 ## Results
 
@@ -65,3 +84,5 @@ Run the notebook from top to bottom in the pinned environment. Compare the print
 ## References
 
 Yeh et al., Matrix Profile I, DOI 10.1109/ICDM.2016.0179. Gharghabi et al., Matrix Profile VIII, DOI 10.1109/ICDM.2017.21. The STUMPY exact self-join and FLUSS tutorials document normalization, exclusion and candidate segmentation behavior.
+
+[STUMPY exact profile tutorial](https://stumpy.readthedocs.io/en/latest/Tutorial_STUMPY_Basics.html).

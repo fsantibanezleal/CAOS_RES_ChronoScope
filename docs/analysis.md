@@ -2,9 +2,9 @@
 
 The "understand the series" half of ChronoScope. Before (and to explain) any forecast, these diagnostics
 characterise a series: its stationarity, autocorrelation, seasonality, trend, drift, distribution, complexity
-and fractal structure. Each method is a real, verified implementation (delegated to its authoritative library
-and wrapped in one stable, NaN-safe API that carries the primary reference), computed offline in
-`chronoscopelab.analysis` and baked per case so the web shows exactly the numbers the pipeline computed.
+and fractal structure. Methods use identified numerical libraries or explicitly documented local procedures,
+through published ForecastScope modules, with primary references, finite-input rules and optional-dependency availability recorded. They are computed offline in
+`engine.analysis` and baked per case so the web shows exactly the numbers the pipeline computed.
 
 Every method is built as a vertical unit: the code, its tests, and a deep page here (theory, equations, DOIs,
 and a theme-aware SVG) are authored together, in the same commit, while the context is fresh.

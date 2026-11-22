@@ -1,6 +1,6 @@
 # Trend-cycle filters and adaptive decompositions
 
-Code: [`chronoscopelab/analysis/filters.py`](../../data-pipeline/chronoscopelab/analysis/filters.py)
+Code: [`engine/analysis/filters.py`](../../data-pipeline/engine/analysis/filters.py)
 · Tests: [`tests/test_analysis_filters.py`](../../tests/test_analysis_filters.py)
 
 ## Why scale-based separation (and when STL is not enough)

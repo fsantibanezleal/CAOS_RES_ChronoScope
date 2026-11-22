@@ -44,13 +44,13 @@ function LiveRealInference({ cases }: { cases: ReevaluatedCase[] }) {
   };
   return <div className="cs-main" data-state={busy || (!trace && !err) ? 'loading' : 'ready'}>
     <CaseSelect cases={real} value={caseId} onChange={setCaseId} />
-    <p>{es ? 'Este panel ejecuta el pequeño modelo NLinear en el navegador sobre una historia real reservada. El modelo fue entrenado con ventanas sintéticas; aquí se comparan doce predicciones nuevas con las primeras doce observaciones del bloque final, sin actualizar el ajuste con ellas.' : 'This panel executes the small NLinear model in the browser on a real held-out history. The model was trained on synthetic windows; twelve new predictions are compared with the first twelve observations of the final block, without updating the fit from those outcomes.'}</p>
-    <button type="button" data-control="run-real-nlinear" className="cs-mini" disabled={!trace || busy} onClick={execute}>{es ? 'Ejecutar NLinear en este caso real' : 'Run NLinear on this real case'}</button>
+    <p>{es ? 'Este panel ejecuta el modelo lineal con normalización por ventana en el navegador sobre una historia real reservada. El modelo fue entrenado con ventanas sintéticas; aquí se comparan doce predicciones nuevas con las primeras doce observaciones del bloque final, sin actualizar el ajuste con ellas.' : 'This panel executes the instance-normalized linear model in the browser on a real held-out history. The model was trained on synthetic windows; twelve new predictions are compared with the first twelve observations of the final block, without updating the fit from those outcomes.'}</p>
+    <button type="button" data-control="run-real-nlinear" className="cs-mini" disabled={!trace || busy} onClick={execute}>{es ? 'Ejecutar modelo lineal en este caso real' : 'Run linear model on this real case'}</button>
     {err && <p role="alert">{err}</p>}
     {point && trace && <>
       <UPlotChart xs={point.map((_, i) => i + 1)} series={[
         { label: es ? 'Observado' : 'Observed', values: trace.actual.slice(0, point.length), color: 'var(--color-good)' },
-        { label: 'NLinear (ONNX)', values: point, color: 'var(--color-accent)' },
+        { label: es ? 'Lineal normalizado (ONNX)' : 'Normalized linear (ONNX)', values: point, color: 'var(--color-accent)' },
       ]} height={320} xLabel={es ? 'Paso reservado' : 'Held-out lead'} yLabel={es ? 'Unidades del caso' : 'Case value units'} ariaSummary={es ? 'Inferencia real en el navegador' : 'Live browser inference on real data'} />
       <p>{es ? 'Error absoluto medio' : 'Mean absolute error'}: {formatNumber(point.reduce((s, p, i) => s + Math.abs(p - trace.actual[i]), 0) / point.length, lang, { digits: 4 })}</p>
     </>}
@@ -116,7 +116,7 @@ export default function BenchmarkCurrent() {
         ]} ariaSummary={t('Absolute error by lead on one reserved block','Error absoluto por paso en un bloque reservado')} xLabel={t('Forecast lead','Paso de pronóstico')} yLabel={t('Absolute error in case units','Error absoluto en unidades del caso')} />}
         <p>{t('This is an observed degradation diagnostic from one final block, not a confidence band or a repeated-noise robustness experiment. Compare local spikes with the aggregate score before drawing a conclusion.', 'Este es un diagnóstico observado de un bloque final, no una banda de confianza ni un experimento repetido con perturbaciones. Compare los errores locales con la medida agregada antes de concluir.')}</p>
       </DocSection> },
-      { id:'live',label:t('Live real inference','Inferencia real viva'),content:<DocSection title={{en:'NLinear in the browser',es:'NLinear en el navegador'}} area="live" refs={['dlinear']}><LiveRealInference cases={data.cases} /></DocSection> },
+      { id:'live',label:t('Live real inference','Inferencia real viva'),content:<DocSection title={{en:'Normalized linear inference in the browser',es:'Inferencia lineal normalizada en el navegador'}} area="live" refs={['dlinear']}><LiveRealInference cases={data.cases} /></DocSection> },
     ]},{id:'corpus-scope',label:t('Corpus and scope','Corpus y alcance'),tabs:[
       { id:'sources',label:t('Cases and sources','Casos y fuentes'),content:<DocSection title={{en:'Case provenance and diagnostic context',es:'Procedencia y contexto diagnóstico'}} area="provenance" noRefsReason={own}>
         <div className="cs-table-scroll"><table className="cs-table"><thead><tr><th>{t('Case','Caso')}</th><th>{t('Difficulty','Dificultad')}</th><th>{t('Source','Fuente')}</th><th>{t('Redistribution','Redistribución')}</th></tr></thead><tbody>{manifests.map(m=><tr key={m.case_id}><td>{m.case_id}</td><td>{es ? m.category.replace(/(\d)\.(\d)/g, '$1,$2') : m.category}</td><td>{m.provenance.source}</td><td><code>{m.provenance.license}</code>: {m.provenance.public_artifact_ok?t('admitted','admitida'):t('restricted','restringida')}</td></tr>)}</tbody></table></div>

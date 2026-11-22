@@ -4,7 +4,7 @@ import itertools
 import numpy as np
 import pytest
 
-from chronoscopelab.analysis.sequence import multiscale_entropy, sequence_report, matrix_profile, time_reversal
+from engine.analysis.sequence import multiscale_entropy, sequence_report, matrix_profile, time_reversal
 
 
 def test_adversarial_profile_matches_exhaustive_z_normalized_distance_oracle():

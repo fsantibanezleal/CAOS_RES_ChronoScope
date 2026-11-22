@@ -1,5 +1,6 @@
 """Author the bilingual lesson on temporal selection; execute with run_notebooks.py."""
 
+from build_lesson_quality import revise
 from pathlib import Path
 import copy
 import hashlib
@@ -38,9 +39,9 @@ import matplotlib.pyplot as plt
 import importlib.metadata
 root = next(p for p in Path.cwd().parents if (p / "VERSION").is_file())
 sys.path.insert(0, str(root / "data-pipeline"))
-from chronoscopelab.model.validated_combination import fit_validated
-from chronoscopelab.model.context_memory import fit_context_memory
-from chronoscopelab.reevaluation import metrics
+from engine.model.validated_combination import fit_validated
+from engine.model.context_memory import fit_context_memory
+from engine.reevaluation import metrics
 plt.rcParams.update({"figure.figsize": (8, 3.5), "figure.dpi": 95, "font.size": 10})
 comparison = json.loads((root / "data/derived/reevaluation.json").read_text(encoding="utf-8"))
 case = next(c for c in comparison["cases"] if c["case_id"] == "BRKV_level_shift")
@@ -199,11 +200,78 @@ plt.show()
     ),
     (
         "markdown",
-        """## Results
+        r"""### Sensitivity to the choice of score
+
+For an earlier query $r$, define $s_r$ from the seasonal differences within the prefix available at that query. A candidate configuration $c$ estimates weights using only memory targets complete by $r$. Write its validation forecast at lead $j$ as $\widehat y_{r+j}^{(c)}$. With $R$ eligible validation queries and horizon $H$, the selection score is
+
+$$
+V(c)=\frac{1}{RH}\sum_{r}\sum_{j=1}^{H}
+\frac{|y_{r+j}-\widehat y_{r+j}^{(c)}|}{s_r}.
+$$
+
+The validation observations belong to the historical prefix of the final query. At a particular validation query they are still future outcomes, so each weight fit excludes them. The final weights for the chosen configuration use all completed historical memory available at the final query. Thus the selected configuration and the weight vector are different objects. Reusing a weight vector fitted on the validation outcomes to compute its own selection score would conflate these operations.
+
+Point selection gives each lead an absolute error. Interval evaluation instead gives credit for a short interval and charges an additional penalty outside its endpoints. For lower and upper endpoints $l,u$ and nominal miscoverage $\alpha$, the contribution at observation $y$ is
+
+$$
+I_\alpha(l,u;y)=u-l+\frac{2}{\alpha}(l-y)\mathbf{1}(y<l)
++\frac{2}{\alpha}(y-u)\mathbf{1}(y>u).
+$$
+
+MSIS averages this score after seasonal scaling. It can favor a different method because it uses both endpoints, even when the point paths have similar MASE. The next figure expresses both scores as differences from the recency control within each collection. A bar below zero favors the named method for that score. Comparing signs within each panel is more informative than comparing magnitudes between metrics, because their objectives and penalty scales differ.
+""",
+        r"""### Sensibilidad a la medida de error
+
+Para una consulta anterior $r$, defina $s_r$ usando las diferencias estacionales dentro del prefijo disponible entonces. Una configuración $c$ estima pesos solo con memorias cuyos objetivos están completos en $r$. Sea $\widehat y_{r+j}^{(c)}$ su pronóstico de validación para el paso $j$. Con $R$ consultas de validación elegibles y horizonte $H$, el puntaje de selección es
+
+$$
+V(c)=\frac{1}{RH}\sum_{r}\sum_{j=1}^{H}
+\frac{|y_{r+j}-\widehat y_{r+j}^{(c)}|}{s_r}.
+$$
+
+Las observaciones de validación pertenecen al prefijo histórico de la consulta final. En cada consulta de validación todavía son futuras y por eso quedan excluidas del ajuste de sus pesos. Los pesos finales de la configuración elegida utilizan toda la memoria completada disponible en la consulta final. La configuración y el vector de pesos son objetos distintos. Usar un vector ajustado sobre los objetivos de validación para calcular su propio puntaje de selección mezclaría ambas operaciones.
+
+La selección puntual asigna error absoluto a cada paso. La evaluación de intervalos favorece una banda corta y penaliza observaciones fuera de sus extremos. Con límites $l,u$ y probabilidad nominal de exclusión $\alpha$, la contribución de una observación $y$ es
+
+$$
+I_\alpha(l,u;y)=u-l+\frac{2}{\alpha}(l-y)\mathbf{1}(y<l)
++\frac{2}{\alpha}(y-u)\mathbf{1}(y>u).
+$$
+
+MSIS promedia esta puntuación con escalamiento estacional. Puede favorecer otro método porque utiliza los dos extremos, incluso si los MASE son similares. La figura siguiente expresa las dos medidas como diferencias respecto al control por recencia dentro de cada colección. Una barra bajo cero favorece al método indicado para esa medida. Compare los signos dentro de cada panel: los objetivos y las penalizaciones difieren y sus magnitudes entre métricas tienen otra interpretación.
+""",
+    ),
+    (
+        "code",
+        """score_figure, score_axes = plt.subplots(1, 2, figsize=(9, 3.7))
+for ax, metric in zip(score_axes, ("mase", "msis"), strict=True):
+    x = np.arange(3)
+    for offset, identifier in [(-0.18, "m4_weekly"), (0.18, "m3_monthly")]:
+        cohort = next(c for c in study["cohorts"] if c["id"] == identifier)
+        values = {row["name"]: row[metric] for row in cohort["summary"]}
+        ax.bar(x + offset, [values[name] - values["RecencyMean"] for name in names[1:]],
+               width=0.34, label=cohort["name"])
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.set_xticks(x, names[1:], rotation=15)
+    ax.set(ylabel=f"{metric.upper()} difference from RecencyMean")
+score_axes[0].legend(fontsize=8)
+score_figure.tight_layout()
+plt.show()
+""",
+    ),
+    (
+        "markdown",
+        """### Reproduce the comparison with your own data
+
+Create a record per series with its original sampling frequency, missingness flags, declared seasonal lag and a positive scale based on the fitting prefix. Freeze the roster of methods before reserving final targets. At each eligible final query, lay out earlier nonoverlapping target blocks on a calendar. Record the end of each block and exclude a memory when that endpoint exceeds the query being fit. Test this condition with a short history where the fallback should run. Store the forecast values, scales, weights, candidate scores and fit times with the source digest.
+
+Evaluate each method on the same origins. When a case has several origins, aggregate those scores within series first and compare methods with paired series differences. Examine both the mean and the distribution of differences. Repeat the protocol on a separate collection chosen before looking at these outcomes. If a planner requires a useful interval for high-cost decisions, record its target coverage and width criterion in advance and evaluate them alongside point accuracy.
+
+## Results
 
 **Answer:** The reproduced development mean MASE values are 1.3974 for ContextMemoryCV and 1.4031 for ValidationMix. The variants also improve point error over RecencyMean on both admitted external collections. AutoTheta retains lower monthly point error and lower interval scores on both. Context attribution and calibrated uncertainty remain unresolved.
 
-The external table accounts for every source identity. Sixty-five weekly series have insufficient history for the fixed seasonal/origin protocol; six monthly identities are exact duplicates. Eligible origins are averaged within each series, then series receive equal weight within each collection. The new variants reduce mean MASE against the recency-only control on both admitted collections. AutoTheta nevertheless has lower point error on monthly series, and it has lower interval score on both collections. The figure must therefore be read by collection and comparator, not as a universal ranking or an official M4 competition result.
+The external table accounts for every source identity. Sixty-five weekly series fall under the recorded combined exclusion reason, nonfinite observations or no eligible origin; six monthly identities are exact duplicates. Eligible origins are averaged within each series, then series receive equal weight within each collection. The new variants reduce mean MASE against the recency-only control on both admitted collections. AutoTheta nevertheless has lower point error on monthly series, and it has lower interval score on both collections. The figure must therefore be read by collection and comparator, not as a universal ranking or an official M4 competition result.
 
 The Gaussian endpoints of the combinations are broad. Coverage above the nominal level is not automatically useful when width and missed-target penalties are considered together. The original fifteen-case data illustrate the distinction: the new variants improve point error while worsening MSIS against RecencyMean. Neither convex weights nor selecting a point-error parameter calibrates the resulting interval. A future uncertainty method needs its own temporal protocol and held-out assessment.
 
@@ -221,11 +289,17 @@ The useful improvement here is a qualified one: a fixed temporal selection rule 
 - [M4 Weekly source](https://doi.org/10.5281/zenodo.4656522).
 - [M3 Monthly source](https://doi.org/10.5281/zenodo.4656298).
 """,
-        """## Resultados
+        """### Reproduce la comparación con tus propios datos
+
+Cree un registro por serie con frecuencia original, indicadores de ausencia, rezago estacional declarado y escala positiva calculada sobre el prefijo de ajuste. Fije los métodos antes de reservar los objetivos finales. Para cada consulta final elegible, ubique en el calendario los bloques anteriores con objetivos disjuntos. Registre el extremo de cada bloque y excluya una memoria cuando ese extremo supera la consulta que está ajustando. Pruebe la condición con una historia corta donde se deba usar la alternativa de recencia. Guarde valores pronosticados, escalas, pesos, puntajes de candidatos y tiempos de ajuste junto con el resumen criptográfico del origen.
+
+Evalúe los métodos en los mismos orígenes. Cuando una serie aporta varios orígenes, agregue sus puntajes dentro de la serie antes de comparar con diferencias emparejadas. Examine la media y la distribución de esas diferencias. Repita el protocolo en una colección separada elegida antes de conocer los resultados. Si el planificador requiere un intervalo para decisiones costosas, declare de antemano el criterio de cobertura y amplitud y evalúelo junto con la precisión puntual.
+
+## Resultados
 
 **Respuesta:** Los MASE medios de desarrollo reproducidos son 1.3974 para ContextMemoryCV y 1.4031 para ValidationMix. Las variantes también mejoran el error puntual frente a RecencyMean en ambas colecciones externas admitidas. AutoTheta mantiene menor error puntual mensual y mejores puntuaciones de intervalos en ambas. La atribución contextual y la incertidumbre calibrada siguen sin resolverse.
 
-La tabla externa contabiliza cada identidad de origen. Sesenta y cinco series semanales tienen historia insuficiente para el protocolo estacional y de orígenes fijado; seis identidades mensuales son duplicados exactos. Se promedian orígenes elegibles por serie y después se asigna igual peso a cada serie dentro de su colección. Las variantes nuevas reducen MASE medio frente al control de recencia en ambas colecciones admitidas. Sin embargo, AutoTheta tiene menor error puntual mensual y menor puntuación de intervalos en ambas. La figura se interpreta por colección y comparador, no como clasificación universal ni resultado oficial de la competición M4.
+La tabla externa contabiliza cada identidad de origen. Sesenta y cinco series semanales tienen el motivo combinado registrado de exclusión, observaciones no finitas o ningún origen elegible; seis identidades mensuales son duplicados exactos. Se promedian orígenes elegibles por serie y después se asigna igual peso a cada serie dentro de su colección. Las variantes nuevas reducen MASE medio frente al control de recencia en ambas colecciones admitidas. Sin embargo, AutoTheta tiene menor error puntual mensual y menor puntuación de intervalos en ambas. La figura se interpreta por colección y comparador, no como clasificación universal ni resultado oficial de la competición M4.
 
 Los extremos gaussianos de las combinaciones son amplios. Cobertura por encima del nivel nominal no es automáticamente útil al considerar amplitud y penalizaciones por objetivos fuera del intervalo. Los quince casos originales muestran esa distinción: las variantes nuevas mejoran error puntual y empeoran MSIS frente a RecencyMean. Ni los pesos convexos ni seleccionar parámetros por error puntual calibran el intervalo. Un método futuro de incertidumbre necesita protocolo temporal y evaluación reservada propios.
 
@@ -298,6 +372,7 @@ for item in CELLS:
             "validated =": "Compare the extended finite candidate family and inspect its allocations.",
             "short =": "Exercise the no-validation fallback without consulting future targets.",
             "changed_units =": "Refit after a positive change of units and common location shift.",
+            "score_figure,": "Compare each method against its own collection's recency reference.",
             "earlier =": "Refit an earlier information cutoff, then inspect original-query weights.",
             "development =": "Execute both variants on every original contiguous development prefix.",
             "fig, axes =": "Compare external collections separately, retaining the statistical comparator.",
@@ -320,6 +395,7 @@ def main():
             language=lang,
             topic="01-forecast-decisions",
             level=4,
+            packages=[pin for pin in template["metadata"]["caos"]["packages"] if pin in SETUP_EN],
             title="Choosing a combination before its target arrives"
             if lang == "en"
             else "Elegir una combinación antes de que llegue su objetivo",
@@ -346,9 +422,11 @@ def main():
                 item.update(execution_count=None, outputs=[])
             cells.append(item)
         path = ROOT / f"notebooks/{lang}/01-forecast-decisions/05-temporal-validation.ipynb"
+        document = revise({"cells": cells, "metadata": metadata, "nbformat": 4, "nbformat_minor": 5},
+                          "01-forecast-decisions/05-temporal-validation.ipynb")
         path.write_text(
             json.dumps(
-                {"cells": cells, "metadata": metadata, "nbformat": 4, "nbformat_minor": 5},
+                document,
                 indent=1,
                 ensure_ascii=False,
             )

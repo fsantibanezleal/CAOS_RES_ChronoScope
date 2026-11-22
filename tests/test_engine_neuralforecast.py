@@ -10,7 +10,7 @@ import pytest
 nf = pytest.importorskip("neuralforecast")  # canonical tier needs the framework (py3.12 base)
 torch = pytest.importorskip("torch")
 
-from chronoscopelab.engines.neuralforecast_engine import (  # noqa: E402 - after the skip-guards by design
+from engine.engines.neuralforecast_engine import (  # noqa: E402 - after the skip-guards by design
     NeuralForecastForecaster,
     _match_quantile_column,
     neuralforecast_available,

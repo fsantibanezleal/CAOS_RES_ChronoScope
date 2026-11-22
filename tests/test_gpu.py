@@ -1,5 +1,5 @@
 """GPU helper tests: the device selector works with or without a GPU (CI has none), never raising."""
-from chronoscopelab import gpu
+from engine import gpu
 
 
 def test_device_is_cuda_or_cpu():

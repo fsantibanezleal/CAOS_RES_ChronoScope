@@ -14,6 +14,7 @@ brief, shared shell and forecasting experiment remain the problem context and co
 | RX-5 | A corpus study SHALL evaluate thousands of licensed M4 series under a fixed, recorded protocol, compute features exclusively from pre-origin observations, apply dependent-test Benjamini-Yekutieli correction, and confirm discoveries on disjoint series. | `tests/test_forecastability.py`, `scripts/check_research_extensions.py` |
 | RX-6 | The corpus app SHALL expose sample counts, exclusions, model roster, origins, corrected significance and held-out selection performance with all negative results. The original 15-case experiment SHALL remain a separate study. | `frontend/src/test/research-extensions.test.tsx`, `frontend/scripts/check-research-ui.mjs` |
 | RX-7 | Code, schemas, generated types, notebooks, methodological documentation and the versioned technical report SHALL describe the executed protocol and its limits; the completed release SHALL pass CI and canonical production verification. | `scripts/check_sdd.py`, `scripts/run_notebooks.py`, `scripts/check_manuscripts.py`, `scripts/check_deployment.py` |
+| RX-8 | The diagnostic stage SHALL read the typed covariates tuple, name the first reference series and refuse unequal target/reference lengths instead of skipping a valid covariate or truncating its axis. | `tests/test_stage_analyze.py::test_adversarial_typed_covariate_reaches_bivariate_panel_without_silent_truncation` |
 
 ## Scientific protocol fixed before execution
 

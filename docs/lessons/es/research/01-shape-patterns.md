@@ -1,5 +1,7 @@
 # ¿Qué formas locales se repiten en el caso con quiebres?
 
+**Nivel:** 1. **Requisitos previos:** Python básico y lectura de gráficos. **Tiempo de lectura:** 30 minutos.
+
 **Pregunta:** ¿Podemos identificar ventanas repetidas sin confundir sus posiciones originales con un eje visual reducido? Esta lección sigue el caso de quiebres estructurales desde sus observaciones completas hasta un perfil matricial, un par de motivos y límites candidatos. La pregunta trata sobre similitud de formas locales. No pregunta si un valor extraño es peligroso, si un límite demuestra un cambio del generador ni si un detector en línea habría podido emitir una alarma en esa posición.
 
 ## Objetivos
@@ -16,7 +18,7 @@ Cree un entorno aislado e instale las dependencias exactas que aparecen a contin
 
 ## Datos
 
-El artefacto admitido conserva la identidad y las observaciones utilizadas a continuación.
+La ilustración del mecanismo es BRKV_level_shift, una secuencia sintética en `data/derived/BRKV_level_shift/analysis.json`, generada con semilla 42 por ChronoScope (`data-pipeline/engine/cases/forecast_cases.py`, MIT). Sequence.values conserva las 300 observaciones generadas y sus índices originales. Los límites son diagnósticos retrospectivos, no etiquetas de cambios medidos. Otra ejecución real de la API utiliza el extracto auténtico MT_010 de UCI (`data/examples/electricity_sample.csv`, https://doi.org/10.24432/C58C86, CC BY 4.0): y suma cuatro lecturas de potencia cada 15 minutos por etiqueta horaria, en unidades de suma de lecturas en kW.
 
 <!-- code: data -->
 
@@ -30,7 +32,7 @@ La comparación excluye coincidencias triviales dentro de un radio de seis inici
 
 <!-- code: profile_reference -->
 
-La llamada independiente a la biblioteca expone el mismo perfil exacto de distancias. La concordancia comprueba la extracción del adaptador sobre un caso real del producto; la prueba exhaustiva pequeña del repositorio aporta otro oráculo numérico. La lección no sustituye esa prueba por una afirmación sobre una imagen atractiva. Examine el vector de distancias y los índices enteros cuando evalúe si dos intervalos destacados corresponden realmente a las observaciones esperadas.
+La llamada independiente a la biblioteca expone el mismo perfil exacto de distancias. La concordancia comprueba la extracción del adaptador sobre un caso sintético del producto; la prueba exhaustiva pequeña del repositorio aporta otro oráculo numérico. La lección no sustituye esa prueba por una afirmación sobre una imagen atractiva. Examine el vector de distancias y los índices enteros cuando evalúe si dos intervalos destacados corresponden realmente a las observaciones esperadas.
 
 <!-- code: sequence -->
 
@@ -39,6 +41,23 @@ FLUSS lee los arcos entre vecinos y construye una curva corregida. El producto s
 Una ventana de doce observaciones permite examinar sensibilidad a la escala local declarada. Es una comparación diagnóstica, no una búsqueda de anotaciones favorables.
 
 <!-- code: sensitivity -->
+
+### Sensibilidad a la longitud de ventana
+
+Sea $z_i(k)$ la observación $k$ de la ventana que empieza en $i$, centrada y escalada con los valores de esa ventana. Para ventanas no constantes, el perfil en el inicio $i$ es
+
+$$
+P_m(i)=\min_{|i-j|>\lceil m/4\rceil}
+\sqrt{\sum_{k=0}^{m-1}(z_i(k)-z_j(k))^2}.
+$$
+
+Cada distancia suma $m$ diferencias al cuadrado. La figura divide $P_m$ por $\sqrt m$, de modo que el eje vertical mide la raíz cuadrática media del desacuerdo por observación normalizada. Ambas curvas usan los índices originales de inicio. Los vecinos elegibles cambian, porque otra ventana modifica la forma observada, el radio de exclusión y el número de ventanas completas que caben hasta el final.
+
+<!-- code: profile_scale_plot -->
+
+Interprete diferencias grandes entre curvas como sensibilidad a la representación. Cuando un mínimo cambia de posición, inspeccione los dos intervalos originales emparejados y pregunte si un fragmento de un patrón largo se repite en otro tramo. Cuando cambia un máximo, examine si la ventana larga cruza un cambio de nivel. Ese movimiento no decide cuál ventana conviene. En datos operativos, elija una duración a partir de la acción, por ejemplo detectar una hora recurrente de funcionamiento. Fije la escala, la segmentación y la política de faltantes antes de evaluar en una serie reservada. Para detectar en línea, en cada instante utilice solo ventanas ya disponibles. Un patrón retrospectivo puede confirmarse después del evento que interesa, por lo que es necesario registrar el límite de información.
+
+Guarde el índice del vecino junto con la distancia. Una distancia numérica pequeña por sí sola no identifica los dos intervalos originales que el lector debe comparar.
 
 ## Resultados
 
@@ -60,8 +79,10 @@ Una ventana es un intervalo con normalización y exclusión declaradas. Posicion
 
 ### Reproducir
 
-Ejecute el cuaderno completo en el entorno fijado. Compare los inicios impresos con el artefacto admitido y revise las pruebas de distancias exhaustivas y transición plantada. No sustituya las observaciones originales por una trayectoria diezmada: hacerlo cambiaría las formas locales y las unidades de la longitud de ventana.
+Ejecute el notebook completo en el entorno fijado. Compare los inicios impresos con el artefacto admitido y revise las pruebas de distancias exhaustivas y transición plantada. No sustituya las observaciones originales por una trayectoria diezmada: hacerlo cambiaría las formas locales y las unidades de la longitud de ventana.
 
 ## Referencias
+
+[Tutorial de perfil exacto de STUMPY](https://stumpy.readthedocs.io/en/latest/Tutorial_STUMPY_Basics.html).
 
 Yeh y colaboradores, Matrix Profile I, DOI 10.1109/ICDM.2016.0179. Gharghabi y colaboradores, Matrix Profile VIII, DOI 10.1109/ICDM.2017.21. Los tutoriales STUMPY documentan normalización, exclusión y segmentación candidata.

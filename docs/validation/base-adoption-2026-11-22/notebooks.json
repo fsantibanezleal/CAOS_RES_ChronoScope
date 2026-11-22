@@ -1,0 +1,288 @@
+{
+  "schema": "chronoscope-notebook-execution-v1",
+  "state": "passed",
+  "recorded_utc": "2026-11-22T06:53:43.615642+00:00",
+  "app_version": "0.27.000",
+  "provider_version": "0.1.4",
+  "notebooks": [
+    {
+      "path": "notebooks/en/01-forecast-decisions/01-baseline.ipynb",
+      "sha256": "3aadabad3c725271e465be7bd1f9a2ff34af60cfaea8d1b3d0d5dbc7d5602c7b",
+      "code_cells": 7,
+      "png_outputs": 4,
+      "source_sha256": "5e6d3eeed1a8df76f62a20cd144df1ea9c94de28e10ef56ac112de02d448193d",
+      "outputs_sha256": "fdc89100dc5593c8b4e5e89d9f477d07503dacde41b73ebb53ca247dce16569f",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "3aadabad3c725271e465be7bd1f9a2ff34af60cfaea8d1b3d0d5dbc7d5602c7b"
+    },
+    {
+      "path": "notebooks/en/01-forecast-decisions/02-seasonal-phase.ipynb",
+      "sha256": "d0ab3f426a55c3dc606ba5a706544e2b4062b68c3017bd19408272890815f78f",
+      "code_cells": 9,
+      "png_outputs": 3,
+      "source_sha256": "b600873396b9c401d3d1654ce56c435d58cdf4f89e6d3dde09620f2d4ca04a76",
+      "outputs_sha256": "151c3b6026981a58cb8218948850d27e53d5dd16611f1a0d27aac04a24bf58fb",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "d0ab3f426a55c3dc606ba5a706544e2b4062b68c3017bd19408272890815f78f"
+    },
+    {
+      "path": "notebooks/en/01-forecast-decisions/03-model-comparison.ipynb",
+      "sha256": "c3b14a657680045349ffaabe4d2eb2a1b48a1c281b3bb03cdd5c151425eff101",
+      "code_cells": 12,
+      "png_outputs": 4,
+      "source_sha256": "fcb4c6a1bd0ef313864f136235c8181fcfb09599c2275e8cfef68c2a00e2213d",
+      "outputs_sha256": "67489d0437f2d1aa689ba8fdf2bc92d045e746285b814cf1b9a886102b65201e",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "c3b14a657680045349ffaabe4d2eb2a1b48a1c281b3bb03cdd5c151425eff101"
+    },
+    {
+      "path": "notebooks/en/01-forecast-decisions/04-context-memory.ipynb",
+      "sha256": "feb3942573fb741217e41680d6f0d02ae698ff48b585f756bed38d08c0d0aae0",
+      "code_cells": 12,
+      "png_outputs": 4,
+      "source_sha256": "7a5c6f8e97076f7c901786b64cf1f12aafca25ccf9e22c41c69d4e501111327b",
+      "outputs_sha256": "453ddc7eb38383c23c2d237226ded3ad5d0d7c7cc13bceaaefc0639f9c9296d5",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "feb3942573fb741217e41680d6f0d02ae698ff48b585f756bed38d08c0d0aae0"
+    },
+    {
+      "path": "notebooks/en/01-forecast-decisions/05-temporal-validation.ipynb",
+      "sha256": "c388e4bab3dea30e01bd055b4a5fd015914b059c1ae3c785ae2252352b469d96",
+      "code_cells": 10,
+      "png_outputs": 4,
+      "source_sha256": "f0152a6088ed46714b24a64c802dc567ea22e14015740b6352ecdd641207f778",
+      "outputs_sha256": "cc294987b7828d7b520a1310952f88141919b7b5c4bf6b5d190f5eadc8e47857",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "c388e4bab3dea30e01bd055b4a5fd015914b059c1ae3c785ae2252352b469d96"
+    },
+    {
+      "path": "notebooks/en/02-sequence-evidence/01-shape-patterns.ipynb",
+      "sha256": "7a003362fbb16adceab046982b2b229ecd7aa2d6b15ca4cfd2e65be01a77ef76",
+      "code_cells": 9,
+      "png_outputs": 3,
+      "source_sha256": "a911a71df1b44be6ae86432670877c14894c7fcaedf5dc012742b2ab366aa458",
+      "outputs_sha256": "c63acc74e441677dffb7c971a05c541dc412863cb95a11c9914fcda36be7c741",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "7a003362fbb16adceab046982b2b229ecd7aa2d6b15ca4cfd2e65be01a77ef76"
+    },
+    {
+      "path": "notebooks/en/02-sequence-evidence/02-complexity.ipynb",
+      "sha256": "9592f564fc1cce80bbf79527143c16c53f64f629e98e50d0f752e643f6c98347",
+      "code_cells": 13,
+      "png_outputs": 5,
+      "source_sha256": "2186c242a3778ac16de16830d609020d123d4fe97809d027470c7b989aeac5db",
+      "outputs_sha256": "d9e437eddc832945038d2e5d708c8c136ea9ef241fa680ef8f37e72479289ad3",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "9592f564fc1cce80bbf79527143c16c53f64f629e98e50d0f752e643f6c98347"
+    },
+    {
+      "path": "notebooks/en/02-sequence-evidence/03-corpus-confirmation.ipynb",
+      "sha256": "4e8d5dba0a319ad59094d619379704d0543ffff5964404b1547160791e7563ac",
+      "code_cells": 12,
+      "png_outputs": 3,
+      "source_sha256": "9af59b2a0e04b6344da1f65f88ee75f32e28cd274496b7c5d55d53eb2ca42e95",
+      "outputs_sha256": "f57fc72817661420628262b0dd55040b259a03f88851caf41bbbfeaf584dc550",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "4e8d5dba0a319ad59094d619379704d0543ffff5964404b1547160791e7563ac"
+    },
+    {
+      "path": "notebooks/en/02-sequence-evidence/04-information-boundaries.ipynb",
+      "sha256": "bbde1c14d97e336323156148b4d9e9e02f3eea1252620a4f430a5e2548200fcc",
+      "code_cells": 14,
+      "png_outputs": 6,
+      "source_sha256": "56d884daba75365ac15f50d719534d0b4fad04f2ebf3ca2243fd02320be367ce",
+      "outputs_sha256": "cc554cfcfa087c9b7493370a9c7ece65f2ca3e1c4f12ededbec37ca01646e665",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "bbde1c14d97e336323156148b4d9e9e02f3eea1252620a4f430a5e2548200fcc"
+    },
+    {
+      "path": "notebooks/es/01-forecast-decisions/01-baseline.ipynb",
+      "sha256": "f77b68a9e646772e11f308e0f1cecf7949b8a0ca09801982437b6ea4a910cd56",
+      "code_cells": 7,
+      "png_outputs": 4,
+      "source_sha256": "866c23283f4f4ce9517ff1a2d967110e61da98329532e51cf8b9d42cefa3daf3",
+      "outputs_sha256": "c8bd2f11371e07dbbff9f2cbd7c731ae4fc8a2b69c4ccf6d7b8c15c52aa8234c",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "f77b68a9e646772e11f308e0f1cecf7949b8a0ca09801982437b6ea4a910cd56"
+    },
+    {
+      "path": "notebooks/es/01-forecast-decisions/02-seasonal-phase.ipynb",
+      "sha256": "8f7fe6726c7f995e5640afd9f916a88b54039cec3f905c493ea4ffc1d8dd57df",
+      "code_cells": 9,
+      "png_outputs": 3,
+      "source_sha256": "d054781be5ecea5f953d215d3cf70cec600b5d271be24b231838b24e51625a21",
+      "outputs_sha256": "964f72fefa01a7d77ad806dbd8fa1af3a88f1e32c9bc98c9910f948eaede1e11",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "8f7fe6726c7f995e5640afd9f916a88b54039cec3f905c493ea4ffc1d8dd57df"
+    },
+    {
+      "path": "notebooks/es/01-forecast-decisions/03-model-comparison.ipynb",
+      "sha256": "bcd9e6b2cf4a2e989e806209c8ca318b0b4e16ee3ad093093489c18516783d23",
+      "code_cells": 12,
+      "png_outputs": 4,
+      "source_sha256": "3085bae2c3b29c6731a49cd5b35541f8a293f559127b10c99f10a6374eccd9ab",
+      "outputs_sha256": "80d1dde7ef7efa1b62a9a8485b681bf41872536f91c936157dd0eba0a02b26b1",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "bcd9e6b2cf4a2e989e806209c8ca318b0b4e16ee3ad093093489c18516783d23"
+    },
+    {
+      "path": "notebooks/es/01-forecast-decisions/04-context-memory.ipynb",
+      "sha256": "ab74470b38816c142cf2d35f9a329599dcc0a65e903f4b06e82c044d3455a8fc",
+      "code_cells": 12,
+      "png_outputs": 4,
+      "source_sha256": "a85f10e4b0414f3c066704bb747d79f1db5c1ec4089bbd63aeabf851626a814e",
+      "outputs_sha256": "987ec6aee7e17ba022b88081c4bcc4caa4e17d91f4411a791dbcabe608208049",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "ab74470b38816c142cf2d35f9a329599dcc0a65e903f4b06e82c044d3455a8fc"
+    },
+    {
+      "path": "notebooks/es/01-forecast-decisions/05-temporal-validation.ipynb",
+      "sha256": "7e8e44b1ab1315191bf869279ab6f8250378be414da73981853a27e5e91b510c",
+      "code_cells": 10,
+      "png_outputs": 4,
+      "source_sha256": "dbbde536009165edd60b144a95e739535d45afc6aae39dc7a5a2e0b74c5a23f8",
+      "outputs_sha256": "f9e1ddd30e55c00497028c9aba934fbfc811ce6905cbb81f69c3bad5a5736d73",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "7e8e44b1ab1315191bf869279ab6f8250378be414da73981853a27e5e91b510c"
+    },
+    {
+      "path": "notebooks/es/02-sequence-evidence/01-shape-patterns.ipynb",
+      "sha256": "84c609bd475dab023eb6919cee2022d4a20b4df7caea6b6cf4f8b3def44ead27",
+      "code_cells": 9,
+      "png_outputs": 3,
+      "source_sha256": "884481b9701bdc7cc970b7eda87e81baef58bb4122c6c01a48a013bcf70b70bd",
+      "outputs_sha256": "5cc1a8417d693073e85732e1404d61a75363fe32629008e7f0f07b7ba1178687",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "84c609bd475dab023eb6919cee2022d4a20b4df7caea6b6cf4f8b3def44ead27"
+    },
+    {
+      "path": "notebooks/es/02-sequence-evidence/02-complexity.ipynb",
+      "sha256": "bcd18cc1c6118b09401ca85cd0fa1f838edd34ebb62ff63525320a53c490d4ee",
+      "code_cells": 13,
+      "png_outputs": 5,
+      "source_sha256": "57ce345f26ab0cb1a66defc17664a5d650e190e5737fb9a559e93b306fc8156b",
+      "outputs_sha256": "f2a1c899f99a7a1f2f63583d4c56ed2c7bccbfdee5f0d93ec8de7cc85b9c5004",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "bcd18cc1c6118b09401ca85cd0fa1f838edd34ebb62ff63525320a53c490d4ee"
+    },
+    {
+      "path": "notebooks/es/02-sequence-evidence/03-corpus-confirmation.ipynb",
+      "sha256": "a0d3e18bea279f54cc275a42e96364dca1cbdb3236dd22031aee7e969b0e2f27",
+      "code_cells": 12,
+      "png_outputs": 3,
+      "source_sha256": "9953b19d6f856ca94ca98cbda209d5f54ad111423c1dfeee5b0afb896f766f97",
+      "outputs_sha256": "25951d39159fa8acb8867a2a64688c7337a40264ae7119d58b0aa6955ac16c96",
+      "validation_origin": "unchanged-successful-full-batch",
+      "batch_sha256": "a0d3e18bea279f54cc275a42e96364dca1cbdb3236dd22031aee7e969b0e2f27"
+    },
+    {
+      "path": "notebooks/es/02-sequence-evidence/04-information-boundaries.ipynb",
+      "sha256": "801669e809782fe765a67bb360edb03f0d2ba8f01b69ef47d17458f6cb5325d6",
+      "code_cells": 14,
+      "png_outputs": 6,
+      "source_sha256": "f6ca3a27fafefc0e3e31a239f181170761824bcd247ea4660dec7b853116faa0",
+      "outputs_sha256": "20fcb1b425e91be30970077acb94d01c7c29a8fac08085335fc083423852b75f",
+      "validation_origin": "targeted-execution-and-isolated-check",
+      "batch_sha256": "e9a2e03e44525bb3db62acf5fe9510446c77edcee9b93ff1816854da61891d0d"
+    }
+  ],
+  "inputs_sha256": {
+    "data/examples/electricity_sample.csv": "856a9c2030517c29931787f26753a1f54894f5daa9c4bbb9db2108a501e2d863",
+    "data/derived/TRND_seasonal/trace.json": "efa0106cc9db75da694a972d160c3dcaf03ed4eb009b1c09ebd89b046d1d4244",
+    "data/derived/reevaluation.json": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c",
+    "data/derived/validated-combinations.json": "a2cbce54e080d1938b32b9232bd6a721159ed3cd347bffb4b144e8089dc265da",
+    "data/derived/BRKV_level_shift/analysis.json": "7b1ad6ee72fe2be02a0a78d18b3804dbc6c06a782ebe6f3208048ed911966108",
+    "data/derived/forecastability.json": "183d9023a86e8449c567615389dda7e6909b6d68bbb46eb2ea46f9d3aad7b5ce",
+    "data/derived/manifests/index.json": "205590188d62b347afa1b3bb146b82054c74159966cc5bdbb897032066638c86",
+    "data/derived/readiness.json": "1f49528c89e1d947caf549792835eb872ccfdcb8252ecfb5d3b812e5600aba32",
+    "data/derived/fresh-reevaluation.json": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
+    "data/derived/combinations/m4_weekly/T1.json": "f5c70f52993eeb100b40c030079e104cc7b72f679050d4328284cae39d6ca63d",
+    "docs/contracts/catalog.md": "867d58642d93ad3df83ee1b29207549f2ccafb0050291995f92332d9b17477e8",
+    "docs/research/browser-linear/v1/results.json": "7e726e6dcb5ec15efba997120781da2f9bfa968d5317b360a8cf8b180cf0920d",
+    "docs/research/browser-linear/confirmation-v1/results.json": "4007cbcc400a60302486109899aea53ebe4aaa8bcd7a5e8092e41f3af048d9ff",
+    "frontend/public/models/nlinear.json": "60e999e7e39231a6c69243b448bb0e971f2ec9d8d12a1238eece79a0f0e18404",
+    "VERSION": "b78e911ad0595c083c7bc9430391e29df5003b32fff4bd55379aad78405e358b",
+    "notebooks/requirements.txt": "07f7b53e85e5e2a5ab16669d0afa4658ca78d31fd8bc2be3b011b8e85918b5bf",
+    "docs/validation/base-adoption-2026-11-22/forecastscope-provider.json": "6a789706b75580a52ee40d6d930684e7c7d96cb7199f133885a6903df442bee8",
+    "docs/validation/base-adoption-2026-11-22/forecastscope-parity.json": "70d627ed5ffea50a14e381eb19bc685c7c06fde9c18d8e76ba8a521dc2c56faa",
+    "scripts/unit_constants.json": "6d1eda6b5f7c2852955bb78b287996c06fd0328ee7bd68f987aa26fd7141e0be"
+  },
+  "runtime": {
+    "notebook_python": "D:/_Venvs/chronoscope/.venv-lessons/Scripts/python.exe",
+    "reference_python": "/root/chronoscope-eval-20261101/bin/python",
+    "reference_cache": "/root/.cache/huggingface/hub",
+    "reference_distro": "Ubuntu-24.04",
+    "OMP_NUM_THREADS": 1,
+    "OPENBLAS_NUM_THREADS": 1,
+    "MKL_NUM_THREADS": 1,
+    "NUMBA_NUM_THREADS": 1
+  },
+  "batch_isolated_check": {
+    "state": "passed",
+    "notebook_count": 18,
+    "log": "notebooks-provider14-isolated-check.log",
+    "log_sha256": "a641679620e6b28a06991b6c9ff0167af9e24fd84f41044b9a62690bf5e8a44d"
+  },
+  "post_batch_validation_identity_updates": [
+    {
+      "path": "scripts/unit_constants.json",
+      "before_sha256": "0226f20c7f99967f6e84a63740586f108505bcd352eb197fd4ff24a03f0593a5",
+      "after_sha256": "001016b7bd391274d8aebaf5559beb30bbf07a3b1d66d301ae28baa452c260bf",
+      "reason": "Independently reviewed output-root guard source identity; no numerical values or notebook scientific inputs changed.",
+      "review": "Independent numeric-unit review PASS; pipeline source b6a25763f9d2ae376913f8564cf0f28fdf555018000de3e67d0b23e655d79d7a"
+    },
+    {
+      "path": "scripts/unit_constants.json",
+      "before_sha256": "001016b7bd391274d8aebaf5559beb30bbf07a3b1d66d301ae28baa452c260bf",
+      "after_sha256": "6d1eda6b5f7c2852955bb78b287996c06fd0328ee7bd68f987aa26fd7141e0be",
+      "reason": "Adds one independently reviewed numeric-free presentation-label module to the audit inventory. All original98 source hashes and2237 numeric literals, provider identity, notebook authoring sources, scientific inputs and executed outputs are unchanged. No new notebook execution is claimed.",
+      "review": "Independent dimensional/scope review PASS for displayLabels.ts SHA256 2b786c49556b1a21b824aee5b7ee70ac30000ae89e9bba0ddb9b36388e2abe96"
+    }
+  ],
+  "batch_inputs_sha256": {
+    "data/examples/electricity_sample.csv": "856a9c2030517c29931787f26753a1f54894f5daa9c4bbb9db2108a501e2d863",
+    "data/derived/TRND_seasonal/trace.json": "efa0106cc9db75da694a972d160c3dcaf03ed4eb009b1c09ebd89b046d1d4244",
+    "data/derived/reevaluation.json": "08a79bd6ac4b0d678298c2f0c3a3befdf4ca06e82921e051c12ac3b5214bf17c",
+    "data/derived/validated-combinations.json": "a2cbce54e080d1938b32b9232bd6a721159ed3cd347bffb4b144e8089dc265da",
+    "data/derived/BRKV_level_shift/analysis.json": "7b1ad6ee72fe2be02a0a78d18b3804dbc6c06a782ebe6f3208048ed911966108",
+    "data/derived/forecastability.json": "183d9023a86e8449c567615389dda7e6909b6d68bbb46eb2ea46f9d3aad7b5ce",
+    "data/derived/manifests/index.json": "205590188d62b347afa1b3bb146b82054c74159966cc5bdbb897032066638c86",
+    "data/derived/readiness.json": "1f49528c89e1d947caf549792835eb872ccfdcb8252ecfb5d3b812e5600aba32",
+    "data/derived/fresh-reevaluation.json": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
+    "data/derived/combinations/m4_weekly/T1.json": "f5c70f52993eeb100b40c030079e104cc7b72f679050d4328284cae39d6ca63d",
+    "docs/contracts/catalog.md": "867d58642d93ad3df83ee1b29207549f2ccafb0050291995f92332d9b17477e8",
+    "docs/research/browser-linear/v1/results.json": "7e726e6dcb5ec15efba997120781da2f9bfa968d5317b360a8cf8b180cf0920d",
+    "docs/research/browser-linear/confirmation-v1/results.json": "4007cbcc400a60302486109899aea53ebe4aaa8bcd7a5e8092e41f3af048d9ff",
+    "frontend/public/models/nlinear.json": "60e999e7e39231a6c69243b448bb0e971f2ec9d8d12a1238eece79a0f0e18404",
+    "VERSION": "b78e911ad0595c083c7bc9430391e29df5003b32fff4bd55379aad78405e358b",
+    "notebooks/requirements.txt": "07f7b53e85e5e2a5ab16669d0afa4658ca78d31fd8bc2be3b011b8e85918b5bf",
+    "docs/validation/base-adoption-2026-11-22/forecastscope-provider.json": "6a789706b75580a52ee40d6d930684e7c7d96cb7199f133885a6903df442bee8",
+    "docs/validation/base-adoption-2026-11-22/forecastscope-parity.json": "70d627ed5ffea50a14e381eb19bc685c7c06fde9c18d8e76ba8a521dc2c56faa",
+    "scripts/unit_constants.json": "0226f20c7f99967f6e84a63740586f108505bcd352eb197fd4ff24a03f0593a5"
+  },
+  "completed_utc": "2026-11-22T07:07:18.820530+00:00",
+  "validation_scope": "All18 passed a complete fresh isolated batch; after one display-only Spanish legend correction,17 notebooks retain exactly those validated source/output bytes and the corrected18th passed its own fresh execution and isolated check. This is full-batch plus targeted validation, not a later all18 invocation.",
+  "targeted_isolated_check": {
+    "state": "passed",
+    "notebook": "notebooks/es/02-sequence-evidence/04-information-boundaries.ipynb",
+    "log": "workflow-es-final-isolated-check.log",
+    "log_sha256": "7067878340f2890643c27f503bd7c769bc91e27448573925055075a38b66ba31",
+    "execution_log_sha256": "b9e44ebc103bfbd5eba85efb28f42336e3bc699094a192f340c980e8d5dc1aa1"
+  },
+  "initial_execution_log_sha256": "94430f83daea78355b8445e09b4abdba4007bcb82b956f6642615d219e93b7c9",
+  "final_authoring_sources_sha256": {
+    "scripts/build_baseline_lesson.py": "e7c57c1ff631498dc7ce494321d6165541086745a886773e8092b022ca3cb79c",
+    "scripts/build_lesson_quality.py": "7c5650eeeecced29d4e20a22fb5f0fd44a24a65f0266c82fc4ddf3bcd8be8093",
+    "scripts/build_lessons.py": "dade0345ba86765f1b86ecd655e79259a5d4507d693e7d786e60aa8ca1044d86",
+    "scripts/build_research_lessons.py": "f1156dd1fda58141a0f331ee8ff698b9e71831bc67f330e9ae07a2d1a26433e3",
+    "scripts/build_validation_lesson.py": "03a47d1bde7d275cec36815dedc73903addceb7932c67ee85474827d0c8c9ffd",
+    "scripts/build_workflow_lesson.py": "4a7ca71232fcd135e9331a2fddbf50cfeb711f04ddcbd82b2a1052db37a56524"
+  },
+  "post_batch_output_guard_source": {
+    "path": "data-pipeline/engine/pipeline.py",
+    "canonical_lf_sha256": "b6a25763f9d2ae376913f8564cf0f28fdf555018000de3e67d0b23e655d79d7a",
+    "independent_review": "PASS; same8 numeric literals and meanings, I/O guard only; not imported/bound by any lesson"
+  },
+  "reviewed_execution_receipt_sha256": "4e1d4873fea8f742c56677f9de15adb0bd7096ce1db9003d9e6c4644ab85a2e1",
+  "path_normalization": "External log locations are recorded by file name; all execution, source, output and input hashes are unchanged."
+}

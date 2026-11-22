@@ -1,0 +1,52 @@
+{
+  "absolute_residual_radii": [
+    0.7971972819445108,
+    0.7872879693440074,
+    0.8527816997931836,
+    0.8585091524567285,
+    0.7692024600017009,
+    0.893278773323295,
+    0.8452640615399842,
+    0.7833930973542385,
+    0.8682261115337873,
+    0.8184982476811293,
+    0.8919097603450479,
+    0.79316658165132
+  ],
+  "alpha": 0.2,
+  "horizon": 12,
+  "lookback": 48,
+  "name": "Held-out normalized ridge",
+  "normalization": "subtract_last_then_divide_population_std",
+  "selection": [
+    {
+      "normalized_mse": 0.61480316079146,
+      "penalty": 0.0
+    },
+    {
+      "normalized_mse": 0.6148031358052215,
+      "penalty": 1e-06
+    },
+    {
+      "normalized_mse": 0.614800347973248,
+      "penalty": 0.0001
+    },
+    {
+      "normalized_mse": 0.6145321968435902,
+      "penalty": 0.01
+    },
+    {
+      "normalized_mse": 0.6129375697287743,
+      "penalty": 0.1,
+      "selected": true
+    },
+    {
+      "normalized_mse": 0.6367946050828092,
+      "penalty": 1.0
+    },
+    {
+      "normalized_mse": 0.9957652111094776,
+      "penalty": 10.0
+    }
+  ]
+}

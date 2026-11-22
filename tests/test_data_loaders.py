@@ -6,8 +6,8 @@ loaders themselves are exercised offline by `refresh_samples`.
 import csv
 from pathlib import Path
 
-from chronoscopelab import registry
-from chronoscopelab.io.contract import validate_series
+from engine import registry
+from engine.io.contract import validate_series
 
 EXAMPLES = Path(__file__).resolve().parents[1] / "data" / "examples"
 
@@ -56,7 +56,7 @@ def test_m4_daily_sample_is_a_valid_seasonal_contract1_series():
 
 
 def test_real_cases_reference_public_safe_sources():
-    from chronoscopelab.data import provenance as pv
+    from engine.data import provenance as pv
     for case_id in ("REAL_electricity", "REAL_pm25", "REAL_m4_hourly", "REAL_m4_daily"):
         case = registry.get_case(case_id)
         assert pv.public_artifact_ok(case.source) is True    # CC-BY -> derived artifacts may ship
@@ -66,7 +66,7 @@ def test_real_pm25_case_builds_and_is_heavy_tailed():
     spec = registry.build_series(registry.get_case("REAL_pm25"), seed=42)
     assert len(spec.y) >= 200
     # pollution spikes make PM2.5 strongly non-normal (heavy right tail) - a real property the data should show
-    from chronoscopelab.analysis import distribution as di
+    from engine.analysis import distribution as di
     summ = di.summary(list(spec.y))
     assert summ.normal is False
     assert summ.skewness > 0.5

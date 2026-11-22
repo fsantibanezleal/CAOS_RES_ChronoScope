@@ -3,8 +3,8 @@ import json
 import tempfile
 from pathlib import Path
 
-from chronoscopelab import registry
-from chronoscopelab.stages import analyze, evaluate, export, feature_extraction, infer
+from engine import registry
+from engine.stages import analyze, evaluate, export, feature_extraction, infer
 
 QLEVELS = (0.1, 0.5, 0.9)
 

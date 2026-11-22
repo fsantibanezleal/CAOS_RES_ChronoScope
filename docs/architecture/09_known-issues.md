@@ -1,4 +1,6 @@
-# Known issues
+# Historical runtime incidents
+
+The incident below records the July 2026 Windows environment. Its device paths and runtime aliases are historical evidence. Current declared environments and reference execution are described in the [architecture overview](01_overview.md) and [reference guide](../guides/notebook-references.md); do not reuse the old paths as setup instructions.
 
 ## Deep-tier baking on Windows: numba + CUDA + the D: drive (WinError 6714)
 

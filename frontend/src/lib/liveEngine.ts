@@ -1,7 +1,7 @@
-// Live classical forecasting engine (TypeScript), a faithful port of the pure-numpy Python core in
-// data-pipeline/chronoscopelab/model/forecasters.py. This runs in the browser so the classical tier is
-// genuinely LIVE (adjust a series or knobs, forecasts recompute instantly), computing the SAME thing the
-// offline pipeline does. Parity with Python is asserted by a vitest against a committed fixture.
+// Finite-prefix forecasts computed in the browser mirror the published
+// forecastscope.forecasting kernels consumed by the offline tooling.
+// Changing the series or parameters recomputes the paths. A source-generated
+// fixture checks numerical parity with the installed Python implementation.
 //
 // Methods: seasonal-naive, SES, Holt (additive trend), Holt-Winters (additive), Theta. Point + interval.
 

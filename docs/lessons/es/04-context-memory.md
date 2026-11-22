@@ -1,5 +1,7 @@
 # Evaluar si recordar contextos mejora una combinación
 
+**Nivel:** 4. **Requisitos previos:** Las lecciones anteriores de este tema; arrays NumPy y evaluación temporal. **Tiempo de lectura:** 60 minutos.
+
 **Pregunta:** ¿La regla fija ContextMemory mejora el MASE final medio respecto de una combinación equivalente que utiliza solamente recencia en los quince casos seleccionados?
 
 ## Objetivos
@@ -10,7 +12,7 @@ La literatura ya contiene combinaciones dependientes de características y ensam
 
 ## Preparación
 
-Utilice el entorno aislado definido por las dependencias directas exactas siguientes. Las tres combinaciones importan los mismos expertos. El cuaderno no busca configuraciones después de observar los resultados reservados finales.
+Utilice el entorno aislado definido por las dependencias directas exactas siguientes. Las tres combinaciones importan los mismos expertos. El notebook no busca configuraciones después de observar los resultados reservados finales.
 
 ```text
 {{PINS}}
@@ -20,7 +22,7 @@ Utilice el entorno aislado definido por las dependencias directas exactas siguie
 
 ## Datos
 
-El caso generado seleccionado permite explicar visualmente el ajuste. El artefacto completo proporciona la comparación agregada declarada sobre quince bloques finales. Cumplen funciones distintas: un caso muestra cómo aparecen los pesos y la colección fija evalúa el criterio medio. Ambos utilizan historias y objetivos comprometidos. La configuración está registrada en el artefacto y en el dossier de investigación. Un resultado decepcionante o un éxito individual conveniente no justifican cambiar silenciosamente el núcleo, los expertos o la colección comparativa.
+La asignación trabajada de ContextMemory usa la historia y el bloque final explícitamente sintéticos de TRND_seasonal en `data/derived/TRND_seasonal/trace.json`, con licencia MIT. Su generador de tendencia y período 12 pertenece a ChronoScope (`data-pipeline/engine/cases/forecast_cases.py`, semilla 42). La colección fija en `data/derived/reevaluation.json` contiene quince series seleccionadas: cuatro auténticas y once controles generados. Cada caso aporta history, actual, horizon, seasonality y pronósticos; sus métricas usan la escala estacional histórica del caso. Es un inventario finito de desarrollo, no una muestra aleatoria de una población objetivo.
 
 <!-- code: data -->
 
@@ -63,6 +65,34 @@ El criterio primario declarado es el MASE medio sobre los quince bloques finales
 <!-- code: proposal_plot -->
 
 Las barras muestran una diferencia pequeña entre las variantes contextual y de recencia, y una separación mayor respecto de EqualMean. Como la media contextual resulta ligeramente superior, el experimento no respalda ese componente en el criterio declarado. Redondear a dos decimales ocultaría el resultado; las cuatro cifras impresas lo conservan. Una comparación fallida sigue siendo evidencia y debe limitar la afirmación del manuscrito, en vez de provocar ajustes no declarados contra el conjunto reservado.
+
+### Sensibilidad entre los casos seleccionados
+
+Usa las cuatro coordenadas contextuales normalizadas y recortadas y la distancia RMS $d_i$ definida arriba. Sea $a_i$ la antigüedad en orígenes recordados y $b=\max(\operatorname{median}_i d_i,0.25)$. El peso conjunto de recencia y similitud para esa pérdida es
+
+$$
+k_i=2^{-a_i/6}\exp\!\left(-\frac{d_i^2}{2b^2}\right).
+$$
+
+Sea $L_j$ la pérdida resultante del experto $j$, después de contraerla hacia la estimación por recencia. Con temperatura $T=1$ y piso uniforme $\eta=.05$, el peso final es
+
+$$
+w_j=(1-\eta)\frac{\exp[-(L_j-\min_k L_k)/T]}{\sum_r\exp[-(L_r-\min_k L_k)/T]}+\frac{\eta}{5}.
+$$
+
+Restar la pérdida mínima deja la mayor exponencial en uno y mejora la estabilidad numérica. La ablación por recencia conserva la transformación de pérdidas y el piso, con el núcleo contextual fijado en uno. El ajuste requiere suficientes memorias completadas para estimar una pérdida local interpretable. Un contexto cercano puede pesar poco si es antiguo. Uno distante pero reciente puede conservar influencia cuando todas las distancias observadas son grandes. Los pesos pueden cambiar aunque el pronóstico combinado apenas varíe, porque distintos expertos a veces predicen trayectorias muy similares.
+
+La siguiente figura empareja los dos puntajes dentro de cada caso. Una barra negativa significa que ContextMemory obtuvo menor MASE en ese caso. La media refleja magnitudes: algunas pérdidas grandes pueden contrarrestar mejoras pequeñas más frecuentes. La mediana y los conteos por dirección describen otras propiedades de los mismos quince casos. Su orden en el gráfico sigue el inventario publicado y carece de interpretación temporal.
+
+<!-- code: case_differences -->
+
+Estas comparaciones reutilizan los resultados reservados. Sirven para diagnosticar la variación del experimento fijo y no eligen parámetros nuevos. Eliminar un caso adverso por tener una barra grande cambiaría silenciosamente el criterio. Un ensayo futuro puede declarar de antemano grupos de mecanismos y tamaños de muestra, con la serie como unidad de remuestreo si contribuye varios orígenes. La sensibilidad de la media histórica a la composición de los casos justifica conservar tanto las trayectorias emparejadas como la procedencia de los datos.
+
+### Aplica la comparación a tus propios datos
+
+Parta de observaciones contiguas y un período estacional declarado. Elija el horizonte y use los mismos cinco expertos en todas las ablaciones. En cada origen de evaluación, admita solo memorias cuyos objetivos completos ya se observaron. Guarde el origen, el extremo, el contexto y los puntajes de expertos de cada memoria antes de calcular los pesos. Si combina historias de tiendas o instrumentos distintos, preserve cada identidad y escala. Una escala MASE común dentro de cada caso permite obtener una diferencia emparejada adimensional. Los anchos absolutos de intervalos con unidades incompatibles requieren otro tratamiento.
+
+Reserve un conjunto final de orígenes antes de explorar temperaturas, anchos o pisos alternativos. Si ajusta un parámetro, selecciónelo sobre bloques históricos completos dentro del prefijo de ajuste y evalúelo una vez sobre los objetivos reservados. Registre si el control por recencia participa en la selección. La pregunta concreta es cuánto aporta el cálculo contextual adicional con trayectorias y evaluación fijas. Conserve la referencia uniforme para mostrar por separado el efecto de estimar preferencias entre expertos.
 
 ## Resultados
 

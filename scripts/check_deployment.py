@@ -10,6 +10,8 @@ from pathlib import Path
 import socket
 import ssl
 import subprocess
+import time
+from urllib.error import HTTPError
 from urllib.parse import quote, urlsplit
 from urllib.request import Request, urlopen
 
@@ -21,10 +23,31 @@ def git(*args: str) -> bytes:
     return subprocess.check_output(["git", *args], cwd=ROOT)
 
 
-def fetch(url: str) -> tuple[bytes, str, int]:
+def fetch(url: str, retry_log: list | None = None) -> tuple[bytes, str, int]:
     request = Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "ChronoScope-deployment-check"})
-    with urlopen(request, timeout=60) as response:
-        return response.read(), response.url, response.status
+    for attempt in range(1, 4):
+        try:
+            with urlopen(request, timeout=60) as response:
+                return response.read(), response.url, response.status
+        except HTTPError as error:
+            retryable = error.code in {429, 500, 502, 503, 504} and attempt < 3
+            delay = .5 * 2 ** (attempt - 1)
+            retry_after = error.headers.get("Retry-After") if error.headers else None
+            if retry_after:
+                try:
+                    requested = float(retry_after)
+                    # Refuse instead of retrying sooner than a long server-requested wait.
+                    retryable = retryable and 0 <= requested <= 10
+                    delay = max(delay, requested)
+                except ValueError:
+                    retryable = False
+            error.close()
+            if not retryable:
+                raise
+            if retry_log is not None:
+                retry_log.append({"url": url, "attempt": attempt, "status": error.code, "delay_seconds": delay})
+            time.sleep(delay)
+    raise AssertionError("Unreachable retry state")
 
 
 def main() -> None:
@@ -42,6 +65,8 @@ def main() -> None:
     nonce = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     report: dict = {"ok": False, "checked_utc": datetime.now(timezone.utc).isoformat(),
                     "origin": origin, "source_sha": sha, "version": version}
+    retries: list = []
+    report["http_retries"] = retries
     try:
         report["dns_addresses"] = sorted({item[4][0] for item in socket.getaddrinfo(parsed.hostname, 443)})
         context = ssl.create_default_context()
@@ -51,14 +76,14 @@ def main() -> None:
                 report["tls"] = {"verified": True, "protocol": secured.version(),
                                  "subject_alt_names": certificate.get("subjectAltName"),
                                  "not_after": certificate.get("notAfter")}
-        body, final, status = fetch(f"{origin}/build.json?verify={nonce}")
+        body, final, status = fetch(f"{origin}/build.json?verify={nonce}", retries)
         build = json.loads(body)
         assert build["sha"] == sha and build["version"] == version, build
         assert urlsplit(final).netloc == parsed.netloc and status == 200
         report["build"] = build
         report["routes"] = []
         for route in ROUTES:
-            body, final, status = fetch(f"{origin}{route}?verify={nonce}")
+            body, final, status = fetch(f"{origin}{route}?verify={nonce}", retries)
             assert status == 200 and urlsplit(final).netloc == parsed.netloc
             assert b"<html" in body and b"ChronoScope" in body and b"data-theme" in body, route
             report["routes"].append({"route": route, "status": status, "final_url": final})
@@ -71,7 +96,7 @@ def main() -> None:
             path = raw_path.decode()
             expected = git("cat-file", "blob", object_id)
             remote_path = "/data/" + path.removeprefix("data/derived/")
-            actual, final, status = fetch(f"{origin}{quote(remote_path)}?verify={nonce}")
+            actual, final, status = fetch(f"{origin}{quote(remote_path)}?verify={nonce}", retries)
             assert status == 200 and urlsplit(final).netloc == parsed.netloc
             expected_hash = hashlib.sha256(expected).hexdigest()
             actual_hash = hashlib.sha256(actual).hexdigest()
@@ -83,10 +108,12 @@ def main() -> None:
         report["ok"] = True
     except Exception as error:
         report["error"] = str(error)
+        if isinstance(error, HTTPError):
+            report["failed_url"] = error.url
         raise
     finally:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Canonical deployment: {len(report['routes'])} routes and {len(report['artifacts'])} exact artifacts passed ({sha})")
 
 

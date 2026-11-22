@@ -5,7 +5,7 @@ arrival policy. It is the reason `preqts` (our published harness) exists, and un
 the atlas demonstrated it.
 
 Generator:
-[`cases/forecast_cases.py`](../../data-pipeline/chronoscopelab/cases/forecast_cases.py) `_synth_exog`
+[`cases/forecast_cases.py`](../../data-pipeline/engine/cases/forecast_cases.py) `_synth_exog`
 (kind `exog_promo`). Deterministic, seeded. Synthetic + labelled, so the full trace is public.
 
 ## What it is

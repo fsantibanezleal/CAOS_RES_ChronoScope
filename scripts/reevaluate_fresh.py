@@ -22,9 +22,9 @@ sys.path.insert(0, str(ROOT / "data-pipeline"))
 
 import numpy as np  # noqa: E402
 
-from chronoscopelab.methods import all_forecasters  # noqa: E402
-from chronoscopelab.model.context_memory import EXPERT_NAMES, fit_context_memory  # noqa: E402
-from chronoscopelab.reevaluation import metrics  # noqa: E402
+from engine.methods import all_forecasters  # noqa: E402
+from engine.model.context_memory import EXPERT_NAMES, fit_context_memory  # noqa: E402
+from engine.reevaluation import metrics  # noqa: E402
 
 PACKAGES = ("numpy", "scipy", "pandas", "torch", "statsforecast", "lightgbm", "mlforecast",
             "neuralforecast", "chronos-forecasting", "timesfm", "tirex-2", "transformers", "preqts")
@@ -78,7 +78,7 @@ def main():
     data = json.loads((ROOT / "data/derived/reevaluation.json").read_text())
     base_hash = sha(ROOT / "data/derived/reevaluation.json")
     rt = runtime()
-    paths = [*sorted((ROOT / "data-pipeline/chronoscopelab").rglob("*.py")), Path(__file__).resolve()]
+    paths = [*sorted((ROOT / "data-pipeline/engine").rglob("*.py")), Path(__file__).resolve()]
     code = {p.relative_to(ROOT).as_posix(): sha(p) for p in paths}
     identity = {"source_artifact": base_hash, "runtime": rt, "code": code}
     fingerprint = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()

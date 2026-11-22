@@ -1,0 +1,22 @@
+{
+  "kind": "retrospective-case-weight-sensitivity",
+  "status": "specified-before-computing-this-extension; original outcomes already known",
+  "source_sha256": "fdecff600eb03dc27a6aa5d51122091256b8497261275756899b6610fa6d9df9",
+  "unit": "one complete case; all fifteen retained",
+  "reference": "Theta historical key (smoothing plus drift)",
+  "comparators": [
+    "Theta+ACI",
+    "Theta+PID"
+  ],
+  "metrics": [
+    "mean_rolling_absolute_error",
+    "warmup_scaled_interval_score"
+  ],
+  "resamples": 10000,
+  "generator": "NumPy PCG64",
+  "seed": 20261105,
+  "interval": "2.5 and 97.5 percentile endpoints; exploratory case-reweighting interval, not a population guarantee",
+  "pairing": "same sampled case identities for every metric and comparator",
+  "generated_repeats": "separate descriptive mechanism-by-seed display; never pooled with the fifteen-case resampling",
+  "selection": "no gain, case, coverage or base selected by this extension"
+}

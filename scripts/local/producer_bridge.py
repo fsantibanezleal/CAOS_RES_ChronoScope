@@ -12,6 +12,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from source_bindings import implementation_sources  # noqa: E402
 SOURCE_FILES = (
     "data-pipeline/chronoscopelab/reevaluation.py",
     "data-pipeline/chronoscopelab/model/forecasters.py",
@@ -28,7 +31,56 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def combination_path(root, name):
+    if Path(name).is_absolute() or ".." in Path(name).parts:
+        raise ValueError(f"Missing or redirected combination input: {name}")
+    path = root / name
+    if not path.resolve().is_relative_to(root.resolve()) or not path.is_file():
+        raise ValueError(f"Missing or redirected combination input: {name}")
+    for component in (path, *path.parents):
+        if component == root:
+            break
+        if component.is_symlink() or getattr(component, "is_junction", lambda: False)():
+            raise ValueError(f"Missing or redirected combination input: {name}")
+    return path
+
+
+def validate_combination_release(stage, source=ROOT):
+    """Carry the complete independently scored study; never silently regenerate it."""
+    name = "data/derived/validated-combinations.json"
+    canonical = combination_path(source, name)
+    candidate = combination_path(stage, name)
+    if digest(candidate) != digest(canonical):
+        raise ValueError("Frozen combination index changed")
+    index = read(canonical)
+    names = {"data/derived/" + entry["path"] for entry in index["cases"]}
+    if len(names) != len(index["cases"]):
+        raise ValueError("Combination inventory contains duplicate paths")
+    actual = {p.relative_to(stage).as_posix()
+              for p in (stage / "data/derived/combinations").rglob("*.json")}
+    if actual != names:
+        raise ValueError("Combination payload differs from the complete indexed inventory")
+    for name in sorted(names):
+        if digest(combination_path(stage, name)) != digest(combination_path(source, name)):
+            raise ValueError(f"Frozen combination case changed: {name}")
+    try:
+        implementation_sources({**index["code_sha256"],
+                                "scripts/export_combination_study.py": index["export_code_sha256"]}, source)
+    except ValueError as exc:
+        raise ValueError("Combination implementation binding changed: " + str(exc)) from exc
+    selected = combination_path(stage, "data/derived/reevaluation.json")
+    if digest(selected) != index["selected_case_source_sha256"]:
+        raise ValueError("Combination development-case source binding changed")
+    audit = combination_path(stage, index["audit"]["path"])
+    if digest(audit) != index["audit"]["sha256"]:
+        raise ValueError("Combination full audit archive binding changed")
+    return len(names)
+
+
 def validate(stage):
+    from readiness import validate as validate_readiness
+
+    validate_readiness(stage)
     cfg = read(ROOT / "scripts/local/workflow.json")
     for name in cfg["stage_inputs"]:
         target = (stage / name).resolve()
@@ -46,8 +98,12 @@ def validate(stage):
                        for cid in expected}
     if document["trace_sha256"] != expected_hashes:
         raise ValueError("Comparison has stale trace bindings")
-    if document["code_sha256"] != {p: digest(ROOT / p) for p in SOURCE_FILES}:
-        raise ValueError("Comparison has stale implementation bindings")
+    if set(document["code_sha256"]) != set(SOURCE_FILES):
+        raise ValueError("Comparison has incomplete implementation bindings")
+    try:
+        implementation_sources(document["code_sha256"], ROOT)
+    except ValueError as error:
+        raise ValueError("Comparison has stale implementation bindings: " + str(error)) from error
     expected_inputs = {p.relative_to(stage).as_posix(): digest(p) for p in sorted((stage / "data/examples").glob("*.csv"))}
     if document["input_sha256"] != expected_inputs:
         raise ValueError("Comparison has stale source input bindings")
@@ -81,7 +137,11 @@ def validate(stage):
 
     validate_diagnostics(root=stage)
     validate_study(read(stage / "data/derived/forecastability.json"), root=ROOT)
-    print("Product admission: complete case diagnostics, fresh comparison and source-bound M4 corpus")
+    count = validate_combination_release(stage)
+    from check_browser_linear_evidence import validate as validate_browser_evidence
+
+    validate_browser_evidence(stage)
+    print(f"Product admission: diagnostics, fresh comparison, M4 corpus, {count} combination cases and held-out browser calibration")
 
 
 def main():
@@ -90,16 +150,28 @@ def main():
     if mode == "generate":
         if stage.is_relative_to(ROOT):
             raise ValueError("Generation requires an external stage")
-        sys.path.insert(0, str(ROOT / "data-pipeline"))
-        from chronoscopelab.reevaluation import build
+        # Export the retained case inventory, preserving its original numerical
+        # engine identity. Admission readiness is generated for the current
+        # product; neither document is an authored promoted-stage input.
+        inventory = read(ROOT / "docs/research/retained-case-inventory.json")
+        index = {"schema": inventory["index_schema"], "engine_version": inventory["source_engine_version"],
+                 "n_cases": len(inventory["cases"]), "cases": inventory["cases"]}
+        raw = json.dumps(index, separators=(",", ":"), ensure_ascii=False).encode()
+        if hashlib.sha256(raw).hexdigest() != inventory["source_index_sha256"]:
+            raise ValueError("Retained case inventory does not reconstruct its source index")
+        destination = stage / "data/derived/manifests/index.json"
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(raw)
+        # This admission lane carries the sealed historical study. It never
+        # relabels archived forecast paths as fits by the newly installed provider.
+        historical = read(ROOT / "data/derived/reevaluation.json")
+        implementation_sources(historical["code_sha256"], ROOT)
+        target = stage / "data/derived/reevaluation.json"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((ROOT / "data/derived/reevaluation.json").read_bytes())
+        from readiness import write as write_readiness
 
-        for rel in SOURCE_FILES:
-            target = stage / rel
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes((ROOT / rel).read_bytes())
-        document = build(stage)
-        (stage / "data/derived/reevaluation.json").write_text(
-            json.dumps(document, indent=2, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
+        write_readiness(stage)
     elif mode != "validate":
         raise ValueError("Expected generate or validate")
     validate(stage)

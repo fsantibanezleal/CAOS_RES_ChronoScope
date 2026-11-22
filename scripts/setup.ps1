@@ -1,28 +1,26 @@
-# Create BOTH venvs + install per-lane requirements + the editable package. Idempotent. No global installs.
-# .ps1 parity of setup.sh (Felipe runs PowerShell on Windows).
-$ErrorActionPreference = "Stop"
-Set-Location (Join-Path $PSScriptRoot "..")
-$py = if ($env:PYTHON) { $env:PYTHON } else { "python" }
-
-function Get-VenvPy($dir) {
-  $p = Join-Path $dir "Scripts\python.exe"
-  if (-not (Test-Path $p)) { $p = Join-Path $dir "bin/python" }
-  return $p
+param([switch]$Install, [switch]$Gpu, [switch]$Notebooks, [switch]$Release, [string]$FromStage,
+      [Parameter(ValueFromRemainingArguments=$true)][string[]]$Extra)
+$ErrorActionPreference = 'Stop'
+$python = if ($env:PYTHON) { $env:PYTHON } else { 'python' }
+if (-not (Get-Command $python -ErrorAction SilentlyContinue)) {
+  if ($Install -and (Get-Command winget -ErrorAction SilentlyContinue)) {
+    $ErrorActionPreference = 'Continue'
+    & winget install --id Python.Python.3.12 --exact
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Write-Host 'Python installed. Open a new terminal and rerun 00_install-prereqs.'
+    exit 0
+  }
+  Write-Error 'Python is missing. Run 00_install-prereqs.ps1 -Install or install Python>=3.12.'
+  exit 1
 }
-
-Write-Host "[setup] .venv-pipeline (offline lane)..."
-if (-not (Test-Path ".venv-pipeline")) { & $py -m venv .venv-pipeline }
-$vp = Get-VenvPy ".venv-pipeline"
-& $vp -m pip install --upgrade pip -q
-& $vp -m pip install -q -r data-pipeline/requirements.txt -r requirements-dev.txt
-& $vp -m pip install -q -e .
-Write-Host "[setup] .venv-pipeline ready."
-
-Write-Host "[setup] .venv (runtime/live-thin lane)..."
-if (-not (Test-Path ".venv")) { & $py -m venv .venv }
-$vr = Get-VenvPy ".venv"
-& $vr -m pip install --upgrade pip -q
-& $vr -m pip install -q -r requirements.txt
-Write-Host "[setup] .venv ready."
-
-Write-Host "[setup] done. Next:  ./scripts/precompute.ps1   then   ./scripts/dev.ps1"
+$arguments = @((Join-Path $PSScriptRoot 'local/workflow.py'), 'init')
+if ($Install) { $arguments += '--install' }
+if ($Gpu) { $arguments += '--gpu' }
+if ($Notebooks) { $arguments += '--notebooks' }
+if ($Release) { $arguments += '--release' }
+if ($FromStage) { $arguments += @('--from-stage', $FromStage) }
+$arguments += $Extra
+# Native warnings on stderr do not change a successful exit status in Windows PowerShell 5.1.
+$ErrorActionPreference = 'Continue'
+& $python @arguments
+exit $LASTEXITCODE

@@ -1,6 +1,6 @@
 # Volatility and variance-stabilizing transforms
 
-Code: [`chronoscopelab/analysis/volatility.py`](../../data-pipeline/chronoscopelab/analysis/volatility.py)
+Code: [`engine/analysis/volatility.py`](../../data-pipeline/engine/analysis/volatility.py)
 · Tests: [`tests/test_analysis_volatility.py`](../../tests/test_analysis_volatility.py)
 
 ## Why the second moment matters
@@ -59,8 +59,11 @@ Two ways to choose $\lambda$:
   the right choice for seasonal series. Guerrero 1993, DOI
   [10.1002/for.3980120104](https://doi.org/10.1002/for.3980120104).
 
-Box-Cox requires $y > 0$; when the series has non-positive values ChronoScope shifts it by $1 - \min(y)$ and
-**records the shift** so the transform is invertible and honest.
+Box-Cox requires positive transformed inputs. For nonpositive observations, the current provider uses the
+observed range as its reference scale, or the absolute minimum for an exactly constant negative series,
+and shifts by that scale minus the minimum. The shift is recorded for inversion. An all-zero input or an
+unrepresentable positive shift is refused; no arbitrary one-unit offset is introduced. Historical artifacts
+retain their recorded original transform and source identity.
 
 ## What this is, and is NOT
 
@@ -87,3 +90,12 @@ Box-Cox requires $y > 0$; when the series has non-positive values ChronoScope sh
 - Bollerslev, T. (1986). Generalized Autoregressive Conditional Heteroskedasticity. *J. Econometrics* 31(3):307-327. DOI [10.1016/0304-4076(86)90063-1](https://doi.org/10.1016/0304-4076(86)90063-1).
 - Box, G.E.P. & Cox, D.R. (1964). An Analysis of Transformations. *JRSS-B* 26(2):211-252. JSTOR [2984418](https://www.jstor.org/stable/2984418).
 - Guerrero, V.M. (1993). Time-series analysis supported by power transformations. *J. Forecasting* 12(1):37-48. DOI [10.1002/for.3980120104](https://doi.org/10.1002/for.3980120104).
+
+## Offline pipeline provider
+
+The candidate pipeline imports the volatility toolkit from ForecastScope 0.1.1.
+GARCH returns conditional volatility in the source units and records the fit
+multiplier for interpreting parameters and likelihood. Box–Cox derives its
+positivity offset from the observed scale. The published 0.26.000 report
+describes its retained diagnostic artifacts. [Installed-wheel comparison and
+publication receipt](../validation/base-adoption-2026-11-10/forecastscope-volatility.json).

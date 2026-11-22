@@ -1,47 +1,57 @@
-# The foundation tier: zero-shot pretrained forecasters
+# Pretrained forecasting models and execution boundaries
 
-Engines: [`chronos_engine.py`](../../data-pipeline/chronoscopelab/engines/chronos_engine.py) ·
-[`timesfm_engine.py`](../../data-pipeline/chronoscopelab/engines/timesfm_engine.py) · Tests:
-[`tests/test_engine_foundation.py`](../../tests/test_engine_foundation.py)
+The current fifteen-case fresh comparison executes four separately identified
+pretrained families: Chronos-Bolt, Chronos-2, TimesFM-2.5 and TiRex-2. All four
+are implemented; they are not planned future placeholders. The study retains
+exact package/runtime identities, checkpoint revisions, complete forecast paths
+and independently recomputed scores. These records identify a bounded numerical
+experiment, not a standing claim that one family is best on every series.
 
-The SOTA tier of the ladder: pretrained time-series foundation models forecasting each case **zero-shot**
-(no fitting), from local checkpoints in the model vault (`E:\_Models\chronoscope`, override with
-`CHRONOSCOPE_MODEL_ROOT`). Opt-in via `CHRONOSCOPE_ENABLE_FOUNDATION=1`; every engine degrades gracefully
-when its package or checkpoint is absent (CI has neither). All weights below are **Apache-2.0**.
+## Python adapters and checkpoint identity
 
-## The native-Windows roster (baked)
+`chronos_engine.py` serves the two Amazon families from local checkpoint
+folders. `timesfm_engine.py` serves TimesFM with its own package/API mapping.
+Both consume observed prefixes and produce the explicitly requested future
+horizon. Per-engine context caps remain part of the experimental configuration.
+A common target block does not imply every model uses the same number of past
+observations. Where a package returns a larger quantile set, the mapping to the
+scored levels is recorded; noncrossing output does not establish calibration.
 
-| Engine | Checkpoint | Params | Architecture | Notes |
-|---|---|---|---|---|
-| Chronos-Bolt | `chronos-bolt-small` | 48M class | T5 patch-based | CPU-fast; the in-browser ONNX candidate |
-| Chronos-2 | `chronos-2` | 120M | T5-encoder, group attention | native multivariate + past/future covariates (arXiv:2510.15821); 3-d input API |
-| TimesFM 2.5 | `timesfm-2.5` | 200M | decoder-only | 16k context; continuous quantile head -> deciles (arXiv:2310.10688) |
+The canonical checkpoint identifiers in the fresh experiment include
+`amazon/chronos-bolt-small`, `amazon/chronos-2` and
+`google/timesfm-2.5-200m-pytorch`. Their exact revisions are recorded in
+`data/derived/fresh-reevaluation.json`, which is preferable to a mutable
+latest-model alias. A framework license does not automatically license every
+checkpoint published for that framework. Reproduction and redistribution must
+respect the recorded model-card terms for the particular weights used.
 
-Quantile handling: Chronos pipelines emit the requested levels directly; TimesFM's continuous quantile head
-returns `[mean, q0.1..q0.9]`, mapped to the nearest decile (the canonical 0.1/0.5/0.9 levels map exactly).
-All outputs are made monotone across levels.
+## TiRex and the WSL boundary
 
-## TiRex-2 via the WSL2 lane (INTEGRATED 2026-07-11)
+`engines/tirex2_wsl_engine.py` and `tools/tirex2_wsl/tirex2_bake.py` provide the
+WSL execution bridge. The optional flag is `CHRONOSCOPE_ENABLE_TIREX_WSL=1`.
+Its Linux/CUDA dependencies are isolated from the native Windows application
+environment. A missing WSL runtime means the optional lane is unavailable; a
+complete declared-roster experiment cannot replace that missing execution with
+a synthetic path or silently omit it. See the [WSL guide](../guides/tirex2-wsl-lane.md)
+and [fresh evaluation recipe](../guides/fresh-reevaluation.md) for the actual
+runtime and checkpoint requirements. Reuse of cached weights is distinct from
+reuse of a forecaster's evolving state; the fifteen-case experiment does not
+measure native recurrent update performance.
 
-- **TiRex-2** (NX-AI, streaming-native xLSTM, arXiv:2607.01204): cannot run on native Windows - its
-  `flashrnn` dependency needs `triton` + fused sLSTM CUDA kernels compiled by `nvcc`, none of which ship
-  Windows wheels. It now runs in a **WSL2 (Linux) lane** with CUDA-in-WSL and is merged as the 19th
-  ("foundation") method. See [../guides/tirex2-wsl-lane.md](../guides/tirex2-wsl-lane.md) for the setup;
-  `engines/tirex2_wsl_engine.py` + `tools/tirex2_wsl/tirex2_bake.py` are the bridge. Opt-in via
-  `CHRONOSCOPE_ENABLE_TIREX_WSL=1`; a graceful no-op when WSL is absent, so CI and the default bake are
-  unaffected. The WSL baker reuses the same `preqts.run_prequential` machinery as `stages/evaluate.py`, so
-  TiRex-2's metrics are computed identically to the rest of the ladder.
+## What the browser executes
 
-## Honest roster limits (remaining)
+The browser replays the admitted pretrained paths. It does not download these
+large checkpoints or train them on user inputs. The live ONNX model is a small
+global instance-normalized linear regression fitted to synthetic windows. Its
+separate [held-out study](../research/browser-linear/README.md) confirms an
+interval-score improvement for prefix-stratified calibration while retaining
+an unfavorable ridge point-error result. Neither observation is a performance
+claim about Chronos, TimesFM or TiRex.
 
-- **Granite TTM r2** (`granite-tsfm` 0.3.6): pins `torch<2.11`, conflicting with the pipeline's cu126
-  `torch 2.12.1`. Deferred to a dedicated venv rather than downgrading the shared torch.
-- **Moirai / Moirai-2**: real and strong on GIFT-Eval, but the WEIGHTS are CC-BY-NC (non-commercial) - guide
-  material only, never baked into the public product.
-
-## References
-
-- Ansari, A.F. et al. (2024). Chronos: Learning the Language of Time Series. arXiv:[2403.07815](https://arxiv.org/abs/2403.07815).
-- Amazon (2025). Chronos-2: universal, covariate-aware zero-shot forecasting. arXiv:[2510.15821](https://arxiv.org/abs/2510.15821).
-- Das, A. et al. (2024). A decoder-only foundation model for time-series forecasting. *ICML*. arXiv:[2310.10688](https://arxiv.org/abs/2310.10688).
-- Podest, P. et al. (2026). TiRex-2: Generalizing TiRex to Multivariate Data and Streaming. arXiv:[2607.01204](https://arxiv.org/abs/2607.01204) (WSL2 lane).
+The default setup installs a CPU application role. Complete heavy evaluation
+requires the pinned optional packages, specific checkpoint revisions and the
+recorded hardware/runtime. Local legacy environments are not silently replaced
+with new versions because their package names resemble the study's runtime.
+Additional surveyed model families remain literature or future integration
+candidates until their implementation, licensing and complete evaluation are
+actually admitted.

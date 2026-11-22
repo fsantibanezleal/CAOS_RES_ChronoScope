@@ -1,0 +1,13 @@
+# Validation for executable sequence lessons
+
+| requirement | adversarial check | gate |
+|---|---|---|
+| NB-041 | Run without either external scratch argument or environment variable and require an explicit refusal. | `tests/test_run_notebooks.py::test_adversarial_check_without_a_temp_root_stops_with_exit_2` |
+| NB-042 | Run a controlled notebook execution and check the locations and cleanup of all generated files. | `tests/test_run_notebooks.py::test_adversarial_check_writes_only_under_the_temp_root_and_removes_it` |
+| ND-001 | Plant short prose and duplicate image outputs. Confirm they cannot satisfy the measured floors. | `tests/adversarial/test_check_notebook_depth.py::test_adversarial_depth_floors_and_duplicate_images` |
+| ND-003 | Remove or hide the two required sections or give the lesson a generic validation question. | `tests/adversarial/test_check_notebook_depth.py::test_adversarial_sensitivity_own_data_and_generic_questions` |
+| ND-004 | Remove a covered item or point to a notebook missing from one language tree. | `tests/adversarial/test_check_notebook_depth.py::test_adversarial_complete_tool_coverage` |
+| ND-005 | Omit the producer source or either graph input from an isolated lesson tree; require exact byte copies and external scratch cleanup. | `tests/test_run_notebooks.py::test_adversarial_check_copies_published_browser_inputs` |
+| ND-006 | Inject future outcomes into an inference request and substitute a result from another history; require refusal before a lesson can score it. | `tests/test_notebook_reference.py::test_adversarial_future_values_cannot_cross_reference_cli`, `tests/test_notebook_reference.py::test_adversarial_result_from_another_prefix_is_refused` |
+| NB-091 | a product with a planted model file under models/ and a notebook that reads `../../../a planted model file under models/` is planted: the run fails without the copy and passes with it, the committed model is untouched and the temp root is empty after; a product with no `models/` still runs | `tests/test_run_notebooks.py::test_adversarial_check_copies_models_so_a_notebook_can_run_a_released_model` |
+| NB-092 | a product with a planted analysis module under manuscripts/ and a notebook that imports it from `../../../manuscripts/` is planted: the run fails without the copy and passes with it, the committed bytes are untouched, no `__pycache__` is copied and the temp root is empty after; a product with no `manuscripts/` still runs and gains no folder | `tests/test_run_notebooks.py::test_adversarial_check_copies_manuscripts_so_a_notebook_can_import_its_analysis_code`, `tests/test_run_notebooks.py::test_adversarial_check_without_a_manuscripts_folder_runs_as_before` |

@@ -1,7 +1,7 @@
 """Filter toolkit tests: ground-truth checks on trend+cycle composites, EMD reconstruction, scalogram period."""
 import numpy as np
 
-from chronoscopelab.analysis import filters as fl
+from engine.analysis import filters as fl
 
 
 def _trend_plus_cycle(n=240, cycle_period=16, seed=0):

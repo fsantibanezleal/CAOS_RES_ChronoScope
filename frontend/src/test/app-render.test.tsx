@@ -6,9 +6,10 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import AppPage from '../pages/AppPage';
+import { AtlasSourceProvider } from '../state/AtlasSource';
 
 describe('App workbench renders (baked-first with synthetic live mode available)', () => {
-  const html = renderToStaticMarkup(<MemoryRouter><AppPage /></MemoryRouter>);
+  const html = renderToStaticMarkup(<MemoryRouter><AtlasSourceProvider><AppPage /></AtlasSourceProvider></MemoryRouter>);
 
   it('shows the source control bar and the workbench tabs', () => {
     expect(html).toContain('Baked case');

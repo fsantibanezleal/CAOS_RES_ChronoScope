@@ -7,7 +7,7 @@ import sys
 
 import numpy as np
 
-from chronoscopelab.analysis.nonlinear import chaos_measures
+from engine.analysis.nonlinear import chaos_measures
 
 
 def test_seeded_fit_preserves_global_rng_and_repeats_after_unrelated_random_draws():
@@ -24,7 +24,7 @@ def test_seeded_fit_preserves_global_rng_and_repeats_after_unrelated_random_draw
 def test_adversarial_independent_processes_reproduce_identical_robust_estimates():
     code = """import json,numpy as np
 from dataclasses import asdict
-from chronoscopelab.analysis.nonlinear import chaos_measures
+from engine.analysis.nonlinear import chaos_measures
 x=np.random.default_rng(19).normal(size=180)
 print(json.dumps(asdict(chaos_measures(x,seed=42)),sort_keys=True))
 """

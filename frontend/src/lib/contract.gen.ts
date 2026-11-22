@@ -472,6 +472,29 @@ export interface components {
             seasonality?: number;
             horizon?: number;
         };
+        /** browser-calibration */
+        BrowserCalibration: {
+            /** @constant */
+            schema: "chronoscope.browser-calibration/v1";
+            /** @constant */
+            point_model_sha256: "621265165211f756cff537adee364b9790c34ced567bc2a5087513360e1f69f6";
+            /** @constant */
+            lookback: 48;
+            /** @constant */
+            horizon: 12;
+            /** @constant */
+            alpha: 0.2;
+            /** @constant */
+            normalization: "subtract_last_then_divide_population_std";
+            /** @constant */
+            roughness_boundaries: [
+                0.5,
+                1.25
+            ];
+            calibration_bin_counts: number[];
+            absolute_residual_radii: number[][];
+            global_radii: number[];
+        };
         MethodBacktest: {
             mase: number | null;
             wql: number | null;

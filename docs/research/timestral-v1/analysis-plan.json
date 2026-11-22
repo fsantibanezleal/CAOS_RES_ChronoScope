@@ -1,0 +1,111 @@
+{
+  "schema": "chronoscope-timestral-study-plan/v1",
+  "created_utc": "2026-11-05T22:35:26.110371+00:00",
+  "state": "specified before Timestral inference; prior comparator outcomes already known",
+  "source_code": {
+    "repo": "https://github.com/mistralai/timestral",
+    "commit": "a534bdbd244d64f3d9d743f46c7bf6fc330ed4ff",
+    "distribution": "timestral",
+    "version": "1.0.0",
+    "code_license": "Apache-2.0",
+    "weight_license": "Modified MIT; separate from code license",
+    "module_sha256": {
+      "__init__.py": "67578087e5880be4f3d8c8e94b50437ed73c06e7041898fbcf4f2731525ec108",
+      "config.py": "2d899dda9b231401ca16ec628a80251090dfdc1be1270e83a4da827b7065a826",
+      "covariate_encoding.py": "6382802bc4eba59b378f65f795c3a6c2bf025ccd634f116ddf66a1f37f61cf5f",
+      "forecaster.py": "1a1bb654fef37d6a0ed4288084825aae0512f7dcb5a367340b7a012f921785b0",
+      "layers.py": "ae32e894f3b722eb6a869d57ae94a72bacc2bfb74bf1448e2b7f39fc0033708c",
+      "loading.py": "dee8a5aa96c9ea10664bd51fdcf561da9461e89ce933be046a922bfbed336c5d",
+      "masks.py": "dd48729c132abfa857467ab61c57345305fe571b07eff1cdc619a243bdcab8a0",
+      "model.py": "885f80332e5ce72be1e9dfcd3ef0f1b0298769911420d308e7de993a5754a994",
+      "scaler.py": "d702caad06865790a59e2a361f38f8a410d412254b151b5847654279e5f4a1bd"
+    }
+  },
+  "models": [
+    {
+      "repo": "mistralai/Timestral-5M",
+      "revision": "bdd20cfc15a3fea0e4cb5ccef37f8d3ca7aa335f"
+    },
+    {
+      "repo": "mistralai/Timestral-28M",
+      "revision": "49b26409ac87b5935539a5d8ffe7f397b720db47"
+    },
+    {
+      "repo": "mistralai/Timestral-123M",
+      "revision": "5a147287addda85f6acd8da3fb8858fe9af7e8f7"
+    },
+    {
+      "repo": "mistralai/Timestral-209M",
+      "revision": "9874d252ab0aae16f7f7c999f98f98d6ad7d8365"
+    }
+  ],
+  "reference": {
+    "path": "data/derived/fresh-reevaluation.json",
+    "sha256": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
+    "cases": [
+      "BRKV_level_shift",
+      "CHAO_mackey",
+      "CTRL_white_noise",
+      "EXOG_promo",
+      "HETV_garch",
+      "INTM_demand",
+      "LMEM_fractional",
+      "MSEA_daily_weekly",
+      "REAL_electricity",
+      "REAL_m4_daily",
+      "REAL_m4_hourly",
+      "REAL_pm25",
+      "RWLK_noise",
+      "SEAS_hourly",
+      "TRND_seasonal"
+    ],
+    "case_count": 15,
+    "authentic_case_ids": [
+      "REAL_electricity",
+      "REAL_m4_daily",
+      "REAL_m4_hourly",
+      "REAL_pm25"
+    ],
+    "information": "exact retained contiguous history; same final targets and seasonal metric scales; no target supplied to model"
+  },
+  "forecast": {
+    "probabilities": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "context": "entire supplied history, official max32768 only",
+    "covariates": false,
+    "device": "cpu",
+    "torch_threads": 4,
+    "torch_interop_threads": 1,
+    "symmetric_averaging": true,
+    "clip_nonnegative": true,
+    "seed": 20261105
+  },
+  "analysis": {
+    "primary": "Timestral-209M minus AutoTheta mean case MASE across all15 selected cases",
+    "secondary": [
+      "other family sizes",
+      "per-case MAE MASE MSIS WQL coverage and mean_width",
+      "all22 retained reference methods",
+      "authentic4 and generated11 subsets"
+    ],
+    "uncertainty": "10000 joint case-reweighting PCG64 draws seed20261105, unadjusted descriptive intervals; deliberate cases are not a population sample",
+    "timing": "separate model load and per-case forecast seconds on current CPU; no matched latency comparison to historical references"
+  },
+  "admission": {
+    "required_model_cases": 60,
+    "missing_failed_models": "fail complete study; retain partial attempts separately",
+    "finite_and_ordered_quantiles": true,
+    "point_observable_gate": true,
+    "immutable_reference": true
+  },
+  "limits": [
+    "This is no fine-tuning, not proof that benchmark series were unseen during vendor pretraining",
+    "No full GIFT-Eval, TIME or fev-bench reproduction",
+    "No native state-update or streaming-cost claim",
+    "No multivariate or future-covariate advantage is tested by the primary univariate study",
+    "No population generalization or operational benefit claim"
+  ]
+}

@@ -4,17 +4,14 @@
 //  - FORECAST: the ladder views (forecast + interval, ZOOM on the predicted zone, leaderboard, streaming
 //    bench trajectories from the preqts prequential bake).
 // Synthetic (LIVE): knobs regenerate the series; the TS classical engine + NLinear ONNX re-forecast
-// instantly. Baked case (REPLAY): the full 19-method ladder + analysis + streaming artifacts, baked offline.
-import { useEffect, useMemo, useState } from 'react';
+// instantly. Baked case (REPLAY): the admitted fresh comparison + analysis + streaming artifacts, baked offline.
+import { useEffect, useState } from 'react';
 import { formatNumber, TabGroups, useShellLang } from '@fasl-work/caos-app-shell';
-import { loadAnalysis, loadIndex, loadManifest, loadReevaluation, loadStreaming, loadTrace } from '../api/artifacts';
-import type { CaseIndex, CaseManifest, Trace } from '../lib/contract.types';
-import type { Reevaluation } from '../lib/reevaluation.types';
 import { methodColor } from '../lib/methodColors';
-import { forecastAllLive, normalPpf } from '../lib/liveEngine';
-import { coverage, mase, seasonalNaiveMae } from '../lib/liveMetrics';
-import { loadNLinearMeta, runNLinear } from '../lib/onnxRunner';
-import { DEFAULT_KNOBS, generateSeries, type SyntheticKind, type SyntheticKnobs } from '../lib/synthetic';
+import { methodFamilyLabel, stationarityVerdictLabel } from '../lib/displayLabels';
+import { seasonalNaiveMae } from '../lib/liveMetrics';
+import type { SyntheticKind, SyntheticKnobs } from '../lib/synthetic';
+import { useAtlasSource } from '../state/AtlasSource';
 import { acf, bartlettBand, decompose, dfaAlpha, histogram, pacf, periodogram, qqPairs, rolling, summaryStats } from '../lib/tsAnalysis';
 import { PanelBoundary } from '../render/PanelBoundary';
 import { SeriesLegend, type LegendItem, type LegendMetric } from '../render/SeriesLegend';
@@ -22,10 +19,7 @@ import { UPlotChart, type RefLine, type USeries } from '../render/UPlotChart';
 import { SequenceDiagnostics, type SequenceData } from '../render/SequenceDiagnostics';
 
 // a method's forecast (point + interval), shared by synthetic (live) + baked (replay)
-interface ChartSeries { name: string; color: string; point: number[]; lower: number[]; upper: number[]; }
 
-const LEVELS = [0.1, 0.5, 0.9];
-const ONNX_NAME = 'NLinear (ONNX)';
 const ATLAS_NAV_KEY = 'chronoscope-atlas-nav';
 type AtlasNav = { group: 'understand' | 'forecast'; tab: string };
 const ATLAS_TABS: Record<AtlasNav['group'], string[]> = {
@@ -49,12 +43,12 @@ function caseGroup(id: string): 'Real' | 'Control' | 'Synthetic' {
   return 'Synthetic';
 }
 
-interface Row { name: string; family: string; mase: number; coverage: number; wql?: number; msis?: number; }
 
 // ---------- interactive chart panels (uPlot: zoom/pan/crosshair/brush/reset, per-series readout) ----------
 
 // ACF / PACF as interactive stems (uPlot bars) with the Bartlett significance band as two ref lines.
 function StemPlot({ values, band, title }: { values: number[]; band: number; title: string }) {
+  const es = useShellLang() === 'es';
   const xs = values.map((_, i) => i);
   const series: USeries[] = [{ label: 'r_k', values, color: 'var(--color-accent)', bars: true }];
   const refs: RefLine[] = [
@@ -65,7 +59,7 @@ function StemPlot({ values, band, title }: { values: number[]; band: number; tit
   return (
     <div className="cs-panel">
       <div className="cs-panel-t">{title}</div>
-      <UPlotChart xs={xs} series={series} refLines={refs} height={200} xLabel="lag" ariaSummary={title} precision={3} />
+      <UPlotChart xs={xs} series={series} refLines={refs} height={200} xLabel={es ? 'retardo' : 'lag'} ariaSummary={title} precision={3} />
     </div>
   );
 }
@@ -105,124 +99,16 @@ export default function AppPage() {
   useEffect(() => {
     try { sessionStorage.setItem(ATLAS_NAV_KEY, JSON.stringify(nav)); } catch { /* navigation still works without storage */ }
   }, [nav]);
-  const [mode, setMode] = useState<'synthetic' | 'baked'>('baked');
-  const [knobs, setKnobs] = useState<SyntheticKnobs>(DEFAULT_KNOBS);
-  const [index, setIndex] = useState<CaseIndex | null>(null);
-  const [caseId, setCaseId] = useState('');
-  const [manifest, setManifest] = useState<CaseManifest | null>(null);
-  const [trace, setTrace] = useState<Trace | null>(null);
-  const [reevaluation, setReevaluation] = useState<Reevaluation | null>(null);
-  const [indexLoading, setIndexLoading] = useState(true);
-  const [analysis, setAnalysis] = useState<Record<string, any> | null>(null);
-  const [streaming, setStreaming] = useState<Record<string, any> | null>(null);
-  const [artifactsLoading, setArtifactsLoading] = useState(false);
+  const { mode, setMode, knobs, setKnobs, index, caseId, setCaseId, manifest, trace,
+    analysis, streaming, indexLoading, artifactsLoading, err, activeData, allMethods, allRows,
+    onnx, onnxLoading } = useAtlasSource();
   const [hidden, setHidden] = useState<Set<string>>(new Set());
-  const [err, setErr] = useState('');
-  const [onnx, setOnnx] = useState<(ChartSeries & { mase: number; coverage: number }) | null>(null);
-  const [onnxLoading, setOnnxLoading] = useState(false);
   // one Forecast tab, four on-graph views: Full (whole context), Zoom (predicted zone), Horizon
   // (per-lead error growth), Errors (per-lead residuals). Was three separate tabs + a toggle.
   const [fcView, setFcView] = useState<'full' | 'zoom' | 'horizon' | 'errors'>('full');
   // the metric the Methods legend displays (all lower-is-better); WQL/MSIS are baked-only
   const [legendMetric, setLegendMetric] = useState<LegendMetric>('mase');
 
-  useEffect(() => {
-    let cancelled = false;
-    Promise.all([loadIndex(), loadReevaluation()]).then(([ix, comparison]) => {
-      if (cancelled) return;
-      setIndex(ix); setReevaluation(comparison); setCaseId(ix.cases[0]?.case_id ?? '');
-    }).catch((e) => { if (!cancelled) setErr(String(e)); })
-      .finally(() => { if (!cancelled) setIndexLoading(false); });
-    return () => { cancelled = true; };
-  }, []);
-
-  useEffect(() => {
-    if (mode !== 'baked' || !caseId) { setArtifactsLoading(false); return; }
-    let cancelled = false;
-    setAnalysis(null); setStreaming(null); setTrace(null); setManifest(null);
-    setErr('');
-    setArtifactsLoading(true);
-    (async () => {
-      try {
-        const m = await loadManifest(caseId);
-        const [nextTrace, nextAnalysis, nextStreaming] = await Promise.all([
-          loadTrace(m.artifact.path),
-          m.analysis_artifact ? loadAnalysis(m.analysis_artifact.path) : Promise.resolve(null),
-          m.streaming_artifact ? loadStreaming(m.streaming_artifact.path) : Promise.resolve(null),
-        ]);
-        if (cancelled) return;
-        setManifest(m);
-        setTrace(nextTrace);
-        setAnalysis(nextAnalysis);
-        setStreaming(nextStreaming);
-      } catch (e) {
-        if (!cancelled) setErr(String(e));
-      } finally {
-        if (!cancelled) setArtifactsLoading(false);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [mode, caseId]);
-
-  const synthetic = useMemo(() => {
-    if (mode !== 'synthetic') return null;
-    const y = generateSeries(knobs);
-    const cut = Math.max(1, y.length - knobs.horizon);
-    const history = y.slice(0, cut);
-    const actual = y.slice(cut);
-    const forecasts = forecastAllLive(history, knobs.seasonality, knobs.horizon, LEVELS);
-    const scale = seasonalNaiveMae(history, knobs.seasonality);
-    const rows: Row[] = forecasts.map((f) => ({
-      name: f.name, family: 'classical',
-      mase: mase(actual, f.point, scale), coverage: coverage(actual, f.lower, f.upper),
-    }));
-    const methods: ChartSeries[] = forecasts.map((f) => ({ name: f.name, color: colorFor(f.name), point: f.point, lower: f.lower, upper: f.upper }));
-    return { history, actual, horizon: knobs.horizon, m: knobs.seasonality, methods, rows };
-  }, [mode, knobs]);
-
-  const baked = useMemo(() => {
-    if (mode !== 'baked' || !trace) return null;
-    const comparison = reevaluation?.cases.find(c => c.case_id === trace.case_id);
-    if (!comparison) return null;
-    const methods: ChartSeries[] = comparison.methods.map((m) => ({ name: m.name, color: colorFor(m.name), point: m.point, lower: m.lower, upper: m.upper }));
-    const rows: Row[] = comparison.methods.map((m) => ({
-      name: m.name, family: m.family,
-      mase: m.metrics.mase ?? NaN, coverage: m.metrics.coverage ?? NaN,
-      wql: m.metrics.wql ?? NaN, msis: m.metrics.msis ?? NaN,
-    }));
-    return { history: comparison.history, actual: trace.actual, horizon: trace.horizon, m: trace.seasonality, methods, rows };
-  }, [mode, trace, reevaluation]);
-
-  const activeData = mode === 'synthetic' ? synthetic : baked;
-
-  // ONNX live deep tier on the active history (the LIVE learned model).
-  const sig = activeData ? `${mode}:${activeData.horizon}:${activeData.m}:${activeData.history.length}:${Math.round(activeData.history.reduce((a, v) => a + v, 0) * 10) / 10}` : '';
-  useEffect(() => {
-    let cancelled = false;
-    setOnnx(null);
-    if (!activeData || !activeData.history.length) { setOnnxLoading(false); return; }
-    setOnnxLoading(true);
-    const { history, actual, horizon, m } = activeData;
-    (async () => {
-      try {
-        const meta = await loadNLinearMeta();
-        if (horizon !== meta.horizon || history.length < meta.lookback) return;
-        const { point, scale } = await runNLinear(history);
-        const sigma = meta.sigma_norm * scale;
-        const lower = point.map((p, i) => p + normalPpf(0.1) * sigma * Math.sqrt(i + 1));
-        const upper = point.map((p, i) => p + normalPpf(0.9) * sigma * Math.sqrt(i + 1));
-        const sc = seasonalNaiveMae(history, m);
-        if (!cancelled) setOnnx({ name: ONNX_NAME, color: colorFor(ONNX_NAME), point, lower, upper, mase: mase(actual, point, sc), coverage: coverage(actual, lower, upper) });
-      } catch { /* graceful: the live ONNX method simply does not appear */ }
-      finally { if (!cancelled) setOnnxLoading(false); }
-    })();
-    return () => { cancelled = true; };
-  }, [sig]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const allMethods = activeData ? (onnx ? [...activeData.methods, onnx] : activeData.methods) : [];
-  const allRows: Row[] = activeData
-    ? (onnx ? [...activeData.rows, { name: onnx.name, family: 'deep (live)', mase: onnx.mase, coverage: onnx.coverage }] : activeData.rows)
-    : [];
   const visibleMethods = allMethods.filter((mm) => !hidden.has(mm.name));
   const rankedRows = [...allRows].sort((a, b) => (Number.isFinite(a.mase) ? a.mase : Infinity) - (Number.isFinite(b.mase) ? b.mase : Infinity));
   const best = rankedRows.find((r) => Number.isFinite(r.mase))?.name;
@@ -259,6 +145,10 @@ export default function AppPage() {
   const bakedCatch22 = analysis && ((analysis as any).distribution?.catch22 as { available?: boolean; reason?: string; features?: Record<string, number> } | undefined);
   const bakedStationarity = analysis && (analysis as any).stationarity;
   const bakedVolatility = analysis && (analysis as any).volatility;
+  const archLm = bakedVolatility?.arch_lm;
+  const archSignal: boolean | null = typeof archLm?.has_arch === 'boolean'
+    && Number.isFinite(archLm.lm_pvalue) && archLm.lm_pvalue >= 0 && archLm.lm_pvalue <= 1
+    && archLm.available !== false && !archLm.error ? archLm.has_arch : null;
   const bakedNonlinear = analysis && (analysis as any).nonlinear;
   const bakedFractal = analysis && (analysis as any).fractal;
 
@@ -275,7 +165,7 @@ export default function AppPage() {
           ]}
           title={es ? 'Serie + estadísticos móviles' : 'Series + rolling statistics'}
           xMarks={sequenceMarks}
-          subtitle={es ? 'Una media móvil que deriva = tendencia/quiebre; una desviación móvil que respira = heterocedasticidad.' : 'A drifting rolling mean = trend/break; a breathing rolling std = heteroscedasticity.'}
+          subtitle={es ? 'Los cambios de media o desviación móviles son patrones descriptivos y posibles señales de tendencia, quiebres o cambios de dispersión; no identifican por sí solos el proceso.' : 'Changes in rolling mean or standard deviation are descriptive patterns and possible signals of trend, breaks or changing dispersion; they do not identify the process by themselves.'}
         />
       )}
       {covariate && (
@@ -284,7 +174,7 @@ export default function AppPage() {
           series={[{ label: covariate.name, values: covariate.values, color: '#bc8cff' }]}
           title={es ? `Covariable exógena: ${covariate.name} (${covariate.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'})` : `Exogenous covariate: ${covariate.name} (${covariate.kind === 'known_future' ? 'known-future' : 'past'})`}
           subtitle={es
-            ? 'un regresor programado (p. ej. promociones) alineado a la serie. Conocido-a-futuro: sus valores del horizonte se saben de antemano, así un método con la covariable anticipa los saltos que uno univariado debe rezagar. La ganancia se ve en la pestaña Streaming (aware vs blind).'
+            ? 'un regresor programado (p. ej. promociones) alineado a la serie. Conocido-a-futuro: sus valores del horizonte se saben de antemano, así un método con la covariable anticipa los saltos que uno univariado debe rezagar. La comparación está en Evaluación secuencial (con y sin covariable).'
             : 'a scheduled regressor (e.g. promotions) aligned to the series. Known-future: its horizon values are known ahead, so a method with the covariate anticipates the jumps a univariate method must lag. The gain is visible in the Streaming tab (aware vs blind).'}
         />
       )}
@@ -306,8 +196,8 @@ export default function AppPage() {
             precision={0}
           />
           <div className="cs-panel-sub">{es
-            ? `curtosis en exceso ${fmt(stats?.kurtosisExcess, 2)}: > 0 = colas más pesadas que la normal (los intervalos gaussianos sub-cubren).`
-            : `excess kurtosis ${fmt(stats?.kurtosisExcess, 2)}: > 0 = heavier tails than normal (Gaussian intervals under-cover).`}</div>
+            ? `curtosis muestral en exceso ${fmt(stats?.kurtosisExcess, 2)}: un valor positivo puede indicar diferencias de colas o valores extremos frente a la normal. La cobertura de los intervalos debe medirse por separado.`
+            : `sample excess kurtosis ${fmt(stats?.kurtosisExcess, 2)}: a positive value can indicate tail or outlier differences from a normal distribution. Interval coverage must be measured separately.`}</div>
         </div>
       )}
     </div>
@@ -331,7 +221,7 @@ export default function AppPage() {
               { label: es ? 'tendencia (MA centrada)' : 'trend (centered MA)', values: decomp.trend, color: 'var(--color-accent)' },
             ]}
             title={es ? 'Tendencia (media móvil centrada de orden m)' : 'Trend (centered order-m moving average)'}
-            subtitle={es ? 'promedio móvil centrado (FPP3 cap. 3): exacto para tendencia lineal; NaN honesto en los bordes (m/2 puntos).' : 'centered moving average (FPP3 ch. 3): exact for a linear trend; honestly NaN at the edges (m/2 points).'}
+            subtitle={es ? 'promedio móvil centrado (FPP3 cap. 3): exacto para tendencia lineal; no definido en los bordes (m/2 puntos).' : 'centered moving average (FPP3 ch. 3): exact for a linear trend; undefined at the edges (m/2 points).'}
           />
           <LinePlot
             xs={Array.from({ length: Math.min(3 * m_, fullSeries.length) }, (_, i) => i)}
@@ -366,8 +256,8 @@ export default function AppPage() {
                 ariaSummary={es ? 'QQ normal del residuo' : 'normal QQ of the remainder'}
               />
               <div className="cs-panel-sub">{es
-                ? 'puntos sobre la diagonal = residuo gaussiano (los intervalos gaussianos son honestos); forma de S = colas pesadas (sub-cobertura, ver la curtosis en Serie).'
-                : 'points on the diagonal = Gaussian remainder (Gaussian intervals are honest); an S-shape = heavy tails (under-coverage; see the kurtosis on Series).'}</div>
+                ? 'La cercanía a la diagonal es compatible con una forma marginal normal en esta muestra; las desviaciones describen diferencias. El gráfico no establece normalidad, independencia ni calibración de intervalos predictivos o condicionales.'
+                : 'Closeness to the diagonal is compatible with a normal marginal shape in this sample; departures describe differences. The plot establishes neither normality, independence nor predictive or conditional interval calibration.'}</div>
             </div>
           )}
           <p className="cs-panel-sub">{es
@@ -407,7 +297,7 @@ export default function AppPage() {
           series={residualSeries}
           refLine={0}
           title={es ? 'Residuos del pronóstico (verdad - punto) por paso' : 'Forecast residuals (truth - point) by lead'}
-          subtitle={es ? 'signo sistemático = sesgo; dispersión creciente = la incertidumbre crece con el paso (comparar con Horizonte).' : 'a systematic sign = bias; growing spread = uncertainty growing with lead (compare with Horizon).'}
+          subtitle={es ? 'Los signos y magnitudes describen los errores de este bloque. Estimar sesgo, dispersión o incertidumbre por horizonte requiere múltiples orígenes y un protocolo comparable.' : 'Signs and magnitudes describe this block’s errors. Estimating bias, dispersion or uncertainty by lead requires repeated origins under a comparable protocol.'}
         />
       )}
       <div className="cs-panel cs-chart">
@@ -472,27 +362,32 @@ export default function AppPage() {
       </div>
       {mode === 'baked' && bakedStationarity && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'Estacionariedad (precálculo offline)' : 'Stationarity (baked offline)'} <span className="cs-badge replay">replay</span></div>
-          <table className="cs-table">
-            <thead><tr><th>test</th><th>stat</th><th>p</th><th>{es ? 'veredicto' : 'verdict'}</th></tr></thead>
-            <tbody>
-              {(bakedStationarity.tests ?? []).map((t: any) => (
-                <tr key={t.name}>
-                  <td>{t.name}</td><td>{fmt(t.stat, 3)}</td><td>{fmt(t.pvalue, 4)}</td>
-                  <td><span className={`cs-badge ${t.stationary ? 'ok' : 'warn'}`}>{t.stationary ? (es ? 'estacionaria' : 'stationary') : (es ? 'no estacionaria' : 'non-stationary')}</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="cs-panel-sub">{bakedStationarity.combined_verdict} · d = {bakedStationarity.recommended_d}</p>
+          <div className="cs-panel-t">{es ? 'Estacionariedad (precálculo offline)' : 'Stationarity (baked offline)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
+          <div className="cs-table-scroll" role="region" aria-label={es ? 'Resultados de pruebas de estacionariedad' : 'Stationarity test results'} tabIndex={0}>
+            <table className="cs-table">
+              <thead><tr><th>{es ? 'prueba' : 'test'}</th><th>{es ? 'estadístico' : 'stat'}</th><th>p</th><th>{es ? 'veredicto' : 'verdict'}</th></tr></thead>
+              <tbody>
+                {(bakedStationarity.tests ?? []).map((t: any) => (
+                  <tr key={t.name}>
+                    <td>{t.name}</td><td>{fmt(t.stat, 3)}</td><td>{fmt(t.pvalue, 4)}</td>
+                    <td><span className={`cs-badge ${t.stationary ? 'ok' : 'warn'}`}>{t.stationary ? (es ? 'estacionaria' : 'stationary') : (es ? 'no estacionaria' : 'non-stationary')}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="cs-panel-sub">{stationarityVerdictLabel(bakedStationarity.combined_verdict, es)} · d = {bakedStationarity.recommended_d}</p>
+          <p className="cs-panel-sub">{es
+            ? 'Estas etiquetas resumen las decisiones de las pruebas en esta muestra finita. No rechazar una hipótesis nula no demuestra que sea cierta; los veredictos no prueban la estacionariedad del proceso.'
+            : 'These labels summarize test decisions in this finite sample. Failure to reject a null hypothesis does not prove it true; the verdicts do not prove the process is stationary.'}</p>
         </div>
       )}
       {mode === 'baked' && bakedVolatility && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'Volatilidad (precalculado)' : 'Volatility (baked)'} <span className="cs-badge replay">replay</span></div>
-          <p>ARCH-LM p = <b>{fmt(bakedVolatility.arch_lm?.lm_pvalue, 4)}</b>{' '}
-            <span className={`cs-badge ${bakedVolatility.arch_lm?.has_arch ? 'warn' : 'ok'}`}>
-              {bakedVolatility.arch_lm?.has_arch ? (es ? 'varianza agrupada (GARCH ajustado)' : 'clustered variance (GARCH fitted)') : (es ? 'homocedástica' : 'homoscedastic')}
+          <div className="cs-panel-t">{es ? 'Volatilidad (precalculado)' : 'Volatility (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
+          <p>ARCH-LM p = <b>{fmt(archSignal === null ? null : archLm.lm_pvalue, 4)}</b>{' '}
+            <span className={`cs-badge ${archSignal === null ? '' : archSignal ? 'warn' : 'ok'}`}>
+              {archSignal === null ? (es ? 'prueba no disponible' : 'test unavailable') : archSignal ? (es ? 'señal ARCH (prueba LM)' : 'ARCH signal (LM test)') : (es ? 'sin señal ARCH en esta prueba' : 'no ARCH signal in this test')}
             </span>
             {bakedVolatility.garch?.persistence != null && <> · {es ? 'persistencia' : 'persistence'} {fmt(bakedVolatility.garch.persistence, 3)}</>}
           </p>
@@ -500,30 +395,31 @@ export default function AppPage() {
       )}
       {mode === 'baked' && (bakedNonlinear || bakedFractal) && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (precalculado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'No linealidad, fractales y caos (precalculado)' : 'Nonlinearity, fractals and chaos (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
           {bakedFractal && <p>Hurst R/S = <b>{fmt(bakedFractal.hurst?.rs, 3)}</b> · DFA α = <b>{fmt(bakedFractal.hurst?.dfa_alpha, 3)}</b> · {es ? 'Estimaciones de muestra finita; no demuestran memoria poblacional ni estacionariedad.' : bakedFractal.hurst?.interpretation}</p>}
           {bakedNonlinear && !bakedNonlinear.skipped && (
-            <p>0-1 K = <b>{fmt(bakedNonlinear.zero_one_K, 3)}</b> · λ₁ = <b>{fmt(bakedNonlinear.largest_lyapunov, 4)}</b>{' '}
+            <><p>0-1 K = <b>{fmt(bakedNonlinear.zero_one_K, 3)}</b> · λ₁ = <b>{fmt(bakedNonlinear.largest_lyapunov, 4)}</b>{' '}
               <span className={`cs-badge ${bakedNonlinear.likely_chaotic ? 'warn' : 'ok'}`}>
-                {bakedNonlinear.likely_chaotic ? (es ? 'caótica (gate de surrogates aprobado)' : 'chaotic (surrogate gate passed)') : (es ? 'sin caos confirmado' : 'no confirmed chaos')}
+                {bakedNonlinear.likely_chaotic ? (es ? 'indicio descriptivo presente' : 'descriptive flag present') : (es ? 'indicio descriptivo ausente' : 'descriptive flag absent')}
               </span></p>
+              <p className="cs-panel-sub">{es ? 'Los umbrales y la comparación con sustitutos no demuestran caos determinista.' : 'The thresholds and surrogate comparison do not prove deterministic chaos.'}</p></>
           )}
-          {bakedNonlinear?.skipped && <p className="cs-panel-sub">{es ? 'panel no lineal omitido honestamente (serie corta)' : 'nonlinear panel honestly skipped (short series)'}</p>}
+          {bakedNonlinear?.skipped && <p className="cs-panel-sub">{es ? 'panel no lineal omitido (serie corta)' : 'nonlinear panel skipped (short series)'}</p>}
         </div>
       )}
       {mode === 'baked' && bakedCatch22 && (
         <div className="cs-panel">
-          <div className="cs-panel-t">{es ? 'catch22 · huella canónica (precalculado)' : 'catch22 · canonical fingerprint (baked)'} <span className="cs-badge replay">replay</span></div>
+          <div className="cs-panel-t">{es ? 'catch22 · huella canónica (precalculado)' : 'catch22 · canonical fingerprint (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
           {bakedCatch22.available === false ? (
             <p className="cs-panel-sub">{es ? 'no disponible: ' : 'unavailable: '}{bakedCatch22.reason}</p>
           ) : (
             <>
               <div className="cs-panel-sub">{es
-                ? 'Las 24 features canónicas (catch22 + media y desviación): destiladas de las ~7700 de hctsa seleccionando por desempeño de clasificación y baja redundancia. Es la respuesta rigurosa a "extraer muchas features": llevan la información de un banco grande sin la escopeta.'
-                : 'The 24 canonical features (catch22 + mean and std): distilled from hctsa\'s ~7700 by selecting for classification performance and low redundancy. This is the rigorous answer to "extract many features": the information of a large bank without the shotgun.'}</div>
+                ? 'catch22 reúne 22 características seleccionadas por clasificación y baja redundancia en las colecciones de su estudio; catch24 añade media y desviación estándar. Esta huella describe la serie y no garantiza selección de pronósticos ni suficiencia para otros objetivos.'
+                : 'catch22 contains 22 features selected for classification performance and low redundancy on its study collections; catch24 adds mean and standard deviation. This fingerprint describes the series and does not guarantee forecast selection or sufficiency for other objectives.'}</div>
               <div className="cs-chart">
                 <table className="cs-table">
-                  <thead><tr><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'feature' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
+                  <thead><tr><th>{es ? 'característica' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th><th>{es ? 'característica' : 'feature'}</th><th>{es ? 'valor' : 'value'}</th></tr></thead>
                   <tbody>
                     {(() => {
                       const entries = Object.entries(bakedCatch22.features ?? {});
@@ -633,8 +529,8 @@ export default function AppPage() {
       ? 'Error absoluto de cada paso del bloque final dividido por la escala estacional histórica. Es una trayectoria observada, no una media de múltiples orígenes ni una identificación causal del proceso.'
       : 'Absolute error at each final-block lead divided by the historical seasonal scale. This is one observed trajectory, not a multiple-origin mean or a causal identification of the process.',
     errors: es
-      ? 'El residuo por paso sobre el holdout mostrado: signo sistemático = sesgo; dispersión que crece con el paso = incertidumbre que crece. Aislar una curva con "solo" en la leyenda.'
-      : 'The per-lead residual on the displayed holdout: a systematic sign = bias; spread growing with lead = growing uncertainty. Isolate a curve with "solo" in the legend.',
+      ? 'Errores por paso en el bloque reservado mostrado. Un solo bloque no identifica sesgo ni incertidumbre por horizonte; hacen falta orígenes repetidos. Aísle una curva con "solo" en la leyenda.'
+      : 'Per-lead errors on the displayed reserved block. One block does not identify bias or uncertainty by lead; repeated origins are needed. Isolate a curve with "solo" in the legend.',
   };
 
   const forecastPanel = (
@@ -643,10 +539,10 @@ export default function AppPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', gap: '0.6rem', flexWrap: 'wrap' }}>
           <div className="cs-panel-t" style={{ marginBottom: 0 }}>{fcTitles[fcView]}</div>
           <div className="cs-seg" role="tablist" aria-label={es ? 'vista' : 'view'}>
-            <button className={fcView === 'full' ? 'is-active' : ''} onClick={() => setFcView('full')} role="tab" aria-selected={fcView === 'full'}>{es ? 'Completo' : 'Full'}</button>
-            <button className={fcView === 'zoom' ? 'is-active' : ''} onClick={() => setFcView('zoom')} role="tab" aria-selected={fcView === 'zoom'}>Zoom</button>
-            <button className={fcView === 'horizon' ? 'is-active' : ''} onClick={() => setFcView('horizon')} role="tab" aria-selected={fcView === 'horizon'}>{es ? 'Horizonte' : 'Horizon'}</button>
-            <button className={fcView === 'errors' ? 'is-active' : ''} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
+            <button className={fcView === 'full' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('full')} role="tab" aria-selected={fcView === 'full'}>{es ? 'Completo' : 'Full'}</button>
+            <button className={fcView === 'zoom' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('zoom')} role="tab" aria-selected={fcView === 'zoom'}>Zoom</button>
+            <button className={fcView === 'horizon' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('horizon')} role="tab" aria-selected={fcView === 'horizon'}>{es ? 'Horizonte' : 'Horizon'}</button>
+            <button className={fcView === 'errors' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setFcView('errors')} role="tab" aria-selected={fcView === 'errors'}>{es ? 'Errores' : 'Errors'}</button>
           </div>
         </div>
         {fcView === 'horizon' ? (
@@ -657,7 +553,7 @@ export default function AppPage() {
               refLines={[{ y: 1, dash: [5, 4], label: es ? 'escala histórica' : 'historical scale' }]}
               height={380}
               xLabel={es ? 'paso (lead)' : 'lead'}
-              ariaSummary="per-lead scaled error growth"
+              ariaSummary={es ? 'Errores escalados por paso en el bloque reservado' : 'Per-lead scaled errors on the reserved block'}
             />
           ) : (
             <p className="cs-panel-sub">{es
@@ -673,6 +569,9 @@ export default function AppPage() {
         )}
       </div>
       <p className="cs-panel-sub">{fcNotes[fcView]}</p>
+      {onnx && <p className="cs-panel-sub">{es
+        ? 'Lineal: intervalos marginales nominales del 80 %, calibrados por rugosidad de historias sintéticas. La cobertura en datos reales no está confirmada.'
+        : 'Linear: nominal 80% marginal intervals, calibrated by synthetic-prefix roughness. Coverage on real data is unconfirmed.'}</p>}
     </div>
   );
 
@@ -685,7 +584,7 @@ export default function AppPage() {
             {rankedRows.map((r) => (
               <tr key={r.name} className={r.name === best ? 'best' : undefined}>
                 <td style={{ color: 'var(--color-fg)' }}><code>{r.name}</code></td>
-                <td>{r.family}</td>
+                <td>{methodFamilyLabel(r.family, es)}</td>
                 <td>{fmt(r.mase)}</td>
                 <td>{fmt(r.wql)}</td>
                 <td>{fmt(r.msis, 2)}</td>
@@ -703,11 +602,11 @@ export default function AppPage() {
 
   const streamingBench = (
     <div className="cs-main">
-      {mode !== 'baked' && <p className="cs-panel-sub">{es ? 'El banco de streaming se precalcula offline por caso: elegir un caso precalculado.' : 'The streaming bench is baked offline per case: pick a baked case.'}</p>}
+      {mode !== 'baked' && <p className="cs-panel-sub">{es ? 'La evaluación secuencial se precalcula por caso: elija un caso registrado.' : 'The streaming bench is baked offline per case: pick a baked case.'}</p>}
       {mode === 'baked' && streaming && (() => {
         const meths = (streaming as any).methods ?? {};
         const names = Object.keys(meths).filter((k) => !meths[k].error);
-        const labels: Record<string, string> = { Theta: 'S+D', 'Theta+ACI': 'S+D + ACI-style', 'Theta+PID': 'S+D + PID-style' };
+        const labels: Record<string, string> = { Theta: 'S+D', 'Theta+ACI': es ? 'S+D + estilo ACI' : 'S+D + ACI-style', 'Theta+PID': es ? 'S+D + estilo PID' : 'S+D + PID-style', 'Ridge (blind)': es ? 'Ridge (sin covariable)' : 'Ridge (blind)', 'Ridge+exog (aware)': es ? 'Ridge+exog (con covariable)' : 'Ridge+exog (aware)' };
         const displayName = (key: string) => labels[key] ?? key;
         const colors: Record<string, string> = { SeasonalNaive: '#58a6ff', Theta: '#56d364', 'Theta+ACI': '#d29922', 'Theta+PID': '#ff7b72', 'Ridge (blind)': '#8b949e', 'Ridge+exog (aware)': '#3fb950' };
         const n = Math.max(...names.map((k) => meths[k].n_steps ?? 0), 0);
@@ -725,7 +624,7 @@ export default function AppPage() {
             />
             <LinePlot xs={xs}
               series={names.map((k) => ({ label: displayName(k), values: meths[k].rolling_mase ?? [], color: colors[k] ?? colorFor(k) }))}
-              title={es ? 'MASE rodante (habilidad sobre el stream)' : 'Rolling MASE (skill over the stream)'}
+              title={es ? 'MASE rodante (desempeño en la secuencia)' : 'Rolling MASE (skill over the stream)'}
             />
             <LinePlot xs={xs}
               series={names.map((k) => ({ label: displayName(k), values: meths[k].cumulative_cost_ms ?? [], color: colors[k] ?? colorFor(k) }))}
@@ -736,18 +635,18 @@ export default function AppPage() {
               <div className="cs-panel" style={{ borderColor: '#3fb95066' }}>
                 <div className="cs-panel-t" style={{ color: 'var(--color-good)' }}>{es ? 'Política de llegada de covariables' : 'Covariate arrival policy'}</div>
                 <div className="cs-panel-sub">{es
-                  ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (aware, verde) la usa: conoce el driver del horizonte y anticipa los saltos; Ridge (blind, gris) es el mismo modelo sin la covariable. La brecha entre ambos es lo que compra la covariable. La política de arribo determina qué información estaba disponible en cada origen.`
+                  ? `Este caso trae una covariable ${cov.kind === 'known_future' ? 'conocida-a-futuro' : 'pasada'} (${cov.name}). Ridge+exog (con covariable, verde) la usa: conoce el factor del horizonte y anticipa los saltos; Ridge (sin covariable, gris) es el mismo modelo sin la covariable. La brecha entre ambos es lo que compra la covariable. La política de arribo determina qué información estaba disponible en cada origen.`
                   : `This case carries a ${cov.kind === 'known_future' ? 'known-future' : 'past'} covariate (${cov.name}). Ridge+exog (aware, green) uses it: it knows the horizon's driver and anticipates the jumps; Ridge (blind, grey) is the same model without the covariate. The gap between them is what the covariate buys. The arrival policy determines which information was available at each origin.`}</div>
                 <div className="cs-panel-sub" style={{ marginTop: '0.3rem' }}>
                   {es ? 'MASE final: ' : 'Final MASE: '}
-                  <b style={{ color: '#3fb950' }}>aware {fmt(meths['Ridge+exog (aware)']?.final?.mase, 2)}</b>
+                  <b style={{ color: '#3fb950' }}>{es ? 'con covariable' : 'aware'} {fmt(meths['Ridge+exog (aware)']?.final?.mase, 2)}</b>
                   {' vs '}
-                  <b style={{ color: '#8b949e' }}>blind {fmt(meths['Ridge (blind)']?.final?.mase, 2)}</b>
+                  <b style={{ color: '#8b949e' }}>{es ? 'sin covariable' : 'blind'} {fmt(meths['Ridge (blind)']?.final?.mase, 2)}</b>
                 </div>
               </div>
             )}
             <p className="cs-panel-sub">{es
-              ? 'Estudio histórico a un paso: S+D es una adaptación de suavizamiento más deriva, identificada como Theta en los archivos. El pronóstico se recalcula con toda la historia observada. ACI-style y PID-style ajustan intervalos; PID-style no replica el algoritmo Conformal PID publicado. La clave histórica no identifica el Theta corregido de la comparación de bloques finales.'
+              ? 'Estudio histórico a un paso: S+D es una adaptación de suavizamiento más deriva, identificada como Theta en los archivos. El pronóstico se recalcula con toda la historia observada. Los controles de estilo ACI y PID ajustan intervalos; el control de estilo PID no replica el algoritmo Conformal PID publicado. La clave histórica no identifica el Theta corregido de la comparación de bloques finales.'
               : 'Historical one-step replay: S+D is the smoothing-plus-drift adaptation stored under the artifact key Theta. Point forecasts are recomputed from the full observed prefix. ACI-style and PID-style adapt intervals; PID-style does not replicate the published Conformal PID algorithm. The historical key does not identify the corrected Theta in the final-block comparison.'}</p>
           </>
         );
@@ -773,6 +672,9 @@ export default function AppPage() {
   }
 
   const groups: ('Synthetic' | 'Real' | 'Control')[] = ['Synthetic', 'Real', 'Control'];
+  const groupLabels: Record<string, string> = { Synthetic: es ? 'Sintéticos' : 'Synthetic', Real: es ? 'Reales' : 'Real', Control: es ? 'Controles' : 'Control' };
+  const patternLabels: Record<SyntheticKind, string> = { seasonal: es ? 'Estacional' : 'Seasonal', trend_seasonal: es ? 'Tendencia y estacionalidad' : 'Trend and seasonality', intermittent: es ? 'Intermitente' : 'Intermittent', random_walk: es ? 'Caminata aleatoria' : 'Random walk', white_noise: es ? 'Ruido blanco' : 'White noise' };
+  const knobLabels: Record<string, string> = { horizon: es ? 'horizonte' : 'horizon', amp: es ? 'amplitud' : 'amplitude', slope: es ? 'pendiente' : 'slope', noise: es ? 'ruido' : 'noise', seed: es ? 'semilla' : 'seed' };
   const knobDefs: [string, number, number, number, number, (v: number) => void][] = [
     ['n', knobs.n, 40, 400, 10, (v) => setK({ n: v })],
     ['m', knobs.seasonality, 1, 48, 1, (v) => setK({ seasonality: v })],
@@ -792,8 +694,8 @@ export default function AppPage() {
         <div className="cs-bar-group">
           <span className="cs-bar-label">{es ? 'Fuente' : 'Source'}</span>
           <div className="cs-seg" role="tablist" aria-label={es ? 'fuente' : 'source'}>
-            <button className={mode === 'baked' ? 'is-active' : ''} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso precalculado' : 'Baked case'}</button>
-            <button className={mode === 'synthetic' ? 'is-active' : ''} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
+            <button className={mode === 'baked' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setMode('baked')} role="tab" aria-selected={mode === 'baked'}>{es ? 'Caso precalculado' : 'Baked case'}</button>
+            <button className={mode === 'synthetic' ? 'cs-seg-btn is-active' : 'cs-seg-btn'} onClick={() => setMode('synthetic')} role="tab" aria-selected={mode === 'synthetic'}>{es ? 'Sintética (vivo)' : 'Synthetic (live)'}</button>
           </div>
         </div>
         {mode === 'baked' ? (
@@ -803,7 +705,7 @@ export default function AppPage() {
               <select className="cs-sel" aria-label={es ? 'Caso' : 'Case'} value={caseId} onChange={(e) => setCaseId(e.target.value)}>
                 {groups.map((g) => {
                   const opts = (index?.cases ?? []).filter((c) => caseGroup(c.case_id) === g);
-                  return opts.length ? <optgroup key={g} label={g}>{opts.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id.replace(/_/g, ' ')}</option>)}</optgroup> : null;
+                  return opts.length ? <optgroup key={g} label={groupLabels[g]}>{opts.map((c) => <option key={c.case_id} value={c.case_id}>{c.case_id.replace(/_/g, ' ')}</option>)}</optgroup> : null;
                 })}
               </select>
             </div>
@@ -818,9 +720,9 @@ export default function AppPage() {
           <div className="cs-bar-group">
             <span className="cs-bar-label">{es ? 'Patrón' : 'Pattern'}</span>
             <select className="cs-sel" aria-label={es ? 'Patrón sintético' : 'Synthetic pattern'} value={knobs.kind} onChange={(e) => setK({ kind: e.target.value as SyntheticKind })}>
-              {KINDS.map((k) => <option key={k} value={k}>{k}</option>)}
+              {KINDS.map((k) => <option key={k} value={k}>{patternLabels[k]}</option>)}
             </select>
-            <span className="cs-badge live">LIVE</span>
+            <span className="cs-badge live">{es ? 'EN VIVO' : 'LIVE'}</span>
           </div>
         )}
         <span className="spacer" />
@@ -831,7 +733,7 @@ export default function AppPage() {
         <div className="cs-bar" style={{ gap: '0.5rem 1.2rem' }}>
           {knobDefs.map(([label, value, min, max, step, on]) => (
             <label key={label} className="cs-ctl" style={{ minWidth: 128 }}>
-              <span className="cs-ctl-row"><span>{label}</span><b>{fmt(value)}</b></span>
+              <span className="cs-ctl-row"><span>{knobLabels[label] ?? label}</span><b>{fmt(value)}</b></span>
               <input className="cs-range" type="range" min={min} max={max} step={step} value={value} onChange={(e) => on(Number(e.target.value))} />
             </label>
           ))}
@@ -842,22 +744,22 @@ export default function AppPage() {
       <div className="cs-plotwrap" style={{ marginTop: '0.8rem' }}>
         <div className="cs-plot">
           <TabGroups
-            ariaLabel="workbench views"
+            ariaLabel={es ? 'vistas del área de trabajo' : 'workbench views'}
             value={nav}
             onChange={(next) => setNav(next as AtlasNav)}
             groups={[
               { id: 'understand', label: es ? 'Entender' : 'Understand', tabs: [
-                { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label="Series" es={es}>{understandSeries}</PanelBoundary> },
-                { id: 'structure', label: es ? 'Estructura' : 'Structure', content: <PanelBoundary label="Structure" es={es}>{understandStructure}</PanelBoundary> },
-                { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label="Decompose" es={es}>{understandDecompose}</PanelBoundary> },
-                { id: 'patterns', label: es ? 'Patrones' : 'Patterns', content: <PanelBoundary label="Patterns" es={es}><SequenceDiagnostics data={sequenceData} /></PanelBoundary> },
-                { id: 'verdicts', label: es ? 'Veredictos' : 'Verdicts', content: <PanelBoundary label="Verdicts" es={es}>{understandVerdicts}</PanelBoundary> },
+                { id: 'series', label: es ? 'Serie' : 'Series', content: <PanelBoundary label={es ? 'Serie' : 'Series'} es={es}>{understandSeries}</PanelBoundary> },
+                { id: 'structure', label: es ? 'Estructura' : 'Structure', content: <PanelBoundary label={es ? 'Estructura' : 'Structure'} es={es}>{understandStructure}</PanelBoundary> },
+                { id: 'decompose', label: es ? 'Descomponer' : 'Decompose', content: <PanelBoundary label={es ? 'Descomponer' : 'Decompose'} es={es}>{understandDecompose}</PanelBoundary> },
+                { id: 'patterns', label: es ? 'Patrones' : 'Patterns', content: <PanelBoundary label={es ? 'Patrones' : 'Patterns'} es={es}><SequenceDiagnostics data={sequenceData} /></PanelBoundary> },
+                { id: 'verdicts', label: es ? 'Veredictos' : 'Verdicts', content: <PanelBoundary label={es ? 'Veredictos' : 'Verdicts'} es={es}>{understandVerdicts}</PanelBoundary> },
               ] },
               { id: 'forecast', label: es ? 'Pronosticar' : 'Forecast', tabs: [
-                { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label="Forecast" es={es}>{forecastPanel}</PanelBoundary> },
-                { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label="Residuals" es={es}>{forecastResiduals}</PanelBoundary> },
-                { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label="Leaderboard" es={es}>{leaderboard}</PanelBoundary> },
-                { id: 'streaming', label: 'Streaming', content: <PanelBoundary label="Streaming" es={es}>{streamingBench}</PanelBoundary> },
+                { id: 'forecast', label: es ? 'Pronóstico' : 'Forecast', content: <PanelBoundary label={es ? 'Pronóstico' : 'Forecast'} es={es}>{forecastPanel}</PanelBoundary> },
+                { id: 'residuals', label: es ? 'Residuos' : 'Residuals', content: <PanelBoundary label={es ? 'Residuos' : 'Residuals'} es={es}>{forecastResiduals}</PanelBoundary> },
+                { id: 'leaderboard', label: es ? 'Tabla' : 'Leaderboard', content: <PanelBoundary label={es ? 'Tabla' : 'Leaderboard'} es={es}>{leaderboard}</PanelBoundary> },
+                { id: 'streaming', label: es ? 'Evaluación secuencial' : 'Streaming', content: <PanelBoundary label={es ? 'Evaluación secuencial' : 'Streaming'} es={es}>{streamingBench}</PanelBoundary> },
               ] },
             ]}
           />

@@ -11,9 +11,9 @@ import sys
 os.environ.setdefault("NUMBA_NUM_THREADS", "2")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'data-pipeline'))
-from chronoscopelab import registry  # noqa: E402
-from chronoscopelab.io.formats import _sanitize, write_json  # noqa: E402
-from chronoscopelab.stages import analyze  # noqa: E402
+from engine import registry  # noqa: E402
+from engine.io.formats import _sanitize, write_json  # noqa: E402
+from engine.stages import analyze  # noqa: E402
 
 
 def main():
@@ -24,7 +24,7 @@ def main():
         parser.error('Candidate diagnostics must be external')
     index = json.loads((ROOT/'data/derived/manifests/index.json').read_text())
     receipt = {"ok": False, "cases": [], "code_sha256": {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
-               for p in sorted((ROOT/'data-pipeline/chronoscopelab').rglob('*.py'))}}
+               for p in sorted((ROOT/'data-pipeline/engine').rglob('*.py'))}}
     for case in index['cases']:
         identifier = case['case_id']
         spec = registry.build_series(registry.get_case(identifier), seed=42)

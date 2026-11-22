@@ -7,8 +7,8 @@ right shape zero-shot on a seasonal series.
 import numpy as np
 import pytest
 
-from chronoscopelab.engines.chronos_engine import chronos_forecasters, foundation_available
-from chronoscopelab.engines.timesfm_engine import timesfm_available, timesfm_forecasters
+from engine.engines.chronos_engine import chronos_forecasters, foundation_available
+from engine.engines.timesfm_engine import timesfm_available, timesfm_forecasters
 
 
 def _seasonal(n=300, m=24, seed=0):

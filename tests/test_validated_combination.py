@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from chronoscopelab.model.context_memory import fit_context_memory
-from chronoscopelab.model.validated_combination import convex_weights, fit_validated, temporal_splits
+from engine.model.context_memory import fit_context_memory
+from engine.model.validated_combination import convex_weights, fit_validated, temporal_splits
 
 
 def test_adversarial_temporal_validation_excludes_incomplete_target_blocks():

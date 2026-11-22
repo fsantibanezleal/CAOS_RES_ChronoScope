@@ -12,41 +12,63 @@
   "year": 2026,
   "app": "surface",
   "focus": true,
-  "method_packages": [],
+  "method_packages": [
+    "preqts",
+    "forecastscope"
+  ],
+  "pipeline_stage_sources": {
+    "preprocess": "data-pipeline/engine/stages/preprocess.py",
+    "analyze": "data-pipeline/engine/stages/analyze.py",
+    "feature_extraction": "data-pipeline/engine/stages/feature_extraction.py",
+    "train": "data-pipeline/engine/stages/train.py",
+    "evaluate": "data-pipeline/engine/stages/evaluate.py",
+    "infer": "data-pipeline/engine/stages/infer.py",
+    "streaming": "data-pipeline/engine/stages/streaming.py",
+    "export": "data-pipeline/engine/stages/export.py"
+  },
   "method_entrypoints": [
-    "chronoscopelab.stages.streaming.run",
-    "chronoscopelab.model.forecasters.theta",
-    "chronoscopelab.model.forecasters.seasonal_naive",
-    "chronoscopelab.model.forecasters.holt",
-    "chronoscopelab.model.forecasters.holt_winters",
-    "chronoscopelab.model.forecasters.ses",
-    "chronoscopelab.model.forecasters.gaussian_quantiles",
-    "chronoscopelab.model.context_memory.fit_context_memory",
-    "chronoscopelab.reevaluation.metrics",
-    "chronoscopelab.engines.statsforecast_engine.StatsforecastForecaster",
-    "chronoscopelab.engines.lightgbm_engine.LightGBMForecaster",
-    "chronoscopelab.engines.neural_engine.NeuralForecaster",
-    "chronoscopelab.engines.neuralforecast_engine.NeuralForecastForecaster",
-    "chronoscopelab.engines.chronos_engine.ChronosForecaster",
-    "chronoscopelab.engines.timesfm_engine.TimesFmForecaster",
-    "chronoscopelab.engines.tirex2_engine.Tirex2Forecaster",
-    "chronoscopelab.analysis.sequence.matrix_profile",
-    "chronoscopelab.analysis.sequence.sequence_report",
-    "chronoscopelab.analysis.sequence.multiscale_entropy",
-    "chronoscopelab.analysis.sequence.time_reversal",
-    "chronoscopelab.analysis.nonlinear.chaos_measures",
-    "chronoscopelab.analysis.atlas.prefix_features",
-    "chronoscopelab.analysis.atlas.associations",
-    "chronoscopelab.analysis.atlas.by_adjust",
-    "chronoscopelab.analysis.atlas.study_summary",
-    "chronoscopelab.model.validated_combination.fit_validated"
+    "engine.stages.analyze.run",
+    "engine.stages.feature_extraction.run",
+    "engine.stages.infer.run",
+    "engine.stages.evaluate.run",
+    "engine.stages.train.run",
+    "engine.stages.streaming.run",
+    "engine.model.forecasters.theta",
+    "engine.model.forecasters.seasonal_naive",
+    "engine.model.forecasters.holt",
+    "engine.model.forecasters.holt_winters",
+    "engine.model.forecasters.ses",
+    "engine.model.forecasters.gaussian_quantiles",
+    "engine.model.context_memory.fit_context_memory",
+    "engine.reevaluation.metrics",
+    "engine.engines.statsforecast_engine.StatsforecastForecaster",
+    "engine.engines.lightgbm_engine.LightGBMForecaster",
+    "engine.engines.neural_engine.NeuralForecaster",
+    "engine.engines.neuralforecast_engine.NeuralForecastForecaster",
+    "engine.engines.chronos_engine.ChronosForecaster",
+    "engine.engines.timesfm_engine.TimesFmForecaster",
+    "engine.engines.tirex2_engine.Tirex2Forecaster",
+    "engine.analysis.sequence.matrix_profile",
+    "engine.analysis.sequence.sequence_report",
+    "engine.analysis.sequence.multiscale_entropy",
+    "engine.analysis.sequence.time_reversal",
+    "engine.analysis.nonlinear.chaos_measures",
+    "engine.analysis.atlas.prefix_features",
+    "engine.analysis.atlas.associations",
+    "engine.analysis.atlas.by_adjust",
+    "engine.analysis.atlas.study_summary",
+    "engine.model.validated_combination.fit_validated",
+    "preqts.SeasonalNaive",
+    "preqts.Stream",
+    "preqts.run_prequential",
+    "preqts.metrics.seasonal_naive_mae"
   ],
   "manuscripts": [
     {
       "kind": "technical-report",
       "concept_doi": "10.5281/zenodo.23874816",
       "title": "ChronoScope: Time-Series Diagnostics and Forecast Evaluation",
-      "version": "0.26.000",
+      "version": "0.27.000",
       "covers": [
         "BS-1",
         "NC-1"
@@ -70,5 +92,15 @@
         "NC-1"
       ]
     }
-  ]
+  ],
+  "showcase": {
+    "story_routes": [
+      "/story/system",
+      "/story/component",
+      "/story/domain",
+      "/story/dynamics",
+      "/story/method",
+      "/story/decision"
+    ]
+  }
 }

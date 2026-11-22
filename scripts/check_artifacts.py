@@ -14,6 +14,8 @@ import json
 import sys
 from pathlib import Path
 
+from check_forecast_units import sweep
+
 ROOT = Path(__file__).resolve().parents[1]
 DERIVED = ROOT / "data" / "derived"
 MANIFESTS = DERIVED / "manifests"
@@ -74,6 +76,11 @@ def main() -> int:
                     f"catch22 incomplete: {entry['case_id']} has {len(c22.get('features', {}))} "
                     f"features (the catch24 form has 24)"
                 )
+    # CONTRACT 3 is re-applied to existing artifacts, including pre-gate bakes.
+    units = sweep(ROOT)
+    errs.extend(f"observable gate: {p}" for p in units["blocking"])
+    if units["counts"]["redacted_uncheckable"]:
+        errs.append("observable gate: redacted paths cannot be certified by the public artifact sweep")
     if errs:
         print("CONTRACT 2 DRIFT:")
         for e in errs:
@@ -83,6 +90,8 @@ def main() -> int:
         f"CONTRACT 2 OK: {len(index.get('cases', []))} cases, manifests <-> artifacts consistent, "
         f"ladder complete (>= {MIN_LADDER} methods/case)."
     )
+    print(f"CONTRACT 3: {units['counts']['methods']} method paths; "
+          f"{len(units['advisories'])} flat-path advisories retained, none blocking")
     return 0
 
 
