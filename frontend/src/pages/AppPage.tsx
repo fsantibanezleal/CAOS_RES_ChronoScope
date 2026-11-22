@@ -380,7 +380,7 @@ export default function AppPage() {
           <div className="cs-panel-t">{es ? 'Volatilidad (precalculado)' : 'Volatility (baked)'} <span className="cs-badge replay">{es ? 'reproducción' : 'replay'}</span></div>
           <p>ARCH-LM p = <b>{fmt(bakedVolatility.arch_lm?.lm_pvalue, 4)}</b>{' '}
             <span className={`cs-badge ${bakedVolatility.arch_lm?.has_arch ? 'warn' : 'ok'}`}>
-              {bakedVolatility.arch_lm?.has_arch ? (es ? 'varianza agrupada (GARCH ajustado)' : 'clustered variance (GARCH fitted)') : (es ? 'homocedástica' : 'homoscedastic')}
+              {bakedVolatility.arch_lm?.has_arch ? (es ? 'señal ARCH (prueba LM)' : 'ARCH signal (LM test)') : (es ? 'sin señal ARCH en esta prueba' : 'no ARCH signal in this test')}
             </span>
             {bakedVolatility.garch?.persistence != null && <> · {es ? 'persistencia' : 'persistence'} {fmt(bakedVolatility.garch.persistence, 3)}</>}
           </p>
