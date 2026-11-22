@@ -14,6 +14,7 @@ All notable changes to this product. Format: `X.XX.XXX` (display); see `VERSION`
 - Complete Spanish workbench controls, method families, source classifications, five architecture diagrams and accessible executive illustration names; retain every stored method identifier.
 - Replace histogram, QQ and single-block error overclaims with descriptive interpretations and distinct calibration limits.
 - Validate both language-specific illustration paths, including missing assets, labels and theme paints.
+- Keep the Spanish stationarity table inside a keyboard-accessible scroll region and name all architecture diagrams from their visible localized headings.
 
 ## Prior candidate work
 
