@@ -1,6 +1,6 @@
 {
   "distribution": "forecastscope",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "adapters": {
     "data-pipeline/engine/analysis/autocorrelation.py": "forecastscope.diagnostics.autocorrelation",
     "data-pipeline/engine/analysis/causality.py": "forecastscope.diagnostics.causality",
@@ -52,11 +52,11 @@
     },
     "forecastscope.diagnostics.nonlinear": {
       "module": "forecastscope.diagnostics.nonlinear",
-      "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+      "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
     },
     "forecastscope.diagnostics.seasonality": {
       "module": "forecastscope.diagnostics.seasonality",
-      "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+      "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
     },
     "forecastscope.diagnostics.sequence": {
       "module": "forecastscope.diagnostics.sequence",
@@ -77,26 +77,26 @@
   },
   "publication": {
     "state": "published registry files verified",
-    "source_commit": "535282d477018f4dce1c161ec46fac2b16d48c2a",
-    "candidate_ci": 44986345911,
-    "develop_ci": 44986542747,
-    "main_ci": 44986734098,
-    "publish_workflow": 44986857877,
-    "index": "https://pypi.org/project/forecastscope/0.1.2/",
+    "source_commit": "13a4ba84b68e0b342c3852dec8c3cab5e61ec1d5",
+    "publish_workflow": 44994208107,
+    "index": "https://pypi.org/project/forecastscope/0.1.4/",
     "distributions": [
       {
-        "filename": "forecastscope-0.1.2-py3-none-any.whl",
-        "size": 58469,
-        "sha256": "3234fcd3d6d6b172d6dbf3143382174dfc998f94c6460c888d656472ae2290af",
-        "upload_time": "2026-11-22T04:51:50.773100Z"
+        "filename": "forecastscope-0.1.4-py3-none-any.whl",
+        "size": 58797,
+        "sha256": "cdcbbb9c82bec58789e41e4d1d13f2c6d461ae54a156ff811e70a3711e3c4a9b",
+        "upload_time": "2026-11-22T06:33:15.900659Z"
       },
       {
-        "filename": "forecastscope-0.1.2.tar.gz",
-        "size": 73900,
-        "sha256": "0efd6a3e51140767f5b1013df3971dce3771a30d38a313fb24315f9f5c32d6b1",
-        "upload_time": "2026-11-22T04:51:52.124318Z"
+        "filename": "forecastscope-0.1.4.tar.gz",
+        "size": 89886,
+        "sha256": "01194005eef44082ac0c8da46bf411e4b44cb0e2d80ef0ad1e458b75c627b1a4",
+        "upload_time": "2026-11-22T06:33:17.104647Z"
       }
     ],
-    "release": "https://github.com/fsantibanezleal/CAOS_ForecastScope/releases/tag/v0.01.002"
+    "release": "https://github.com/fsantibanezleal/CAOS_ForecastScope/releases/tag/v0.01.004",
+    "candidate_ci": 44993690726,
+    "develop_ci": 44993836655,
+    "main_ci": 44994036832
   }
 }

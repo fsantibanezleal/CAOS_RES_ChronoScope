@@ -12,7 +12,7 @@
       "implementation_relation": "local finite-history forecast",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.forecasting",
         "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
       }
@@ -27,7 +27,7 @@
       "implementation_relation": "local finite-history forecast",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.forecasting",
         "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
       }
@@ -42,7 +42,7 @@
       "implementation_relation": "local finite-history forecast",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.forecasting",
         "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
       }
@@ -57,7 +57,7 @@
       "implementation_relation": "local finite-history forecast",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.forecasting",
         "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
       }
@@ -72,7 +72,7 @@
       "implementation_relation": "local finite-history forecast",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.forecasting",
         "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
       }
@@ -90,7 +90,7 @@
       },
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.combinations.context_memory",
         "source_sha256": "738a34f04efbfa1246e73d71512189c3a5276ba9fdc13e907714cae139d7093f"
       }
@@ -108,7 +108,7 @@
       },
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.combinations.context_memory",
         "source_sha256": "738a34f04efbfa1246e73d71512189c3a5276ba9fdc13e907714cae139d7093f"
       }
@@ -126,7 +126,7 @@
       },
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.combinations.context_memory",
         "source_sha256": "738a34f04efbfa1246e73d71512189c3a5276ba9fdc13e907714cae139d7093f"
       }
@@ -144,7 +144,7 @@
       },
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.combinations.validated",
         "source_sha256": "d5baf809bb79bd5f1dd6f996741e40f8a5cd7fa6eaa86ff11dee54696a9edcfa"
       }
@@ -162,7 +162,7 @@
       },
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.combinations.validated",
         "source_sha256": "d5baf809bb79bd5f1dd6f996741e40f8a5cd7fa6eaa86ff11dee54696a9edcfa"
       }
@@ -357,7 +357,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.forecasting",
         "source_sha256": "3e92b93de74d4c44ca9956cab4f5cbb5e0b6d3781a962d197086e722826ae123"
       }
@@ -417,7 +417,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -432,7 +432,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -447,7 +447,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -462,7 +462,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -477,7 +477,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -492,7 +492,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -507,7 +507,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -522,7 +522,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.stationarity",
         "source_sha256": "42490c61430e82012d163318fbf231a0a21c50b4e53ca9d2e1c58a13bf257029"
       }
@@ -537,7 +537,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.autocorrelation",
         "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
       }
@@ -552,7 +552,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.autocorrelation",
         "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
       }
@@ -567,7 +567,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.autocorrelation",
         "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
       }
@@ -582,7 +582,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.autocorrelation",
         "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
       }
@@ -597,7 +597,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.autocorrelation",
         "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
       }
@@ -612,7 +612,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.autocorrelation",
         "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
       }
@@ -627,7 +627,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.autocorrelation",
         "source_sha256": "a05b538d3d89d4a11081ab35e9ff01430157571063a5dae9af65d7127e110552"
       }
@@ -642,9 +642,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.seasonality",
-        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+        "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
       }
     },
     {
@@ -657,9 +657,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.seasonality",
-        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+        "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
       }
     },
     {
@@ -675,9 +675,9 @@
       ],
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.seasonality",
-        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+        "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
       }
     },
     {
@@ -690,9 +690,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.seasonality",
-        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+        "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
       }
     },
     {
@@ -705,9 +705,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.seasonality",
-        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+        "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
       }
     },
     {
@@ -720,9 +720,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.seasonality",
-        "source_sha256": "170f73cdfc98ca4e840fb7930eec7d771b9ec354f2e29e3c8cd034d591c2c76a"
+        "source_sha256": "99cb97f3d1d9d06e813e9f14556470cb9df7ca207068702f6ef38c4e9b9b8c67"
       }
     },
     {
@@ -735,7 +735,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.filters",
         "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
       }
@@ -750,7 +750,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.filters",
         "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
       }
@@ -765,7 +765,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.filters",
         "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
       }
@@ -780,7 +780,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.filters",
         "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
       }
@@ -795,7 +795,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.filters",
         "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
       }
@@ -810,7 +810,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.filters",
         "source_sha256": "12a85b23ab530c1d20a960dc2d97d109d2fc3fda67a82777c56cc3a446487bcc"
       }
@@ -825,7 +825,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.changepoints",
         "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
       }
@@ -840,7 +840,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.changepoints",
         "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
       }
@@ -855,7 +855,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.changepoints",
         "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
       }
@@ -870,7 +870,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.changepoints",
         "source_sha256": "e5bb46ccc417ae4066e1f65a13bc18abadcfc31a9a0d578ffa227b97773cc7d7"
       }
@@ -885,7 +885,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
@@ -900,7 +900,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
@@ -915,7 +915,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
@@ -930,7 +930,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
@@ -945,7 +945,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.volatility",
         "source_sha256": "24a6f0f394970bed74c967ac898dcca44f0aa963509291b98fead415ad0564e7"
       }
@@ -960,7 +960,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -975,7 +975,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -990,7 +990,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1005,7 +1005,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1020,7 +1020,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1035,7 +1035,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1050,7 +1050,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1065,7 +1065,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1080,7 +1080,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1095,7 +1095,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.distribution",
         "source_sha256": "39d3ce3d551727d44963bfdbcaae0723f6673639fe83a3267cdef75224b59889"
       }
@@ -1110,7 +1110,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.fractal",
         "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
       }
@@ -1125,7 +1125,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.fractal",
         "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
       }
@@ -1140,7 +1140,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.fractal",
         "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
       }
@@ -1155,7 +1155,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.fractal",
         "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
       }
@@ -1170,7 +1170,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.fractal",
         "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
       }
@@ -1185,7 +1185,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.fractal",
         "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
       }
@@ -1200,7 +1200,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.fractal",
         "source_sha256": "c4c9752da0abee7d29eec8dd28445b2ebc8d7db49a5264d6e2406019bc3087cc"
       }
@@ -1215,9 +1215,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.nonlinear",
-        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+        "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
       }
     },
     {
@@ -1230,9 +1230,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.nonlinear",
-        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+        "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
       }
     },
     {
@@ -1245,9 +1245,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.nonlinear",
-        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+        "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
       }
     },
     {
@@ -1260,9 +1260,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.nonlinear",
-        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+        "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
       }
     },
     {
@@ -1275,9 +1275,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.nonlinear",
-        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+        "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
       }
     },
     {
@@ -1290,9 +1290,9 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.nonlinear",
-        "source_sha256": "d3d139e2a65716fdf9471335101677a01508cd2ac0f972679c8ff825faadbc18"
+        "source_sha256": "43c18162dcec215c4806a66d2e0359c8387e51afbada70becdfa180500e07f4e"
       }
     },
     {
@@ -1305,7 +1305,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.causality",
         "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
       }
@@ -1320,7 +1320,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.causality",
         "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
       }
@@ -1335,7 +1335,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.causality",
         "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
       }
@@ -1350,7 +1350,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.causality",
         "source_sha256": "958d4e55f1d4297c80434091e534e9652a2dc5ddab4116ab876fb8dfef01b457"
       }
@@ -1365,7 +1365,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.sequence",
         "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
       }
@@ -1380,7 +1380,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.sequence",
         "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
       }
@@ -1395,7 +1395,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.sequence",
         "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
       }
@@ -1410,7 +1410,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.sequence",
         "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
       }
@@ -1425,7 +1425,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.sequence",
         "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
       }
@@ -1440,7 +1440,7 @@
       "implementation_relation": "numerical procedure",
       "runtime_provider": {
         "distribution": "forecastscope",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "module": "forecastscope.diagnostics.sequence",
         "source_sha256": "a89bc7f5353fa892e99fc76383434bdc9d717d988a6942bc6c44fbe0a891c8da"
       }
@@ -1519,7 +1519,7 @@
     "data-pipeline/engine/analysis/volatility.py": "40a9727c447f773da2ea3ac658d43315c3ffb751dc5f6cdfcc5b8ec3209515be",
     "data-pipeline/engine/engines/chronos_engine.py": "dbbbca3f4567007e98feaf4409a4660520b3bbe9890b7c46f930adb9ad7924c4",
     "data-pipeline/engine/engines/lightgbm_engine.py": "7ce55fa309d5072c9a44751d8d06aac52f7e823950cda3a14154c0b3267a467c",
-    "data-pipeline/engine/engines/neural_engine.py": "af5f837a34c824b92827113f97c0c5fb1c6794dc72f81b8916bdaaf2d80ad765",
+    "data-pipeline/engine/engines/neural_engine.py": "f139cd0877ae0210fe0085f142b8d7a110a8d8bb950bee545f2d5a8af5ba9a4b",
     "data-pipeline/engine/engines/neuralforecast_engine.py": "c0b2386012a1c53f61d58ce03dd37c4b4579f14053db8b30ade61f696d72d235",
     "data-pipeline/engine/engines/statsforecast_engine.py": "2277da5ffc93ea2543b43239d4b0f334fd440d0fdfc67c627a253e2a9cab7a34",
     "data-pipeline/engine/engines/timesfm_engine.py": "343d3557395ce904530525bb69ed9c0b8bcf16c3595239181c5fe69ef7a99780",
@@ -1527,12 +1527,12 @@
     "data-pipeline/engine/model/context_memory.py": "c8c3b0f6c4b433e9d2b09f28b311d1047b0c1dbc4a928bb0ac2414d30409ca34",
     "data-pipeline/engine/model/forecasters.py": "68f7323b8a49917905d4f253d7998a606beb21d758825398cc1a677a74f0daf5",
     "data-pipeline/engine/model/validated_combination.py": "f879212704a265a005b83aa4ae110a6f9e6c39936bb1cefd00aae4823ef87c49",
-    "data-pipeline/engine/stages/streaming.py": "45e852ce5d578c4fc03b463792ef18a8d7f12dfd4a99c9f8035b41af5e63c1f0",
+    "data-pipeline/engine/stages/streaming.py": "a27d6d5ec8675c211069f96f0acd72e0314d1bd65b6e3a1cc16a047d8d892957",
     "data-pipeline/engine/stages/train.py": "6e72e60b03da95fb164bd6939d1f79c41af7fe2464906f17b52bd250c3fe49ae",
-    "scripts/confirm_browser_calibration.py": "2e75e8de5d2a1fa06f508b5e33bf2a23612d04307edecf9a4e6f403517adf284",
-    "scripts/evaluate_browser_linear.py": "b206fb7c6f9a61b85707c65cc3b9c695e6e60d513169139644483fdc79c1dc5e",
+    "scripts/confirm_browser_calibration.py": "3a5dbeb9d62c4bb275fb303b70e5e7558b31e3bd3bed9706faa120492de88737",
+    "scripts/evaluate_browser_linear.py": "f47403898761c86dd60084d883880adc19b540da5b6b18091cbcb356f2393a09",
     "scripts/manuscript_replay.py": "d4844c79ec59dfff6850ab488653e45c177efc8e512890d3145e92887aef5f52",
     "scripts/run_forecastability_study.py": "009974e38337dac9bf9f626f31cbfe368e3538c1f21240df85fdac9c7c5d987f",
-    "scripts/train_nlinear_onnx.py": "acd589a88253a21b15f4f1ea9a9087085f3d44f99f63c9dc5fbd5340323fa48c"
+    "scripts/train_nlinear_onnx.py": "a9c16efb61ad34342d40f7fed4f7dfc2f8f06e330255cb97a4c06facf8fca28c"
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema": "chronoscope-numerical-provider-parity-v1",
   "distribution": "forecastscope",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "source_artifact_sha256": "8b49b2fe6298bede97a209ac117389152bf1859d78e0006a96e8521ac02a16a1",
   "source_archive_sha256": "4c53b62e8aff184818adcd07f345be9d4587de99b40d7743aad5554e9ad21413",
   "provider_module_count": 14,
