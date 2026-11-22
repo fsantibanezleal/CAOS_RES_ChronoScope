@@ -69,7 +69,7 @@ The committed index lists 15 cases. Four are real-data excerpts and eleven are g
 | notebooks/requirements.txt | matplotlib | 3.10.8 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbclient | 0.11.0 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
 | notebooks/requirements.txt | nbformat | 5.11.1 | Isolated executed lesson dependency. | Separately installed to preserve the offline engine environment. |
-| frontend | @fasl-work/caos-app-shell | 0.26.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
+| frontend | @fasl-work/caos-app-shell | 0.26.3 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @testing-library/react | 16.3.2 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/katex | 0.16.8 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
 | frontend | @types/node | 22.20.0 | web runtime or build dependency; see frontend/package.json | Not assessed as a substitute in this release. |
@@ -229,7 +229,7 @@ The six visualization kinds, source/geometry derivations and their scientific bo
 | V5 | Which target blocks were observable at the historical query? | combination-case completed origin records and horizon | method timeline | Move cutoff and select an origin | Completion status, memory interval and panel | /story/method |
 | V6 | How do selected forecasts and interval endpoints compare with the reserved block? | fresh-reevaluation paths and scores | decision chart | Change method and move the shared lead cursor | Forecast path, held-out values, quantile readout and scores | /story/decision |
 
-Shell 0.26.2 provides the measured header band used to reserve drawing space.
+Shell 0.26.3 provides the measured header band used to reserve drawing space.
 The subjects are measured in the resized drawing, and the mobile stage floor
 preserves room for the chart or trajectory beneath the callouts.
 
